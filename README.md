@@ -1,0 +1,3 @@
+# BrightCommon
+Android Project Common
+

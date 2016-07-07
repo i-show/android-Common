@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  Copyright (C) 2015  Haiyang Yu Android Source Project
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<resources>
+
+    <!-- Glide 中使用的 -->
+    <item name="tag_glide" type="id" />
+    <!-- 封装后 ListAdapter 中使用 -->
+    <item name="tag_view_holder" type="id" />
+    <!-- widget -->
+    <item name="widget" type="id" />
+    <!-- 左中右 -->
+    <item name="center" type="id" />
+    <item name="left" type="id" />
+    <item name="right" type="id" />
+
+    <item name="tag_01" type="id" />
+    <item name="tag_02" type="id" />
+    <item name="tag_03" type="id" />
+    <item name="tag_04" type="id" />
+    <item name="tag_05" type="id" />
+    <item name="tag_06" type="id" />
+    <item name="tag_07" type="id" />
+    <item name="tag_08" type="id" />
+    <item name="tag_09" type="id" />
+    <item name="tag_10" type="id" />
+
+    <item name="child_0" type="id" />
+    <item name="child_1" type="id" />
+    <item name="child_2" type="id" />
+    <item name="child_3" type="id" />
+    <item name="child_4" type="id" />
+    <item name="child_5" type="id" />
+    <item name="child_6" type="id" />
+    <item name="child_7" type="id" />
+    <item name="child_8" type="id" />
+    <item name="child_9" type="id" />
+    <item name="child_10" type="id" />
+
+</resources>

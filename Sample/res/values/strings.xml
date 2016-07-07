@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name_release">AndroidCommon</string>
+    <string name="app_name_test">AndroidCommon(Beta)</string>
+</resources>

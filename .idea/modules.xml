@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/AndroidCommon.iml" filepath="$PROJECT_DIR$/AndroidCommon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BrightCommon/BrightCommon.iml" filepath="$PROJECT_DIR$/BrightCommon/BrightCommon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Sample/Sample.iml" filepath="$PROJECT_DIR$/Sample/Sample.iml" />
+    </modules>
+  </component>
+</project>

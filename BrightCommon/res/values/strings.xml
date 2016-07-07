@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  Copyright (C) 2015  Haiyang Yu Android Source Project
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="yes">确定</string>
+    <string name="cancel">取消</string>
+
+    <string name="get_verify_code">获取验证码</string>
+    <string name="second_timing"><xliff:g id="date">%s</xliff:g>秒</string>
+    <string name="cancle_photo">已取消选择</string>
+    <string name="select_photo_title">选择图片</string>
+
+    <string name="pulltorefresh_header_normal">下拉刷新</string>
+    <string name="pulltorefresh_header_ready">松开刷新数据</string>
+    <string name="pulltorefresh_header_loading">正在加载 &#8230;</string>
+    <string name="pulltorefresh_header_success">刷新成功</string>
+    <string name="pulltorefresh_header_fail">刷新失败</string>
+
+    <string name="pulltorefresh_footer_normal">查看更多</string>
+    <string name="pulltorefresh_footer_ready">松开载入更多</string>
+    <string name="pulltorefresh_footer_end">已经全部加载完毕</string>
+
+    <string name="today">今天</string>
+    <string name="yesterday">昨天</string>
+    <string name="spacer"> · </string>
+    <string name="nothing">什么都木有</string>
+</resources>

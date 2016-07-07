@@ -1,0 +1,92 @@
+<!--
+  Copyright (C) 2015  Haiyang Yu Android Source Project
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<resources>
+    <color name="windows_background_light">@android:color/white</color>
+    <!--灰色-->
+    <color name="grey_deep_1">#FF000000</color>
+    <color name="grey_deep_2">#FF151515</color>
+    <color name="grey_deep_3">#FF333333</color>
+    <color name="grey_deep_4">#FF4D4D4D</color>
+    <color name="grey_deep_5">#FF505050</color>
+    <color name="grey_deep_6">#FF666666</color>
+    <color name="grey_deep_7">#FF757575</color>
+    <color name="grey_deep_8">#FF808080</color>
+    <color name="grey_deep_9">#FF999999</color>
+    <color name="grey_deep_10">#FFA0A0A0</color>
+    <color name="grey_deep_11">#FFA8A8A8</color>
+    <color name="grey_deep_12">#FFB2B2B2</color>
+    <color name="grey_deep_13">#FFCCCCCC</color>
+    <color name="grey_deep_14">#FFD6D6D6</color>
+    <color name="grey_deep_15">#FFE6E6E6</color>
+    <color name="grey_deep_16">#FFF0F0F0</color>
+    <color name="grey_deep_17">#FFF5F5F5</color>
+    <!--半透明-->
+    <color name="semipermeable">#66000000</color>
+    <color name="semipermeable_dark">#99000000</color>
+    <color name="semipermeable_dark_more">#ab000000</color>
+    <color name="semipermeable_pressed">#99000000</color>
+    <!--蓝色-->
+    <color name="blue_50">#FFE3F2FD</color>
+    <color name="blue_100">#FFBBDEFB</color>
+    <color name="blue_200">#FF90CAF9</color>
+    <color name="blue_300">#FF64B5F6</color>
+    <color name="blue_400">#FF42A5F5</color>
+    <color name="blue_500">#FF2196F3</color>
+    <color name="blue_600">#FF1E88E5</color>
+    <color name="blue_700">#FF1976D2</color>
+    <color name="blue_800">#FF1565C0</color>
+    <color name="blue_900">#FF0D47A1</color>
+
+    <!--白色透明度-->
+    <color name="white_alpha_1">#FFFFFFFF</color>
+    <color name="white_alpha_0_9">#E5FFFFFF</color>
+    <color name="white_alpha_0_8_5">#DDFFFFFF</color>
+    <color name="white_alpha_0_8">#A0FFFFFF</color>
+
+    <!--默认的字体颜色和hint颜色-->
+
+    <color name="text_color_normal">@color/grey_deep_8</color>
+    <color name="text_color_pressed">@color/grey_deep_5</color>
+
+    <color name="text_color_light_normal">@color/grey_deep_10</color>
+    <color name="text_color_light_pressed">@color/grey_deep_7</color>
+
+    <color name="text_color_light_more_normal">@color/grey_deep_12</color>
+    <color name="text_color_light_more_pressed">@color/grey_deep_9</color>
+
+    <color name="text_color_dark_normal">@color/grey_deep_6</color>
+    <color name="text_color_dark_pressed">@color/grey_deep_4</color>
+
+    <color name="text_color_dark_more_normal">@color/grey_deep_4</color>
+    <color name="text_color_dark_more_pressed">@color/grey_deep_2</color>
+
+    <color name="text_color_hint">@color/grey_deep_13</color>
+    <color name="text_color_hint_dark">@color/grey_deep_11</color>
+    <color name="text_color_hint_unenable">@color/grey_deep_15</color>
+
+    <color name="text_color_white_normal">@color/grey_deep_17</color>
+    <color name="text_color_white_pressed">@color/grey_deep_14</color>
+
+    <!-- 标题栏颜色 -->
+    <color name="color_primary">@color/blue_400</color>
+    <!-- 状态栏颜色 -->
+    <color name="color_primary_dark">@color/blue_400</color>
+
+    <color name="line">@color/grey_deep_14</color>
+    <color name="photo_border">@color/grey_deep_14</color>
+
+</resources>

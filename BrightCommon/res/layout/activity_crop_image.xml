@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  Copyright (C) 2015  Haiyang Yu Android Source Project
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <com.bright.common.widget.CropImageView
+        android:id="@+id/crop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:backgroundColor="@android:color/black"
+        app:cropMode="ratio_fit_image"
+        app:frameColor="@color/blue_300"
+        app:frameStrokeWeight="1dp"
+        app:guideColor="@color/blue_300"
+        app:guideShowMode="show_on_touch"
+        app:guideStrokeWeight="0.8dp"
+        app:handleColor="@color/blue_300"
+        app:handleShowMode="show_always"
+        app:handleSize="6dp"
+        app:minFrameSize="50dp"
+        app:overlayColor="@color/semipermeable_dark"
+        app:touchPadding="8dp" />
+
+    <com.bright.common.widget.TopBar
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@android:color/transparent"
+        app:actionMinWidth="@dimen/dp_110"
+        app:leftBackground="?android:selectableItemBackground"
+        app:leftText="@android:string/cancel"
+        app:rightBackground="?android:selectableItemBackground"
+        app:rightText="@android:string/yes" />
+
+</FrameLayout>
