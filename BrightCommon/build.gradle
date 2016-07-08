@@ -95,7 +95,7 @@ publish {
     userOrg = 'brightyu'//bintray.com用户名
     groupId = 'com.bright'//jcenter上的路径
     artifactId = 'common'//项目名称
-    publishVersion = '0.0.1'//版本号
+    publishVersion = '0.0.2'//版本号
     desc = 'Common For My Android Dev'
     website = 'https://github.com/BrightYu/BrightCommon'
 }

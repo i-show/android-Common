@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -57,7 +57,7 @@ public class RegexValidateUtil {
     public static boolean checkMobileNumber(String number) {
         boolean flag = false;
         try {
-            Pattern regex = Pattern.compile("^(((13[0-9])|(15([0-3]|[5-9]))|(17([0-9]))|(18[0,5-9]))\\d{8})|(0\\d{2}-\\d{8})|(0\\d{3}-\\d{7})$");
+            Pattern regex = Pattern.compile("^((1[3-9][0-9])\\d{8})$");
             Matcher matcher = regex.matcher(number);
             flag = matcher.matches();
         } catch (Exception e) {
