@@ -176,7 +176,6 @@ public final class ImageUtils {
 
     /**
      * 获取一个纯色的Bitmap
-     *
      */
     public static Bitmap getPureBitmap(Bitmap bitmap, final int color) {
         int width = bitmap.getWidth();

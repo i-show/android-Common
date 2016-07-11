@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2015  Haiyang Yu Android Source Project
- * <p/>
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p/>
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,13 +34,9 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 
-/**
- * Created by yuhaiyang on 15-10-7.
- */
 public class FileUtils {
     public static final String TAG = FileUtils.class.getSimpleName();
     public static final String LOCAL_URI_HEADER = "file://";
-    public static final String CROP_CACHE_FOLDER = "nuskin";
 
     public static boolean delete(Uri uri) {
         String uriStr = uri.toString();
@@ -95,8 +91,6 @@ public class FileUtils {
             target = Environment.getExternalStorageDirectory();
         }
 
-        target = new File(target + File.separator + CROP_CACHE_FOLDER);
-
         if (!target.exists()) {
             try {
                 boolean result = target.mkdir();
@@ -116,8 +110,6 @@ public class FileUtils {
         if (null == target) {
             target = Environment.getExternalStorageDirectory();
         }
-
-        target = new File(target + File.separator + CROP_CACHE_FOLDER);
 
         if (!target.exists()) {
             try {
@@ -158,21 +150,6 @@ public class FileUtils {
                 bitmap = null;
             }
         }
-    }
-
-
-    public static String compressImageAndSave(String path, Bitmap image, int size) {
-        int options = 100;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        // 循环判断如果压缩后图片是否大于300kb,大于继续压缩
-        while (baos.toByteArray().length / 1024 > size) {
-            baos.reset();// 重置baos即清空baos
-            // 这里压缩options%，把压缩后的数据存放到baos中
-            image.compress(Bitmap.CompressFormat.JPEG, options, baos);
-            options -= 20;// 每次都减少20
-        }
-        return saveBitmap(path, image, options);
     }
 
 
@@ -222,50 +199,14 @@ public class FileUtils {
             return loadBitmap(imgpath);
         } else {
             Bitmap bm = loadBitmap(imgpath);
-            int digree = 0;
-            ExifInterface exif = null;
-            try {
-                exif = new ExifInterface(imgpath);
-            } catch (IOException e) {
-                e.printStackTrace();
-                exif = null;
-            }
-            if (exif != null) {
-                // 读取图片中相机方向信息
-                int ori = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,
-                        ExifInterface.ORIENTATION_UNDEFINED);
-                // 计算旋转角度
-                switch (ori) {
-                    case ExifInterface.ORIENTATION_ROTATE_90:
-                        digree = 90;
-                        break;
-                    case ExifInterface.ORIENTATION_ROTATE_180:
-                        digree = 180;
-                        break;
-                    case ExifInterface.ORIENTATION_ROTATE_270:
-                        digree = 270;
-                        break;
-                    default:
-                        digree = 0;
-                        break;
-                }
-            }
-            if (digree != 0) {
-                // 旋转图片
-                Matrix m = new Matrix();
-                m.postRotate(digree);
-                bm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(),
-                        bm.getHeight(), m, true);
-            }
+            int digree = getExifOrientation(imgpath);
+            rotaingImageView(digree, bm);
             return bm;
         }
     }
 
     /**
      * 得到 图片旋转 的角度
-     *
-     * @param filepath
-     * @return
      */
     public static int getExifOrientation(String filepath) {
         int degree = 0;
@@ -273,7 +214,7 @@ public class FileUtils {
         try {
             exif = new ExifInterface(filepath);
         } catch (IOException ex) {
-            Log.e("test", "cannot read exif", ex);
+            Log.e(TAG, "cannot read exif", ex);
         }
         if (exif != null) {
             int orientation = exif.getAttributeInt(
