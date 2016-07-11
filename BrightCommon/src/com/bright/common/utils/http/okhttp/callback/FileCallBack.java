@@ -1,6 +1,8 @@
 package com.bright.common.utils.http.okhttp.callback;
 
 
+import android.util.Log;
+
 import com.bright.common.utils.http.okhttp.OkHttpUtils;
 
 import java.io.File;
@@ -11,22 +13,23 @@ import java.io.InputStream;
 import okhttp3.Response;
 
 /**
- * Created by zhy on 15/12/15.
+ * 下载文件的回调
  */
 public abstract class FileCallBack extends CallBack<File> {
+    private static final String TAG = "FileCallBack";
     /**
      * 目标文件存储的文件夹路径
      */
-    private String destFileDir;
+    private String mFilePath;
     /**
      * 目标文件存储的文件名
      */
-    private String destFileName;
+    private String mFileName;
 
 
-    public FileCallBack(String destFileDir, String destFileName) {
-        this.destFileDir = destFileDir;
-        this.destFileName = destFileName;
+    public FileCallBack(String path, String name) {
+        this.mFilePath = path;
+        this.mFileName = name;
     }
 
 
@@ -36,51 +39,50 @@ public abstract class FileCallBack extends CallBack<File> {
     }
 
 
-    public File saveFile(Response response, final int id) throws IOException {
-        InputStream is = null;
+    private File saveFile(Response response, final int id) throws IOException {
+        InputStream input = null;
+        FileOutputStream outStream = null;
         byte[] buf = new byte[2048];
         int len = 0;
-        FileOutputStream fos = null;
         try {
-            is = response.body().byteStream();
+            input = response.body().byteStream();
             final long total = response.body().contentLength();
             long sum = 0;
 
-            File dir = new File(destFileDir);
-            if (!dir.exists()) {
-                dir.mkdirs();
+            File path = new File(mFilePath);
+            if (!path.exists()) {
+                path.mkdirs();
             }
-            File file = new File(dir, destFileName);
-            fos = new FileOutputStream(file);
-            while ((len = is.read(buf)) != -1) {
+            File file = new File(path, mFileName);
+            outStream = new FileOutputStream(file);
+            while ((len = input.read(buf)) != -1) {
                 sum += len;
-                fos.write(buf, 0, len);
+                outStream.write(buf, 0, len);
                 final long finalSum = sum;
                 OkHttpUtils.getInstance().getDelivery().execute(new Runnable() {
                     @Override
                     public void run() {
-
                         inProgress(finalSum * 1.0f / total, total, id);
                     }
                 });
             }
-            fos.flush();
+            outStream.flush();
 
             return file;
 
         } finally {
             try {
                 response.body().close();
-                if (is != null) is.close();
+                if (input != null) input.close();
             } catch (IOException e) {
+                Log.i(TAG, "saveFile: input or response close error");
             }
             try {
-                if (fos != null) fos.close();
+                if (outStream != null) outStream.close();
             } catch (IOException e) {
+                Log.i(TAG, "saveFile: outStream close error");
             }
-
         }
     }
-
 
 }

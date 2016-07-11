@@ -34,11 +34,9 @@ public class PostFormRequest extends OkHttpRequest {
         if (files == null || files.isEmpty()) {
             FormBody.Builder builder = new FormBody.Builder();
             addParams(builder);
-            FormBody formBody = builder.build();
-            return formBody;
+            return builder.build();
         } else {
-            MultipartBody.Builder builder = new MultipartBody.Builder()
-                    .setType(MultipartBody.FORM);
+            MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
             addParams(builder);
 
             for (int i = 0; i < files.size(); i++) {

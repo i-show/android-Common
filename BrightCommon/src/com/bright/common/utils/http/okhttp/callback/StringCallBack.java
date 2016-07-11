@@ -5,7 +5,7 @@ import java.io.IOException;
 import okhttp3.Response;
 
 /**
- * Created by zhy on 15/12/14.
+ * 普通字符回调
  */
 public abstract class StringCallBack extends CallBack<String> {
     @Override
