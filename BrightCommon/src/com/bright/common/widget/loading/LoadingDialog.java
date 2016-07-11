@@ -24,7 +24,6 @@ import android.os.Message;
 import android.support.annotation.StringRes;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
@@ -139,7 +138,7 @@ public class LoadingDialog extends Dialog {
         if (isSemipermeable) {
             mContent.setBackgroundResource(android.R.color.transparent);
             semipermeable.setBackgroundResource(android.R.color.transparent);
-            photo.setBackgroundResource(R.drawable.pilfe_loading_bg);
+            photo.setBackgroundResource(R.drawable.default_loading_bg);
 
         }
 
