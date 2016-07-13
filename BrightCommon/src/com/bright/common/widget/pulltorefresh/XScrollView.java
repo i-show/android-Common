@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- * <p>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -600,6 +600,19 @@ public class XScrollView extends ScrollView implements IPullToRefresh, OnScrollL
         }
     }
 
+    /**
+     * Header 的线是否显示
+     */
+    public void setHeaderDividersEnabled(boolean visibility) {
+        mHeaderView.setLineVisibility(visibility ? VISIBLE : GONE);
+    }
+
+    /**
+     * Footer的线是否显示
+     */
+    public void setFooterDividersEnabled(boolean visibility) {
+        mFooterView.setLineVisibility(visibility ? VISIBLE : GONE);
+    }
 
     private class RecycleHandler extends Handler {
         @Override
@@ -615,19 +628,5 @@ public class XScrollView extends ScrollView implements IPullToRefresh, OnScrollL
                     break;
             }
         }
-    }
-
-    /**
-     * Header 的线是否显示
-     */
-    public void setHeaderDividersEnabled(boolean visibility) {
-        mHeaderView.setLineVisibility(visibility ? VISIBLE : GONE);
-    }
-
-    /**
-     * Footer的线是否显示
-     */
-    public void setFooterDividersEnabled(boolean visibility) {
-        mFooterView.setLineVisibility(visibility ? VISIBLE : GONE);
     }
 }

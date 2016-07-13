@@ -1,19 +1,24 @@
+/**
+ * Copyright (C) 2016 The yuhaiyang Android Source Project
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.bright.common.utils.http.okhttp.callback;
 
-import android.content.Context;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.WindowManager;
-import android.widget.Toast;
-
-import com.bright.common.R;
-import com.bright.common.utils.http.okhttp.exception.CanceledException;
+import com.alibaba.fastjson.JSONException;
+import com.bright.common.utils.Utils;
 import com.bright.common.utils.json.JsonValidator;
-import com.bright.common.widget.YToast;
-
-import java.net.ConnectException;
-import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
 
 import okhttp3.Call;
 import okhttp3.Response;
@@ -23,76 +28,20 @@ import okhttp3.Response;
  */
 public abstract class BaseJsonCallBack extends CallBack<String> {
     private static final String TAG = "BaseJsonCallBack";
-    private Context mContext;
-    private boolean isShowTip;
-
-    public BaseJsonCallBack() {
-        this(null, false);
-    }
-
-    public BaseJsonCallBack(Context context, boolean showTip) {
-        mContext = context;
-        isShowTip = showTip;
-    }
 
     @Override
-    public boolean validateReponse(Response response, int id) throws Exception {
-        boolean isValid = super.validateReponse(response, id);
-        if (!isValid) {
-            // 如果父类的没有通过则返回false
-            return false;
-        }
+    public void generateFinalResult(final Call call, final Response response, final int id) throws Exception {
         String result = response.body().string();
         // 检测json是否有效！如果无效不进行返回
         JsonValidator validator = new JsonValidator();
-        return validator.validate(result);
-    }
-
-    @Override
-    public String parseNetworkResponse(Response response, int id) throws Exception {
-        return response.body().string();
-    }
-
-    @Override
-    public boolean onError(Call call, Exception e, String errorMessage, int errorType, int id) {
-        // 如果不进行提示消息 那么直接返回false
-        if (!isShowTip) {
-            return false;
+        boolean valid = validator.validate(result);
+        if (!valid) {
+            String message = Utils.plusString(result, " is not a json");
+            sendFailResult(call, new JSONException(message), null, 0, id);
+            return;
         }
-        try {
-            if (e instanceof ConnectException) {
-                toast(R.string.net_poor_connections);
-                return true;
-            } else if (e instanceof SocketTimeoutException) {
-                toast(R.string.server_error);
-                return true;
-            } else if (e instanceof UnknownHostException) {
-                toast(R.string.server_path_error);
-                return true;
-            } else if (e instanceof CanceledException) {
-                Log.d(TAG, "onError: call is canceled");
-                return true;
-            } else if (!TextUtils.isEmpty(errorMessage)) {
-                toast(errorMessage);
-                return true;
-            }
-        } catch (WindowManager.BadTokenException tokenerror) {
-            Log.i(TAG, "onError: tokenerror =" + tokenerror);
-        }
-
-        return false;
+        sendSuccessResultCallback(result, id);
     }
 
-    public void toast(int toast) {
-        if (mContext != null) {
-            toast(mContext.getString(toast));
-        }
-    }
-
-    public void toast(String toast) {
-        if (mContext != null) {
-            YToast.makeText(mContext.getApplicationContext(), toast, Toast.LENGTH_SHORT).show();
-        }
-    }
 
 }

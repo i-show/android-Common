@@ -1,12 +1,12 @@
 /**
- * Copyright (C) 2015  Haiyang Yu Android Source Project
- * <p/>
+ * Copyright (C) 2016 The yuhaiyang Android Source Project
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p/>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -163,15 +163,6 @@ public class TopBar extends ViewGroup implements OnClickListener {
      * 相关监听（左右点击事件）
      */
     private OnTopBarListener mTopBarListener;
-    /**
-     * 多次点击的监听
-     */
-    private OnSecretListener mSecretListener;
-    /**
-     * 提示小红点的画笔
-     */
-    private Paint mNotiPaint;
-
     Handler mHandler = new Handler() {
 
         @Override
@@ -190,6 +181,14 @@ public class TopBar extends ViewGroup implements OnClickListener {
         }
 
     };
+    /**
+     * 多次点击的监听
+     */
+    private OnSecretListener mSecretListener;
+    /**
+     * 提示小红点的画笔
+     */
+    private Paint mNotiPaint;
 
 
     public TopBar(Context context, AttributeSet attrs) {

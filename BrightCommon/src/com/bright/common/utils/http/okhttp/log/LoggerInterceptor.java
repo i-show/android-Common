@@ -1,3 +1,19 @@
+/**
+ * Copyright (C) 2016 The yuhaiyang Android Source Project
+ * <p/>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.bright.common.utils.http.okhttp.log;
 
 import android.text.TextUtils;
@@ -15,12 +31,18 @@ import okhttp3.ResponseBody;
 import okio.Buffer;
 
 /**
- * Created by zhy on 16/3/1.
+ * Log中断器
+ * 注：不适用于遇到的项目只是留作备份
  */
+@Deprecated
 public class LoggerInterceptor implements Interceptor {
     public static final String TAG = "OkHttpUtils";
     private String tag;
     private boolean showResponse;
+
+    public LoggerInterceptor(String tag) {
+        this(tag, false);
+    }
 
     public LoggerInterceptor(String tag, boolean showResponse) {
         if (TextUtils.isEmpty(tag)) {
@@ -30,16 +52,11 @@ public class LoggerInterceptor implements Interceptor {
         this.tag = tag;
     }
 
-    public LoggerInterceptor(String tag) {
-        this(tag, false);
-    }
-
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
         logForRequest(request);
         Response response = chain.proceed(request);
-
 
         return logForResponse(response);
     }

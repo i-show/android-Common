@@ -1,12 +1,12 @@
 /**
- * Copyright (C) 2015  Haiyang Yu Android Source Project
- * <p>
+ * Copyright (C) 2016 The yuhaiyang Android Source Project
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -45,12 +45,11 @@ public abstract class BaseActivity extends AppCompatActivity implements TopBar.O
      * 默认返回的result
      */
     public static final String KEY_RESULT = "activity_result";
+    protected Handler mHandler;
     /**
      * 保存变量
      */
     private SharedPreferences mSharedPreferences;
-
-    protected Handler mHandler;
 
     //************************ 生命周期 区域*********************** //
     @Override

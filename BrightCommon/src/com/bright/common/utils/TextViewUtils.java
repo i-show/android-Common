@@ -1,12 +1,12 @@
 /**
- * Copyright (C) 2015  Haiyang Yu Android Source Project
- * <p>
+ * Copyright (C) 2016 The yuhaiyang Android Source Project
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -66,10 +66,10 @@ public class TextViewUtils {
     /**
      * 设置字体大小，用sp
      *
-     * @param str     目标字符串
-     * @param start   开始位置
-     * @param end     结束位置
-     * @param spSize  sp大小
+     * @param str    目标字符串
+     * @param start  开始位置
+     * @param end    结束位置
+     * @param spSize sp大小
      */
     public static SpannableString getSizeSpanSpToPx(Context context, String str, int start, int end, int spSize) {
         SpannableString ss = new SpannableString(str);
@@ -245,10 +245,10 @@ public class TextViewUtils {
     /**
      * 设置前景色
      *
-     * @param str     目标字符串
-     * @param start   开始位置
-     * @param end     结束位置
-     * @param resId   颜色值 如：R.color.white
+     * @param str   目标字符串
+     * @param start 开始位置
+     * @param end   结束位置
+     * @param resId 颜色值 如：R.color.white
      */
     public static SpannableString getForegroundColorSpan(Context context, String str, int start, int end, @ColorRes int resId) {
         SpannableString ss = new SpannableString(str);

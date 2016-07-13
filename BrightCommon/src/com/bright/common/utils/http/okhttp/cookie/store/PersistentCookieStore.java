@@ -1,3 +1,19 @@
+/**
+ * Copyright (C) 2016 The yuhaiyang Android Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.bright.common.utils.http.okhttp.cookie.store;
 
 import android.content.Context;
@@ -30,9 +46,9 @@ import okhttp3.HttpUrl;
  *             .build();
  *
  * </pre>
- * <p/>
+ * <p>
  * from http://stackoverflow.com/questions/25461792/persistent-cookie-store-using-okhttp-2-on-android
- * <p/>
+ * <p>
  * <br/>
  * A persistent cookie store which implements the Apache HttpClient CookieStore interface.
  * Cookies are stored and will persist on the user's device between application sessions since they
@@ -77,6 +93,10 @@ public class PersistentCookieStore implements CookieStore {
 
             }
         }
+    }
+
+    private static boolean isCookieExpired(Cookie cookie) {
+        return cookie.expiresAt() < System.currentTimeMillis();
     }
 
     protected void add(HttpUrl uri, Cookie cookie) {
@@ -128,10 +148,6 @@ public class PersistentCookieStore implements CookieStore {
         }
 
         return ret;
-    }
-
-    private static boolean isCookieExpired(Cookie cookie) {
-        return cookie.expiresAt() < System.currentTimeMillis();
     }
 
     @Override

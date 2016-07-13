@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015  Haiyang Yu Android Source Project
+ * Copyright (C) 2016 The yuhaiyang Android Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,7 +47,7 @@ public class MarqueeTextView extends TextView {
 
         // -1 get from setMarqueeRepeatLimit Note
         // or get from framework attr
-        setMarqueeRepeatLimit(- 1);
+        setMarqueeRepeatLimit(-1);
         setHorizontallyScrolling(true);
         setSingleLine(true);
     }

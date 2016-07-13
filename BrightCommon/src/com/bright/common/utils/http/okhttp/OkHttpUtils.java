@@ -1,5 +1,23 @@
+/**
+ * Copyright (C) 2016 The yuhaiyang Android Source Project
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.bright.common.utils.http.okhttp;
 
+import com.bright.common.utils.Utils;
+import com.bright.common.utils.debug.DEBUG;
 import com.bright.common.utils.http.okhttp.builder.GetBuilder;
 import com.bright.common.utils.http.okhttp.builder.HeadBuilder;
 import com.bright.common.utils.http.okhttp.builder.OtherRequestBuilder;
@@ -8,6 +26,7 @@ import com.bright.common.utils.http.okhttp.builder.PostFormBuilder;
 import com.bright.common.utils.http.okhttp.builder.PostStringBuilder;
 import com.bright.common.utils.http.okhttp.callback.CallBack;
 import com.bright.common.utils.http.okhttp.callback.EmptyCallBack;
+import com.bright.common.utils.http.okhttp.request.OkHttpRequest;
 import com.bright.common.utils.http.okhttp.request.RequestCall;
 import com.bright.common.utils.http.okhttp.utils.Platform;
 
@@ -15,18 +34,23 @@ import java.io.IOException;
 import java.util.concurrent.Executor;
 
 import okhttp3.Call;
+import okhttp3.Headers;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
+import okio.Buffer;
 
 /**
  * OKHttp
  */
 public class OkHttpUtils {
-    private static final String TAG = "OkHttpUtils";
     /**
      * 默认的回调时间
      */
     public static final long DEFAULT_MILLISECONDS = 10_000L;
+    private static final String TAG = "OkHttpUtils";
     private volatile static OkHttpUtils mInstance;
     private OkHttpClient mOkHttpClient;
     private Platform mPlatform;
@@ -55,20 +79,6 @@ public class OkHttpUtils {
 
     public static OkHttpUtils getInstance() {
         return initClient(null);
-    }
-
-
-    public Executor getDelivery() {
-        return mPlatform.defaultCallbackExecutor();
-    }
-
-    public Platform getPlatform() {
-        return mPlatform;
-    }
-
-
-    public OkHttpClient getOkHttpClient() {
-        return mOkHttpClient;
     }
 
     public static GetBuilder get() {
@@ -103,17 +113,35 @@ public class OkHttpUtils {
         return new OtherRequestBuilder(METHOD.PATCH);
     }
 
+    public Executor getDelivery() {
+        return mPlatform.defaultCallbackExecutor();
+    }
+
+    public Platform getPlatform() {
+        return mPlatform;
+    }
+
+    public OkHttpClient getOkHttpClient() {
+        return mOkHttpClient;
+    }
+
     public void execute(final RequestCall requestCall, CallBack callback) {
         if (callback == null) {
             callback = new EmptyCallBack();
         }
+        final OkHttpRequest okHttpRequest = requestCall.getOkHttpRequest();
+        final Request request = requestCall.getRequest();
         final CallBack finalCallback = callback;
-        final int id = requestCall.getOkHttpRequest().getId();
+        final int id = okHttpRequest.getId();
+        // 设置Debug的Tag
+        finalCallback.setLogTag(okHttpRequest.getLogTag());
+
+        debug(requestCall, okHttpRequest, request, id);
 
         requestCall.getCall().enqueue(new okhttp3.Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
-                finalCallback.sendFailResult(call, e, e.toString(), 0, id);
+                finalCallback.sendFailResult(call, e, null, 0, id);
             }
 
             @Override
@@ -136,6 +164,56 @@ public class OkHttpUtils {
             }
         }
     }
+
+
+    private void debug(RequestCall requestCall, OkHttpRequest okHttpRequest, Request request, final int id) {
+        DEBUG.d(okHttpRequest.getLogTag(), Utils.plusString("=================== ", request.method(), ":", id, " ==================="));
+        DEBUG.d(okHttpRequest.getLogTag(), Utils.plusString(id, " URL     = " + request.url().toString()));
+
+        Headers headers = request.headers();
+        if (headers != null && headers.size() > 0) {
+            DEBUG.d(okHttpRequest.getLogTag(), Utils.plusString(id, " HEADERS = " + headers.toString()));
+        }
+        DEBUG.d(okHttpRequest.getLogTag(), Utils.plusString(id, " TIMEOUT = " + requestCall.getConnTimeOut()));
+        RequestBody requestBody = request.body();
+
+        if (requestBody != null) {
+            MediaType mediaType = requestBody.contentType();
+            if (mediaType != null) {
+                DEBUG.d(okHttpRequest.getLogTag(), Utils.plusString(id, " TYPE    = " + mediaType.toString()));
+                if (isText(mediaType)) {
+                    DEBUG.d(okHttpRequest.getLogTag(), Utils.plusString(id, " PARAMS = " + bodyToString(request)));
+                }
+            }
+        }
+    }
+
+    private boolean isText(MediaType mediaType) {
+        if (mediaType.type() != null && mediaType.type().equals("text")) {
+            return true;
+        }
+        if (mediaType.subtype() != null) {
+            if (mediaType.subtype().equals("json") ||
+                    mediaType.subtype().equals("xml") ||
+                    mediaType.subtype().equals("html") ||
+                    mediaType.subtype().equals("webviewhtml")
+                    )
+                return true;
+        }
+        return false;
+    }
+
+    private String bodyToString(final Request request) {
+        try {
+            final Request copy = request.newBuilder().build();
+            final Buffer buffer = new Buffer();
+            copy.body().writeTo(buffer);
+            return buffer.readUtf8();
+        } catch (final IOException e) {
+            return "something error when show requestBody.";
+        }
+    }
+
 
     public static class METHOD {
         public static final String HEAD = "HEAD";

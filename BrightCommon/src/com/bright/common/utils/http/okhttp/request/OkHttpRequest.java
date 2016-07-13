@@ -1,3 +1,19 @@
+/**
+ * Copyright (C) 2016 The yuhaiyang Android Source Project
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.bright.common.utils.http.okhttp.request;
 
 import com.bright.common.utils.http.okhttp.callback.CallBack;
@@ -14,6 +30,7 @@ import okhttp3.RequestBody;
 public abstract class OkHttpRequest {
     protected String url;
     protected Object tag;
+    protected String logTag;
     protected Map<String, Object> params;
     protected Map<String, Object> headers;
     protected int id;
@@ -72,7 +89,18 @@ public abstract class OkHttpRequest {
     }
 
     public int getId() {
+        if (id == 0) {
+            id = Integer.valueOf(String.valueOf(System.currentTimeMillis()).substring(5));
+        }
         return id;
+    }
+
+    public void setLogTag(String logTag) {
+        this.logTag = logTag;
+    }
+
+    public String getLogTag() {
+        return logTag;
     }
 
 }

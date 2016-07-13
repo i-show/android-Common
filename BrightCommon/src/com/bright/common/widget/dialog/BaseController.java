@@ -1,12 +1,12 @@
 /**
- * Copyright (C) 2015  Haiyang Yu Android Source Project
- * <p/>
+ * Copyright (C) 2016 The yuhaiyang Android Source Project
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p/>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -107,7 +107,7 @@ public class BaseController {
 
     private ListAdapter mAdapter;
 
-    private int mCheckedItem = - 1;
+    private int mCheckedItem = -1;
 
     private int mAlertDialogLayout;
     private int mListLayout;
@@ -159,7 +159,7 @@ public class BaseController {
             return true;
         }
 
-        if (! (v instanceof ViewGroup)) {
+        if (!(v instanceof ViewGroup)) {
             return false;
         }
 
@@ -180,7 +180,7 @@ public class BaseController {
         /* We use a custom title so never request a window title */
         mWindow.requestFeature(Window.FEATURE_NO_TITLE);
 
-        if (mView == null || ! canTextInput(mView)) {
+        if (mView == null || !canTextInput(mView)) {
             mWindow.setFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM,
                     WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         }
@@ -307,12 +307,12 @@ public class BaseController {
         }
     }
 
-    @SuppressWarnings ({"UnusedDeclaration"})
+    @SuppressWarnings({"UnusedDeclaration"})
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         return mScrollView != null && mScrollView.executeKeyEvent(event);
     }
 
-    @SuppressWarnings ({"UnusedDeclaration"})
+    @SuppressWarnings({"UnusedDeclaration"})
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         return mScrollView != null && mScrollView.executeKeyEvent(event);
     }
@@ -334,7 +334,7 @@ public class BaseController {
 
 
         View buttonPanel = mWindow.findViewById(R.id.buttonPanel);
-        if (! hasButtons) {
+        if (!hasButtons) {
             buttonPanel.setVisibility(View.GONE);
         }
 
@@ -372,7 +372,7 @@ public class BaseController {
             View title = mWindow.findViewById(R.id.alertTitle);
             title.setVisibility(View.GONE);
         } else {
-            final boolean hasTextTitle = ! TextUtils.isEmpty(mTitle);
+            final boolean hasTextTitle = !TextUtils.isEmpty(mTitle);
 
             if (hasTextTitle) {
                 /* Display the title if a title is supplied, else hide it */
@@ -504,7 +504,7 @@ public class BaseController {
 
         if ((mListView != null) && (mAdapter != null)) {
             mListView.setAdapter(mAdapter);
-            if (mCheckedItem > - 1) {
+            if (mCheckedItem > -1) {
                 mListView.setItemChecked(mCheckedItem, true);
                 mListView.setSelection(mCheckedItem);
             }
@@ -569,7 +569,7 @@ public class BaseController {
         public boolean[] mCheckedItems;
         public boolean mIsMultiChoice;
         public boolean mIsSingleChoice;
-        public int mCheckedItem = - 1;
+        public int mCheckedItem = -1;
         public DialogInterface.OnMultiChoiceClickListener mOnCheckboxClickListener;
         public Cursor mCursor;
         public String mLabelColumn;
@@ -702,7 +702,7 @@ public class BaseController {
                 listView.setOnItemClickListener(new OnItemClickListener() {
                     public void onItemClick(AdapterView parent, View v, int position, long id) {
                         mOnClickListener.onClick(dialog.mDialogInterface, position);
-                        if (! mIsSingleChoice) {
+                        if (!mIsSingleChoice) {
                             dialog.mDialogInterface.dismiss();
                         }
                     }

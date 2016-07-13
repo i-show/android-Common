@@ -1,12 +1,12 @@
 /**
- * Copyright (C) 2015  Haiyang Yu Android Source Project
- * <p>
+ * Copyright (C) 2016 The yuhaiyang Android Source Project
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,8 +34,6 @@ import java.util.List;
  * 基础的Adapter
  */
 public abstract class ListAdapter<DATA, HOLDER extends ListAdapter.Holder> extends BaseAdapter {
-    private static final String TAG = "ListAdapter";
-
     /**
      * 类型 是头部
      */
@@ -48,11 +46,11 @@ public abstract class ListAdapter<DATA, HOLDER extends ListAdapter.Holder> exten
      * 类型是最后一个
      */
     public static final int TYPE_FOOTER = 2;
-
     /**
      * 默认一页显示的数量
      */
     public static final int DEFAULT_PAGER_SIZE = 10;
+    private static final String TAG = "ListAdapter";
     /**
      * 当前页数
      */
@@ -61,6 +59,9 @@ public abstract class ListAdapter<DATA, HOLDER extends ListAdapter.Holder> exten
      * 第一页
      */
     protected int mFirstPager;
+    protected List<DATA> mData = new ArrayList<>();
+    protected Context mContext;
+    protected LayoutInflater mLayoutInflater;
     /**
      * 可能会使用到的：例如 请求Url的参数
      */
@@ -73,24 +74,12 @@ public abstract class ListAdapter<DATA, HOLDER extends ListAdapter.Holder> exten
      * 请求地址
      */
     private String mUrl;
-
     private boolean isLoadingMoreState = false;
-
-    protected List<DATA> mData = new ArrayList<>();
-    protected Context mContext;
-    protected LayoutInflater mLayoutInflater;
 
     public ListAdapter(Context context) {
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
         initPagerNumber();
-    }
-
-    /**
-     * 添加数据
-     */
-    public void setData(List<DATA> data) {
-        setData(data, true);
     }
 
     /**
@@ -135,6 +124,13 @@ public abstract class ListAdapter<DATA, HOLDER extends ListAdapter.Holder> exten
      */
     public List<DATA> getData() {
         return mData;
+    }
+
+    /**
+     * 添加数据
+     */
+    public void setData(List<DATA> data) {
+        setData(data, true);
     }
 
     /**
@@ -203,13 +199,6 @@ public abstract class ListAdapter<DATA, HOLDER extends ListAdapter.Holder> exten
     }
 
     /**
-     * 重新设置PagerNumber
-     */
-    public void setPagerNumber(int pagerNumber) {
-        mPagerNumber = pagerNumber;
-    }
-
-    /**
      * 重置分页
      */
     public void resetPagerNumber() {
@@ -233,6 +222,13 @@ public abstract class ListAdapter<DATA, HOLDER extends ListAdapter.Holder> exten
     }
 
     /**
+     * 重新设置PagerNumber
+     */
+    public void setPagerNumber(int pagerNumber) {
+        mPagerNumber = pagerNumber;
+    }
+
+    /**
      * 获取分页大小
      */
     public int getPagerSize() {
@@ -247,13 +243,6 @@ public abstract class ListAdapter<DATA, HOLDER extends ListAdapter.Holder> exten
     }
 
     /**
-     * 设置请求参数的关键值
-     */
-    public void setParamKey(Object key) {
-        mParamKey = key;
-    }
-
-    /**
      * 获取请求参数的关键值
      */
     public Object getParamKey() {
@@ -261,10 +250,10 @@ public abstract class ListAdapter<DATA, HOLDER extends ListAdapter.Holder> exten
     }
 
     /**
-     * 设定请求参数
+     * 设置请求参数的关键值
      */
-    public void setParam(Object param) {
-        mParam = param;
+    public void setParamKey(Object key) {
+        mParamKey = key;
     }
 
     /**
@@ -276,10 +265,10 @@ public abstract class ListAdapter<DATA, HOLDER extends ListAdapter.Holder> exten
     }
 
     /**
-     * 请求的地址
+     * 设定请求参数
      */
-    public void setUrl(String url) {
-        mUrl = url;
+    public void setParam(Object param) {
+        mParam = param;
     }
 
     /**
@@ -287,6 +276,13 @@ public abstract class ListAdapter<DATA, HOLDER extends ListAdapter.Holder> exten
      */
     public String getUrl() {
         return mUrl;
+    }
+
+    /**
+     * 请求的地址
+     */
+    public void setUrl(String url) {
+        mUrl = url;
     }
 
     /**
@@ -304,17 +300,17 @@ public abstract class ListAdapter<DATA, HOLDER extends ListAdapter.Holder> exten
     }
 
     /**
-     * 设置是否是加载更多模式
-     */
-    public void setLoadingMoreState(boolean state) {
-        isLoadingMoreState = state;
-    }
-
-    /**
      * 判断是否是加载更多模式
      */
     public boolean isLoadingMoreState() {
         return isLoadingMoreState;
+    }
+
+    /**
+     * 设置是否是加载更多模式
+     */
+    public void setLoadingMoreState(boolean state) {
+        isLoadingMoreState = state;
     }
 
     public void resetPullTorefresh(IPullToRefresh pullToRefresh) {

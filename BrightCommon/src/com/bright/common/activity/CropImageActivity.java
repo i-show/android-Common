@@ -1,12 +1,12 @@
 /**
- * Copyright (C) 2015  Haiyang Yu Android Source Project
- * <p/>
+ * Copyright (C) 2016 The yuhaiyang Android Source Project
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p/>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -44,48 +44,9 @@ public class CropImageActivity extends BaseActivity {
     private CropImageView mCropView;
     private String mPath;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_crop_image);
-        Intent intent = getIntent();
-        mPath = intent.getStringExtra(KEY_PATH);
-        Glide.with(this)
-                .load(mPath)
-                .asBitmap()
-                .into(mCropView);
-
-        int x = intent.getIntExtra(KEY_RATIO_X, 1);
-        int y = intent.getIntExtra(KEY_RATIO_Y, 1);
-        mCropView.setCustomRatio(x, y);
-    }
-
-    @Override
-    protected void initViews() {
-        super.initViews();
-        TopBar topbar = (TopBar) findViewById(R.id.top_bar);
-        topbar.setOnTopBarListener(this);
-
-        mCropView = (CropImageView) findViewById(R.id.crop);
-    }
-
-    @Override
-    public void onRightClick(View v) {
-        super.onRightClick(v);
-        LoadingDialog dialog = LoadingDialog.show(this);
-        Bitmap bitmap = mCropView.getCroppedBitmap();
-        String cachePath = FileUtils.compressImageAndSaveCache(this, bitmap, 300);
-        Intent intent = new Intent();
-        intent.putExtra(KEY_RESULT_PATH, cachePath);
-        setResult(SelectPhotoUtils.Request.REQUEST_CROP, intent);
-        dialog.dismiss();
-        finish();
-    }
-
     public static Bitmap loadBitmap(String imgpath) {
         return BitmapFactory.decodeFile(imgpath);
     }
-
 
     /**
      * 从给定的路径加载图片，并指定是否自动旋转方向
@@ -132,5 +93,43 @@ public class CropImageActivity extends BaseActivity {
             }
             return bm;
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_crop_image);
+        Intent intent = getIntent();
+        mPath = intent.getStringExtra(KEY_PATH);
+        Glide.with(this)
+                .load(mPath)
+                .asBitmap()
+                .into(mCropView);
+
+        int x = intent.getIntExtra(KEY_RATIO_X, 1);
+        int y = intent.getIntExtra(KEY_RATIO_Y, 1);
+        mCropView.setCustomRatio(x, y);
+    }
+
+    @Override
+    protected void initViews() {
+        super.initViews();
+        TopBar topbar = (TopBar) findViewById(R.id.top_bar);
+        topbar.setOnTopBarListener(this);
+
+        mCropView = (CropImageView) findViewById(R.id.crop);
+    }
+
+    @Override
+    public void onRightClick(View v) {
+        super.onRightClick(v);
+        LoadingDialog dialog = LoadingDialog.show(this);
+        Bitmap bitmap = mCropView.getCroppedBitmap();
+        String cachePath = FileUtils.compressImageAndSaveCache(this, bitmap, 300);
+        Intent intent = new Intent();
+        intent.putExtra(KEY_RESULT_PATH, cachePath);
+        setResult(SelectPhotoUtils.Request.REQUEST_CROP, intent);
+        dialog.dismiss();
+        finish();
     }
 }

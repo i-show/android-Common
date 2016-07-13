@@ -1,3 +1,19 @@
+/**
+ * Copyright (C) 2016 The yuhaiyang Android Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.bright.common.utils.http.okhttp.https;
 
 import java.io.IOException;
@@ -6,7 +22,6 @@ import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
@@ -26,11 +41,6 @@ import javax.net.ssl.X509TrustManager;
  * Created by zhy on 15/12/14.
  */
 public class HttpsUtils {
-    public static class SSLParams {
-        public SSLSocketFactory sSLSocketFactory;
-        public X509TrustManager trustManager;
-    }
-
     public static SSLParams getSslSocketFactory(InputStream[] certificates, InputStream bksFile, String password) {
         SSLParams sslParams = new SSLParams();
         try {
@@ -53,30 +63,6 @@ public class HttpsUtils {
             throw new AssertionError(e);
         } catch (KeyStoreException e) {
             throw new AssertionError(e);
-        }
-    }
-
-    private class UnSafeHostnameVerifier implements HostnameVerifier {
-        @Override
-        public boolean verify(String hostname, SSLSession session) {
-            return true;
-        }
-    }
-
-    private static class UnSafeTrustManager implements X509TrustManager {
-        @Override
-        public void checkClientTrusted(X509Certificate[] chain, String authType)
-                throws CertificateException {
-        }
-
-        @Override
-        public void checkServerTrusted(X509Certificate[] chain, String authType)
-                throws CertificateException {
-        }
-
-        @Override
-        public X509Certificate[] getAcceptedIssuers() {
-            return new java.security.cert.X509Certificate[]{};
         }
     }
 
@@ -156,6 +142,27 @@ public class HttpsUtils {
         return null;
     }
 
+    public static class SSLParams {
+        public SSLSocketFactory sSLSocketFactory;
+        public X509TrustManager trustManager;
+    }
+
+    private static class UnSafeTrustManager implements X509TrustManager {
+        @Override
+        public void checkClientTrusted(X509Certificate[] chain, String authType)
+                throws CertificateException {
+        }
+
+        @Override
+        public void checkServerTrusted(X509Certificate[] chain, String authType)
+                throws CertificateException {
+        }
+
+        @Override
+        public X509Certificate[] getAcceptedIssuers() {
+            return new java.security.cert.X509Certificate[]{};
+        }
+    }
 
     private static class MyTrustManager implements X509TrustManager {
         private X509TrustManager defaultTrustManager;
@@ -187,6 +194,13 @@ public class HttpsUtils {
         @Override
         public X509Certificate[] getAcceptedIssuers() {
             return new X509Certificate[0];
+        }
+    }
+
+    private class UnSafeHostnameVerifier implements HostnameVerifier {
+        @Override
+        public boolean verify(String hostname, SSLSession session) {
+            return true;
         }
     }
 }

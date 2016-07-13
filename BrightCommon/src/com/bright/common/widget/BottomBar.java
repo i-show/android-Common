@@ -1,12 +1,12 @@
 /**
- * Copyright (C) 2015  Haiyang Yu Android Source Project
- * <p>
+ * Copyright (C) 2016 The yuhaiyang Android Source Project
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -139,28 +139,12 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
     }
 
     /**
-     * 布局更改的Listener
-     */
-    private class PassThroughHierarchyChangeListener implements ViewGroup.OnHierarchyChangeListener {
-
-        @Override
-        public void onChildViewAdded(View parent, View child) {
-            child.setOnClickListener(BottomBar.this);
-        }
-
-        @Override
-        public void onChildViewRemoved(View parent, View child) {
-            child.setOnClickListener(null);
-        }
-    }
-
-
-    /**
      * 设置切换事件
      */
     public void setOnSelectedChangedListener(OnBottomBarListener listener) {
         mBottomBarListener = listener;
     }
+
 
     /**
      * 切换事件
@@ -174,5 +158,21 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
         void onSelectedChanged(ViewGroup parent, @IdRes int selectId, int index);
 
         void onClickChlid(View v, boolean isSameView);
+    }
+
+    /**
+     * 布局更改的Listener
+     */
+    private class PassThroughHierarchyChangeListener implements ViewGroup.OnHierarchyChangeListener {
+
+        @Override
+        public void onChildViewAdded(View parent, View child) {
+            child.setOnClickListener(BottomBar.this);
+        }
+
+        @Override
+        public void onChildViewRemoved(View parent, View child) {
+            child.setOnClickListener(null);
+        }
     }
 }

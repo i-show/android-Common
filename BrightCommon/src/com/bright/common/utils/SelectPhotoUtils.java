@@ -1,12 +1,12 @@
 /**
- * Copyright (C) 2015  Haiyang Yu Android Source Project
- * <p/>
+ * Copyright (C) 2016 The yuhaiyang Android Source Project
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p/>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,14 +41,12 @@ import java.util.UUID;
  * 上传图片以及添加图片的封装类
  */
 public class SelectPhotoUtils {
-    private static final String TAG = SelectPhotoUtils.class.getSimpleName();
-    private static final String CACHE_FOLDER = "nuskin";
-
-    private static final int SELECT_PHOTO_CAMERA = 0;
-    private static final int SELECT_PHOTO_GALLERY = 1;
-
     public static final int MODE_COMPRESS = 0;
     public static final int MODE_CROP = 1;
+    private static final String TAG = SelectPhotoUtils.class.getSimpleName();
+    private static final String CACHE_FOLDER = "nuskin";
+    private static final int SELECT_PHOTO_CAMERA = 0;
+    private static final int SELECT_PHOTO_GALLERY = 1;
     private int mMode;
     private int mScaleX;
     private int mScaleY;
@@ -59,29 +57,6 @@ public class SelectPhotoUtils {
     private Activity mContext;
 
     private CallBack mCallBack;
-
-    public SelectPhotoUtils(Activity context) {
-        mContext = context;
-    }
-
-    public void select(int mode) {
-        select(mode, 1, 1);
-    }
-
-    public void select(int mode, int x, int y) {
-        mMode = mode;
-        mScaleX = x;
-        mScaleY = y;
-
-        BaseDialog.Builder builder = new BaseDialog.Builder(mContext, R.style.Dialog_Bottom_IOS);
-        builder.setTitle(R.string.select_photo_title)
-                .setItems(R.array.select_photos, mDialogClickListener)
-                .setNegativeButton(android.R.string.cancel, null)
-                .isShowFromBottom(true)
-                .create()
-                .show();
-    }
-
     private DialogInterface.OnClickListener mDialogClickListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
@@ -102,8 +77,40 @@ public class SelectPhotoUtils {
             }
         }
     };
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            Uri uri = (Uri) msg.obj;
+            LoadingDialog.dismiss(mLoadingDialog);
+            if (mCallBack != null) {
+                mCallBack.onResult(uri);
+            }
+        }
+    };
+
+    public SelectPhotoUtils(Activity context) {
+        mContext = context;
+    }
+
+    public void select(int mode) {
+        select(mode, 1, 1);
+    }
 
     // 用来接管activity的result
+
+    public void select(int mode, int x, int y) {
+        mMode = mode;
+        mScaleX = x;
+        mScaleY = y;
+
+        BaseDialog.Builder builder = new BaseDialog.Builder(mContext, R.style.Dialog_Bottom_IOS);
+        builder.setTitle(R.string.select_photo_title)
+                .setItems(R.array.select_photos, mDialogClickListener)
+                .setNegativeButton(android.R.string.cancel, null)
+                .isShowFromBottom(true)
+                .create()
+                .show();
+    }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -150,7 +157,6 @@ public class SelectPhotoUtils {
         }
     }
 
-
     private void goToCrop(String path) {
         Intent intent = new Intent(mContext, CropImageActivity.class);
         intent.putExtra(CropImageActivity.KEY_PATH, path);
@@ -183,6 +189,15 @@ public class SelectPhotoUtils {
                 .build();
     }
 
+    public void setCallBack(CallBack callBack) {
+        mCallBack = callBack;
+    }
+
+
+    public interface CallBack {
+        void onResult(Uri url);
+    }
+
     private class CompressRunnable implements Runnable {
         Uri original;
 
@@ -198,26 +213,6 @@ public class SelectPhotoUtils {
             message.obj = compressUri;
             mHandler.sendMessage(message);
         }
-    }
-
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            Uri uri = (Uri) msg.obj;
-            LoadingDialog.dismiss(mLoadingDialog);
-            if (mCallBack != null) {
-                mCallBack.onResult(uri);
-            }
-        }
-    };
-
-
-    public void setCallBack(CallBack callBack) {
-        mCallBack = callBack;
-    }
-
-    public interface CallBack {
-        void onResult(Uri url);
     }
 
     /**

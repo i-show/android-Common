@@ -1,19 +1,37 @@
+/**
+ * Copyright (C) 2016 The yuhaiyang Android Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.bright.common.utils.glide.okhttp;
 
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.data.DataFetcher;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.util.ContentLengthInputStream;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 import java.util.Map.Entry;
+
 import okhttp3.Call;
+import okhttp3.Call.Factory;
 import okhttp3.Request;
+import okhttp3.Request.Builder;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-import okhttp3.Call.Factory;
-import okhttp3.Request.Builder;
 
 public class OkHttpStreamFetcher implements DataFetcher<InputStream> {
     private final Factory client;
@@ -31,17 +49,17 @@ public class OkHttpStreamFetcher implements DataFetcher<InputStream> {
         Builder requestBuilder = (new Builder()).url(this.url.toStringUrl());
         Iterator request = this.url.getHeaders().entrySet().iterator();
 
-        while(request.hasNext()) {
-            Entry response = (Entry)request.next();
-            String contentLength = (String)response.getKey();
-            requestBuilder.addHeader(contentLength, (String)response.getValue());
+        while (request.hasNext()) {
+            Entry response = (Entry) request.next();
+            String contentLength = (String) response.getKey();
+            requestBuilder.addHeader(contentLength, (String) response.getValue());
         }
 
         Request request1 = requestBuilder.build();
         this.call = this.client.newCall(request1);
         Response response1 = this.call.execute();
         this.responseBody = response1.body();
-        if(!response1.isSuccessful()) {
+        if (!response1.isSuccessful()) {
             throw new IOException("Request failed with code: " + response1.code());
         } else {
             long contentLength1 = this.responseBody.contentLength();
@@ -52,14 +70,14 @@ public class OkHttpStreamFetcher implements DataFetcher<InputStream> {
 
     public void cleanup() {
         try {
-            if(this.stream != null) {
+            if (this.stream != null) {
                 this.stream.close();
             }
         } catch (IOException var2) {
             ;
         }
 
-        if(this.responseBody != null) {
+        if (this.responseBody != null) {
             this.responseBody.close();
         }
 
@@ -71,7 +89,7 @@ public class OkHttpStreamFetcher implements DataFetcher<InputStream> {
 
     public void cancel() {
         Call local = this.call;
-        if(local != null) {
+        if (local != null) {
             local.cancel();
         }
 

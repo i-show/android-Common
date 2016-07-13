@@ -1,12 +1,12 @@
 /**
- * Copyright (C) 2015  Haiyang Yu Android Source Project
- * <p/>
+ * Copyright (C) 2016 The yuhaiyang Android Source Project
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p/>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -45,7 +45,6 @@ import com.bright.common.utils.Utils;
 
 
 public class ImageTextView extends View {
-    private final String TAG = ImageTextView.class.getSimpleName();
     /**
      * Pictures in the text to the left
      */
@@ -63,13 +62,14 @@ public class ImageTextView extends View {
      */
     public static final int BOTTOM = 4;
     /**
-     * 图片位置
-     */
-    private int mPosition;
-    /**
      * 默认 文本和图片之间的间距
      */
     private static final int DEFAULT_PADDING = 10;
+    private final String TAG = ImageTextView.class.getSimpleName();
+    /**
+     * 图片位置
+     */
+    private int mPosition;
     /**
      * 文本和图片之间的间距
      */
@@ -188,7 +188,7 @@ public class ImageTextView extends View {
     private void init() {
         Log.i(TAG, "mText = " + mText);
         //初始化Text画笔
-        if (! TextUtils.isEmpty(mText)) {
+        if (!TextUtils.isEmpty(mText)) {
             mTextPaint = new Paint();
             mTextPaint.setColor(mTextColor);
             mTextPaint.setTextSize(mTextSize);
@@ -365,7 +365,7 @@ public class ImageTextView extends View {
         canvas.drawBitmap(mShowBitmap, 0, 0, null);
 
         // draw text
-        if (! TextUtils.isEmpty(mText)) {
+        if (!TextUtils.isEmpty(mText)) {
             Paint.FontMetricsInt fontMetrics = mTextPaint.getFontMetricsInt();
             int baseline = mTextRect.top + (mTextRect.bottom - mTextRect.top - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top;
 

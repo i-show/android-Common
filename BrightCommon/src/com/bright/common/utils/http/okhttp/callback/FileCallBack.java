@@ -1,6 +1,23 @@
+/**
+ * Copyright (C) 2016 The yuhaiyang Android Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.bright.common.utils.http.okhttp.callback;
 
 
+import android.content.Context;
 import android.util.Log;
 
 import com.bright.common.utils.http.okhttp.OkHttpUtils;
@@ -10,6 +27,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import okhttp3.Call;
 import okhttp3.Response;
 
 /**
@@ -26,18 +44,23 @@ public abstract class FileCallBack extends CallBack<File> {
      */
     private String mFileName;
 
-
     public FileCallBack(String path, String name) {
-        this.mFilePath = path;
-        this.mFileName = name;
+        super(null, false);
+        mFilePath = path;
+        mFileName = name;
     }
 
+    public FileCallBack(Context context, boolean showTip, String path, String name) {
+        super(context, showTip);
+        mFilePath = path;
+        mFileName = name;
+    }
 
     @Override
-    public File parseNetworkResponse(Response response, int id) throws Exception {
-        return saveFile(response, id);
+    public void generateFinalResult(Call call, Response response, int id) throws Exception {
+        File file = saveFile(response, id);
+        sendSuccessResultCallback(file, id);
     }
-
 
     private File saveFile(Response response, final int id) throws IOException {
         InputStream input = null;
