@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/pulltorefresh_footer_normal"
-            android:textColor="@color/text_color_normal"
+            android:textColor="@color/text_grey_normal"
             android:textSize="@dimen/H_title" />
 
         <ImageView

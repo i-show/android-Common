@@ -241,7 +241,7 @@ public class BaseDialog extends Dialog implements DialogInterface {
 
         if (isShowFromBottom) {
             lp.gravity = Gravity.BOTTOM;
-            window.setWindowAnimations(R.style.BottomAnimation);
+            window.setWindowAnimations(R.style.Animation_Windows_Bottom);
         }
         window.setAttributes(lp);
 

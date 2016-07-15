@@ -23,7 +23,7 @@ import android.graphics.Rect;
 import android.util.Log;
 
 public class NativeUtil {
-    private static int DEFAULT_QUALITY = 95;
+    private final static int DEFAULT_QUALITY = 95;
 
     static {
         System.loadLibrary("jpegbither");

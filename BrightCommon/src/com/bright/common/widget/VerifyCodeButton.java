@@ -34,7 +34,7 @@ import com.bright.common.constant.DefaultColors;
  * 发送验证码的button
  */
 public class VerifyCodeButton extends FrameLayout {
-    private static final String TAG = VerifyCodeButton.class.getSimpleName();
+    private static final String TAG = "VerifyCodeButton";
     /**
      * 最大时间
      */

@@ -21,9 +21,6 @@ import com.bright.common.utils.http.okhttp.request.OkHttpRequest;
 import com.bright.common.utils.http.okhttp.request.OtherRequest;
 import com.bright.common.utils.http.okhttp.request.RequestCall;
 
-/**
- * Created by zhy on 16/3/2.
- */
 public class HeadBuilder extends GetBuilder {
     @Override
     public RequestCall build() {

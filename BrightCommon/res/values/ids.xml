@@ -38,16 +38,15 @@
     <item name="tag_09" type="id" />
     <item name="tag_10" type="id" />
 
-    <item name="child_0" type="id" />
-    <item name="child_1" type="id" />
-    <item name="child_2" type="id" />
-    <item name="child_3" type="id" />
-    <item name="child_4" type="id" />
-    <item name="child_5" type="id" />
-    <item name="child_6" type="id" />
-    <item name="child_7" type="id" />
-    <item name="child_8" type="id" />
-    <item name="child_9" type="id" />
+    <item name="child_01" type="id" />
+    <item name="child_02" type="id" />
+    <item name="child_03" type="id" />
+    <item name="child_04" type="id" />
+    <item name="child_05" type="id" />
+    <item name="child_06" type="id" />
+    <item name="child_07" type="id" />
+    <item name="child_08" type="id" />
+    <item name="child_09" type="id" />
     <item name="child_10" type="id" />
 
 </resources>

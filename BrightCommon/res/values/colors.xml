@@ -59,27 +59,27 @@
 
     <!--默认的字体颜色和hint颜色-->
 
-    <color name="text_color_normal">@color/grey_deep_8</color>
-    <color name="text_color_pressed">@color/grey_deep_5</color>
+    <color name="text_grey_normal">@color/grey_deep_8</color>
+    <color name="text_grey_pressed">@color/grey_deep_5</color>
 
-    <color name="text_color_light_normal">@color/grey_deep_10</color>
-    <color name="text_color_light_pressed">@color/grey_deep_7</color>
+    <color name="text_grey_light_normal">@color/grey_deep_10</color>
+    <color name="text_grey_light_pressed">@color/grey_deep_7</color>
 
-    <color name="text_color_light_more_normal">@color/grey_deep_12</color>
-    <color name="text_color_light_more_pressed">@color/grey_deep_9</color>
+    <color name="text_grey_light_more_normal">@color/grey_deep_12</color>
+    <color name="text_grey_light_more_pressed">@color/grey_deep_9</color>
 
-    <color name="text_color_dark_normal">@color/grey_deep_6</color>
-    <color name="text_color_dark_pressed">@color/grey_deep_4</color>
+    <color name="text_grey_dark_normal">@color/grey_deep_6</color>
+    <color name="text_grey_dark_pressed">@color/grey_deep_4</color>
 
-    <color name="text_color_dark_more_normal">@color/grey_deep_4</color>
-    <color name="text_color_dark_more_pressed">@color/grey_deep_2</color>
+    <color name="text_grey_dark_more_normal">@color/grey_deep_4</color>
+    <color name="text_grey_dark_more_pressed">@color/grey_deep_2</color>
 
-    <color name="text_color_hint">@color/grey_deep_13</color>
-    <color name="text_color_hint_dark">@color/grey_deep_11</color>
-    <color name="text_color_hint_unenable">@color/grey_deep_15</color>
+    <color name="text_grey_hint">@color/grey_deep_13</color>
+    <color name="text_grey_hint_dark">@color/grey_deep_11</color>
+    <color name="text_grey_hint_unenable">@color/grey_deep_15</color>
 
-    <color name="text_color_white_normal">@color/grey_deep_17</color>
-    <color name="text_color_white_pressed">@color/grey_deep_14</color>
+    <color name="text_white_normal">@color/grey_deep_17</color>
+    <color name="text_white_pressed">@color/grey_deep_14</color>
 
     <!-- 标题栏颜色 -->
     <color name="color_primary">@color/blue_400</color>

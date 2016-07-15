@@ -258,7 +258,7 @@ public class StatusView extends FrameLayout {
     }
 
     public int getDefaultColor() {
-        return getResources().getColor(R.color.text_color_light);
+        return getResources().getColor(R.color.text_grey_light);
     }
 
     public int getDefaultTextSize() {

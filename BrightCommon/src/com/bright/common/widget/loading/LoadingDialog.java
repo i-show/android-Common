@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,7 +32,7 @@ import android.widget.LinearLayout;
 
 import com.bright.common.R;
 import com.bright.common.utils.Utils;
-import com.bright.common.utils.glide.GlideUtils;
+import com.bumptech.glide.Glide;
 
 
 public class LoadingDialog extends Dialog {
@@ -142,8 +142,9 @@ public class LoadingDialog extends Dialog {
 
         }
 
-        GlideUtils.load(getContext(), R.drawable.default_loading, photo, false);
-
+        Glide.with(getContext())
+                .load(R.drawable.default_loading)
+                .into(photo);
     }
 
     @Override
@@ -155,7 +156,7 @@ public class LoadingDialog extends Dialog {
         lp.width = screen[0];
         lp.height = screen[1];
 
-        window.setWindowAnimations(R.style.AlphaAnimation);
+        window.setWindowAnimations(R.style.Animation_Windows_Alpha);
         window.setAttributes(lp);
     }
 

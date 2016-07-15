@@ -34,9 +34,6 @@ import okhttp3.MultipartBody;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
-/**
- * Created by zhy on 15/12/14.
- */
 public class PostFormRequest extends OkHttpRequest {
     private List<PostFormBuilder.FileInput> files;
 

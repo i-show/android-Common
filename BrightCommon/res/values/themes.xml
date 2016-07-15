@@ -21,7 +21,7 @@
         <!--背景颜色-->
         <item name="android:windowBackground">@drawable/window_background</item>
         <!-- Activity 进出动画 -->
-        <item name="android:windowAnimationStyle">@style/AnimationActivity</item>
+        <item name="android:windowAnimationStyle">@style/Animation.Activity</item>
         <item name="android:windowContentOverlay">@null</item>
         <!-- 全局修改单选框和多选框的样式-->
         <!--

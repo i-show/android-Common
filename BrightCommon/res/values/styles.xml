@@ -17,28 +17,31 @@
 <resources>
 
     <!-- ****************动画*****************-->
-    <style name="AnimationActivity">
-        <item name="android:activityOpenEnterAnimation">@anim/right_anim_in</item>
-        <item name="android:activityOpenExitAnimation">@anim/right_anim_out</item>
-        <item name="android:activityCloseEnterAnimation">@anim/left_anim_in</item>
-        <item name="android:activityCloseExitAnimation">@anim/left_anim_out</item>
+    <style name="Animation"/>
+
+    <style name="Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/right_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/right_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/left_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/left_out</item>
     </style>
 
-    <style name="BottomAnimationActivity">
-        <item name="android:activityOpenEnterAnimation">@anim/bottom_anim_in</item>
-        <item name="android:activityOpenExitAnimation">@anim/bottom_anim_out</item>
-        <item name="android:activityCloseEnterAnimation">@anim/bottom_anim_in</item>
-        <item name="android:activityCloseExitAnimation">@anim/bottom_anim_out</item>
+    <style name="Animation.Activity.Bottom">
+        <item name="android:activityOpenEnterAnimation">@anim/bottom_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/bottom_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/bottom_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/bottom_out</item>
     </style>
 
-    <style name="BottomAnimation">
-        <item name="android:windowEnterAnimation">@anim/bottom_anim_in</item>
-        <item name="android:windowExitAnimation">@anim/bottom_anim_out</item>
+    <style name="Animation.Windows"/>
+    <style name="Animation.Windows.Bottom">
+        <item name="android:windowEnterAnimation">@anim/bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/bottom_out</item>
     </style>
 
-    <style name="AlphaAnimation">
-        <item name="android:windowEnterAnimation">@anim/alpha_anim_in</item>
-        <item name="android:windowExitAnimation">@anim/alpha_anim_out</item>
+    <style name="Animation.Windows.Alpha">
+        <item name="android:windowEnterAnimation">@anim/alpha_in</item>
+        <item name="android:windowExitAnimation">@anim/alpha_out</item>
     </style>
 
     <!-- ****************Dialog区域*****************-->
@@ -130,7 +133,7 @@
     </style>
 
     <style name="TextAppearance">
-        <item name="android:textColor">@color/text_color</item>
+        <item name="android:textColor">@color/text_grey</item>
         <item name="android:textColorHighlight">?android:textColorHighlight</item>
         <item name="android:textColorHint">?android:textColorHint</item>
         <item name="android:textColorLink">?android:textColorLink</item>
@@ -141,18 +144,18 @@
     <style name="TextAppearance.DialogTitle">
         <item name="android:textSize">@dimen/G_title</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/text_color</item>
+        <item name="android:textColor">@color/text_grey</item>
     </style>
 
     <style name="TextAppearance.DialogTitle.SelectPhoto">
         <item name="android:textSize">@dimen/I_title</item>
         <item name="android:textStyle">normal</item>
-        <item name="android:textColor">@color/text_color_light_normal</item>
+        <item name="android:textColor">@color/text_grey_light_normal</item>
     </style>
 
     <style name="TextAppearance.DialogMessage">
         <item name="android:textSize">@dimen/H_title</item>
-        <item name="android:textColor">@color/text_color</item>
+        <item name="android:textColor">@color/text_grey</item>
     </style>
 
     <!--横线-->
@@ -229,7 +232,7 @@
     <!-- EditText 默认样式统一样式 -->
     <style name="EditText" parent="Widget.AppCompat.EditText">
         <!--<item name="android:textAppearance">@style/TextAppearance.EditText</item>-->
-        <!--<item name="android:textColor">@color/text_color</item>-->
+        <!--<item name="android:textColor">@color/text_grey</item>-->
         <!--<item name="android:textColorHint">@color/text_color_hint</item>-->
         <!--<item name="android:minWidth">64dip</item>-->
         <!--<item name="android:padding">5dip</item>-->

@@ -27,5 +27,5 @@
     android:minHeight="?android:attr/listPreferredItemHeightSmall"
     android:paddingLeft="16dip"
     android:paddingRight="16dip"
-    android:textColor="@color/text_color"
+    android:textColor="@color/text_grey"
     android:textSize="@dimen/G_title" />

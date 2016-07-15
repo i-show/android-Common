@@ -29,7 +29,7 @@ import com.bright.common.R;
  * 最底部的一条对应TopBar
  */
 public class BottomBar extends LinearLayout implements View.OnClickListener {
-    public static final String TAG = BottomBar.class.getSimpleName();
+    private static final String TAG = "BottomBar";
     /**
      * 选中切换的监听
      */
