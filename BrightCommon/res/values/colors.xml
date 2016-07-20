@@ -57,6 +57,12 @@
     <color name="white_alpha_0_8_5">#DDFFFFFF</color>
     <color name="white_alpha_0_8">#A0FFFFFF</color>
 
+    <!--黑色透明度-->
+    <color name="grey_alpha_1">#FF000000</color>
+    <color name="grey_alpha_0_9">#E5000000</color>
+    <color name="grey_alpha_0_8_5">#DD000000</color>
+    <color name="grey_alpha_0_8">#A0000000</color>
+
     <!--默认的字体颜色和hint颜色-->
 
     <color name="text_grey_normal">@color/grey_deep_8</color>

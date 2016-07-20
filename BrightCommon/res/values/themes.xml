@@ -97,6 +97,16 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
+    <!-- 透明Dialog -->
+    <style name="Dialog.ShowPhoto">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/black</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
     <!-- 从底部弹出的Dialog -->
     <style name="Dialog.Bottom">
         <item name="android:windowBackground">@drawable/corner_top_5dp_normal</item>

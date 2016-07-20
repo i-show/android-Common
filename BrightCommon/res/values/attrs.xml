@@ -98,6 +98,8 @@
 
     <attr name="selectedChild" format="reference" />
 
+    <attr name="radius" format="dimension|reference" />
+
     <attr name="thumbDrawable" format="reference" />
     <attr name="thumbColor" format="color|reference" />
     <attr name="thumbMargin" format="dimension|reference" />
@@ -123,7 +125,6 @@
         <enum name="top" value="3" />
         <enum name="bottom" value="4" />
     </attr>
-
 
 
     <attr name="shape">
@@ -369,5 +370,16 @@
         <attr name="footerLineVisibility" />
         <attr name="hasEmptyView" />
     </declare-styleable>
+
+    <declare-styleable name="SizeIndicator">
+        <attr name="android:paddingLeft" />
+        <attr name="android:paddingStart" />
+        <attr name="android:paddingRight" />
+        <attr name="android:paddingEnd" />
+        <attr name="android:paddingTop" />
+        <attr name="android:paddingBottom" />
+        <attr name="thumbRadius" />
+    </declare-styleable>
+
 
 </resources>

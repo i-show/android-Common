@@ -1,12 +1,12 @@
 /**
- * Copyright (C) 2016 The yuhaiyang Android Source Project
- * <p>
+ * Copyright (C) 2016 yuhaiyang android source project
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,23 +19,16 @@ package com.bright.common.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
-import android.text.TextUtils;
 import android.util.DisplayMetrics;
 
-public final class Utils {
-
-    public static final String EMPTY = "";
-    public static final String JSON_EMPTY = "{}";
-    public static final String NEW_LINE = "\n";
-    public static final String TAB = "\t";
-    public static final String SLADH = "/";
-    private static final String TAG = Utils.class.getSimpleName();
+/**
+ * 屏幕工具
+ */
+public class ScreenUtils {
 
     /**
      * 获取屏幕的宽和高
-     * 已经转移到 ScreenUtils
      */
-    @Deprecated
     public static int[] getScreenSize(Context context) {
         DisplayMetrics dm = context.getResources().getDisplayMetrics();
 
@@ -44,29 +37,10 @@ public final class Utils {
 
     /**
      * 获取状态懒的高度
-     * 已经转移到 ScreenUtils
      */
-    @Deprecated
     public static int getStatusBarHeight(Activity context) {
         Rect rect = new Rect();
         context.getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
         return rect.top;
-    }
-
-
-    /**
-     * 字符串累加
-     * 已经转移到 StringUtils中
-     */
-    @Deprecated
-    public static String plusString(Object... strs) {
-        StringBuilder builder = new StringBuilder();
-        for (Object str : strs) {
-            String _str = String.valueOf(str);
-            if (!TextUtils.isEmpty(_str)) {
-                builder.append(str);
-            }
-        }
-        return builder.toString();
     }
 }

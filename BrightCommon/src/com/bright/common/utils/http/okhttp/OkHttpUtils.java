@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- * <p>
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
+ * <p/>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,7 +16,7 @@
 
 package com.bright.common.utils.http.okhttp;
 
-import com.bright.common.utils.Utils;
+import com.bright.common.utils.StringUtils;
 import com.bright.common.utils.debug.DEBUG;
 import com.bright.common.utils.http.okhttp.builder.GetBuilder;
 import com.bright.common.utils.http.okhttp.builder.HeadBuilder;
@@ -167,22 +167,21 @@ public class OkHttpUtils {
 
 
     private void debug(RequestCall requestCall, OkHttpRequest okHttpRequest, Request request, final int id) {
-        DEBUG.d(okHttpRequest.getLogTag(), Utils.plusString("=================== ", request.method(), ":", id, " ==================="));
-        DEBUG.d(okHttpRequest.getLogTag(), Utils.plusString(id, " URL     = " + request.url().toString()));
+        DEBUG.d(okHttpRequest.getLogTag(), StringUtils.plusString("=================== ", request.method(), ":", id, " ==================="));
+        DEBUG.d(okHttpRequest.getLogTag(), StringUtils.plusString(id, " URL     = " + request.url().toString()));
 
         Headers headers = request.headers();
         if (headers != null && headers.size() > 0) {
-            DEBUG.d(okHttpRequest.getLogTag(), Utils.plusString(id, " HEADERS = " + headers.toString()));
+            DEBUG.d(okHttpRequest.getLogTag(), StringUtils.plusString(id, " HEADERS = " + headers.toString()));
         }
-        DEBUG.d(okHttpRequest.getLogTag(), Utils.plusString(id, " TIMEOUT = " + requestCall.getConnTimeOut()));
+        DEBUG.d(okHttpRequest.getLogTag(), StringUtils.plusString(id, " TIMEOUT = " + requestCall.getConnTimeOut()));
         RequestBody requestBody = request.body();
-
         if (requestBody != null) {
             MediaType mediaType = requestBody.contentType();
             if (mediaType != null) {
-                DEBUG.d(okHttpRequest.getLogTag(), Utils.plusString(id, " TYPE    = " + mediaType.toString()));
+                DEBUG.d(okHttpRequest.getLogTag(), StringUtils.plusString(id, " TYPE    = " + mediaType.toString()));
                 if (isText(mediaType)) {
-                    DEBUG.d(okHttpRequest.getLogTag(), Utils.plusString(id, " PARAMS = " + bodyToString(request)));
+                    DEBUG.d(okHttpRequest.getLogTag(), StringUtils.plusString(id, " PARAMS  = " + bodyToString(request)));
                 }
             }
         }
@@ -196,8 +195,8 @@ public class OkHttpUtils {
             if (mediaType.subtype().equals("json") ||
                     mediaType.subtype().equals("xml") ||
                     mediaType.subtype().equals("html") ||
-                    mediaType.subtype().equals("webviewhtml")
-                    )
+                    mediaType.subtype().equals("webviewhtml") ||
+                    mediaType.subtype().equals("x-www-form-urlencoded"))
                 return true;
         }
         return false;
