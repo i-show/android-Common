@@ -70,7 +70,7 @@ public class SizeIndicator extends View implements ViewPager.OnPageChangeListene
 
         int left = a.getDimensionPixelSize(R.styleable.SizeIndicator_android_paddingLeft, getDefaultPaddingStart());
         left = a.getDimensionPixelSize(R.styleable.SizeIndicator_android_paddingStart, left);
-        
+
         int right = a.getDimensionPixelSize(R.styleable.SizeIndicator_android_paddingRight, getDefaultPaddingEnd());
         right = a.getDimensionPixelSize(R.styleable.SizeIndicator_android_paddingEnd, right);
         int top = a.getDimensionPixelSize(R.styleable.SizeIndicator_android_paddingTop, getDefaultPaddingTop());
@@ -79,7 +79,7 @@ public class SizeIndicator extends View implements ViewPager.OnPageChangeListene
         a.recycle();
 
         mItemWidth = 5 * mRadius;
-        mItemHeight = 5 * mRadius;
+        mItemHeight = 6 * mRadius;
     }
 
 
@@ -103,12 +103,11 @@ public class SizeIndicator extends View implements ViewPager.OnPageChangeListene
 
         final int realWidth = mItemWidth * count;
         final int startX = getWidth() / 2 - realWidth / 2;
-
+        final int y = getPaddingTop() + mItemHeight / 2;
 
         for (int i = 0; i < count; i++) {
             // 求圆圈的圆心坐标
             int x = startX + i * mItemWidth + (mItemWidth - mRadius) / 2;
-            int y = mItemHeight / 2;
             if (i == mCurrentPage) {
                 canvas.drawCircle(x, y, mCurrentRadius, mPaint);
             } else if (i == mCurrentPage + 1) {
@@ -246,11 +245,11 @@ public class SizeIndicator extends View implements ViewPager.OnPageChangeListene
     }
 
     private int getDefaultPaddingStart() {
-        return getContext().getResources().getDimensionPixelSize(R.dimen.gap_grade_3);
+        return getContext().getResources().getDimensionPixelSize(R.dimen.gap_grade_6);
     }
 
     private int getDefaultPaddingEnd() {
-        return getContext().getResources().getDimensionPixelSize(R.dimen.gap_grade_3);
+        return getContext().getResources().getDimensionPixelSize(R.dimen.gap_grade_6);
     }
 
     private int getDefaultPaddingTop() {

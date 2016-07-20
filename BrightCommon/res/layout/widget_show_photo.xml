@@ -31,5 +31,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="50dp"
-        android:background="@drawable/grey_alpha_0_8_5_corner_normal" />
+        android:background="@drawable/grey_alpha_0_7_corner_normal" />
 </FrameLayout>
