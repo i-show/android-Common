@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 yuhaiyang android source project
- * <p/>
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p/>
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,6 +20,7 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,11 +50,11 @@ import uk.co.senab.photoview.PhotoViewAttacher;
  * 查看大图
  */
 public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.OnViewTapListener {
-    private static final String TAG = "nian";
+    private static final String TAG = "ShowPhotoAdapter";
     private LayoutInflater mLayoutInflater;
     private List<String> mUrls;
     private Context mContext;
-    private ImageView mBeforeView;
+    private View mBeforeView;
     private FrameLayout.LayoutParams mThumbLayoutParams;
     private FrameLayout.LayoutParams mProgressParams;
     private GlideAnimation mLoadAnimation;
@@ -78,7 +79,7 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
         notifyDataSetChanged();
     }
 
-    public void setBeforView(ImageView image) {
+    public void setBeforView(View image) {
         mBeforeView = image;
         if (mBeforeView != null) {
             int width = mBeforeView.getWidth();
@@ -87,6 +88,9 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
             mLoadAnimation = new GlideAnimation(width, height);
             mThumbLayoutParams.width = width;
             mThumbLayoutParams.height = height;
+
+            Log.i(TAG, "setBeforView: width =" + width);
+            Log.i(TAG, "setBeforView: height =" + height);
 
             width = Math.min(screen[0] / 4, width * 2 / 3);
             height = Math.min(screen[1] / 4, height * 2 / 3);
@@ -114,6 +118,11 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
 
         final ImageView imageThumb = (ImageView) root.findViewById(R.id.thumbnails);
         imageThumb.setLayoutParams(mThumbLayoutParams);
+        if (mBeforeView instanceof ImageView) {
+            ImageView image = (ImageView) mBeforeView;
+            imageThumb.setScaleType(image.getScaleType());
+        }
+
 
         final ProgressBar progress = (ProgressBar) root.findViewById(R.id.progress);
         progress.setLayoutParams(mProgressParams);
@@ -135,6 +144,7 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
         bulider.listener(new RequestListener<String, GlideDrawable>() {
             @Override
             public boolean onException(Exception e, String s, Target<GlideDrawable> target, boolean b) {
+                progress.setVisibility(View.GONE);
                 return false;
             }
 
@@ -179,7 +189,7 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
             float startY = Math.min(mHeight / height + 0.2f, 1f);
             PropertyValuesHolder pvh1 = PropertyValuesHolder.ofFloat("scaleX", startX, 1f);
             PropertyValuesHolder pvh2 = PropertyValuesHolder.ofFloat("scaleY", startY, 1f);
-            ObjectAnimator.ofPropertyValuesHolder(view, pvh1, pvh2).setDuration(800).start();
+            ObjectAnimator.ofPropertyValuesHolder(view, pvh1, pvh2).setDuration(500).start();
         }
     }
 }
