@@ -16,6 +16,8 @@
 
 package com.bright.common.utils.http.okhttp.callback;
 
+import android.content.Context;
+
 import com.alibaba.fastjson.JSONException;
 import com.bright.common.utils.Utils;
 import com.bright.common.utils.json.JsonValidator;
@@ -26,8 +28,21 @@ import okhttp3.Response;
 /**
  * JSON
  */
-public abstract class BaseJsonCallBack extends CallBack<String> {
-    private static final String TAG = "BaseJsonCallBack";
+public abstract class JsonCallBack extends CallBack<String> {
+    private static final String TAG = "JsonCallBack";
+
+    public JsonCallBack() {
+        this(null, false);
+    }
+
+    public JsonCallBack(Context context) {
+        this(context, true);
+    }
+
+    public JsonCallBack(Context context, boolean showTip) {
+        mContext = context;
+        isShowTip = showTip;
+    }
 
     @Override
     public void generateFinalResult(final Call call, final Response response, final int id) throws Exception {

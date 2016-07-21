@@ -48,6 +48,10 @@ public abstract class CallBack<T> {
         this(null, false);
     }
 
+    public CallBack(Context context) {
+        this(context, true);
+    }
+
     public CallBack(Context context, boolean showTip) {
         mContext = context;
         isShowTip = showTip;
