@@ -116,7 +116,7 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
         final PhotoView imageHD = (PhotoView) root.findViewById(R.id.image);
         imageHD.setOnViewTapListener(this);
 
-        final ImageView imageThumb = (ImageView) root.findViewById(R.id.thumbnails);
+        final PhotoView imageThumb = (PhotoView) root.findViewById(R.id.thumbnails);
         imageThumb.setLayoutParams(mThumbLayoutParams);
         if (mBeforeView instanceof ImageView) {
             ImageView image = (ImageView) mBeforeView;
@@ -144,6 +144,7 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
         bulider.listener(new RequestListener<String, GlideDrawable>() {
             @Override
             public boolean onException(Exception e, String s, Target<GlideDrawable> target, boolean b) {
+                imageThumb.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
                 progress.setVisibility(View.GONE);
                 return false;
             }
