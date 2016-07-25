@@ -17,7 +17,7 @@
 package com.brightyu.androidcommon.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.bright.common.utils.Utils;
+import com.bright.common.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +48,6 @@ public class TextJson<T> {
 
     @JSONField(serialize = false)
     public String getFormatName() {
-        return Utils.plusString(name, name);
+        return StringUtils.plusString(name, name);
     }
 }

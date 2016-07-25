@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 
-package com.bright.common.utils;
+package com.bright.common.utils.photo;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.util.Log;
+
+import com.bright.common.utils.ImageUtils;
 
 import net.bither.util.NativeUtil;
 
@@ -41,10 +43,10 @@ public class CompressImageUtils {
             opts.inSampleSize = calculateInSampleSize(opts);
             opts.inJustDecodeBounds = false;
             Log.i(TAG, "inSampleSize = " + opts.inSampleSize);
-            int angle = FileUtils.getExifOrientation(originPath);
+            int angle = ImageUtils.getExifOrientation(originPath);
             bitmapImage = BitmapFactory.decodeFile(originPath, opts);
             try {
-                bitmapImage = FileUtils.rotaingImageView(angle, bitmapImage);
+                bitmapImage = ImageUtils.rotateBitmap(angle, bitmapImage);
                 NativeUtil.compressBitmap(bitmapImage, 60, compressPath, true);
             } catch (Exception e) {
             }
@@ -66,10 +68,10 @@ public class CompressImageUtils {
             opts.inSampleSize = calculateInSampleSize(opts);
             opts.inJustDecodeBounds = false;
             Log.i(TAG, "inSampleSize url = " + opts.inSampleSize);
-            int angle = FileUtils.getExifOrientation(path);
+            int angle = ImageUtils.getExifOrientation(path);
             bitmapImage = BitmapFactory.decodeFile(path, opts);
             try {
-                bitmapImage = FileUtils.rotaingImageView(angle, bitmapImage);
+                bitmapImage = ImageUtils.rotateBitmap(angle, bitmapImage);
                 NativeUtil.compressBitmap(bitmapImage, 60, compressUri.getPath(), true);
             } catch (Exception e) {
                 Log.i(TAG, "e = " + e);

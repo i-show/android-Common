@@ -16,6 +16,7 @@
 
 package com.bright.common.utils.http.okhttp.callback;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
@@ -23,7 +24,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.bright.common.R;
-import com.bright.common.utils.Utils;
+import com.bright.common.utils.StringUtils;
 import com.bright.common.utils.debug.DEBUG;
 import com.bright.common.utils.http.okhttp.OkHttpUtils;
 import com.bright.common.utils.http.okhttp.exception.CanceledException;
@@ -167,15 +168,15 @@ public abstract class CallBack<T> {
 
     public void sendFailResult(final Call call, final Exception e, final String errorMessage, final int errorType, final int id) {
         if (!TextUtils.isEmpty(errorMessage)) {
-            DEBUG.d(mLogTag, Utils.plusString(id, " ERROR_MSG  = " + errorMessage));
+            DEBUG.d(mLogTag, StringUtils.plusString(id, " ERROR_MSG  = " + errorMessage));
         }
 
         if (errorType != 0) {
-            DEBUG.d(mLogTag, Utils.plusString(id, " ERROR_TYPE  = " + errorType));
+            DEBUG.d(mLogTag, StringUtils.plusString(id, " ERROR_TYPE  = " + errorType));
         }
 
         if (e != null) {
-            DEBUG.d(mLogTag, Utils.plusString(id, " EXCEPTION  = " + e.toString()));
+            DEBUG.d(mLogTag, StringUtils.plusString(id, " EXCEPTION  = " + e.toString()));
         }
 
         OkHttpUtils.getInstance().getPlatform().execute(new Runnable() {
@@ -188,7 +189,15 @@ public abstract class CallBack<T> {
     }
 
     protected void sendSuccessResultCallback(final T result, final int id) {
-        DEBUG.d(mLogTag, Utils.plusString(id, " RESULT  = " + result));
+        DEBUG.d(mLogTag, StringUtils.plusString(id, " RESULT  = " + result));
+
+        if (mContext != null && mContext instanceof Activity) {
+            Activity activity = (Activity) mContext;
+            if (activity.isFinishing()) {
+                DEBUG.d(mLogTag, StringUtils.plusString(id, " activity is finishing to do nothing "));
+                return;
+            }
+        }
 
         OkHttpUtils.getInstance().getPlatform().execute(new Runnable() {
             @Override

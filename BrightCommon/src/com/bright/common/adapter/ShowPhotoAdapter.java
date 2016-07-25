@@ -32,6 +32,7 @@ import android.widget.ProgressBar;
 
 import com.bright.common.R;
 import com.bright.common.utils.ScreenUtils;
+import com.bright.common.widget.dialog.ShowPhotoDialog;
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.DrawableTypeRequest;
 import com.bumptech.glide.Glide;
@@ -54,10 +55,26 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
     private LayoutInflater mLayoutInflater;
     private List<String> mUrls;
     private Context mContext;
+    /**
+     * 点击的View 用来获取大小
+     */
     private View mBeforeView;
+    /**
+     * 缩略图的配置
+     */
     private FrameLayout.LayoutParams mThumbLayoutParams;
+    /**
+     * 进度条配置
+     */
     private FrameLayout.LayoutParams mProgressParams;
+    /**
+     * 加载动画
+     */
     private GlideAnimation mLoadAnimation;
+    /**
+     * 当前的Dialog
+     */
+    private ShowPhotoDialog mDialog;
 
     public ShowPhotoAdapter(Context context) {
         mContext = context;
@@ -68,6 +85,10 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
 
         mProgressParams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         mProgressParams.gravity = Gravity.CENTER;
+    }
+
+    public void setDialog(ShowPhotoDialog dialog) {
+        mDialog = dialog;
     }
 
     public void setData(List<String> url) {
@@ -117,6 +138,8 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
         imageHD.setOnViewTapListener(this);
 
         final PhotoView imageThumb = (PhotoView) root.findViewById(R.id.thumbnails);
+        imageThumb.setEnabled(false);
+        imageThumb.setOnViewTapListener(this);
         imageThumb.setLayoutParams(mThumbLayoutParams);
         if (mBeforeView instanceof ImageView) {
             ImageView image = (ImageView) mBeforeView;
@@ -127,12 +150,15 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
         final ProgressBar progress = (ProgressBar) root.findViewById(R.id.progress);
         progress.setLayoutParams(mProgressParams);
 
+        final String url = mUrls.get(position);
+
         Glide.with(mContext)
-                .load(mUrls.get(position))
+                .load(url)
                 .into(imageThumb);
 
         DrawableTypeRequest<String> request = Glide.with(mContext)
-                .load(mUrls.get(position));
+                .load(url);
+
         DrawableRequestBuilder<String> bulider;
 
         if (mLoadAnimation == null) {
@@ -145,6 +171,7 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
             @Override
             public boolean onException(Exception e, String s, Target<GlideDrawable> target, boolean b) {
                 imageThumb.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+                imageThumb.setEnabled(true);
                 progress.setVisibility(View.GONE);
                 return false;
             }
@@ -169,7 +196,10 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
 
     @Override
     public void onViewTap(View view, float v, float v1) {
-        //mActivity.finish();
+        if (mDialog != null) {
+            mDialog.dismiss();
+            mDialog = null;
+        }
     }
 
 

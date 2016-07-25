@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -45,6 +45,7 @@ import com.bright.common.utils.Utils;
 
 
 public class ImageTextView extends View {
+    private static final String TAG = "ImageTextView";
     /**
      * Pictures in the text to the left
      */
@@ -65,7 +66,6 @@ public class ImageTextView extends View {
      * 默认 文本和图片之间的间距
      */
     private static final int DEFAULT_PADDING = 10;
-    private final String TAG = ImageTextView.class.getSimpleName();
     /**
      * 图片位置
      */

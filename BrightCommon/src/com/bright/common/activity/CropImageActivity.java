@@ -26,8 +26,8 @@ import android.view.View;
 
 import com.bright.common.BaseActivity;
 import com.bright.common.R;
-import com.bright.common.utils.FileUtils;
-import com.bright.common.utils.SelectPhotoUtils;
+import com.bright.common.utils.ImageUtils;
+import com.bright.common.utils.photo.SelectPhotoUtils;
 import com.bright.common.widget.CropImageView;
 import com.bright.common.widget.TopBar;
 import com.bright.common.widget.loading.LoadingDialog;
@@ -88,8 +88,7 @@ public class CropImageActivity extends BaseActivity {
                 // 旋转图片
                 Matrix m = new Matrix();
                 m.postRotate(digree);
-                bm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(),
-                        bm.getHeight(), m, true);
+                bm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), m, true);
             }
             return bm;
         }
@@ -125,7 +124,7 @@ public class CropImageActivity extends BaseActivity {
         super.onRightClick(v);
         LoadingDialog dialog = LoadingDialog.show(this);
         Bitmap bitmap = mCropView.getCroppedBitmap();
-        String cachePath = FileUtils.compressImageAndSaveCache(this, bitmap, 300);
+        String cachePath = ImageUtils.compressBitmapAndSave(this, bitmap, 300);
         Intent intent = new Intent();
         intent.putExtra(KEY_RESULT_PATH, cachePath);
         setResult(SelectPhotoUtils.Request.REQUEST_CROP, intent);

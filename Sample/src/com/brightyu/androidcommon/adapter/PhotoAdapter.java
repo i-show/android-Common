@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- * <p>
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
+ * <p/>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,7 +17,6 @@
 package com.brightyu.androidcommon.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -63,10 +62,6 @@ public class PhotoAdapter extends ListAdapter<String, PhotoAdapter.ViewHolder> {
                 .placeholder(R.drawable.no_picture)
                 .override(mLayoutParams.width, mLayoutParams.height)
                 .into(holder.photo);
-        Log.i("nian", "ViewHolder: photo mLayoutParams.width = " + mLayoutParams.width);
-        Log.i("nian", "ViewHolder: photo mLayoutParams.height = " + mLayoutParams.height);
-        Log.i("nian", "ViewHolder: photo width = " + holder.photo.getWidth());
-        Log.i("nian", "ViewHolder: photo height = " + holder.photo.getHeight());
         holder.photo.setTag(R.id.tag_01, position);
     }
 
@@ -85,8 +80,6 @@ public class PhotoAdapter extends ListAdapter<String, PhotoAdapter.ViewHolder> {
         @Override
         public void onClick(View v) {
             int position = (int) v.getTag(R.id.tag_01);
-            Log.i("nian", "ViewHolder: photo width = " + v.getWidth());
-            Log.i("nian", "ViewHolder: photo height = " + v.getHeight());
             ShowPhotoDialog dialog = new ShowPhotoDialog(mContext);
             dialog.setBeforeView(v);
             dialog.setData(getData());

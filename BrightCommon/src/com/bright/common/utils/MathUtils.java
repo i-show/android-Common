@@ -122,9 +122,9 @@ public class MathUtils {
         if (scale == 0) {
             pattern = FORMAT_HEADER;
         } else if (force) {
-            pattern = Utils.plusString(FORMAT_HEADER, FORMAT_POINT, generateString(scale, "0"));
+            pattern = StringUtils.plusString(FORMAT_HEADER, FORMAT_POINT, generateString(scale, "0"));
         } else {
-            pattern = Utils.plusString(FORMAT_HEADER, FORMAT_POINT, generateString(scale, "#"));
+            pattern = StringUtils.plusString(FORMAT_HEADER, FORMAT_POINT, generateString(scale, "#"));
         }
         DecimalFormat format = new DecimalFormat(pattern);
         format.setRoundingMode(RoundingMode.HALF_UP);
@@ -140,7 +140,7 @@ public class MathUtils {
     public static String generateString(int count, String child) {
         String pattern = Utils.EMPTY;
         for (int i = 0; i < count; i++) {
-            pattern = Utils.plusString(pattern, child);
+            pattern = StringUtils.plusString(pattern, child);
         }
         return pattern;
     }

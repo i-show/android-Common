@@ -19,7 +19,7 @@ package com.bright.common.utils.http.okhttp.callback;
 import android.content.Context;
 
 import com.alibaba.fastjson.JSONException;
-import com.bright.common.utils.Utils;
+import com.bright.common.utils.StringUtils;
 import com.bright.common.utils.json.JsonValidator;
 
 import okhttp3.Call;
@@ -51,7 +51,7 @@ public abstract class JsonCallBack extends CallBack<String> {
         JsonValidator validator = new JsonValidator();
         boolean valid = validator.validate(result);
         if (!valid) {
-            String message = Utils.plusString(result, " is not a json");
+            String message = StringUtils.plusString(result, " is not a json");
             sendFailResult(call, new JSONException(message), null, 0, id);
             return;
         }

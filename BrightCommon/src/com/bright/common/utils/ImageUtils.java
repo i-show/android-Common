@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,22 +34,28 @@ import android.graphics.RectF;
 import android.graphics.Shader.TileMode;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.UUID;
 
 
 public final class ImageUtils {
     private static final String TAG = "ImageUtils";
 
     /**
-     * Transfer drawable to bitmap
+     * Drawable转Bitmap
      */
     public static Bitmap drawableToBitmap(Drawable drawable) {
         int w = drawable.getIntrinsicWidth();
@@ -64,7 +70,7 @@ public final class ImageUtils {
     }
 
     /**
-     * Bitmap to drawable
+     * Bitmap 转 drawable
      */
     public static Drawable bitmapToDrawable(Bitmap bitmap) {
         return new BitmapDrawable(bitmap);
@@ -231,36 +237,160 @@ public final class ImageUtils {
         return bitmap;
     }
 
-    public static String getPicturePath(Intent data, Context context) {
+    /**
+     * 从 intent中获取图片路径
+     */
+    public static String getPicturePathFromIntent(Intent intent, Context context) {
 
-        String path = "";
-        // 外界的程序访问ContentProvider所提供数据 可以通过ContentResolver接口
+        if (intent == null) {
+            Log.i(TAG, "getPicturePathFromIntent:  intent is null");
+            return Utils.EMPTY;
+        }
+
+        Uri url = intent.getData();// 获得图片的uri
+        if (url == null) {
+            Log.i(TAG, "getPicturePathFromIntent: url is null");
+            return Utils.EMPTY;
+        }
+
         ContentResolver resolver = context.getContentResolver();
-        // 此处的用于判断接收的Activity是不是你想要的那个
-        Uri originalUri = null;
         try {
-            originalUri = data.getData(); // 获得图片的uri
             // 这里开始的第二部分，获取图片的路径：
             String[] proj = {MediaStore.Images.Media.DATA};
             // 好像是android多媒体数据库的封装接口，具体的看Android文档
-            Cursor cursor = resolver.query(originalUri, proj, null, null, null);
-            // 按我个人理解 这个是获得用户选择的图片的索引值
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            Cursor cursor = resolver.query(url, proj, null, null, null);
             // 将光标移至开头 ，这个很重要，不小心很容易引起越界
             cursor.moveToFirst();
+            // 按我个人理解 这个是获得用户选择的图片的索引值
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             // 最后根据索引值获取图片路径
-            path = cursor.getString(column_index);
+            String path = cursor.getString(column_index);
             if (TextUtils.isEmpty(path)) {
-                return originalUri.getPath();
+                return url.getPath();
             }
+            cursor.close();
             return path;
         } catch (Exception e) {
             Log.e(TAG, e.toString());
-            if (TextUtils.isEmpty(path)) {
-                return originalUri.getPath();
+            return url.getPath();
+        }
+    }
+
+    /**
+     * 获取 图片旋转 的角度
+     */
+    public static int getExifOrientation(String filepath) {
+        int degree = 0;
+        ExifInterface exif = null;
+        try {
+            exif = new ExifInterface(filepath);
+        } catch (IOException ex) {
+            Log.e(TAG, "cannot read exif", ex);
+        }
+        if (exif != null) {
+            int orientation = exif.getAttributeInt(
+                    ExifInterface.TAG_ORIENTATION, -1);
+            if (orientation != -1) {
+                switch (orientation) {
+                    case ExifInterface.ORIENTATION_ROTATE_90:
+                        degree = 90;
+                        break;
+                    case ExifInterface.ORIENTATION_ROTATE_180:
+                        degree = 180;
+                        break;
+                    case ExifInterface.ORIENTATION_ROTATE_270:
+                        degree = 270;
+                        break;
+                }
             }
-            return path;
+        }
+        return degree;
+    }
+
+    /*
+     * 旋转图片
+     */
+    public static Bitmap rotateBitmap(int angle, Bitmap bitmap) {
+        // 旋转图片 动作
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        // 创建新的图片
+        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
+                bitmap.getHeight(), matrix, true);
+        return bitmap;
+    }
+
+    /**
+     * 压缩并保存Bitmap
+     *
+     * @param image       要保存的图片
+     * @param pictureSize 要保存图片的大小
+     * @return
+     */
+    public static String compressBitmapAndSave(Context context, Bitmap image, int pictureSize) {
+        int options = 100;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        // 循环判断如果压缩后图片是否大于指定大小,大于继续压缩
+        while (baos.toByteArray().length / 1024 > pictureSize) {
+            baos.reset();// 重置baos即清空baos
+            // 这里压缩options%，把压缩后的数据存放到baos中
+            image.compress(Bitmap.CompressFormat.JPEG, options, baos);
+            options -= 10;// 每次都减少10
+        }
+        return saveBitmap(context, image, options);
+    }
+
+
+    /**
+     * 把Bitmap输出到本地
+     *
+     * @param options 压缩的比例
+     * @return
+     */
+    public static String saveBitmap(Context context, Bitmap bitmap, int options) {
+        Log.e(TAG, "保存图片");
+
+        File cache = generatePhotoName(context);
+        try {
+            FileOutputStream out = new FileOutputStream(cache);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, options, out);
+            out.flush();
+            out.close();
+            Log.e(TAG, cache.getAbsolutePath());
+            return cache.getAbsolutePath();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "";
+        } finally {
+            if (bitmap != null) {
+                bitmap.recycle();
+            }
+        }
+    }
+
+    /**
+     * 生成图片名称
+     */
+    public static File generatePhotoName(Context context) {
+        File target = context.getExternalCacheDir();
+
+        if (null == target) {
+            target = Environment.getExternalStorageDirectory();
         }
 
+        if (!target.exists()) {
+            try {
+                boolean result = target.mkdir();
+                Log.d(TAG, "generateUri " + target + " result: " + (result ? "succeeded" : "failed"));
+            } catch (Exception e) {
+                Log.e(TAG, "generateUri failed: " + target, e);
+            }
+        }
+        String name = StringUtils.plusString(UUID.randomUUID().toString().toUpperCase(), ".jpg");
+
+        target = new File(target, name);
+        return target;
     }
 }

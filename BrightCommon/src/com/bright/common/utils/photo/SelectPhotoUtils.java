@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.bright.common.utils;
+package com.bright.common.utils.photo;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -30,6 +30,9 @@ import android.widget.Toast;
 import com.bright.common.R;
 import com.bright.common.activity.CropImageActivity;
 import com.bright.common.constant.Shift;
+import com.bright.common.utils.ImageUtils;
+import com.bright.common.utils.PackagesUtils;
+import com.bright.common.utils.StringUtils;
 import com.bright.common.widget.YToast;
 import com.bright.common.widget.dialog.BaseDialog;
 import com.bright.common.widget.loading.LoadingDialog;
@@ -40,12 +43,24 @@ import java.util.UUID;
 /**
  * 上传图片以及添加图片的封装类
  */
-public class SelectPhotoUtils {
+public class SelectPhotoUtils implements DialogInterface.OnClickListener {
+    private static final String TAG = "SelectPhotoUtils";
+    /**
+     * 图片是压缩模式
+     */
     public static final int MODE_COMPRESS = 0;
+    /**
+     * 图片是剪切模式
+     */
     public static final int MODE_CROP = 1;
-    private static final String TAG = SelectPhotoUtils.class.getSimpleName();
-    private static final String CACHE_FOLDER = "nuskin";
+
+    /**
+     * 通过拍照 来选择
+     */
     private static final int SELECT_PHOTO_CAMERA = 0;
+    /**
+     * 通过画廊来选择
+     */
     private static final int SELECT_PHOTO_GALLERY = 1;
     private int mMode;
     private int mScaleX;
@@ -57,26 +72,7 @@ public class SelectPhotoUtils {
     private Activity mContext;
 
     private CallBack mCallBack;
-    private DialogInterface.OnClickListener mDialogClickListener = new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-            Intent intent;
-            switch (which) {
-                case SELECT_PHOTO_CAMERA:
-                    // 跳转相机拍照 我暂时没有更好的方法
-                    mCameraFileUri = generateUri();
-                    intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, mCameraFileUri);
-                    mContext.startActivityForResult(intent, Request.REQUEST_CAMERA);
-                    break;
-                case SELECT_PHOTO_GALLERY:
-                    intent = new Intent(Intent.ACTION_PICK, null);
-                    intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-                    mContext.startActivityForResult(intent, Request.REQUEST_PICK);
-                    break;
-            }
-        }
-    };
+
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -96,7 +92,6 @@ public class SelectPhotoUtils {
         select(mode, 1, 1);
     }
 
-    // 用来接管activity的result
 
     public void select(int mode, int x, int y) {
         mMode = mode;
@@ -105,13 +100,35 @@ public class SelectPhotoUtils {
 
         BaseDialog.Builder builder = new BaseDialog.Builder(mContext, R.style.Dialog_Bottom_IOS);
         builder.setTitle(R.string.select_photo_title)
-                .setItems(R.array.select_photos, mDialogClickListener)
+                .setItems(R.array.select_photos, this)
                 .setNegativeButton(android.R.string.cancel, null)
                 .isShowFromBottom(true)
                 .create()
                 .show();
     }
 
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        Intent intent;
+        switch (which) {
+            case SELECT_PHOTO_CAMERA:
+                // 跳转相机拍照 我暂时没有更好的方法
+                mCameraFileUri = generateUri();
+                intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, mCameraFileUri);
+                mContext.startActivityForResult(intent, Request.REQUEST_CAMERA);
+                break;
+            case SELECT_PHOTO_GALLERY:
+                intent = new Intent(Intent.ACTION_PICK, null);
+                intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                mContext.startActivityForResult(intent, Request.REQUEST_PICK);
+                break;
+        }
+    }
+
+    /**
+     * 用来接管activity的result
+     */
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         String picPath;
@@ -134,7 +151,7 @@ public class SelectPhotoUtils {
                 }
                 break;
             case Request.REQUEST_PICK:
-                picPath = ImageUtils.getPicturePath(data, mContext);
+                picPath = ImageUtils.getPicturePathFromIntent(data, mContext);
                 Log.d("bitmapImage", "picPath = " + picPath);
                 switch (mMode) {
                     case MODE_COMPRESS:
@@ -157,6 +174,9 @@ public class SelectPhotoUtils {
         }
     }
 
+    /**
+     * 跳转剪切
+     */
     private void goToCrop(String path) {
         Intent intent = new Intent(mContext, CropImageActivity.class);
         intent.putExtra(CropImageActivity.KEY_PATH, path);
@@ -165,23 +185,27 @@ public class SelectPhotoUtils {
         mContext.startActivityForResult(intent, Request.REQUEST_CROP);
     }
 
+    /**
+     * 生成Url
+     */
     private Uri generateUri() {
         File cacheFolder = mContext.getExternalCacheDir();
+
         if (null == cacheFolder) {
             File target = Environment.getExternalStorageDirectory();
-            cacheFolder = new File(target + File.separator + CACHE_FOLDER);
+            cacheFolder = new File(target + File.separator + PackagesUtils.getAppName(mContext));
         }
 
         Log.d(TAG, "cacheFolder path = " + cacheFolder.getAbsolutePath());
         if (!cacheFolder.exists()) {
             try {
                 boolean result = cacheFolder.mkdir();
-                Log.d(TAG, "generateUri " + cacheFolder + " result: " + (result ? "succeeded" : "failed"));
+                Log.d(TAG, " result: " + (result ? "succeeded" : "failed"));
             } catch (Exception e) {
-                Log.e(TAG, "generateUri failed: " + cacheFolder, e);
+                Log.e(TAG, "generateUri failed: " + e.toString());
             }
         }
-        String name = Utils.plusString(UUID.randomUUID().toString().toUpperCase(), ".jpg");
+        String name = StringUtils.plusString(UUID.randomUUID().toString().toUpperCase(), ".jpg");
         return Uri
                 .fromFile(cacheFolder)
                 .buildUpon()
@@ -189,11 +213,16 @@ public class SelectPhotoUtils {
                 .build();
     }
 
+    /**
+     * 设置回调
+     */
     public void setCallBack(CallBack callBack) {
         mCallBack = callBack;
     }
 
-
+    /**
+     * 定义回调结果
+     */
     public interface CallBack {
         void onResult(Uri url);
     }
