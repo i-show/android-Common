@@ -79,7 +79,7 @@
 
     <!-- ################ Dialog ################ -->
     <style name="Dialog" parent="@style/Theme.AppCompat.Dialog">
-        <item name="android:windowBackground">@drawable/white_alpha_0_8_5_corner_16dp_normal</item>
+        <item name="android:windowBackground">@drawable/white_alpha_0_9_5_corner_16dp_normal</item>
         <item name="android:listDivider">@drawable/line_blue</item>
         <!--Settings the Dialog Title-->
         <item name="dialogTitleStyle">@style/BaseDialog.Title</item>

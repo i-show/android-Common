@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/gap_grade_2"
         android:layout_marginRight="@dimen/gap_grade_2"
-        android:background="@drawable/white_alpha_0_8_5_corner_top_16dp_normal"
+        android:background="@drawable/white_alpha_0_9_5_corner_top_16dp_normal"
         android:orientation="vertical">
 
         <TextView
@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/gap_grade_2"
         android:layout_marginRight="@dimen/gap_grade_2"
-        android:background="@drawable/white_alpha_0_8_5_corner_bottom_16dp_normal"
+        android:background="@drawable/white_alpha_0_9_5_corner_bottom_16dp_normal"
         android:gravity="center_vertical"
         android:orientation="vertical">
 
@@ -74,7 +74,7 @@
         android:layout_height="0dp"
         android:layout_margin="@dimen/gap_grade_2"
         android:layout_weight="1"
-        android:background="@drawable/white_alpha_0_8_5_corner_bottom_16dp_bg">
+        android:background="@drawable/white_alpha_0_9_5_corner_bottom_16dp_bg">
 
         <FrameLayout
             android:id="@+id/custom"

@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 yuhaiyang android source project
- * <p/>
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p/>
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,6 +30,7 @@ import com.bright.common.adapter.ShowPhotoAdapter;
 import com.bright.common.utils.ScreenUtils;
 import com.bright.common.widget.indicator.SizeIndicator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -61,11 +62,29 @@ public class ShowPhotoDialog extends Dialog {
 
         SizeIndicator indicator = (SizeIndicator) findViewById(R.id.indicator);
         indicator.setViewPager(pager);
+
+        // 只有一张图片的时候不需要显示指示器
+        if (mUrls.size() == 1) {
+            indicator.setVisibility(View.GONE);
+        }
+
     }
 
+    public void setData(String url) {
+        if (mUrls == null) {
+            mUrls = new ArrayList<>();
+        } else {
+            mUrls.clear();
+        }
+        mUrls.add(url);
+    }
 
     public void setData(List<String> urls) {
-        mUrls = urls;
+        if (mUrls == null) {
+            mUrls = new ArrayList<>();
+        } else {
+            mUrls = urls;
+        }
     }
 
     public void setBeforeView(View view) {
