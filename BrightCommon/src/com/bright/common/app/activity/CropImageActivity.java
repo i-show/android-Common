@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.bright.common.activity;
+package com.bright.common.app.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -24,10 +24,10 @@ import android.media.ExifInterface;
 import android.os.Bundle;
 import android.view.View;
 
-import com.bright.common.BaseActivity;
+import com.bright.common.app.BaseActivity;
 import com.bright.common.R;
 import com.bright.common.utils.ImageUtils;
-import com.bright.common.utils.photo.SelectPhotoUtils;
+import com.bright.common.utils.photo.select.SingleSelectPhotoUtils;
 import com.bright.common.widget.CropImageView;
 import com.bright.common.widget.TopBar;
 import com.bright.common.widget.loading.LoadingDialog;
@@ -127,7 +127,7 @@ public class CropImageActivity extends BaseActivity {
         String cachePath = ImageUtils.compressBitmapAndSave(this, bitmap, 300);
         Intent intent = new Intent();
         intent.putExtra(KEY_RESULT_PATH, cachePath);
-        setResult(SelectPhotoUtils.Request.REQUEST_CROP, intent);
+        setResult(SingleSelectPhotoUtils.Request.REQUEST_CROP, intent);
         dialog.dismiss();
         finish();
     }

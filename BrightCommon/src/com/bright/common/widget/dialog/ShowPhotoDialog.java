@@ -37,7 +37,6 @@ import java.util.List;
  * 查看大图的Dialog
  */
 public class ShowPhotoDialog extends Dialog {
-    private ShowPhotoAdapter mAdapter;
     private List<String> mUrls;
     private View mBeforeView;
     private int mCurrentPosition;
@@ -51,16 +50,16 @@ public class ShowPhotoDialog extends Dialog {
         super.onCreate(savedInstanceState);
         resetStatusBar();
         setContentView(R.layout.widget_show_photo);
-        mAdapter = new ShowPhotoAdapter(getContext());
-        mAdapter.setBeforView(mBeforeView);
-        mAdapter.setData(mUrls);
-        mAdapter.setDialog(this);
+        ShowPhotoAdapter adapter = new ShowPhotoAdapter(getContext());
+        adapter.setBeforView(mBeforeView);
+        adapter.setData(mUrls);
+        adapter.setDialog(this);
 
         ViewPager pager = (ViewPager) findViewById(R.id.content);
-        pager.setAdapter(mAdapter);
+        pager.setAdapter(adapter);
         pager.setCurrentItem(mCurrentPosition);
 
-        SizeIndicator indicator = (SizeIndicator) findViewById(R.id.indicator);
+        SizeIndicator indicator = (SizeIndicator) findViewById(R.id.state);
         indicator.setViewPager(pager);
 
         // 只有一张图片的时候不需要显示指示器

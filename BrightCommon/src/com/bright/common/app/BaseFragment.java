@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.bright.common;
+package com.bright.common.app;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -31,6 +31,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bright.common.R;
 import com.bright.common.widget.TopBar;
 import com.bright.common.widget.YToast;
 import com.bright.common.widget.dialog.BaseDialog;

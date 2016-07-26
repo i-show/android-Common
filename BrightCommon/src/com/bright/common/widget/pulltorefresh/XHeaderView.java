@@ -116,7 +116,7 @@ public class XHeaderView extends LinearLayout {
         switch (newState) {
             case STATE_NORMAL:
                 mHintTextView.setText(R.string.pulltorefresh_header_normal);
-                mArrowImageView.setImageResource(R.drawable.arrow_down);
+                mArrowImageView.setImageResource(R.drawable.ic_arrow_down);
                 mArrowImageView.setVisibility(View.VISIBLE);
                 mProgressBar.setVisibility(View.INVISIBLE);
                 if (mState == STATE_READY) {
@@ -135,7 +135,7 @@ public class XHeaderView extends LinearLayout {
                     mArrowImageView.startAnimation(mRotateUpAnim);
                     mHintTextView.setText(R.string.pulltorefresh_header_ready);
                 }
-                mArrowImageView.setImageResource(R.drawable.arrow_down);
+                mArrowImageView.setImageResource(R.drawable.ic_arrow_down);
                 mArrowImageView.setVisibility(View.VISIBLE);
                 mProgressBar.setVisibility(View.INVISIBLE);
                 break;

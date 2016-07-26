@@ -66,7 +66,6 @@
     <color name="grey_alpha_0_7">#90000000</color>
 
     <!--默认的字体颜色和hint颜色-->
-
     <color name="text_grey_normal">@color/grey_deep_8</color>
     <color name="text_grey_pressed">@color/grey_deep_5</color>
 

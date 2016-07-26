@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.bright.common;
+package com.bright.common.app;
 
 import android.os.Build;
 import android.os.Bundle;

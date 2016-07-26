@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  Copyright (C) 2016 yuhaiyang android source project
+  Copyright (C) 2016 The yuhaiyang Android Source Project
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -16,20 +16,29 @@
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <com.bright.common.widget.ViewPagerFix
-        android:id="@+id/content"
+    <ImageView
+        android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:overScrollMode="never" />
+        android:scaleType="center"
+        android:src="@drawable/no_picture" />
 
-    <com.bright.common.widget.indicator.SizeIndicator
-        android:id="@+id/state"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="50dp"
-        android:background="@drawable/grey_alpha_0_7_corner_normal" />
+    <View
+        android:id="@+id/mask"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/grey_alpha_0_7"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/checkmark"
+        android:layout_width="@dimen/dp_18"
+        android:layout_height="@dimen/dp_18"
+        android:layout_gravity="top|right"
+        android:layout_marginRight="@dimen/dp_3"
+        android:layout_marginTop="@dimen/dp_3"
+        android:src="@drawable/ic_multi_unselected" />
+
 </FrameLayout>

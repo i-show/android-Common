@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- * <p>
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
+ * <p/>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,37 +14,27 @@
  * limitations under the License.
  */
 
-package com.bright.common.utils.photo;
+package com.bright.common.utils.photo.select;
 
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.bright.common.R;
-import com.bright.common.activity.CropImageActivity;
-import com.bright.common.constant.Shift;
+import com.bright.common.app.activity.CropImageActivity;
 import com.bright.common.utils.ImageUtils;
-import com.bright.common.utils.PackagesUtils;
-import com.bright.common.utils.StringUtils;
-import com.bright.common.widget.YToast;
-import com.bright.common.widget.dialog.BaseDialog;
+import com.bright.common.utils.photo.CompressImageUtils;
 import com.bright.common.widget.loading.LoadingDialog;
-
-import java.io.File;
-import java.util.UUID;
 
 /**
  * 上传图片以及添加图片的封装类
  */
-public class SelectPhotoUtils implements DialogInterface.OnClickListener {
-    private static final String TAG = "SelectPhotoUtils";
+public class SingleSelectPhotoUtils extends SelectPhotoUtils implements DialogInterface.OnClickListener {
+    private static final String TAG = "SingleSelectPhotoUtils";
     /**
      * 图片是压缩模式
      */
@@ -54,22 +44,9 @@ public class SelectPhotoUtils implements DialogInterface.OnClickListener {
      */
     public static final int MODE_CROP = 1;
 
-    /**
-     * 通过拍照 来选择
-     */
-    private static final int SELECT_PHOTO_CAMERA = 0;
-    /**
-     * 通过画廊来选择
-     */
-    private static final int SELECT_PHOTO_GALLERY = 1;
     private int mMode;
     private int mScaleX;
     private int mScaleY;
-
-    private Uri mCameraFileUri = Uri.EMPTY;
-
-    private LoadingDialog mLoadingDialog;
-    private Activity mContext;
 
     private CallBack mCallBack;
 
@@ -84,27 +61,32 @@ public class SelectPhotoUtils implements DialogInterface.OnClickListener {
         }
     };
 
-    public SelectPhotoUtils(Activity context) {
-        mContext = context;
+    public SingleSelectPhotoUtils(Activity context) {
+        super(context);
     }
 
+    /**
+     * 选择图片模式 压缩或者剪切
+     *
+     * @param mode MODE_COMPRESS or MODE_CROP
+     */
     public void select(int mode) {
-        select(mode, 1, 1);
+        if (mMode == MODE_CROP) {
+            select(1, 1);
+        } else {
+            mMode = MODE_COMPRESS;
+        }
     }
 
-
-    public void select(int mode, int x, int y) {
-        mMode = mode;
+    /**
+     * 选择图片模式为剪切模式
+     */
+    public void select(int x, int y) {
+        mMode = MODE_CROP;
         mScaleX = x;
         mScaleY = y;
 
-        BaseDialog.Builder builder = new BaseDialog.Builder(mContext, R.style.Dialog_Bottom_IOS);
-        builder.setTitle(R.string.select_photo_title)
-                .setItems(R.array.select_photos, this)
-                .setNegativeButton(android.R.string.cancel, null)
-                .isShowFromBottom(true)
-                .create()
-                .show();
+        showSelectDialog();
     }
 
     @Override
@@ -129,14 +111,10 @@ public class SelectPhotoUtils implements DialogInterface.OnClickListener {
     /**
      * 用来接管activity的result
      */
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        super.onActivityResult(requestCode, resultCode, data);
         String picPath;
-        if (resultCode == Activity.RESULT_CANCELED) {
-            YToast.makeText(mContext, R.string.cancle_photo, Toast.LENGTH_SHORT).show();
-            return;
-        }
-
         switch (requestCode) {
             case Request.REQUEST_CAMERA:
                 switch (mMode) {
@@ -152,7 +130,7 @@ public class SelectPhotoUtils implements DialogInterface.OnClickListener {
                 break;
             case Request.REQUEST_PICK:
                 picPath = ImageUtils.getPicturePathFromIntent(data, mContext);
-                Log.d("bitmapImage", "picPath = " + picPath);
+                Log.d(TAG, "picPath = " + picPath);
                 switch (mMode) {
                     case MODE_COMPRESS:
                         mLoadingDialog = LoadingDialog.show(mContext);
@@ -185,33 +163,6 @@ public class SelectPhotoUtils implements DialogInterface.OnClickListener {
         mContext.startActivityForResult(intent, Request.REQUEST_CROP);
     }
 
-    /**
-     * 生成Url
-     */
-    private Uri generateUri() {
-        File cacheFolder = mContext.getExternalCacheDir();
-
-        if (null == cacheFolder) {
-            File target = Environment.getExternalStorageDirectory();
-            cacheFolder = new File(target + File.separator + PackagesUtils.getAppName(mContext));
-        }
-
-        Log.d(TAG, "cacheFolder path = " + cacheFolder.getAbsolutePath());
-        if (!cacheFolder.exists()) {
-            try {
-                boolean result = cacheFolder.mkdir();
-                Log.d(TAG, " result: " + (result ? "succeeded" : "failed"));
-            } catch (Exception e) {
-                Log.e(TAG, "generateUri failed: " + e.toString());
-            }
-        }
-        String name = StringUtils.plusString(UUID.randomUUID().toString().toUpperCase(), ".jpg");
-        return Uri
-                .fromFile(cacheFolder)
-                .buildUpon()
-                .appendPath(name)
-                .build();
-    }
 
     /**
      * 设置回调
@@ -244,12 +195,5 @@ public class SelectPhotoUtils implements DialogInterface.OnClickListener {
         }
     }
 
-    /**
-     * 公共类方便调用 request
-     */
-    public class Request {
-        public static final int REQUEST_CAMERA = 1 << Shift.UTILS;
-        public static final int REQUEST_PICK = REQUEST_CAMERA + 1;
-        public static final int REQUEST_CROP = REQUEST_CAMERA + 2;
-    }
+
 }

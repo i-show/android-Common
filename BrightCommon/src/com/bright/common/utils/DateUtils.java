@@ -20,6 +20,7 @@ import android.content.Context;
 
 import com.bright.common.R;
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -261,5 +262,17 @@ public class DateUtils {
         } else {
             return format(time, targetModel);
         }
+    }
+
+    /**
+     * 获取文件最后修改时间
+     */
+    public static String getLastModifiedTime(String filePath) {
+        File file = new File(filePath);
+        if (file.exists()) {
+            long time = file.lastModified();
+            return format(time, FORMAT_YMD);
+        }
+        return "1970-01-01";
     }
 }

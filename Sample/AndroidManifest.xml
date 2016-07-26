@@ -20,6 +20,13 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.bright.common.app.activity.MultiImageSelectorActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.bright.common.app.activity.CropImageActivity"
+            android:screenOrientation="portrait" />
 
         <!-- ++++++++++++++++++++配置区域+++++++++++++++++-->
         <!--百度统计的id-->

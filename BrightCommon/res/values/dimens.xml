@@ -38,7 +38,13 @@
     <dimen name="gap_grade_7">@dimen/dp_25</dimen>
     <dimen name="gap_grade_8">@dimen/dp_30</dimen>
 
+    <!--头像大小-->
     <dimen name="small_header">@dimen/dp_40</dimen>
     <dimen name="middle_header">@dimen/dp_55</dimen>
     <dimen name="large_header">@dimen/dp_80</dimen>
+
+    <!--图片多选-->
+    <dimen name="image_size">@dimen/dp_80</dimen>
+    <dimen name="space_size">@dimen/dp_2</dimen>
+    <dimen name="folder_cover_size">@dimen/dp_70</dimen>
 </resources>
