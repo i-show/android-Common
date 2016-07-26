@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.bright.common.R;
 import com.bright.common.app.activity.MultiImageSelectorActivity;
+import com.bright.common.model.MultiSelectorImage;
 import com.bright.common.utils.photo.CompressImageUtils;
 import com.bright.common.widget.YToast;
 import com.bright.common.widget.loading.LoadingDialog;
@@ -93,7 +94,7 @@ public class MultipleSelectPhotoUtils extends SelectPhotoUtils {
                 break;
             case SELECT_PHOTO_GALLERY:
                 intent = new Intent(mContext, MultiImageSelectorActivity.class);
-                intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT, mCount);
+                intent.putExtra(MultiSelectorImage.Key.EXTRA_SELECT_COUNT, mCount);
                 mContext.startActivityForResult(intent, Request.REQUEST_PICK);
                 break;
         }
@@ -120,7 +121,7 @@ public class MultipleSelectPhotoUtils extends SelectPhotoUtils {
                 mExecutorService.shutdown();
                 break;
             case Request.REQUEST_PICK:
-                List<String> photots = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
+                List<String> photots = data.getStringArrayListExtra(MultiSelectorImage.Key.EXTRA_RESULT);
                 mLoadingDialog = LoadingDialog.show(mContext);
                 mPhotos.clear();
                 // 把没有压缩前添加进入当占位符

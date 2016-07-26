@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- * <p>
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
+ * <p/>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -130,7 +130,6 @@ public class MultiImageSelectorFragment extends BaseFragment implements View.OnC
             }
         }
 
-
     }
 
     @Override
@@ -149,12 +148,14 @@ public class MultiImageSelectorFragment extends BaseFragment implements View.OnC
         mCategoryText.setOnClickListener(this);
 
         mImageAdapter = new MultiSelectorImageAdapter(getActivity(), mIsShowCamera);
-        mImageAdapter.showSelectIndicator(mMode == MultiSelectorImage.Key.MODE_MULTI);
+        mImageAdapter.setMultiSelector(mMode == MultiSelectorImage.Key.MODE_MULTI);
+        mImageAdapter.setMaxSelectedCount(mDesireImageCount);
+        mImageAdapter.setCallBack(mImageAdapterCallBack);
 
         mGridView = (GridView) root.findViewById(R.id.grid);
         mGridView.setOnScrollListener(mScrollListener);
-        mGridView.setOnItemClickListener(this);
         mGridView.setAdapter(mImageAdapter);
+        compute();
 
         mFolderAdapter = new MultiSelectorFolderAdapter(getActivity());
         return root;
@@ -181,20 +182,7 @@ public class MultiImageSelectorFragment extends BaseFragment implements View.OnC
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (mImageAdapter.isShowCamera()) {
-            // 如果显示照相机，则第一个Grid显示为照相机，处理特殊逻辑
-            if (position == 0) {
-                showCameraAction();
-            } else {
-                // 正常操作
-                MultiSelectorImage image = mImageAdapter.getItem(position);
-                selectImageFromGrid(image, mMode);
-            }
-        } else {
-            // 正常操作
-            MultiSelectorImage image = mImageAdapter.getItem(position);
-            selectImageFromGrid(image, mMode);
-        }
+
     }
 
 
@@ -233,14 +221,12 @@ public class MultiImageSelectorFragment extends BaseFragment implements View.OnC
                                 mImageAdapter.setShowCamera(false);
                             }
                         } else {
-                            MultiSelectorFolder folder = (MultiSelectorFolder) v.getAdapter().getItem(index);
-                            if (null != folder) {
-                                mImageAdapter.setData(folder.images);
-                                mCategoryText.setText(folder.name);
-                                // 设定默认选择
-                                if (mResultList != null && mResultList.size() > 0) {
-                                    mImageAdapter.setDefaultSelected(mResultList);
-                                }
+                            MultiSelectorFolder folder = mFolderAdapter.getRealItem(index);
+                            mImageAdapter.setData(folder.images);
+                            mCategoryText.setText(folder.name);
+                            // 设定默认选择
+                            if (mResultList != null && mResultList.size() > 0) {
+                                mImageAdapter.setDefaultSelected(mResultList);
                             }
                             mImageAdapter.setShowCamera(false);
                         }
@@ -296,7 +282,7 @@ public class MultiImageSelectorFragment extends BaseFragment implements View.OnC
     /**
      * 选择相机
      */
-    private void showCameraAction() {
+    private void goToCamera() {
         // 跳转到系统照相机
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (cameraIntent.resolveActivity(getActivity().getPackageManager()) != null) {
@@ -313,37 +299,49 @@ public class MultiImageSelectorFragment extends BaseFragment implements View.OnC
     /**
      * 选择图片操作
      */
-    private void selectImageFromGrid(MultiSelectorImage image, int mode) {
-        if (image != null) {
-            // 多选模式
-            if (mode == MultiSelectorImage.Key.MODE_MULTI) {
-                if (mResultList.contains(image.path)) {
-                    mResultList.remove(image.path);
+    private void selectImageFromGrid(MultiSelectorImage entry) {
+        if (entry == null) {
+            Log.i(TAG, "selectImageFromGrid: entry is null");
+            return;
+        }
 
-                    if (mCallback != null) {
-                        mCallback.onImageUnselected(image.path);
-                    }
-                } else {
-                    // 判断选择数量问题
-                    if (mDesireImageCount == mResultList.size()) {
-                        Toast.makeText(getActivity(), R.string.msg_amount_limit, Toast.LENGTH_SHORT).show();
-                        return;
-                    }
 
-                    mResultList.add(image.path);
-                    if (mCallback != null) {
-                        mCallback.onImageSelected(image.path);
-                    }
-                }
-                mImageAdapter.select(image);
-            } else if (mode == MultiSelectorImage.Key.MODE_SINGLE) {
-                // 单选模式
+        // 多选模式
+        if (mMode == MultiSelectorImage.Key.MODE_MULTI) {
+            if (mResultList.contains(entry.path)) {
+                mResultList.remove(entry.path);
+
                 if (mCallback != null) {
-                    mCallback.onSingleImageSelected(image.path);
+                    mCallback.onImageUnselected(entry.path);
                 }
+            } else {
+
+                mResultList.add(entry.path);
+                if (mCallback != null) {
+                    mCallback.onImageSelected(entry.path);
+                }
+            }
+        } else if (mMode == MultiSelectorImage.Key.MODE_SINGLE) {
+            // 单选模式
+            if (mCallback != null) {
+                mCallback.onSingleImageSelected(entry.path);
             }
         }
     }
+
+    private MultiSelectorImageAdapter.CallBack mImageAdapterCallBack = new MultiSelectorImageAdapter.CallBack() {
+        @Override
+        public void onClickCamera() {
+            goToCamera();
+        }
+
+        @Override
+        public void onSelectImage(MultiSelectorImage entry) {
+            // 正常操作
+            selectImageFromGrid(entry);
+        }
+    };
+
 
     private LoaderManager.LoaderCallbacks<Cursor> mLoaderCallback = new LoaderManager.LoaderCallbacks<Cursor>() {
 
@@ -375,8 +373,8 @@ public class MultiImageSelectorFragment extends BaseFragment implements View.OnC
 
         @Override
         public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-            if (cursor == null) {
-                Log.i(TAG, "onLoadFinished:  data is null");
+            if (cursor == null || cursor.isClosed()) {
+                Log.i(TAG, "onLoadFinished:  data is null or have alread closed");
                 return;
             }
             List<MultiSelectorImage> images = new ArrayList<>();
@@ -408,6 +406,7 @@ public class MultiImageSelectorFragment extends BaseFragment implements View.OnC
                     }
                 }
             }
+            cursor.close();
 
             mImageAdapter.setData(images);
 
@@ -418,6 +417,7 @@ public class MultiImageSelectorFragment extends BaseFragment implements View.OnC
 
             mFolderAdapter.setData(folders);
             hasFolderGened = true;
+
         }
 
         @Override
@@ -440,8 +440,8 @@ public class MultiImageSelectorFragment extends BaseFragment implements View.OnC
                 mGridHeight = height;
 
                 final int desireSize = getResources().getDimensionPixelOffset(R.dimen.image_size);
-                final int numCount = width / desireSize;
                 final int columnSpace = getResources().getDimensionPixelOffset(R.dimen.space_size);
+                final int numCount = width / desireSize;
                 int columnWidth = (width - columnSpace * (numCount - 1)) / numCount;
                 mImageAdapter.setItemSize(columnWidth);
 

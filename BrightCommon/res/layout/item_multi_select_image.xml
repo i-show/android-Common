@@ -34,11 +34,11 @@
 
     <ImageView
         android:id="@+id/checkmark"
-        android:layout_width="@dimen/dp_18"
-        android:layout_height="@dimen/dp_18"
-        android:layout_gravity="top|right"
-        android:layout_marginRight="@dimen/dp_3"
-        android:layout_marginTop="@dimen/dp_3"
-        android:src="@drawable/ic_multi_unselected" />
+        android:layout_width="@dimen/dp_28"
+        android:layout_height="@dimen/dp_28"
+        android:layout_gravity="top|end"
+        android:padding="@dimen/dp_3"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_multi_select" />
 
 </FrameLayout>
