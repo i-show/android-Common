@@ -21,6 +21,7 @@
         android:id="@+id/timeline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:alpha="0"
         android:background="@color/grey_alpha_0_8_5"
         android:padding="@dimen/gap_grade_2"
         android:textColor="@color/text_white_normal"

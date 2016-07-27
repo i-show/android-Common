@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- *
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,7 +20,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ListView;
 
-import com.bright.common.utils.Utils;
+import com.bright.common.utils.ScreenUtils;
 
 
 public class RecycleListView extends ListView {
@@ -43,11 +43,11 @@ public class RecycleListView extends ListView {
     }
 
     public void init() {
-        int screen[] = Utils.getScreenSize(getContext());
+        int screen[] = ScreenUtils.getScreenSize(getContext());
         if (screen[0] > screen[1]) {
             mMaxHeight = screen[1] / 2;
         } else {
-            mMaxHeight = screen[1] * 3 / 7;
+            mMaxHeight = screen[1] * 4 / 7;
         }
     }
 

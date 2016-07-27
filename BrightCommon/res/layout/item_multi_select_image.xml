@@ -22,8 +22,8 @@
         android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="center"
-        android:src="@drawable/no_picture" />
+        android:background="@color/grey_deep_3"
+        android:scaleType="center" />
 
     <View
         android:id="@+id/mask"
@@ -33,7 +33,7 @@
         android:visibility="gone" />
 
     <ImageView
-        android:id="@+id/checkmark"
+        android:id="@+id/state"
         android:layout_width="@dimen/dp_28"
         android:layout_height="@dimen/dp_28"
         android:layout_gravity="top|end"

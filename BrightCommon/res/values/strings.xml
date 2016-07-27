@@ -46,9 +46,7 @@
     <string name="net_server_error">服务器连接超时，请检查网络后再试！</string>
     <string name="net_server_path_error">访问服务器失败,请重试！</string>
 
-
-    <string name="folder_all">所有照片</string>
-    <string name="preview">预览</string>
-    <string name="msg_no_camera">没有系统相机</string>
-    <string name="msg_amount_limit">已经达到最高选择数量</string>
+    <string name="all_photos">所有照片</string>
+    <string name="no_system_camera">没有系统相机</string>
+    <string name="already_select_max">已经达到最高选择数量</string>
 </resources>

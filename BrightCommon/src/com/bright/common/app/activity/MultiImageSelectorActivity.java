@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- * <p>
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
+ * <p/>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,8 +17,12 @@
 package com.bright.common.app.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.graphics.drawable.DrawerArrowDrawable;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bright.common.R;
@@ -34,7 +38,7 @@ import java.util.ArrayList;
  * 多图选择
  */
 public class MultiImageSelectorActivity extends BaseActivity implements View.OnClickListener, MultiImageSelectorFragment.Callback {
-
+    private static final String TAG = "MultiImageActivity";
     private ArrayList<String> mResultList = new ArrayList<>();
     private int mDefaultCount;
 
@@ -72,7 +76,11 @@ public class MultiImageSelectorActivity extends BaseActivity implements View.OnC
     protected void initViews() {
         super.initViews();
         // 返回
-        View back = findViewById(R.id.back);
+        ImageView back = (ImageView) findViewById(R.id.back);
+        DrawerArrowDrawable icon = new DrawerArrowDrawable(this);
+        icon.setColor(Color.WHITE);
+        icon.setProgress(1);
+        back.setImageDrawable(icon);
         back.setOnClickListener(this);
 
         // 完成按钮
@@ -110,30 +118,27 @@ public class MultiImageSelectorActivity extends BaseActivity implements View.OnC
     }
 
     @Override
-    public void onImageSelected(String path) {
-        if (!mResultList.contains(path)) {
+    public void onImageSelectedStateChanged(String path, boolean selected) {
+        if (selected) {
             mResultList.add(path);
-        }
-        updateComplete();
-    }
-
-    @Override
-    public void onImageUnselected(String path) {
-        if (mResultList.contains(path)) {
+        } else {
             mResultList.remove(path);
         }
         updateComplete();
     }
 
+
     @Override
-    public void onCameraShot(File imageFile) {
-        if (imageFile != null) {
-            Intent data = new Intent();
-            mResultList.add(imageFile.getAbsolutePath());
-            data.putStringArrayListExtra(MultiSelectorImage.Key.EXTRA_RESULT, mResultList);
-            setResult(RESULT_OK, data);
-            finish();
+    public void onCameraShot(File file) {
+        if (file == null) {
+            Log.i(TAG, "onCameraShot: file is null");
+            return;
         }
+        Intent data = new Intent();
+        mResultList.add(file.getAbsolutePath());
+        data.putStringArrayListExtra(MultiSelectorImage.Key.EXTRA_RESULT, mResultList);
+        setResult(RESULT_OK, data);
+        finish();
     }
 
     /**

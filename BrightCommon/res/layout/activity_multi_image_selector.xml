@@ -31,8 +31,7 @@
             android:background="?android:selectableItemBackground"
             android:contentDescription="@string/back"
             android:minWidth="?android:attr/actionBarSize"
-            android:scaleType="center"
-            android:src="@drawable/ic_common_white_back" />
+            android:scaleType="center" />
 
         <TextView
             android:id="@+id/complete"
