@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- * <p/>
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p/>
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.bright.common.R;
 import com.bright.common.model.MultiSelectorImage;
 import com.bright.common.widget.YToast;
+import com.bright.common.widget.dialog.ShowPhotoDialog;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -79,44 +80,16 @@ public class MultiSelectorImageAdapter extends ListAdapter<MultiSelectorImage, M
         isShowCamera = show;
     }
 
-    public boolean isShowCamera() {
-        return isShowCamera;
-    }
 
     /**
-     * 选择某个图片，改变选择状态
+     * 设定已经选择了的照片
      */
-    public void select(MultiSelectorImage image) {
-        if (mSelectedImages.contains(image)) {
-            mSelectedImages.remove(image);
+    public void setSelectedImages(List<MultiSelectorImage> selectedImages) {
+        if (selectedImages == null) {
+            mSelectedImages = new ArrayList<>();
         } else {
-            mSelectedImages.add(image);
+            mSelectedImages = selectedImages;
         }
-        notifyDataSetChanged();
-    }
-
-    /**
-     * 通过图片路径设置默认选择
-     */
-    public void setDefaultSelected(ArrayList<String> resultList) {
-        for (String path : resultList) {
-            MultiSelectorImage image = getImageByPath(path);
-            if (image != null) {
-                mSelectedImages.add(image);
-            }
-        }
-        if (mSelectedImages.size() > 0) {
-            notifyDataSetChanged();
-        }
-    }
-
-    private MultiSelectorImage getImageByPath(String path) {
-        for (MultiSelectorImage image : getData()) {
-            if (image.path.equalsIgnoreCase(path)) {
-                return image;
-            }
-        }
-        return null;
     }
 
     /**
@@ -169,9 +142,11 @@ public class MultiSelectorImageAdapter extends ListAdapter<MultiSelectorImage, M
     @Override
     public void onBindViewHolder(ViewHolde holder, int position, int type) {
         MultiSelectorImage entry = getRealItem(position);
-        holder.indicator.setVisibility(isMultiSelector ? View.VISIBLE : View.GONE);
-        holder.indicator.setSelected(entry.isSelected);
+        holder.state.setVisibility(isMultiSelector ? View.VISIBLE : View.GONE);
+        holder.state.setSelected(entry.isSelected);
         holder.mask.setVisibility(entry.isSelected ? View.VISIBLE : View.GONE);
+
+        holder.state.setTag(R.id.tag_01, entry);
 
         holder.getItemView().setTag(R.id.tag_01, entry);
         holder.getItemView().setTag(R.id.tag_02, position);
@@ -179,7 +154,6 @@ public class MultiSelectorImageAdapter extends ListAdapter<MultiSelectorImage, M
         // 显示图片
         Glide.with(mContext)
                 .load(entry.path)
-                .placeholder(R.drawable.no_picture)
                 .crossFade()
                 .centerCrop()
                 .into(holder.image);
@@ -187,7 +161,7 @@ public class MultiSelectorImageAdapter extends ListAdapter<MultiSelectorImage, M
 
     public class ViewHolde extends ListAdapter.Holder implements View.OnClickListener {
         ImageView image;
-        ImageView indicator;
+        ImageView state;
         View mask;
 
         public ViewHolde(View item, int type) {
@@ -196,24 +170,26 @@ public class MultiSelectorImageAdapter extends ListAdapter<MultiSelectorImage, M
             item.setOnClickListener(this);
 
             image = (ImageView) item.findViewById(R.id.image);
-            indicator = (ImageView) item.findViewById(R.id.checkmark);
+            state = (ImageView) item.findViewById(R.id.state);
+            state.setOnClickListener(this);
             mask = item.findViewById(R.id.mask);
         }
 
         @Override
         public void onClick(View v) {
-            int position = (int) v.getTag(R.id.tag_02);
-            if (getItemViewType(position) == TYPE_HEADER) {
-                Log.i(TAG, "onClick: is header todo go camera ");
-                if (mCallBack != null) {
-                    mCallBack.onClickCamera();
-                }
-                return;
+            final int id = v.getId();
+            if (id == R.id.state) {
+                selectImage(v);
+            } else {
+                onItemClick(v);
             }
+        }
+
+        private void selectImage(View v) {
 
             MultiSelectorImage entry = (MultiSelectorImage) v.getTag(R.id.tag_01);
             if (!entry.isSelected && mMaxSelectedCount <= mSelectedImages.size()) {
-                YToast.makeText(mContext, R.string.msg_amount_limit, Toast.LENGTH_SHORT).show();
+                YToast.makeText(mContext, R.string.already_select_max, Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -226,20 +202,42 @@ public class MultiSelectorImageAdapter extends ListAdapter<MultiSelectorImage, M
             }
 
             if (mCallBack != null) {
-                mCallBack.onSelectImage(entry);
+                mCallBack.onSelectImage(entry, entry.isSelected);
             }
 
-            indicator.setVisibility(isMultiSelector ? View.VISIBLE : View.GONE);
-            indicator.setSelected(entry.isSelected);
+            state.setVisibility(isMultiSelector ? View.VISIBLE : View.GONE);
+            state.setSelected(entry.isSelected);
             mask.setVisibility(entry.isSelected ? View.VISIBLE : View.GONE);
         }
 
+        private void onItemClick(View v) {
+            int position = (int) v.getTag(R.id.tag_02);
+            if (getItemViewType(position) == TYPE_HEADER) {
+                Log.i(TAG, "onClick: is header todo go camera ");
+                if (mCallBack != null) {
+                    mCallBack.onClickCamera();
+                }
+                return;
+            }
+
+            MultiSelectorImage entry = (MultiSelectorImage) v.getTag(R.id.tag_01);
+            ShowPhotoDialog dialog = new ShowPhotoDialog(mContext);
+            dialog.setData(entry.path);
+            dialog.setShowThumb(false);
+            dialog.show();
+        }
     }
 
     public interface CallBack {
+        /**
+         * 点击Camera
+         */
         void onClickCamera();
 
-        void onSelectImage(MultiSelectorImage entry);
+        /**
+         * 点击图片
+         */
+        void onSelectImage(MultiSelectorImage entry, boolean selected);
     }
 
 }

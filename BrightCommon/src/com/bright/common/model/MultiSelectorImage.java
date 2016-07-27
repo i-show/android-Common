@@ -20,17 +20,35 @@ package com.bright.common.model;
  * 图片实体
  */
 public class MultiSelectorImage {
+    /**
+     * 图片的绝对路径
+     */
     public String path;
+    /**
+     * 图片的名称
+     */
     public String name;
-    public long time;
+    /**
+     * 包含本图片的名字
+     */
+    public String folderName;
+    /**
+     * 创建时间
+     */
+    public long createDate;
+    /**
+     * 修改时间
+     */
+    public long modifyDate;
 
     public boolean isSelected;
 
 
-    public MultiSelectorImage(String path, String name, long time) {
+    public MultiSelectorImage(String path, String name, long modifyDate, String folderName) {
         this.path = path;
         this.name = name;
-        this.time = time;
+        this.modifyDate = modifyDate;
+        this.folderName = folderName;
     }
 
     @Override

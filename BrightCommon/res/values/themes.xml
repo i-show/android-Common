@@ -98,7 +98,7 @@
     </style>
 
     <!-- 透明Dialog -->
-    <style name="Dialog.ShowPhoto">
+    <style name="Dialog.Black">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/black</item>

@@ -43,7 +43,7 @@ public class MainActivity extends BaseActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSelectPhotoUtils.select(3);
+                mSelectPhotoUtils.select(6);
             }
         });
     }

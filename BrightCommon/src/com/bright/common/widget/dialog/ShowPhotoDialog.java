@@ -21,6 +21,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -40,9 +41,10 @@ public class ShowPhotoDialog extends Dialog {
     private List<String> mUrls;
     private View mBeforeView;
     private int mCurrentPosition;
+    private boolean isShowThumb;
 
     public ShowPhotoDialog(Context context) {
-        super(context, R.style.Dialog_ShowPhoto);
+        super(context, R.style.Dialog_Black);
     }
 
     @Override
@@ -54,6 +56,7 @@ public class ShowPhotoDialog extends Dialog {
         adapter.setBeforView(mBeforeView);
         adapter.setData(mUrls);
         adapter.setDialog(this);
+        adapter.setShowThumb(isShowThumb);
 
         ViewPager pager = (ViewPager) findViewById(R.id.content);
         pager.setAdapter(adapter);
@@ -75,24 +78,34 @@ public class ShowPhotoDialog extends Dialog {
         } else {
             mUrls.clear();
         }
-        mUrls.add(url);
+        if (!TextUtils.isEmpty(url)) {
+            mUrls.add(url);
+        }
     }
 
     public void setData(List<String> urls) {
-        if (mUrls == null) {
+        if (urls == null) {
             mUrls = new ArrayList<>();
         } else {
             mUrls = urls;
         }
     }
 
+    /**
+     * 如果不需要 显示缩略图就不要设置
+     */
     public void setBeforeView(View view) {
         mBeforeView = view;
+    }
+
+    public void setShowThumb(boolean showThumb) {
+        isShowThumb = showThumb;
     }
 
     public void setCurrentPosition(int position) {
         mCurrentPosition = position;
     }
+
 
     @Override
     public void show() {

@@ -30,27 +30,15 @@ import com.bumptech.glide.Glide;
  * 文件夹Adapter
  */
 public class MultiSelectorFolderAdapter extends ListAdapter<MultiSelectorFolder, MultiSelectorFolderAdapter.ViewHolder> {
-
-
-    int mSelectedItem = 0;
+    /**
+     * 当前选中了第几个
+     */
+    private int mSelectedItem = 0;
 
     public MultiSelectorFolderAdapter(Context context) {
         super(context);
     }
 
-    @Override
-    public int getHeaderCount() {
-        return 1;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (position == 0) {
-            return TYPE_HEADER;
-        } else {
-            return TYPE_BODY;
-        }
-    }
 
     @Override
     public ViewHolder onCreateViewHolder(int position, int type) {
@@ -60,30 +48,17 @@ public class MultiSelectorFolderAdapter extends ListAdapter<MultiSelectorFolder,
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position, int type) {
-        if (type == TYPE_HEADER) {
-            holder.name.setText(R.string.folder_all);
-            holder.size.setText(mContext.getString(R.string.link_sheet, getTotalImageSize()));
 
-            MultiSelectorFolder f = getItem(0);
-            Glide.with(mContext)
-                    .load(f.cover.path)
-                    .error(R.drawable.no_picture)
-                    .centerCrop()
-                    .crossFade()
-                    .into(holder.cover);
-        } else {
-            
-            MultiSelectorFolder entry = getRealItem(position);
-            holder.name.setText(entry.name);
-            holder.size.setText(mContext.getString(R.string.link_sheet, entry.images.size()));
-            // 显示图片
-            Glide.with(mContext)
-                    .load(entry.cover.path)
-                    .placeholder(R.drawable.no_picture)
-                    .centerCrop()
-                    .crossFade()
-                    .into(holder.cover);
-        }
+        MultiSelectorFolder entry = getItem(position);
+        holder.name.setText(entry.name);
+        holder.size.setText(mContext.getString(R.string.link_sheet, entry.images.size()));
+        // 显示图片
+        Glide.with(mContext)
+                .load(entry.cover.path)
+                .placeholder(R.drawable.no_picture)
+                .centerCrop()
+                .crossFade()
+                .into(holder.cover);
 
         if (mSelectedItem == position) {
             holder.indicator.setVisibility(View.VISIBLE);
@@ -92,23 +67,12 @@ public class MultiSelectorFolderAdapter extends ListAdapter<MultiSelectorFolder,
         }
     }
 
-    private int getTotalImageSize() {
-        int result = 0;
-        for (MultiSelectorFolder f : getData()) {
-            result += f.images.size();
-        }
-        return result;
-    }
 
     public void setSelectIndex(int i) {
         if (mSelectedItem == i) return;
 
         mSelectedItem = i;
         notifyDataSetChanged();
-    }
-
-    public int getSelectIndex() {
-        return mSelectedItem;
     }
 
     public class ViewHolder extends ListAdapter.Holder {

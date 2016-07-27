@@ -76,8 +76,11 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
      */
     private ShowPhotoDialog mDialog;
 
+    private boolean isShowThumb;
+
     public ShowPhotoAdapter(Context context) {
         mContext = context;
+        isShowThumb = true;
         mUrls = new ArrayList<>();
         mLayoutInflater = LayoutInflater.from(context);
         mThumbLayoutParams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
@@ -98,6 +101,10 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
             mUrls = url;
         }
         notifyDataSetChanged();
+    }
+
+    public void setShowThumb(boolean showThumb) {
+        isShowThumb = showThumb;
     }
 
     public void setBeforView(View image) {
@@ -133,6 +140,7 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
+        final String url = mUrls.get(position);
         View root = mLayoutInflater.inflate(R.layout.item_show_photo, null);
         final PhotoView imageHD = (PhotoView) root.findViewById(R.id.image);
         imageHD.setOnViewTapListener(this);
@@ -146,15 +154,17 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
             imageThumb.setScaleType(image.getScaleType());
         }
 
-
         final ProgressBar progress = (ProgressBar) root.findViewById(R.id.progress);
         progress.setLayoutParams(mProgressParams);
 
-        final String url = mUrls.get(position);
-
-        Glide.with(mContext)
-                .load(url)
-                .into(imageThumb);
+        if (isShowThumb) {
+            Glide.with(mContext)
+                    .load(url)
+                    .into(imageThumb);
+        } else {
+            progress.setVisibility(View.GONE);
+            imageThumb.setVisibility(View.GONE);
+        }
 
         DrawableTypeRequest<String> request = Glide.with(mContext)
                 .load(url);
