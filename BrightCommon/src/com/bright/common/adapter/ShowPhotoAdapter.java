@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 yuhaiyang android source project
- * <p>
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
+ * <p/>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,7 +20,6 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,11 +75,10 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
      */
     private ShowPhotoDialog mDialog;
 
-    private boolean isShowThumb;
+    private boolean isShowThumb = true;
 
     public ShowPhotoAdapter(Context context) {
         mContext = context;
-        isShowThumb = true;
         mUrls = new ArrayList<>();
         mLayoutInflater = LayoutInflater.from(context);
         mThumbLayoutParams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
@@ -117,11 +115,8 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
             mThumbLayoutParams.width = width;
             mThumbLayoutParams.height = height;
 
-            Log.i(TAG, "setBeforView: width =" + width);
-            Log.i(TAG, "setBeforView: height =" + height);
-
-            width = Math.min(screen[0] / 4, width * 2 / 3);
-            height = Math.min(screen[1] / 4, height * 2 / 3);
+            width = Math.min(screen[0] / 5, width * 4 / 7);
+            height = Math.min(screen[1] / 5, height * 4 / 7);
 
             mProgressParams.width = width;
             mProgressParams.height = height;
@@ -156,8 +151,10 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
 
         final ProgressBar progress = (ProgressBar) root.findViewById(R.id.progress);
         progress.setLayoutParams(mProgressParams);
-
+        
         if (isShowThumb) {
+            progress.setVisibility(View.VISIBLE);
+            imageThumb.setVisibility(View.VISIBLE);
             Glide.with(mContext)
                     .load(url)
                     .into(imageThumb);

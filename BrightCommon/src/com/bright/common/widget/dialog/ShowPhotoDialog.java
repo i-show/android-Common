@@ -41,7 +41,7 @@ public class ShowPhotoDialog extends Dialog {
     private List<String> mUrls;
     private View mBeforeView;
     private int mCurrentPosition;
-    private boolean isShowThumb;
+    private boolean isShowThumb = true;
 
     public ShowPhotoDialog(Context context) {
         super(context, R.style.Dialog_Black);
