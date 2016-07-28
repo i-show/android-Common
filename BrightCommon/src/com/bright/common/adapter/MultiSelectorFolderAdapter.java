@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- * <p/>
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p/>
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,6 +19,7 @@ package com.bright.common.adapter;
 import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.bright.common.R;
@@ -30,10 +31,6 @@ import com.bumptech.glide.Glide;
  * 文件夹Adapter
  */
 public class MultiSelectorFolderAdapter extends ListAdapter<MultiSelectorFolder, MultiSelectorFolderAdapter.ViewHolder> {
-    /**
-     * 当前选中了第几个
-     */
-    private int mSelectedItem = 0;
 
     public MultiSelectorFolderAdapter(Context context) {
         super(context);
@@ -60,33 +57,22 @@ public class MultiSelectorFolderAdapter extends ListAdapter<MultiSelectorFolder,
                 .crossFade()
                 .into(holder.cover);
 
-        if (mSelectedItem == position) {
-            holder.indicator.setVisibility(View.VISIBLE);
-        } else {
-            holder.indicator.setVisibility(View.INVISIBLE);
-        }
+        holder.state.setChecked(entry.isSelected);
     }
 
-
-    public void setSelectIndex(int i) {
-        if (mSelectedItem == i) return;
-
-        mSelectedItem = i;
-        notifyDataSetChanged();
-    }
 
     public class ViewHolder extends ListAdapter.Holder {
         ImageView cover;
         TextView name;
         TextView size;
-        ImageView indicator;
+        RadioButton state;
 
         public ViewHolder(View item, int type) {
             super(item, type);
             cover = (ImageView) item.findViewById(R.id.cover);
             name = (TextView) item.findViewById(R.id.name);
             size = (TextView) item.findViewById(R.id.size);
-            indicator = (ImageView) item.findViewById(R.id.state);
+            state = (RadioButton) item.findViewById(R.id.state);
         }
     }
 

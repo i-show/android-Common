@@ -78,13 +78,13 @@ public class MultiImageSelectorFragment extends BaseFragment implements View.OnC
      */
     private List<MultiSelectorImage> mAlreadySelectedImage = new ArrayList<>();
 
+    private MultiSelectorFolder mSelectedFolder;
+
     // 图片Grid
     private GridView mGridView;
 
     private MultiSelectorImageAdapter mImageAdapter;
     private MultiSelectorFolderAdapter mFolderAdapter;
-
-    private BaseDialog mImageFolderDialog;
 
     // 时间线
     private TextView mTimeLineText;
@@ -171,20 +171,15 @@ public class MultiImageSelectorFragment extends BaseFragment implements View.OnC
      * 弹出选择Image文件夹
      */
     private void showImageFolderDialog() {
-        if (mImageFolderDialog == null) {
-            mImageFolderDialog = new BaseDialog.Builder(getActivity(), R.style.Dialog_Bottom)
-                    .isShowFromBottom(true)
-                    .setAdapter(mFolderAdapter, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, final int which) {
-                            selectImageFloder(which);
-                        }
-                    }).create();
-        }
-
-        if (!mImageFolderDialog.isShowing()) {
-            mImageFolderDialog.show();
-        }
+        BaseDialog dialog = new BaseDialog.Builder(getActivity(), R.style.Dialog_Bottom)
+                .isShowFromBottom(true)
+                .setAdapter(mFolderAdapter, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, final int which) {
+                        selectImageFloder(which);
+                    }
+                }).create();
+        dialog.show();
     }
 
 
@@ -217,24 +212,27 @@ public class MultiImageSelectorFragment extends BaseFragment implements View.OnC
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         Log.d(TAG, "onConfigurationChanged");
-
         super.onConfigurationChanged(newConfig);
-        if (mImageFolderDialog != null && mImageFolderDialog.isShowing()) {
-            mImageFolderDialog.dismiss();
-        }
         computeGridItemSize();
-
     }
 
     private void selectImageFloder(final int position) {
-        mFolderAdapter.setSelectIndex(position);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+
                 MultiSelectorFolder folder = mFolderAdapter.getItem(position);
+                folder.isSelected = true;
+                mFolderAdapter.notifyDataSetChanged();
+
                 mImageAdapter.setData(folder.images);
                 mCategoryText.setText(folder.name);
                 mImageAdapter.setShowCamera(mIsShowCamera && position == 0);
+
+                if (mSelectedFolder != null) {
+                    mSelectedFolder.isSelected = false;
+                }
+                mSelectedFolder = folder;
 
                 // 滑动到最初始位置
                 mGridView.smoothScrollToPosition(0);
@@ -358,6 +356,10 @@ public class MultiImageSelectorFragment extends BaseFragment implements View.OnC
                 Log.i(TAG, "onLoadFinished:  data is null or have alread closed");
                 return;
             }
+
+            // 如果load重新加载那么重新制作当前已经保存的path
+            checkSelectedPath();
+
             List<MultiSelectorImage> images = new ArrayList<>();
             List<MultiSelectorFolder> folders = new ArrayList<>();
             Log.i(TAG, "onLoadFinished: cursor size = " + cursor.getCount());
@@ -399,9 +401,22 @@ public class MultiImageSelectorFragment extends BaseFragment implements View.OnC
             all.name = getString(R.string.all_photos);
             all.cover = images.isEmpty() ? null : images.get(0);
             all.images = images;
+            all.isSelected = true;
             folders.add(0, all);
-            mFolderAdapter.setData(folders);
+            // 这个地方loader 可能会自动刷新 虽然概率很小
+            if (mSelectedFolder == null) {
+                mSelectedFolder = all;
+            } else {
+                all.isSelected = false;
+                for (MultiSelectorFolder folder : folders) {
+                    if (folder.equals(mSelectedFolder)) {
+                        mSelectedFolder = folder;
+                        folder.isSelected = true;
+                    }
+                }
+            }
 
+            mFolderAdapter.setData(folders);
         }
 
         @Override
@@ -410,6 +425,24 @@ public class MultiImageSelectorFragment extends BaseFragment implements View.OnC
         }
     };
 
+
+    /**
+     * 检测是否需要更新路径
+     * 目的：当loader 自动刷新的时候需要重新生成
+     */
+    private void checkSelectedPath() {
+        if (mAlreadySelectedImage == null || mAlreadySelectedImage.isEmpty()) {
+            Log.i(TAG, "checkSelectedPath:  not need to check alread is empty");
+            return;
+        }
+
+        mAlreadySelectedPath.clear();
+        for (MultiSelectorImage image : mAlreadySelectedImage) {
+            mAlreadySelectedPath.add(image.path);
+        }
+
+        mAlreadySelectedImage.clear();
+    }
 
     private void computeGridItemSize() {
         mGridView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {

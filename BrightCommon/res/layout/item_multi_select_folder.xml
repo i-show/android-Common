@@ -18,7 +18,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/white"
+    android:background="?selectableItemBackground"
+    android:descendantFocusability="blocksDescendants"
     android:gravity="center"
     android:orientation="horizontal"
     android:padding="@dimen/dp_10">
@@ -61,12 +62,12 @@
 
     </LinearLayout>
 
-    <ImageView
+    <RadioButton
         android:id="@+id/state"
-        android:layout_width="@dimen/dp_30"
-        android:layout_height="@dimen/dp_30"
+        android:layout_width="@dimen/dp_25"
+        android:layout_height="@dimen/dp_25"
         android:layout_margin="@dimen/gap_grade_3"
-        android:scaleType="center"
-        android:src="@drawable/ic_common_green_check" />
+        android:clickable="false"
+        android:text="@null" />
 
 </LinearLayout>

@@ -79,13 +79,23 @@
         <item name="android:windowBackground">@color/semipermeable</item>
     </style>
 
+    <!-- 多选照片的主题如果要更新其中的东西请在App里面复写此主题 -->
+    <style name="Theme.MultiSelectorImage">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/grey_deep_3</item>
+        <item name="colorPrimaryDark">@color/grey_deep_2</item>
+        <item name="colorControlNormal">@android:color/white</item>
+        <item name="colorControlActivated">@color/green_400</item>
+    </style>
+
     <!-- ################ Dialog ################ -->
     <style name="Dialog" parent="@style/Theme.AppCompat.Dialog">
         <!-- 标题栏颜色 -->
         <item name="colorPrimary">@color/color_primary</item>
         <!--常用的颜色例如 光标颜色-->
         <item name="colorAccent">@color/color_accent</item>
-        
+
         <item name="android:windowBackground">@drawable/white_alpha_0_9_5_corner_16dp_normal</item>
         <item name="android:listDivider">@drawable/line_blue</item>
         <!--Settings the Dialog Title-->

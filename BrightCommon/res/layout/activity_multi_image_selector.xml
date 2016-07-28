@@ -22,7 +22,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
-        android:background="@color/grey_deep_3">
+        android:background="?colorPrimary">
 
         <ImageView
             android:id="@+id/back"
