@@ -41,6 +41,8 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 
+import net.bither.util.NativeUtil;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -53,6 +55,10 @@ import java.util.UUID;
 
 public final class ImageUtils {
     private static final String TAG = "ImageUtils";
+    /**
+     * 压缩图片后最大边长度
+     */
+    public static final int MAX_SIZE = 2000;
 
     /**
      * Drawable转Bitmap
@@ -320,27 +326,65 @@ public final class ImageUtils {
         return bitmap;
     }
 
-    /**
-     * 压缩并保存Bitmap
-     *
-     * @param image       要保存的图片
-     * @param pictureSize 要保存图片的大小
-     * @return
-     */
-    public static String compressBitmapAndSave(Context context, Bitmap image, int pictureSize) {
-        int options = 100;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        // 循环判断如果压缩后图片是否大于指定大小,大于继续压缩
-        while (baos.toByteArray().length / 1024 > pictureSize) {
-            baos.reset();// 重置baos即清空baos
-            // 这里压缩options%，把压缩后的数据存放到baos中
-            image.compress(Bitmap.CompressFormat.JPEG, options, baos);
-            options -= 10;// 每次都减少10
-        }
-        return saveBitmap(context, image, options);
+    public static void compreeImage(Uri originUri, Uri compressUri) {
+        compreeImage(originUri.getPath(), compressUri.getPath());
     }
 
+    public static void compreeImage(String originPath, String compressPath) {
+        Bitmap bitmapImage = null;
+        try {
+            BitmapFactory.Options opts = new BitmapFactory.Options();
+            opts.inJustDecodeBounds = true;
+            BitmapFactory.decodeFile(originPath, opts);
+            opts.inSampleSize = calculateInSampleSize(opts);
+            opts.inJustDecodeBounds = false;
+            Log.i(TAG, "inSampleSize = " + opts.inSampleSize);
+            int angle = ImageUtils.getExifOrientation(originPath);
+            bitmapImage = BitmapFactory.decodeFile(originPath, opts);
+            try {
+                bitmapImage = ImageUtils.rotateBitmap(angle, bitmapImage);
+                NativeUtil.compressBitmap(bitmapImage, 60, compressPath, true);
+            } catch (Exception e) {
+            }
+        } finally {
+            if (bitmapImage != null) {
+                bitmapImage.recycle();
+            }
+        }
+    }
+
+
+    /**
+     * 计算压缩比例值
+     *
+     * @param options 解析图片的配置信息
+     */
+    public static int calculateInSampleSize(BitmapFactory.Options options) {
+        // 保存图片原宽高值
+        final int width = options.outWidth;
+        final int height = options.outHeight;
+        // 初始化压缩比例为1
+        int inSampleSize = 1;
+
+        if (width > height) {
+
+            // 压缩比例值每次循环两倍增加,
+            // 直到原图宽高值的一半除以压缩值后都~大于所需宽高值为止
+            while ((width / inSampleSize) >= MAX_SIZE) {
+                inSampleSize *= 2;
+                Log.i(TAG, "width inSampleSize = " + inSampleSize);
+            }
+        } else {
+            // 压缩比例值每次循环两倍增加,
+            // 直到原图宽高值的一半除以压缩值后都~大于所需宽高值为止
+            while ((height / inSampleSize) >= MAX_SIZE) {
+                inSampleSize *= 2;
+                Log.i(TAG, "height inSampleSize = " + inSampleSize);
+            }
+
+        }
+        return inSampleSize;
+    }
 
     /**
      * 把Bitmap输出到本地
@@ -369,6 +413,32 @@ public final class ImageUtils {
             }
         }
     }
+
+    /**
+     * 把Bitmap输出到本地
+     */
+    public static String saveBitmap(Bitmap bitmap, String fileName, int options) {
+        Log.e(TAG, "保存图片 fileName =  " + fileName);
+
+        File cache = new File(fileName);
+        try {
+            FileOutputStream out = new FileOutputStream(cache);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, options, out);
+            out.flush();
+            out.close();
+            Log.e(TAG, cache.getAbsolutePath());
+            return cache.getAbsolutePath();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "";
+        } finally {
+            if (bitmap != null) {
+                bitmap.recycle();
+            }
+        }
+    }
+
 
     /**
      * 生成图片名称

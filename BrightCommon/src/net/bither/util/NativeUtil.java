@@ -22,6 +22,8 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.util.Log;
 
+import com.bright.common.utils.ImageUtils;
+
 public class NativeUtil {
     private final static int DEFAULT_QUALITY = 95;
 
@@ -52,7 +54,8 @@ public class NativeUtil {
     }
 
     private static void saveBitmap(Bitmap bit, int quality, String fileName, boolean optimize) {
-        compressBitmap(bit, bit.getWidth(), bit.getHeight(), quality, fileName.getBytes(), optimize);
+        //compressBitmap(bit, bit.getWidth(), bit.getHeight(), quality, fileName.getBytes(), optimize);
+        ImageUtils.saveBitmap(bit, fileName, quality);
     }
 
     private static native String compressBitmap(Bitmap bit, int w, int h, int quality, byte[] fileNameBytes, boolean optimize);
