@@ -202,7 +202,7 @@ public class MultiSelectorImageAdapter extends ListAdapter<MultiSelectorImage, M
                 v.setChecked(false);
                 return;
             }
-            
+
             entry.isSelected = isChecked;
 
             if (entry.isSelected) {

@@ -470,15 +470,15 @@ public class MultiImageSelectorFragment extends BaseFragment implements View.OnC
         @Override
         public void onScrollStateChanged(AbsListView absListView, int state) {
             if (state == SCROLL_STATE_IDLE) {
-                AnimatorUtils.alpha(mTimeLineText, 1.0f, 0, 800);
-            } else if (state == SCROLL_STATE_FLING) {
+                AnimatorUtils.alpha(mTimeLineText, mTimeLineText.getAlpha(), 0, 800);
+            } else if (state == SCROLL_STATE_FLING && mGridView.getFirstVisiblePosition() != 0) {
                 AnimatorUtils.alpha(mTimeLineText, 0, 1.0f, 800);
             }
         }
 
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-            if (mTimeLineText.getAlpha() >= 1.0f && firstVisibleItem != 0) {
+            if (mTimeLineText.getAlpha() >= 0.15f) {
                 MultiSelectorImage image = mImageAdapter.getItem(firstVisibleItem);
                 mTimeLineText.setText(DateUtils.formatFriendly(getActivity(), image.modifyDate * 1000));
             }

@@ -24,7 +24,10 @@
         android:layout_height="wrap_content"
         android:alpha="0"
         android:background="@color/grey_alpha_0_8_5"
-        android:padding="@dimen/gap_grade_2"
+        android:paddingBottom="@dimen/gap_grade_1"
+        android:paddingLeft="@dimen/gap_grade_3"
+        android:paddingRight="@dimen/gap_grade_3"
+        android:paddingTop="@dimen/gap_grade_1"
         android:textColor="@color/text_white_normal"
         android:textSize="@dimen/H_title"
         tools:text="2015年4月1日" />
