@@ -30,16 +30,16 @@ import com.bumptech.glide.Glide;
 /**
  * 文件夹Adapter
  */
-public class MultiSelectorFolderAdapter extends ListAdapter<MultiSelectorFolder, MultiSelectorFolderAdapter.ViewHolder> {
+public class MultiChoiceFolderAdapter extends ListAdapter<MultiSelectorFolder, MultiChoiceFolderAdapter.ViewHolder> {
 
-    public MultiSelectorFolderAdapter(Context context) {
+    public MultiChoiceFolderAdapter(Context context) {
         super(context);
     }
 
 
     @Override
     public ViewHolder onCreateViewHolder(int position, int type) {
-        View view = mLayoutInflater.inflate(R.layout.item_multi_select_folder, null);
+        View view = mLayoutInflater.inflate(R.layout.item_multi_choice_folder, null);
         return new ViewHolder(view, type);
     }
 

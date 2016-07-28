@@ -21,7 +21,7 @@
         </activity>
 
         <activity
-            android:name="com.bright.common.app.activity.MultiImageSelectorActivity"
+            android:name="com.bright.common.app.activity.MultiChoicePicturesActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.NoActionBar" />
 

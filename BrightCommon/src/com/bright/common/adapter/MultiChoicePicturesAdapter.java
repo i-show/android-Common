@@ -39,7 +39,7 @@ import java.util.List;
  * 图片Adapter
  * Created by Nereo on 2015/4/7.
  */
-public class MultiSelectorImageAdapter extends ListAdapter<MultiSelectorImage, MultiSelectorImageAdapter.ViewHolde> {
+public class MultiChoicePicturesAdapter extends ListAdapter<MultiSelectorImage, MultiChoicePicturesAdapter.ViewHolde> {
     private static final String TAG = "MultiImageAdapter";
     private static final int TYPE_CAMERA = 0;
     private static final int TYPE_NORMAL = 1;
@@ -53,7 +53,7 @@ public class MultiSelectorImageAdapter extends ListAdapter<MultiSelectorImage, M
     private GridView.LayoutParams mItemLayoutParams;
     private CallBack mCallBack;
 
-    public MultiSelectorImageAdapter(Context context, boolean showCamera) {
+    public MultiChoicePicturesAdapter(Context context, boolean showCamera) {
         super(context);
         isShowCamera = showCamera;
         mItemLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
@@ -134,9 +134,9 @@ public class MultiSelectorImageAdapter extends ListAdapter<MultiSelectorImage, M
     public ViewHolde onCreateViewHolder(int position, int type) {
         View view;
         if (type == TYPE_CAMERA) {
-            view = mLayoutInflater.inflate(R.layout.item_multi_select_camera, null);
+            view = mLayoutInflater.inflate(R.layout.item_multi_choice_camera, null);
         } else {
-            view = mLayoutInflater.inflate(R.layout.item_multi_select_image, null);
+            view = mLayoutInflater.inflate(R.layout.item_multi_choice_image, null);
         }
         return new ViewHolde(view, type);
     }

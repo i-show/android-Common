@@ -27,7 +27,7 @@ import android.widget.TextView;
 
 import com.bright.common.R;
 import com.bright.common.app.BaseActivity;
-import com.bright.common.app.fragment.MultiImageSelectorFragment;
+import com.bright.common.app.fragment.MultiChoicePicturesFragment;
 import com.bright.common.model.MultiSelectorImage;
 import com.bright.common.utils.StringUtils;
 
@@ -37,7 +37,7 @@ import java.util.ArrayList;
 /**
  * 多图选择
  */
-public class MultiImageSelectorActivity extends BaseActivity implements View.OnClickListener, MultiImageSelectorFragment.Callback {
+public class MultiChoicePicturesActivity extends BaseActivity implements View.OnClickListener, MultiChoicePicturesFragment.Callback {
     private static final String TAG = "MultiImageActivity";
     private ArrayList<String> mResultList = new ArrayList<>();
     private int mDefaultCount;
@@ -49,7 +49,7 @@ public class MultiImageSelectorActivity extends BaseActivity implements View.OnC
         super.onCreate(savedInstanceState);
         // 多选照片的主题如果要更新其中的东西请在App里面复写此主题
         setTheme(R.style.Theme_MultiSelectorImage);
-        setContentView(R.layout.activity_multi_image_selector);
+        setContentView(R.layout.activity_multi_choice_pictures);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class MultiImageSelectorActivity extends BaseActivity implements View.OnC
         bundle.putStringArrayList(MultiSelectorImage.Key.EXTRA_DEFAULT_SELECTED_LIST, mResultList);
 
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.content, MultiImageSelectorFragment.newInstance(bundle))
+                .add(R.id.content, MultiChoicePicturesFragment.newInstance(bundle))
                 .commit();
     }
 

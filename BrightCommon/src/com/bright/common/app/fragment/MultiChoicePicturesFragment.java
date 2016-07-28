@@ -42,8 +42,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bright.common.R;
-import com.bright.common.adapter.MultiSelectorFolderAdapter;
-import com.bright.common.adapter.MultiSelectorImageAdapter;
+import com.bright.common.adapter.MultiChoiceFolderAdapter;
+import com.bright.common.adapter.MultiChoicePicturesAdapter;
 import com.bright.common.app.BaseFragment;
 import com.bright.common.model.MultiSelectorFolder;
 import com.bright.common.model.MultiSelectorImage;
@@ -60,7 +60,7 @@ import java.util.List;
 /**
  * 图片选择Fragment
  */
-public class MultiImageSelectorFragment extends BaseFragment implements View.OnClickListener {
+public class MultiChoicePicturesFragment extends BaseFragment implements View.OnClickListener {
     private static final String TAG = "MultiImageSelector";
 
     // 不同loader定义
@@ -83,8 +83,8 @@ public class MultiImageSelectorFragment extends BaseFragment implements View.OnC
     // 图片Grid
     private GridView mGridView;
 
-    private MultiSelectorImageAdapter mImageAdapter;
-    private MultiSelectorFolderAdapter mFolderAdapter;
+    private MultiChoicePicturesAdapter mImageAdapter;
+    private MultiChoiceFolderAdapter mFolderAdapter;
 
     // 时间线
     private TextView mTimeLineText;
@@ -100,8 +100,8 @@ public class MultiImageSelectorFragment extends BaseFragment implements View.OnC
     private File mTmpFile;
     private int mMode;
 
-    public static MultiImageSelectorFragment newInstance(Bundle args) {
-        MultiImageSelectorFragment fragment = new MultiImageSelectorFragment();
+    public static MultiChoicePicturesFragment newInstance(Bundle args) {
+        MultiChoicePicturesFragment fragment = new MultiChoicePicturesFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -112,7 +112,7 @@ public class MultiImageSelectorFragment extends BaseFragment implements View.OnC
         try {
             mCallback = (Callback) getActivity();
         } catch (ClassCastException e) {
-            throw new ClassCastException("The Activity must implement MultiImageSelectorFragment.Callback interface...");
+            throw new ClassCastException("The Activity must implement MultiChoicePicturesFragment.Callback interface...");
         }
 
         Bundle args = getArguments();
@@ -135,7 +135,7 @@ public class MultiImageSelectorFragment extends BaseFragment implements View.OnC
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_multi_select_image, container, false);
+        View root = inflater.inflate(R.layout.fragment_multi_choice_pictures, container, false);
 
         mTimeLineText = (TextView) root.findViewById(R.id.timeline);
 
@@ -144,7 +144,7 @@ public class MultiImageSelectorFragment extends BaseFragment implements View.OnC
         mCategoryText.setText(R.string.all_photos);
         mCategoryText.setOnClickListener(this);
 
-        mImageAdapter = new MultiSelectorImageAdapter(getActivity(), mIsShowCamera);
+        mImageAdapter = new MultiChoicePicturesAdapter(getActivity(), mIsShowCamera);
         mImageAdapter.setMultiSelector(mMode == MultiSelectorImage.Key.MODE_MULTI);
         mImageAdapter.setMaxSelectedCount(mDesireImageCount);
         mImageAdapter.setCallBack(mImageAdapterCallBack);
@@ -154,7 +154,7 @@ public class MultiImageSelectorFragment extends BaseFragment implements View.OnC
         mGridView.setAdapter(mImageAdapter);
         computeGridItemSize();
 
-        mFolderAdapter = new MultiSelectorFolderAdapter(getActivity());
+        mFolderAdapter = new MultiChoiceFolderAdapter(getActivity());
         return root;
     }
 
@@ -281,7 +281,7 @@ public class MultiImageSelectorFragment extends BaseFragment implements View.OnC
         }
     }
 
-    private MultiSelectorImageAdapter.CallBack mImageAdapterCallBack = new MultiSelectorImageAdapter.CallBack() {
+    private MultiChoicePicturesAdapter.CallBack mImageAdapterCallBack = new MultiChoicePicturesAdapter.CallBack() {
         @Override
         public void onClickCamera() {
             goToCamera();

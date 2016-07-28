@@ -26,7 +26,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.bright.common.R;
-import com.bright.common.app.activity.MultiImageSelectorActivity;
+import com.bright.common.app.activity.MultiChoicePicturesActivity;
 import com.bright.common.model.MultiSelectorImage;
 import com.bright.common.utils.photo.CompressImageUtils;
 import com.bright.common.widget.YToast;
@@ -93,7 +93,7 @@ public class MultipleSelectPhotoUtils extends SelectPhotoUtils {
                 mContext.startActivityForResult(intent, Request.REQUEST_CAMERA);
                 break;
             case SELECT_PHOTO_GALLERY:
-                intent = new Intent(mContext, MultiImageSelectorActivity.class);
+                intent = new Intent(mContext, MultiChoicePicturesActivity.class);
                 intent.putExtra(MultiSelectorImage.Key.EXTRA_SELECT_COUNT, mCount);
                 mContext.startActivityForResult(intent, Request.REQUEST_PICK);
                 break;
