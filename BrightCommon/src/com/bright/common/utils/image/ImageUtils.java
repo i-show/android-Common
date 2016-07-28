@@ -1,19 +1,19 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- * <p>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bright.common.utils;
+package com.bright.common.utils.image;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -41,7 +41,9 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 
-import net.bither.util.NativeUtil;
+import com.bright.common.utils.PackagesUtils;
+import com.bright.common.utils.StringUtils;
+import com.bright.common.utils.Utils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -59,6 +61,10 @@ public final class ImageUtils {
      * 压缩图片后最大边长度
      */
     public static final int MAX_SIZE = 2000;
+    /**
+     * 默认的的压缩图片质量
+     */
+    public static final int DEFAULT_COMPRESS_QUALITY = 75;
 
     /**
      * Drawable转Bitmap
@@ -78,8 +84,8 @@ public final class ImageUtils {
     /**
      * Bitmap 转 drawable
      */
-    public static Drawable bitmapToDrawable(Bitmap bitmap) {
-        return new BitmapDrawable(bitmap);
+    public static Drawable bitmapToDrawable(Context context, Bitmap bitmap) {
+        return new BitmapDrawable(context.getResources(), bitmap);
     }
 
     /**
@@ -326,31 +332,64 @@ public final class ImageUtils {
         return bitmap;
     }
 
-    public static void compreeImage(Uri originUri, Uri compressUri) {
-        compreeImage(originUri.getPath(), compressUri.getPath());
+
+    /**
+     * 压缩并保存Bitmap
+     *
+     * @param image       要保存的图片
+     * @param pictureSize 要保存图片的大小
+     */
+    public static String compressBitmap(Context context, Bitmap image, int pictureSize) {
+        int options = 100;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        // 循环判断如果压缩后图片是否大于指定大小,大于继续压缩
+        while (baos.toByteArray().length / 1024 > pictureSize) {
+            baos.reset();// 重置baos即清空baos
+            // 这里压缩options%，把压缩后的数据存放到baos中
+            image.compress(Bitmap.CompressFormat.JPEG, options, baos);
+            options -= 10;// 每次都减少10
+        }
+        return saveBitmap(context, image, options);
     }
 
-    public static void compreeImage(String originPath, String compressPath) {
-        Bitmap bitmapImage = null;
+    /**
+     * 压缩图片
+     *
+     * @return 压缩后的图片路径
+     */
+    public static String compressImage(Context context, String photoPath) {
+        return compressImage(context, photoPath, DEFAULT_COMPRESS_QUALITY);
+    }
+
+    /**
+     * 压缩图片
+     *
+     * @return 压缩后的图片路径
+     */
+    public static String compressImage(Context context, String photoPath, int quality) {
+        Bitmap bitmap = null;
+        String resultPath = generateRandomPhotoName(context);
         try {
             BitmapFactory.Options opts = new BitmapFactory.Options();
             opts.inJustDecodeBounds = true;
-            BitmapFactory.decodeFile(originPath, opts);
+            BitmapFactory.decodeFile(photoPath, opts);
             opts.inSampleSize = calculateInSampleSize(opts);
             opts.inJustDecodeBounds = false;
             Log.i(TAG, "inSampleSize = " + opts.inSampleSize);
-            int angle = ImageUtils.getExifOrientation(originPath);
-            bitmapImage = BitmapFactory.decodeFile(originPath, opts);
-            try {
-                bitmapImage = ImageUtils.rotateBitmap(angle, bitmapImage);
-                NativeUtil.compressBitmap(bitmapImage, 60, compressPath, true);
-            } catch (Exception e) {
-            }
+            int angle = ImageUtils.getExifOrientation(photoPath);
+            bitmap = BitmapFactory.decodeFile(photoPath, opts);
+            bitmap = rotateBitmap(angle, bitmap);
+            saveBitmap(bitmap, resultPath, quality);
+        } catch (Exception e) {
+            return null;
         } finally {
-            if (bitmapImage != null) {
-                bitmapImage.recycle();
+            if (bitmap != null) {
+                bitmap.recycle();
             }
         }
+
+        return resultPath;
     }
 
 
@@ -395,7 +434,7 @@ public final class ImageUtils {
     public static String saveBitmap(Context context, Bitmap bitmap, int options) {
         Log.e(TAG, "保存图片");
 
-        File cache = generatePhotoName(context);
+        File cache = generateRandomPhotoFile(context);
         try {
             FileOutputStream out = new FileOutputStream(cache);
             bitmap.compress(Bitmap.CompressFormat.JPEG, options, out);
@@ -443,24 +482,32 @@ public final class ImageUtils {
     /**
      * 生成图片名称
      */
-    public static File generatePhotoName(Context context) {
-        File target = context.getExternalCacheDir();
+    public static File generateRandomPhotoFile(Context context) {
+        return new File(generateRandomPhotoName(context));
+    }
 
-        if (null == target) {
-            target = Environment.getExternalStorageDirectory();
+    /**
+     * 生成随机的名字
+     */
+    public static String generateRandomPhotoName(Context context) {
+        File cacheFolder = context.getExternalCacheDir();
+        if (null == cacheFolder) {
+            File target = Environment.getExternalStorageDirectory();
+            cacheFolder = new File(target + File.separator + PackagesUtils.getAppName(context));
         }
 
-        if (!target.exists()) {
+        Log.d(TAG, "cacheFolder path = " + cacheFolder.getAbsolutePath());
+        if (!cacheFolder.exists()) {
             try {
-                boolean result = target.mkdir();
-                Log.d(TAG, "generateUri " + target + " result: " + (result ? "succeeded" : "failed"));
+                boolean result = cacheFolder.mkdir();
+                Log.d(TAG, " result: " + (result ? "succeeded" : "failed"));
             } catch (Exception e) {
-                Log.e(TAG, "generateUri failed: " + target, e);
+                Log.e(TAG, "generateUri failed: " + e.toString());
             }
         }
         String name = StringUtils.plusString(UUID.randomUUID().toString().toUpperCase(), ".jpg");
+        return StringUtils.plusString(cacheFolder.getAbsolutePath(), File.separator, name);
 
-        target = new File(target, name);
-        return target;
     }
+
 }

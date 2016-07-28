@@ -11,7 +11,8 @@ import android.widget.ImageView;
 import com.bright.common.app.BaseActivity;
 import com.bright.common.utils.DataCleanUtils;
 import com.bright.common.utils.ScreenUtils;
-import com.bright.common.utils.photo.select.MultipleSelectPhotoUtils;
+import com.bright.common.utils.image.select.MultipleSelectPhotoUtils;
+import com.bright.common.utils.image.select.SingleSelectPhotoUtils;
 import com.brightyu.androidcommon.adapter.PhotoAdapter;
 import com.brightyu.androidcommon.test.Test;
 
@@ -23,6 +24,7 @@ public class MainActivity extends BaseActivity {
     private PhotoAdapter mAdapter;
     private ImageView mPhoto;
     private MultipleSelectPhotoUtils mSelectPhotoUtils;
+    private SingleSelectPhotoUtils mSinglePhotoUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,13 @@ public class MainActivity extends BaseActivity {
         gridView.setAdapter(mAdapter);
         final ImageView photo = (ImageView) findViewById(R.id.imageView);
         mSelectPhotoUtils = new MultipleSelectPhotoUtils(this);
+        mSinglePhotoUtils = new SingleSelectPhotoUtils(this);
+        mSelectPhotoUtils.setCallBack(new MultipleSelectPhotoUtils.CallBack() {
+            @Override
+            public void onResult(List<String> urls) {
+
+            }
+        });
         mSelectPhotoUtils.setCallBack(new MultipleSelectPhotoUtils.CallBack() {
             @Override
             public void onResult(List<String> urls) {

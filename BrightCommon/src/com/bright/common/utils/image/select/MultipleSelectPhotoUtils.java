@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package com.bright.common.utils.photo.select;
+package com.bright.common.utils.image.select;
 
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
@@ -28,7 +29,7 @@ import android.widget.Toast;
 import com.bright.common.R;
 import com.bright.common.app.activity.MultiChoicePicturesActivity;
 import com.bright.common.model.MultiSelectorImage;
-import com.bright.common.utils.photo.CompressImageUtils;
+import com.bright.common.utils.image.ImageUtils;
 import com.bright.common.widget.YToast;
 import com.bright.common.widget.loading.LoadingDialog;
 
@@ -40,6 +41,8 @@ import java.util.concurrent.Executors;
 
 /**
  * 上传图片以及添加图片的封装类
+ * android:configChanges="orientation|keyboardHidden|screenSize"
+ * 照片处理的Activity 需要添加
  */
 public class MultipleSelectPhotoUtils extends SelectPhotoUtils {
     private static final String TAG = "MultipleSelectPhoto";
@@ -86,8 +89,7 @@ public class MultipleSelectPhotoUtils extends SelectPhotoUtils {
         Intent intent;
         switch (which) {
             case SELECT_PHOTO_CAMERA:
-                // 跳转相机拍照 我暂时没有更好的方法
-                mCameraFileUri = generateUri();
+                mCameraFileUri = Uri.parse(ImageUtils.generateRandomPhotoName(mContext));
                 intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, mCameraFileUri);
                 mContext.startActivityForResult(intent, Request.REQUEST_CAMERA);
@@ -152,9 +154,8 @@ public class MultipleSelectPhotoUtils extends SelectPhotoUtils {
 
         @Override
         public void run() {
-            String compressPath = generateUri().getPath();
-            CompressImageUtils.compreeImage(path, compressPath);
-            mPhotos.set(key, compressPath);
+            String resultPath = ImageUtils.compressImage(mContext, path);
+            mPhotos.set(key, resultPath);
             mHandler.sendEmptyMessageDelayed(0, 100);
         }
     }

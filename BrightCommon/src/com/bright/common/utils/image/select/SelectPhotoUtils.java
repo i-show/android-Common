@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.bright.common.utils.photo.select;
+package com.bright.common.utils.image.select;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -111,34 +111,6 @@ public abstract class SelectPhotoUtils implements DialogInterface.OnClickListene
             YToast.makeText(mContext, R.string.cancle_photo, Toast.LENGTH_SHORT).show();
             return;
         }
-    }
-
-    /**
-     * 生成Url
-     */
-    protected Uri generateUri() {
-        File cacheFolder = mContext.getExternalCacheDir();
-
-        if (null == cacheFolder) {
-            File target = Environment.getExternalStorageDirectory();
-            cacheFolder = new File(target + File.separator + PackagesUtils.getAppName(mContext));
-        }
-
-        Log.d(TAG, "cacheFolder path = " + cacheFolder.getAbsolutePath());
-        if (!cacheFolder.exists()) {
-            try {
-                boolean result = cacheFolder.mkdir();
-                Log.d(TAG, " result: " + (result ? "succeeded" : "failed"));
-            } catch (Exception e) {
-                Log.e(TAG, "generateUri failed: " + e.toString());
-            }
-        }
-        String name = StringUtils.plusString(UUID.randomUUID().toString().toUpperCase(), ".jpg");
-        return Uri
-                .fromFile(cacheFolder)
-                .buildUpon()
-                .appendPath(name)
-                .build();
     }
 
 

@@ -39,7 +39,7 @@ import android.view.View;
 
 import com.bright.common.R;
 import com.bright.common.constant.DefaultColors;
-import com.bright.common.utils.ImageUtils;
+import com.bright.common.utils.image.ImageUtils;
 import com.bright.common.utils.UnitUtils;
 import com.bright.common.utils.Utils;
 

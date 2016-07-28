@@ -49,7 +49,7 @@ import com.bright.common.model.MultiSelectorFolder;
 import com.bright.common.model.MultiSelectorImage;
 import com.bright.common.utils.AnimatorUtils;
 import com.bright.common.utils.DateUtils;
-import com.bright.common.utils.ImageUtils;
+import com.bright.common.utils.image.ImageUtils;
 import com.bright.common.widget.YToast;
 import com.bright.common.widget.dialog.BaseDialog;
 
@@ -249,7 +249,7 @@ public class MultiChoicePicturesFragment extends BaseFragment implements View.On
         if (cameraIntent.resolveActivity(getActivity().getPackageManager()) != null) {
             // 设置系统相机拍照后的输出路径
             // 创建临时文件
-            mTmpFile = ImageUtils.generatePhotoName(getActivity());
+            mTmpFile = ImageUtils.generateRandomPhotoFile(getActivity());
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTmpFile));
             startActivityForResult(cameraIntent, REQUEST_CAMERA);
         } else {
