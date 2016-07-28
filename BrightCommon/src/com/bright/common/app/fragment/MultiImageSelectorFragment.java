@@ -478,7 +478,7 @@ public class MultiImageSelectorFragment extends BaseFragment implements View.OnC
 
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-            if (mTimeLineText.getAlpha() >= 1.0f) {
+            if (mTimeLineText.getAlpha() >= 1.0f && firstVisibleItem != 0) {
                 MultiSelectorImage image = mImageAdapter.getItem(firstVisibleItem);
                 mTimeLineText.setText(DateUtils.formatFriendly(getActivity(), image.modifyDate * 1000));
             }

@@ -14,6 +14,7 @@
         android:columnWidth="@dimen/image_size"
         android:horizontalSpacing="@dimen/space_size"
         android:numColumns="auto_fit"
+        android:overScrollMode="never"
         android:paddingBottom="?android:attr/actionBarSize"
         android:verticalSpacing="@dimen/space_size" />
 

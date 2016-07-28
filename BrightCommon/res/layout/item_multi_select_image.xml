@@ -32,12 +32,11 @@
         android:background="@color/grey_alpha_0_7"
         android:visibility="gone" />
 
-    <ImageView
+    <CheckBox
         android:id="@+id/state"
-        android:layout_width="@dimen/dp_28"
-        android:layout_height="@dimen/dp_28"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="top|end"
-        android:padding="@dimen/dp_3"
-        android:scaleType="centerInside" />
+        android:layout_margin="@dimen/dp_1" />
 
 </FrameLayout>

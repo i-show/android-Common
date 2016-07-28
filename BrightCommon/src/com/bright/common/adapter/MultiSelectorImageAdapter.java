@@ -20,6 +20,8 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView.LayoutParams;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -142,14 +144,13 @@ public class MultiSelectorImageAdapter extends ListAdapter<MultiSelectorImage, M
     @Override
     public void onBindViewHolder(ViewHolde holder, int position, int type) {
         MultiSelectorImage entry = getRealItem(position);
-        holder.state.setVisibility(isMultiSelector ? View.VISIBLE : View.GONE);
-        holder.state.setSelected(entry.isSelected);
-        holder.mask.setVisibility(entry.isSelected ? View.VISIBLE : View.GONE);
-
-        holder.state.setTag(R.id.tag_01, entry);
-
         holder.getItemView().setTag(R.id.tag_01, entry);
         holder.getItemView().setTag(R.id.tag_02, position);
+
+        holder.state.setTag(R.id.tag_01, entry);
+        holder.state.setChecked(entry.isSelected);
+
+        holder.mask.setVisibility(entry.isSelected ? View.VISIBLE : View.GONE);
 
         // 显示图片
         Glide.with(mContext)
@@ -159,9 +160,9 @@ public class MultiSelectorImageAdapter extends ListAdapter<MultiSelectorImage, M
                 .into(holder.image);
     }
 
-    public class ViewHolde extends ListAdapter.Holder implements View.OnClickListener {
+    public class ViewHolde extends ListAdapter.Holder implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
         ImageView image;
-        ImageView state;
+        CheckBox state;
         View mask;
 
         public ViewHolde(View item, int type) {
@@ -170,30 +171,40 @@ public class MultiSelectorImageAdapter extends ListAdapter<MultiSelectorImage, M
             item.setOnClickListener(this);
 
             image = (ImageView) item.findViewById(R.id.image);
-            state = (ImageView) item.findViewById(R.id.state);
-            state.setOnClickListener(this);
+
+            state = (CheckBox) item.findViewById(R.id.state);
+            state.setVisibility(isMultiSelector ? View.VISIBLE : View.GONE);
+            state.setOnCheckedChangeListener(this);
+
             mask = item.findViewById(R.id.mask);
         }
 
         @Override
         public void onClick(View v) {
-            final int id = v.getId();
-            if (id == R.id.state) {
-                selectImage(v);
-            } else {
-                onItemClick(v);
-            }
+            onItemClick(v);
         }
 
-        private void selectImage(View v) {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            selectImage(buttonView, isChecked);
+        }
 
+        private void selectImage(CompoundButton v, boolean isChecked) {
             MultiSelectorImage entry = (MultiSelectorImage) v.getTag(R.id.tag_01);
-            if (!entry.isSelected && mMaxSelectedCount <= mSelectedImages.size()) {
-                YToast.makeText(mContext, R.string.already_select_max, Toast.LENGTH_SHORT).show();
+
+            if (entry.isSelected == isChecked) {
+                Log.i(TAG, "selectImage: state is same just return");
                 return;
             }
 
-            entry.isSelected = !entry.isSelected;
+            if (isChecked && mMaxSelectedCount <= mSelectedImages.size()) {
+                YToast.makeText(mContext, R.string.already_select_max, Toast.LENGTH_SHORT).show();
+                v.setChecked(false);
+                return;
+            }
+            Log.i(TAG, "selectImage: isChecked =" + isChecked);
+            Log.i(TAG, "selectImage: entry.name =" + entry.name);
+            entry.isSelected = isChecked;
 
             if (entry.isSelected) {
                 mSelectedImages.add(entry);
@@ -205,9 +216,6 @@ public class MultiSelectorImageAdapter extends ListAdapter<MultiSelectorImage, M
                 mCallBack.onSelectImage(entry, entry.isSelected);
             }
 
-            state.setVisibility(isMultiSelector ? View.VISIBLE : View.GONE);
-            state.setSelected(entry.isSelected);
-            mask.setVisibility(entry.isSelected ? View.VISIBLE : View.GONE);
         }
 
         private void onItemClick(View v) {
@@ -226,6 +234,8 @@ public class MultiSelectorImageAdapter extends ListAdapter<MultiSelectorImage, M
             dialog.setShowThumb(false);
             dialog.show();
         }
+
+
     }
 
     public interface CallBack {
