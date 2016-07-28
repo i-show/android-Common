@@ -202,8 +202,7 @@ public class MultiSelectorImageAdapter extends ListAdapter<MultiSelectorImage, M
                 v.setChecked(false);
                 return;
             }
-            Log.i(TAG, "selectImage: isChecked =" + isChecked);
-            Log.i(TAG, "selectImage: entry.name =" + entry.name);
+            
             entry.isSelected = isChecked;
 
             if (entry.isSelected) {
