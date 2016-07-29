@@ -118,8 +118,18 @@ public abstract class SelectPhotoUtils implements DialogInterface.OnClickListene
      * 公共类方便调用 request
      */
     public class Request {
+        /**
+         * 摄像头
+         */
         public static final int REQUEST_CAMERA = 1 << Shift.UTILS;
-        public static final int REQUEST_PICK = REQUEST_CAMERA + 1;
-        public static final int REQUEST_CROP = REQUEST_CAMERA + 2;
+        /**
+         * 单选图片
+         */
+        public static final int REQUEST_SINGLE_PICK = REQUEST_CAMERA + 1;
+        /**
+         * 多选图片
+         */
+        public static final int REQUEST_MULTI_PICK = REQUEST_CAMERA + 2;
+        public static final int REQUEST_CROP = REQUEST_CAMERA + 3;
     }
 }

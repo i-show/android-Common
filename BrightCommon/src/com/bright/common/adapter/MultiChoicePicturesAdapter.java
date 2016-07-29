@@ -95,14 +95,6 @@ public class MultiChoicePicturesAdapter extends ListAdapter<MultiSelectorImage, 
     }
 
     /**
-     * 设置数据集
-     */
-    public void setData(List<MultiSelectorImage> images) {
-        super.setData(images);
-        mSelectedImages.clear();
-    }
-
-    /**
      * 重置每个Column的Size
      */
     public void setItemSize(int columnWidth) {

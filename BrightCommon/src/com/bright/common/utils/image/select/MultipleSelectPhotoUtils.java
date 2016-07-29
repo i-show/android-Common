@@ -97,7 +97,7 @@ public class MultipleSelectPhotoUtils extends SelectPhotoUtils {
             case SELECT_PHOTO_GALLERY:
                 intent = new Intent(mContext, MultiChoicePicturesActivity.class);
                 intent.putExtra(MultiSelectorImage.Key.EXTRA_SELECT_COUNT, mCount);
-                mContext.startActivityForResult(intent, Request.REQUEST_PICK);
+                mContext.startActivityForResult(intent, Request.REQUEST_MULTI_PICK);
                 break;
         }
     }
@@ -122,7 +122,7 @@ public class MultipleSelectPhotoUtils extends SelectPhotoUtils {
                 // 关闭线程池
                 mExecutorService.shutdown();
                 break;
-            case Request.REQUEST_PICK:
+            case Request.REQUEST_MULTI_PICK:
                 List<String> photots = data.getStringArrayListExtra(MultiSelectorImage.Key.EXTRA_RESULT);
                 mLoadingDialog = LoadingDialog.show(mContext);
                 mPhotos.clear();

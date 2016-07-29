@@ -1,6 +1,7 @@
 package com.brightyu.androidcommon;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,9 +13,11 @@ import com.bright.common.app.BaseActivity;
 import com.bright.common.utils.DataCleanUtils;
 import com.bright.common.utils.ScreenUtils;
 import com.bright.common.utils.image.select.MultipleSelectPhotoUtils;
+import com.bright.common.utils.image.select.SelectPhotoUtils;
 import com.bright.common.utils.image.select.SingleSelectPhotoUtils;
 import com.brightyu.androidcommon.adapter.PhotoAdapter;
 import com.brightyu.androidcommon.test.Test;
+import com.bumptech.glide.Glide;
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,6 +38,13 @@ public class MainActivity extends BaseActivity {
         mAdapter = new PhotoAdapter(gridView, this, ScreenUtils.getScreenSize(this)[0], 20, 20, 3);
         gridView.setAdapter(mAdapter);
         final ImageView photo = (ImageView) findViewById(R.id.imageView);
+        photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "onClick: 00000");
+                mSinglePhotoUtils.select(SelectPhotoUtils.MODE_CROP);
+            }
+        });
         mSelectPhotoUtils = new MultipleSelectPhotoUtils(this);
         mSinglePhotoUtils = new SingleSelectPhotoUtils(this);
         mSelectPhotoUtils.setCallBack(new MultipleSelectPhotoUtils.CallBack() {
@@ -43,13 +53,12 @@ public class MainActivity extends BaseActivity {
 
             }
         });
-        mSelectPhotoUtils.setCallBack(new MultipleSelectPhotoUtils.CallBack() {
+        mSinglePhotoUtils.setCallBack(new SingleSelectPhotoUtils.CallBack() {
             @Override
-            public void onResult(List<String> urls) {
-                Log.i(TAG, "onResult: =============================");
-                for (String url : urls) {
-                    Log.i(TAG, "onResult: url" + url);
-                }
+            public void onResult(Uri url) {
+                Glide.with(MainActivity.this)
+                        .load(url)
+                        .into(photo);
             }
         });
         Button button = (Button) findViewById(R.id.selectPhoto);
@@ -65,6 +74,7 @@ public class MainActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mSelectPhotoUtils.onActivityResult(requestCode, resultCode, data);
+        mSinglePhotoUtils.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

@@ -151,7 +151,7 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
 
         final ProgressBar progress = (ProgressBar) root.findViewById(R.id.progress);
         progress.setLayoutParams(mProgressParams);
-        
+
         if (isShowThumb) {
             progress.setVisibility(View.VISIBLE);
             imageThumb.setVisibility(View.VISIBLE);

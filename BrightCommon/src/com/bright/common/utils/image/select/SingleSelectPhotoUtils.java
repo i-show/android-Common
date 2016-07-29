@@ -72,7 +72,7 @@ public class SingleSelectPhotoUtils extends SelectPhotoUtils implements DialogIn
      * @param mode MODE_COMPRESS or MODE_CROP
      */
     public void select(int mode) {
-        if (mMode == MODE_CROP) {
+        if (mode == MODE_CROP) {
             select(1, 1);
         } else {
             mMode = MODE_COMPRESS;
@@ -103,7 +103,7 @@ public class SingleSelectPhotoUtils extends SelectPhotoUtils implements DialogIn
             case SELECT_PHOTO_GALLERY:
                 intent = new Intent(Intent.ACTION_PICK, null);
                 intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-                mContext.startActivityForResult(intent, Request.REQUEST_PICK);
+                mContext.startActivityForResult(intent, Request.REQUEST_SINGLE_PICK);
                 break;
         }
     }
@@ -128,7 +128,7 @@ public class SingleSelectPhotoUtils extends SelectPhotoUtils implements DialogIn
                         break;
                 }
                 break;
-            case Request.REQUEST_PICK:
+            case Request.REQUEST_SINGLE_PICK:
                 picPath = ImageUtils.getPicturePathFromIntent(data, mContext);
                 Log.d(TAG, "picPath = " + picPath);
                 switch (mMode) {

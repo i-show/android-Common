@@ -18,9 +18,6 @@ package com.bright.common.app.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.os.Bundle;
 import android.view.View;
 
@@ -33,79 +30,38 @@ import com.bright.common.widget.TopBar;
 import com.bright.common.widget.loading.LoadingDialog;
 import com.bumptech.glide.Glide;
 
-import java.io.IOException;
-
 /**
  * 图片剪切界面
  * 需要使用的Theme  android:theme="@style/Theme.NoActionBar.Fullscreen"
  */
 public class CropImageActivity extends BaseActivity {
     private static final String TAG = "CropImageActivity";
+    /**
+     * 图片路径
+     */
     public static final String KEY_PATH = "crop_image_path";
+    /**
+     * 生成图片的路径
+     */
     public static final String KEY_RESULT_PATH = "result_croped_image_path";
+    /**
+     * x 轴比例
+     */
     public static final String KEY_RATIO_X = "result_croped_image_ratio_x";
+    /**
+     * y 轴比例
+     */
     public static final String KEY_RATIO_Y = "result_croped_image_ratio_y";
     private CropImageView mCropView;
-    private String mPath;
-
-    public static Bitmap loadBitmap(String imgpath) {
-        return BitmapFactory.decodeFile(imgpath);
-    }
-
-    /**
-     * 从给定的路径加载图片，并指定是否自动旋转方向
-     */
-    public static Bitmap loadBitmap(String imgpath, boolean adjustOritation) {
-        if (!adjustOritation) {
-            return loadBitmap(imgpath);
-        } else {
-            Bitmap bm = loadBitmap(imgpath);
-            int digree = 0;
-            ExifInterface exif = null;
-            try {
-                exif = new ExifInterface(imgpath);
-            } catch (IOException e) {
-                e.printStackTrace();
-                exif = null;
-            }
-            if (exif != null) {
-                // 读取图片中相机方向信息
-                int ori = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,
-                        ExifInterface.ORIENTATION_UNDEFINED);
-                // 计算旋转角度
-                switch (ori) {
-                    case ExifInterface.ORIENTATION_ROTATE_90:
-                        digree = 90;
-                        break;
-                    case ExifInterface.ORIENTATION_ROTATE_180:
-                        digree = 180;
-                        break;
-                    case ExifInterface.ORIENTATION_ROTATE_270:
-                        digree = 270;
-                        break;
-                    default:
-                        digree = 0;
-                        break;
-                }
-            }
-            if (digree != 0) {
-                // 旋转图片
-                Matrix m = new Matrix();
-                m.postRotate(digree);
-                bm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), m, true);
-            }
-            return bm;
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crop_image);
         Intent intent = getIntent();
-        mPath = intent.getStringExtra(KEY_PATH);
+        String path = intent.getStringExtra(KEY_PATH);
         Glide.with(this)
-                .load(mPath)
+                .load(path)
                 .asBitmap()
                 .into(mCropView);
 
