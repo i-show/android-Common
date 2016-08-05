@@ -17,7 +17,7 @@
 <resources>
 
     <!-- ****************动画*****************-->
-    <style name="Animation"/>
+    <style name="Animation" />
 
     <style name="Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/right_in</item>
@@ -33,7 +33,8 @@
         <item name="android:activityCloseExitAnimation">@anim/bottom_out</item>
     </style>
 
-    <style name="Animation.Windows"/>
+    <style name="Animation.Windows" />
+
     <style name="Animation.Windows.Bottom">
         <item name="android:windowEnterAnimation">@anim/bottom_in</item>
         <item name="android:windowExitAnimation">@anim/bottom_out</item>
@@ -46,6 +47,14 @@
 
     <!-- ****************Dialog区域*****************-->
     <style name="BaseDialog" />
+    <!-- 基础布局-->
+    <style name="BaseDialog.Layout">
+        <item name="dialogMainLayout">@layout/dialog</item>
+        <item name="dialogListLayout">@layout/select_dialog</item>
+        <item name="dialogListItem">@layout/select_dialog_item</item>
+        <item name="dialogSingleChoiceItem">@layout/select_dialog_singlechoice</item>
+        <item name="dialogMultiChoiceItem">@layout/select_dialog_multichoice</item>
+    </style>
     <!-- 从底部弹出的-->
     <style name="BaseDialog.Bottom" />
     <!-- 从底部弹出的布局文件-->
@@ -58,7 +67,6 @@
         <item name="dialogListLayout">@layout/bottom_dialog_ios_listview</item>
         <item name="dialogListItem">@layout/bottom_dialog_ios_item</item>
     </style>
-
 
     <style name="BaseDialog.Title">
         <item name="android:maxLines">1</item>

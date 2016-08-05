@@ -28,6 +28,11 @@
         android:layout_gravity="center_horizontal"
         android:src="@drawable/ic_multi_select_camera" />
 
+    <com.brightyu.androidcommon.widget.TestView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:background="#33ff00ff" />
+
     <GridView
         android:id="@+id/gird"
         android:layout_width="match_parent"

@@ -95,13 +95,19 @@
         <item name="colorPrimary">@color/color_primary</item>
         <!--常用的颜色例如 光标颜色-->
         <item name="colorAccent">@color/color_accent</item>
-
+        <!--Dialog的背景图片-->
         <item name="android:windowBackground">@drawable/white_alpha_0_9_5_corner_16dp_normal</item>
+        <!--Dialog中List的线-->
         <item name="android:listDivider">@drawable/line_blue</item>
-        <!--Settings the Dialog Title-->
+        <!--基础布局文件-->
+        <item name="dialogLayouts">@style/BaseDialog.Layout</item>
+        <!--标题样式-->
         <item name="dialogTitleStyle">@style/BaseDialog.Title</item>
+        <!--Message 样式-->
         <item name="dialogMessageStyle">@style/BaseDialog.Message</item>
+        <!--Button 样式-->
         <item name="dialogButtonStyle">@style/BaseDialog.Button</item>
+        <!--Button 背景图片-->
         <item name="dialogButtonBackgrounds">@style/BaseDialog.Button.Backgrounds</item>
     </style>
 
@@ -114,7 +120,7 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
-    <!-- 透明Dialog -->
+    <!-- 背景是纯黑色的的dialog -->
     <style name="Dialog.Black">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>

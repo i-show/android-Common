@@ -1,6 +1,9 @@
 package com.brightyu.androidcommon;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +15,7 @@ import android.widget.ImageView;
 import com.bright.common.app.BaseActivity;
 import com.bright.common.utils.DataCleanUtils;
 import com.bright.common.utils.ScreenUtils;
+import com.bright.common.utils.image.ImageUtils;
 import com.bright.common.utils.image.select.MultipleSelectPhotoUtils;
 import com.bright.common.utils.image.select.SelectPhotoUtils;
 import com.bright.common.utils.image.select.SingleSelectPhotoUtils;
@@ -38,6 +42,11 @@ public class MainActivity extends BaseActivity {
         mAdapter = new PhotoAdapter(gridView, this, ScreenUtils.getScreenSize(this)[0], 20, 20, 3);
         gridView.setAdapter(mAdapter);
         final ImageView photo = (ImageView) findViewById(R.id.imageView);
+
+        Bitmap camera = BitmapFactory.decodeResource(getResources(), R.drawable.ic_multi_select_camera).copy(Bitmap.Config.ARGB_8888, true);
+        camera = ImageUtils.getTintBitmap(camera, Color.GREEN);
+        photo.setImageBitmap(camera);
+
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
