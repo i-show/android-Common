@@ -32,6 +32,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.NoActionBar.Fullscreen" />
 
+        <activity
+            android:name=".modules.login.LoginActivity"
+            android:screenOrientation="portrait" />
         <!-- ++++++++++++++++++++配置区域+++++++++++++++++-->
         <!--百度统计的id-->
         <meta-data

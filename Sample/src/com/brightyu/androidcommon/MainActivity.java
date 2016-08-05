@@ -20,6 +20,7 @@ import com.bright.common.utils.image.select.MultipleSelectPhotoUtils;
 import com.bright.common.utils.image.select.SelectPhotoUtils;
 import com.bright.common.utils.image.select.SingleSelectPhotoUtils;
 import com.brightyu.androidcommon.adapter.PhotoAdapter;
+import com.brightyu.androidcommon.modules.login.LoginActivity;
 import com.brightyu.androidcommon.test.Test;
 import com.bumptech.glide.Glide;
 
@@ -74,7 +75,8 @@ public class MainActivity extends BaseActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSelectPhotoUtils.select(6);
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
             }
         });
     }

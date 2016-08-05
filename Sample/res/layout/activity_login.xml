@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  Copyright (C) 2016 The yuhaiyang Android Source Project
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="4">
+
+    <com.bright.common.widget.TopBar
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text="@string/login" />
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.1"
+        android:scaleType="center" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2.9"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/dp_40"
+        android:paddingRight="@dimen/dp_40">
+
+        <EditText
+            android:id="@+id/account"
+            style="@style/EditText.Login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_name"
+            android:drawablePadding="@dimen/gap_grade_1"
+            android:hint="@string/hint_login_account"
+            android:inputType="textEmailAddress"
+            android:singleLine="true" />
+
+        <View style="@style/line_h" />
+
+        <EditText
+            android:id="@+id/password"
+            style="@style/EditText.Login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_password"
+            android:drawablePadding="@dimen/gap_grade_1"
+            android:hint="@string/hint_login_password"
+            android:inputType="textPassword"
+            android:singleLine="true" />
+
+        <View style="@style/line_h" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/girdle_min_h"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/gap_grade_1"
+            android:paddingRight="@dimen/gap_grade_1">
+
+            <CheckBox
+                android:id="@+id/auto_login"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/gap_grade_1"
+                android:background="@android:color/transparent"
+                android:paddingLeft="@dimen/gap_grade_1"
+                android:text="@string/auto_login"
+                android:textColor="@color/text_grey_light_normal"
+                android:textSize="@dimen/E_title" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/forgot_password"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="?android:selectableItemBackground"
+                android:gravity="center"
+                android:padding="@dimen/gap_grade_1"
+                android:text="@string/forgot_password_mark"
+                android:textColor="@color/text_grey_light_normal"
+                android:textSize="@dimen/E_title" />
+        </LinearLayout>
+
+        <!-- 登录 按钮-->
+        <Button
+            android:id="@+id/login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_40"
+            android:layout_marginRight="@dimen/dp_40"
+            android:layout_marginTop="@dimen/gap_grade_5"
+            android:background="@drawable/round_orange_button_bg"
+            android:minHeight="@dimen/girdle_min_h"
+            android:text="@string/login"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/C_title" />
+
+        <!-- 登录 按钮-->
+        <Button
+            android:id="@+id/login_facebook"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_40"
+            android:layout_marginRight="@dimen/dp_40"
+            android:layout_marginTop="@dimen/gap_grade_5"
+            android:minHeight="@dimen/girdle_min_h"
+            android:text="facebook"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/C_title"
+            android:visibility="gone" />
+
+
+    </LinearLayout>
+</LinearLayout>
