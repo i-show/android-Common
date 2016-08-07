@@ -135,9 +135,10 @@
 # glide加载控件
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
-    **[] $VALUES;
-    public *;
+  **[] $VALUES;
+  public *;
 }
+-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 #内存检测工具
 -keep class org.eclipse.mat.** { *; }
 -keep class com.squareup.leakcanary.** { *; }

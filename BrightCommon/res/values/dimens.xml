@@ -20,10 +20,10 @@
     <dimen name="top_bar_height">@dimen/dp_50</dimen>
 
     <!-- 普通腰封的高度-->
-    <dimen name="girdle_min_h">@dimen/dp_50</dimen>
+    <dimen name="girdle_min_h">@dimen/dp_45</dimen>
     <dimen name="girdle_min_h_II">@dimen/dp_70</dimen>
     <dimen name="girdle_min_h_III">@dimen/dp_90</dimen>
-    <dimen name="girdle_min_h_multi_2">@dimen/dp_100</dimen>
+    <dimen name="girdle_min_h_multi_2">@dimen/dp_90</dimen>
     <dimen name="girdle_min_h_multi_2_padding_5">@dimen/dp_105</dimen>
     <dimen name="girdle_min_h_multi_2_padding_8">@dimen/dp_108</dimen>
 
