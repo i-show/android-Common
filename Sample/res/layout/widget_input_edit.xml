@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  Copyright (C) 2015  Haiyang Yu Android Source Project
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="0dp"
+    android:layout_height="@dimen/girdle_min_h"
+    android:layout_weight="1"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/gap_grade_2"
+    android:paddingRight="@dimen/gap_grade_2">
+
+    <TextView
+        android:id="@+id/tip"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textColor="@color/text_grey_normal"
+        android:textSize="@dimen/H_title" />
+
+    <EditText
+        android:id="@+id/input"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_vertical|left"
+        android:imeOptions="actionDone"
+        android:paddingLeft="@dimen/gap_grade_2"
+        android:paddingRight="@dimen/gap_grade_2"
+        android:singleLine="true"
+        android:textColorHint="@color/text_grey_hint"
+        android:textSize="@dimen/H_title" />
+
+    <ImageButton
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:minWidth="@dimen/dp_30"
+        android:scaleType="center"
+        android:src="@drawable/ic_cancel" />
+</LinearLayout>

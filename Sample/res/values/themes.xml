@@ -1,0 +1,38 @@
+<!--
+  Copyright (C) 2015  Haiyang Yu Android Source Project
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<resources>
+
+    <!-- 现在App的Theme -->
+    <style name="AppTheme" parent="Theme.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:overScrollMode">never</item>
+        <item name="android:divider">@color/line</item>
+        <item name="android:dividerHeight">1px</item>
+    </style>
+    <!-- Splash界面 -->
+    <style name="AppTheme.Splash" parent="Theme.NoActionBar.Fullscreen">
+        <item name="android:windowBackground">@drawable/splash</item>
+    </style>
+
+    <style name="AppTheme.Guide" parent="Theme.NoActionBar.Fullscreen" />
+
+
+    <style name="AppTheme.Login" parent="Theme.NoActionBar">
+        <item name="android:windowBackground">@drawable/login_bg</item>
+    </style>
+
+</resources>

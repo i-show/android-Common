@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.bright.common.widget.TopBar
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftImage="@drawable/ic_back_white"
+        app:text="@string/register_title" />
+
+    <com.brightyu.androidcommon.ui.widget.InputEdit
+        android:id="@+id/phone"
+        style="@style/InputEdit.Register"
+        android:inputType="phone"
+        app:hint="@string/register_hint_phone"
+        app:tip="@string/register_tip_phone" />
+
+
+    <com.brightyu.androidcommon.ui.widget.InputEdit
+        android:id="@+id/verify_code"
+        style="@style/InputEdit.Register"
+        app:hint="@string/register_hint_verify_code"
+        app:tip="@string/register_tip_verify_code">
+
+        <com.bright.common.widget.VerifyCodeButton
+            android:id="@+id/send_verify_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/gap_grade_2"
+            android:layout_marginRight="@dimen/gap_grade_2"
+            android:background="@drawable/round_normal_stroke_pressed_solid_bg"
+            android:minWidth="@dimen/dp_90"
+            app:textColor="@color/normal_coloraccent_pressed_white"
+            app:textSize="@dimen/I_title" />
+    </com.brightyu.androidcommon.ui.widget.InputEdit>
+
+
+    <com.brightyu.androidcommon.ui.widget.InputPasswordEdit
+        android:id="@+id/password"
+        style="@style/InputEdit.Register"
+        app:hint="@string/register_hint_password"
+        app:tip="@string/register_tip_password" />
+
+    <com.brightyu.androidcommon.ui.widget.InputPasswordEdit
+        android:id="@+id/ensure_password"
+        style="@style/InputEdit.Register"
+        app:focusColor="?colorAccent"
+        app:hint="@string/register_hint_ensure_password"
+        app:tip="@string/register_tip_ensure_password" />
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dp_30"
+        android:background="@drawable/round_accent_color_button_bg"
+        android:minWidth="@dimen/dp_200"
+        android:text="@string/register"
+        android:textColor="@color/text_white_normal"
+        android:textSize="@dimen/H_title" />
+</LinearLayout>

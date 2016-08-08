@@ -15,6 +15,6 @@
   -->
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/round_orange_button_pressed" android:state_pressed="true" />
-    <item android:drawable="@drawable/round_orange_button_normal" />
+    <item android:drawable="@drawable/round_coloraccent_bg" android:state_pressed="true" />
+    <item android:drawable="@drawable/round_color_accent_stroke_bg" />
 </selector>

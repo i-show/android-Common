@@ -14,9 +14,7 @@
   limitations under the License.
   -->
 
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-
-
-    <corners android:radius="100dp" />
-    <solid android:color="@color/orange_normal" />
-</shape>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/round_accent_color_button_pressed" android:state_pressed="true" />
+    <item android:drawable="@drawable/round_accent_color_button_normal" />
+</selector>

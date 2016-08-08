@@ -7,20 +7,51 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".BaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="${APP_NAME}"
         android:theme="@style/AppTheme">
 
+        <!--引导界面-->
         <activity
-            android:name=".MainActivity"
-            android:hardwareAccelerated="false">
+            android:name=".modules.SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- 引导页-->
+        <activity
+            android:name=".modules.GuideActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Guide" />
+        <!--主界面-->
+        <activity
+            android:name=".modules.main.MainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+
+        <!--登录界面-->
+        <activity
+            android:name=".modules.login.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Login"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!--注册界面-->
+        <activity
+            android:name=".modules.register.RegisterActivity"
+            android:screenOrientation="portrait" />
+
+        <!--修改密码重置密码-->
+        <activity
+            android:name=".modules.password.PassWordActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name="com.bright.common.app.activity.MultiChoicePicturesActivity"
@@ -32,9 +63,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.NoActionBar.Fullscreen" />
 
-        <activity
-            android:name=".modules.login.LoginActivity"
-            android:screenOrientation="portrait" />
+
         <!-- ++++++++++++++++++++配置区域+++++++++++++++++-->
         <!--百度统计的id-->
         <meta-data

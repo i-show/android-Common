@@ -1,5 +1,5 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
+    <!--密码长度验证 -->
+    <integer name="min_password">6</integer>
+    <integer name="max_password">16</integer>
 </resources>

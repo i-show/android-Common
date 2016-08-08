@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016 yuhaiyang android source project
+ * Copyright (C) 2016 The yuhaiyang Android Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,22 @@
  * limitations under the License.
  */
 
-package com.brightyu.androidcommon.model;
+package com.brightyu.androidcommon.entries;
 
 /**
  * Created by Bright.Yu on 2016/7/15.
  */
-public class User {
-    public String userName;
-    public String userId;
+public class Book {
+    public long bookUUID;
+    public String bookName;
+    public String bookId;
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "bookUUID=" + bookUUID +
+                ", bookName='" + bookName + '\'' +
+                ", bookId='" + bookId + '\'' +
+                '}';
+    }
 }

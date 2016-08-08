@@ -1,12 +1,41 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.NoActionBar">
-
-    </style>
-
     <style name="EditText.Login">
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:minHeight">@dimen/girdle_min_h</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/girdle_min_h</item>
+        <item name="android:textColor">@color/text_white_normal</item>
+        <item name="android:textSize">@dimen/H_title</item>
+        <item name="android:textColorHint">@color/text_grey_hint</item>
+        <item name="android:lines">1</item>
+        <item name="android:paddingLeft">@dimen/gap_grade_2</item>
+        <item name="android:paddingRight">@dimen/gap_grade_2</item>
     </style>
+
+    <style name="Button.Login">
+        <item name="android:textColor">@color/text_white_normal</item>
+        <item name="android:textSize">@dimen/H_title</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/round_accent_color_button_bg</item>
+    </style>
+
+    <style name="TextView.Login">
+        <item name="android:textColor">@color/text_white_normal</item>
+        <item name="android:textSize">@dimen/I_title</item>
+        <item name="android:background">?selectableItemBackground</item>
+        <item name="android:clickable">true</item>
+        <item name="android:paddingTop">@dimen/gap_grade_4</item>
+        <item name="android:paddingBottom">@dimen/gap_grade_4</item>
+    </style>
+
+    <style name="InputEdit" />
+
+    <style name="InputEdit.Register">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_52</item>
+        <item name="android:background">@android:color/white</item>
+        <item name="android:gravity">center</item>
+        <item name="focusColor">?colorAccent</item>
+
+    </style>
+
 </resources>
