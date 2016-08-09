@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.bright.common.app.BaseActivity;
 import com.bright.common.utils.PackagesUtils;
+import com.bright.common.utils.SharedPreferencesUtils;
 import com.bright.common.widget.dialog.BaseDialog;
 import com.brightyu.androidcommon.BaseApplication;
 
@@ -60,20 +61,21 @@ public abstract class AppBaseActivity extends BaseActivity {
      */
     protected boolean isFirstEnterThisVerison() {
         // 获取之前保存的版本信息
-        final int version = getSharedPreferences().getInt(PackagesUtils.VERSION_CODE, 0);
-        final String versionName = getSharedPreferences().getString(PackagesUtils.VERSION_NAME, null);
+        final int versionCode = SharedPreferencesUtils.get(this, PackagesUtils.VERSION_CODE, 0);
+        final String versionName = SharedPreferencesUtils.get(this, PackagesUtils.VERSION_NAME, null);
         // 获取当前版本号
-        final int _version = PackagesUtils.getVersion(this);
+        final int _versionCode = PackagesUtils.getVersionCode(this);
         final String _versionName = PackagesUtils.getVersionName(this);
-        Log.d(TAG, "originVersion = " + version + " ,localVersion = " + _version);
+        Log.d(TAG, "originVersion = " + versionCode + " ,localVersion = " + _versionCode);
+        Log.d(TAG, "originVersionName = " + versionName + " ,localVersionName = " + _versionName);
 
         // 保存现在的版本号
-        saveInt(PackagesUtils.VERSION_CODE, _version);
+        saveInt(PackagesUtils.VERSION_CODE, _versionCode);
         saveString(PackagesUtils.VERSION_NAME, _versionName);
 
         // 如果当前版本比保存的版本大，说明APP更新了
         // 版本名称不相等且版本code比上一个版本大 才进行走ViewPager
-        return (!TextUtils.equals(versionName, _versionName) && _version > version);
+        return (!TextUtils.equals(versionName, _versionName) && _versionCode > versionCode);
     }
 
 }

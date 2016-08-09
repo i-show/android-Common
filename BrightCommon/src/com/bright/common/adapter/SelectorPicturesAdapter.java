@@ -28,8 +28,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bright.common.R;
-import com.bright.common.model.MultiSelectorImage;
-import com.bright.common.widget.YToast;
+import com.bright.common.model.SelectorPicture;
+import com.bright.common.utils.ToastUtils;
 import com.bright.common.widget.dialog.ShowPhotoDialog;
 import com.bumptech.glide.Glide;
 
@@ -40,7 +40,7 @@ import java.util.List;
  * 图片Adapter
  * Created by Nereo on 2015/4/7.
  */
-public class MultiChoicePicturesAdapter extends ListAdapter<MultiSelectorImage, MultiChoicePicturesAdapter.ViewHolde> {
+public class SelectorPicturesAdapter extends ListAdapter<SelectorPicture, SelectorPicturesAdapter.ViewHolde> {
     private static final String TAG = "MultiImageAdapter";
     private static final int TYPE_CAMERA = 0;
     private static final int TYPE_NORMAL = 1;
@@ -50,11 +50,11 @@ public class MultiChoicePicturesAdapter extends ListAdapter<MultiSelectorImage, 
     private int mItemSize;
     private int mMaxSelectedCount;
 
-    private List<MultiSelectorImage> mSelectedImages = new ArrayList<>();
+    private List<SelectorPicture> mSelectedImages = new ArrayList<>();
     private GridView.LayoutParams mItemLayoutParams;
     private CallBack mCallBack;
 
-    public MultiChoicePicturesAdapter(Context context, boolean showCamera) {
+    public SelectorPicturesAdapter(Context context, boolean showCamera) {
         super(context);
         isShowCamera = showCamera;
         mItemLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
@@ -87,7 +87,7 @@ public class MultiChoicePicturesAdapter extends ListAdapter<MultiSelectorImage, 
     /**
      * 设定已经选择了的照片
      */
-    public void setSelectedImages(List<MultiSelectorImage> selectedImages) {
+    public void setSelectedImages(List<SelectorPicture> selectedImages) {
         if (selectedImages == null) {
             mSelectedImages = new ArrayList<>();
         } else {
@@ -136,7 +136,7 @@ public class MultiChoicePicturesAdapter extends ListAdapter<MultiSelectorImage, 
 
     @Override
     public void onBindViewHolder(ViewHolde holder, int position, int type) {
-        MultiSelectorImage entry = getRealItem(position);
+        SelectorPicture entry = getRealItem(position);
         holder.getItemView().setTag(R.id.tag_01, entry);
         holder.getItemView().setTag(R.id.tag_02, position);
 
@@ -166,7 +166,6 @@ public class MultiChoicePicturesAdapter extends ListAdapter<MultiSelectorImage, 
             image = (ImageView) item.findViewById(R.id.image);
 
             state = (CheckBox) item.findViewById(R.id.state);
-            state.setVisibility(isMultiSelector ? View.VISIBLE : View.GONE);
             state.setOnCheckedChangeListener(this);
 
             mask = item.findViewById(R.id.mask);
@@ -183,17 +182,23 @@ public class MultiChoicePicturesAdapter extends ListAdapter<MultiSelectorImage, 
         }
 
         private void selectImage(CompoundButton v, boolean isChecked) {
-            MultiSelectorImage entry = (MultiSelectorImage) v.getTag(R.id.tag_01);
+            SelectorPicture entry = (SelectorPicture) v.getTag(R.id.tag_01);
 
             if (entry.isSelected == isChecked) {
                 Log.i(TAG, "selectImage: state is same just return");
                 return;
             }
 
-            if (isChecked && mMaxSelectedCount <= mSelectedImages.size()) {
-                YToast.makeText(mContext, R.string.already_select_max, Toast.LENGTH_SHORT).show();
-                v.setChecked(false);
-                return;
+            if (isMultiSelector) {
+                if (isChecked && mMaxSelectedCount <= mSelectedImages.size()) {
+                    ToastUtils.showToast(mContext, R.string.already_select_max, Toast.LENGTH_SHORT);
+                    return;
+                }
+            } else {
+                if (isChecked && mSelectedImages.size() >= 1) {
+                    v.setChecked(false);
+                    return;
+                }
             }
 
             entry.isSelected = isChecked;
@@ -220,7 +225,7 @@ public class MultiChoicePicturesAdapter extends ListAdapter<MultiSelectorImage, 
                 return;
             }
 
-            MultiSelectorImage entry = (MultiSelectorImage) v.getTag(R.id.tag_01);
+            SelectorPicture entry = (SelectorPicture) v.getTag(R.id.tag_01);
             ShowPhotoDialog dialog = new ShowPhotoDialog(mContext);
             dialog.setData(entry.path);
             dialog.setShowThumb(false);
@@ -239,7 +244,7 @@ public class MultiChoicePicturesAdapter extends ListAdapter<MultiSelectorImage, 
         /**
          * 点击图片
          */
-        void onSelectImage(MultiSelectorImage entry, boolean selected);
+        void onSelectImage(SelectorPicture entry, boolean selected);
     }
 
 }

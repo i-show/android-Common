@@ -19,7 +19,7 @@ package com.bright.common.model;
 /**
  * 图片实体
  */
-public class MultiSelectorImage {
+public class SelectorPicture {
     /**
      * 图片的绝对路径
      */
@@ -44,7 +44,7 @@ public class MultiSelectorImage {
     public boolean isSelected;
 
 
-    public MultiSelectorImage(String path, String name, long modifyDate, String folderName) {
+    public SelectorPicture(String path, String name, long modifyDate, String folderName) {
         this.path = path;
         this.name = name;
         this.modifyDate = modifyDate;
@@ -54,7 +54,7 @@ public class MultiSelectorImage {
     @Override
     public boolean equals(Object o) {
         try {
-            MultiSelectorImage other = (MultiSelectorImage) o;
+            SelectorPicture other = (SelectorPicture) o;
             return this.path.equalsIgnoreCase(other.path);
         } catch (ClassCastException e) {
             e.printStackTrace();

@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- * <p/>
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p/>
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,6 +26,8 @@ import android.provider.MediaStore;
 import android.util.Log;
 
 import com.bright.common.app.activity.CropImageActivity;
+import com.bright.common.app.activity.SelectorPicturesActivity;
+import com.bright.common.model.SelectorPicture;
 import com.bright.common.utils.image.ImageUtils;
 import com.bright.common.widget.loading.LoadingDialog;
 
@@ -96,13 +98,14 @@ public class SingleSelectPhotoUtils extends SelectPhotoUtils implements DialogIn
         switch (which) {
             case SELECT_PHOTO_CAMERA:
                 mCameraFileUri = Uri.parse(ImageUtils.generateRandomPhotoName(mContext));
+                Log.i(TAG, "onClick: mCameraFileUri = " + mCameraFileUri);
                 intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, mCameraFileUri);
-                mContext.startActivityForResult(intent, Request.REQUEST_CAMERA);
+                mContext.startActivityForResult(intent, Request.REQUEST_SINGLE_CAMERA);
                 break;
             case SELECT_PHOTO_GALLERY:
-                intent = new Intent(Intent.ACTION_PICK, null);
-                intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                intent = new Intent(mContext, SelectorPicturesActivity.class);
+                intent.putExtra(SelectorPicture.Key.EXTRA_SELECT_MODE, SelectorPicture.Key.MODE_SINGLE);
                 mContext.startActivityForResult(intent, Request.REQUEST_SINGLE_PICK);
                 break;
         }
@@ -114,9 +117,13 @@ public class SingleSelectPhotoUtils extends SelectPhotoUtils implements DialogIn
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_CANCELED) {
+            return;
+        }
+
         String picPath;
         switch (requestCode) {
-            case Request.REQUEST_CAMERA:
+            case Request.REQUEST_SINGLE_CAMERA:
                 switch (mMode) {
                     case MODE_COMPRESS:
                         mLoadingDialog = LoadingDialog.show(mContext);
@@ -129,7 +136,7 @@ public class SingleSelectPhotoUtils extends SelectPhotoUtils implements DialogIn
                 }
                 break;
             case Request.REQUEST_SINGLE_PICK:
-                picPath = ImageUtils.getPicturePathFromIntent(data, mContext);
+                picPath = data.getStringExtra(SelectorPicture.Key.EXTRA_RESULT);
                 Log.d(TAG, "picPath = " + picPath);
                 switch (mMode) {
                     case MODE_COMPRESS:

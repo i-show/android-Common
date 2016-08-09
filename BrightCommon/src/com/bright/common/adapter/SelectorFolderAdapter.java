@@ -24,16 +24,16 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.bright.common.R;
-import com.bright.common.model.MultiSelectorFolder;
+import com.bright.common.model.SelectorFolder;
 import com.bumptech.glide.Glide;
 
 
 /**
  * 文件夹Adapter
  */
-public class MultiChoiceFolderAdapter extends ListAdapter<MultiSelectorFolder, MultiChoiceFolderAdapter.ViewHolder> {
+public class SelectorFolderAdapter extends ListAdapter<SelectorFolder, SelectorFolderAdapter.ViewHolder> {
 
-    public MultiChoiceFolderAdapter(Context context) {
+    public SelectorFolderAdapter(Context context) {
         super(context);
     }
 
@@ -47,7 +47,7 @@ public class MultiChoiceFolderAdapter extends ListAdapter<MultiSelectorFolder, M
     @Override
     public void onBindViewHolder(ViewHolder holder, int position, int type) {
 
-        MultiSelectorFolder entry = getItem(position);
+        SelectorFolder entry = getItem(position);
         holder.name.setText(entry.name);
         holder.size.setText(mContext.getString(R.string.link_sheet, entry.images.size()));
         // 显示图片

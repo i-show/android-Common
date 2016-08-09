@@ -22,15 +22,15 @@ import java.util.List;
 /**
  * 文件夹
  */
-public class MultiSelectorFolder {
+public class SelectorFolder {
     public String id;
     public String name;
-    public MultiSelectorImage cover;
-    public List<MultiSelectorImage> images;
+    public SelectorPicture cover;
+    public List<SelectorPicture> images;
     public int count;
     public boolean isSelected;
 
-    public void addImage(MultiSelectorImage image) {
+    public void addImage(SelectorPicture image) {
         if (images == null) {
             images = new ArrayList<>();
         }
@@ -40,7 +40,7 @@ public class MultiSelectorFolder {
     @Override
     public boolean equals(Object o) {
         try {
-            MultiSelectorFolder other = (MultiSelectorFolder) o;
+            SelectorFolder other = (SelectorFolder) o;
             return this.id.equalsIgnoreCase(other.id);
         } catch (ClassCastException e) {
             e.printStackTrace();

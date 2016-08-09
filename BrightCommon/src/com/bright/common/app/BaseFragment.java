@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,10 +18,8 @@ package com.bright.common.app;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
@@ -32,16 +30,12 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.bright.common.R;
+import com.bright.common.utils.SharedPreferencesUtils;
 import com.bright.common.widget.TopBar;
 import com.bright.common.widget.YToast;
 import com.bright.common.widget.dialog.BaseDialog;
 
 public abstract class BaseFragment extends Fragment implements TopBar.OnTopBarListener {
-    /**
-     * 保存变量
-     */
-    private SharedPreferences mSharedPreferences;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,51 +56,33 @@ public abstract class BaseFragment extends Fragment implements TopBar.OnTopBarLi
     //************************ 数据保存区域*********************** //
 
     /**
-     * 获取保存的变量
-     */
-    protected SharedPreferences getSharedPreferences() {
-        if (mSharedPreferences == null && isAdded()) {
-            mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        }
-        return mSharedPreferences;
-    }
-
-    /**
      * 保存 int 类型数据
      */
     protected void saveInt(String key, int values) {
-        if (getSharedPreferences() != null) {
-            mSharedPreferences.edit().putInt(key, values).commit();
-        }
-    }
-
-    /**
-     * 保存 Boolean 类型数据
-     */
-    protected void saveBoolean(String key, boolean values) {
-        if (getSharedPreferences() != null) {
-            mSharedPreferences.edit().putBoolean(key, values).commit();
-        }
-    }
-
-    /**
-     * 保存String 类型数据
-     */
-    protected void saveString(String key, String values) {
-        if (getSharedPreferences() != null) {
-            mSharedPreferences.edit().putString(key, values).commit();
-        }
+        SharedPreferencesUtils.save(getActivity(), key, values);
     }
 
     /**
      * 保存long型数据
      */
     protected void saveLong(String key, long values) {
-        if (getSharedPreferences() != null) {
-            mSharedPreferences.edit().putLong(key, values).commit();
-        }
+        SharedPreferencesUtils.save(getActivity(), key, values);
     }
 
+
+    /**
+     * 保存 Boolean 类型数据
+     */
+    protected void saveBoolean(String key, boolean values) {
+        SharedPreferencesUtils.save(getActivity(), key, values);
+    }
+
+    /**
+     * 保存String 类型数据
+     */
+    protected void saveString(String key, String values) {
+        SharedPreferencesUtils.save(getActivity(), key, values);
+    }
 
     /**
      * TopBar的左侧点击事件

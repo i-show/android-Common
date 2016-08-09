@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- * <p/>
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p/>
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,13 +24,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.bright.common.R;
-import com.bright.common.app.activity.MultiChoicePicturesActivity;
-import com.bright.common.model.MultiSelectorImage;
+import com.bright.common.app.activity.SelectorPicturesActivity;
+import com.bright.common.model.SelectorPicture;
 import com.bright.common.utils.image.ImageUtils;
-import com.bright.common.widget.YToast;
 import com.bright.common.widget.loading.LoadingDialog;
 
 import java.util.ArrayList;
@@ -92,11 +89,11 @@ public class MultipleSelectPhotoUtils extends SelectPhotoUtils {
                 mCameraFileUri = Uri.parse(ImageUtils.generateRandomPhotoName(mContext));
                 intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, mCameraFileUri);
-                mContext.startActivityForResult(intent, Request.REQUEST_CAMERA);
+                mContext.startActivityForResult(intent, Request.REQUEST_MULTI_CAMERA);
                 break;
             case SELECT_PHOTO_GALLERY:
-                intent = new Intent(mContext, MultiChoicePicturesActivity.class);
-                intent.putExtra(MultiSelectorImage.Key.EXTRA_SELECT_COUNT, mCount);
+                intent = new Intent(mContext, SelectorPicturesActivity.class);
+                intent.putExtra(SelectorPicture.Key.EXTRA_SELECT_COUNT, mCount);
                 mContext.startActivityForResult(intent, Request.REQUEST_MULTI_PICK);
                 break;
         }
@@ -104,26 +101,25 @@ public class MultipleSelectPhotoUtils extends SelectPhotoUtils {
 
     // 用来接管activity的result
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_CANCELED) {
-            YToast.makeText(mContext, R.string.cancle_photo, Toast.LENGTH_SHORT).show();
             return;
         }
 
         switch (requestCode) {
-            case Request.REQUEST_CAMERA:
+            case Request.REQUEST_MULTI_CAMERA:
                 mLoadingDialog = LoadingDialog.show(mContext);
                 mPhotos.clear();
                 mPhotos.add("camera");
                 isAreadyOk = false;
-                // 设置最多线程同时上传图片
+                // 设置最多线程压缩图片
                 mExecutorService = Executors.newFixedThreadPool(MAX_THREAD);
                 mExecutorService.execute(new CompressRunnable(mCameraFileUri.getPath(), 0));
                 // 关闭线程池
                 mExecutorService.shutdown();
                 break;
             case Request.REQUEST_MULTI_PICK:
-                List<String> photots = data.getStringArrayListExtra(MultiSelectorImage.Key.EXTRA_RESULT);
+                List<String> photots = data.getStringArrayListExtra(SelectorPicture.Key.EXTRA_RESULT);
                 mLoadingDialog = LoadingDialog.show(mContext);
                 mPhotos.clear();
                 // 把没有压缩前添加进入当占位符

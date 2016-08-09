@@ -42,11 +42,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bright.common.R;
-import com.bright.common.adapter.MultiChoiceFolderAdapter;
-import com.bright.common.adapter.MultiChoicePicturesAdapter;
+import com.bright.common.adapter.SelectorFolderAdapter;
+import com.bright.common.adapter.SelectorPicturesAdapter;
 import com.bright.common.app.BaseFragment;
-import com.bright.common.model.MultiSelectorFolder;
-import com.bright.common.model.MultiSelectorImage;
+import com.bright.common.model.SelectorFolder;
+import com.bright.common.model.SelectorPicture;
 import com.bright.common.utils.AnimatorUtils;
 import com.bright.common.utils.DateUtils;
 import com.bright.common.utils.image.ImageUtils;
@@ -60,7 +60,7 @@ import java.util.List;
 /**
  * 图片选择Fragment
  */
-public class MultiChoicePicturesFragment extends BaseFragment implements View.OnClickListener {
+public class SelectorPicturesFragment extends BaseFragment implements View.OnClickListener {
     private static final String TAG = "MultiImageSelector";
 
     // 不同loader定义
@@ -76,15 +76,15 @@ public class MultiChoicePicturesFragment extends BaseFragment implements View.On
     /**
      * 选中图片
      */
-    private List<MultiSelectorImage> mAlreadySelectedImage = new ArrayList<>();
+    private List<SelectorPicture> mAlreadySelectedImage = new ArrayList<>();
 
-    private MultiSelectorFolder mSelectedFolder;
+    private SelectorFolder mSelectedFolder;
 
     // 图片Grid
     private GridView mGridView;
 
-    private MultiChoicePicturesAdapter mImageAdapter;
-    private MultiChoiceFolderAdapter mFolderAdapter;
+    private SelectorPicturesAdapter mImageAdapter;
+    private SelectorFolderAdapter mFolderAdapter;
 
     // 时间线
     private TextView mTimeLineText;
@@ -100,8 +100,8 @@ public class MultiChoicePicturesFragment extends BaseFragment implements View.On
     private File mTmpFile;
     private int mMode;
 
-    public static MultiChoicePicturesFragment newInstance(Bundle args) {
-        MultiChoicePicturesFragment fragment = new MultiChoicePicturesFragment();
+    public static SelectorPicturesFragment newInstance(Bundle args) {
+        SelectorPicturesFragment fragment = new SelectorPicturesFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -112,20 +112,20 @@ public class MultiChoicePicturesFragment extends BaseFragment implements View.On
         try {
             mCallback = (Callback) getActivity();
         } catch (ClassCastException e) {
-            throw new ClassCastException("The Activity must implement MultiChoicePicturesFragment.Callback interface...");
+            throw new ClassCastException("The Activity must implement SelectorPicturesFragment.Callback interface...");
         }
 
         Bundle args = getArguments();
 
         // 选择图片数量
-        mDesireImageCount = args.getInt(MultiSelectorImage.Key.EXTRA_SELECT_COUNT);
+        mDesireImageCount = args.getInt(SelectorPicture.Key.EXTRA_SELECT_COUNT);
         // 是否显示照相机
-        mIsShowCamera = args.getBoolean(MultiSelectorImage.Key.EXTRA_SHOW_CAMERA, false);
+        mIsShowCamera = args.getBoolean(SelectorPicture.Key.EXTRA_SHOW_CAMERA, false);
         // 图片选择模式
-        mMode = args.getInt(MultiSelectorImage.Key.EXTRA_SELECT_MODE);
+        mMode = args.getInt(SelectorPicture.Key.EXTRA_SELECT_MODE);
         // 默认选择
-        if (mMode == MultiSelectorImage.Key.MODE_MULTI) {
-            ArrayList<String> tmp = args.getStringArrayList(MultiSelectorImage.Key.EXTRA_DEFAULT_SELECTED_LIST);
+        if (mMode == SelectorPicture.Key.MODE_MULTI) {
+            ArrayList<String> tmp = args.getStringArrayList(SelectorPicture.Key.EXTRA_DEFAULT_SELECTED_LIST);
             if (tmp != null && tmp.size() > 0) {
                 mAlreadySelectedPath = tmp;
             }
@@ -144,8 +144,8 @@ public class MultiChoicePicturesFragment extends BaseFragment implements View.On
         mCategoryText.setText(R.string.all_photos);
         mCategoryText.setOnClickListener(this);
 
-        mImageAdapter = new MultiChoicePicturesAdapter(getActivity(), mIsShowCamera);
-        mImageAdapter.setMultiSelector(mMode == MultiSelectorImage.Key.MODE_MULTI);
+        mImageAdapter = new SelectorPicturesAdapter(getActivity(), mIsShowCamera);
+        mImageAdapter.setMultiSelector(mMode == SelectorPicture.Key.MODE_MULTI);
         mImageAdapter.setMaxSelectedCount(mDesireImageCount);
         mImageAdapter.setCallBack(mImageAdapterCallBack);
 
@@ -154,7 +154,7 @@ public class MultiChoicePicturesFragment extends BaseFragment implements View.On
         mGridView.setAdapter(mImageAdapter);
         computeGridItemSize();
 
-        mFolderAdapter = new MultiChoiceFolderAdapter(getActivity());
+        mFolderAdapter = new SelectorFolderAdapter(getActivity());
         return root;
     }
 
@@ -221,7 +221,7 @@ public class MultiChoicePicturesFragment extends BaseFragment implements View.On
             @Override
             public void run() {
 
-                MultiSelectorFolder folder = mFolderAdapter.getItem(position);
+                SelectorFolder folder = mFolderAdapter.getItem(position);
                 folder.isSelected = true;
                 mFolderAdapter.notifyDataSetChanged();
 
@@ -260,7 +260,7 @@ public class MultiChoicePicturesFragment extends BaseFragment implements View.On
     /**
      * 通知图片的选中状态有改变
      */
-    private void notifyImageSelectedStateChanged(MultiSelectorImage entry, boolean selected) {
+    private void notifyImageSelectedStateChanged(SelectorPicture entry, boolean selected) {
         if (entry == null) {
             Log.i(TAG, "notifyImageSelectedStateChanged: entry is null");
             return;
@@ -272,23 +272,23 @@ public class MultiChoicePicturesFragment extends BaseFragment implements View.On
         }
 
         switch (mMode) {
-            case MultiSelectorImage.Key.MODE_SINGLE:
+            case SelectorPicture.Key.MODE_SINGLE:
                 mCallback.onSingleImageSelected(entry.path);
                 break;
-            case MultiSelectorImage.Key.MODE_MULTI:
+            case SelectorPicture.Key.MODE_MULTI:
                 mCallback.onImageSelectedStateChanged(entry.path, selected);
                 break;
         }
     }
 
-    private MultiChoicePicturesAdapter.CallBack mImageAdapterCallBack = new MultiChoicePicturesAdapter.CallBack() {
+    private SelectorPicturesAdapter.CallBack mImageAdapterCallBack = new SelectorPicturesAdapter.CallBack() {
         @Override
         public void onClickCamera() {
             goToCamera();
         }
 
         @Override
-        public void onSelectImage(MultiSelectorImage entry, boolean selected) {
+        public void onSelectImage(SelectorPicture entry, boolean selected) {
             notifyImageSelectedStateChanged(entry, selected);
         }
     };
@@ -360,8 +360,8 @@ public class MultiChoicePicturesFragment extends BaseFragment implements View.On
             // 如果load重新加载那么重新制作当前已经保存的path
             checkSelectedPath();
 
-            List<MultiSelectorImage> images = new ArrayList<>();
-            List<MultiSelectorFolder> folders = new ArrayList<>();
+            List<SelectorPicture> images = new ArrayList<>();
+            List<SelectorFolder> folders = new ArrayList<>();
             Log.i(TAG, "onLoadFinished: cursor size = " + cursor.getCount());
             while (cursor.moveToNext()) {
                 String path = cursor.getString(INDEX_PATH);
@@ -370,7 +370,7 @@ public class MultiChoicePicturesFragment extends BaseFragment implements View.On
                 String folderName = cursor.getString(INDEX_FLODER_NAME);
                 long modifyDate = cursor.getLong(INDEX_MODIFY_DATE);
 
-                MultiSelectorImage image = new MultiSelectorImage(path, name, modifyDate, folderName);
+                SelectorPicture image = new SelectorPicture(path, name, modifyDate, folderName);
                 image.isSelected = mAlreadySelectedPath.contains(path);
                 images.add(image);
                 if (image.isSelected) {
@@ -378,7 +378,7 @@ public class MultiChoicePicturesFragment extends BaseFragment implements View.On
                 }
 
                 // 获取文件夹名称
-                MultiSelectorFolder folder = new MultiSelectorFolder();
+                SelectorFolder folder = new SelectorFolder();
                 folder.id = folderId;
                 folder.name = folderName;
                 folder.cover = image;
@@ -387,7 +387,7 @@ public class MultiChoicePicturesFragment extends BaseFragment implements View.On
                     folder.addImage(image);
                     folders.add(folder);
                 } else {
-                    MultiSelectorFolder f = folders.get(folders.indexOf(folder));
+                    SelectorFolder f = folders.get(folders.indexOf(folder));
                     f.addImage(image);
                 }
             }
@@ -396,7 +396,7 @@ public class MultiChoicePicturesFragment extends BaseFragment implements View.On
             mImageAdapter.setSelectedImages(mAlreadySelectedImage);
             mImageAdapter.setData(images);
 
-            MultiSelectorFolder all = new MultiSelectorFolder();
+            SelectorFolder all = new SelectorFolder();
             all.id = "all";
             all.name = getString(R.string.all_photos);
             all.cover = images.isEmpty() ? null : images.get(0);
@@ -408,7 +408,7 @@ public class MultiChoicePicturesFragment extends BaseFragment implements View.On
                 mSelectedFolder = all;
             } else {
                 all.isSelected = false;
-                for (MultiSelectorFolder folder : folders) {
+                for (SelectorFolder folder : folders) {
                     if (folder.equals(mSelectedFolder)) {
                         mSelectedFolder = folder;
                         folder.isSelected = true;
@@ -437,7 +437,7 @@ public class MultiChoicePicturesFragment extends BaseFragment implements View.On
         }
 
         mAlreadySelectedPath.clear();
-        for (MultiSelectorImage image : mAlreadySelectedImage) {
+        for (SelectorPicture image : mAlreadySelectedImage) {
             mAlreadySelectedPath.add(image.path);
         }
 
@@ -479,7 +479,7 @@ public class MultiChoicePicturesFragment extends BaseFragment implements View.On
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
             if (mTimeLineText.getAlpha() >= 0.15f) {
-                MultiSelectorImage image = mImageAdapter.getItem(firstVisibleItem);
+                SelectorPicture image = mImageAdapter.getItem(firstVisibleItem);
                 mTimeLineText.setText(DateUtils.formatFriendly(getActivity(), image.modifyDate * 1000));
             }
         }

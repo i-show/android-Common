@@ -17,6 +17,7 @@
 package com.bright.common.utils;
 
 import android.content.Context;
+import android.support.annotation.StringRes;
 import android.widget.Toast;
 
 import com.bright.common.widget.YToast;
@@ -30,6 +31,12 @@ import java.lang.ref.WeakReference;
 public class ToastUtils {
 
     private static WeakReference<Toast> mToast;
+
+    public static void showToast(Context context, @StringRes int text, int duration) {
+        String content = context.getString(text);
+        showToast(context, content, duration);
+    }
+
 
     public static void showToast(Context context, CharSequence text, int duration) {
         Toast toast;

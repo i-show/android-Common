@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- * <p/>
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p/>
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,19 +32,23 @@ public class SharedPreferencesUtils {
 
     private static WeakReference<SharedPreferences> mSharedPreferences;
 
-    public static void save(Context context, String key, Object value) {
-        if (value == null) {
-            value = Utils.EMPTY;
-        }
 
+    public static SharedPreferences getSharedPreferences(Context context) {
+        SharedPreferences sharedPreferences;
         if (mSharedPreferences == null || mSharedPreferences.get() == null) {
-            SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
-            mSharedPreferences = new WeakReference<>(sp);
+            sharedPreferences = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+            mSharedPreferences = new WeakReference<>(sharedPreferences);
+        } else {
+            sharedPreferences = mSharedPreferences.get();
         }
+        return sharedPreferences;
+    }
 
-        SharedPreferences.Editor editor = mSharedPreferences.get().edit();
+    public static void save(Context context, String key, Object value) {
 
-        if (value instanceof String) {
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+
+        if (value == null || value instanceof String) {
             editor.putString(key, (String) value);
         } else if (value instanceof Integer) {
             editor.putInt(key, (Integer) value);
@@ -66,24 +70,23 @@ public class SharedPreferencesUtils {
      * 得到保存数据的方法，我们根据默认值得到保存的数据的具体类型，然后调用相对于的方法获取值
      */
     public static <T> T get(Context context, String key, T value) {
+        SharedPreferences sp = getSharedPreferences(context);
 
-        if (mSharedPreferences == null || mSharedPreferences.get() == null) {
-            SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
-            mSharedPreferences = new WeakReference<>(sp);
-        }
-
-        Object result = null;
+        Object result;
         if (value == null || value instanceof String) {
-            result = mSharedPreferences.get().getString(key, (String) value);
+            result = sp.getString(key, (String) value);
         } else if (value instanceof Integer) {
-            result = mSharedPreferences.get().getInt(key, (Integer) value);
+            result = sp.getInt(key, (Integer) value);
         } else if (value instanceof Float) {
-            result = mSharedPreferences.get().getFloat(key, (Float) value);
+            result = sp.getFloat(key, (Float) value);
         } else if (value instanceof Long) {
-            result = mSharedPreferences.get().getLong(key, (Long) value);
+            result = sp.getLong(key, (Long) value);
         } else if (value instanceof Set) {
-            result = mSharedPreferences.get().getStringSet(key, (Set<String>) value);
+            result = sp.getStringSet(key, (Set<String>) value);
+        } else {
+            throw new IllegalArgumentException("没有当前类型");
         }
+
         if (result != null) {
             return (T) result;
         }

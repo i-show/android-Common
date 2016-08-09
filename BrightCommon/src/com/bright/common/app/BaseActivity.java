@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,7 +22,6 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -31,6 +30,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.bright.common.R;
+import com.bright.common.utils.SharedPreferencesUtils;
 import com.bright.common.utils.http.okhttp.OkHttpUtils;
 import com.bright.common.widget.TopBar;
 import com.bright.common.widget.YToast;
@@ -133,46 +133,33 @@ public abstract class BaseActivity extends AppCompatActivity implements TopBar.O
 
     //************************ 数据保存区域*********************** //
 
-    /**
-     * 获取保存的变量
-     */
-    protected SharedPreferences getSharedPreferences() {
-        if (mSharedPreferences == null) {
-            mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        }
-        return mSharedPreferences;
-    }
 
     /**
      * 保存 int 类型数据
      */
     protected void saveInt(String key, int values) {
-        getSharedPreferences();
-        mSharedPreferences.edit().putInt(key, values).commit();
-    }
-
-    /**
-     * 保存 Boolean 类型数据
-     */
-    protected void saveBoolean(String key, boolean values) {
-        getSharedPreferences();
-        mSharedPreferences.edit().putBoolean(key, values).commit();
-    }
-
-    /**
-     * 保存String 类型数据
-     */
-    protected void saveString(String key, String values) {
-        getSharedPreferences();
-        mSharedPreferences.edit().putString(key, values).commit();
+        SharedPreferencesUtils.save(this, key, values);
     }
 
     /**
      * 保存long型数据
      */
     protected void saveLong(String key, long values) {
-        getSharedPreferences();
-        mSharedPreferences.edit().putLong(key, values).commit();
+        SharedPreferencesUtils.save(this, key, values);
+    }
+
+    /**
+     * 保存 Boolean 类型数据
+     */
+    protected void saveBoolean(String key, boolean values) {
+        SharedPreferencesUtils.save(this, key, values);
+    }
+
+    /**
+     * 保存String 类型数据
+     */
+    protected void saveString(String key, String values) {
+        SharedPreferencesUtils.save(this, key, values);
     }
 
     //************************ 重写 各种事件区域*********************** //
