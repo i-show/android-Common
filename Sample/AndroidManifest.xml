@@ -54,6 +54,10 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".modules.OnlyWebActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name="com.bright.common.app.activity.SelectorPicturesActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.NoActionBar" />

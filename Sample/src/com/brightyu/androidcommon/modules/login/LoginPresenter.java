@@ -22,8 +22,6 @@ import android.text.TextUtils;
 
 import com.bright.common.utils.SharedPreferencesUtils;
 import com.brightyu.androidcommon.entries.User;
-import com.brightyu.androidcommon.modules.login.LoginContract;
-import com.brightyu.androidcommon.modules.login.LoginManager;
 
 /**
  * 登录的Presenter
@@ -63,7 +61,8 @@ public class LoginPresenter implements LoginContract.Presenter, LoginManager.Cal
     @Override
     public void start() {
         String account = SharedPreferencesUtils.get(mContext, User.Key.ACCOUNT, null);
-        mLoginView.updateUI(false, account, null);
+        String password = SharedPreferencesUtils.get(mContext, User.Key.PASSWORD, null);
+        mLoginView.updateUI(false, account, password);
     }
 
     @Override
