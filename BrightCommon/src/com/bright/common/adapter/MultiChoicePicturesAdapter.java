@@ -19,6 +19,7 @@ package com.bright.common.adapter;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView.LayoutParams;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -123,7 +124,7 @@ public class MultiChoicePicturesAdapter extends ListAdapter<MultiSelectorImage, 
 
 
     @Override
-    public ViewHolde onCreateViewHolder(int position, int type) {
+    public ViewHolde onCreateViewHolder(ViewGroup parent, int position, int type) {
         View view;
         if (type == TYPE_CAMERA) {
             view = mLayoutInflater.inflate(R.layout.item_multi_choice_camera, null);

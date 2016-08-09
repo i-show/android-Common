@@ -27,11 +27,6 @@ public class AnimatorUtils {
 
     /**
      * alpha
-     *
-     * @param v
-     * @param fromAlpha
-     * @param toAlpha
-     * @param duration
      */
     public static void alpha(View v, float fromAlpha, float toAlpha, int duration) {
         alpha(v, fromAlpha, toAlpha, duration, null);
@@ -39,12 +34,6 @@ public class AnimatorUtils {
 
     /**
      * alpha
-     *
-     * @param v
-     * @param fromAlpha
-     * @param toAlpha
-     * @param duration
-     * @param animatorListener
      */
     public static void alpha(View v, float fromAlpha, float toAlpha, int duration, Animator.AnimatorListener
             animatorListener) {
@@ -58,11 +47,6 @@ public class AnimatorUtils {
 
     /**
      * translation x
-     *
-     * @param v
-     * @param fromX
-     * @param toX
-     * @param duration
      */
     public static void translationX(View v, float fromX, float toX, int duration) {
         translationX(v, fromX, toX, duration, null);
@@ -70,12 +54,6 @@ public class AnimatorUtils {
 
     /**
      * translation x
-     *
-     * @param v
-     * @param fromX
-     * @param toX
-     * @param duration
-     * @param animatorListener
      */
     public static void translationX(View v, float fromX, float toX, int duration, Animator.AnimatorListener
             animatorListener) {
@@ -89,11 +67,6 @@ public class AnimatorUtils {
 
     /**
      * translation y
-     *
-     * @param v
-     * @param fromY
-     * @param toY
-     * @param duration
      */
     public static void translationY(View v, float fromY, float toY, int duration) {
         translationY(v, fromY, toY, duration, null);
@@ -101,12 +74,6 @@ public class AnimatorUtils {
 
     /**
      * translation y
-     *
-     * @param v
-     * @param fromY
-     * @param toY
-     * @param duration
-     * @param animatorListener
      */
     public static void translationY(View v, float fromY, float toY, int duration, Animator.AnimatorListener
             animatorListener) {
@@ -120,11 +87,6 @@ public class AnimatorUtils {
 
     /**
      * rotation x
-     *
-     * @param v
-     * @param fromX
-     * @param toX
-     * @param duration
      */
     public static void rotationX(View v, float fromX, float toX, int duration) {
         rotationX(v, fromX, toX, duration, null);
@@ -132,12 +94,6 @@ public class AnimatorUtils {
 
     /**
      * rotation x
-     *
-     * @param v
-     * @param fromX
-     * @param toX
-     * @param duration
-     * @param animatorListener
      */
     public static void rotationX(View v, float fromX, float toX, int duration, Animator.AnimatorListener
             animatorListener) {
@@ -151,11 +107,6 @@ public class AnimatorUtils {
 
     /**
      * rotation y
-     *
-     * @param v
-     * @param fromY
-     * @param toY
-     * @param duration
      */
     public static void rotationY(View v, float fromY, float toY, int duration) {
         rotationY(v, fromY, toY, duration, null);
@@ -163,12 +114,6 @@ public class AnimatorUtils {
 
     /**
      * rotation y
-     *
-     * @param v
-     * @param fromY
-     * @param toY
-     * @param duration
-     * @param animatorListener
      */
     public static void rotationY(View v, float fromY, float toY, int duration, Animator.AnimatorListener
             animatorListener) {
@@ -182,11 +127,6 @@ public class AnimatorUtils {
 
     /**
      * scale x
-     *
-     * @param v
-     * @param fromX
-     * @param toX
-     * @param duration
      */
     public static void scaleX(View v, float fromX, float toX, int duration) {
         scaleX(v, fromX, toX, duration, null);
@@ -194,12 +134,6 @@ public class AnimatorUtils {
 
     /**
      * scale x
-     *
-     * @param v
-     * @param fromX
-     * @param toX
-     * @param duration
-     * @param animatorListener
      */
     public static void scaleX(View v, float fromX, float toX, int duration, Animator.AnimatorListener
             animatorListener) {
@@ -213,11 +147,6 @@ public class AnimatorUtils {
 
     /**
      * scale y
-     *
-     * @param v
-     * @param fromY
-     * @param toY
-     * @param duration
      */
     public static void scaleY(View v, float fromY, float toY, int duration) {
         scaleY(v, fromY, toY, duration, null);
@@ -225,12 +154,6 @@ public class AnimatorUtils {
 
     /**
      * scale y
-     *
-     * @param v
-     * @param fromY
-     * @param toY
-     * @param duration
-     * @param animatorListener
      */
     public static void scaleY(View v, float fromY, float toY, int duration, Animator.AnimatorListener
             animatorListener) {
@@ -253,11 +176,6 @@ public class AnimatorUtils {
 
     /**
      * shake x
-     *
-     * @param v
-     * @param offset
-     * @param duration
-     * @param times
      */
     public static void shakeX(View v, float offset, long duration, float times) {
         ObjectAnimator animator = ObjectAnimator.ofFloat(v, View.TRANSLATION_X, 0, offset);
@@ -277,11 +195,6 @@ public class AnimatorUtils {
 
     /**
      * shake y
-     *
-     * @param v
-     * @param offset
-     * @param duration
-     * @param times
      */
     public static void shakeY(View v, float offset, long duration, float times) {
         ObjectAnimator animator = ObjectAnimator.ofFloat(v, View.TRANSLATION_Y, 0, offset);
@@ -301,11 +214,6 @@ public class AnimatorUtils {
 
     /**
      * 呼吸灯效果
-     *
-     * @param v
-     * @param fromRange
-     * @param toRange
-     * @param duration
      */
     public static void breath(View v, float fromRange, float toRange, long duration) {
         ObjectAnimator animator = ObjectAnimator.ofFloat(v, View.ALPHA, fromRange, toRange);

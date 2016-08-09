@@ -19,6 +19,7 @@ package com.brightyu.androidcommon.adapter;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -50,7 +51,7 @@ public class PhotoAdapter extends ListAdapter<String, PhotoAdapter.ViewHolder> {
 
 
     @Override
-    public ViewHolder onCreateViewHolder(int position, int type) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int position, int type) {
         View item = mLayoutInflater.inflate(R.layout.item_grid_list_photo, null);
         return new ViewHolder(item, type);
     }

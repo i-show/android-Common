@@ -18,6 +18,7 @@ package com.bright.common.adapter;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -38,7 +39,7 @@ public class MultiChoiceFolderAdapter extends ListAdapter<MultiSelectorFolder, M
 
 
     @Override
-    public ViewHolder onCreateViewHolder(int position, int type) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int position, int type) {
         View view = mLayoutInflater.inflate(R.layout.item_multi_choice_folder, null);
         return new ViewHolder(view, type);
     }
