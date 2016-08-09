@@ -70,8 +70,8 @@ public abstract class AppBaseActivity extends BaseActivity {
         Log.d(TAG, "originVersionName = " + versionName + " ,localVersionName = " + _versionName);
 
         // 保存现在的版本号
-        saveInt(PackagesUtils.VERSION_CODE, _versionCode);
-        saveString(PackagesUtils.VERSION_NAME, _versionName);
+        save(PackagesUtils.VERSION_CODE, _versionCode);
+        save(PackagesUtils.VERSION_NAME, _versionName);
 
         // 如果当前版本比保存的版本大，说明APP更新了
         // 版本名称不相等且版本code比上一个版本大 才进行走ViewPager

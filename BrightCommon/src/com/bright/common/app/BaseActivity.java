@@ -132,36 +132,21 @@ public abstract class BaseActivity extends AppCompatActivity implements TopBar.O
     }
 
     //************************ 数据保存区域*********************** //
-
-
-    /**
-     * 保存 int 类型数据
-     */
-    protected void saveInt(String key, int values) {
-        SharedPreferencesUtils.save(this, key, values);
+    protected void save(String key, Object value) {
+        save(key, value, false);
     }
 
-    /**
-     * 保存long型数据
-     */
-    protected void saveLong(String key, long values) {
-        SharedPreferencesUtils.save(this, key, values);
+    protected void save(String key, Object value, boolean isCache) {
+        SharedPreferencesUtils.save(this, key, value, isCache);
     }
 
-    /**
-     * 保存 Boolean 类型数据
-     */
-    protected void saveBoolean(String key, boolean values) {
-        SharedPreferencesUtils.save(this, key, values);
+    protected <T> T get(String key, T defaultValue) {
+        return get(key, defaultValue, false);
     }
 
-    /**
-     * 保存String 类型数据
-     */
-    protected void saveString(String key, String values) {
-        SharedPreferencesUtils.save(this, key, values);
+    protected <T> T get(String key, T defaultValue, boolean isCache) {
+        return SharedPreferencesUtils.get(this, key, defaultValue, isCache);
     }
-
     //************************ 重写 各种事件区域*********************** //
 
     /**
