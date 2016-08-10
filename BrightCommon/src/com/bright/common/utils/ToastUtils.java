@@ -32,6 +32,14 @@ public class ToastUtils {
 
     private static WeakReference<Toast> mToast;
 
+    public static void showToast(Context context, @StringRes int text) {
+        showToast(context, text, Toast.LENGTH_SHORT);
+    }
+
+    public static void showToast(Context context, String text) {
+        showToast(context, text, Toast.LENGTH_SHORT);
+    }
+
     public static void showToast(Context context, @StringRes int text, int duration) {
         String content = context.getString(text);
         showToast(context, content, duration);
