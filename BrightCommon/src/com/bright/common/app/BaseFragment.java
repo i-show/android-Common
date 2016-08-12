@@ -27,11 +27,12 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.bright.common.R;
 import com.bright.common.utils.SharedPreferencesUtils;
-import com.bright.common.utils.ToastUtils;
 import com.bright.common.widget.TopBar;
+import com.bright.common.widget.YToast;
 import com.bright.common.widget.dialog.BaseDialog;
 
 public abstract class BaseFragment extends Fragment implements TopBar.OnTopBarListener {
@@ -105,7 +106,7 @@ public abstract class BaseFragment extends Fragment implements TopBar.OnTopBarLi
      */
     public void toast(String toast) {
         if (isAdded()) {
-            ToastUtils.showToast(getActivity(), toast);
+            YToast.makeText(getActivity(), toast, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -114,7 +115,7 @@ public abstract class BaseFragment extends Fragment implements TopBar.OnTopBarLi
      */
     public void toast(int toast) {
         if (isAdded()) {
-            ToastUtils.showToast(getActivity(), toast);
+            YToast.makeText(getActivity(), toast, Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -25,6 +25,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import com.bright.common.R;
+import com.bright.common.widget.StatusView;
 import com.bright.common.widget.pulltorefresh.IPullToRefresh;
 
 import java.util.ArrayList;
@@ -314,9 +315,13 @@ public abstract class ListAdapter<DATA, HOLDER extends ListAdapter.Holder> exten
     }
 
     public void resetPullTorefresh(IPullToRefresh pullToRefresh) {
+        resetPullTorefresh(pullToRefresh, true);
+    }
+
+    public void resetPullTorefresh(IPullToRefresh pullToRefresh, boolean isError) {
         pullToRefresh.setPullRefreshEnable(true);
         pullToRefresh.setPullLoadEnable(true);
-        pullToRefresh.setEmptyState();
+        pullToRefresh.setEmptyState(isError ? StatusView.STATUS_ERROR : StatusView.STATUS_EMPTY);
         if (isLoadingMoreState()) {
             pullToRefresh.stopLoadMore();
         } else {
@@ -337,10 +342,11 @@ public abstract class ListAdapter<DATA, HOLDER extends ListAdapter.Holder> exten
         }
         // 修复pagernumber
         repairPagerNumber(datas);
+        final int realCount = getRealCount();
 
         pullToRefresh.setPullRefreshEnable(true);
-        pullToRefresh.setEmptyState();
-        int realCount = getRealCount();
+        pullToRefresh.setEmptyState(StatusView.STATUS_EMPTY);
+
         if (realCount == 0) {
             pullToRefresh.setPullLoadEnable(false);
         } else if (realCount >= totalcount) {

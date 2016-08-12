@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -124,6 +124,8 @@ public class XListView extends ListView implements IPullToRefresh, OnScrollListe
         mHeaderView.setLineVisibility(headerLineVisibility);
         mHeaderContent = (RelativeLayout) mHeaderView.findViewById(R.id.header_content);
         addHeaderView(mHeaderView);
+        setHeaderDividersEnabled(false);
+        setFooterDividersEnabled(false);
 
         // init footer view
         mFooterView = new XFooterView(context);
@@ -181,11 +183,6 @@ public class XListView extends ListView implements IPullToRefresh, OnScrollListe
         // disable, hide the content
         mHeaderContent.setVisibility(enable ? View.VISIBLE : View.INVISIBLE);
 
-        if (!mEnablePullRefresh) {
-            setHeaderDividersEnabled(true);
-        } else {
-            setHeaderDividersEnabled(false);
-        }
     }
 
     /**
@@ -200,13 +197,11 @@ public class XListView extends ListView implements IPullToRefresh, OnScrollListe
             mFooterView.hide();
             mFooterView.setPadding(0, 0, 0, 0);
             mFooterView.setOnClickListener(null);
-            setFooterDividersEnabled(true);
         } else {
             mPullLoading = false;
             mFooterView.setPadding(0, 0, 0, 0);
             mFooterView.show();
             mFooterView.setState(XFooterView.STATE_NORMAL);
-            setFooterDividersEnabled(false);
             mFooterView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -225,18 +220,24 @@ public class XListView extends ListView implements IPullToRefresh, OnScrollListe
     }
 
     @Override
-    public void setLoadingState() {
-        if (mEmptyView != null) {
-            mEmptyView.showLoading();
+    public void setEmptyState(int state) {
+        if (mEmptyView == null) {
+            Log.i(TAG, "setEmptyState: mEmptyView is null");
+            return;
+        }
+        switch (state) {
+            case StatusView.STATUS_EMPTY:
+                mEmptyView.showEmpty();
+                break;
+            case StatusView.STATUS_ERROR:
+                mEmptyView.showError();
+                break;
+            case StatusView.STATUS_LOADING:
+                mEmptyView.showLoading();
+                break;
         }
     }
 
-    @Override
-    public void setEmptyState() {
-        if (mEmptyView != null) {
-            mEmptyView.showError(R.string.nothing, R.drawable.empty);
-        }
-    }
 
     /**
      * 停止刷新
@@ -535,6 +536,7 @@ public class XListView extends ListView implements IPullToRefresh, OnScrollListe
         mEmptyView = new StatusView(getContext());
         mEmptyView.setBackgroundResource(R.color.windows_background_light);
         mEmptyView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        mEmptyView.setCallBack(mStatusCallBack);
         mEmptyView.showLoading();
         ViewParent parent = getParent();
         if (parent != null) {
@@ -551,6 +553,14 @@ public class XListView extends ListView implements IPullToRefresh, OnScrollListe
         }
     }
 
+    private StatusView.CallBack mStatusCallBack = new StatusView.CallBack() {
+        @Override
+        public void onReload() {
+            if (mListener != null) {
+                mListener.onRefresh();
+            }
+        }
+    };
 
     private class RecycleHandler extends Handler {
         @Override

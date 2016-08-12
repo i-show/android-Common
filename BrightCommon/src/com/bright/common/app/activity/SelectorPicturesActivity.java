@@ -61,7 +61,6 @@ public class SelectorPicturesActivity extends BaseActivity implements View.OnCli
         Intent intent = getIntent();
         mDefaultCount = intent.getIntExtra(SelectorPicture.Key.EXTRA_SELECT_COUNT, SelectorPicture.Key.DEAFULT_MAX_COUNT);
         mMode = intent.getIntExtra(SelectorPicture.Key.EXTRA_SELECT_MODE, SelectorPicture.Key.MODE_MULTI);
-        boolean showCamera = intent.getBooleanExtra(SelectorPicture.Key.EXTRA_SHOW_CAMERA, false);
         if (mMode == SelectorPicture.Key.MODE_MULTI && intent.hasExtra(SelectorPicture.Key.EXTRA_DEFAULT_SELECTED_LIST)) {
             mResultList = intent.getStringArrayListExtra(SelectorPicture.Key.EXTRA_DEFAULT_SELECTED_LIST);
         }
@@ -69,7 +68,6 @@ public class SelectorPicturesActivity extends BaseActivity implements View.OnCli
         Bundle bundle = new Bundle();
         bundle.putInt(SelectorPicture.Key.EXTRA_SELECT_COUNT, mDefaultCount);
         bundle.putInt(SelectorPicture.Key.EXTRA_SELECT_MODE, mMode);
-        bundle.putBoolean(SelectorPicture.Key.EXTRA_SHOW_CAMERA, showCamera);
         bundle.putStringArrayList(SelectorPicture.Key.EXTRA_DEFAULT_SELECTED_LIST, mResultList);
 
         getSupportFragmentManager().beginTransaction()

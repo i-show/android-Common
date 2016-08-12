@@ -22,7 +22,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,7 +38,6 @@ import android.view.ViewTreeObserver;
 import android.widget.AbsListView;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bright.common.R;
 import com.bright.common.adapter.SelectorFolderAdapter;
@@ -49,8 +47,6 @@ import com.bright.common.model.SelectorFolder;
 import com.bright.common.model.SelectorPicture;
 import com.bright.common.utils.AnimatorUtils;
 import com.bright.common.utils.DateUtils;
-import com.bright.common.utils.image.ImageUtils;
-import com.bright.common.widget.YToast;
 import com.bright.common.widget.dialog.BaseDialog;
 
 import java.io.File;
@@ -93,8 +89,6 @@ public class SelectorPicturesFragment extends BaseFragment implements View.OnCli
 
     private Callback mCallback;
 
-    private boolean mIsShowCamera = false;
-
     private int mDesireImageCount;
 
     private File mTmpFile;
@@ -119,8 +113,6 @@ public class SelectorPicturesFragment extends BaseFragment implements View.OnCli
 
         // 选择图片数量
         mDesireImageCount = args.getInt(SelectorPicture.Key.EXTRA_SELECT_COUNT);
-        // 是否显示照相机
-        mIsShowCamera = args.getBoolean(SelectorPicture.Key.EXTRA_SHOW_CAMERA, false);
         // 图片选择模式
         mMode = args.getInt(SelectorPicture.Key.EXTRA_SELECT_MODE);
         // 默认选择
@@ -144,7 +136,7 @@ public class SelectorPicturesFragment extends BaseFragment implements View.OnCli
         mCategoryText.setText(R.string.all_photos);
         mCategoryText.setOnClickListener(this);
 
-        mImageAdapter = new SelectorPicturesAdapter(getActivity(), mIsShowCamera);
+        mImageAdapter = new SelectorPicturesAdapter(getActivity());
         mImageAdapter.setMultiSelector(mMode == SelectorPicture.Key.MODE_MULTI);
         mImageAdapter.setMaxSelectedCount(mDesireImageCount);
         mImageAdapter.setCallBack(mImageAdapterCallBack);
@@ -227,7 +219,6 @@ public class SelectorPicturesFragment extends BaseFragment implements View.OnCli
 
                 mImageAdapter.setData(folder.images);
                 mCategoryText.setText(folder.name);
-                mImageAdapter.setShowCamera(mIsShowCamera && position == 0);
 
                 if (mSelectedFolder != null) {
                     mSelectedFolder.isSelected = false;
@@ -238,23 +229,6 @@ public class SelectorPicturesFragment extends BaseFragment implements View.OnCli
                 mGridView.smoothScrollToPosition(0);
             }
         }, 100);
-    }
-
-    /**
-     * 选择相机
-     */
-    private void goToCamera() {
-        // 跳转到系统照相机
-        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (cameraIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-            // 设置系统相机拍照后的输出路径
-            // 创建临时文件
-            mTmpFile = ImageUtils.generateRandomPhotoFile(getActivity());
-            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTmpFile));
-            startActivityForResult(cameraIntent, REQUEST_CAMERA);
-        } else {
-            YToast.makeText(getActivity(), R.string.no_system_camera, Toast.LENGTH_SHORT).show();
-        }
     }
 
     /**
@@ -282,11 +256,6 @@ public class SelectorPicturesFragment extends BaseFragment implements View.OnCli
     }
 
     private SelectorPicturesAdapter.CallBack mImageAdapterCallBack = new SelectorPicturesAdapter.CallBack() {
-        @Override
-        public void onClickCamera() {
-            goToCamera();
-        }
-
         @Override
         public void onSelectImage(SelectorPicture entry, boolean selected) {
             notifyImageSelectedStateChanged(entry, selected);

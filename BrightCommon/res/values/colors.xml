@@ -70,8 +70,13 @@
     <color name="grey_alpha_1">#FF000000</color>
     <color name="grey_alpha_0_9">#E5000000</color>
     <color name="grey_alpha_0_8_5">#DD000000</color>
-    <color name="grey_alpha_0_8">#A0000000</color>
-    <color name="grey_alpha_0_7">#90000000</color>
+    <color name="grey_alpha_0_8">#CC000000</color>
+    <color name="grey_alpha_0_7">#B2000000</color>
+    <color name="grey_alpha_0_6">#99000000</color>
+    <color name="grey_alpha_0_5">#7F000000</color>
+    <color name="grey_alpha_0_4">#66000000</color>
+    <color name="grey_alpha_0_3">#4c000000</color>
+
 
     <!--默认的字体颜色和hint颜色-->
     <color name="text_grey_normal">@color/grey_deep_8</color>
@@ -102,7 +107,7 @@
     <!-- 状态栏颜色 -->
     <color name="color_primary_dark">@color/blue_400</color>
 
-    <color name="line">@color/grey_deep_10</color>
+    <color name="line">@color/grey_deep_12</color>
     <color name="photo_border">@color/grey_deep_14</color>
 
 </resources>

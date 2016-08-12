@@ -27,12 +27,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.bright.common.R;
 import com.bright.common.utils.SharedPreferencesUtils;
-import com.bright.common.utils.ToastUtils;
 import com.bright.common.utils.http.okhttp.OkHttpUtils;
 import com.bright.common.widget.TopBar;
+import com.bright.common.widget.YToast;
 import com.bright.common.widget.dialog.BaseDialog;
 
 
@@ -178,14 +179,14 @@ public abstract class BaseActivity extends AppCompatActivity implements TopBar.O
      * 提示 Toast简易封装操作
      */
     public void toast(String toast) {
-        ToastUtils.showToast(this, toast);
+        YToast.makeText(this, toast, Toast.LENGTH_SHORT).show();
     }
 
     /**
      * 提示 Toast简易封装操作
      */
     public void toast(int toast) {
-        ToastUtils.showToast(this, toast);
+        YToast.makeText(this, toast, Toast.LENGTH_SHORT).show();
     }
 
     /**
