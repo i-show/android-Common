@@ -40,13 +40,15 @@
     <string name="today">今天</string>
     <string name="yesterday">昨天</string>
     <string name="spacer"> · </string>
-    <string name="nothing">什么都木有</string>
+    <string name="nothing">暂时没有数据</string>
 
-    <string name="net_poor_connections">网络连接失败，请确认可以连接服务！</string>
-    <string name="net_server_error">服务器连接超时，请检查网络后再试！</string>
-    <string name="net_server_path_error">访问服务器失败,请重试！</string>
+    <string name="net_poor_connections">网络连接失败，请确认可以连接服务</string>
+    <string name="net_server_error">服务器连接超时，请检查网络后再试</string>
+
+    <string name="load_data_failed">加载数据失败</string>
+    <string name="load_data_failed_tip">请检查您的手机是否已经联网\n点击按钮尝试重新加载</string>
+    <string name="reload_data">重新加载</string>
 
     <string name="all_photos">所有照片</string>
-    <string name="no_system_camera">没有系统相机</string>
     <string name="already_select_max">已经达到最高选择数量</string>
 </resources>

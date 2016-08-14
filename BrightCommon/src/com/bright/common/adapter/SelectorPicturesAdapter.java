@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- * <p>
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
+ * <p/>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,11 +25,10 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bright.common.R;
 import com.bright.common.model.SelectorPicture;
-import com.bright.common.utils.ToastUtils;
+import com.bright.common.widget.YToast;
 import com.bright.common.widget.dialog.ShowPhotoDialog;
 import com.bumptech.glide.Glide;
 
@@ -42,10 +41,7 @@ import java.util.List;
  */
 public class SelectorPicturesAdapter extends ListAdapter<SelectorPicture, SelectorPicturesAdapter.ViewHolde> {
     private static final String TAG = "MultiImageAdapter";
-    private static final int TYPE_CAMERA = 0;
-    private static final int TYPE_NORMAL = 1;
 
-    private boolean isShowCamera = true;
     private boolean isMultiSelector = true;
     private int mItemSize;
     private int mMaxSelectedCount;
@@ -54,9 +50,8 @@ public class SelectorPicturesAdapter extends ListAdapter<SelectorPicture, Select
     private GridView.LayoutParams mItemLayoutParams;
     private CallBack mCallBack;
 
-    public SelectorPicturesAdapter(Context context, boolean showCamera) {
+    public SelectorPicturesAdapter(Context context) {
         super(context);
-        isShowCamera = showCamera;
         mItemLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
     }
 
@@ -75,14 +70,6 @@ public class SelectorPicturesAdapter extends ListAdapter<SelectorPicture, Select
     public void setMaxSelectedCount(int count) {
         mMaxSelectedCount = count;
     }
-
-    public void setShowCamera(boolean show) {
-        if (isShowCamera == show) {
-            return;
-        }
-        isShowCamera = show;
-    }
-
 
     /**
      * 设定已经选择了的照片
@@ -108,29 +95,10 @@ public class SelectorPicturesAdapter extends ListAdapter<SelectorPicture, Select
         notifyDataSetChanged();
     }
 
-    @Override
-    public int getHeaderCount() {
-        return isShowCamera ? 1 : 0;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (isShowCamera && position == 0) {
-            return TYPE_CAMERA;
-        } else {
-            return TYPE_NORMAL;
-        }
-    }
-
 
     @Override
     public ViewHolde onCreateViewHolder(ViewGroup parent, int position, int type) {
-        View view;
-        if (type == TYPE_CAMERA) {
-            view = mLayoutInflater.inflate(R.layout.item_multi_choice_camera, null);
-        } else {
-            view = mLayoutInflater.inflate(R.layout.item_multi_choice_image, null);
-        }
+        View view = mLayoutInflater.inflate(R.layout.item_multi_choice_image, parent, false);
         return new ViewHolde(view, type);
     }
 
@@ -138,7 +106,6 @@ public class SelectorPicturesAdapter extends ListAdapter<SelectorPicture, Select
     public void onBindViewHolder(ViewHolde holder, int position, int type) {
         SelectorPicture entry = getRealItem(position);
         holder.getItemView().setTag(R.id.tag_01, entry);
-        holder.getItemView().setTag(R.id.tag_02, position);
 
         holder.state.setTag(R.id.tag_01, entry);
         holder.state.setChecked(entry.isSelected);
@@ -191,7 +158,7 @@ public class SelectorPicturesAdapter extends ListAdapter<SelectorPicture, Select
 
             if (isMultiSelector) {
                 if (isChecked && mMaxSelectedCount <= mSelectedImages.size()) {
-                    ToastUtils.showToast(mContext, R.string.already_select_max, Toast.LENGTH_SHORT);
+                    YToast.show(mContext, R.string.already_select_max);
                     return;
                 }
             } else {
@@ -216,15 +183,6 @@ public class SelectorPicturesAdapter extends ListAdapter<SelectorPicture, Select
         }
 
         private void onItemClick(View v) {
-            int position = (int) v.getTag(R.id.tag_02);
-            if (getItemViewType(position) == TYPE_HEADER) {
-                Log.i(TAG, "onClick: is header todo go camera ");
-                if (mCallBack != null) {
-                    mCallBack.onClickCamera();
-                }
-                return;
-            }
-
             SelectorPicture entry = (SelectorPicture) v.getTag(R.id.tag_01);
             ShowPhotoDialog dialog = new ShowPhotoDialog(mContext);
             dialog.setData(entry.path);
@@ -236,11 +194,6 @@ public class SelectorPicturesAdapter extends ListAdapter<SelectorPicture, Select
     }
 
     public interface CallBack {
-        /**
-         * 点击Camera
-         */
-        void onClickCamera();
-
         /**
          * 点击图片
          */

@@ -35,8 +35,7 @@ public class AnimatorUtils {
     /**
      * alpha
      */
-    public static void alpha(View v, float fromAlpha, float toAlpha, int duration, Animator.AnimatorListener
-            animatorListener) {
+    public static void alpha(View v, float fromAlpha, float toAlpha, int duration, Animator.AnimatorListener animatorListener) {
         ObjectAnimator animator = ObjectAnimator.ofFloat(v, View.ALPHA, fromAlpha, toAlpha);
         animator.setDuration(duration);
         if (animatorListener != null) {

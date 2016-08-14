@@ -120,6 +120,7 @@
     <attr name="leftPadding" format="dimension" />
 
     <attr name="selectedChild" format="reference" />
+    <attr name="cannotSelectedChild" format="reference" />
 
     <attr name="radius" format="dimension|reference" />
 
@@ -306,6 +307,7 @@
     <declare-styleable name="BottomBar">
         <attr name="android:orientation" />
         <attr name="selectedChild" />
+        <attr name="cannotSelectedChild" />
     </declare-styleable>
 
     <declare-styleable name="DialogLayouts">

@@ -143,7 +143,7 @@ public abstract class CallBack<T> {
                 toast(R.string.net_server_error);
                 return true;
             } else if (e instanceof UnknownHostException) {
-                toast(R.string.net_server_path_error);
+                toast(R.string.net_server_error);
                 return true;
             } else if (e instanceof CanceledException) {
                 Log.d(TAG, "onError: call is canceled");

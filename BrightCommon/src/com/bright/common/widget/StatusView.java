@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,29 +19,25 @@ package com.bright.common.widget;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Handler;
-import android.os.Message;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.TypedValue;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bright.common.R;
-import com.bright.common.utils.UnitUtils;
+import com.bright.common.utils.AnimatorUtils;
 import com.bumptech.glide.Glide;
 
 /**
  * 一个状态显示的View
  */
-public class StatusView extends FrameLayout {
+public class StatusView extends FrameLayout implements View.OnClickListener {
     /**
      * 正在加载
      */
@@ -49,7 +45,11 @@ public class StatusView extends FrameLayout {
     /**
      * 加载失败
      */
-    public final static int STATUS_ERROR = 1 << 2;
+    public final static int STATUS_ERROR = STATUS_LOADING + 1;
+    /**
+     * 加载为空
+     */
+    public final static int STATUS_EMPTY = STATUS_LOADING + 2;
 
     /**
      * 动画时长
@@ -60,9 +60,12 @@ public class StatusView extends FrameLayout {
     private static final int HANDLER_DISMISS = 1000;
     private static final int DISMISS_DELAY = 500;
 
+    private View mRoot;
+    private ImageView mIconView;
+    private TextView mTitle;
+    private TextView mSubTitle;
+    private TextView mReload;
 
-    private ViewGroup mLoadingView;
-    private ViewGroup mErrorView;
     private ObjectAnimator mDismissAni;
 
     private String mLoadingText;
@@ -70,20 +73,8 @@ public class StatusView extends FrameLayout {
     private int mErrorImageRes;
     private int mTextColor;
     private int mTextSize;
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case HANDLER_DISMISS:
-                    if (mDismissAni == null) {
-                        mDismissAni = getDismissAnimator();
-                    }
-                    mDismissAni.start();
-                    break;
-            }
-        }
-    };
+
+    private CallBack mCallBack;
 
     public StatusView(Context context) {
         this(context, null);
@@ -99,94 +90,106 @@ public class StatusView extends FrameLayout {
         mLoadingText = a.getString(R.styleable.StatusView_loadingText);
         mErrorText = a.getString(R.styleable.StatusView_errorText);
         mErrorImageRes = a.getResourceId(R.styleable.StatusView_errorImage, R.drawable.no_picture);
-        mTextColor = a.getColor(R.styleable.StatusView_textColor, getDefaultColor());
-        mTextSize = a.getColor(R.styleable.StatusView_textSize, getDefaultTextSize());
+        mTextColor = a.getColor(R.styleable.StatusView_textColor, 0);
+        mTextSize = a.getColor(R.styleable.StatusView_textSize, 0);
         a.recycle();
 
-        mLoadingView = initLoadingView();
-        hideLoading();
-        addView(mLoadingView);
-        mErrorView = initErrorView();
-        hideError();
-        addView(mErrorView);
+        initView();
     }
 
-    protected ViewGroup initLoadingView() {
-        return getBaseView(TAG.LOADING_IMAGE, TAG.LOADING_TEXT);
+
+    private void initView() {
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        mRoot = inflater.inflate(R.layout.widget_status_view, this, true);
+        mIconView = (ImageView) findViewById(R.id.icon);
+        mTitle = (TextView) findViewById(R.id.title);
+        mSubTitle = (TextView) findViewById(R.id.subTitle);
+
+        mReload = (TextView) findViewById(R.id.reload);
+        mReload.setOnClickListener(this);
     }
 
-    protected ViewGroup initErrorView() {
-        return getBaseView(TAG.ERROR_IMAGE, TAG.ERROR_TEXT);
-    }
-
-    public void hideError() {
-        mErrorView.setVisibility(GONE);
-    }
 
     public void showError() {
-        showError(mErrorText, mErrorImageRes);
+        Context context = getContext();
+        String reload = context.getString(R.string.reload_data);
+        String title = context.getString(R.string.load_data_failed);
+        String subTitle = context.getString(R.string.load_data_failed_tip);
+        showError(reload, title, subTitle, R.drawable.icon_no_server);
     }
 
-    public void showError(@StringRes int errorTextId, int errorImage) {
-        String errorText = getContext().getString(errorTextId);
-        showError(errorText, errorImage);
+    public void showError(@StringRes int title, int icon) {
+        Context context = getContext();
+        String titleString = context.getString(title);
+        showError(null, titleString, null, icon);
     }
 
-    public void showError(String errorText, int errorImage) {
-        hideLoading();
-        cancelDismiss();
-        mErrorView.setVisibility(VISIBLE);
-        mErrorText = errorText;
-        mErrorImageRes = errorImage;
-
-        TextView tip = (TextView) mErrorView.findViewWithTag(TAG.ERROR_TEXT);
-        tip.setText(mErrorText);
-
-        ImageView image = (ImageView) mErrorView.findViewWithTag(TAG.ERROR_IMAGE);
-        image.setImageResource(mErrorImageRes);
+    public void showError(@StringRes int title, @StringRes int subTitle, int icon) {
+        Context context = getContext();
+        String titleString = context.getString(title);
+        String subTitleString = context.getString(subTitle);
+        showError(null, titleString, subTitleString, icon);
     }
 
-    private void hideLoading() {
-        mLoadingView.setVisibility(GONE);
+    public void showError(@StringRes int reload, @StringRes int title, @StringRes int subTitle, int icon) {
+        Context context = getContext();
+        String reloadString = context.getString(reload);
+        String titleString = context.getString(title);
+        String subTitleString = context.getString(subTitle);
+        showError(reloadString, titleString, subTitleString, icon);
+    }
+
+    public void showError(String reload, String title, String subTitle, int icon) {
+        mTitle.setTextColor(getResources().getColor(R.color.text_grey_normal));
+        setText(mReload, reload);
+        setText(mTitle, title);
+        setText(mSubTitle, subTitle);
+        mIconView.setImageResource(icon);
     }
 
     public void showLoading() {
-        showLoading(null, false);
-    }
-
-    public void showLoading(boolean isTextVisibility) {
-        showLoading(null, isTextVisibility);
-    }
-
-    public void showLoading(String loadingText) {
-        showLoading(loadingText, true);
+        showLoading(null);
     }
 
     public void showLoading(@StringRes int text) {
-        showLoading(text, true);
+        String subTitle = getContext().getString(text);
+        showLoading(subTitle);
     }
 
-    public void showLoading(@StringRes int text, boolean isTextVisibility) {
-        String loadStr = getContext().getString(text);
-        showLoading(loadStr, isTextVisibility);
-    }
+    public void showLoading(String title) {
+        setText(mTitle, title);
+        mTitle.setTextColor(mSubTitle.getTextColors());
+        mSubTitle.setVisibility(GONE);
+        mReload.setVisibility(GONE);
 
-    public void showLoading(String text, boolean isTextVisibility) {
-        hideError();
-        cancelDismiss();
-        mLoadingView.setVisibility(VISIBLE);
-        if (!TextUtils.isEmpty(text)) {
-            mLoadingText = text;
-        }
-
-        TextView tip = (TextView) mLoadingView.findViewWithTag(TAG.LOADING_TEXT);
-        tip.setVisibility(isTextVisibility ? VISIBLE : GONE);
-        tip.setText(mLoadingText);
-        ImageView image = (ImageView) mLoadingView.findViewWithTag(TAG.LOADING_IMAGE);
         Glide.with(getContext())
                 .load(R.drawable.default_loading)
                 .asGif()
-                .into(image);
+                .into(mIconView);
+    }
+
+
+    public void showEmpty() {
+        showEmpty(R.string.nothing);
+    }
+
+    public void showEmpty(@StringRes int text) {
+        String title = getContext().getString(text);
+        showEmpty(title, R.drawable.icon_no_data);
+    }
+
+    public void showEmpty(@StringRes int text, @DrawableRes int icon) {
+        String title = getContext().getString(text);
+        showEmpty(title, icon);
+    }
+
+    public void showEmpty(String title, @DrawableRes int icon) {
+        setText(mTitle, title);
+        mTitle.setTextColor(mSubTitle.getTextColors());
+        mSubTitle.setVisibility(GONE);
+        mReload.setVisibility(GONE);
+
+        mIconView.setImageResource(icon);
     }
 
     public void dismiss() {
@@ -196,8 +199,7 @@ public class StatusView extends FrameLayout {
     public void dismiss(boolean animation) {
         if (animation) {
             if (getAlpha() == 1F) {
-                mHandler.removeMessages(HANDLER_DISMISS);
-                mHandler.sendEmptyMessageDelayed(HANDLER_DISMISS, DISMISS_DELAY);
+                AnimatorUtils.alpha(mRoot, 1.0F, 0.0F, 800);
             }
         } else {
             setAlpha(0f);
@@ -205,50 +207,17 @@ public class StatusView extends FrameLayout {
     }
 
     public void cancelDismiss() {
-        mHandler.removeMessages(HANDLER_DISMISS);
         setAlpha(1F);
     }
 
-    private ViewGroup getBaseView(String tagImage, String tagText) {
-        Context context = getContext();
-        LinearLayout content = new LinearLayout(context);
-        content.setOrientation(LinearLayout.VERTICAL);
-        content.setGravity(Gravity.CENTER);
-        View top = new View(context);
-        content.addView(top, getBaseLayoutParams(5));
 
-        ImageView image = new ImageView(context);
-        image.setImageResource(R.drawable.default_loading);
-        image.setScaleType(ImageView.ScaleType.CENTER);
-        image.setTag(tagImage);
-        content.addView(image);
-
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        lp.topMargin = UnitUtils.dip2px(getContext(), 5);
-        TextView text = new TextView(context);
-        text.setGravity(Gravity.CENTER);
-        text.setTextColor(mTextColor);
-        text.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSize);
-        text.setTag(tagText);
-        content.addView(text, lp);
-
-        View bottom = new View(context);
-        content.addView(bottom, getBaseLayoutParams(4f));
-        return content;
-    }
-
-    private LinearLayout.LayoutParams getBaseLayoutParams(float weight) {
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        if (weight > 0) {
-            lp.weight = weight;
+    private void setText(TextView view, String text) {
+        if (TextUtils.isEmpty(text)) {
+            view.setVisibility(GONE);
+        } else {
+            view.setVisibility(VISIBLE);
         }
-        return lp;
-    }
-
-    private ObjectAnimator getDismissAnimator() {
-        ObjectAnimator anim = ObjectAnimator.ofFloat(this, "alpha", 1F, 0F);
-        anim.setDuration(ANIT_DURATION);
-        return anim;
+        view.setText(text);
     }
 
     @Override
@@ -257,18 +226,18 @@ public class StatusView extends FrameLayout {
         return alpha != 0;
     }
 
-    public int getDefaultColor() {
-        return getResources().getColor(R.color.text_grey_light);
+    @Override
+    public void onClick(View v) {
+        if (mCallBack != null) {
+            mCallBack.onReload();
+        }
     }
 
-    public int getDefaultTextSize() {
-        return getResources().getDimensionPixelSize(R.dimen.G_title);
+    public void setCallBack(CallBack callBack) {
+        mCallBack = callBack;
     }
 
-    public static final class TAG {
-        public static final String LOADING_IMAGE = "loading_image";
-        public static final String LOADING_TEXT = "loading_text";
-        public static final String ERROR_IMAGE = "error_image";
-        public static final String ERROR_TEXT = "error_text";
+    public interface CallBack {
+        void onReload();
     }
 }

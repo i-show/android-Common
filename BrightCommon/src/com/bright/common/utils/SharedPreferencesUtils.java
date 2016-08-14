@@ -34,6 +34,13 @@ public class SharedPreferencesUtils {
      */
     private static final String TYPE_CACHE = "share_cache_date";
 
+    /**
+     * 保存SharePreference 分2个模块
+     * 1. 保存缓存信息的 例如请求的的Json 缓存
+     * 2. 保存基本信息 例如用户名 以及配置信息
+     * <p/>
+     * 区分的目的： 版本升级 cache类型的可以进行清除 但是基本信息的不能清理
+     */
     private static WeakReference<SharedPreferences> mSharedPreferences;
     private static WeakReference<SharedPreferences> mCacheSharedPreferences;
 
@@ -128,5 +135,35 @@ public class SharedPreferencesUtils {
             return (T) result;
         }
         return null;
+    }
+
+    /**
+     * 移除某一组数据
+     */
+    public static void remove(Context context, String key) {
+        remove(context, key, false);
+    }
+
+    /**
+     * 移除某一组数据
+     */
+    public static void remove(Context context, String key, boolean cache) {
+        SharedPreferences sp = getSharedPreferences(context, cache);
+        sp.edit().remove(key).apply();
+    }
+
+    /**
+     * 清空数据
+     */
+    public static void cleanCache(Context context) {
+        SharedPreferences sharedPreferences = getSharedPreferences(context, true);
+        sharedPreferences.edit().clear().apply();
+    }
+
+    public static void cleanAll(Context context) {
+        SharedPreferences sharedPreferences = getSharedPreferences(context);
+        sharedPreferences.edit().clear().apply();
+
+        cleanCache(context);
     }
 }

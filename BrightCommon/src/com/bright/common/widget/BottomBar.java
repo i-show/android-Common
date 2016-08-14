@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,6 +19,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.IdRes;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -38,6 +39,10 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
      * 选中的ID
      */
     private int mSelectedId;
+    /**
+     * 不能进行点选的ID 一般只有一个
+     */
+    private int mCanNotSelectedId;
 
     public BottomBar(Context context) {
         this(context, null);
@@ -50,12 +55,10 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
     public BottomBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BottomBar);
-        int id = a.getResourceId(R.styleable.BottomBar_selectedChild, View.NO_ID);
-        int orientation = a.getInt(R.styleable.BottomBar_android_orientation, -1);
+        mSelectedId = a.getResourceId(R.styleable.BottomBar_selectedChild, View.NO_ID);
+        mCanNotSelectedId = a.getResourceId(R.styleable.BottomBar_cannotSelectedChild, View.NO_ID);
 
-        if (id != View.NO_ID) {
-            mSelectedId = id;
-        }
+        int orientation = a.getInt(R.styleable.BottomBar_android_orientation, -1);
 
         if (orientation == -1) {
             setOrientation(HORIZONTAL);
@@ -72,7 +75,7 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        if (mSelectedId != -1) {
+        if (mSelectedId != View.NO_ID) {
             setSelectedStateForView(mSelectedId, true);
         }
     }
@@ -88,8 +91,14 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
      * 设置当前选中的ID
      */
     public void setSelectedId(@IdRes int id) {
+        if (id == mCanNotSelectedId) {
+            Log.i(TAG, "setSelectedId: id is can not selected id");
+            return;
+        }
+
         // 如果2个id相等 那么就返回
         if (id == mSelectedId) {
+            Log.i(TAG, "setSelectedId: is same id");
             return;
         }
 
