@@ -82,11 +82,11 @@ public class LoginManager {
                     Log.i(TAG, "run: call back is null");
                     return;
                 }
-                int result = new Random().nextInt();
-                if (result % 2 == 0) {
-                    mCallBack.onSuccess();
-                } else {
+                int result = new Random().nextInt() % 5;
+                if (result == 1) {
                     mCallBack.onError(new NetworkErrorException("Net"), "用户名或密码不对（模拟）", 1);
+                } else {
+                    mCallBack.onSuccess();
                 }
             }
         }, 1000);

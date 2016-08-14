@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
-
     android:orientation="vertical"
     tools:context=".modules.main.MainActivity">
+
+    <com.bright.common.widget.TopBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftImage="@drawable/ic_back_white"
+        app:leftText="@string/back"
+        app:leftTextBackground="@drawable/green_corner_5dp_bg"
+        app:rightImage="@drawable/top_post"
+        app:rightImage2="@drawable/top_privacy"
+        app:subText="@string/all_photos"
+        app:text="@string/all_photos" />
+
 
     <Button
         android:id="@+id/web"

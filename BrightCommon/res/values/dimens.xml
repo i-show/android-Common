@@ -16,8 +16,7 @@
 
 <resources>
     <dimen name="border_width">@dimen/dp_2</dimen>
-    <!-- 设定一个默认的高度-->
-    <dimen name="top_bar_height">@dimen/dp_50</dimen>
+
 
     <!-- 普通腰封的高度-->
     <dimen name="girdle_min_h">@dimen/dp_45</dimen>

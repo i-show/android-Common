@@ -203,20 +203,20 @@
     <style name="ToolBar" />
 
     <style name="ToolBar.Title">
-        <item name="android:textSize">@dimen/topbar_title</item>
+        <item name="android:textSize">@dimen/top_bar_title_text_size</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
 
     <style name="ToolBar.SubTitle">
-        <item name="android:textSize">@dimen/topbar_sub_title</item>
+        <item name="android:textSize">@dimen/top_bar_sub_title_text_size</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
 
     <!-- TopBar 默认样式统一样式 -->
     <style name="TopBar">
-        <item name="textSize">@dimen/topbar_title</item>
+        <item name="textSize">@dimen/top_bar_title_text_size</item>
         <item name="textColor">@android:color/white</item>
-        <item name="subTextSize">@dimen/topbar_sub_title</item>
+        <item name="subTextSize">@dimen/top_bar_sub_title_text_size</item>
         <item name="subTextColor">@android:color/white</item>
         <item name="android:background">@color/color_primary</item>
     </style>

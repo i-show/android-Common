@@ -24,10 +24,11 @@
     <dimen name="G_title">@dimen/dp_15</dimen>
     <dimen name="H_title">@dimen/dp_14</dimen>
     <dimen name="I_title">@dimen/dp_12</dimen>
-    <dimen name="J_title">@dimen/dp_10</dimen>
-    <dimen name="K_title">@dimen/dp_8</dimen>
-    <dimen name="L_title">@dimen/dp_6</dimen>
+    <dimen name="J_title">@dimen/dp_11</dimen>
+    <dimen name="K_title">@dimen/dp_10</dimen>
+    <dimen name="L_title">@dimen/dp_8</dimen>
+    <dimen name="M_title">@dimen/dp_6</dimen>
+    <dimen name="N_title">@dimen/dp_4</dimen>
 
-    <dimen name="topbar_title">@dimen/G_title</dimen>
-    <dimen name="topbar_sub_title">@dimen/H_title</dimen>
+
 </resources>
