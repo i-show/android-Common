@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- * <p>
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
+ * <p/>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,8 +19,11 @@ package com.bright.common.widget;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.ColorRes;
+import android.os.Handler;
+import android.os.Message;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 import android.text.Layout;
 import android.text.TextUtils;
@@ -28,12 +31,10 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bright.common.R;
@@ -43,17 +44,9 @@ public class TopBar extends ViewGroup implements OnClickListener {
 
     private static final String TAG = "TopBar";
     /**
-     * 默认的点击图片
-     */
-    private static final int DEFAUTL_ACTION_IMAGE = android.R.color.transparent;
-    /**
      * 单位宽度和高度的比率
      */
     private static final float UNIT_WIDTH_RADIO = 0.88f;
-    /**
-     * 默认字体的颜色
-     */
-    private static final int DEFAULT_TEXT_COLOR = android.R.color.white;
     /**
      * 多次点击事件的消息
      */
@@ -105,6 +98,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
      */
     private int mLeftBackground, mRightBackground;
     private Drawable mLeftTextBackgound, mRightTextBackground;
+    private Drawable mLeftTextDrawable;
     /**
      * 左边是否可见
      */
@@ -120,6 +114,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
      * 左边和右边字体大小
      */
     private int mLeftTextSize, mRightTextSize;
+    private int mLeftTextDrawablePadding;
     /**
      * 左边和右边字体颜色
      */
@@ -175,10 +170,6 @@ public class TopBar extends ViewGroup implements OnClickListener {
     // 是否启用密码格式 连续点击进入
     private boolean isSecretCode;
 
-    // 左边是否是一个整体点击事件
-    private boolean isLeftWhole;
-
-
     /**
      * 相关监听（左右点击事件）
      */
@@ -197,17 +188,19 @@ public class TopBar extends ViewGroup implements OnClickListener {
     private int mGapSize;
     private int mSmallGapSize;
 
+    private Handler mHandler;
+
     public TopBar(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TopBar, R.attr.topbarStyle, 0);
 
-        isLeftWhole = a.getBoolean(R.styleable.TopBar_isLeftWhole, false);
-
         mLeftStr = a.getString(R.styleable.TopBar_leftText);
-        mLeftTextSize = a.getInt(R.styleable.TopBar_leftTextSize, 0);
+        mLeftTextSize = a.getDimensionPixelSize(R.styleable.TopBar_leftTextSize, 0);
         mLeftTextColor = a.getColorStateList(R.styleable.TopBar_leftTextColor);
         mLeftTextBackgound = a.getDrawable(R.styleable.TopBar_leftTextBackground);
+        mLeftTextDrawable = a.getDrawable(R.styleable.TopBar_leftTextDrawable);
+        mLeftTextDrawablePadding = a.getDimensionPixelSize(R.styleable.TopBar_leftTextDrawablePadding, 0);
 
         mLeftBackground = a.getResourceId(R.styleable.TopBar_leftBackground, 0);
 
@@ -217,7 +210,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
         mLeftImage2Visibility = a.getInt(R.styleable.TopBar_leftVisibility2, View.VISIBLE);
 
         mRightStr = a.getString(R.styleable.TopBar_rightText);
-        mRightTextSize = a.getInt(R.styleable.TopBar_rightTextSize, 0);
+        mRightTextSize = a.getDimensionPixelSize(R.styleable.TopBar_rightTextSize, 0);
         mRightTextColor = a.getColorStateList(R.styleable.TopBar_rightTextColor);
         mRightTextBackground = a.getDrawable(R.styleable.TopBar_rightTextBackground);
 
@@ -225,7 +218,6 @@ public class TopBar extends ViewGroup implements OnClickListener {
 
         mRightImageResId = a.getResourceId(R.styleable.TopBar_rightImage, 0);
         mRightImageVisibility = a.getInt(R.styleable.TopBar_rightVisibility, View.VISIBLE);
-
         mRightImage2ResId = a.getResourceId(R.styleable.TopBar_rightImage2, 0);
         mRightImage2Visibility = a.getInt(R.styleable.TopBar_rightVisibility2, View.VISIBLE);
 
@@ -330,6 +322,9 @@ public class TopBar extends ViewGroup implements OnClickListener {
             } else {
                 int _height = mLeftTextView.getMeasuredHeight();
                 int _top = (mTopBarHeight - _height) / 2;
+                if (left == 0) {
+                    left = mGapSize;
+                }
                 mLeftTextView.layout(left, _top, left + mLeftTextViewWidth, _top + _height);
             }
         }
@@ -340,6 +335,9 @@ public class TopBar extends ViewGroup implements OnClickListener {
             } else {
                 int _height = mRightTextView.getMeasuredHeight();
                 int _top = (mTopBarHeight - _height) / 2;
+                if (right == width) {
+                    right -= mGapSize;
+                }
                 mRightTextView.layout(right - mRightTextViewWidth, _top, right, _top + _height);
             }
             right -= mRightTextViewWidth;
@@ -376,14 +374,27 @@ public class TopBar extends ViewGroup implements OnClickListener {
     public void onClick(View v) {
         // id是非静态的，所以不能使用Switch Case
         final int id = v.getId();
-        if (id == R.id.left) {
+        if (id == R.id.leftText || id == R.id.leftImage || id == R.id.leftImage2) {
             performLeftClick(v);
-        } else if (id == R.id.right) {
+        } else if (id == R.id.rightText || id == R.id.rightImage || id == R.id.rightImage2) {
             performRightClick(v);
-        } else if (id == R.id.center) {
+        } else if (id == R.id.title || id == R.id.subTitle) {
             performCenterClick(v);
         }
 
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        mHandler = new RecycleHandler();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        mHandler.removeCallbacksAndMessages(null);
+        mHandler = null;
     }
 
     /**
@@ -423,11 +434,11 @@ public class TopBar extends ViewGroup implements OnClickListener {
     private void checkEffectiveParams() {
         // just set left and right button width = height
         if (mTitleColor == null) {
-            mTitleColor = getResources().getColorStateList(DEFAULT_TEXT_COLOR);
+            mTitleColor = ColorStateList.valueOf(Color.WHITE);
         }
 
         if (mSubTitleColor == null) {
-            mSubTitleColor = getResources().getColorStateList(DEFAULT_TEXT_COLOR);
+            mSubTitleColor = ColorStateList.valueOf(Color.WHITE);
         }
 
         if (mLeftTextSize == 0) {
@@ -497,12 +508,15 @@ public class TopBar extends ViewGroup implements OnClickListener {
 
         if (mTitleView == null) {
             mTitleView = new MarqueeTextView(getContext());
+            mTitleView.setId(R.id.title);
             mTitleView.setText(mTitleStr);
             mTitleView.setPadding(mGapSize, mSmallGapSize, mGapSize, mSmallGapSize);
             mTitleView.setTextColor(mTitleColor);
             mTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTitleSize);
             mTitleView.setIncludeFontPadding(false);
+            mTitleView.setOnClickListener(this);
             mTitleView.setGravity(Gravity.CENTER);
+            mTitleView.setEnabled(isClickable);
             addView(mTitleView);
 
             computeTitleDesireWidth();
@@ -519,12 +533,15 @@ public class TopBar extends ViewGroup implements OnClickListener {
 
         if (mSubTitleView == null) {
             mSubTitleView = new MarqueeTextView(getContext());
+            mSubTitleView.setId(R.id.subTitle);
             mSubTitleView.setText(mSubTitleStr);
             mSubTitleView.setPadding(mGapSize, 0, mGapSize, 0);
+            mSubTitleView.setOnClickListener(this);
             mSubTitleView.setTextColor(mSubTitleColor);
             mSubTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mSubTitleSize);
             mSubTitleView.setIncludeFontPadding(false);
             mSubTitleView.setGravity(Gravity.CENTER);
+            mSubTitleView.setEnabled(isClickable);
             addView(mSubTitleView);
 
             computeSubTitleDesireWidth();
@@ -600,6 +617,12 @@ public class TopBar extends ViewGroup implements OnClickListener {
             } else {
                 mLeftTextView.setBackgroundResource(mLeftBackground);
             }
+
+            if (mLeftTextDrawable != null) {
+                mLeftTextView.setCompoundDrawablesWithIntrinsicBounds(mLeftTextDrawable, null, null, null);
+                mLeftTextView.setCompoundDrawablePadding(mLeftTextDrawablePadding);
+            }
+
             addView(mLeftTextView);
         }
         return mLeftTextView;
@@ -759,9 +782,12 @@ public class TopBar extends ViewGroup implements OnClickListener {
 
             if (mClickCount > 1 && mSecretListener != null) {
                 mSecretListener.onSecretClick(v, mClickCount);
-            } else {
-                //mHandler.removeMessages(HANDLER_BATTER);
-                //mHandler.sendEmptyMessageDelayed(HANDLER_BATTER, 400);
+            } else if (mHandler != null) {
+                mHandler.removeMessages(HANDLER_BATTER);
+                Message message = new Message();
+                message.what = HANDLER_BATTER;
+                message.obj = v;
+                mHandler.sendMessageDelayed(message, 400);
             }
             mFirstTime = second;
         } else {
@@ -775,9 +801,6 @@ public class TopBar extends ViewGroup implements OnClickListener {
      * 设置Title
      */
     public void setText(@StringRes int resId) {
-        if (resId == 0) {
-            return;
-        }
         String title = getContext().getString(resId);
         setText(title);
     }
@@ -787,18 +810,16 @@ public class TopBar extends ViewGroup implements OnClickListener {
      */
     public void setText(String title) {
         if (TextUtils.isEmpty(title)) {
+            Log.i(TAG, "setText: title is empty");
             return;
+        }
+        if (mTitleView == null) {
+            mTitleVisibility = VISIBLE;
+            getTitle();
         }
         mTitleView.setText(title);
     }
 
-    /**
-     * 设置标题颜色
-     */
-    public void setTextColor(@ColorRes int color) {
-        mTitleColor = getResources().getColorStateList(color);
-        mTitleView.setTextColor(mTitleColor);
-    }
 
     /**
      * 设置副标题
@@ -816,13 +837,13 @@ public class TopBar extends ViewGroup implements OnClickListener {
      * 设置subTitle
      */
     public void setSubText(String title) {
-        // if title is null just return
         if (TextUtils.isEmpty(title)) {
             return;
         }
-        // 不能删除，防止问题：开始没有mSubTitle之后add进去
-        mSubTitleStr = title;
-        getSubTitle();
+        if (mSubTitleView == null) {
+            mSubTitleVisibility = VISIBLE;
+            getSubTitle();
+        }
         mSubTitleView.setText(title);
     }
 
@@ -830,10 +851,6 @@ public class TopBar extends ViewGroup implements OnClickListener {
      * 设置左边字体显示
      */
     public void setLeftText(@StringRes int resId) {
-        if (resId == 0) {
-            Log.i(TAG, "setLeftText: resid is error");
-            return;
-        }
         String text = getContext().getString(resId);
         setLeftText(text);
     }
@@ -845,17 +862,33 @@ public class TopBar extends ViewGroup implements OnClickListener {
         if (TextUtils.isEmpty(text)) {
             return;
         }
-        //TODO
+        if (mLeftTextView == null) {
+            mLeftTextVisibility = VISIBLE;
+            getLeftTextView();
+        }
+        mLeftTextView.setText(text);
+    }
+
+    public void setLeftImageResource(@DrawableRes int resId) {
+        if (mLeftImageView == null) {
+            mLeftImageVisibility = VISIBLE;
+            getLeftImageView();
+        }
+        mLeftImageView.setImageResource(resId);
+    }
+
+    public void setLeft2ImageResource(@DrawableRes int resId) {
+        if (mLeftImageView2 == null) {
+            mLeftImage2Visibility = VISIBLE;
+            getLeftImageView2();
+        }
+        mLeftImageView2.setImageResource(resId);
     }
 
     /**
      * 设置右边字体显示
      */
     public void setRightText(@StringRes int resId) {
-        if (resId == 0) {
-            Log.i(TAG, "setRightText: resid is error");
-            return;
-        }
         String text = getContext().getString(resId);
         setRightText(text);
     }
@@ -867,32 +900,27 @@ public class TopBar extends ViewGroup implements OnClickListener {
         if (TextUtils.isEmpty(text)) {
             return;
         }
-        //TODO
+        if (mRightTextView == null) {
+            mRightTextVisibility = VISIBLE;
+            getRightTextView();
+        }
+        mRightTextView.setText(text);
     }
 
-
-    public void setLeftImageDrawable(Drawable d) {
-        if (mLeftImageView != null) {
-            mLeftImageView.setImageDrawable(d);
+    public void setRightImageResource(@DrawableRes int resId) {
+        if (mRightImageView == null) {
+            mRightImageVisibility = VISIBLE;
+            getRightImageView();
         }
+        mRightImageView.setImageResource(resId);
     }
 
-    public void setLeftImageResource(int resId) {
-        if (mLeftImageView != null) {
-            mLeftImageView.setImageResource(resId);
+    public void setRight2ImageResource(@DrawableRes int resId) {
+        if (mRightImageView2 == null) {
+            mRightImage2Visibility = VISIBLE;
+            getRightImageView2();
         }
-    }
-
-    public void setRightImageDrawable(Drawable d) {
-        if (mRightImageView != null) {
-            mRightImageView.setImageDrawable(d);
-        }
-    }
-
-    public void setRightImageResource(int resId) {
-        if (mRightImageView != null && resId != 0) {
-            mRightImageView.setImageResource(resId);
-        }
+        mRightImageView2.setImageResource(resId);
     }
 
 
@@ -900,20 +928,36 @@ public class TopBar extends ViewGroup implements OnClickListener {
      * 设置左边是否可见
      */
     public void setLeftVisibility(int visibility) {
-        //TODO
+        setLeftTextVisibility(visibility);
+        setLeftImageVisibility(visibility);
+        setLeftImage2Visibility(visibility);
+    }
+
+    public void setLeftTextVisibility(int visibility) {
+        if (mLeftTextView != null) {
+            mLeftTextView.setVisibility(visibility);
+        }
+    }
+
+    public void setLeftImageVisibility(int visibility) {
+        if (mLeftImageView != null) {
+            mLeftImageView.setVisibility(visibility);
+        }
+    }
+
+    public void setLeftImage2Visibility(int visibility) {
+        if (mLeftImageView2 != null) {
+            mLeftImageView2.setVisibility(visibility);
+        }
     }
 
     /**
      * 设置右边是否可见
      */
     public void setRightVisibility(int visibility) {
-        //TODO
-    }
-
-    public void setRightImageVisibility(int visibility) {
-        if (mRightImageView != null) {
-            mRightImageView.setVisibility(visibility);
-        }
+        setRightTextVisibility(visibility);
+        setRightImageVisibility(visibility);
+        setRightImage2Visibility(visibility);
     }
 
     public void setRightTextVisibility(int visibility) {
@@ -922,18 +966,37 @@ public class TopBar extends ViewGroup implements OnClickListener {
         }
     }
 
+    public void setRightImageVisibility(int visibility) {
+        if (mRightImageView != null) {
+            mRightImageView.setVisibility(visibility);
+        }
+    }
 
+    public void setRightImage2Visibility(int visibility) {
+        if (mRightImageView2 != null) {
+            mRightImageView2.setVisibility(visibility);
+        }
+    }
+
+    /**
+     * 计算Title 想要的宽度
+     */
     private void computeTitleDesireWidth() {
         if (mTitleView == null) {
             mTitleDesireWidth = 0;
+            return;
         }
 
         mTitleDesireWidth = (int) Layout.getDesiredWidth(mTitleView.getText(), mTitleView.getPaint());
     }
 
+    /**
+     * 计算SubTitle 想要的宽度
+     */
     private void computeSubTitleDesireWidth() {
         if (mSubTitleView == null) {
             mSubTitleDesireWidth = 0;
+            return;
         }
 
         mSubTitleDesireWidth = (int) Layout.getDesiredWidth(mSubTitleView.getText(), mSubTitleView.getPaint());
@@ -1006,25 +1069,23 @@ public class TopBar extends ViewGroup implements OnClickListener {
         void onSecretClick(View v, int count);
     }
 
-
     /**
-     * 包裹类
-     * 目的是可以中断事件往下传递
+     * 用来添加和回收的Handler
      */
-    private class ContentView extends LinearLayout {
-        private boolean isInterceptEnable;
-
-        public ContentView(Context context) {
-            super(context);
-        }
-
-        public void setInterceptTouchEventEnable(boolean enable) {
-            isInterceptEnable = enable;
-        }
-
+    private class RecycleHandler extends Handler {
         @Override
-        public boolean onInterceptTouchEvent(MotionEvent ev) {
-            return isInterceptEnable;
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case HANDLER_BATTER:
+                    if (mClickCount == 1) {
+                        Log.i(TAG, "sec click");
+                        if (mTopBarListener != null) {
+                            mTopBarListener.onTitleClick((View) msg.obj);
+                        }
+                    }
+                    break;
+            }
         }
     }
 }

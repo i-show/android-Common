@@ -9,51 +9,15 @@
     tools:context=".modules.main.MainActivity">
 
     <com.bright.common.widget.TopBar
+        android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:leftImage="@drawable/ic_back_white"
         app:leftText="@string/back"
-        app:leftTextBackground="@drawable/green_corner_5dp_bg"
+        app:leftTextDrawable="@drawable/ic_back_white"
+        app:leftTextSize="@dimen/H_title"
         app:rightImage="@drawable/top_post"
         app:rightImage2="@drawable/top_privacy"
-        app:subText="@string/all_photos"
         app:text="@string/all_photos" />
 
 
-    <Button
-        android:id="@+id/web"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="WebViewTest" />
-
-    <Button
-        android:id="@+id/selectPhoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name_test" />
-
-
-    <RadioButton
-        android:id="@+id/radioButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New RadioButton" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/ic_multi_select_camera" />
-
-    <com.brightyu.androidcommon.widget.TestView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:background="#33ff00ff" />
-
-    <GridView
-        android:id="@+id/gird"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:numColumns="3" />
 </LinearLayout>

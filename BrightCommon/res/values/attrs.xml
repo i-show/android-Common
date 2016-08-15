@@ -64,11 +64,11 @@
     <attr name="subTextSize" format="dimension" />
     <attr name="subTextColor" format="color" />
 
-    <attr name="isLeftWhole" format="boolean" />
-
     <attr name="leftText" format="string" />
     <attr name="leftTextSize" format="reference" />
     <attr name="leftTextColor" format="reference" />
+    <attr name="leftTextDrawable" format="reference" />
+    <attr name="leftTextDrawablePadding" format="reference" />
     <attr name="leftTextBackground" format="reference|color" />
 
     <attr name="leftImage" format="reference" />
@@ -274,11 +274,11 @@
         <attr name="subTextSize" />
         <attr name="subTextColor" />
 
-        <attr name="isLeftWhole" />
-        
         <attr name="leftText" />
         <attr name="leftTextSize" />
         <attr name="leftTextColor" />
+        <attr name="leftTextDrawable" />
+        <attr name="leftTextDrawablePadding" />
         <attr name="leftTextBackground" />
 
         <attr name="leftImage" />
