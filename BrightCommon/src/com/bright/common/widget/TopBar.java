@@ -708,8 +708,22 @@ public class TopBar extends ViewGroup implements OnClickListener {
         } else if (mTitleDesireWidth >= maxWidth) {
             mTitleView.setPadding(leftTotal + mGapSize, mSmallGapSize, rightTotal + mGapSize, mSmallGapSize);
         } else if (leftTotal > rightTotal) {
+            if (leftTotal == mLeftTextViewWidth && mLeftTextBackgound != null) {
+                leftTotal += mGapSize;
+            }
+
+            if (rightTotal == mRightTextViewWidth && mRightTextBackground != null) {
+                rightTotal += mGapSize;
+            }
             mTitleView.setPadding(leftTotal + mGapSize, mSmallGapSize, rightTotal + difference + mGapSize, mSmallGapSize);
         } else {
+            if (leftTotal == mLeftTextViewWidth && mLeftTextBackgound != null) {
+                leftTotal += mGapSize;
+            }
+
+            if (rightTotal == mRightTextViewWidth && mRightTextBackground != null) {
+                rightTotal += mGapSize;
+            }
             mTitleView.setPadding(leftTotal + mGapSize + difference, mSmallGapSize, rightTotal + mGapSize, mSmallGapSize);
         }
     }
