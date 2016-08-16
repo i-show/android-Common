@@ -117,51 +117,93 @@
 -keepclassmembers class * {
     public void *ButtonClicked(android.view.View);
 }
+# # -------------------------------------------
 #不混淆资源类
+# # -------------------------------------------
 -keepclassmembers class **.R$* {
     public static <fields>;
 }
 #避免混淆泛型 如果混淆报错建议关掉
 #–keepattributes Signature
-#信鸽推送
+# # -------------------------------------------
+# #  ######## 信鸽推送 ##########
+# # -------------------------------------------
 -keep public class * extends android.app.Service
 -keep public class * extends android.content.BroadcastReceiver
 -keep class com.tencent.android.tpush.**  {* ;}
 -keep class com.tencent.mid.**  {* ;}
-# 极光推送
+
+# # -------------------------------------------
+# #  ######## 极光推送 ##########
+# # -------------------------------------------
 -dontwarn cn.jpush.**
 -keep class cn.jpush.** { *; }
 
-# glide加载控件
+
+# # -------------------------------------------
+# #  ######## glide加载控件 ##########
+# # -------------------------------------------
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
   **[] $VALUES;
   public *;
 }
 #-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
-#内存检测工具
+
+# # -------------------------------------------
+# #  ######## 内存检测工具 ##########
+# # -------------------------------------------
 -keep class org.eclipse.mat.** { *; }
 -keep class com.squareup.leakcanary.** { *; }
 
-#百度统计
+# # -------------------------------------------
+# #  ######## 百度统计 ##########
+# # -------------------------------------------
 -keep class com.baidu.kirin.** { *; }
 -keep class com.baidu.mobstat.** { *; }
 -keep class com.baidu.bottom.** { *; }
 
-#okhttp
+# # -------------------------------------------
+# #  ######## OK Http ##########
+# # -------------------------------------------
 -dontwarn okhttp3.**
 -keep class okhttp3.**{*;}
 -keep interface okhttp3.**{*;}
 
-#okio
 -dontwarn okio.**
 -keep class okio.**{*;}
 -keep interface okio.**{*;}
 
-# FastJson
+# # -------------------------------------------
+# #  ######## FastJson ##########
+# # -------------------------------------------
+-dontwarn com.alibaba.fastjson.**
 -keep class com.alibaba.fastjson.** { *; }
+-keepattributes Signature
 
-# shareSDK
+# # -------------------------------------------
+# #  ######## IJKPlayer ##########
+# # -------------------------------------------
+-keep class tv.danmaku.ijk.media.player.** { *; }
+-keepclasseswithmembernames class tv.danmaku.ijk.media.player.IjkMediaPlayer{
+    native <methods>;
+}
+-keepclasseswithmembernames class tv.danmaku.ijk.media.player.ffmpeg.FFmpegApi{
+    native <methods>;
+}
+
+# # -------------------------------------------
+# #  ######## greenDao混淆  ##########
+# # -------------------------------------------
+-keep class com.manjay.housebox.greendao.** {*;}
+-keepclassmembers class * extends de.greenrobot.dao.AbstractDao {
+    public static java.lang.String TABLENAME;
+}
+-keep class **$Properties
+
+# # -------------------------------------------
+# #  ######## ShareSDK ##########
+# # -------------------------------------------
 -keep class cn.sharesdk.**{*;}
 -keep class com.sina.**{*;}
 -keep class **.R$* {*;}
