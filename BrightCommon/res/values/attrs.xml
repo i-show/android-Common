@@ -143,7 +143,7 @@
     <attr name="fadeBack" format="boolean" />
     <attr name="animationDuration" format="integer" />
 
-    <attr name="positon">
+    <attr name="position">
         <enum name="left" value="1" />
         <enum name="right" value="2" />
         <enum name="top" value="3" />
@@ -200,6 +200,13 @@
         <enum name="crop" value="1" />
     </attr>
 
+    <attr name="promptMode">
+        <enum name="text" value="0" />
+        <enum name="graph" value="1" />
+    </attr>
+
+    <attr name="promptBackground" format="color|reference" />
+
     <attr name="cropMode">
         <enum name="ratio_fit_image" value="0" />
         <enum name="ratio_4_3" value="1" />
@@ -251,7 +258,7 @@
         <attr name="tintAlpha" />
 
         <attr name="image" />
-        <attr name="positon" />
+        <attr name="position" />
         <attr name="padding" />
     </declare-styleable>
 
@@ -420,5 +427,20 @@
         <attr name="thumbRadius" />
     </declare-styleable>
 
+
+    <declare-styleable name="PromptTextView">
+        <!--提示的类型-->
+        <attr name="promptMode" />
+        <!--提示的背景-->
+        <attr name="promptBackground" />
+        <attr name="position" />
+
+        <attr name="text" />
+        <attr name="textColor" />
+        <attr name="textSize" />
+        <attr name="padding" />
+
+        <attr name="radius" />
+    </declare-styleable>
 
 </resources>

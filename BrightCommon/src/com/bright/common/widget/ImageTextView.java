@@ -163,7 +163,7 @@ public class ImageTextView extends View {
         mTintColor = a.getColor(R.styleable.ImageTextView_tint, Color.TRANSPARENT);
         mTintAlpha = a.getInt(R.styleable.ImageTextView_tintAlpha, 0);
 
-        mPosition = a.getInt(R.styleable.ImageTextView_positon, TOP);
+        mPosition = a.getInt(R.styleable.ImageTextView_position, TOP);
         mPadding = a.getDimensionPixelSize(R.styleable.ImageTextView_padding, DEFAULT_PADDING);
 
         mMinHeight = a.getDimensionPixelSize(R.styleable.ImageTextView_android_minHeight, 0);
