@@ -115,6 +115,8 @@
     <attr name="image" format="reference|color" />
 
     <attr name="padding" format="dimension" />
+    <attr name="widthPaddingScale" format="float" />
+    <attr name="heightPaddingScale" format="float" />
 
     <attr name="rightPadding" format="dimension" />
     <attr name="leftPadding" format="dimension" />
@@ -439,6 +441,25 @@
         <attr name="textColor" />
         <attr name="textSize" />
         <attr name="padding" />
+        <attr name="widthPaddingScale" />
+        <attr name="heightPaddingScale" />
+
+        <attr name="radius" />
+    </declare-styleable>
+
+    <declare-styleable name="PromptImageView">
+        <!--提示的类型-->
+        <attr name="promptMode" />
+        <!--提示的背景-->
+        <attr name="promptBackground" />
+        <attr name="position" />
+
+        <attr name="text" />
+        <attr name="textColor" />
+        <attr name="textSize" />
+        <attr name="padding" />
+        <attr name="widthPaddingScale" />
+        <attr name="heightPaddingScale" />
 
         <attr name="radius" />
     </declare-styleable>

@@ -16,12 +16,21 @@
 
 package com.brightyu.androidcommon.modules.main;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.bright.common.app.BaseActivity;
+import com.bright.common.constant.Position;
 import com.bright.common.widget.TopBar;
+import com.bright.common.widget.prompt.IPrompt;
+import com.bright.common.widget.prompt.PromptImageView;
+import com.bright.common.widget.prompt.PromptTextView;
 import com.brightyu.androidcommon.R;
 
 public class MainActivity extends BaseActivity {
@@ -38,13 +47,53 @@ public class MainActivity extends BaseActivity {
     protected void initViews() {
         super.initViews();
         TopBar topBar = (TopBar) findViewById(R.id.top_bar);
-        topBar.setOnTopBarListener(this);
-        topBar.setOnSecretListener(new TopBar.OnSecretListener() {
-            @Override
-            public void onSecretClick(View v, int count) {
-                Log.i(TAG, "onSecretClick:  count = " + count);
-            }
-        });
+
+        PromptImageView image = topBar.getRightImageView();
+        image.setMode(IPrompt.MODE_GRAPH)
+                .setPromptPosition(Position.RIGHT)
+                .commit();
+
+        PromptImageView image2 = topBar.getRightImageView2();
+        image2.setMode(IPrompt.MODE_GRAPH)
+                .setPromptPosition(Position.RIGHT)
+                .commit();
+
+        IPrompt rightText = topBar.getRightTextView();
+        rightText.setMode(IPrompt.MODE_GRAPH)
+                .setPromptPosition(Position.RIGHT)
+                .commit();
+
+        PromptTextView left = topBar.getLeftTextView();
+        left.setPadding(left.getPaddingLeft(), left.getPaddingTop(), left.getPaddingRight() * 4, left.getPaddingBottom());
+        left.setMode(IPrompt.MODE_TEXT)
+                .setPromptPosition(Position.RIGHT)
+                .setPromptText(1)
+                .setPromptHeightPaddingScale(0.06f)
+                .setPromptWidthPaddingScale(0.06f)
+                .commit();
+
+        LinearLayout ll = (LinearLayout) findViewById(R.id.content);
+
+        ll.addView(test());
+    }
+
+
+    private PromptTextView test() {
+        PromptTextView mLeftTextView = new PromptTextView(this);
+        mLeftTextView.setId(com.bright.common.R.id.leftText);
+        mLeftTextView.setText("Hello");
+        mLeftTextView.setPadding(10, 10, 10, 10);
+        mLeftTextView.setGravity(Gravity.CENTER);
+        mLeftTextView.setTextColor(Color.GREEN);
+        mLeftTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, 40);
+        //mLeftTextView.setOnClickListener(this);
+        mLeftTextView.setLines(1);
+        // 至少要这么宽 位了美观
+        mLeftTextView.setMinWidth(100);
+        mLeftTextView.setEllipsize(TextUtils.TruncateAt.END);
+
+        mLeftTextView.setBackgroundResource(android.R.color.holo_orange_light);
+        return mLeftTextView;
     }
 
     @Override

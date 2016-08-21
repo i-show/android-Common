@@ -38,6 +38,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bright.common.R;
+import com.bright.common.widget.prompt.IPrompt;
+import com.bright.common.widget.prompt.PromptImageView;
+import com.bright.common.widget.prompt.PromptTextView;
 
 
 public class TopBar extends ViewGroup implements OnClickListener {
@@ -51,7 +54,14 @@ public class TopBar extends ViewGroup implements OnClickListener {
      * 多次点击事件的消息
      */
     private static final int HANDLER_BATTER = 0x001;
+    /**
+     * 提示信息
+     */
+    private static final float DEFAULT_IMAGE_WIDTH_PROMPT_SCALE = 0.17f;
+    private static final float DEFAULT_IMAGE_HEIGHT_PROMPT_SCALE = 0.19f;
 
+    private static final float DEFAULT_TEXT_WIDTH_PROMPT_SCALE = 0.14f;
+    private static final float DEFAULT_TEXT_HEIGHT_PROMPT_SCALE = 0.25f;
     /**
      * 中间的view
      */
@@ -60,15 +70,15 @@ public class TopBar extends ViewGroup implements OnClickListener {
     /**
      * 左边的View
      */
-    private ImageView mLeftImageView;
-    private ImageView mLeftImageView2;
-    private TextView mLeftTextView;
+    private PromptImageView mLeftImageView;
+    private PromptImageView mLeftImageView2;
+    private PromptTextView mLeftTextView;
     /**
      * 右边的View
      */
-    private ImageView mRightImageView;
-    private ImageView mRightImageView2;
-    private TextView mRightTextView;
+    private PromptImageView mRightImageView;
+    private PromptImageView mRightImageView2;
+    private PromptTextView mRightTextView;
 
 
     /**
@@ -550,7 +560,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
     }
 
 
-    private ImageView getLeftImageView() {
+    public PromptImageView getLeftImageView() {
 
         if (mLeftImageVisibility == View.GONE) {
             Log.i(TAG, "getLeftImageView: is visiable gone just not add");
@@ -558,7 +568,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
         }
 
         if (mLeftImageView == null) {
-            mLeftImageView = new ImageView(getContext());
+            mLeftImageView = new PromptImageView(getContext());
             mLeftImageView.setId(R.id.leftImage);
             mLeftImageView.setVisibility(mLeftImageVisibility);
             mLeftImageView.setImageResource(mLeftImageResId);
@@ -567,19 +577,20 @@ public class TopBar extends ViewGroup implements OnClickListener {
             mLeftImageView.setOnClickListener(this);
             mLeftImageView.setMinimumWidth(mUnitWidth);
             mLeftImageView.setMinimumHeight(mTopBarHeight);
+            setDefaultPromptState(mLeftImageView);
             addView(mLeftImageView);
         }
         return mLeftImageView;
     }
 
-    private ImageView getLeftImageView2() {
+    public PromptImageView getLeftImageView2() {
         if (mLeftImage2Visibility == View.GONE) {
             Log.i(TAG, "getLeftImageView2: is visiable gone just not add");
             return null;
         }
 
         if (mLeftImageView2 == null) {
-            mLeftImageView2 = new ImageView(getContext());
+            mLeftImageView2 = new PromptImageView(getContext());
             mLeftImageView2.setId(R.id.leftImage2);
             mLeftImageView2.setVisibility(mLeftImage2Visibility);
             mLeftImageView2.setImageResource(mLeftImage2ResId);
@@ -588,19 +599,20 @@ public class TopBar extends ViewGroup implements OnClickListener {
             mLeftImageView2.setMinimumWidth(mUnitWidth);
             mLeftImageView2.setMinimumHeight(mTopBarHeight);
             mLeftImageView2.setOnClickListener(this);
+            setDefaultPromptState(mLeftImageView2);
             addView(mLeftImageView2);
         }
         return mLeftImageView;
     }
 
-    private TextView getLeftTextView() {
+    public PromptTextView getLeftTextView() {
         if (mLeftTextVisibility == View.GONE) {
             Log.i(TAG, "getLeftTextView: is visiable gone just not add");
             return null;
         }
 
         if (mLeftTextView == null) {
-            mLeftTextView = new TextView(getContext());
+            mLeftTextView = new PromptTextView(getContext());
             mLeftTextView.setId(R.id.leftText);
             mLeftTextView.setText(mLeftStr);
             mLeftTextView.setPadding(mGapSize, mGapSize, mGapSize, mGapSize);
@@ -608,7 +620,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
             mLeftTextView.setTextColor(mLeftTextColor);
             mLeftTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mLeftTextSize);
             mLeftTextView.setOnClickListener(this);
-            mLeftTextView.setSingleLine();
+            mLeftTextView.setLines(1);
             // 至少要这么宽 位了美观
             mLeftTextView.setMinWidth(mUnitWidth);
             mLeftTextView.setEllipsize(TextUtils.TruncateAt.END);
@@ -623,12 +635,13 @@ public class TopBar extends ViewGroup implements OnClickListener {
                 mLeftTextView.setCompoundDrawablePadding(mLeftTextDrawablePadding);
             }
 
+            setDefaultPromptState(mLeftTextView);
             addView(mLeftTextView);
         }
         return mLeftTextView;
     }
 
-    private ImageView getRightImageView() {
+    public PromptImageView getRightImageView() {
 
         if (mRightImageVisibility == View.GONE) {
             Log.i(TAG, "getRightImageView: is visiable gone just not add");
@@ -636,52 +649,54 @@ public class TopBar extends ViewGroup implements OnClickListener {
         }
 
         if (mRightImageView == null) {
-            mRightImageView = new ImageView(getContext());
+            mRightImageView = new PromptImageView(getContext());
             mRightImageView.setId(R.id.rightImage);
             mRightImageView.setVisibility(mRightImageVisibility);
             mRightImageView.setImageResource(mRightImageResId);
             mRightImageView.setBackgroundResource(mRightBackground);
             mRightImageView.setScaleType(ImageView.ScaleType.CENTER);
             mRightImageView.setOnClickListener(this);
+            setDefaultPromptState(mRightImageView);
             addView(mRightImageView);
         }
         return mRightImageView;
     }
 
-    private ImageView getRightImageView2() {
+    public PromptImageView getRightImageView2() {
         if (mRightImage2Visibility == View.GONE) {
             Log.i(TAG, "getRightImageView2: is visiable gone just not add");
             return null;
         }
 
         if (mRightImageView2 == null) {
-            mRightImageView2 = new ImageView(getContext());
+            mRightImageView2 = new PromptImageView(getContext());
             mRightImageView2.setId(R.id.rightImage2);
             mRightImageView2.setVisibility(mRightImage2Visibility);
             mRightImageView2.setImageResource(mRightImage2ResId);
             mRightImageView2.setBackgroundResource(mRightBackground);
             mRightImageView2.setScaleType(ImageView.ScaleType.CENTER);
             mRightImageView2.setOnClickListener(this);
+            setDefaultPromptState(mRightImageView2);
             addView(mRightImageView2);
         }
         return mRightImageView2;
     }
 
-    private TextView getRightTextView() {
+    public PromptTextView getRightTextView() {
         if (mRightTextVisibility == View.GONE) {
             Log.i(TAG, "getRightTextView: is visiable gone just not add");
             return null;
         }
 
         if (mRightTextView == null) {
-            mRightTextView = new TextView(getContext());
+            mRightTextView = new PromptTextView(getContext());
             mRightTextView.setId(R.id.rightText);
             mRightTextView.setText(mRightStr);
             mRightTextView.setPadding(mGapSize, mGapSize, mGapSize, mGapSize);
             mRightTextView.setGravity(Gravity.CENTER);
             mRightTextView.setTextColor(mRightTextColor);
             mRightTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mRightTextSize);
-            mRightTextView.setSingleLine();
+            mRightTextView.setLines(1);
             mRightTextView.setOnClickListener(this);
             // 至少要这么宽 位了美观
             mRightTextView.setMinWidth(mTopBarHeight);
@@ -691,6 +706,8 @@ public class TopBar extends ViewGroup implements OnClickListener {
             } else {
                 mRightTextView.setBackgroundResource(mRightBackground);
             }
+
+            setDefaultPromptState(mRightTextView);
             addView(mRightTextView);
         }
         return mRightTextView;
@@ -1004,6 +1021,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
         mTitleDesireWidth = (int) Layout.getDesiredWidth(mTitleView.getText(), mTitleView.getPaint());
     }
 
+
     /**
      * 计算SubTitle 想要的宽度
      */
@@ -1016,6 +1034,21 @@ public class TopBar extends ViewGroup implements OnClickListener {
         mSubTitleDesireWidth = (int) Layout.getDesiredWidth(mSubTitleView.getText(), mSubTitleView.getPaint());
     }
 
+    private void setDefaultPromptState(IPrompt prompt) {
+        if (prompt == null) {
+            Log.i(TAG, "setDefaultPromptState: ");
+            return;
+        }
+        if (prompt instanceof PromptTextView) {
+            prompt.setPromptWidthPaddingScale(DEFAULT_TEXT_WIDTH_PROMPT_SCALE);
+            prompt.setPromptHeightPaddingScale(DEFAULT_TEXT_HEIGHT_PROMPT_SCALE);
+        } else {
+            prompt.setPromptWidthPaddingScale(DEFAULT_IMAGE_WIDTH_PROMPT_SCALE);
+            prompt.setPromptHeightPaddingScale(DEFAULT_IMAGE_HEIGHT_PROMPT_SCALE);
+        }
+        prompt.setMode(IPrompt.MODE_NONE);
+        prompt.commit();
+    }
 
     /**
      * 获取默认TopBar的高度

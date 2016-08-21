@@ -1,9 +1,9 @@
-package com.bright.common.model;
+package com.bright.common.constant;
 
 /**
  * 位置
  */
-public interface IPosition {
+public interface Position {
     /**
      * Pictures in the text to the left
      */

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
@@ -12,51 +13,12 @@
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:leftImage="@drawable/ic_back_white"
         app:leftText="@string/back"
-        app:leftTextDrawable="@drawable/ic_back_white"
-        app:leftTextSize="@dimen/H_title"
         app:rightImage="@drawable/top_post"
         app:rightImage2="@drawable/top_privacy"
+        app:rightText="@string/back"
         app:text="@string/all_photos" />
 
 
-    <com.bright.common.widget.PromptTextView
-
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:background="#2200ff"
-        android:gravity="center"
-        android:text="helloword"
-        app:promptMode="text"
-        app:text="99" />
-
-    <com.bright.common.widget.PromptTextView
-
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:background="#2200ff00"
-        android:gravity="center"
-        android:text="helloword"
-        app:position="right"
-        app:promptMode="text"
-        app:text="99+" />
-
-    <com.bright.common.widget.PromptTextView
-
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:background="#22ffff00"
-        android:gravity="center"
-        android:text="helloword"
-        app:position="right" />
-
-    <com.bright.common.widget.PromptTextView
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#2200fff0"
-        android:gravity="center"
-        android:padding="@dimen/dp_18"
-        android:text="helloword"
-        app:radius="@dimen/dp_10" />
 </LinearLayout>
