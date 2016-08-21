@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- * <p>
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
+ * <p/>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,9 +39,9 @@ import android.view.View;
 
 import com.bright.common.R;
 import com.bright.common.constant.DefaultColors;
-import com.bright.common.utils.image.ImageUtils;
 import com.bright.common.utils.UnitUtils;
 import com.bright.common.utils.Utils;
+import com.bright.common.utils.image.ImageUtils;
 
 
 public class ImageTextView extends View {
@@ -49,19 +49,19 @@ public class ImageTextView extends View {
     /**
      * Pictures in the text to the left
      */
-    public static final int LEFT = 1;
+    public static final int LEFT = 0;
     /**
      * Pictures in the text to the right
      */
-    public static final int RIGHT = 2;
+    public static final int RIGHT = 4;
     /**
      * Pictures in the text to the top
      */
-    public static final int TOP = 3;
+    public static final int TOP = 8;
     /**
      * Pictures in the text to the bottom
      */
-    public static final int BOTTOM = 4;
+    public static final int BOTTOM = 16;
     /**
      * 默认 文本和图片之间的间距
      */

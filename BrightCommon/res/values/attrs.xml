@@ -64,6 +64,10 @@
     <attr name="subTextSize" format="dimension" />
     <attr name="subTextColor" format="color" />
 
+    <attr name="promptText" format="string" />
+    <attr name="promptTextColor" format="dimension" />
+    <attr name="promptTextSize" format="color" />
+
     <attr name="leftText" format="string" />
     <attr name="leftTextSize" format="reference" />
     <attr name="leftTextColor" format="reference" />
@@ -115,6 +119,7 @@
     <attr name="image" format="reference|color" />
 
     <attr name="padding" format="dimension" />
+    <attr name="promptPadding" format="dimension" />
     <attr name="widthPaddingScale" format="float" />
     <attr name="heightPaddingScale" format="float" />
 
@@ -125,6 +130,7 @@
     <attr name="cannotSelectedChild" format="reference" />
 
     <attr name="radius" format="dimension|reference" />
+    <attr name="promptRadius" format="dimension|reference" />
 
     <attr name="thumbDrawable" format="reference" />
     <attr name="thumbColor" format="color|reference" />
@@ -146,10 +152,17 @@
     <attr name="animationDuration" format="integer" />
 
     <attr name="position">
-        <enum name="left" value="1" />
-        <enum name="right" value="2" />
-        <enum name="top" value="3" />
-        <enum name="bottom" value="4" />
+        <enum name="left" value="0" />
+        <enum name="right" value="4" />
+        <enum name="top" value="8" />
+        <enum name="bottom" value="16" />
+    </attr>
+
+    <attr name="promptPosition">
+        <enum name="left" value="0" />
+        <enum name="right" value="4" />
+        <enum name="top" value="8" />
+        <enum name="bottom" value="16" />
     </attr>
 
 
@@ -435,16 +448,19 @@
         <attr name="promptMode" />
         <!--提示的背景-->
         <attr name="promptBackground" />
-        <attr name="position" />
+        <!--提示的位置-->
+        <attr name="promptPosition" />
 
-        <attr name="text" />
-        <attr name="textColor" />
-        <attr name="textSize" />
-        <attr name="padding" />
+        <attr name="promptText" />
+        <attr name="promptTextColor" />
+        <attr name="promptTextSize" />
+
+        <attr name="promptPadding" />
+        <attr name="promptRadius" />
+
         <attr name="widthPaddingScale" />
         <attr name="heightPaddingScale" />
 
-        <attr name="radius" />
     </declare-styleable>
 
     <declare-styleable name="PromptImageView">
@@ -452,16 +468,18 @@
         <attr name="promptMode" />
         <!--提示的背景-->
         <attr name="promptBackground" />
-        <attr name="position" />
+        <!--提示的位置-->
+        <attr name="promptPosition" />
 
-        <attr name="text" />
-        <attr name="textColor" />
-        <attr name="textSize" />
-        <attr name="padding" />
+        <attr name="promptText" />
+        <attr name="promptTextColor" />
+        <attr name="promptTextSize" />
+
+        <attr name="promptPadding" />
+        <attr name="promptRadius" />
+
         <attr name="widthPaddingScale" />
         <attr name="heightPaddingScale" />
-
-        <attr name="radius" />
     </declare-styleable>
 
 </resources>
