@@ -264,7 +264,6 @@
     <attr name="scale_y" format="integer" />
 
     <declare-styleable name="ImageTextView">
-        <attr name="android:minHeight" />
         <attr name="text" />
         <attr name="textSize" />
         <attr name="textColor" />
@@ -275,6 +274,24 @@
         <attr name="image" />
         <attr name="position" />
         <attr name="padding" />
+
+        <!--提示的类型-->
+        <attr name="promptMode" />
+        <!--提示的背景-->
+        <attr name="promptBackground" />
+        <!--提示的位置-->
+        <attr name="promptPosition" />
+
+        <attr name="promptText" />
+        <attr name="promptTextColor" />
+        <attr name="promptTextSize" />
+
+        <attr name="promptPadding" />
+        <attr name="promptRadius" />
+
+        <attr name="widthPaddingScale" />
+        <attr name="heightPaddingScale" />
+
     </declare-styleable>
 
 
@@ -356,14 +373,6 @@
         <attr name="textSize" />
     </declare-styleable>
 
-    <declare-styleable name="TabStrip">
-        <attr name="shape" />
-        <attr name="stripHeight" />
-        <attr name="stripColor" />
-        <attr name="stripPaddingRatio" />
-        <attr name="lineColor" />
-        <attr name="linePaddingRatio" />
-    </declare-styleable>
 
     <!-- 发送验证码的Button -->
     <declare-styleable name="VerifyCodeButton">

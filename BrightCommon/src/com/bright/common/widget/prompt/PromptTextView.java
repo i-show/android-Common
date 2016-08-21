@@ -107,10 +107,16 @@ public class PromptTextView extends AppCompatTextView implements IPrompt {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        Log.i(TAG, "onMeasure: ");
         if (mMode == MODE_NONE) {
+            Log.i(TAG, "onMeasure: mode = NONE");
             return;
         }
+
+        if (mMode == MODE_TEXT && TextUtils.isEmpty(mPromptTextString)) {
+            Log.i(TAG, "onMeasure: mPromptTextString is empty");
+            return;
+        }
+
         int width = getMeasuredWidth();
         int height = getMeasuredHeight();
 
@@ -131,6 +137,12 @@ public class PromptTextView extends AppCompatTextView implements IPrompt {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (mMode == MODE_NONE) {
+            Log.i(TAG, "onDraw: mode is none");
+            return;
+        }
+
+        if (mMode == MODE_TEXT && TextUtils.isEmpty(mPromptTextString)) {
+            Log.i(TAG, "onDraw: mPromptTextString is empty");
             return;
         }
         canvas.drawRoundRect(mPromptUsedRectF, 999, 999, mPromptBackgroundPaint);

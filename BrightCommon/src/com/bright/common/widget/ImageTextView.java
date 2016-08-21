@@ -31,6 +31,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.support.annotation.StringRes;
+import android.text.Layout;
+import android.text.StaticLayout;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -39,29 +42,13 @@ import android.view.View;
 
 import com.bright.common.R;
 import com.bright.common.constant.DefaultColors;
-import com.bright.common.utils.UnitUtils;
-import com.bright.common.utils.Utils;
+import com.bright.common.constant.Position;
 import com.bright.common.utils.image.ImageUtils;
 
 
 public class ImageTextView extends View {
     private static final String TAG = "ImageTextView";
-    /**
-     * Pictures in the text to the left
-     */
-    public static final int LEFT = 0;
-    /**
-     * Pictures in the text to the right
-     */
-    public static final int RIGHT = 4;
-    /**
-     * Pictures in the text to the top
-     */
-    public static final int TOP = 8;
-    /**
-     * Pictures in the text to the bottom
-     */
-    public static final int BOTTOM = 16;
+
     /**
      * 默认 文本和图片之间的间距
      */
@@ -83,10 +70,7 @@ public class ImageTextView extends View {
      * 覆盖颜色的透明度
      */
     private int mTintAlpha;
-    /**
-     * 最小高度
-     */
-    private int mMinHeight;
+
     /**
      * 字体颜色
      */
@@ -95,6 +79,10 @@ public class ImageTextView extends View {
      * 字体大小
      */
     private float mTextSize;
+
+    private int mDesireWidth;
+    private int mDesireHeight;
+
     /**
      * 字体颜色
      */
@@ -127,22 +115,12 @@ public class ImageTextView extends View {
      * 文本内容
      */
     private String mText;
-    /**
-     * 提示的数字
-     */
-    private String mPromtNumber;
+
     /**
      * 文本的画笔
      */
-    private Paint mTextPaint;
-    /**
-     * 提示背景画笔
-     */
-    private Paint mNotiBgPaint;
-    /**
-     * 提示文本画笔
-     */
-    private Paint mNotiTextPaint;
+    private TextPaint mTextPaint;
+
 
     public ImageTextView(Context context) {
         super(context);
@@ -163,10 +141,8 @@ public class ImageTextView extends View {
         mTintColor = a.getColor(R.styleable.ImageTextView_tint, Color.TRANSPARENT);
         mTintAlpha = a.getInt(R.styleable.ImageTextView_tintAlpha, 0);
 
-        mPosition = a.getInt(R.styleable.ImageTextView_position, TOP);
+        mPosition = a.getInt(R.styleable.ImageTextView_position, Position.TOP);
         mPadding = a.getDimensionPixelSize(R.styleable.ImageTextView_padding, DEFAULT_PADDING);
-
-        mMinHeight = a.getDimensionPixelSize(R.styleable.ImageTextView_android_minHeight, 0);
 
         a.recycle();
 
@@ -179,6 +155,7 @@ public class ImageTextView extends View {
         if (mIconDrawable == null) {
             throw new IllegalStateException(" need a image !");
         }
+
         mIconDrawable.setCallback(this);
         mIconBitmap = ImageUtils.drawableToBitmap(mIconDrawable);
 
@@ -186,38 +163,23 @@ public class ImageTextView extends View {
     }
 
     private void init() {
-        Log.i(TAG, "mText = " + mText);
-        //初始化Text画笔
-        if (!TextUtils.isEmpty(mText)) {
-            mTextPaint = new Paint();
-            mTextPaint.setColor(mTextColor);
-            mTextPaint.setTextSize(mTextSize);
-            mTextPaint.setAntiAlias(true);
-            mTextPaint.setDither(true);
-            mTextPaint.getTextBounds(mText, 0, mText.length(), mTextRect);
-        }
+        initPaint();
+        compute();
+    }
 
-        mNotiBgPaint = new Paint();
-        mNotiBgPaint.setAntiAlias(true);
-        mNotiBgPaint.setDither(true);
-        mNotiBgPaint.setColor(DefaultColors.RED);
-
-        mNotiTextPaint = new Paint();
-        mNotiTextPaint.setAntiAlias(true);
-        mNotiTextPaint.setDither(true);
-        mNotiTextPaint.setColor(Color.WHITE);
-        mNotiTextPaint.setTextSize(mTextSize * 0.8f); // 提示字体的大小为其他的0.8f
+    private void initPaint() {
+        mTextPaint = new TextPaint();
+        mTextPaint.setColor(mTextColor);
+        mTextPaint.setTextSize(mTextSize);
+        mTextPaint.setAntiAlias(true);
+        mTextPaint.setDither(true);
+        mTextPaint.getTextBounds(mText, 0, mText.length(), mTextRect);
     }
 
     /**
      * 更新画笔
      */
     private void updateTextPaint() {
-        if (mTextPaint == null) {
-            mTextPaint = new Paint();
-            mTextPaint.setAntiAlias(true);
-            mTextPaint.setDither(true);
-        }
         mTextPaint.setColor(mTextColor);
         mTextPaint.setTextSize(mTextSize);
         mTextPaint.getTextBounds(mText, 0, mText.length(), mTextRect);
@@ -244,49 +206,6 @@ public class ImageTextView extends View {
         }
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        // Get view width and height!
-        int width = widthMeasureSpec;
-        int height = heightMeasureSpec;
-
-        final int textWidth = mTextRect.width();
-        final int textHeight = mTextRect.height();
-
-        final int iconWidth = mIconBitmap.getWidth();
-        final int iconHeight = mIconBitmap.getHeight();
-
-        int modeH = MeasureSpec.getMode(heightMeasureSpec);
-        int modeW = MeasureSpec.getMode(widthMeasureSpec);
-
-        switch (mPosition) {
-            case LEFT:
-            case RIGHT:
-                if (modeW == MeasureSpec.AT_MOST || modeW == MeasureSpec.UNSPECIFIED) {
-                    width = getPaddingLeft() + getPaddingRight() + textWidth + iconWidth + mPadding + DEFAULT_PADDING * 2;
-                }
-                if (modeH == MeasureSpec.AT_MOST || modeH == MeasureSpec.UNSPECIFIED) {
-                    int H = Math.max(textHeight, iconHeight);
-                    height = getPaddingTop() + getPaddingBottom() + H + DEFAULT_PADDING * 2;
-                }
-                break;
-            case TOP:
-            case BOTTOM:
-                if (modeW == MeasureSpec.AT_MOST || modeW == MeasureSpec.UNSPECIFIED) {
-                    int W = Math.max(textWidth, iconWidth);
-                    width = getPaddingLeft() + getPaddingRight() + W + DEFAULT_PADDING * 2;
-                }
-                if (modeH == MeasureSpec.AT_MOST || modeH == MeasureSpec.UNSPECIFIED) {
-                    height = getPaddingTop() + getPaddingBottom() + iconHeight + textHeight + mPadding + DEFAULT_PADDING * 2;
-                }
-                break;
-
-        }
-        height = Math.max(height, mMinHeight);
-        setMeasuredDimension(width, height);
-    }
-
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
@@ -294,14 +213,16 @@ public class ImageTextView extends View {
         final int width = getMeasuredWidth();
         final int height = getMeasuredHeight();
 
-        final int textWidth = mTextRect.width();
-        final int textHeight = mTextRect.height();
-
         final int iconWidth = mIconBitmap.getWidth();
         final int iconHeight = mIconBitmap.getHeight();
 
+
+        final int textWidth = mTextRect.width();
+        final int textHeight = mTextRect.height();
+
+
         switch (mPosition) {
-            case TOP:
+            case Position.TOP:
                 // Calculate icon Rect
                 mIconRect.left = (width - iconWidth) / 2;
                 mIconRect.right = mIconRect.left + iconWidth;
@@ -313,7 +234,7 @@ public class ImageTextView extends View {
                 mTextRect.top = mIconRect.bottom + mPadding;
                 mTextRect.bottom = mTextRect.top + textHeight;
                 break;
-            case BOTTOM:
+            case Position.BOTTOM:
                 // Calculate text Rect
                 mTextRect.left = (width - textWidth) / 2;
                 mTextRect.right = mTextRect.left + textWidth;
@@ -326,7 +247,7 @@ public class ImageTextView extends View {
                 mIconRect.top = mTextRect.bottom + mPadding;
                 mIconRect.bottom = mIconRect.top + iconHeight;
                 break;
-            case LEFT:
+            case Position.LEFT:
                 // Calculate icon Rect
                 mIconRect.left = (width - iconWidth - textWidth - mPadding) / 2;
                 mIconRect.right = mIconRect.left + iconWidth;
@@ -339,7 +260,7 @@ public class ImageTextView extends View {
                 mTextRect.top = (height - textHeight) / 2;
                 mTextRect.bottom = mTextRect.top + textHeight;
                 break;
-            case RIGHT:
+            case Position.RIGHT:
                 // Calculate text Rect
                 mTextRect.left = (width - iconWidth - textWidth - mPadding) / 2;
                 mTextRect.right = mTextRect.left + textWidth;
@@ -365,59 +286,9 @@ public class ImageTextView extends View {
         canvas.drawBitmap(mShowBitmap, 0, 0, null);
 
         // draw text
-        if (!TextUtils.isEmpty(mText)) {
-            Paint.FontMetricsInt fontMetrics = mTextPaint.getFontMetricsInt();
-            int baseline = mTextRect.top + (mTextRect.bottom - mTextRect.top - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top;
-
-            mTextPaint.setColor(mTextColor);
-            mTextPaint.setAlpha(255);
-            mTextPaint.setTextAlign(Paint.Align.CENTER);
-            canvas.drawText(mText, mTextRect.centerX(), baseline, mTextPaint);
-
-            mTextPaint.setColor(mTintColor);
-            mTextPaint.setAlpha(mTintAlpha * 2 / 3);
-            canvas.drawText(mText, mTextRect.centerX(), baseline, mTextPaint);
-        }
-        // 画提示框
-        drawPromt(canvas);
+        drawText(canvas);
     }
 
-    private void drawPromt(Canvas canvas) {
-        if (isShowPromt) {
-            final int padding = UnitUtils.dip2px(getContext(), 4);
-            final int paddingLess = UnitUtils.dip2px(getContext(), 2);
-            final int x = mIconRect.right + padding;
-            final int y = mIconRect.top + padding;
-
-            // 计算提示数字大小
-            Rect rect = new Rect();
-            mNotiTextPaint.getTextBounds(mPromtNumber, 0, mPromtNumber.length(), rect);
-            int textWidth = rect.width();
-            int textHeight = rect.height();
-
-            // 通过计算的大小 然控制画圆的半径
-            int radius;
-            if (TextUtils.isEmpty(mPromtNumber)) {
-                radius = UnitUtils.dip2px(getContext(), 3);
-            } else if (mPromtNumber.length() >= 3) {
-                radius = Math.max(textWidth, textHeight) / 2 + paddingLess;
-            } else {
-                radius = Math.max(textWidth, textHeight) / 2 + padding;
-            }
-
-            canvas.drawCircle(x, y, radius, mNotiBgPaint);
-
-            rect.top = y - textHeight / 2 - 2;
-            rect.bottom = y + textHeight / 2 - 2;
-            rect.left = x - textWidth / 2;
-            rect.right = x + textWidth / 2;
-
-            Paint.FontMetricsInt fontMetrics = mNotiTextPaint.getFontMetricsInt();
-            int baseline = rect.top + (rect.bottom - rect.top - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top;
-            mNotiTextPaint.setTextAlign(Paint.Align.CENTER);
-            canvas.drawText(mPromtNumber, rect.centerX(), baseline, mNotiTextPaint);
-        }
-    }
 
     private void drawIcon() {
         //二级缓存
@@ -436,47 +307,60 @@ public class ImageTextView extends View {
         canvas.drawBitmap(mIconBitmap, null, mIconRect, paint);
     }
 
-    /**
-     * 显示提示
-     */
-    public void showPromt(boolean show) {
-        showPromt(show, Utils.EMPTY);
+
+    private void drawText(Canvas canvas) {
+        if (TextUtils.isEmpty(mText)) {
+            Log.i(TAG, "drawText: mText is empty");
+            return;
+        }
+        // draw text
+        Paint.FontMetricsInt fontMetrics = mTextPaint.getFontMetricsInt();
+        int baseline = mTextRect.top + (mTextRect.bottom - mTextRect.top - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top;
+
+//        mTextPaint.setColor(mTextColor);
+//        mTextPaint.setAlpha(255);
+//        mTextPaint.setTextAlign(Paint.Align.CENTER);
+//        canvas.drawText(mText, mTextRect.centerX(), baseline, mTextPaint);
+//
+//        mTextPaint.setColor(mTintColor);
+//        mTextPaint.setAlpha(mTintAlpha * 2 / 3);
+//        canvas.drawText(mText, mTextRect.centerX(), baseline, mTextPaint);
+        canvas.translate(0, mTextRect.top);
+        StaticLayout layout = new StaticLayout(mText, mTextPaint, canvas.getWidth(), Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
+        layout.draw(canvas);
     }
 
-    /**
-     * 显示提示
-     *
-     * @param show   是否显示
-     * @param number 显示的数字
-     */
-    public void showPromt(boolean show, String number) {
-        isShowPromt = show;
-        mPromtNumber = number.trim();
-        if (number.length() >= 3) {
-            mNotiTextPaint.setTextSize((float) (mTextSize * 0.6));
-        } else {
-            mNotiTextPaint.setTextSize((float) (mTextSize * 0.8));
-        }
-        invalidate();
-    }
+    private void compute() {
+        final int textWidth = mTextRect.width();
+        final int textHeight = mTextRect.height();
 
-    /**
-     * 显示提示
-     *
-     * @param show   是否显示
-     * @param number 显示的数字
-     */
-    public void showPromt(boolean show, int number) {
-        if (number > 99) {
-            showPromt(show, "99+");
-        } else {
-            showPromt(show, String.valueOf(number));
+        final int iconWidth = mIconBitmap.getWidth();
+        final int iconHeight = mIconBitmap.getHeight();
+
+        switch (mPosition) {
+            case Position.LEFT:
+            case Position.RIGHT:
+                mDesireWidth = textWidth + iconWidth + mPadding + DEFAULT_PADDING * 2;
+                mDesireHeight = Math.max(textHeight, iconHeight) + DEFAULT_PADDING * 2;
+            case Position.TOP:
+            case Position.BOTTOM:
+                mDesireWidth = Math.max(textWidth, iconWidth) + DEFAULT_PADDING * 2;
+                mDesireHeight = textHeight + iconHeight + DEFAULT_PADDING * 2;
+                break;
         }
+
+
+        int minWidth = getMinimumWidth();
+        setMinimumWidth(Math.max(minWidth, mDesireWidth));
+
+        int minHeight = getMinimumHeight();
+        setMinimumHeight(Math.max(minHeight, mDesireHeight));
     }
 
     /**
      * Sets the ImageTextButton to display the Text show .
      */
+
     public void setTint(int color) {
         mTintColor = color;
         postInvalidate();
@@ -498,10 +382,6 @@ public class ImageTextView extends View {
         setText(text);
     }
 
-    public CharSequence getText() {
-        return mText;
-    }
-
     /**
      * Sets the ImageTextButton to display the Text show .
      */
@@ -515,6 +395,11 @@ public class ImageTextView extends View {
         updateTextPaint();
         requestLayout();
     }
+
+    public CharSequence getText() {
+        return mText;
+    }
+
 
     public float getTextSize() {
         return mTextSize;
@@ -630,5 +515,10 @@ public class ImageTextView extends View {
     public int sp2px(float spValue) {
         final float fontScale = getContext().getResources().getDisplayMetrics().scaledDensity;
         return (int) (spValue * fontScale + 0.5f);
+    }
+
+    private void makeLayout(int wantWidth) {
+        StaticLayout layout = new StaticLayout()
+
     }
 }
