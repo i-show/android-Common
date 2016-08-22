@@ -52,7 +52,7 @@ public class ImageTextView extends View {
     /**
      * 默认 文本和图片之间的间距
      */
-    private static final int DEFAULT_PADDING = 10;
+    private static final int DEFAULT_PADDING = 8;
     /**
      * 图片位置
      */
@@ -82,7 +82,11 @@ public class ImageTextView extends View {
 
     private int mDesireWidth;
     private int mDesireHeight;
+    private int mTextDesireWidth;
 
+    // 画字体的时候需要的平移的距离
+    private int mTranslationX;
+    private int mTranslationY;
     /**
      * 字体颜色
      */
@@ -99,10 +103,7 @@ public class ImageTextView extends View {
      * 图标的Drawable
      */
     private Drawable mIconDrawable;
-    /**
-     * 画字体的区域
-     */
-    private Rect mTextRect = new Rect();
+
     /**
      * 画图标的区域
      */
@@ -121,6 +122,7 @@ public class ImageTextView extends View {
      */
     private TextPaint mTextPaint;
 
+    private Layout mLayout;
 
     public ImageTextView(Context context) {
         super(context);
@@ -136,7 +138,7 @@ public class ImageTextView extends View {
 
         mText = a.getString(R.styleable.ImageTextView_text);
         mTextStateColor = a.getColorStateList(R.styleable.ImageTextView_textColor);
-        mTextSize = a.getDimensionPixelSize(R.styleable.ImageTextView_textSize, sp2px(13));
+        mTextSize = a.getDimensionPixelSize(R.styleable.ImageTextView_textSize, getDefaultTextSize());
 
         mTintColor = a.getColor(R.styleable.ImageTextView_tint, Color.TRANSPARENT);
         mTintAlpha = a.getInt(R.styleable.ImageTextView_tintAlpha, 0);
@@ -164,7 +166,7 @@ public class ImageTextView extends View {
 
     private void init() {
         initPaint();
-        compute();
+        computeDesireWidth();
     }
 
     private void initPaint() {
@@ -173,7 +175,7 @@ public class ImageTextView extends View {
         mTextPaint.setTextSize(mTextSize);
         mTextPaint.setAntiAlias(true);
         mTextPaint.setDither(true);
-        mTextPaint.getTextBounds(mText, 0, mText.length(), mTextRect);
+        mTextDesireWidth = (int) Layout.getDesiredWidth(mText, mTextPaint);
     }
 
     /**
@@ -182,7 +184,7 @@ public class ImageTextView extends View {
     private void updateTextPaint() {
         mTextPaint.setColor(mTextColor);
         mTextPaint.setTextSize(mTextSize);
-        mTextPaint.getTextBounds(mText, 0, mText.length(), mTextRect);
+        mTextDesireWidth = (int) Layout.getDesiredWidth(mText, mTextPaint);
     }
 
     /**
@@ -206,6 +208,59 @@ public class ImageTextView extends View {
         }
     }
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        measureWidth(widthMeasureSpec);
+        measureHeight();
+    }
+
+    private void measureWidth(int widthMeasureSpec) {
+        final int mode = MeasureSpec.getMode(widthMeasureSpec);
+        final int size = MeasureSpec.getSize(widthMeasureSpec);
+        if (mode == MeasureSpec.UNSPECIFIED) {
+            Log.i(TAG, "measureWidth: mode == MeasureSpec.UNSPECIFIED");
+            mLayout = new StaticLayout(mText, mTextPaint, mTextDesireWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
+            return;
+        }
+
+        if (mDesireWidth <= size) {
+            Log.i(TAG, "measureWidth: mDesireWidth <= size");
+            mLayout = new StaticLayout(mText, mTextPaint, mTextDesireWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
+            return;
+        }
+
+        switch (mPosition) {
+            case Position.TOP:
+            case Position.BOTTOM:
+                mLayout = new StaticLayout(mText, mTextPaint, size, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
+                break;
+
+            case Position.LEFT:
+            case Position.RIGHT:
+                int wantSize = size - mIconBitmap.getWidth() - 2 * DEFAULT_PADDING - mPadding;
+                mLayout = new StaticLayout(mText, mTextPaint, wantSize, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
+                break;
+        }
+    }
+
+    private void measureHeight() {
+        switch (mPosition) {
+            case Position.TOP:
+            case Position.BOTTOM:
+                mDesireHeight = mLayout.getHeight() + mIconBitmap.getHeight() + DEFAULT_PADDING * 2 + mPadding;
+                break;
+
+            case Position.LEFT:
+            case Position.RIGHT:
+                mDesireHeight = Math.max(mLayout.getHeight(), mIconBitmap.getHeight()) + DEFAULT_PADDING * 2;
+                break;
+        }
+
+        int minHeight = getMinimumHeight();
+        setMinimumHeight(Math.max(minHeight, mDesireHeight));
+        Log.i("nian", "measureHeight: minHeight = " + getMinimumHeight());
+    }
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
@@ -217,8 +272,8 @@ public class ImageTextView extends View {
         final int iconHeight = mIconBitmap.getHeight();
 
 
-        final int textWidth = mTextRect.width();
-        final int textHeight = mTextRect.height();
+        final int textWidth = mLayout.getWidth();
+        final int textHeight = mLayout.getHeight();
 
 
         switch (mPosition) {
@@ -228,23 +283,20 @@ public class ImageTextView extends View {
                 mIconRect.right = mIconRect.left + iconWidth;
                 mIconRect.top = (height - iconHeight - textHeight - mPadding) / 2;
                 mIconRect.bottom = mIconRect.top + iconHeight;
+
                 // Calculate text Rect
-                mTextRect.left = (width - textWidth) / 2;
-                mTextRect.right = mTextRect.left + textWidth;
-                mTextRect.top = mIconRect.bottom + mPadding;
-                mTextRect.bottom = mTextRect.top + textHeight;
+                mTranslationX = (width - textWidth) / 2;
+                mTranslationY = mIconRect.bottom + mPadding;
                 break;
             case Position.BOTTOM:
                 // Calculate text Rect
-                mTextRect.left = (width - textWidth) / 2;
-                mTextRect.right = mTextRect.left + textWidth;
-                mTextRect.top = (height - iconHeight - textHeight - mPadding) / 2;
-                mTextRect.bottom = mTextRect.top + textHeight;
+                mTranslationX = (width - textWidth) / 2;
+                mTranslationY = (height - iconHeight - textHeight - mPadding) / 2;
 
                 // Calculate icon Rect
                 mIconRect.left = (width - iconWidth) / 2;
                 mIconRect.right = mIconRect.left + iconWidth;
-                mIconRect.top = mTextRect.bottom + mPadding;
+                mIconRect.top = mTranslationY + textHeight + mPadding;
                 mIconRect.bottom = mIconRect.top + iconHeight;
                 break;
             case Position.LEFT:
@@ -255,20 +307,16 @@ public class ImageTextView extends View {
                 mIconRect.bottom = mIconRect.top + iconHeight;
 
                 // Calculate text Rect
-                mTextRect.left = mIconRect.right + mPadding;
-                mTextRect.right = mTextRect.left + textWidth;
-                mTextRect.top = (height - textHeight) / 2;
-                mTextRect.bottom = mTextRect.top + textHeight;
+                mTranslationX = mIconRect.right + mPadding;
+                mTranslationY = (height - textHeight) / 2;
                 break;
             case Position.RIGHT:
                 // Calculate text Rect
-                mTextRect.left = (width - iconWidth - textWidth - mPadding) / 2;
-                mTextRect.right = mTextRect.left + textWidth;
-                mTextRect.top = (height - textHeight) / 2;
-                mTextRect.bottom = mTextRect.top + textHeight;
+                mTranslationX = (width - iconWidth - textWidth - mPadding) / 2;
+                mTranslationY = (height - textHeight) / 2;
 
                 // Calculate icon Rect
-                mIconRect.left = mTextRect.right + mPadding;
+                mIconRect.left = mTranslationX + textWidth + mPadding;
                 mIconRect.right = mIconRect.left + iconWidth;
                 mIconRect.top = (height - iconHeight) / 2;
                 mIconRect.bottom = mIconRect.top + iconHeight;
@@ -284,15 +332,22 @@ public class ImageTextView extends View {
         // draw icon
         drawIcon();
         canvas.drawBitmap(mShowBitmap, 0, 0, null);
-
         // draw text
         drawText(canvas);
     }
 
 
     private void drawIcon() {
+
+        int width = getMeasuredWidth();
+        int height = getMeasuredHeight();
+        if (width <= 0 || height <= 0) {
+            Log.i(TAG, "drawIcon: size is 0");
+            return;
+        }
+
         //二级缓存
-        mShowBitmap = Bitmap.createBitmap(getMeasuredWidth(), getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+        mShowBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(mShowBitmap);
         Paint paint = new Paint();
 
@@ -313,39 +368,23 @@ public class ImageTextView extends View {
             Log.i(TAG, "drawText: mText is empty");
             return;
         }
-        // draw text
-        Paint.FontMetricsInt fontMetrics = mTextPaint.getFontMetricsInt();
-        int baseline = mTextRect.top + (mTextRect.bottom - mTextRect.top - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top;
-
-//        mTextPaint.setColor(mTextColor);
-//        mTextPaint.setAlpha(255);
-//        mTextPaint.setTextAlign(Paint.Align.CENTER);
-//        canvas.drawText(mText, mTextRect.centerX(), baseline, mTextPaint);
-//
-//        mTextPaint.setColor(mTintColor);
-//        mTextPaint.setAlpha(mTintAlpha * 2 / 3);
-//        canvas.drawText(mText, mTextRect.centerX(), baseline, mTextPaint);
-        canvas.translate(0, mTextRect.top);
-        StaticLayout layout = new StaticLayout(mText, mTextPaint, canvas.getWidth(), Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
-        layout.draw(canvas);
+        canvas.save();
+        canvas.translate(mTranslationX, mTranslationY);
+        mLayout.draw(canvas);
+        canvas.restore();
     }
 
-    private void compute() {
-        final int textWidth = mTextRect.width();
-        final int textHeight = mTextRect.height();
+    private void computeDesireWidth() {
 
         final int iconWidth = mIconBitmap.getWidth();
-        final int iconHeight = mIconBitmap.getHeight();
 
         switch (mPosition) {
             case Position.LEFT:
             case Position.RIGHT:
-                mDesireWidth = textWidth + iconWidth + mPadding + DEFAULT_PADDING * 2;
-                mDesireHeight = Math.max(textHeight, iconHeight) + DEFAULT_PADDING * 2;
+                mDesireWidth = mTextDesireWidth + iconWidth + mPadding + DEFAULT_PADDING * 2;
             case Position.TOP:
             case Position.BOTTOM:
-                mDesireWidth = Math.max(textWidth, iconWidth) + DEFAULT_PADDING * 2;
-                mDesireHeight = textHeight + iconHeight + DEFAULT_PADDING * 2;
+                mDesireWidth = Math.max(mTextDesireWidth, iconWidth) + DEFAULT_PADDING * 2;
                 break;
         }
 
@@ -353,8 +392,6 @@ public class ImageTextView extends View {
         int minWidth = getMinimumWidth();
         setMinimumWidth(Math.max(minWidth, mDesireWidth));
 
-        int minHeight = getMinimumHeight();
-        setMinimumHeight(Math.max(minHeight, mDesireHeight));
     }
 
     /**
@@ -509,16 +546,8 @@ public class ImageTextView extends View {
         postInvalidate();
     }
 
-    /**
-     * 将sp值转换为px值，保证文字大小不变
-     */
-    public int sp2px(float spValue) {
-        final float fontScale = getContext().getResources().getDisplayMetrics().scaledDensity;
-        return (int) (spValue * fontScale + 0.5f);
-    }
 
-    private void makeLayout(int wantWidth) {
-        StaticLayout layout = new StaticLayout()
-
+    private int getDefaultTextSize() {
+        return getContext().getResources().getDimensionPixelSize(R.dimen.H_title);
     }
 }
