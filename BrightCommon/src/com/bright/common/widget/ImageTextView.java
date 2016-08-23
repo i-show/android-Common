@@ -81,7 +81,6 @@ public class ImageTextView extends View {
     private float mTextSize;
 
     private int mDesireWidth;
-    private int mDesireHeight;
     private int mTextDesireWidth;
 
     // 画字体的时候需要的平移的距离
@@ -126,7 +125,7 @@ public class ImageTextView extends View {
 
     public ImageTextView(Context context) {
         super(context);
-        mTextColor = DefaultColors.TEXT;
+        mTextColor = context.getResources().getColor(R.color.text_grey_normal);
         init();
     }
 
@@ -160,7 +159,6 @@ public class ImageTextView extends View {
 
         mIconDrawable.setCallback(this);
         mIconBitmap = ImageUtils.drawableToBitmap(mIconDrawable);
-
         init();
     }
 
@@ -193,6 +191,7 @@ public class ImageTextView extends View {
     @Override
     protected void drawableStateChanged() {
         super.drawableStateChanged();
+        Log.i(TAG, "drawableStateChanged: ");
         if (mIconDrawable instanceof StateListDrawable) {
             StateListDrawable drawable = (StateListDrawable) mIconDrawable;
             if (mIconDrawable.isStateful()) {
@@ -210,57 +209,152 @@ public class ImageTextView extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        measureWidth(widthMeasureSpec);
-        measureHeight();
+        int width = measureWidth(widthMeasureSpec);
+        int height = measureHeight(heightMeasureSpec);
+
+        setMeasuredDimension(width, height);
     }
 
-    private void measureWidth(int widthMeasureSpec) {
+    private int measureWidth(int widthMeasureSpec) {
         final int mode = MeasureSpec.getMode(widthMeasureSpec);
         final int size = MeasureSpec.getSize(widthMeasureSpec);
-        if (mode == MeasureSpec.UNSPECIFIED) {
-            Log.i(TAG, "measureWidth: mode == MeasureSpec.UNSPECIFIED");
-            mLayout = new StaticLayout(mText, mTextPaint, mTextDesireWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
-            return;
+
+        switch (mode) {
+            case MeasureSpec.UNSPECIFIED:
+                return measureWidthUnspecified();
+            case MeasureSpec.EXACTLY:
+                return measureWidthByExactly(size);
+            case MeasureSpec.AT_MOST:
+                return measureWidthByAtmost(size);
         }
 
-        if (mDesireWidth <= size) {
-            Log.i(TAG, "measureWidth: mDesireWidth <= size");
-            mLayout = new StaticLayout(mText, mTextPaint, mTextDesireWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
-            return;
-        }
+        return size;
+    }
 
+    private int measureWidthUnspecified() {
+        int width = 0;
+        mLayout = new StaticLayout(mText, mTextPaint, mTextDesireWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
         switch (mPosition) {
             case Position.TOP:
             case Position.BOTTOM:
-                mLayout = new StaticLayout(mText, mTextPaint, size, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
+                width = DEFAULT_PADDING + Math.max(mLayout.getWidth(), mIconBitmap.getWidth()) + DEFAULT_PADDING;
                 break;
 
             case Position.LEFT:
             case Position.RIGHT:
-                int wantSize = size - mIconBitmap.getWidth() - 2 * DEFAULT_PADDING - mPadding;
-                mLayout = new StaticLayout(mText, mTextPaint, wantSize, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
+                width = DEFAULT_PADDING + mLayout.getWidth() + mPadding + mIconBitmap.getWidth() + DEFAULT_PADDING;
                 break;
         }
+        return width;
     }
 
-    private void measureHeight() {
+
+    private int measureWidthByExactly(int size) {
+        int maxSize;
         switch (mPosition) {
             case Position.TOP:
             case Position.BOTTOM:
-                mDesireHeight = mLayout.getHeight() + mIconBitmap.getHeight() + DEFAULT_PADDING * 2 + mPadding;
+                maxSize = size - 2 * DEFAULT_PADDING;
+                if (mDesireWidth <= maxSize) {
+                    mLayout = new StaticLayout(mText, mTextPaint, mTextDesireWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
+                } else {
+                    mLayout = new StaticLayout(mText, mTextPaint, maxSize, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
+                }
                 break;
 
             case Position.LEFT:
             case Position.RIGHT:
-                mDesireHeight = Math.max(mLayout.getHeight(), mIconBitmap.getHeight()) + DEFAULT_PADDING * 2;
+                maxSize = size - mIconBitmap.getWidth() - 2 * DEFAULT_PADDING - mPadding;
+                if (mDesireWidth <= maxSize) {
+                    mLayout = new StaticLayout(mText, mTextPaint, mTextDesireWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
+                } else {
+                    mLayout = new StaticLayout(mText, mTextPaint, maxSize, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
+                }
                 break;
         }
-
-        int minHeight = getMinimumHeight();
-        setMinimumHeight(Math.max(minHeight, mDesireHeight));
-        Log.i("nian", "measureHeight: minHeight = " + getMinimumHeight());
+        return size;
     }
+
+    private int measureWidthByAtmost(int size) {
+        int width = size;
+        int maxSize;
+        switch (mPosition) {
+            case Position.TOP:
+            case Position.BOTTOM:
+                if (mDesireWidth < size) {
+                    mLayout = new StaticLayout(mText, mTextPaint, mTextDesireWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
+                    width = DEFAULT_PADDING + Math.max(mLayout.getWidth(), mIconBitmap.getWidth()) + DEFAULT_PADDING;
+                } else {
+                    maxSize = size - 2 * DEFAULT_PADDING;
+                    mLayout = new StaticLayout(mText, mTextPaint, maxSize, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
+                    width = size;
+                }
+                break;
+
+            case Position.LEFT:
+            case Position.RIGHT:
+                if (mDesireWidth < size) {
+                    mLayout = new StaticLayout(mText, mTextPaint, mTextDesireWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
+                    width = DEFAULT_PADDING + mLayout.getWidth() + mPadding + mIconBitmap.getWidth() + DEFAULT_PADDING;
+                } else {
+                    maxSize = size - mIconBitmap.getWidth() - 2 * DEFAULT_PADDING - mPadding;
+                    mLayout = new StaticLayout(mText, mTextPaint, maxSize, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
+                    width = size;
+                }
+                break;
+        }
+        return width;
+    }
+
+
+    private int measureHeight(int heightMeasureSpec) {
+        final int mode = MeasureSpec.getMode(heightMeasureSpec);
+        final int size = MeasureSpec.getSize(heightMeasureSpec);
+
+        switch (mode) {
+            case MeasureSpec.UNSPECIFIED:
+                return measureHeightUnspecified();
+            case MeasureSpec.EXACTLY:
+                return size;
+            case MeasureSpec.AT_MOST:
+                return measureHeightByAtmost(size);
+        }
+
+        return size;
+    }
+
+    private int measureHeightUnspecified() {
+        int height = 0;
+        switch (mPosition) {
+            case Position.TOP:
+            case Position.BOTTOM:
+                height = DEFAULT_PADDING + mLayout.getHeight() + mPadding + mIconBitmap.getHeight() + DEFAULT_PADDING;
+                break;
+
+            case Position.LEFT:
+            case Position.RIGHT:
+                height = DEFAULT_PADDING + Math.max(mLayout.getHeight(), mIconBitmap.getHeight()) + DEFAULT_PADDING;
+                break;
+        }
+        return height;
+    }
+
+    private int measureHeightByAtmost(int size) {
+        int desireHeight = size;
+        switch (mPosition) {
+            case Position.TOP:
+            case Position.BOTTOM:
+                desireHeight = DEFAULT_PADDING + mLayout.getHeight() + mPadding + mIconBitmap.getHeight() + DEFAULT_PADDING;
+                break;
+
+            case Position.LEFT:
+            case Position.RIGHT:
+                desireHeight = DEFAULT_PADDING + Math.max(mLayout.getHeight(), mIconBitmap.getHeight()) + DEFAULT_PADDING;
+                break;
+        }
+        return Math.min(size, desireHeight);
+    }
+
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
@@ -271,10 +365,8 @@ public class ImageTextView extends View {
         final int iconWidth = mIconBitmap.getWidth();
         final int iconHeight = mIconBitmap.getHeight();
 
-
         final int textWidth = mLayout.getWidth();
         final int textHeight = mLayout.getHeight();
-
 
         switch (mPosition) {
             case Position.TOP:
@@ -327,25 +419,23 @@ public class ImageTextView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        int width = getMeasuredWidth();
+        int height = getMeasuredHeight();
+        if (width <= 0 || height <= 0) {
+            Log.i(TAG, "to do nothing  size is 0");
+            return;
+        }
         // Clear canvas
         canvas.drawBitmap(mIconBitmap, null, mIconRect, null);
         // draw icon
-        drawIcon();
+        drawIcon(width, height);
         canvas.drawBitmap(mShowBitmap, 0, 0, null);
         // draw text
         drawText(canvas);
     }
 
 
-    private void drawIcon() {
-
-        int width = getMeasuredWidth();
-        int height = getMeasuredHeight();
-        if (width <= 0 || height <= 0) {
-            Log.i(TAG, "drawIcon: size is 0");
-            return;
-        }
-
+    private void drawIcon(int width, int height) {
         //二级缓存
         mShowBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(mShowBitmap);
