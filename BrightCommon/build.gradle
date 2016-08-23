@@ -92,10 +92,14 @@ dependencies {
 
 //添加
 publish {
-    userOrg = 'brightyu'//bintray.com用户名
-    groupId = 'com.yuhaiyang'//jcenter上的路径
-    artifactId = 'common'//项目名称
-    publishVersion = OFFICIAL_VERSION_NAME//版本号
+    //bintray.com用户名
+    userOrg = 'brightyu'
+    //jcenter上的路径
+    groupId = 'com.yuhaiyang'
+    //项目名称
+    artifactId = 'common'
+    //版本号
+    publishVersion = PROD_VERSION_NAME
     desc = 'A android common lib for my app'
     website = 'https://github.com/BrightYu/BrightCommon'
 }

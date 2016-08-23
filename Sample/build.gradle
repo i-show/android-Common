@@ -15,14 +15,53 @@
  */
 
 apply plugin: 'com.android.application'
-// 方法定义获取当前时间
+// 生成版本的时间
 def releaseTime() {
     return new Date().format("yyyy_MMdd")
 }
-// 方法定义获取当前时间
+
+// APP的VersionCode
 def generateVersionCode() {
     return new Date().format("yyyyMMddHH")
 }
+
+def renameAPK(variant, output) {
+    renameAPK(variant, output, null)
+}
+
+def renameAPK(variant, output, targetName) {
+    def flavor = variant.productFlavors[0];
+    def flavorName;
+
+    def versionName;
+    if (flavor == null) {
+        flavorName = ""
+        versionName = android.defaultConfig.versionName
+    } else {
+        versionName = flavor.versionName
+        flavorName = flavor.name
+    }
+
+    def versionNameSuffix = variant.buildType.versionNameSuffix
+    if (versionNameSuffix.toString().equals("null")) {
+        versionNameSuffix = ""
+    }
+
+    def buildTypeName;
+    if (targetName != null) {
+        buildTypeName = targetName;
+    } else {
+        buildTypeName = variant.buildType.name;
+    }
+
+    def outputFile = output.outputFile
+
+    if (outputFile != null) {
+        def newName = "${APK_PREFIX}_${buildTypeName}_${flavorName}_v${versionName}${versionNameSuffix}_${releaseTime()}.apk"
+        output.outputFile = new File(outputFile.parent, newName)
+    }
+}
+
 
 android {
     compileSdkVersion COMPILE_SDK_VERSION as int
@@ -30,22 +69,24 @@ android {
 
     defaultConfig {
         // 注意这里只是设置了appid的前缀 在buildTypes里面有设置后缀
-        applicationId APPLICATION_ID_PREFIX
+        applicationId APPLICATION_ID
         minSdkVersion MIN_SDK_VERSION as int
         targetSdkVersion TARGET_SDK_VERSION as int
         versionCode generateVersionCode() as int
         versionName VERSION_NAME
 
         // 配置 含有的版本类型
-        buildConfigField "int", "VERSION_DEVELOP", VERSION_DEVELOP
-        buildConfigField "int", "VERSION_QA", VERSION_QA
+        buildConfigField "int", "VERSION_DEV", VERSION_DEV
+        buildConfigField "int", "VERSION_SIT", VERSION_SIT
         buildConfigField "int", "VERSION_UAT", VERSION_UAT
-        buildConfigField "int", "VERSION_OFFICIAL", VERSION_OFFICIAL
+        buildConfigField "int", "VERSION_PROD", VERSION_PROD
         // 配置默认版本-为开发版本
-        buildConfigField "int", "VERSION_TYPE", VERSION_DEVELOP
+        buildConfigField "int", "VERSION_TYPE", VERSION_DEV
+
         // 配置语言信息
-        //resConfig "zh,zh-rHK,zh-rTW,en,xhdpi"
+        resConfig "zh"
     }
+
     //签名
     signingConfigs {
         release {
@@ -57,94 +98,139 @@ android {
     }
 
     productFlavors {
-
-        //  开发服务器相关配置
-        develop {
-            // AndroidManifest 中配置的文件
-            manifestPlaceholders = [BAIDU_STATISTICS_CHANNEL: DEVELOP_BAIDU_STATISTICS_CHANNEL]
-            // 设置那个版本
-            buildConfigField "int", "VERSION_TYPE", VERSION_DEVELOP
-        }
-
-        // QA 测试服务器相关配置
-        qa {
-            // AndroidManifest 中配置的文件
-            manifestPlaceholders = [BAIDU_STATISTICS_CHANNEL: QA_BAIDU_STATISTICS_CHANNEL]
-
-            // 设置那个版本
-            buildConfigField "int", "VERSION_TYPE", VERSION_QA
-        }
-
-        // 客户UAT服务器相关配置
-        uat {
-            // AndroidManifest 中配置的文件
-            manifestPlaceholders = [BAIDU_STATISTICS_CHANNEL: UAT_BAIDU_STATISTICS_CHANNEL]
-            // 设置那个版本
-            buildConfigField "int", "VERSION_TYPE", VERSION_UAT
-            // UAT版本号
-            versionName UAT_VERSION_NAME
-        }
-
-        // 正式服务器相关配置
-        official {
-            // AndroidManifest 中配置的文件
-            manifestPlaceholders = [BAIDU_STATISTICS_CHANNEL: RELEASE_BAIDU_STATISTICS_CHANNEL]
-            // 设置那个版本
-            buildConfigField "int", "VERSION_TYPE", VERSION_OFFICIAL
-            // 正式服务器的版本号
-            versionName OFFICIAL_VERSION_NAME
-        }
-
+        // TODO
     }
 
     buildTypes {
-        // 单纯的补充默认编译的属性
+
         debug {
             debuggable true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+            versionNameSuffix DEV_VERSION_NAME
 
-            applicationIdSuffix TEST_APPLICATION_ID_SUFFIX
+            applicationIdSuffix DEV_APPLICATION_ID_SUFFIX
             // AndroidManifest 中配置的文件
             manifestPlaceholders = [
                     // App的名字
-                    APP_NAME           : TEST_APP_NAME,
+                    APP_NAME                : DEV_APP_NAME,
+                    // App的ICON
+                    APP_ICON                : DEV_APP_ICON,
                     // 百度统计的ID
-                    BAIDU_STATISTICS_ID: TEST_BAIDU_STATISTICS_ID,
+                    BAIDU_STATISTICS_ID     : DEV_BAIDU_STATISTICS_ID,
+                    // 百度统计的渠道描述
+                    BAIDU_STATISTICS_CHANNEL: DEV_BAIDU_STATISTICS_CHANNEL
             ]
-        }
 
-
-        release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
-
-            applicationIdSuffix RELEASE_APPLICATION_ID_SUFFIX
-            manifestPlaceholders = [
-                    // App的名字
-                    APP_NAME           : RELEASE_APP_NAME,
-                    // 百度统计的ID
-                    BAIDU_STATISTICS_ID: RELEASE_BAIDU_STATISTICS_ID,
-            ]
+            // 设置那个版本
+            buildConfigField "int", "VERSION_TYPE", VERSION_DEV
 
             //将release版本的包名重命名，加上版本及日期
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
-                    def outputFile = output.outputFile
-                    def versionName = variant.productFlavors[0].versionName;
-                    if (versionName == null) {
-                        versionName = defaultConfig.versionName;
-                    }
-                    if (outputFile != null && outputFile.name.endsWith('release.apk')) {
-                        def fileName = APK_PREFIX + "${variant.productFlavors[0].name}_v${versionName}_${releaseTime()}.apk"
-                        output.outputFile = new File(outputFile.parent, fileName)
-                    }
+                    renameAPK(variant, output, "dev");
+                }
+            }
+        }
+
+
+        sit {
+            debuggable false
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            versionNameSuffix SIT_VERSION_NAME
+
+            applicationIdSuffix SIT_APPLICATION_ID_SUFFIX
+            // AndroidManifest 中配置的文件
+            manifestPlaceholders = [
+                    // App的名字
+                    APP_NAME                : SIT_APP_NAME,
+                    // App的ICON
+                    APP_ICON                : SIT_APP_ICON,
+                    // 百度统计的ID
+                    BAIDU_STATISTICS_ID     : SIT_BAIDU_STATISTICS_ID,
+                    // 百度统计的渠道描述
+                    BAIDU_STATISTICS_CHANNEL: SIT_BAIDU_STATISTICS_CHANNEL
+            ]
+
+            // 设置那个版本
+            buildConfigField "int", "VERSION_TYPE", VERSION_SIT
+
+            //将release版本的包名重命名，加上版本及日期
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    renameAPK(variant, output);
+                }
+            }
+        }
+
+
+        uat {
+            debuggable false
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            versionNameSuffix SIT_VERSION_NAME
+
+            applicationIdSuffix SIT_APPLICATION_ID_SUFFIX
+            // AndroidManifest 中配置的文件
+            manifestPlaceholders = [
+                    // App的名字
+                    APP_NAME                : UAT_APP_NAME,
+                    // App的ICON
+                    APP_ICON                : UAT_APP_ICON,
+                    // 百度统计的ID
+                    BAIDU_STATISTICS_ID     : UAT_BAIDU_STATISTICS_ID,
+                    // 百度统计的渠道描述
+                    BAIDU_STATISTICS_CHANNEL: UAT_BAIDU_STATISTICS_CHANNEL
+            ]
+
+            // 设置那个版本
+            buildConfigField "int", "VERSION_TYPE", VERSION_UAT
+
+            //将release版本的包名重命名，加上版本及日期
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    renameAPK(variant, output);
+                }
+            }
+        }
+
+        release {
+            debuggable false
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            versionNameSuffix SIT_VERSION_NAME
+
+            applicationIdSuffix SIT_APPLICATION_ID_SUFFIX
+            // AndroidManifest 中配置的文件
+            manifestPlaceholders = [
+                    // App的名字
+                    APP_NAME                : PROD_APP_NAME,
+                    // App的ICON
+                    APP_ICON                : PROD_APP_ICON,
+                    // 百度统计的ID
+                    BAIDU_STATISTICS_ID     : PROD_BAIDU_STATISTICS_ID,
+                    // 百度统计的渠道描述
+                    BAIDU_STATISTICS_CHANNEL: PROD_BAIDU_STATISTICS_CHANNEL
+            ]
+
+            // 设置那个版本
+            buildConfigField "int", "VERSION_TYPE", VERSION_PROD
+
+            //将release版本的包名重命名，加上版本及日期
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    renameAPK(variant, output);
                 }
             }
         }
     }
+
+
     dexOptions {
         jumboMode true
     }
