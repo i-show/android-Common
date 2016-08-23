@@ -23,13 +23,12 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.bright.common.app.BaseActivity;
 import com.bright.common.constant.Position;
+import com.bright.common.widget.ImageTextView;
 import com.bright.common.widget.TopBar;
 import com.bright.common.widget.prompt.IPrompt;
-import com.bright.common.widget.prompt.PromptImageView;
 import com.bright.common.widget.prompt.PromptTextView;
 import com.brightyu.androidcommon.R;
 
@@ -48,33 +47,15 @@ public class MainActivity extends BaseActivity {
         super.initViews();
         TopBar topBar = (TopBar) findViewById(R.id.top_bar);
 
-        PromptImageView image = topBar.getRightImageView();
-        image.setMode(IPrompt.MODE_GRAPH)
+        ImageTextView text = (ImageTextView) findViewById(R.id.test);
+
+        text.setPosition(Position.BOTTOM);
+
+        text.setPromptMode(IPrompt.MODE_TEXT)
+                .setPromptText(67)
                 .setPromptPosition(Position.RIGHT)
                 .commit();
 
-        PromptImageView image2 = topBar.getRightImageView2();
-        image2.setMode(IPrompt.MODE_GRAPH)
-                .setPromptPosition(Position.RIGHT)
-                .commit();
-
-        IPrompt rightText = topBar.getRightTextView();
-        rightText.setMode(IPrompt.MODE_GRAPH)
-                .setPromptPosition(Position.RIGHT)
-                .commit();
-
-        PromptTextView left = topBar.getLeftTextView();
-        left.setPadding(left.getPaddingLeft(), left.getPaddingTop(), left.getPaddingRight() * 4, left.getPaddingBottom());
-        left.setMode(IPrompt.MODE_TEXT)
-                .setPromptPosition(Position.RIGHT)
-                .setPromptText(1)
-                .setPromptHeightPaddingScale(0.06f)
-                .setPromptWidthPaddingScale(0.06f)
-                .commit();
-
-        LinearLayout ll = (LinearLayout) findViewById(R.id.content);
-
-        ll.addView(test());
     }
 
 

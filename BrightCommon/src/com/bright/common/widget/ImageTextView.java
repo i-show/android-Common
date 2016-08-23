@@ -27,9 +27,15 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
+import android.os.Build;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DimenRes;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.FloatRange;
+import android.support.annotation.IntDef;
 import android.support.annotation.StringRes;
 import android.text.Layout;
 import android.text.StaticLayout;
@@ -44,9 +50,13 @@ import com.bright.common.R;
 import com.bright.common.constant.DefaultColors;
 import com.bright.common.constant.Position;
 import com.bright.common.utils.image.ImageUtils;
+import com.bright.common.widget.prompt.IPrompt;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 
-public class ImageTextView extends View {
+public class ImageTextView extends View implements IPrompt {
     private static final String TAG = "ImageTextView";
 
     /**
@@ -123,6 +133,39 @@ public class ImageTextView extends View {
 
     private Layout mLayout;
 
+
+    private int mMode;
+
+    private String mPromptTextString;
+    private int mPromptTextColor;
+    private int mPromptTextSize;
+    private int mPromptPadding;
+    private int mPromptBackgroundColor;
+    private int mPromptPosition;
+    private int mPromptRadius;
+
+    private float mWidthPaddingScale;
+    private float mHeightPaddingScale;
+
+    private Paint mPromptTextPaint;
+    private Paint mPromptBackgroundPaint;
+
+    private Rect mPromptTextRect;
+    /**
+     * 仅仅用来记录 不用来操作的
+     */
+    private RectF mPromptRecordRectF;
+    private RectF mPromptUsedRectF;
+
+    // 定义Ann
+    @IntDef({Position.LEFT, Position.TOP, Position.RIGHT, Position.BOTTOM})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface position {
+    }
+
+    /**
+     * 关于Prompt 要用commit 来生效
+     */
     public ImageTextView(Context context) {
         super(context);
         mTextColor = context.getResources().getColor(R.color.text_grey_normal);
@@ -145,6 +188,17 @@ public class ImageTextView extends View {
         mPosition = a.getInt(R.styleable.ImageTextView_position, Position.TOP);
         mPadding = a.getDimensionPixelSize(R.styleable.ImageTextView_padding, DEFAULT_PADDING);
 
+        mMode = a.getInt(R.styleable.ImageTextView_promptMode, MODE_NONE);
+        mPromptTextString = a.getString(R.styleable.ImageTextView_promptText);
+        mPromptTextColor = a.getColor(R.styleable.ImageTextView_promptTextColor, Color.WHITE);
+        mPromptTextSize = a.getDimensionPixelSize(R.styleable.ImageTextView_promptTextSize, getDefaultPromptTextSize(context));
+        mPromptPadding = a.getDimensionPixelSize(R.styleable.ImageTextView_promptPadding, getDefaultPromptPadding(context));
+        mPromptRadius = a.getDimensionPixelSize(R.styleable.ImageTextView_promptRadius, getDefaultPromptRadius(context));
+        mPromptPosition = a.getInt(R.styleable.ImageTextView_promptPosition, Position.LEFT);
+        mPromptBackgroundColor = a.getColor(R.styleable.ImageTextView_promptBackground, Color.RED);
+        mWidthPaddingScale = a.getFloat(R.styleable.ImageTextView_widthPaddingScale, DEFAULT_PADDING_SCALE);
+        mHeightPaddingScale = a.getFloat(R.styleable.ImageTextView_heightPaddingScale, DEFAULT_PADDING_SCALE);
+
         a.recycle();
 
         if (mTextStateColor == null) {
@@ -157,13 +211,21 @@ public class ImageTextView extends View {
             throw new IllegalStateException(" need a image !");
         }
 
-        mIconDrawable.setCallback(this);
         mIconBitmap = ImageUtils.drawableToBitmap(mIconDrawable);
         init();
     }
 
     private void init() {
+        // 取值范围为0 -1
+        mWidthPaddingScale = Math.min(1.0f, Math.max(0, mWidthPaddingScale));
+        mHeightPaddingScale = Math.min(1.0f, Math.max(0, mHeightPaddingScale));
+
         initPaint();
+        mPromptTextRect = new Rect();
+        mPromptRecordRectF = new RectF();
+        mPromptUsedRectF = new RectF();
+        commit();
+
         computeDesireWidth();
     }
 
@@ -173,16 +235,18 @@ public class ImageTextView extends View {
         mTextPaint.setTextSize(mTextSize);
         mTextPaint.setAntiAlias(true);
         mTextPaint.setDither(true);
-        mTextDesireWidth = (int) Layout.getDesiredWidth(mText, mTextPaint);
-    }
 
-    /**
-     * 更新画笔
-     */
-    private void updateTextPaint() {
-        mTextPaint.setColor(mTextColor);
-        mTextPaint.setTextSize(mTextSize);
-        mTextDesireWidth = (int) Layout.getDesiredWidth(mText, mTextPaint);
+        mPromptTextPaint = new TextPaint();
+        mPromptTextPaint.setAntiAlias(true);
+        mPromptTextPaint.setDither(true);
+        mPromptTextPaint.setTextSize(mPromptTextSize);
+        mPromptTextPaint.setColor(mPromptTextColor);
+
+
+        mPromptBackgroundPaint = new Paint();
+        mPromptBackgroundPaint.setAntiAlias(true);
+        mPromptBackgroundPaint.setDither(true);
+        mPromptBackgroundPaint.setColor(mPromptBackgroundColor);
     }
 
     /**
@@ -191,28 +255,34 @@ public class ImageTextView extends View {
     @Override
     protected void drawableStateChanged() {
         super.drawableStateChanged();
-        Log.i(TAG, "drawableStateChanged: ");
+        boolean needInvalidate = false;
+
         if (mIconDrawable instanceof StateListDrawable) {
             StateListDrawable drawable = (StateListDrawable) mIconDrawable;
             if (mIconDrawable.isStateful()) {
                 int[] states = getDrawableState();
                 drawable.setState(states);
                 mIconBitmap = ImageUtils.drawableToBitmap(drawable);
-                if (mTextStateColor != null) {
-                    mTextColor = mTextStateColor.getColorForState(states, mTextColor);
-                }
-                invalidate();
+                needInvalidate = true;
             }
-
         }
+
+        if (mTextStateColor != null && mTextStateColor.isStateful()) {
+            mTextColor = mTextStateColor.getColorForState(getDrawableState(), mTextColor);
+            mTextPaint.setColor(mTextColor);
+            needInvalidate = true;
+        }
+
+        if (needInvalidate) invalidate();
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int width = measureWidth(widthMeasureSpec);
         int height = measureHeight(heightMeasureSpec);
-
+        measurePrompt(width, height);
         setMeasuredDimension(width, height);
+
     }
 
     private int measureWidth(int widthMeasureSpec) {
@@ -356,6 +426,30 @@ public class ImageTextView extends View {
     }
 
 
+    private void measurePrompt(int width, int height) {
+        if (mMode == MODE_NONE) {
+            Log.i(TAG, "onMeasure: mode = NONE");
+            return;
+        }
+
+        if (mMode == MODE_TEXT && TextUtils.isEmpty(mPromptTextString)) {
+            Log.i(TAG, "onMeasure: mPromptTextString is empty");
+            return;
+        }
+
+
+        switch (mPromptPosition) {
+            case Position.LEFT:
+                mPromptUsedRectF.set(mPromptRecordRectF);
+                mPromptUsedRectF.offset(width * mWidthPaddingScale, height * mHeightPaddingScale);
+                break;
+            case Position.RIGHT:
+                mPromptUsedRectF.set(mPromptRecordRectF);
+                mPromptUsedRectF.offset(width * (1 - mWidthPaddingScale) - mPromptRecordRectF.width(), height * mHeightPaddingScale);
+                break;
+        }
+    }
+
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
@@ -432,6 +526,8 @@ public class ImageTextView extends View {
         canvas.drawBitmap(mShowBitmap, 0, 0, null);
         // draw text
         drawText(canvas);
+        // drawPrompt
+        drawPrompt(canvas);
     }
 
 
@@ -464,7 +560,27 @@ public class ImageTextView extends View {
         canvas.restore();
     }
 
+    private void drawPrompt(Canvas canvas) {
+        if (mMode == MODE_NONE) {
+            Log.i(TAG, "onDraw: mode is none");
+            return;
+        }
+
+        if (mMode == MODE_TEXT && TextUtils.isEmpty(mPromptTextString)) {
+            Log.i(TAG, "onDraw: mPromptTextString is empty");
+            return;
+        }
+        canvas.drawRoundRect(mPromptUsedRectF, 999, 999, mPromptBackgroundPaint);
+        if (mMode == MODE_TEXT && !TextUtils.isEmpty(mPromptTextString)) {
+            Paint.FontMetricsInt fontMetrics = mPromptTextPaint.getFontMetricsInt();
+            float baseline = mPromptUsedRectF.top + (mPromptUsedRectF.bottom - mPromptUsedRectF.top - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top;
+            mPromptTextPaint.setTextAlign(Paint.Align.CENTER);
+            canvas.drawText(mPromptTextString, mPromptUsedRectF.centerX(), baseline, mPromptTextPaint);
+        }
+    }
+
     private void computeDesireWidth() {
+        mTextDesireWidth = (int) Layout.getDesiredWidth(mText, mTextPaint);
 
         final int iconWidth = mIconBitmap.getWidth();
 
@@ -513,23 +629,16 @@ public class ImageTextView extends View {
      * Sets the ImageTextButton to display the Text show .
      */
     public void setText(CharSequence text) {
-        String _text = text.toString();
-        if (TextUtils.equals(_text, mText)) {
+        if (TextUtils.equals(text, mText)) {
             return;
         }
-
-        mText = _text;
-        updateTextPaint();
+        mText = text.toString();
+        computeDesireWidth();
         requestLayout();
     }
 
     public CharSequence getText() {
         return mText;
-    }
-
-
-    public float getTextSize() {
-        return mTextSize;
     }
 
     /**
@@ -542,8 +651,13 @@ public class ImageTextView extends View {
         if (size < 0) {
             throw new IllegalStateException("textSize need larger than 0");
         }
-        mTextSize = size;
+        mTextPaint.setTextSize(mTextSize);
+        computeDesireWidth();
         postInvalidate();
+    }
+
+    public float getTextSize() {
+        return mTextSize;
     }
 
     /**
@@ -551,24 +665,13 @@ public class ImageTextView extends View {
      *
      * @param position can be set TOP BOTTOM LEFT RIGHT
      */
-    public void setPosition(int position) {
+    public void setPosition(@position int position) {
         mPosition = position;
+        computeDesireWidth();
         requestLayout();
         postInvalidate();
     }
 
-    /**
-     * Sets the text color for all the states (normal, selected,
-     * focused) to be this color.
-     *
-     * @attr ref com.haiyang.R.styleable#ImageTextButton_textColor
-     * @see #setTextColor(ColorStateList)
-     * @see #getTextColors()
-     */
-    public void setTextColor(ColorStateList color) {
-        mTextStateColor = color;
-        postInvalidate();
-    }
 
     /**
      * Sets the text color.
@@ -576,8 +679,15 @@ public class ImageTextView extends View {
      * @see #setTextColor(int)
      * @see #getTextColors()
      */
-    public void setTextColor(int color) {
-        mTextStateColor = ColorStateList.valueOf(color);
+    public void setTextColor(@ColorRes int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            mTextStateColor = getContext().getResources().getColorStateList(color, getContext().getTheme());
+        } else {
+            mTextStateColor = getContext().getResources().getColorStateList(color);
+        }
+
+        mTextColor = mTextStateColor.getDefaultColor();
+        mTextPaint.setColor(mTextColor);
         postInvalidate();
     }
 
@@ -586,7 +696,6 @@ public class ImageTextView extends View {
      * <p/>
      * if is null , just it default
      *
-     * @see #setTextColor(ColorStateList)
      * @see #setTextColor(int)
      */
     public ColorStateList getTextColors() {
@@ -599,25 +708,20 @@ public class ImageTextView extends View {
      * <p class="note">This does Bitmap reading and decoding on the UI
      * thread, which can cause a latency hiccup.  If that's a concern,
      * consider using {@link (Drawable)} or
-     * {@link #setIcon(Bitmap)} and
      * {@link BitmapFactory} instead.</p>
      *
      * @param resId the resource identifier of the drawable
      */
-    public void setIcon(int resId) {
-        mIconBitmap = BitmapFactory.decodeResource(getContext().getResources(), resId);
+    public void setIcon(@DrawableRes int resId) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mIconDrawable = getContext().getResources().getDrawable(resId, getContext().getTheme());
+        } else {
+            mIconDrawable = getContext().getResources().getDrawable(resId);
+        }
+        mIconBitmap = ImageUtils.drawableToBitmap(mIconDrawable);
         postInvalidate();
     }
 
-    /**
-     * Sets a drawable as the icon of this ImageTextButton.
-     *
-     * @param drawable The drawable to set
-     */
-    public void setIcon(Drawable drawable) {
-        mIconBitmap = ((BitmapDrawable) drawable).getBitmap();
-        postInvalidate();
-    }
 
     /**
      * Return the view's drawable, or null if no drawable has been assigned.
@@ -627,17 +731,158 @@ public class ImageTextView extends View {
     }
 
     /**
-     * Sets a Bitmap as the icon of this ImageTextButton.
-     *
-     * @param bitmap The bitmap to set
+     * 设置当前模式
      */
-    public void setIcon(Bitmap bitmap) {
-        mIconBitmap = bitmap;
-        postInvalidate();
+    @Override
+    public ImageTextView setPromptMode(@mode int mode) {
+        mMode = mode;
+        return this;
+    }
+
+    @Override
+    public ImageTextView setPromptText(String text) {
+        try {
+            int number = Integer.valueOf(text);
+            setPromptText(number);
+        } catch (NumberFormatException e) {
+            mPromptTextString = text;
+        }
+        return this;
+    }
+
+    @Override
+    public ImageTextView setPromptText(int text) {
+        if (text > 99) {
+            mPromptTextString = "99+";
+        } else {
+            mPromptTextString = String.valueOf(text);
+        }
+        return this;
+    }
+
+    @Override
+    public ImageTextView setPromptTextColor(@ColorRes int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            mPromptTextColor = getResources().getColor(color, getContext().getTheme());
+        } else {
+            mPromptTextColor = getResources().getColor(color);
+        }
+        mPromptTextPaint.setColor(mPromptTextColor);
+        return this;
+    }
+
+    @Override
+    public ImageTextView setPromptTextSize(@DimenRes int size) {
+        mPromptTextSize = getResources().getDimensionPixelSize(size);
+        mPromptTextPaint.setColor(mPromptTextSize);
+        return this;
+    }
+
+    @Override
+    public ImageTextView setPromptBackgroundColor(@ColorRes int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            mPromptBackgroundColor = getResources().getColor(color, getContext().getTheme());
+        } else {
+            mPromptBackgroundColor = getResources().getColor(color);
+        }
+        mPromptBackgroundPaint.setColor(mPromptBackgroundColor);
+        return this;
+    }
+
+    @Override
+    public ImageTextView setPromptRadius(@DimenRes int radius) {
+        mPromptRadius = getResources().getDimensionPixelSize(radius);
+        return this;
+    }
+
+    @Override
+    public ImageTextView setPromptPadding(@DimenRes int padding) {
+        mPromptPadding = getResources().getDimensionPixelSize(padding);
+        return this;
+    }
+
+    @Override
+    public ImageTextView setPromptPosition(@position int position) {
+        mPromptPosition = position;
+        return this;
+    }
+
+    @Override
+    public ImageTextView setPromptWidthPaddingScale(@FloatRange(from = 0.0f, to = 1.0f) float scale) {
+        mWidthPaddingScale = scale;
+        return this;
+    }
+
+    @Override
+    public ImageTextView setPromptHeightPaddingScale(@FloatRange(from = 0.0f, to = 1.0f) float scale) {
+        mHeightPaddingScale = scale;
+        return this;
+    }
+
+    /**
+     * 更新信息
+     */
+    @Override
+    public ImageTextView commit() {
+        return commit(false);
+    }
+
+    /**
+     * 使生效
+     *
+     * @param init 是否是初始化
+     */
+    protected ImageTextView commit(boolean init) {
+        switch (mMode) {
+            case MODE_TEXT:
+                if (TextUtils.isEmpty(mPromptTextString)) {
+                    mPromptTextRect.set(0, 0, mPromptRadius, mPromptRadius);
+                    mPromptRecordRectF.set(mPromptTextRect);
+                } else {
+                    mPromptTextPaint.getTextBounds(mPromptTextString, 0, mPromptTextString.length(), mPromptTextRect);
+                    // 保证至少是圆形 视觉上感觉不太圆 所以+
+                    if (mPromptTextRect.width() < mPromptTextRect.height()) {
+                        mPromptTextRect.right = mPromptTextRect.left + mPromptTextRect.height() + 1;
+                    }
+                    mPromptRecordRectF.set(mPromptTextRect);
+                    mPromptRecordRectF.set(mPromptRecordRectF.left - mPromptPadding, mPromptRecordRectF.top - mPromptPadding, mPromptRecordRectF.right + mPromptPadding, mPromptRecordRectF.bottom + mPromptPadding);
+                    mPromptRecordRectF.offset(mPromptPadding, mPromptTextRect.height() + mPromptPadding);
+                }
+                break;
+            case MODE_GRAPH:
+                mPromptRecordRectF.set(0, 0, mPromptRadius, mPromptRadius);
+                break;
+        }
+
+        if (!init) {
+            postInvalidate();
+        }
+        return this;
     }
 
 
     private int getDefaultTextSize() {
         return getContext().getResources().getDimensionPixelSize(R.dimen.H_title);
+    }
+
+    /**
+     * 获取默认标题字体大小
+     */
+    protected int getDefaultPromptTextSize(Context context) {
+        return context.getResources().getDimensionPixelOffset(R.dimen.K_title);
+    }
+
+    /**
+     * 获取默认标题字体大小
+     */
+    protected int getDefaultPromptPadding(Context context) {
+        return context.getResources().getDimensionPixelOffset(R.dimen.dp_5);
+    }
+
+    /**
+     * 获取默认标题字体大小
+     */
+    protected int getDefaultPromptRadius(Context context) {
+        return context.getResources().getDimensionPixelOffset(R.dimen.dp_7);
     }
 }

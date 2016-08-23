@@ -1046,7 +1046,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
             prompt.setPromptWidthPaddingScale(DEFAULT_IMAGE_WIDTH_PROMPT_SCALE);
             prompt.setPromptHeightPaddingScale(DEFAULT_IMAGE_HEIGHT_PROMPT_SCALE);
         }
-        prompt.setMode(IPrompt.MODE_NONE);
+        prompt.setPromptMode(IPrompt.MODE_NONE);
         prompt.commit();
     }
 

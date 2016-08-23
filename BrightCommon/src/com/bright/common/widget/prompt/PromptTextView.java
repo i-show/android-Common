@@ -159,7 +159,7 @@ public class PromptTextView extends AppCompatTextView implements IPrompt {
      * 设置当前模式
      */
     @Override
-    public PromptTextView setMode(@mode int mode) {
+    public PromptTextView setPromptMode(@mode int mode) {
         mMode = mode;
         return this;
     }

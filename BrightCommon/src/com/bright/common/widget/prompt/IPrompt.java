@@ -46,7 +46,7 @@ public interface IPrompt {
     /**
      * 设置当前模式
      */
-    IPrompt setMode(@mode int mode);
+    IPrompt setPromptMode(@mode int mode);
 
     IPrompt setPromptText(String text);
 

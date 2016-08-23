@@ -160,7 +160,7 @@ public class PromptImageView extends AppCompatImageView implements IPrompt {
      * 设置当前模式
      */
     @Override
-    public PromptImageView setMode(@mode int mode) {
+    public PromptImageView setPromptMode(@mode int mode) {
         mMode = mode;
         return this;
     }
