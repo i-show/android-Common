@@ -138,7 +138,7 @@ android {
                         versionName = defaultConfig.versionName;
                     }
                     if (outputFile != null && outputFile.name.endsWith('release.apk')) {
-                        def fileName = "Common_${variant.productFlavors[0].name}_v${versionName}_${releaseTime()}.apk"
+                        def fileName = APK_PREFIX + "${variant.productFlavors[0].name}_v${versionName}_${releaseTime()}.apk"
                         output.outputFile = new File(outputFile.parent, fileName)
                     }
                 }

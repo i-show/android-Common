@@ -95,7 +95,7 @@ publish {
     userOrg = 'brightyu'//bintray.com用户名
     groupId = 'com.yuhaiyang'//jcenter上的路径
     artifactId = 'common'//项目名称
-    publishVersion = JCENTER_VERSION//版本号
+    publishVersion = OFFICIAL_VERSION_NAME//版本号
     desc = 'A android common lib for my app'
     website = 'https://github.com/BrightYu/BrightCommon'
 }
