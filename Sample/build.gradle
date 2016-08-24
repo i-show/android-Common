@@ -209,9 +209,9 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-            versionNameSuffix SIT_VERSION_NAME
+            versionNameSuffix UAT_VERSION_NAME
 
-            applicationIdSuffix SIT_APPLICATION_ID_SUFFIX
+            applicationIdSuffix UAT_APPLICATION_ID_SUFFIX
             // AndroidManifest 中配置的文件
             manifestPlaceholders = [
                     // App的名字
@@ -249,9 +249,10 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-            versionNameSuffix SIT_VERSION_NAME
+            versionNameSuffix PROD_VERSION_NAME
 
-            applicationIdSuffix SIT_APPLICATION_ID_SUFFIX
+            applicationIdSuffix PROD_APPLICATION_ID_SUFFIX
+
             // AndroidManifest 中配置的文件
             manifestPlaceholders = [
                     // App的名字

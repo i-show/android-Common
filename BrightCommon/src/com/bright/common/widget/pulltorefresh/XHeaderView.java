@@ -116,7 +116,7 @@ public class XHeaderView extends LinearLayout {
         switch (newState) {
             case STATE_NORMAL:
                 mHintTextView.setText(R.string.pulltorefresh_header_normal);
-                mArrowImageView.setImageResource(R.drawable.ic_arrow_down);
+                mArrowImageView.setImageResource(R.drawable.ic_pulltorefresh_arrow_down);
                 mArrowImageView.setVisibility(View.VISIBLE);
                 mProgressBar.setVisibility(View.INVISIBLE);
                 if (mState == STATE_READY) {
@@ -135,7 +135,7 @@ public class XHeaderView extends LinearLayout {
                     mArrowImageView.startAnimation(mRotateUpAnim);
                     mHintTextView.setText(R.string.pulltorefresh_header_ready);
                 }
-                mArrowImageView.setImageResource(R.drawable.ic_arrow_down);
+                mArrowImageView.setImageResource(R.drawable.ic_pulltorefresh_arrow_down);
                 mArrowImageView.setVisibility(View.VISIBLE);
                 mProgressBar.setVisibility(View.INVISIBLE);
                 break;
@@ -148,13 +148,13 @@ public class XHeaderView extends LinearLayout {
                 break;
             case STATE_REFRESH_SUCCESS:
                 mHintTextView.setText(R.string.pulltorefresh_header_success);
-                mArrowImageView.setImageResource(R.drawable.ic_refresh_success);
+                mArrowImageView.setImageResource(R.drawable.ic_pulltorefresh_refresh_success);
                 mArrowImageView.setVisibility(View.VISIBLE);
                 mProgressBar.setVisibility(View.INVISIBLE);
                 break;
             case STATE_REFRESH_FAIL:
                 mHintTextView.setText(R.string.pulltorefresh_header_fail);
-                mArrowImageView.setImageResource(R.drawable.ic_refresh_fail);
+                mArrowImageView.setImageResource(R.drawable.ic_pulltorefresh_refresh_fail);
                 mArrowImageView.setVisibility(View.VISIBLE);
                 mProgressBar.setVisibility(View.INVISIBLE);
                 break;

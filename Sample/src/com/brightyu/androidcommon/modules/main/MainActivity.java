@@ -46,16 +46,6 @@ public class MainActivity extends BaseActivity {
     protected void initViews() {
         super.initViews();
         TopBar topBar = (TopBar) findViewById(R.id.top_bar);
-
-        ImageTextView text = (ImageTextView) findViewById(R.id.test);
-
-        text.setPosition(Position.BOTTOM);
-
-        text.setPromptMode(IPrompt.MODE_TEXT)
-                .setPromptText(67)
-                .setPromptPosition(Position.RIGHT)
-                .commit();
-
     }
 
 

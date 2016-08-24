@@ -1,7 +1,11 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <string name="app_name_test">AndroidCommon(Beta)</string>
-    <string name="app_name_release">AndroidCommon</string>
+    <string name="app_name">AndroidCommon</string>
+    <string name="app_name_dev">AndroidCommon(DEV)</string>
+    <string name="app_name_sit">AndroidCommon(SIT)</string>
+    <string name="app_name_uat">AndroidCommon(UAT)</string>
+    <string name="app_name_prod">AndroidCommon</string>
+
     <string name="login">登录</string>
     <string name="register">注册</string>
     <string name="reset">重置</string>
