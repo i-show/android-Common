@@ -28,7 +28,7 @@ import android.view.WindowManager;
 import com.bright.common.constant.Shift;
 import com.brightyu.androidcommon.constant.Configure;
 import com.brightyu.androidcommon.modules.base.AppBaseActivity;
-import com.brightyu.androidcommon.modules.login.LoginActivity;
+import com.brightyu.androidcommon.modules.main.MainActivity;
 
 /**
  * 引导界面
@@ -92,7 +92,7 @@ public class SplashActivity extends AppBaseActivity {
                     if (isFirstEnterThisVerison()) {
                         intent = new Intent(SplashActivity.this, GuideActivity.class);
                     } else {
-                        intent = new Intent(SplashActivity.this, LoginActivity.class);
+                        intent = new Intent(SplashActivity.this, MainActivity.class);
                     }
                     startActivity(intent);
                     finish();

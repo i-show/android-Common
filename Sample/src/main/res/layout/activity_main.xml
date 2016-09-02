@@ -14,11 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftImage="@drawable/ic_back_white"
-        app:leftText="@string/back"
-        app:rightImage="@drawable/top_post"
-        app:rightImage2="@drawable/top_privacy"
-        app:rightText="@string/back"
-        app:text="@string/all_photos" />
+        app:rightText="Sample"
+        app:text="@string/home" />
 
 
 </LinearLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.bright.common.widget.TopBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftImage="@drawable/ic_back_white"
+        app:text="@string/sample_main" />
+
+    <com.brightyu.androidcommon.ui.widget.Flowlayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/prompt_sample"
+            style="@style/TextView.Sample"
+            android:text="@string/prompt_sample" />
+    </com.brightyu.androidcommon.ui.widget.Flowlayout>
+
+</LinearLayout>

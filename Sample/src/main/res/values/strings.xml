@@ -37,4 +37,6 @@
     <string name="forgot_password_title">忘记密码</string>
     <string name="forgot_password_tip_password">新密码：</string>
 
+    <string name="home">主页</string>
+    <string name="click_again_to_exit">再次点击退出程序</string>
 </resources>

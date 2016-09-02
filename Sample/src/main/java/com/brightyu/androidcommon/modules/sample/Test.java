@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.brightyu.androidcommon.test;
+package com.brightyu.androidcommon.modules.sample;
 
 import android.net.Uri;
 

@@ -38,30 +38,41 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Login"
             android:windowSoftInputMode="adjustResize" />
-
         <!--注册界面-->
         <activity
             android:name=".modules.register.RegisterActivity"
             android:screenOrientation="portrait" />
-
         <!--修改密码重置密码-->
         <activity
             android:name=".modules.password.PassWordActivity"
             android:screenOrientation="portrait" />
-
+        <!--只有一个测试图片的类-->
         <activity
             android:name=".modules.OnlyWebActivity"
             android:screenOrientation="portrait" />
-
+        <!--选择图片的类-->
         <activity
             android:name="com.bright.common.app.activity.SelectorPicturesActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.NoActionBar" />
-
+        <!--剪切图片的类-->
         <activity
             android:name="com.bright.common.app.activity.CropImageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.NoActionBar.Fullscreen" />
+
+        <!--++++++++++++++++++++控件或者工具的Demo区域（start）++++++++++++++++++++++++++-->
+        <!--Demo的主类-->
+        <activity
+            android:name=".modules.sample.SampleMainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".modules.sample.prompt.SamplePromptActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".modules.sample.prompt.SamplePromptImageViewActivity"
+            android:screenOrientation="portrait" />
+        <!--++++++++++++++++++++控件或者工具的测试区域（end）++++++++++++++++++++++++++-->
 
 
         <!-- ++++++++++++++++++++配置区域+++++++++++++++++-->
