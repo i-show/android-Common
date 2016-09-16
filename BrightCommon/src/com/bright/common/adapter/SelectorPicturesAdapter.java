@@ -27,7 +27,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.bright.common.R;
-import com.bright.common.model.SelectorPicture;
+import com.bright.common.entries.SelectorPicture;
 import com.bright.common.widget.YToast;
 import com.bright.common.widget.dialog.ShowPhotoDialog;
 import com.bumptech.glide.Glide;

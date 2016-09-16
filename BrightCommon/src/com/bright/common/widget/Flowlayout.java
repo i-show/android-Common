@@ -16,14 +16,14 @@
  * @author: y.haiyang@qq.com
  */
 
-package com.brightyu.androidcommon.ui.widget;
+package com.bright.common.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.brightyu.androidcommon.R;
+import com.bright.common.R;
 
 public class Flowlayout extends ViewGroup {
     private static final String TAG = "Flowlayout";

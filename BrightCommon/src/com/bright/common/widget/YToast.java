@@ -32,7 +32,7 @@ import java.lang.ref.WeakReference;
 
 /**
  * 自定义的Toast
- * <p/>
+ * <p>
  * YToast 集成为单例Toast 预防多次提示
  */
 public class YToast extends Toast {
@@ -66,11 +66,9 @@ public class YToast extends Toast {
     public static Toast makeText(Context context, CharSequence text, int duration) {
         YToast toast;
         if (mToast == null || mToast.get() == null) {
-            Log.i(TAG, "makeText: 1111");
             toast = new YToast(context);
             mToast = new WeakReference<>(toast);
         } else {
-            Log.i(TAG, "makeText: 2222");
             toast = mToast.get();
         }
 
@@ -81,7 +79,7 @@ public class YToast extends Toast {
 
         toast.setView(v);
         toast.setDuration(duration);
-        toast.setGravity(toast.getGravity(), toast.getXOffset(), mScreenHeight / 5);
+        toast.setGravity(toast.getGravity(), toast.getXOffset(), mScreenHeight / 6);
         return toast;
     }
 
@@ -98,6 +96,19 @@ public class YToast extends Toast {
     public static Toast makeText(Context context, @StringRes int resId, int duration)
             throws Resources.NotFoundException {
         return makeText(context, context.getResources().getText(resId), duration);
+    }
+
+    /**
+     * 隐藏Toast
+     */
+    public static void dismiss() {
+        if (mToast == null || mToast.get() == null) {
+            Log.i(TAG, "dismiss: toast is null");
+            return;
+        }
+
+        Toast toast = mToast.get();
+        toast.cancel();
     }
 
 }

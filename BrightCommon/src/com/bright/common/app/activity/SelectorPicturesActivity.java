@@ -29,7 +29,7 @@ import android.widget.TextView;
 import com.bright.common.R;
 import com.bright.common.app.BaseActivity;
 import com.bright.common.app.fragment.SelectorPicturesFragment;
-import com.bright.common.model.SelectorPicture;
+import com.bright.common.entries.SelectorPicture;
 import com.bright.common.utils.StringUtils;
 
 import java.io.File;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.bright.common.model;
+package com.bright.common.entries;
 
 /**
  * 图片实体

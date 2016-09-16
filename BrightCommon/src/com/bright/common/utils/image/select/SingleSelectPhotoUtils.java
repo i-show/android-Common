@@ -27,7 +27,7 @@ import android.util.Log;
 
 import com.bright.common.app.activity.CropImageActivity;
 import com.bright.common.app.activity.SelectorPicturesActivity;
-import com.bright.common.model.SelectorPicture;
+import com.bright.common.entries.SelectorPicture;
 import com.bright.common.utils.image.ImageUtils;
 import com.bright.common.widget.loading.LoadingDialog;
 

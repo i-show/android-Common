@@ -24,7 +24,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.bright.common.R;
-import com.bright.common.model.SelectorFolder;
+import com.bright.common.entries.SelectorFolder;
 import com.bumptech.glide.Glide;
 
 

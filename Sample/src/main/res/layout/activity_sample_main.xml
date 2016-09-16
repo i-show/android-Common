@@ -11,7 +11,7 @@
         app:leftImage="@drawable/ic_back_white"
         app:text="@string/sample_main" />
 
-    <com.brightyu.androidcommon.ui.widget.Flowlayout
+    <com.bright.common.widget.Flowlayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -19,6 +19,6 @@
             android:id="@+id/prompt_sample"
             style="@style/TextView.Sample"
             android:text="@string/prompt_sample" />
-    </com.brightyu.androidcommon.ui.widget.Flowlayout>
+    </com.bright.common.widget.Flowlayout>
 
 </LinearLayout>
