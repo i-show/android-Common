@@ -19,6 +19,12 @@
             android:id="@+id/prompt_sample"
             style="@style/TextView.Sample"
             android:text="@string/prompt_sample" />
+
+        <TextView
+            android:id="@+id/pickview_sample"
+            style="@style/TextView.Sample"
+            android:text="@string/pickview_sample" />
+
     </com.bright.common.widget.Flowlayout>
 
 </LinearLayout>

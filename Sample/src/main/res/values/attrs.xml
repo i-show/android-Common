@@ -11,4 +11,14 @@
         <attr name="focusColor" />
         <attr name="android:inputType" />
     </declare-styleable>
+
+    <declare-styleable name="PickerView">
+        <attr name="android:gravity" />
+       
+        <attr name="textSize" />
+        <attr name="selectedTextColor" />
+        <attr name="unselectedTextColor" />
+        <attr name="divider" />
+        <attr name="visiableCount" />
+    </declare-styleable>
 </resources>

@@ -60,6 +60,11 @@
     <attr name="textBackground" format="reference|color" />
     <attr name="textAppearance" format="reference" />
 
+    <attr name="selectedTextColor" format="reference|color" />
+    <attr name="selectedTextSize" format="reference|color" />
+    <attr name="unselectedTextColor" format="reference|color" />
+    <attr name="unselectedTextSize" format="reference|color" />
+
     <attr name="subText" format="string" />
     <attr name="subTextSize" format="dimension" />
     <attr name="subTextColor" format="color" />
@@ -262,6 +267,8 @@
 
     <attr name="scale_x" format="integer" />
     <attr name="scale_y" format="integer" />
+    
+    <attr name="visiableCount" format="integer" />
 
     <declare-styleable name="ImageTextView">
         <attr name="text" />

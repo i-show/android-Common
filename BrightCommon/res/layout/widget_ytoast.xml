@@ -28,6 +28,6 @@
         android:paddingLeft="@dimen/dp_20"
         android:paddingRight="@dimen/dp_20"
         android:paddingTop="@dimen/dp_10"
-        android:textColor="@color/grey_deep_7"
-        android:textSize="@dimen/H_title" />
+        android:textColor="@color/grey_deep_8"
+        android:textSize="@dimen/I_title" />
 </LinearLayout>

@@ -72,6 +72,9 @@
         <activity
             android:name=".modules.sample.prompt.SamplePromptImageViewActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".modules.sample.pickview.SamplePickerView"
+            android:screenOrientation="portrait" />
         <!--++++++++++++++++++++控件或者工具的测试区域（end）++++++++++++++++++++++++++-->
 
 
