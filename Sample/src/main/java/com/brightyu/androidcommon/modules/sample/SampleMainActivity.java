@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.brightyu.androidcommon.R;
 import com.brightyu.androidcommon.modules.base.AppBaseActivity;
-import com.brightyu.androidcommon.modules.sample.pickview.SamplePickerView;
+import com.brightyu.androidcommon.modules.sample.pickview.SamplePickerActivity;
 
 /**
  * 测试Demo
@@ -31,7 +31,7 @@ public class SampleMainActivity extends AppBaseActivity implements View.OnClickL
         Intent intent;
         switch (view.getId()) {
             case R.id.pickview_sample:
-                intent = new Intent(this, SamplePickerView.class);
+                intent = new Intent(this, SamplePickerActivity.class);
                 startActivity(intent);
                 break;
         }

@@ -16,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.widget.Scroller;
+import android.widget.TimePicker;
 
 import com.bright.common.utils.StringUtils;
 import com.brightyu.androidcommon.R;
@@ -192,7 +193,6 @@ public class PickerView extends View {
         canvas.clipRect(0, mFirstLineY, viewWidth, mFirstLineY + mItemDesireHeight);
         canvas.drawText("AA", viewWidth / 2, mFirstLineY + 10, mSelectedTextPaint);
         canvas.restore();
-
     }
 
     @Override
