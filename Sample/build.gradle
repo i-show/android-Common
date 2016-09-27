@@ -333,6 +333,6 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     // 基础库
-    compile project(':BrightCommon')
+    compile project(':LibCommon')
 }
 
