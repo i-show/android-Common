@@ -1,5 +1,6 @@
 package com.brightyu.androidcommon.modules.base;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -8,8 +9,8 @@ import android.util.Log;
 import com.bright.common.app.BaseActivity;
 import com.bright.common.utils.PackagesUtils;
 import com.bright.common.utils.SharedPreferencesUtils;
-import com.bright.common.widget.dialog.BaseDialog;
 import com.brightyu.androidcommon.BaseApplication;
+import com.brightyu.androidcommon.modules.SplashActivity;
 
 
 /**
@@ -18,8 +19,6 @@ import com.brightyu.androidcommon.BaseApplication;
 public abstract class AppBaseActivity extends BaseActivity {
     private static final String TAG = "AppBaseActivity";
     protected Handler mHandler;
-
-    private BaseDialog mWifiDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,4 +77,12 @@ public abstract class AppBaseActivity extends BaseActivity {
         return (!TextUtils.equals(versionName, _versionName) && _versionCode > versionCode);
     }
 
+
+    @Override
+    protected void goSplash() {
+        Intent intent = new Intent(AppBaseActivity.this, SplashActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
 }

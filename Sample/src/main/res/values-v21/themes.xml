@@ -28,7 +28,8 @@
     <!-- Splash界面 -->
     <style name="AppTheme.Splash" parent="Theme.NoActionBar.Fullscreen">
         <item name="android:windowBackground">@drawable/splash</item>
-        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
     <!-- 登录界面 -->

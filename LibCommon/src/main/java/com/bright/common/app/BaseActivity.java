@@ -25,6 +25,7 @@ import android.os.Handler;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -38,6 +39,7 @@ import com.bright.common.widget.dialog.BaseDialog;
 
 
 public abstract class BaseActivity extends AppCompatActivity implements TopBar.OnTopBarListener {
+    private static final String TAG = "BaseActivity";
     /**
      * Activity的TYPE
      */
@@ -46,6 +48,11 @@ public abstract class BaseActivity extends AppCompatActivity implements TopBar.O
      * 默认返回的result
      */
     public static final String KEY_RESULT = "activity_result";
+    /**
+     * 需要重新进入应用
+     */
+    private static final String KEY_REOPEN = "key_need_reopen_activity";
+
     protected Handler mHandler;
     /**
      * 保存变量
@@ -59,11 +66,19 @@ public abstract class BaseActivity extends AppCompatActivity implements TopBar.O
         resetStatusBar();
     }
 
-    /**
-     * 用来设置全屏样式
-     */
-    protected void resetStatusBar() {
-        // TODO
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState == null) {
+            return;
+        }
+
+        if (!needCheckReopen()) {
+            Log.d(TAG, "onRestoreInstanceState: ");
+            return;
+        }
+
+        goSplash();
     }
 
     @Override
@@ -77,6 +92,12 @@ public abstract class BaseActivity extends AppCompatActivity implements TopBar.O
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(KEY_REOPEN, true);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         // 取消请求接口
@@ -87,6 +108,7 @@ public abstract class BaseActivity extends AppCompatActivity implements TopBar.O
             mHandler = null;
         }
     }
+
 
     //************************ 初始化 区域*********************** //
     @Override
@@ -171,6 +193,27 @@ public abstract class BaseActivity extends AppCompatActivity implements TopBar.O
     @Override
     public void onTitleClick(View v) {
 
+    }
+
+    /**
+     * 用来设置全屏样式
+     */
+    protected void resetStatusBar() {
+        // TODO
+    }
+
+    /**
+     * 跳转到Splash
+     */
+    protected void goSplash() {
+        // TODO
+    }
+
+    /**
+     * 检测是否要重新打开应用
+     */
+    protected boolean needCheckReopen() {
+        return true;
     }
 
     // ******************** 提示区域 ***************************//

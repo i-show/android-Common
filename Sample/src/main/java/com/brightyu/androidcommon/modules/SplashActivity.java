@@ -22,8 +22,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.bright.common.constant.Shift;
 import com.brightyu.androidcommon.constant.Configure;
@@ -51,6 +49,13 @@ public class SplashActivity extends AppBaseActivity {
         return false;
     }
 
+    /**
+     * 检测是否被内存回收了
+     */
+    @Override
+    protected boolean needCheckReopen() {
+        return false;
+    }
 
     @Override
     protected void onPause() {
@@ -67,14 +72,8 @@ public class SplashActivity extends AppBaseActivity {
     @Override
     protected void resetStatusBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Window window = getWindow();
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                    | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                    // remove the following flag for version < API 19
-                    | View.SYSTEM_UI_FLAG_IMMERSIVE);
-
-            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            View rootView = getWindow().getDecorView();
+            rootView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE);
         }
     }
 
