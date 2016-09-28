@@ -9,7 +9,7 @@ import android.util.Log;
 import com.bright.common.app.BaseActivity;
 import com.bright.common.utils.PackagesUtils;
 import com.bright.common.utils.SharedPreferencesUtils;
-import com.brightyu.androidcommon.BaseApplication;
+import com.brightyu.androidcommon.AppApplication;
 import com.brightyu.androidcommon.modules.SplashActivity;
 
 
@@ -30,8 +30,8 @@ public abstract class AppBaseActivity extends BaseActivity {
         // TODO
     }
 
-    protected BaseApplication getBaseApplication() {
-        return (BaseApplication) getApplication();
+    protected AppApplication getBaseApplication() {
+        return (AppApplication) getApplication();
     }
 
 

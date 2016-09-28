@@ -3,7 +3,7 @@
     package="com.brightyu.androidcommon">
 
     <application
-        android:name=".BaseApplication"
+        android:name=".AppApplication"
         android:allowBackup="true"
         android:icon="${APP_ICON}"
         android:label="${APP_NAME}"
