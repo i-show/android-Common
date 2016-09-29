@@ -41,7 +41,6 @@ public class VersionManager {
 
     private VersionManager(Context context) {
         mContext = context;
-
     }
 
     public static VersionManager getInstance(Context context) {
@@ -59,15 +58,17 @@ public class VersionManager {
     }
 
     public static void init(Context context) {
-        isFirstEnterThisVerison = isFirstEnterThisVerison(context);
+        isFirstEnterThisVerison = checkIsFirstEnterThisVerison(context.getApplicationContext());
     }
 
+    public static boolean isFirstEnterThisVerison() {
+        return isFirstEnterThisVerison;
+    }
 
     /**
-     * 不能对外开放
-     * 是不是第一次进入这个版本
+     * 检测是否是第一次登录这个版本
      */
-    private static boolean isFirstEnterThisVerison(Context context) {
+    private static boolean checkIsFirstEnterThisVerison(Context context) {
         // 获取之前保存的版本信息
         final int versionCode = SharedPreferencesUtils.get(context, PackagesUtils.VERSION_CODE, 0);
         final String versionName = SharedPreferencesUtils.get(context, PackagesUtils.VERSION_NAME, null);

@@ -23,6 +23,10 @@ public class User {
 
     public static final class Key {
         /**
+         * 保存User
+         */
+        public static final String KEY_CACHE_USER = "key_cache_user";
+        /**
          * 保存账户的Key
          */
         public static final String ACCOUNT = "key_login_account";

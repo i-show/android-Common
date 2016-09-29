@@ -31,8 +31,8 @@
     <string name="register_hint_ensure_password">请再次输入密码</string>
     <string name="register_title">注册账号</string>
     <string name="register_please_input_verify_code">请输入验证码</string>
-    <string name="register_please_input_right_ensure_password">两次输入密码不一致</string>
-    <string name="login_please_input_ensure_password">请输入确认密码</string>
+    <string name="please_input_right_ensure_password">两次输入密码不一致</string>
+    <string name="please_input_ensure_password">请输入确认密码</string>
     
     <string name="forgot_password_title">忘记密码</string>
     <string name="forgot_password_tip_password">新密码：</string>
