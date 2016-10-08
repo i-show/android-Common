@@ -21,7 +21,7 @@ import android.os.Handler;
 import android.text.TextUtils;
 
 import com.brightyu.androidcommon.R;
-import com.brightyu.androidcommon.modules.login.LoginManager;
+import com.brightyu.androidcommon.manager.UserManager;
 
 import java.util.Random;
 
@@ -49,7 +49,7 @@ public class RegisterPresenter implements RegisterContract.Presenter {
 
     @Override
     public void register(String name, String verifyCode, String password, String ensurePassword) {
-        String errorMessage = LoginManager.checkAccount(mContext, name);
+        String errorMessage = UserManager.checkAccount(mContext, name);
         if (!TextUtils.isEmpty(errorMessage)) {
             mView.showRegisterFail(errorMessage);
             return;
@@ -60,13 +60,13 @@ public class RegisterPresenter implements RegisterContract.Presenter {
             return;
         }
 
-        errorMessage = LoginManager.checkPassword(mContext, password);
+        errorMessage = UserManager.checkPassword(mContext, password);
         if (!TextUtils.isEmpty(errorMessage)) {
             mView.showRegisterFail(errorMessage);
             return;
         }
 
-        errorMessage = LoginManager.checkEnsurePassword(mContext, password, ensurePassword);
+        errorMessage = UserManager.checkEnsurePassword(mContext, password, ensurePassword);
         if (!TextUtils.isEmpty(errorMessage)) {
             mView.showRegisterFail(errorMessage);
             return;
