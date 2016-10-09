@@ -137,12 +137,10 @@ public class PromptImageView extends AppCompatImageView implements IPrompt {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (mMode == MODE_NONE) {
-            Log.i(TAG, "onDraw: mode is none");
             return;
         }
 
         if (mMode == MODE_TEXT && TextUtils.isEmpty(mPromptTextString)) {
-            Log.i(TAG, "onDraw: mPromptTextString is empty");
             return;
         }
 
