@@ -37,7 +37,6 @@ public class InputPasswordEdit extends InputEdit {
 
     public InputPasswordEdit(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-
     }
 
     @Override

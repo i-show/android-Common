@@ -22,31 +22,38 @@ import android.text.TextUtils;
 
 import com.bright.common.utils.SharedPreferencesUtils;
 import com.brightyu.androidcommon.entries.User;
+import com.brightyu.androidcommon.manager.UserManager;
+
+import java.lang.ref.WeakReference;
 
 /**
  * 登录的Presenter
  */
-public class LoginPresenter implements LoginContract.Presenter, LoginManager.CallBack {
+public class LoginPresenter implements LoginContract.Presenter, UserManager.LoginCallBack {
     private LoginContract.View mLoginView;
     private Context mContext;
-    private LoginManager mLoginManager;
+    private UserManager mLoginManager;
+
+
 
     public LoginPresenter(Context context, @NonNull LoginContract.View loginView) {
         mLoginView = loginView;
         mContext = context;
-        mLoginManager = LoginManager.getInstance(context);
-        mLoginManager.setCallBack(this);
+        mLoginManager = UserManager.getInstance(context);
+        mLoginManager.setLoginCallBack(this);
     }
+
+
 
     @Override
     public void login(String account, String password) {
-        String errorMessage = LoginManager.checkAccount(mContext, account);
+        String errorMessage = UserManager.checkAccount(mContext, account);
         if (!TextUtils.isEmpty(errorMessage)) {
             mLoginView.showLoginFail(errorMessage);
             return;
         }
 
-        errorMessage = LoginManager.checkPassword(mContext, password);
+        errorMessage = UserManager.checkPassword(mContext, password);
         if (!TextUtils.isEmpty(errorMessage)) {
             mLoginView.showLoginFail(errorMessage);
             return;

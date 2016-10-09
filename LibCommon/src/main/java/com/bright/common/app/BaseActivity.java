@@ -25,7 +25,6 @@ import android.os.Handler;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -69,16 +68,10 @@ public abstract class BaseActivity extends AppCompatActivity implements TopBar.O
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        if (savedInstanceState == null) {
-            return;
+        if (savedInstanceState != null && needCheckReopen()) {
+            goSplash();
         }
 
-        if (!needCheckReopen()) {
-            Log.d(TAG, "onRestoreInstanceState: ");
-            return;
-        }
-
-        goSplash();
     }
 
     @Override

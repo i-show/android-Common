@@ -25,6 +25,7 @@ import android.view.View;
 
 import com.bright.common.constant.Shift;
 import com.brightyu.androidcommon.constant.Configure;
+import com.brightyu.androidcommon.manager.VersionManager;
 import com.brightyu.androidcommon.modules.base.AppBaseActivity;
 import com.brightyu.androidcommon.modules.main.MainActivity;
 
@@ -41,6 +42,13 @@ public class SplashActivity extends AppBaseActivity {
         mHandler = new RecycleHandler();
     }
 
+    /**
+     * 初始化操作
+     */
+    private void init() {
+        // 更新版本信息
+        VersionManager.init(this);
+    }
 
     /**
      * 是否需要显示升级dialog
@@ -58,15 +66,15 @@ public class SplashActivity extends AppBaseActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        mHandler.removeMessages(HANDLE_GO_NEXT);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         mHandler.sendEmptyMessageDelayed(HANDLE_GO_NEXT, Configure.SPLASH_TIME);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mHandler.removeMessages(HANDLE_GO_NEXT);
     }
 
     @Override
@@ -88,7 +96,7 @@ public class SplashActivity extends AppBaseActivity {
             switch (msg.what) {
                 case HANDLE_GO_NEXT:
                     Intent intent;
-                    if (isFirstEnterThisVerison()) {
+                    if (VersionManager.isFirstEnterThisVerison()) {
                         intent = new Intent(SplashActivity.this, GuideActivity.class);
                     } else {
                         intent = new Intent(SplashActivity.this, MainActivity.class);

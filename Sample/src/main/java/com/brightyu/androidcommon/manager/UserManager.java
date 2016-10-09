@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- * <p/>
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p/>
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-package com.brightyu.androidcommon.modules.login;
+package com.brightyu.androidcommon.manager;
+
 
 import android.accounts.NetworkErrorException;
 import android.content.Context;
@@ -22,40 +23,59 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
 import com.bright.common.utils.RegexValidateUtils;
+import com.bright.common.utils.SharedPreferencesUtils;
 import com.bright.common.utils.Utils;
 import com.brightyu.androidcommon.R;
+import com.brightyu.androidcommon.entries.User;
 
+import java.lang.ref.WeakReference;
 import java.util.Random;
 
-/**
- * 登录管理器
- */
-public class LoginManager {
-    private static final String TAG = "LoginManager";
+public class UserManager {
+    private static final String TAG = "UserManager";
+
     private Context mContext;
-    private CallBack mCallBack;
-    private static LoginManager sInstance;
+    private LoginCallBack mCallBack;
+    private static UserManager sInstance;
+
+    private WeakReference<User> mUser;
 
     // 暂时用来模拟登录
     private Handler mHandler;
 
-    private LoginManager(Context context) {
+    private UserManager(Context context) {
         mContext = context;
         mHandler = new Handler();
     }
 
 
-    public static LoginManager getInstance(Context context) {
+    public static UserManager getInstance(Context context) {
         if (sInstance == null) {
-            synchronized (LoginManager.class) {
+            synchronized (UserManager.class) {
                 if (sInstance == null) {
-                    sInstance = new LoginManager(context.getApplicationContext());
+                    sInstance = new UserManager(context.getApplicationContext());
                 }
             }
         }
         return sInstance;
     }
+
+    public User getUser() {
+        if (mUser == null || mUser.get() == null) {
+            String jsonString = SharedPreferencesUtils.get(mContext, User.Key.KEY_CACHE_USER, null);
+            if (TextUtils.isEmpty(jsonString)) {
+                Log.i(TAG, "getUser: no user");
+                return null;
+            }
+            User user = JSON.parseObject(jsonString, User.class);
+            mUser = new WeakReference<>(user);
+        }
+
+        return mUser.get();
+    }
+
 
     /**
      * 登录
@@ -92,6 +112,9 @@ public class LoginManager {
         }, 1000);
     }
 
+    /**
+     * 检测账户是否有效
+     */
     public static String checkAccount(Context context, String account) {
         if (TextUtils.isEmpty(account)) {
             return context.getString(R.string.login_please_input_account);
@@ -102,6 +125,9 @@ public class LoginManager {
         return Utils.EMPTY;
     }
 
+    /**
+     * 检测密码是否有效
+     */
     public static String checkPassword(Context context, String password) {
         if (TextUtils.isEmpty(password)) {
             return context.getString(R.string.login_please_input_password);
@@ -111,30 +137,35 @@ public class LoginManager {
         int min = context.getResources().getInteger(R.integer.min_password);
         int max = context.getResources().getInteger(R.integer.max_password);
         if (length < min || length > max) {
-            return context.getString(R.string.login_please_input_correct_password, min, max);
+            return context.getString(R.string.login_please_input_correct_password, String.valueOf(min), String.valueOf(max));
         }
 
         return Utils.EMPTY;
     }
 
+    /**
+     * 检测再次输入的密码是否有效
+     */
     public static String checkEnsurePassword(Context context, String password, String ensurePassword) {
         if (TextUtils.isEmpty(ensurePassword)) {
-            return context.getString(R.string.login_please_input_ensure_password);
+            return context.getString(R.string.please_input_ensure_password);
         }
 
         if (!TextUtils.equals(password, ensurePassword)) {
-            return context.getString(R.string.register_please_input_right_ensure_password);
+            return context.getString(R.string.please_input_right_ensure_password);
         }
 
         return Utils.EMPTY;
     }
 
-
-    public void setCallBack(CallBack callBack) {
+    /**
+     * 设置登录的CallBack
+     */
+    public void setLoginCallBack(LoginCallBack callBack) {
         mCallBack = callBack;
     }
 
-    public interface CallBack {
+    public interface LoginCallBack {
         /**
          * 登录成功
          */
