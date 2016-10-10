@@ -108,12 +108,10 @@ public class PromptImageView extends AppCompatImageView implements IPrompt {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         if (mMode == MODE_NONE) {
-            Log.i(TAG, "onMeasure: mode = NONE");
             return;
         }
 
         if (mMode == MODE_TEXT && TextUtils.isEmpty(mPromptTextString)) {
-            Log.i(TAG, "onMeasure: mPromptTextString is empty");
             return;
         }
 
@@ -198,7 +196,7 @@ public class PromptImageView extends AppCompatImageView implements IPrompt {
     @Override
     public PromptImageView setPromptTextSize(@DimenRes int size) {
         mPromptTextSize = getResources().getDimensionPixelSize(size);
-        mPromptTextPaint.setColor(mPromptTextSize);
+        mPromptTextPaint.setTextSize(mPromptTextSize);
         return this;
     }
 

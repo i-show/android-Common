@@ -141,7 +141,11 @@ public class OkHttpUtils {
         requestCall.getCall().enqueue(new okhttp3.Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
-                finalCallback.sendFailResult(call, e, null, 0, id);
+                if (call.isCanceled()) {
+                    finalCallback.sendFailResult(call, new CanceledException(), null, 0, id);
+                } else {
+                    finalCallback.sendFailResult(call, e, null, 0, id);
+                }
             }
 
             @Override

@@ -137,12 +137,10 @@ public class PromptTextView extends AppCompatTextView implements IPrompt {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (mMode == MODE_NONE) {
-            Log.i(TAG, "onDraw: mode is none");
             return;
         }
 
         if (mMode == MODE_TEXT && TextUtils.isEmpty(mPromptTextString)) {
-            Log.i(TAG, "onDraw: mPromptTextString is empty");
             return;
         }
         canvas.drawRoundRect(mPromptUsedRectF, 999, 999, mPromptBackgroundPaint);
@@ -199,7 +197,7 @@ public class PromptTextView extends AppCompatTextView implements IPrompt {
     @Override
     public PromptTextView setPromptTextSize(@DimenRes int size) {
         mPromptTextSize = getResources().getDimensionPixelSize(size);
-        mPromptTextPaint.setColor(mPromptTextSize);
+        mPromptTextPaint.setTextSize(mPromptTextSize);
         return this;
     }
 
