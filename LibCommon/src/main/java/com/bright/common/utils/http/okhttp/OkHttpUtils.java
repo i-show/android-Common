@@ -26,6 +26,7 @@ import com.bright.common.utils.http.okhttp.builder.PostFormBuilder;
 import com.bright.common.utils.http.okhttp.builder.PostStringBuilder;
 import com.bright.common.utils.http.okhttp.callback.CallBack;
 import com.bright.common.utils.http.okhttp.callback.EmptyCallBack;
+import com.bright.common.utils.http.okhttp.exception.CanceledException;
 import com.bright.common.utils.http.okhttp.request.OkHttpRequest;
 import com.bright.common.utils.http.okhttp.request.RequestCall;
 import com.bright.common.utils.http.okhttp.utils.Platform;

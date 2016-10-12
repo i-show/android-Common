@@ -585,13 +585,13 @@ public class XScrollView extends ScrollView implements IPullToRefresh, OnScrollL
 
     private void refresh() {
         if (mEnablePullRefresh && null != mListener) {
-            mListener.onRefresh();
+            mListener.onRefresh(this);
         }
     }
 
     private void loadMore() {
         if (mEnablePullLoad && null != mListener) {
-            mListener.onLoadMore();
+            mListener.onLoadMore(this);
         }
     }
 

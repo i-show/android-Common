@@ -522,13 +522,13 @@ public class XListView extends ListView implements IPullToRefresh, OnScrollListe
 
     private void refresh() {
         if (mEnablePullRefresh && null != mListener) {
-            mListener.onRefresh();
+            mListener.onRefresh(this);
         }
     }
 
     private void loadMore() {
         if (mEnablePullLoad && null != mListener) {
-            mListener.onLoadMore();
+            mListener.onLoadMore(this);
         }
     }
 
@@ -557,7 +557,7 @@ public class XListView extends ListView implements IPullToRefresh, OnScrollListe
         @Override
         public void onReload() {
             if (mListener != null) {
-                mListener.onRefresh();
+                mListener.onRefresh(XListView.this);
             }
         }
     };
