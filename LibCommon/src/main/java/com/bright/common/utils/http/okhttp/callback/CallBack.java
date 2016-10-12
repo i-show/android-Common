@@ -32,6 +32,7 @@ import com.bright.common.widget.YToast;
 
 import java.io.IOException;
 import java.net.ConnectException;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
@@ -136,17 +137,17 @@ public abstract class CallBack<T> {
             return false;
         }
         try {
-            if (e instanceof ConnectException) {
+            if (e instanceof CanceledException) {
+                Log.d(TAG, "onError: call is canceled");
+                return true;
+            } else if (e instanceof ConnectException) {
                 toast(R.string.net_poor_connections);
                 return true;
-            } else if (e instanceof SocketTimeoutException) {
+            } else if (e instanceof SocketTimeoutException || e instanceof SocketException) {
                 toast(R.string.net_server_error);
                 return true;
-            } else if (e instanceof UnknownHostException) {
+            } else if (e instanceof UnknownHostException || e instanceof RuntimeException) {
                 toast(R.string.net_server_error);
-                return true;
-            } else if (e instanceof CanceledException) {
-                Log.d(TAG, "onError: call is canceled");
                 return true;
             } else if (!TextUtils.isEmpty(errorMessage)) {
                 toast(errorMessage);

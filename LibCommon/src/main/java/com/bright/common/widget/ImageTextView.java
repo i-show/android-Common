@@ -516,7 +516,6 @@ public class ImageTextView extends View implements IPrompt {
         int width = getMeasuredWidth();
         int height = getMeasuredHeight();
         if (width <= 0 || height <= 0) {
-            Log.i(TAG, "to do nothing  size is 0");
             return;
         }
         // Clear canvas
@@ -562,12 +561,10 @@ public class ImageTextView extends View implements IPrompt {
 
     private void drawPrompt(Canvas canvas) {
         if (mMode == MODE_NONE) {
-            Log.i(TAG, "onDraw: mode is none");
             return;
         }
 
         if (mMode == MODE_TEXT && TextUtils.isEmpty(mPromptTextString)) {
-            Log.i(TAG, "onDraw: mPromptTextString is empty");
             return;
         }
         canvas.drawRoundRect(mPromptUsedRectF, 999, 999, mPromptBackgroundPaint);

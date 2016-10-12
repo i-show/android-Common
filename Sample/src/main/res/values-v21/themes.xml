@@ -33,7 +33,7 @@
     </style>
 
     <!-- 登录界面 -->
-    <style name="AppTheme.Login" parent="Theme.NoActionBar">
+    <style name="AppTheme.Login" parent="AppTheme">
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowBackground">@drawable/login_bg</item>
     </style>

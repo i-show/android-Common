@@ -40,6 +40,8 @@
 
         <!-- 标题栏颜色 -->
         <item name="colorPrimary">@color/color_primary</item>
+        <!-- 状态栏颜色 -->
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <!--常用的颜色例如 光标颜色-->
         <item name="colorAccent">@color/color_accent</item>
         <!--  TopBar 的style -->
