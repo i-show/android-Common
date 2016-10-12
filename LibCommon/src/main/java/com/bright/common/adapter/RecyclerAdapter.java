@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,9 +23,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bright.common.R;
-import com.bright.common.widget.pulltorefresh.IPullToRefresh;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +30,7 @@ import java.util.List;
  *
  */
 public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holder> extends RecyclerView.Adapter {
+    private static final String TAG = "RecyclerAdapter";
     /**
      * 类型 是头部
      */
@@ -45,26 +43,12 @@ public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holde
      * 类型是最后一个
      */
     public static final int TYPE_FOOTER = 2;
-    /**
-     * 默认一页显示的数量
-     */
-    public static final int DEFAULT_PAGER_SIZE = 10;
-    private static final String TAG = "RecyclerAdapter";
-    /**
-     * 当前页数
-     */
-    protected int mPagerNumber = 1;
-    /**
-     * 第一页
-     */
-    protected int mFirstPager;
-    protected List<DATA> mData = new ArrayList<>();
+
+
+    private List<DATA> mData = new ArrayList<>();
     protected Context mContext;
     protected LayoutInflater mLayoutInflater;
-    /**
-     * 可能会使用到的：例如 请求Url的参数
-     */
-    private Object mParamKey;
+
     /**
      * 可能会参数
      */
@@ -73,12 +57,17 @@ public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holde
      * 请求地址
      */
     private String mUrl;
-    private boolean isLoadingMoreState = false;
 
     public RecyclerAdapter(Context context) {
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
-        initPagerNumber();
+    }
+
+    /**
+     * 添加数据
+     */
+    public void setData(List<DATA> data) {
+        setData(data, true);
     }
 
     /**
@@ -125,12 +114,6 @@ public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holde
         return mData;
     }
 
-    /**
-     * 添加数据
-     */
-    public void setData(List<DATA> data) {
-        setData(data, true);
-    }
 
     /**
      * 清空数据
@@ -143,7 +126,6 @@ public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holde
     @Override
     public int getItemCount() {
         return mData.size() + getHeaderCount() + getFooterCount();
-
     }
 
     /**
@@ -167,72 +149,6 @@ public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holde
     // 获取View的type
     public int getItemViewType(int position) {
         return TYPE_BODY;
-    }
-
-    /**
-     * 初始化
-     */
-    protected void initPagerNumber() {
-        mFirstPager = mContext.getResources().getInteger(R.integer.default_pager_number);
-        mPagerNumber = mFirstPager;
-    }
-
-    /**
-     * 重置分页
-     */
-    public void resetPagerNumber() {
-        mPagerNumber = mFirstPager;
-    }
-
-    /**
-     * 分页数加1
-     */
-    public void plusPagerNumber() {
-        mPagerNumber++;
-    }
-
-    /**
-     * 获取当前分页
-     *
-     * @return 获取当前分页
-     */
-    public int getPagerNumber() {
-        return mPagerNumber;
-    }
-
-    /**
-     * 重新设置PagerNumber
-     */
-    public void setPagerNumber(int pagerNumber) {
-        mPagerNumber = pagerNumber;
-    }
-
-    /**
-     * 获取分页大小
-     */
-    public int getPagerSize() {
-        return DEFAULT_PAGER_SIZE;
-    }
-
-    /**
-     * 获取分页大小
-     */
-    public int getPagerSize(int wantPagerSize) {
-        return wantPagerSize > getPagerSize() ? wantPagerSize : getPagerSize();
-    }
-
-    /**
-     * 获取请求参数的关键值
-     */
-    public Object getParamKey() {
-        return mParamKey;
-    }
-
-    /**
-     * 设置请求参数的关键值
-     */
-    public void setParamKey(Object key) {
-        mParamKey = key;
     }
 
     /**
@@ -276,69 +192,6 @@ public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holde
      */
     public int getFooterCount() {
         return 0;
-    }
-
-    /**
-     * 判断是否是加载更多模式
-     */
-    public boolean isLoadingMoreState() {
-        return isLoadingMoreState;
-    }
-
-    /**
-     * 设置是否是加载更多模式
-     */
-    public void setLoadingMoreState(boolean state) {
-        isLoadingMoreState = state;
-    }
-
-    public void resetPullTorefresh(IPullToRefresh pullToRefresh) {
-        pullToRefresh.setPullRefreshEnable(true);
-        pullToRefresh.setPullLoadEnable(true);
-        if (isLoadingMoreState()) {
-            pullToRefresh.stopLoadMore();
-        } else {
-            pullToRefresh.setRefreshFail();
-        }
-    }
-
-    /**
-     * 消化数据
-     */
-    public void resolveData(IPullToRefresh pullToRefresh, List<DATA> datas, int totalcount) {
-        if (isLoadingMoreState()) {
-            pullToRefresh.stopLoadMore();
-            plusData(datas);
-        } else {
-            setData(datas);
-            pullToRefresh.setRefreshSuccess();
-        }
-        // 修复pagernumber
-        repairPagerNumber(datas);
-
-        pullToRefresh.setPullRefreshEnable(true);
-        if (getRealCount() >= totalcount) {
-            pullToRefresh.setLoadEnd();
-        } else {
-            pullToRefresh.setPullLoadEnable(true);
-        }
-    }
-
-    /**
-     * 修复pagerSize
-     */
-    private void repairPagerNumber(List<DATA> datas) {
-        if (datas == null) {
-            return;
-        }
-        int defaultSize = getPagerSize();
-        int size = datas.size();
-        // 如果是第一页 && 返回的数据必当前分页多
-        if (getPagerNumber() == mFirstPager && size > defaultSize) {
-            setPagerNumber(size / defaultSize + mFirstPager);
-        } else {
-            plusPagerNumber();
-        }
     }
 
     @Override

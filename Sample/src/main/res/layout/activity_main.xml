@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftImage="@drawable/ic_back_white"
-        app:rightText="Sample"
+        app:rightImage="@drawable/ic_back_white"
         app:text="@string/home" />
 
 
