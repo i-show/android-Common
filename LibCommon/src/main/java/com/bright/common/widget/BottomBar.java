@@ -91,14 +91,22 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
      * 设置当前选中的ID
      */
     public void setSelectedId(@IdRes int id) {
+        setSelectedId(id, false);
+    }
+
+
+    /**
+     * 设置当前选中的ID
+     */
+    public void setSelectedId(@IdRes int id, boolean force) {
         if (id == mCanNotSelectedId) {
             Log.i(TAG, "setSelectedId: id is can not selected id");
             return;
         }
 
         // 如果2个id相等 那么就返回
-        if (id == mSelectedId) {
-            Log.i(TAG, "setSelectedId: is same id");
+        if (id == mSelectedId && !force) {
+            Log.i(TAG, "setSelectedId: is same id && not force");
             return;
         }
 
