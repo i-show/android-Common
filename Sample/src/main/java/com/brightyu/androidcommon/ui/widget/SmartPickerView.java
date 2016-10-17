@@ -277,6 +277,18 @@ public class SmartPickerView extends View {
         canvas.restore();
     }
 
+    /**
+     * 抛物线
+     *
+     * @param zero 零点坐标
+     * @param x    偏移量
+     * @return scale
+     */
+    private float parabola(float zero, float x) {
+        float f = (float) (1 - Math.pow(x / zero, 2));
+        return f < 0 ? 0 : f;
+    }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
