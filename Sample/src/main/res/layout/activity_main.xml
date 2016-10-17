@@ -18,4 +18,17 @@
         app:text="@string/home" />
 
 
+    <com.brightyu.androidcommon.ui.widget.pickview.PickerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#8800ff00" />
+
+    <com.brightyu.androidcommon.ui.widget.RulerView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_100" />
+
+    <com.brightyu.androidcommon.ui.widget.SmartPickerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#68068808" />
 </LinearLayout>
