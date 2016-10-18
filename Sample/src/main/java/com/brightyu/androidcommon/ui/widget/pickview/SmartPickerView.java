@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.brightyu.androidcommon.ui.widget;
+package com.brightyu.androidcommon.ui.widget.pickview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.text.TextPaint;
 import android.text.TextUtils;
@@ -53,10 +53,9 @@ public class SmartPickerView extends View {
     /**
      * 未选中TextSize大小比例
      */
-    private static final float UNSELECTED_TEXT_SIZE_RATIO = 0.9f;
+    private static final float UNSELECTED_TEXT_SIZE_RATIO = 0.75f;
 
 
-    private static final int TEXT_SIZE = 18;
     // 最大值
     private static final int MAX_VALUE = 480;
     // 默认值
@@ -65,10 +64,10 @@ public class SmartPickerView extends View {
 
     private int mCurrentIndex = DEFAULT_CURRENT_INDEX;
 
-
-    private int mLastY, mMove;
-
+    private int mLastY;
     private int mMinVelocity;
+    private float mMove;
+
     private Scroller mScroller;
     private VelocityTracker mVelocityTracker;
 
@@ -78,7 +77,8 @@ public class SmartPickerView extends View {
     private int mSelectedTextColor;
     private int mUnselectedTextColor;
 
-    private int mTextSize;//选项的文字大小
+    private float mSelectedTextSize;//选项的文字大小
+    private float mUnselectedTextSize;//没有选中的文字大小
 
     /**
      * 一个Item想要的宽度和高度
@@ -116,16 +116,19 @@ public class SmartPickerView extends View {
     public SmartPickerView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.PickerView);
+        mDividerColor = a.getColor(R.styleable.PickerView_divider, getDefaultDividerColor());
+
         mSelectedTextColor = a.getColor(R.styleable.PickerView_selectedTextColor, getDefaultSelectedTextColor());
         mUnselectedTextColor = a.getColor(R.styleable.PickerView_unselectedTextColor, getDefaultUnselectedTextColor());
-        mDividerColor = a.getColor(R.styleable.PickerView_divider, getDefaultDividerColor());
-        mTextSize = a.getDimensionPixelOffset(R.styleable.PickerView_textSize, getDefaultTextSize());
+
+        mSelectedTextSize = a.getDimensionPixelOffset(R.styleable.PickerView_textSize, getDefaultTextSize());
+        mUnselectedTextSize = mSelectedTextSize * UNSELECTED_TEXT_SIZE_RATIO;
+
         mVisibleCount = a.getInteger(R.styleable.PickerView_visiableCount, DEFAULT_VISIABLE_COUNT);
         a.recycle();
 
-
         init(context);
-        mItemDesireWidth = mItemDesireHeight = 100;
+        mItemDesireWidth = mItemDesireHeight = 120;
     }
 
 
@@ -138,7 +141,6 @@ public class SmartPickerView extends View {
         mGap = context.getResources().getDimensionPixelSize(R.dimen.gap_grade_2);
         mScroller = new Scroller(context);
         isCyclic = true;
-
         initPaints();
         forecast();
     }
@@ -174,28 +176,14 @@ public class SmartPickerView extends View {
 
     private void initPaints() {
         mTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-        mTextPaint.setTextSize(35);
-        mTextPaint.setColor(DefaultColors.GERY);
+        mTextPaint.setTextSize(mSelectedTextSize);
+        mTextPaint.setTextAlign(Paint.Align.CENTER);
 
         mDividerPaint = new Paint();
         mDividerPaint.setColor(mDividerColor);
         mDividerPaint.setAntiAlias(true);
         mDividerPaint.setStrokeWidth((float) 1.0);
         mDividerPaint.setDither(true);
-
-        mSelectedTextPaint = new Paint();
-        mSelectedTextPaint.setColor(mSelectedTextColor);
-        mSelectedTextPaint.setAntiAlias(true);
-        mSelectedTextPaint.setDither(true);
-        mSelectedTextPaint.setTypeface(Typeface.MONOSPACE);
-        mSelectedTextPaint.setTextSize(mTextSize);
-
-        mUnselectedTextPaint = new Paint();
-        mUnselectedTextPaint.setColor(mUnselectedTextColor);
-        mUnselectedTextPaint.setAntiAlias(true);
-        mUnselectedTextPaint.setDither(true);
-        mUnselectedTextPaint.setTypeface(Typeface.MONOSPACE);
-        mUnselectedTextPaint.setTextSize(mTextSize * UNSELECTED_TEXT_SIZE_RATIO);
     }
 
 
@@ -268,13 +256,59 @@ public class SmartPickerView extends View {
      * 从中间往两边开始画刻度线
      */
     private void drawText(Canvas canvas, final int width, final int height) {
+        /**
+         * 画中间的
+         */
+        final float scale = parabola(mItemDesireHeight, mMove);
+        final float textSize = (mSelectedTextSize - mUnselectedTextSize) * scale + mUnselectedTextSize;
+        final int color = interpolateColor(mUnselectedTextColor, mSelectedTextColor, scale);
+        mTextPaint.setColor(color);
+        mTextPaint.setTextSize(textSize);
         canvas.save();
+
         Paint.FontMetricsInt fmi = mTextPaint.getFontMetricsInt();
         float baseline = (float) (mItemDesireHeight / 2.0 - (fmi.bottom / 2.0 + fmi.top / 2.0));
-        for (int i = 0; i < mVisibleCount; i++) {
-            canvas.drawText(String.valueOf(mCurrentIndex + i), width / 2, baseline + mItemDesireHeight * i - mMove, mTextPaint);
+        canvas.drawText(String.valueOf(mCurrentIndex), width / 2, baseline + mItemDesireHeight * (mVisibleCount / 2) - mMove, mTextPaint);
+
+        // 绘制上方data
+        for (int i = 1; (mVisibleCount / 2 - i) >= 0; i++) {
+            drawOtherText(canvas, width, scale, i, -1);
+        }
+        // 绘制下方data
+        for (int i = 1; (mVisibleCount / 2 + i) < mVisibleCount; i++) {
+            drawOtherText(canvas, width, scale, i, 1);
         }
         canvas.restore();
+
+    }
+
+    /**
+     * @param canvas
+     * @param position 距离mCurrentSelected的差值
+     * @param type     1表示向下绘制，-1表示向上绘制
+     */
+    private void drawOtherText(Canvas canvas, int width, float middleScale, int position, int type) {
+        float scale = 1 - middleScale;
+        float size = (mSelectedTextSize - mUnselectedTextSize) * scale + mUnselectedTextSize;
+        final int color = interpolateColor(mUnselectedTextColor, mSelectedTextColor, scale);
+        if (mMove > 0 && type == 1 && position == 1) {
+            mTextPaint.setColor(color);
+            mTextPaint.setTextSize(size);
+        } else if (mMove < 0 && type == -1 && position == 1) {
+            mTextPaint.setColor(color);
+            mTextPaint.setTextSize(size);
+        } else {
+            mTextPaint.setColor(mUnselectedTextColor);
+            mTextPaint.setTextSize(mUnselectedTextSize);
+        }
+
+        Paint.FontMetricsInt fmi = mTextPaint.getFontMetricsInt();
+        float baseline = (float) (mItemDesireHeight / 2.0 - (fmi.bottom / 2.0 + fmi.top / 2.0));
+        if (type == -1) {
+            canvas.drawText(String.valueOf(mCurrentIndex - position), width / 2, baseline + mItemDesireHeight * (mVisibleCount / 2 - position) - mMove, mTextPaint);
+        } else {
+            canvas.drawText(String.valueOf(mCurrentIndex + position), width / 2, baseline + mItemDesireHeight * (mVisibleCount / 2 + position) - mMove, mTextPaint);
+        }
     }
 
     /**
@@ -332,9 +366,7 @@ public class SmartPickerView extends View {
     }
 
     private void changeMoveAndValue() {
-        int moveCount = mMove / mItemDesireHeight;
-        Log.i(TAG, "changeMoveAndValue: moveCount = " + moveCount);
-        Log.i(TAG, "changeMoveAndValue: mCurrentIndex = " + mCurrentIndex);
+        int moveCount = (int) (mMove / mItemDesireHeight);
         if (Math.abs(moveCount) > 0) {
             mCurrentIndex += moveCount;
             mMove -= moveCount * mItemDesireHeight;
@@ -349,7 +381,11 @@ public class SmartPickerView extends View {
     }
 
     private void countMoveEnd() {
+
         int roundMove = Math.round(mMove / mItemDesireHeight);
+        Log.i(TAG, "countMoveEnd: mItemDesireHeight = " + mItemDesireHeight);
+        Log.i(TAG, "countMoveEnd: mMove = " + mMove);
+        Log.i(TAG, "countMoveEnd: roundMove = " + roundMove);
         mCurrentIndex = mCurrentIndex + roundMove;
         mCurrentIndex = mCurrentIndex <= 0 ? 0 : mCurrentIndex;
         mCurrentIndex = mCurrentIndex > MAX_VALUE ? MAX_VALUE : mCurrentIndex;
@@ -416,11 +452,12 @@ public class SmartPickerView extends View {
      * 获取未选中的Text的颜色
      */
     protected int getDefaultUnselectedTextColor() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            return getResources().getColor(R.color.text_grey_light_normal, getContext().getTheme());
-        } else {
-            return getResources().getColor(R.color.text_grey_light_normal);
-        }
+        return Color.GRAY;
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            return getResources().getColor(R.color.text_grey_light_normal, getContext().getTheme());
+//        } else {
+//            return getResources().getColor(R.color.text_grey_light_normal);
+//        }
     }
 
 
@@ -428,17 +465,43 @@ public class SmartPickerView extends View {
      * 获取未选中的Text的颜色
      */
     protected int getDefaultSelectedTextColor() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            return getResources().getColor(R.color.text_grey_dark_normal, getContext().getTheme());
-        } else {
-            return getResources().getColor(R.color.text_grey_dark_normal);
-        }
+        return DefaultColors.ORANGE;
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            return getResources().getColor(R.color.green_800, getContext().getTheme());
+//        } else {
+//            return getResources().getColor(R.color.green_800);
+//        }
     }
 
     /**
      * 获取未选中的Text的颜色
      */
     protected int getDefaultTextSize() {
-        return getResources().getDimensionPixelSize(R.dimen.G_title);
+        return getResources().getDimensionPixelSize(R.dimen.A_title);
+    }
+
+    /**
+     * @param colorA 原始颜色
+     * @param colorB 目标颜色
+     * @param bias   转变比例
+     * @return
+     */
+    private int interpolateColor(int colorA, int colorB, float bias) {
+        float[] hsvColorA = new float[3];
+        Color.colorToHSV(colorA, hsvColorA);
+        float[] hsvColorB = new float[3];
+        Color.colorToHSV(colorB, hsvColorB);
+        hsvColorB[0] = interpolate(hsvColorA[0], hsvColorB[0], bias);
+        hsvColorB[1] = interpolate(hsvColorA[1], hsvColorB[1], bias);
+        hsvColorB[2] = interpolate(hsvColorA[2], hsvColorB[2], bias);
+        // NOTE For some reason the method HSVToColor fail in edit mode. Just use the start color for now
+        if (isInEditMode()) {
+            return colorA;
+        }
+        return Color.HSVToColor(hsvColorB);
+    }
+
+    private float interpolate(float a, float b, float bias) {
+        return (a + ((b - a) * bias));
     }
 }
