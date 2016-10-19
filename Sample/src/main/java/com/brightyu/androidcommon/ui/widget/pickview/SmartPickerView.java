@@ -55,18 +55,12 @@ public class SmartPickerView extends View {
      */
     private static final float UNSELECTED_TEXT_SIZE_RATIO = 0.75f;
 
-
-    // 最大值
-    private static final int MAX_VALUE = 480;
-    // 默认值
-    private static final int DEFAULT_CURRENT_INDEX = 30;
-
-
     private int mAdjustPosition;
-    private int mCurrentIndex = DEFAULT_CURRENT_INDEX;
+    private int mCurrentPosition = 0;
 
     private int mLastY;
-    private int mTestY;
+    private int mLastScrollerY;
+
     private int mMinVelocity;
     private float mMove;
 
@@ -76,19 +70,21 @@ public class SmartPickerView extends View {
 
     private OnValueChangeListener mListener;
 
+    private int mVisibleCount;
+
     private int mDividerColor;
     private int mSelectedTextColor;
     private int mUnselectedTextColor;
 
-    private float mSelectedTextSize;//选项的文字大小
-    private float mUnselectedTextSize;//没有选中的文字大小
-
     /**
      * 一个Item想要的宽度和高度
      */
-    private int mItemDesireWidth;
-    private int mItemDesireHeight;
+    private int mItemWidth;
+    private int mItemHeight;
     private int mGap;
+
+    private float mSelectedTextSize;//选项的文字大小
+    private float mUnselectedTextSize;//没有选中的文字大小
 
 
     // 第一条线Y坐标值
@@ -96,10 +92,11 @@ public class SmartPickerView extends View {
     //第二条线Y坐标
     private float mSecondLineY;
 
-    private int mVisibleCount = 5;
+
     private Context mContext;
 
     private TextPaint mTextPaint;
+    private TextPaint mUnitPaint;
     private Paint mDividerPaint;
 
     private boolean isCyclic;
@@ -129,22 +126,20 @@ public class SmartPickerView extends View {
         a.recycle();
 
         init(context);
-        mItemDesireWidth = mItemDesireHeight = 120;
     }
 
 
     private void init(Context context) {
 
-        mFlingScroller = new Scroller(getContext());
-        mAdjustScroller = new Scroller(getContext());
+        isCyclic = true;
+        mContext = context;
+        mFlingScroller = new Scroller(context);
+        mAdjustScroller = new Scroller(context);
 
         mMinVelocity = ViewConfiguration.get(context).getScaledMinimumFlingVelocity();
-
-        mContext = context;
         mGap = context.getResources().getDimensionPixelSize(R.dimen.gap_grade_2);
-        mFlingScroller = new Scroller(context);
-        isCyclic = true;
         initPaints();
+
         forecast();
     }
 
@@ -170,10 +165,10 @@ public class SmartPickerView extends View {
 
             mTextPaint.getTextBounds(centerString, 0, centerString.length(), rect);
 
-            mItemDesireWidth = Math.max(mItemDesireWidth, rect.width());
-            mItemDesireHeight = Math.max(mItemDesireHeight, rect.height());
+            mItemWidth = Math.max(mItemWidth, rect.width());
+            mItemHeight = Math.max(mItemHeight, rect.height());
         }
-        mItemDesireHeight = (int) (LINE_SPACING_MULTIPLIER * mItemDesireHeight);
+        mItemHeight = (int) (LINE_SPACING_MULTIPLIER * mItemHeight);
     }
 
 
@@ -181,6 +176,11 @@ public class SmartPickerView extends View {
         mTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
         mTextPaint.setTextSize(mSelectedTextSize);
         mTextPaint.setTextAlign(Paint.Align.CENTER);
+
+        mUnitPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        mUnitPaint.setTextSize(mSelectedTextSize);
+        mUnitPaint.setColor(mSelectedTextColor);
+        mUnitPaint.setTextAlign(Paint.Align.CENTER);
 
         mDividerPaint = new Paint();
         mDividerPaint.setColor(mDividerColor);
@@ -192,7 +192,9 @@ public class SmartPickerView extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        setMeasuredDimension(measureWidth(widthMeasureSpec), measureHeight(heightMeasureSpec));
+        final int width = measureWidth(widthMeasureSpec);
+        final int height = measureHeight(heightMeasureSpec);
+        setMeasuredDimension(width, height);
     }
 
     @Override
@@ -201,8 +203,8 @@ public class SmartPickerView extends View {
         int height = getMeasuredHeight();
 
         //计算两条横线和控件中间点的Y位置
-        mFirstLineY = (height - mItemDesireHeight) / 2;
-        mSecondLineY = (height + mItemDesireHeight) / 2;
+        mFirstLineY = (height - mItemHeight) / 2;
+        mSecondLineY = (height + mItemHeight) / 2;
     }
 
 
@@ -222,11 +224,11 @@ public class SmartPickerView extends View {
 
         switch (mode) {
             case MeasureSpec.UNSPECIFIED:
-                return mItemDesireWidth;
+                return mItemWidth;
             case MeasureSpec.EXACTLY:
                 return size;
             case MeasureSpec.AT_MOST:
-                return Math.min(size, mItemDesireWidth);
+                return Math.min(size, mItemWidth);
         }
 
         return size;
@@ -239,11 +241,11 @@ public class SmartPickerView extends View {
 
         switch (mode) {
             case MeasureSpec.UNSPECIFIED:
-                return (mVisibleCount * mItemDesireHeight);
+                return (mVisibleCount * mItemHeight);
             case MeasureSpec.EXACTLY:
                 return size;
             case MeasureSpec.AT_MOST:
-                return Math.min(mVisibleCount * mItemDesireHeight, size);
+                return Math.min(mVisibleCount * mItemHeight, size);
         }
 
         return size;
@@ -262,7 +264,7 @@ public class SmartPickerView extends View {
         /**
          * 画中间的
          */
-        final float scale = parabola(mItemDesireHeight, mMove);
+        final float scale = parabola(mItemHeight, mMove);
         final float textSize = (mSelectedTextSize - mUnselectedTextSize) * scale + mUnselectedTextSize;
         final int color = interpolateColor(mUnselectedTextColor, mSelectedTextColor, scale);
         mTextPaint.setColor(color);
@@ -270,14 +272,16 @@ public class SmartPickerView extends View {
         canvas.save();
 
         Paint.FontMetricsInt fmi = mTextPaint.getFontMetricsInt();
-        float baseline = (float) (mItemDesireHeight / 2.0 - (fmi.bottom / 2.0 + fmi.top / 2.0));
-        canvas.drawText(String.valueOf(mCurrentIndex), width / 2, baseline + mItemDesireHeight * (mVisibleCount / 2) - mMove, mTextPaint);
+        float baseline = (float) (mItemHeight / 2.0 - (fmi.bottom / 2.0 + fmi.top / 2.0));
+        canvas.drawText(getItemText(mCurrentPosition), width / 2, baseline + mItemHeight * (mVisibleCount / 2) - mMove, mTextPaint);
 
         // 绘制上方data
-        for (int i = 1; (mVisibleCount / 2 - i) >= 0; i++) {
+        // 这里因为要滚动所以要比可见的多画一个 所以要 >= -1
+        for (int i = 1; (mVisibleCount / 2 - i) >= -1; i++) {
             drawOtherText(canvas, width, scale, i, -1);
         }
         // 绘制下方data
+        // 这里因为要滚动所以要比可见的多画一个 所以要 <= mVisibleCount
         for (int i = 1; (mVisibleCount / 2 + i) < mVisibleCount; i++) {
             drawOtherText(canvas, width, scale, i, 1);
         }
@@ -306,24 +310,15 @@ public class SmartPickerView extends View {
         }
 
         Paint.FontMetricsInt fmi = mTextPaint.getFontMetricsInt();
-        float baseline = (float) (mItemDesireHeight / 2.0 - (fmi.bottom / 2.0 + fmi.top / 2.0));
+        float baseline = (float) (mItemHeight / 2.0 - (fmi.bottom / 2.0 + fmi.top / 2.0));
+        String text;
         if (type == -1) {
-            canvas.drawText(String.valueOf(mCurrentIndex - position), width / 2, baseline + mItemDesireHeight * (mVisibleCount / 2 - position) - mMove, mTextPaint);
+            text = getItemText(mCurrentPosition - position);
+            canvas.drawText(text, width / 2, baseline + mItemHeight * (mVisibleCount / 2 - position) - mMove, mTextPaint);
         } else {
-            canvas.drawText(String.valueOf(mCurrentIndex + position), width / 2, baseline + mItemDesireHeight * (mVisibleCount / 2 + position) - mMove, mTextPaint);
+            text = getItemText(mCurrentPosition + position);
+            canvas.drawText(text, width / 2, baseline + mItemHeight * (mVisibleCount / 2 + position) - mMove, mTextPaint);
         }
-    }
-
-    /**
-     * 抛物线
-     *
-     * @param zero 零点坐标
-     * @param x    偏移量
-     * @return scale
-     */
-    private float parabola(float zero, float x) {
-        float f = (float) (1 - Math.pow(x / zero, 2));
-        return f < 0 ? 0 : f;
     }
 
 
@@ -373,42 +368,42 @@ public class SmartPickerView extends View {
     }
 
     private void fling(int yVelocity) {
-        mTestY = 0;
+        mLastScrollerY = 0;
         mAdjustScroller.forceFinished(true);
         mFlingScroller.fling(0, 0, 0, yVelocity, 0, 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
 
     private void calibration() {
-        mTestY = 0;
+        mLastScrollerY = 0;
         mFlingScroller.forceFinished(true);
-        Log.i(TAG, "calibration: mMove = " + mMove);
-        Log.i(TAG, "calibration: mItemDesireHeight = " + mItemDesireHeight);
+
         if (mMove < 0) {
-            if (Math.abs(mMove) > mItemDesireHeight / 2) {
+            if (Math.abs(mMove) > mItemHeight / 2) {
                 mAdjustPosition = -1;
-                mAdjustScroller.startScroll(0, 0, 0, (int) (mItemDesireHeight + mMove));
+                mAdjustScroller.startScroll(0, 0, 0, (int) (mItemHeight + mMove));
             } else {
                 mAdjustPosition = 0;
                 mAdjustScroller.startScroll(0, 0, 0, (int) mMove);
             }
         } else {
-            if (Math.abs(mMove) > mItemDesireHeight / 2) {
+            if (Math.abs(mMove) > mItemHeight / 2) {
                 mAdjustPosition = 1;
-                mAdjustScroller.startScroll(0, 0, 0, (int) (mMove - mItemDesireHeight));
+                mAdjustScroller.startScroll(0, 0, 0, (int) (mMove - mItemHeight));
             } else {
                 mAdjustPosition = 0;
                 mAdjustScroller.startScroll(0, 0, 0, (int) mMove);
             }
         }
 
+
         invalidate();
     }
 
     private void changeMoveAndValue() {
-        int moveCount = (int) (mMove / mItemDesireHeight);
+        int moveCount = (int) (mMove / mItemHeight);
         if (Math.abs(moveCount) > 0) {
-            mCurrentIndex += moveCount;
-            mMove -= moveCount * mItemDesireHeight;
+            mCurrentPosition += moveCount;
+            mMove -= moveCount * mItemHeight;
 
             notifyValueChange();
         }
@@ -430,9 +425,9 @@ public class SmartPickerView extends View {
             calibration();
         } else {
             int position = mFlingScroller.getCurrY();
-            mMove += (mTestY - position);
+            mMove += (mLastScrollerY - position);
             changeMoveAndValue();
-            mTestY = position;
+            mLastScrollerY = position;
         }
     }
 
@@ -441,22 +436,27 @@ public class SmartPickerView extends View {
             return;
         }
         if (mAdjustScroller.getCurrY() == mAdjustScroller.getFinalY()) {
-            mCurrentIndex = mCurrentIndex + mAdjustPosition;
+            mCurrentPosition = mCurrentPosition + mAdjustPosition;
+            mLastScrollerY = 0;
             mLastY = 0;
             mMove = 0;
         } else {
             int position = mAdjustScroller.getCurrY();
-            mMove += (mTestY - position);
-            //changeMoveAndValue();
-            mTestY = position;
+            mMove += (mLastScrollerY - position);
+            mLastScrollerY = position;
             invalidate();
         }
     }
 
+    public void setAdapter(PickerAdapter adapter) {
+        mAdapter = adapter;
+        forecast();
+        requestLayout();
+    }
 
     private void notifyValueChange() {
         if (null != mListener) {
-            mListener.onValueChange(mCurrentIndex);
+            mListener.onValueChange(mCurrentPosition);
         }
     }
 
@@ -473,6 +473,38 @@ public class SmartPickerView extends View {
 
     }
 
+    /**
+     * 通过Item来显示第几个
+     */
+    private String getItemText(int positon) {
+        if (mAdapter == null) {
+            Log.i(TAG, "getItemText: mAdapter is null");
+            return null;
+        }
+
+        if (isCyclic) {
+            if (positon < 0) {
+                //拙劣。。。。。
+                positon = positon + 10 * mAdapter.getCount();
+            }
+            return mAdapter.getItemText(positon % mAdapter.getCount());
+        } else {
+            return mAdapter.getItemText(positon);
+        }
+    }
+
+
+    /**
+     * 抛物线
+     *
+     * @param zero 零点坐标
+     * @param x    偏移量
+     * @return scale
+     */
+    private float parabola(float zero, float x) {
+        float f = (float) (1 - Math.pow(x / zero, 2));
+        return f < 0 ? 0 : f;
+    }
 
     /***
      * ============= 默认值区域 ================

@@ -18,6 +18,7 @@ package com.brightyu.androidcommon.modules.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.bright.common.app.BaseActivity;
@@ -25,16 +26,42 @@ import com.bright.common.widget.TopBar;
 import com.bright.common.widget.YToast;
 import com.brightyu.androidcommon.R;
 import com.brightyu.androidcommon.modules.sample.SampleMainActivity;
+import com.brightyu.androidcommon.ui.widget.pickview.SmartPickerView;
+import com.brightyu.androidcommon.ui.widget.pickview.adapter.PickerAdapter;
 
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
 
     private long mLastTime;
+    final String test[] = {"山东", "北京", "青岛", "苏州", "上海"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        final SmartPickerView picker = (SmartPickerView) findViewById(R.id.test);
+        picker.setAdapter(new PickerAdapter() {
+            @Override
+            public int getCount() {
+                return test.length;
+            }
+
+            @Override
+            public Object getItem(int position) {
+                return position;
+            }
+
+            @Override
+            public int indexOf(Object item) {
+                return 0;
+            }
+
+            @Override
+            public String getItemText(int position) {
+                return test[position];
+            }
+        });
     }
 
     @Override
