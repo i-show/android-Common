@@ -62,13 +62,16 @@ public class SmartPickerView extends View {
     private static final int DEFAULT_CURRENT_INDEX = 30;
 
 
+    private int mAdjustPosition;
     private int mCurrentIndex = DEFAULT_CURRENT_INDEX;
 
     private int mLastY;
+    private int mTestY;
     private int mMinVelocity;
     private float mMove;
 
-    private Scroller mScroller;
+    private Scroller mFlingScroller;
+    private Scroller mAdjustScroller;
     private VelocityTracker mVelocityTracker;
 
     private OnValueChangeListener mListener;
@@ -97,8 +100,6 @@ public class SmartPickerView extends View {
     private Context mContext;
 
     private TextPaint mTextPaint;
-    private Paint mUnselectedTextPaint;
-    private Paint mSelectedTextPaint;
     private Paint mDividerPaint;
 
     private boolean isCyclic;
@@ -134,12 +135,14 @@ public class SmartPickerView extends View {
 
     private void init(Context context) {
 
-        mScroller = new Scroller(getContext());
+        mFlingScroller = new Scroller(getContext());
+        mAdjustScroller = new Scroller(getContext());
+
         mMinVelocity = ViewConfiguration.get(context).getScaledMinimumFlingVelocity();
 
         mContext = context;
         mGap = context.getResources().getDimensionPixelSize(R.dimen.gap_grade_2);
-        mScroller = new Scroller(context);
+        mFlingScroller = new Scroller(context);
         isCyclic = true;
         initPaints();
         forecast();
@@ -165,7 +168,7 @@ public class SmartPickerView extends View {
                 centerString = StringUtils.plusString(mAdapter.getItemText(i), " ", mUnit);
             }
 
-            mSelectedTextPaint.getTextBounds(centerString, 0, centerString.length(), rect);
+            mTextPaint.getTextBounds(centerString, 0, centerString.length(), rect);
 
             mItemDesireWidth = Math.max(mItemDesireWidth, rect.width());
             mItemDesireHeight = Math.max(mItemDesireHeight, rect.height());
@@ -336,7 +339,8 @@ public class SmartPickerView extends View {
 
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-                mScroller.forceFinished(true);
+                mFlingScroller.forceFinished(true);
+                mAdjustScroller.forceFinished(true);
                 mLastY = y;
                 mMove = 0;
                 break;
@@ -346,7 +350,6 @@ public class SmartPickerView extends View {
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                countMoveEnd();
                 countVelocityTracker();
                 return false;
             default:
@@ -357,12 +360,48 @@ public class SmartPickerView extends View {
         return true;
     }
 
+
     private void countVelocityTracker() {
+
         mVelocityTracker.computeCurrentVelocity(1000);
-        float yVelocity = mVelocityTracker.getYVelocity();
+        int yVelocity = (int) mVelocityTracker.getYVelocity();
         if (Math.abs(yVelocity) > mMinVelocity) {
-            mScroller.fling(0, 0, 0, (int) yVelocity, 0, 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
+            fling(yVelocity);
+        } else {
+            calibration();
         }
+    }
+
+    private void fling(int yVelocity) {
+        mTestY = 0;
+        mAdjustScroller.forceFinished(true);
+        mFlingScroller.fling(0, 0, 0, yVelocity, 0, 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+
+    private void calibration() {
+        mTestY = 0;
+        mFlingScroller.forceFinished(true);
+        Log.i(TAG, "calibration: mMove = " + mMove);
+        Log.i(TAG, "calibration: mItemDesireHeight = " + mItemDesireHeight);
+        if (mMove < 0) {
+            if (Math.abs(mMove) > mItemDesireHeight / 2) {
+                mAdjustPosition = -1;
+                mAdjustScroller.startScroll(0, 0, 0, (int) (mItemDesireHeight + mMove));
+            } else {
+                mAdjustPosition = 0;
+                mAdjustScroller.startScroll(0, 0, 0, (int) mMove);
+            }
+        } else {
+            if (Math.abs(mMove) > mItemDesireHeight / 2) {
+                mAdjustPosition = 1;
+                mAdjustScroller.startScroll(0, 0, 0, (int) (mMove - mItemDesireHeight));
+            } else {
+                mAdjustPosition = 0;
+                mAdjustScroller.startScroll(0, 0, 0, (int) mMove);
+            }
+        }
+
+        invalidate();
     }
 
     private void changeMoveAndValue() {
@@ -370,48 +409,50 @@ public class SmartPickerView extends View {
         if (Math.abs(moveCount) > 0) {
             mCurrentIndex += moveCount;
             mMove -= moveCount * mItemDesireHeight;
-            if (mCurrentIndex <= 0 || mCurrentIndex > MAX_VALUE) {
-                mCurrentIndex = mCurrentIndex <= 0 ? 0 : MAX_VALUE;
-                mMove = 0;
-                mScroller.forceFinished(true);
-            }
+
             notifyValueChange();
         }
-        postInvalidate();
-    }
-
-    private void countMoveEnd() {
-
-        int roundMove = Math.round(mMove / mItemDesireHeight);
-        Log.i(TAG, "countMoveEnd: mItemDesireHeight = " + mItemDesireHeight);
-        Log.i(TAG, "countMoveEnd: mMove = " + mMove);
-        Log.i(TAG, "countMoveEnd: roundMove = " + roundMove);
-        mCurrentIndex = mCurrentIndex + roundMove;
-        mCurrentIndex = mCurrentIndex <= 0 ? 0 : mCurrentIndex;
-        mCurrentIndex = mCurrentIndex > MAX_VALUE ? MAX_VALUE : mCurrentIndex;
-
-        mLastY = 0;
-        mMove = 0;
-
-        notifyValueChange();
         postInvalidate();
     }
 
 
     @Override
     public void computeScroll() {
-        super.computeScroll();
-        if (mScroller.computeScrollOffset()) {
-            if (mScroller.getCurrY() == mScroller.getFinalY()) { // over
-                countMoveEnd();
-            } else {
-                int position = mScroller.getCurrY();
-                mMove += (mLastY - position);
-                changeMoveAndValue();
-                mLastY = position;
-            }
+        computeFlingScroll();
+        computeAdjustScroll();
+    }
+
+    private void computeFlingScroll() {
+        if (!mFlingScroller.computeScrollOffset()) {
+            return;
+        }
+        if (mFlingScroller.getCurrY() == mFlingScroller.getFinalY()) {
+            calibration();
+        } else {
+            int position = mFlingScroller.getCurrY();
+            mMove += (mTestY - position);
+            changeMoveAndValue();
+            mTestY = position;
         }
     }
+
+    private void computeAdjustScroll() {
+        if (!mAdjustScroller.computeScrollOffset()) {
+            return;
+        }
+        if (mAdjustScroller.getCurrY() == mAdjustScroller.getFinalY()) {
+            mCurrentIndex = mCurrentIndex + mAdjustPosition;
+            mLastY = 0;
+            mMove = 0;
+        } else {
+            int position = mAdjustScroller.getCurrY();
+            mMove += (mTestY - position);
+            //changeMoveAndValue();
+            mTestY = position;
+            invalidate();
+        }
+    }
+
 
     private void notifyValueChange() {
         if (null != mListener) {
@@ -429,6 +470,7 @@ public class SmartPickerView extends View {
 
     public interface OnValueChangeListener {
         void onValueChange(int value);
+
     }
 
 
