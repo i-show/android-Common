@@ -14,10 +14,7 @@ public interface PickerAdapter<T> {
     T getItem(int position);
 
     /**
-     * Gets maximum item length. It is used to determine the wheel width.
-     * If -1 is returned there will be used the default wheel width.
+     * Gets show data
      */
-    int indexOf(T item);
-
     String getItemText(int position);
 }
