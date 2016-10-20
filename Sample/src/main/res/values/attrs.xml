@@ -4,6 +4,7 @@
     <attr name="normalColor" format="color" />
     <attr name="focusColor" format="color" />
 
+
     <declare-styleable name="InputEdit">
         <attr name="tip" />
         <attr name="hint" />
@@ -12,13 +13,5 @@
         <attr name="android:inputType" />
     </declare-styleable>
 
-    <declare-styleable name="PickerView">
-        <attr name="android:gravity" />
-       
-        <attr name="textSize" />
-        <attr name="selectedTextColor" />
-        <attr name="unselectedTextColor" />
-        <attr name="divider" />
-        <attr name="visiableCount" />
-    </declare-styleable>
+
 </resources>

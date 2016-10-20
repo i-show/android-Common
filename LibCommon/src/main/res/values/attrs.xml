@@ -54,6 +54,9 @@
 
     <attr name="hint" format="string" />
 
+    <attr name="unit" format="string" />
+    <attr name="unitTextSize" format="dimension" />
+
     <attr name="text" format="string" />
     <attr name="textSize" format="dimension" />
     <attr name="textColor" format="color" />
@@ -267,7 +270,7 @@
 
     <attr name="scale_x" format="integer" />
     <attr name="scale_y" format="integer" />
-    
+
     <attr name="visiableCount" format="integer" />
 
     <declare-styleable name="ImageTextView">
@@ -496,6 +499,16 @@
 
         <attr name="widthPaddingScale" />
         <attr name="heightPaddingScale" />
+    </declare-styleable>
+
+    <declare-styleable name="PickerView">
+        <attr name="unit" />
+        <attr name="unitTextSize" />
+        <attr name="textSize" />
+        <attr name="selectedTextColor" />
+        <attr name="unselectedTextColor" />
+        <attr name="divider" />
+        <attr name="visiableCount" />
     </declare-styleable>
 
 </resources>

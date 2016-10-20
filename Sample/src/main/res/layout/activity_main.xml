@@ -18,7 +18,7 @@
         app:text="@string/home" />
 
 
-    <com.brightyu.androidcommon.ui.widget.pickview.PickerView
+    <com.bright.common.widget.pickview.PickerView
         android:id="@+id/test"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

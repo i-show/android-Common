@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.brightyu.androidcommon.ui.widget.pickview;
+package com.bright.common.widget.pickview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -23,6 +23,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Build;
+import android.text.Layout;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -33,9 +34,10 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.Scroller;
 
-import com.bright.common.utils.StringUtils;
-import com.brightyu.androidcommon.R;
-import com.brightyu.androidcommon.ui.widget.pickview.adapter.PickerAdapter;
+import com.bright.common.R;
+import com.bright.common.widget.pickview.adapter.PickerAdapter;
+import com.bright.common.widget.pickview.constant.Direction;
+import com.bright.common.widget.pickview.listener.OnItemSelectedListener;
 
 
 public class PickerView extends View {
@@ -48,26 +50,21 @@ public class PickerView extends View {
     /**
      * ITEM间距倍数
      */
-    private static final float LINE_SPACING_MULTIPLIER = 2.0f;
+    private static final float LINE_SPACING_MULTIPLIER = 1.8f;
     /**
      * 未选中TextSize大小比例
      */
-    private static final float UNSELECTED_TEXT_SIZE_RATIO = 0.80f;
+    private static final float UNSELECTED_TEXT_SIZE_RATIO = 0.8f;
 
+    /**
+     * 校准数据时应该增加或者减少的Position
+     */
     private int mAdjustPosition;
     private int mCurrentPosition = 0;
 
     private int mLastY;
     private int mLastScrollerY;
-
     private int mMinVelocity;
-    private float mMove;
-
-    private Scroller mFlingScroller;
-    private Scroller mAdjustScroller;
-    private VelocityTracker mVelocityTracker;
-
-    private OnValueChangeListener mListener;
 
     private int mVisibleCount;
 
@@ -80,19 +77,21 @@ public class PickerView extends View {
      */
     private int mItemWidth;
     private int mItemHeight;
-    private int mGap;
+    private int mUnitWidth;
 
-    private float mSelectedTextSize;//选项的文字大小
-    private float mUnselectedTextSize;//没有选中的文字大小
+    private int mDrawItemX;
 
+    private float mUnitTextSize;
+    private float mSelectedTextSize;
+    private float mUnselectedTextSize;
 
     // 第一条线Y坐标值
     private float mFirstLineY;
     //第二条线Y坐标
     private float mSecondLineY;
-
-
-    private Context mContext;
+    // 移动的距离， 注意：这里不是总的移动距离
+    private float mMove;
+    private String mUnit;//附加单位
 
     private TextPaint mTextPaint;
     private TextPaint mUnitPaint;
@@ -100,7 +99,12 @@ public class PickerView extends View {
 
     private boolean isCyclic;
     private PickerAdapter mAdapter;
-    private String mUnit;//附加单位
+    private Scroller mFlingScroller;
+    private Scroller mAdjustScroller;
+    private VelocityTracker mVelocityTracker;
+
+    private OnItemSelectedListener mListener;
+
 
     public PickerView(Context context) {
         this(context, null);
@@ -113,12 +117,14 @@ public class PickerView extends View {
     public PickerView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.PickerView);
+        mUnit = a.getString(R.styleable.PickerView_unit);
         mDividerColor = a.getColor(R.styleable.PickerView_divider, getDefaultDividerColor());
 
         mSelectedTextColor = a.getColor(R.styleable.PickerView_selectedTextColor, getDefaultSelectedTextColor());
         mUnselectedTextColor = a.getColor(R.styleable.PickerView_unselectedTextColor, getDefaultUnselectedTextColor());
 
         mSelectedTextSize = a.getDimensionPixelOffset(R.styleable.PickerView_textSize, getDefaultTextSize());
+        mUnitTextSize = a.getDimensionPixelSize(R.styleable.PickerView_unitTextSize, getDefaultTextSize());
         mUnselectedTextSize = mSelectedTextSize * UNSELECTED_TEXT_SIZE_RATIO;
 
         mVisibleCount = a.getInteger(R.styleable.PickerView_visiableCount, DEFAULT_VISIABLE_COUNT);
@@ -131,14 +137,12 @@ public class PickerView extends View {
     private void init(Context context) {
 
         isCyclic = true;
-        mContext = context;
         mFlingScroller = new Scroller(context);
         mAdjustScroller = new Scroller(context);
 
         mMinVelocity = ViewConfiguration.get(context).getScaledMinimumFlingVelocity();
-        mGap = context.getResources().getDimensionPixelSize(R.dimen.gap_grade_2);
-        initPaints();
 
+        initPaints();
         forecast();
     }
 
@@ -155,19 +159,18 @@ public class PickerView extends View {
 
         Rect rect = new Rect();
         for (int i = 0; i < mAdapter.getCount(); i++) {
-            String centerString;
-            if (TextUtils.isEmpty(mUnit)) {
-                centerString = mAdapter.getItemText(i);
-            } else {
-                centerString = StringUtils.plusString(mAdapter.getItemText(i), " ", mUnit);
-            }
-
+            String centerString = mAdapter.getItemText(i);
             mTextPaint.getTextBounds(centerString, 0, centerString.length(), rect);
 
             mItemWidth = Math.max(mItemWidth, rect.width());
             mItemHeight = Math.max(mItemHeight, rect.height());
         }
         mItemHeight = (int) (LINE_SPACING_MULTIPLIER * mItemHeight);
+
+        if (!TextUtils.isEmpty(mUnit)) {
+            int gap = getContext().getResources().getDimensionPixelSize(R.dimen.dp_6);
+            mUnitWidth = (int) Layout.getDesiredWidth(mUnit, mUnitPaint) + gap;
+        }
     }
 
 
@@ -177,7 +180,7 @@ public class PickerView extends View {
         mTextPaint.setTextAlign(Paint.Align.CENTER);
 
         mUnitPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-        mUnitPaint.setTextSize(mSelectedTextSize);
+        mUnitPaint.setTextSize(mUnitTextSize);
         mUnitPaint.setColor(mSelectedTextColor);
         mUnitPaint.setTextAlign(Paint.Align.CENTER);
 
@@ -196,38 +199,17 @@ public class PickerView extends View {
         setMeasuredDimension(width, height);
     }
 
-    @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        super.onLayout(changed, left, top, right, bottom);
-        int height = getMeasuredHeight();
-
-        //计算两条横线和控件中间点的Y位置
-        mFirstLineY = (height - mItemHeight) / 2;
-        mSecondLineY = (height + mItemHeight) / 2;
-    }
-
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        final int width = getMeasuredWidth();
-        final int height = getMeasuredHeight();
-        drawLine(canvas, width);
-        drawText(canvas, width, height);
-    }
-
-
     private int measureWidth(int widthMeasureSpec) {
         final int mode = MeasureSpec.getMode(widthMeasureSpec);
         final int size = MeasureSpec.getSize(widthMeasureSpec);
 
         switch (mode) {
             case MeasureSpec.UNSPECIFIED:
-                return mItemWidth;
+                return mItemWidth + mUnitWidth;
             case MeasureSpec.EXACTLY:
                 return size;
             case MeasureSpec.AT_MOST:
-                return Math.min(size, mItemWidth);
+                return Math.min(size, (mItemWidth + mUnitWidth));
         }
 
         return size;
@@ -250,6 +232,28 @@ public class PickerView extends View {
         return size;
     }
 
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        int height = getMeasuredHeight();
+
+        //计算两条横线和控件中间点的Y位置
+        mFirstLineY = (height - mItemHeight) / 2;
+        mSecondLineY = (height + mItemHeight) / 2;
+    }
+
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        final int width = getMeasuredWidth();
+        final int height = getMeasuredHeight();
+        mDrawItemX = (width - mUnitWidth) / 2;
+        drawLine(canvas, width);
+        drawText(canvas, width, height);
+        drawUnit(canvas, width);
+    }
+
 
     private void drawLine(Canvas canvas, int viewWidth) {
         canvas.drawLine(0, mFirstLineY, viewWidth, mFirstLineY, mDividerPaint);
@@ -266,41 +270,42 @@ public class PickerView extends View {
         final float scale = parabola(mItemHeight, mMove);
         final float textSize = (mSelectedTextSize - mUnselectedTextSize) * scale + mUnselectedTextSize;
         final int color = interpolateColor(mUnselectedTextColor, mSelectedTextColor, scale);
+        final String text = getItemText(mCurrentPosition);
+
         mTextPaint.setColor(color);
         mTextPaint.setTextSize(textSize);
-        canvas.save();
 
+        canvas.save();
         Paint.FontMetricsInt fmi = mTextPaint.getFontMetricsInt();
-        float baseline = (float) (mItemHeight / 2.0 - (fmi.bottom / 2.0 + fmi.top / 2.0));
-        canvas.drawText(getItemText(mCurrentPosition), width / 2, baseline + mItemHeight * (mVisibleCount / 2) - mMove, mTextPaint);
+        float baseline = (float) (mItemHeight - (fmi.bottom + fmi.top)) / 2.0f;
+        canvas.drawText(text, mDrawItemX, baseline + mItemHeight * (mVisibleCount / 2) - mMove, mTextPaint);
 
         // 绘制上方data
         // 这里因为要滚动所以要比可见的多画一个 所以要 >= -1
         for (int i = 1; (mVisibleCount / 2 - i) >= -1; i++) {
-            drawOtherText(canvas, width, scale, i, -1);
+            drawOtherText(canvas, scale, i, Direction.UP);
         }
         // 绘制下方data
         // 这里因为要滚动所以要比可见的多画一个 所以要 <= mVisibleCount
         for (int i = 1; (mVisibleCount / 2 + i) <= mVisibleCount; i++) {
-            drawOtherText(canvas, width, scale, i, 1);
+            drawOtherText(canvas, scale, i, Direction.DOWN);
         }
         canvas.restore();
 
     }
 
     /**
-     * @param canvas
-     * @param position 距离mCurrentSelected的差值
-     * @param type     1表示向下绘制，-1表示向上绘制
+     * @param position  距离mCurrentSelected的差值
+     * @param direction 1表示向下绘制，-1表示向上绘制
      */
-    private void drawOtherText(Canvas canvas, int width, float middleScale, int position, int type) {
+    private void drawOtherText(Canvas canvas, float middleScale, int position, Direction direction) {
         float scale = 1 - middleScale;
         float size = (mSelectedTextSize - mUnselectedTextSize) * scale + mUnselectedTextSize;
         final int color = interpolateColor(mUnselectedTextColor, mSelectedTextColor, scale);
-        if (mMove > 0 && type == 1 && position == 1) {
+        if (position == 1 && mMove > 0 && direction == Direction.DOWN) {
             mTextPaint.setColor(color);
             mTextPaint.setTextSize(size);
-        } else if (mMove < 0 && type == -1 && position == 1) {
+        } else if (position == 1 && mMove < 0 && direction == Direction.UP) {
             mTextPaint.setColor(color);
             mTextPaint.setTextSize(size);
         } else {
@@ -309,17 +314,29 @@ public class PickerView extends View {
         }
 
         Paint.FontMetricsInt fmi = mTextPaint.getFontMetricsInt();
-        float baseline = (float) (mItemHeight / 2.0 - (fmi.bottom / 2.0 + fmi.top / 2.0));
+        float baseline = (float) (mItemHeight - (fmi.bottom + fmi.top)) / 2.0f;
         String text;
-        if (type == -1) {
+
+        if (direction == Direction.UP) {
             text = getItemText(mCurrentPosition - position);
-            canvas.drawText(text, width / 2, baseline + mItemHeight * (mVisibleCount / 2 - position) - mMove, mTextPaint);
+            canvas.drawText(text, mDrawItemX, baseline + mItemHeight * (mVisibleCount / 2 - position) - mMove, mTextPaint);
         } else {
             text = getItemText(mCurrentPosition + position);
-            canvas.drawText(text, width / 2, baseline + mItemHeight * (mVisibleCount / 2 + position) - mMove, mTextPaint);
+            canvas.drawText(text, mDrawItemX, baseline + mItemHeight * (mVisibleCount / 2 + position) - mMove, mTextPaint);
         }
     }
 
+
+    private void drawUnit(Canvas canvas, int width) {
+        if (TextUtils.isEmpty(mUnit)) {
+            return;
+        }
+
+        Paint.FontMetricsInt fmi = mUnitPaint.getFontMetricsInt();
+        final float baseline = (float) (mItemHeight - (fmi.bottom + fmi.top)) / 2.0f;
+        final int x = mDrawItemX + mItemWidth / 2 + mUnitWidth / 2;
+        canvas.drawText(mUnit, x, baseline + mItemHeight * (mVisibleCount / 2), mUnitPaint);
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -340,7 +357,7 @@ public class PickerView extends View {
                 break;
             case MotionEvent.ACTION_MOVE:
                 mMove += (mLastY - y);
-                changeMoveAndValue();
+                compute();
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
@@ -356,7 +373,6 @@ public class PickerView extends View {
 
 
     private void countVelocityTracker() {
-
         mVelocityTracker.computeCurrentVelocity(1000);
         int yVelocity = (int) mVelocityTracker.getYVelocity();
         if (Math.abs(yVelocity) > mMinVelocity) {
@@ -372,6 +388,9 @@ public class PickerView extends View {
         mFlingScroller.fling(0, 0, 0, yVelocity, 0, 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
 
+    /**
+     * 校准
+     */
     private void calibration() {
         mLastScrollerY = 0;
         mFlingScroller.forceFinished(true);
@@ -398,17 +417,38 @@ public class PickerView extends View {
         invalidate();
     }
 
-    private void changeMoveAndValue() {
+    /**
+     * 计算
+     */
+    private void compute() {
         int moveCount = (int) (mMove / mItemHeight);
         if (Math.abs(moveCount) > 0) {
-            mCurrentPosition += moveCount;
+            // 如果 已经移动了一个Item的高度，那么positon 增加或者减少
+            // mMove 减少对应Item的高度
             mMove -= moveCount * mItemHeight;
-
+            mCurrentPosition += moveCount;
+            mCurrentPosition = computePosition(mCurrentPosition);
             notifyValueChange();
         }
         postInvalidate();
     }
 
+
+    /**
+     * 计算位置
+     */
+    private int computePosition(int positon) {
+        if (positon < 0) {
+            positon = positon % -mAdapter.getCount();
+        } else {
+            positon = positon % mAdapter.getCount();
+        }
+
+        if (positon < 0) {
+            positon = positon + mAdapter.getCount();
+        }
+        return positon;
+    }
 
     @Override
     public void computeScroll() {
@@ -425,7 +465,7 @@ public class PickerView extends View {
         } else {
             int position = mFlingScroller.getCurrY();
             mMove += (mLastScrollerY - position);
-            changeMoveAndValue();
+            compute();
             mLastScrollerY = position;
         }
     }
@@ -455,21 +495,12 @@ public class PickerView extends View {
 
     private void notifyValueChange() {
         if (null != mListener) {
-            mListener.onValueChange(mCurrentPosition);
+            mListener.onItemSelected(mCurrentPosition);
         }
     }
 
-
-    /**
-     * 设置用于接收结果的监听器
-     */
-    public void setValueChangeListener(OnValueChangeListener listener) {
+    public void setOnItemSelectedListener(OnItemSelectedListener listener) {
         mListener = listener;
-    }
-
-    public interface OnValueChangeListener {
-        void onValueChange(int value);
-
     }
 
     /**
@@ -478,14 +509,21 @@ public class PickerView extends View {
     private String getItemText(int positon) {
         if (mAdapter == null) {
             Log.i(TAG, "getItemText: mAdapter is null");
-            return null;
+            return "";
         }
 
         if (isCyclic) {
+            /**
+             * 先进行取于，如果还小于0 那么只要加一个count值即可
+             */
             if (positon < 0) {
-                positon = -(positon % -mAdapter.getCount());
+                positon = positon % -mAdapter.getCount();
             } else {
                 positon = positon % mAdapter.getCount();
+            }
+
+            if (positon < 0) {
+                positon = positon + mAdapter.getCount();
             }
             return mAdapter.getItemText(positon);
         } else {
@@ -549,7 +587,7 @@ public class PickerView extends View {
      * 获取未选中的Text的颜色
      */
     protected int getDefaultTextSize() {
-        return getResources().getDimensionPixelSize(R.dimen.C_title);
+        return getResources().getDimensionPixelSize(R.dimen.D_title);
     }
 
     /**
@@ -559,18 +597,23 @@ public class PickerView extends View {
      * @return
      */
     private int interpolateColor(int colorA, int colorB, float bias) {
-        float[] hsvColorA = new float[3];
-        Color.colorToHSV(colorA, hsvColorA);
-        float[] hsvColorB = new float[3];
-        Color.colorToHSV(colorB, hsvColorB);
-        hsvColorB[0] = interpolate(hsvColorA[0], hsvColorB[0], bias);
-        hsvColorB[1] = interpolate(hsvColorA[1], hsvColorB[1], bias);
-        hsvColorB[2] = interpolate(hsvColorA[2], hsvColorB[2], bias);
-        // NOTE For some reason the method HSVToColor fail in edit mode. Just use the start color for now
-        if (isInEditMode()) {
+        if (bias > 0.5) {
+            return colorB;
+        } else {
             return colorA;
         }
-        return Color.HSVToColor(hsvColorB);
+//        float[] hsvColorA = new float[3];
+//        Color.colorToHSV(colorA, hsvColorA);
+//        float[] hsvColorB = new float[3];
+//        Color.colorToHSV(colorB, hsvColorB);
+//        hsvColorB[0] = interpolate(hsvColorA[0], hsvColorB[0], bias);
+//        hsvColorB[1] = interpolate(hsvColorA[1], hsvColorB[1], bias);
+//        hsvColorB[2] = interpolate(hsvColorA[2], hsvColorB[2], bias);
+//        // NOTE For some reason the method HSVToColor fail in edit mode. Just use the start color for now
+//        if (isInEditMode()) {
+//            return colorA;
+//        }
+        //return Color.HSVToColor(hsvColorB);
     }
 
     private float interpolate(float a, float b, float bias) {

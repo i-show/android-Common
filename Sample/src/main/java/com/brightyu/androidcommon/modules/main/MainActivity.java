@@ -24,10 +24,10 @@ import android.view.View;
 import com.bright.common.app.BaseActivity;
 import com.bright.common.widget.TopBar;
 import com.bright.common.widget.YToast;
+import com.bright.common.widget.pickview.PickerView;
+import com.bright.common.widget.pickview.adapter.PickerAdapter;
 import com.brightyu.androidcommon.R;
 import com.brightyu.androidcommon.modules.sample.SampleMainActivity;
-import com.brightyu.androidcommon.ui.widget.pickview.PickerView;
-import com.brightyu.androidcommon.ui.widget.pickview.adapter.PickerAdapter;
 
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
@@ -39,8 +39,13 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.i(TAG, "onCreate: 1 == " + -1 % -4);
-        Log.i(TAG, "onCreate: 2 == " + -7 % -4);
+        Log.i(TAG, "onCreate: -1 == " + -1 % -4);
+        Log.i(TAG, "onCreate: -3  == " + -3 % -4);
+        Log.i(TAG, "onCreate: -4 == " + -4 % -4);
+        Log.i(TAG, "onCreate: -5 == " + -5 % -4);
+        Log.i(TAG, "onCreate: -7 == " + -7 % -4);
+
+
         Log.i(TAG, "onCreate: 11 == " + 1 % 4);
         Log.i(TAG, "onCreate: 22 == " + 7 % 4);
         final PickerView picker = (PickerView) findViewById(R.id.test);
@@ -53,11 +58,6 @@ public class MainActivity extends BaseActivity {
             @Override
             public Object getItem(int position) {
                 return position;
-            }
-
-            @Override
-            public int indexOf(Object item) {
-                return 0;
             }
 
             @Override
