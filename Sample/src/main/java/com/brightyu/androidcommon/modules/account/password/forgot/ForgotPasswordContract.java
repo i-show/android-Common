@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- * <p/>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p/>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.brightyu.androidcommon.modules.login;
+package com.brightyu.androidcommon.modules.account.password.forgot;
 
 
 import com.brightyu.androidcommon.modules.base.BasePresenter;
@@ -23,23 +23,31 @@ import com.brightyu.androidcommon.modules.base.BaseView;
 /**
  * This specifies the contract between the view and the presenter.
  */
-public interface LoginContract {
+public interface ForgotPasswordContract {
 
     interface View extends BaseView<Presenter> {
 
-        void showLoging();
+        void showRegistering();
 
-        void showLoginFail(String message);
+        void showRegisterFail(String message);
 
-        void showLoginSuccess();
+        void showRegisterSuccess();
 
-        /**
-         * password 暂时占位，预防有记住密码功能
-         */
-        void updateUI(boolean rememberPassword, String account, String password);
+        void showSendVerifySuccess();
+
+        void showSendVerifyFail(String message);
+
     }
 
     interface Presenter extends BasePresenter {
-        void login(String name, String password);
+        /**
+         * 注册动作
+         */
+        void register(String name, String verifyCode, String password, String ensurePassword);
+
+        /**
+         * 发送验证码
+         */
+        void sendVerifiyCode();
     }
 }

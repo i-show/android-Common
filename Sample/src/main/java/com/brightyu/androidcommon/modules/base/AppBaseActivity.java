@@ -6,7 +6,7 @@ import android.os.Handler;
 
 import com.bright.common.app.BaseActivity;
 import com.brightyu.androidcommon.AppApplication;
-import com.brightyu.androidcommon.modules.SplashActivity;
+import com.brightyu.androidcommon.modules.init.SplashActivity;
 
 
 /**

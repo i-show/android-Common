@@ -33,13 +33,12 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.Scroller;
 
-import com.bright.common.constant.DefaultColors;
 import com.bright.common.utils.StringUtils;
 import com.brightyu.androidcommon.R;
 import com.brightyu.androidcommon.ui.widget.pickview.adapter.PickerAdapter;
 
 
-public class SmartPickerView extends View {
+public class PickerView extends View {
     private static final String TAG = "SmartPickerView";
 
     /**
@@ -53,7 +52,7 @@ public class SmartPickerView extends View {
     /**
      * 未选中TextSize大小比例
      */
-    private static final float UNSELECTED_TEXT_SIZE_RATIO = 0.75f;
+    private static final float UNSELECTED_TEXT_SIZE_RATIO = 0.80f;
 
     private int mAdjustPosition;
     private int mCurrentPosition = 0;
@@ -103,15 +102,15 @@ public class SmartPickerView extends View {
     private PickerAdapter mAdapter;
     private String mUnit;//附加单位
 
-    public SmartPickerView(Context context) {
+    public PickerView(Context context) {
         this(context, null);
     }
 
-    public SmartPickerView(Context context, AttributeSet attrs) {
+    public PickerView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public SmartPickerView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public PickerView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.PickerView);
         mDividerColor = a.getColor(R.styleable.PickerView_divider, getDefaultDividerColor());
@@ -282,7 +281,7 @@ public class SmartPickerView extends View {
         }
         // 绘制下方data
         // 这里因为要滚动所以要比可见的多画一个 所以要 <= mVisibleCount
-        for (int i = 1; (mVisibleCount / 2 + i) < mVisibleCount; i++) {
+        for (int i = 1; (mVisibleCount / 2 + i) <= mVisibleCount; i++) {
             drawOtherText(canvas, width, scale, i, 1);
         }
         canvas.restore();
@@ -484,10 +483,11 @@ public class SmartPickerView extends View {
 
         if (isCyclic) {
             if (positon < 0) {
-                //拙劣。。。。。
-                positon = positon + 10 * mAdapter.getCount();
+                positon = -(positon % -mAdapter.getCount());
+            } else {
+                positon = positon % mAdapter.getCount();
             }
-            return mAdapter.getItemText(positon % mAdapter.getCount());
+            return mAdapter.getItemText(positon);
         } else {
             return mAdapter.getItemText(positon);
         }
@@ -526,12 +526,11 @@ public class SmartPickerView extends View {
      * 获取未选中的Text的颜色
      */
     protected int getDefaultUnselectedTextColor() {
-        return Color.GRAY;
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            return getResources().getColor(R.color.text_grey_light_normal, getContext().getTheme());
-//        } else {
-//            return getResources().getColor(R.color.text_grey_light_normal);
-//        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return getResources().getColor(R.color.text_grey_light_normal, getContext().getTheme());
+        } else {
+            return getResources().getColor(R.color.text_grey_light_normal);
+        }
     }
 
 
@@ -539,19 +538,18 @@ public class SmartPickerView extends View {
      * 获取未选中的Text的颜色
      */
     protected int getDefaultSelectedTextColor() {
-        return DefaultColors.ORANGE;
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            return getResources().getColor(R.color.green_800, getContext().getTheme());
-//        } else {
-//            return getResources().getColor(R.color.green_800);
-//        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return getResources().getColor(R.color.color_accent, getContext().getTheme());
+        } else {
+            return getResources().getColor(R.color.color_accent);
+        }
     }
 
     /**
      * 获取未选中的Text的颜色
      */
     protected int getDefaultTextSize() {
-        return getResources().getDimensionPixelSize(R.dimen.A_title);
+        return getResources().getDimensionPixelSize(R.dimen.C_title);
     }
 
     /**

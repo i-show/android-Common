@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.brightyu.androidcommon.modules.register;
+package com.brightyu.androidcommon.modules.account.register;
 
 import android.content.Context;
 import android.os.Handler;

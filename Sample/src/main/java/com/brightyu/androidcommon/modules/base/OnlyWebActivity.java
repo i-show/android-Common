@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.brightyu.androidcommon.modules;
+package com.brightyu.androidcommon.modules.base;
 
 import android.os.Bundle;
 import android.webkit.WebView;

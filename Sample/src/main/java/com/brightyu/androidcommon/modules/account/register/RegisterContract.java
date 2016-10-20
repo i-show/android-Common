@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.brightyu.androidcommon.modules.register;
+package com.brightyu.androidcommon.modules.account.register;
 
 
 import com.brightyu.androidcommon.modules.base.BasePresenter;

@@ -26,7 +26,7 @@ import com.bright.common.widget.TopBar;
 import com.bright.common.widget.YToast;
 import com.brightyu.androidcommon.R;
 import com.brightyu.androidcommon.modules.sample.SampleMainActivity;
-import com.brightyu.androidcommon.ui.widget.pickview.SmartPickerView;
+import com.brightyu.androidcommon.ui.widget.pickview.PickerView;
 import com.brightyu.androidcommon.ui.widget.pickview.adapter.PickerAdapter;
 
 public class MainActivity extends BaseActivity {
@@ -39,8 +39,11 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        final SmartPickerView picker = (SmartPickerView) findViewById(R.id.test);
+        Log.i(TAG, "onCreate: 1 == " + -1 % -4);
+        Log.i(TAG, "onCreate: 2 == " + -7 % -4);
+        Log.i(TAG, "onCreate: 11 == " + 1 % 4);
+        Log.i(TAG, "onCreate: 22 == " + 7 % 4);
+        final PickerView picker = (PickerView) findViewById(R.id.test);
         picker.setAdapter(new PickerAdapter() {
             @Override
             public int getCount() {

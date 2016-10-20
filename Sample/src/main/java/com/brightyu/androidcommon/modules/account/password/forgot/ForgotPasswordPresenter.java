@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.brightyu.androidcommon.modules.password;
+package com.brightyu.androidcommon.modules.account.password.forgot;
 
 import android.content.Context;
 import android.os.Handler;
@@ -29,15 +29,15 @@ import java.util.Random;
 /**
  * 注册的Presenter
  */
-public class PassWordPresenter implements PassWordContract.Presenter {
+public class ForgotPasswordPresenter implements ForgotPasswordContract.Presenter {
 
-    private PassWordContract.View mView;
+    private ForgotPasswordContract.View mView;
     private Context mContext;
 
     //  用来模拟网络连接的Handler
     private Handler mHandler;
 
-    public PassWordPresenter(Context context, PassWordContract.View view) {
+    public ForgotPasswordPresenter(Context context, ForgotPasswordContract.View view) {
         mContext = context;
         mView = view;
         mHandler = new Handler();

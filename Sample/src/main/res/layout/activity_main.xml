@@ -18,14 +18,9 @@
         app:text="@string/home" />
 
 
-    <com.brightyu.androidcommon.ui.widget.pickview.SmartPickerView
+    <com.brightyu.androidcommon.ui.widget.pickview.PickerView
         android:id="@+id/test"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#68068808" />
+        android:layout_height="wrap_content" />
 
-    <com.brightyu.androidcommon.widget.TestScroller
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#33ff0000" />
 </LinearLayout>

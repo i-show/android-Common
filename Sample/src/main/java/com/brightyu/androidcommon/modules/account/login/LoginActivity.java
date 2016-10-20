@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.brightyu.androidcommon.modules.login;
+package com.brightyu.androidcommon.modules.account.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,8 +25,8 @@ import com.bright.common.app.BaseActivity;
 import com.bright.common.widget.loading.LoadingDialog;
 import com.brightyu.androidcommon.modules.main.MainActivity;
 import com.brightyu.androidcommon.R;
-import com.brightyu.androidcommon.modules.password.PassWordActivity;
-import com.brightyu.androidcommon.modules.register.RegisterActivity;
+import com.brightyu.androidcommon.modules.account.password.forgot.ForgotPasswordActivity;
+import com.brightyu.androidcommon.modules.account.register.RegisterActivity;
 
 
 /**
@@ -79,7 +79,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
                 startActivity(intent);
                 break;
             case R.id.forget_password:
-                intent = new Intent(this, PassWordActivity.class);
+                intent = new Intent(this, ForgotPasswordActivity.class);
                 startActivity(intent);
                 break;
         }

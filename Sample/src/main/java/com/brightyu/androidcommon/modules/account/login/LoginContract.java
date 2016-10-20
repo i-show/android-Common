@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.brightyu.androidcommon.modules.password;
+package com.brightyu.androidcommon.modules.account.login;
 
 
 import com.brightyu.androidcommon.modules.base.BasePresenter;
@@ -23,31 +23,23 @@ import com.brightyu.androidcommon.modules.base.BaseView;
 /**
  * This specifies the contract between the view and the presenter.
  */
-public interface PassWordContract {
+public interface LoginContract {
 
     interface View extends BaseView<Presenter> {
 
-        void showRegistering();
+        void showLoging();
 
-        void showRegisterFail(String message);
+        void showLoginFail(String message);
 
-        void showRegisterSuccess();
+        void showLoginSuccess();
 
-        void showSendVerifySuccess();
-
-        void showSendVerifyFail(String message);
-
+        /**
+         * password 暂时占位，预防有记住密码功能
+         */
+        void updateUI(boolean rememberPassword, String account, String password);
     }
 
     interface Presenter extends BasePresenter {
-        /**
-         * 注册动作
-         */
-        void register(String name, String verifyCode, String password, String ensurePassword);
-
-        /**
-         * 发送验证码
-         */
-        void sendVerifiyCode();
+        void login(String name, String password);
     }
 }
