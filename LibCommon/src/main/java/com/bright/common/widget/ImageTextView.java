@@ -62,7 +62,7 @@ public class ImageTextView extends View implements IPrompt {
     /**
      * 默认 文本和图片之间的间距
      */
-    private static final int DEFAULT_PADDING = 8;
+    private static final int DEFAULT_PADDING = 3;
     /**
      * 图片位置
      */
@@ -325,21 +325,13 @@ public class ImageTextView extends View implements IPrompt {
             case Position.TOP:
             case Position.BOTTOM:
                 maxSize = size - 2 * DEFAULT_PADDING;
-                if (mDesireWidth <= maxSize) {
-                    mLayout = new StaticLayout(mText, mTextPaint, mTextDesireWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
-                } else {
-                    mLayout = new StaticLayout(mText, mTextPaint, maxSize, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
-                }
+                mLayout = new StaticLayout(mText, mTextPaint, maxSize, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
                 break;
 
             case Position.LEFT:
             case Position.RIGHT:
                 maxSize = size - mIconBitmap.getWidth() - 2 * DEFAULT_PADDING - mPadding;
-                if (mDesireWidth <= maxSize) {
-                    mLayout = new StaticLayout(mText, mTextPaint, mTextDesireWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
-                } else {
-                    mLayout = new StaticLayout(mText, mTextPaint, maxSize, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
-                }
+                mLayout = new StaticLayout(mText, mTextPaint, maxSize, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
                 break;
         }
         return size;
