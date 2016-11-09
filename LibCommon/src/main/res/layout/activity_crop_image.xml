@@ -43,7 +43,6 @@
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
         android:background="@android:color/transparent"
         app:actionMinWidth="@dimen/dp_110"
         app:leftBackground="?android:selectableItemBackground"

@@ -17,23 +17,29 @@
 package com.brightyu.androidcommon.modules.main;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
 import com.bright.common.app.BaseActivity;
+import com.bright.common.utils.image.select.MultipleSelectPhotoUtils;
+import com.bright.common.utils.image.select.SingleSelectPhotoUtils;
 import com.bright.common.widget.TopBar;
 import com.bright.common.widget.YToast;
 import com.bright.common.widget.pickview.PickerView;
 import com.bright.common.widget.pickview.adapter.PickerAdapter;
 import com.brightyu.androidcommon.R;
-import com.brightyu.androidcommon.modules.sample.SampleMainActivity;
+
+import java.util.List;
 
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
 
     private long mLastTime;
     final String test[] = {"山东", "北京", "青岛", "苏州", "上海"};
+    MultipleSelectPhotoUtils mMultipleSelectPhotoUtils;
+    SingleSelectPhotoUtils mSingleSelectPhotoUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +71,23 @@ public class MainActivity extends BaseActivity {
                 return test[position];
             }
         });
+        mSingleSelectPhotoUtils = new SingleSelectPhotoUtils(this);
+        mSingleSelectPhotoUtils.setCallBack(new SingleSelectPhotoUtils.CallBack() {
+            @Override
+            public void onResult(Uri url) {
+
+            }
+        });
+        mMultipleSelectPhotoUtils = new MultipleSelectPhotoUtils(this);
+        mMultipleSelectPhotoUtils.setCallBack(new MultipleSelectPhotoUtils.CallBack() {
+            @Override
+            public void onResult(List<String> urls) {
+                Log.i(TAG, "onResult: 1111111111111111");
+                for (String url : urls) {
+                    Log.i(TAG, "onResult: url = " + url);
+                }
+            }
+        });
     }
 
     @Override
@@ -77,8 +100,18 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onRightClick(View v) {
         super.onRightClick(v);
-        Intent intent = new Intent(this, SampleMainActivity.class);
-        startActivity(intent);
+        //Intent intent = new Intent(this, SampleMainActivity.class);
+        //startActivity(intent);
+        mMultipleSelectPhotoUtils.select(5);
+        //mSingleSelectPhotoUtils.select(16, 9);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //super.onActivityResult(requestCode, resultCode, data);
+
+        //mSingleSelectPhotoUtils.onActivityResult(requestCode, resultCode, data);
+        mMultipleSelectPhotoUtils.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

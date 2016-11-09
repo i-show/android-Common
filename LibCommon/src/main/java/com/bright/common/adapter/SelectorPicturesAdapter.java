@@ -159,6 +159,7 @@ public class SelectorPicturesAdapter extends ListAdapter<SelectorPicture, Select
             if (isMultiSelector) {
                 if (isChecked && mMaxSelectedCount <= mSelectedImages.size()) {
                     YToast.show(mContext, R.string.already_select_max);
+                    v.setChecked(false);
                     return;
                 }
             } else {
