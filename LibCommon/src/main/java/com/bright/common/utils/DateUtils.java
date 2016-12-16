@@ -114,7 +114,7 @@ public class DateUtils {
      * @param nowModel    当前时间模型 例如: MM-dd
      */
     public static String format(String time, String targetModel, String nowModel) {
-        return format(time, targetModel, nowModel, Locale.CHINA);
+        return format(time, targetModel, nowModel, Locale.getDefault());
     }
 
     /**
@@ -144,7 +144,7 @@ public class DateUtils {
      * @param nowModel 时间模型 例如 yyyy-MM-dd
      */
     public static long formatTolong(String time, String nowModel) {
-        return formatTolong(time, nowModel, Locale.CHINA);
+        return formatTolong(time, nowModel, Locale.getDefault());
     }
 
     /**
@@ -176,7 +176,8 @@ public class DateUtils {
      * @return format后的字符串
      */
     public static String format(long time, String tagModel) {
-        return format(time, tagModel, Locale.CHINA);
+        Date date = new Date(time);
+        return format(date, tagModel);
     }
 
     /**
@@ -188,10 +189,36 @@ public class DateUtils {
      * @return format后的字符串
      */
     public static String format(long time, String tagModel, Locale locale) {
-        SimpleDateFormat formatter = new SimpleDateFormat(tagModel, locale);
         Date data = new Date(time);
-        return formatter.format(data);
+        return format(data, tagModel, locale);
     }
+
+
+    /**
+     * format时间
+     * 默认区域是中国
+     *
+     * @param date     时间
+     * @param tagModel 时间模型 例如 yyyy-MM-dd
+     * @return format后的字符串
+     */
+    public static String format(Date date, String tagModel) {
+        return format(date, tagModel, Locale.getDefault());
+    }
+
+    /**
+     * format时间
+     *
+     * @param date     时间
+     * @param tagModel 时间模型 例如 yyyy-MM-dd
+     * @param locale   地区
+     * @return format后的字符串
+     */
+    public static String format(Date date, String tagModel, Locale locale) {
+        SimpleDateFormat formatter = new SimpleDateFormat(tagModel, locale);
+        return formatter.format(date);
+    }
+
 
     /**
      * 获取一个long型的时间

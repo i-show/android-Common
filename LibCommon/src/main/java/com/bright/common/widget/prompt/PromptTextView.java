@@ -278,7 +278,7 @@ public class PromptTextView extends AppCompatTextView implements IPrompt {
         }
 
         if (!init) {
-            postInvalidate();
+            requestLayout();
         }
         return this;
     }

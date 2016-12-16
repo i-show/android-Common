@@ -73,8 +73,8 @@
     <attr name="subTextColor" format="color" />
 
     <attr name="promptText" format="string" />
-    <attr name="promptTextColor" format="dimension" />
-    <attr name="promptTextSize" format="color" />
+    <attr name="promptTextColor" format="color" />
+    <attr name="promptTextSize" format="dimension" />
 
     <attr name="leftText" format="string" />
     <attr name="leftTextSize" format="reference" />

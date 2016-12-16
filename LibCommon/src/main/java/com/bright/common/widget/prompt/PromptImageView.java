@@ -277,7 +277,7 @@ public class PromptImageView extends AppCompatImageView implements IPrompt {
         }
 
         if (!init) {
-            postInvalidate();
+            requestLayout();
         }
         return this;
     }
