@@ -226,14 +226,14 @@ public abstract class ListAdapter<DATA, HOLDER extends ListAdapter.Holder> exten
         Holder holder;
         final int type = getItemViewType(position);
         if (convertView == null) {
-            holder = onCreateViewHolder(parent, position, type);
+            holder = onCreateViewHolder(parent, type);
             convertView = holder.getItemView();
         } else {
             holder = (Holder) convertView.getTag(R.id.tag_view_holder);
             // 如果当前的View Type 和 已经缓存的不同就重新加载
             int _type = holder.getType();
             if (type != _type) {
-                holder = onCreateViewHolder(parent, position, type);
+                holder = onCreateViewHolder(parent, type);
                 convertView = holder.getItemView();
             }
 
@@ -245,11 +245,10 @@ public abstract class ListAdapter<DATA, HOLDER extends ListAdapter.Holder> exten
     /**
      * 创建View容器
      *
-     * @param position 当前的 position
-     * @param type     当前view的type
+     * @param type 当前view的type
      * @return 当前view的容器
      */
-    public abstract HOLDER onCreateViewHolder(ViewGroup parent, int position, int type);
+    public abstract HOLDER onCreateViewHolder(ViewGroup parent, int type);
 
     /**
      * 通过容器来 绑定view

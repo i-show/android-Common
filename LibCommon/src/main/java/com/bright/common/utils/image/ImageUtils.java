@@ -256,13 +256,13 @@ public final class ImageUtils {
 
         if (intent == null) {
             Log.i(TAG, "getPicturePathFromIntent:  intent is null");
-            return Utils.EMPTY;
+            return StringUtils.EMPTY;
         }
 
         Uri url = intent.getData();// 获得图片的uri
         if (url == null) {
             Log.i(TAG, "getPicturePathFromIntent: url is null");
-            return Utils.EMPTY;
+            return StringUtils.EMPTY;
         }
 
         ContentResolver resolver = context.getContentResolver();

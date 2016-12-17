@@ -39,7 +39,7 @@ public class SelectorFolderAdapter extends ListAdapter<SelectorFolder, SelectorF
 
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int position, int type) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
         View view = mLayoutInflater.inflate(R.layout.item_multi_choice_folder, null);
         return new ViewHolder(view, type);
     }

@@ -24,11 +24,6 @@ import android.util.DisplayMetrics;
 
 public final class Utils {
     private static final String TAG = "Utils";
-    public static final String EMPTY = "";
-    public static final String JSON_EMPTY = "{}";
-    public static final String NEW_LINE = "\n";
-    public static final String TAB = "\t";
-    public static final String SLADH = "/";
 
     /**
      * 获取屏幕的宽和高

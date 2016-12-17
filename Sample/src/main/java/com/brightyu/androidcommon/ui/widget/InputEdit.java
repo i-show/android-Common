@@ -33,6 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bright.common.constant.DefaultColors;
+import com.bright.common.utils.StringUtils;
 import com.bright.common.utils.UnitUtils;
 import com.bright.common.utils.Utils;
 import com.brightyu.androidcommon.R;
@@ -129,7 +130,7 @@ public class InputEdit extends LinearLayout implements View.OnClickListener, Vie
                 if (mCallBack != null && !TextUtils.isEmpty(text)) {
                     mCallBack.onCancel();
                 }
-                mInputView.setText(Utils.EMPTY);
+                mInputView.setText(StringUtils.EMPTY);
                 break;
         }
     }

@@ -26,6 +26,7 @@ import android.util.Log;
 import com.alibaba.fastjson.JSON;
 import com.bright.common.utils.RegexValidateUtils;
 import com.bright.common.utils.SharedPreferencesUtils;
+import com.bright.common.utils.StringUtils;
 import com.bright.common.utils.Utils;
 import com.brightyu.androidcommon.R;
 import com.brightyu.androidcommon.entries.User;
@@ -122,7 +123,7 @@ public class UserManager {
         if (!RegexValidateUtils.checkMobileNumber(account)) {
             return context.getString(R.string.login_please_input_correct_account);
         }
-        return Utils.EMPTY;
+        return StringUtils.EMPTY;
     }
 
     /**
@@ -140,7 +141,7 @@ public class UserManager {
             return context.getString(R.string.login_please_input_correct_password, String.valueOf(min), String.valueOf(max));
         }
 
-        return Utils.EMPTY;
+        return StringUtils.EMPTY;
     }
 
     /**
@@ -155,7 +156,7 @@ public class UserManager {
             return context.getString(R.string.please_input_right_ensure_password);
         }
 
-        return Utils.EMPTY;
+        return StringUtils.EMPTY;
     }
 
     /**

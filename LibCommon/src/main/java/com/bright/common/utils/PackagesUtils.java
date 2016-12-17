@@ -92,7 +92,7 @@ public class PackagesUtils {
             return context.getPackageManager().getPackageInfo(packageName, PackageManager.GET_META_DATA).versionName;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
-            return Utils.EMPTY;
+            return StringUtils.EMPTY;
         }
     }
 

@@ -138,7 +138,7 @@ public class MathUtils {
      * @param child 字符串
      */
     public static String generateString(int count, String child) {
-        String pattern = Utils.EMPTY;
+        String pattern = StringUtils.EMPTY;
         for (int i = 0; i < count; i++) {
             pattern = StringUtils.plusString(pattern, child);
         }

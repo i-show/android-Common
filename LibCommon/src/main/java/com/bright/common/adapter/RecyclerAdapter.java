@@ -135,6 +135,13 @@ public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holde
         return mData.size();
     }
 
+    /**
+     * 获取真正的 DATA index
+     */
+    public int getRealPosition(int position) {
+        return position - getHeaderCount();
+    }
+
     public DATA getItem(int position) {
         return mData.get(position);
     }
