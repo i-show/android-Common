@@ -20,12 +20,17 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.support.annotation.IntDef;
 import android.support.annotation.IntRange;
 import android.support.annotation.Keep;
+import android.text.TextUtils;
+import android.util.Log;
 
 import com.bright.common.R;
+import com.bright.common.app.activity.CropImageActivity;
 import com.bright.common.app.activity.SelectorPicturesActivity;
 import com.bright.common.constant.Shift;
 import com.bright.common.entries.SelectorPicture;
@@ -37,18 +42,29 @@ import com.bright.common.widget.loading.LoadingDialog;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * 基类
  */
-public class SelectPhotoUtils implements DialogInterface.OnClickListener, DialogInterface.OnDismissListener {
+public class SelectPhotoUtils implements
+        DialogInterface.OnClickListener,
+        DialogInterface.OnDismissListener {
+
     private static final String TAG = "SelectPhotoUtils";
 
     /**
      * 多选模式下最多可以选多少张图片
      */
     private static final int MAX_SELECT_COUNT = 9;
+    /**
+     * 最多几个线程进行同时压缩
+     */
+    private static final int MAX_THREAD = 3;
     /**
      * 通过拍照 来选择
      */
@@ -59,9 +75,17 @@ public class SelectPhotoUtils implements DialogInterface.OnClickListener, Dialog
     public static final int SELECT_PHOTO_GALLERY = 1;
 
 
-    protected Activity mContext;
+    /**
+     * 保存图片的地址的
+     */
+    private List<String> mPhotos = Collections.synchronizedList(new ArrayList<String>());
 
-    protected Uri mCameraFileUri = Uri.EMPTY;
+    protected Activity mActivity;
+
+    /**
+     * Camera拍照输出的地址
+     */
+    protected Uri mCameraFileUri;
     /**
      * 选择方式的Dialog
      */
@@ -98,9 +122,17 @@ public class SelectPhotoUtils implements DialogInterface.OnClickListener, Dialog
      * 选择图片的数量
      */
     private int mSelectCount;
+    /**
+     * 数据是否已经完成
+     */
+    private boolean isAlreadyOk;
+    /**
+     * 压缩图片的线程池
+     */
+    private ExecutorService mExecutorService;
 
-    public SelectPhotoUtils(Activity context, @selectMode int selectMode) {
-        mContext = context;
+    public SelectPhotoUtils(Activity context, @mode int selectMode) {
+        mActivity = context;
         mSelectMode = selectMode;
     }
 
@@ -154,7 +186,7 @@ public class SelectPhotoUtils implements DialogInterface.OnClickListener, Dialog
      */
     protected void showSelectDialog() {
         if (mSelectDialog == null) {
-            mSelectDialog = new BaseDialog.Builder(mContext, R.style.Dialog_Bottom_IOS)
+            mSelectDialog = new BaseDialog.Builder(mActivity, R.style.Dialog_Bottom_IOS)
                     .setTitle(R.string.select_photo_title)
                     .setNegativeButton(R.string.cancel, null)
                     .isShowFromBottom(true)
@@ -184,15 +216,15 @@ public class SelectPhotoUtils implements DialogInterface.OnClickListener, Dialog
      * 通过相机来选择图片
      */
     private void selectPhotoByCamera() {
-        mCameraFileUri = Uri.fromFile(ImageUtils.generateRandomPhotoFile(mContext));
+        mCameraFileUri = Uri.fromFile(ImageUtils.generateRandomPhotoFile(mActivity));
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, mCameraFileUri);
         switch (mSelectMode) {
             case SelectMode.SINGLE:
-                mContext.startActivityForResult(intent, Request.REQUEST_SINGLE_CAMERA);
+                mActivity.startActivityForResult(intent, Request.REQUEST_SINGLE_CAMERA);
                 break;
             case SelectMode.MULTIPLE:
-                mContext.startActivityForResult(intent, Request.REQUEST_MULTI_CAMERA);
+                mActivity.startActivityForResult(intent, Request.REQUEST_MULTI_CAMERA);
                 break;
         }
     }
@@ -201,16 +233,16 @@ public class SelectPhotoUtils implements DialogInterface.OnClickListener, Dialog
      * 通过相册来选择图片
      */
     private void selectPhotoByGallery() {
-        Intent intent = new Intent(mContext, SelectorPicturesActivity.class);
+        Intent intent = new Intent(mActivity, SelectorPicturesActivity.class);
         switch (mSelectMode) {
             case SelectMode.SINGLE:
                 intent.putExtra(SelectorPicture.Key.EXTRA_SELECT_MODE, SelectorPicture.Key.MODE_SINGLE);
-                mContext.startActivityForResult(intent, Request.REQUEST_SINGLE_PICK);
+                mActivity.startActivityForResult(intent, Request.REQUEST_SINGLE_PICK);
                 break;
             case SelectMode.MULTIPLE:
                 intent.putExtra(SelectorPicture.Key.EXTRA_SELECT_MODE, SelectorPicture.Key.MODE_MULTI);
                 intent.putExtra(SelectorPicture.Key.EXTRA_SELECT_COUNT, mSelectCount);
-                mContext.startActivityForResult(intent, Request.REQUEST_MULTI_PICK);
+                mActivity.startActivityForResult(intent, Request.REQUEST_MULTI_PICK);
                 break;
         }
     }
@@ -229,22 +261,31 @@ public class SelectPhotoUtils implements DialogInterface.OnClickListener, Dialog
             return;
         }
 
+
         switch (requestCode) {
-            case Request.REQUEST_SINGLE_PICK:
-                break;
+            // 不管多选还是单选 相机处理是一样的
             case Request.REQUEST_SINGLE_CAMERA:
+            case Request.REQUEST_MULTI_CAMERA:
+                resolveSingleResult(mCameraFileUri.getPath());
+                break;
+            case Request.REQUEST_SINGLE_PICK:
+                String path = data.getStringExtra(SelectorPicture.Key.EXTRA_RESULT);
+                resolveSingleResult(path);
                 break;
             case Request.REQUEST_MULTI_PICK:
-                break;
-            case Request.REQUEST_MULTI_CAMERA:
+                List<String> pathList = data.getStringArrayListExtra(SelectorPicture.Key.EXTRA_RESULT);
+                resolveMultiResult(pathList);
                 break;
             case Request.REQUEST_CROP_IMAGE:
+                String picPath = data.getStringExtra(CropImageActivity.KEY_RESULT_PATH);
+                notifySelectPhoto(picPath);
                 break;
             default:
                 L.i(TAG, "requestCode = " + requestCode);
                 break;
         }
     }
+
 
     /**
      * onActivityResult 裁掉caceled的事件
@@ -255,17 +296,136 @@ public class SelectPhotoUtils implements DialogInterface.OnClickListener, Dialog
             case Request.REQUEST_SINGLE_CAMERA:
             case Request.REQUEST_MULTI_PICK:
             case Request.REQUEST_MULTI_CAMERA:
-                YToast.show(mContext, R.string.cancle_photo);
+                YToast.show(mActivity, R.string.cancle_photo);
                 break;
+        }
+    }
+
+    /**
+     * onActivityResult 处理 单选
+     */
+    private void resolveSingleResult(String picPath) {
+        if (TextUtils.isEmpty(picPath)) {
+            Log.i(TAG, "resolveSingleResult: picPath is empty");
+            return;
+        }
+
+        mLoadingDialog = LoadingDialog.show(mActivity, mLoadingDialog);
+
+        List<String> photos = new ArrayList<>();
+        photos.add(picPath);
+
+        mPhotos.clear();
+        mPhotos.add("single");
+
+        switch (mResultMode) {
+            case ResultMode.COMPRESS:
+                mLoadingDialog = LoadingDialog.show(mActivity, mLoadingDialog);
+                resolveResultPhotosForCompress(photos);
+                break;
+            case ResultMode.CROP:
+                picPath = mCameraFileUri.getPath();
+                goToCrop(picPath);
+                break;
+        }
+    }
+
+    /**
+     * onActivityResult 处理 单选
+     */
+    private void resolveMultiResult(List<String> pathList) {
+        if (pathList == null || pathList.isEmpty()) {
+            Log.i(TAG, "resolveMultiResult: pathList is empty");
+            return;
+        }
+        // 把没有压缩前添加进入当占位符
+        mPhotos.clear();
+        mPhotos.addAll(pathList);
+
+        mLoadingDialog = LoadingDialog.show(mActivity, mLoadingDialog);
+        resolveResultPhotosForCompress(pathList);
+    }
+
+    /**
+     * 处理返回的图片-通过压缩图片的方式
+     */
+    private void resolveResultPhotosForCompress(List<String> photots) {
+        isAlreadyOk = false;
+        // 设置最多线程同时上传图片
+        mExecutorService = Executors.newFixedThreadPool(MAX_THREAD);
+        for (int i = 0; i < photots.size(); i++) {
+            String photo = photots.get(i);
+            mExecutorService.execute(new CompressRunnable(photo, i));
+        }
+        // 关闭线程池
+        mExecutorService.shutdown();
+    }
+
+    /**
+     * 跳转剪切
+     */
+    private void goToCrop(String path) {
+        Intent intent = new Intent(mActivity, CropImageActivity.class);
+        intent.putExtra(CropImageActivity.KEY_PATH, path);
+        intent.putExtra(CropImageActivity.KEY_RATIO_X, mScaleX);
+        intent.putExtra(CropImageActivity.KEY_RATIO_Y, mScaleY);
+        mActivity.startActivityForResult(intent, Request.REQUEST_CROP_IMAGE);
+    }
+
+    private class CompressRunnable implements Runnable {
+        String path;
+        int key;
+
+        CompressRunnable(String path, int key) {
+            this.path = path;
+            this.key = key;
+        }
+
+        @Override
+        public void run() {
+            String resultPath = ImageUtils.compressImage(mActivity, path);
+            mPhotos.set(key, resultPath);
+            mHandler.sendEmptyMessageDelayed(0, 100);
+        }
+    }
+
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (mListener == null) {
+                LoadingDialog.dismiss(mLoadingDialog);
+                return;
+            }
+
+            if (mExecutorService.isTerminated() && !isAlreadyOk) {
+                isAlreadyOk = true;
+                mListener.onSelectedPhoto(mPhotos, mPhotos.get(0));
+                Log.i(TAG, "mCallBack  = =" + mPhotos.size());
+                LoadingDialog.dismiss(mLoadingDialog);
+            }
+
+        }
+    };
+
+
+    /**
+     * 提示已经选了多少图片
+     */
+    private void notifySelectPhoto(String singlePath) {
+        if (mListener != null) {
+            List<String> multiPath = new ArrayList<>();
+            multiPath.add(singlePath);
+            mListener.onSelectedPhoto(multiPath, singlePath);
         }
     }
 
     /**
      * 提示已经选了多少图片
      */
-    private void notifySelectPhoto(List<String> pathList, int count) {
+    private void notifySelectPhoto(List<String> multiPath, String singlePath) {
         if (mListener != null) {
-            mListener.onSelectedPhoto(pathList, count);
+            mListener.onSelectedPhoto(multiPath, singlePath);
         }
     }
 
@@ -281,7 +441,7 @@ public class SelectPhotoUtils implements DialogInterface.OnClickListener, Dialog
      */
     @IntDef({SelectMode.SINGLE, SelectMode.MULTIPLE})
     @Retention(RetentionPolicy.SOURCE)
-    @interface selectMode {
+    @interface mode {
     }
 
     @Keep
@@ -296,13 +456,6 @@ public class SelectPhotoUtils implements DialogInterface.OnClickListener, Dialog
         public final static int MULTIPLE = 2;
     }
 
-    /**
-     * 定义选择完图片后压缩还是剪切
-     */
-    @IntDef({ResultMode.COMPRESS, ResultMode.CROP})
-    @Retention(RetentionPolicy.SOURCE)
-    @interface resultMode {
-    }
 
     public final static class ResultMode {
         /**

@@ -86,15 +86,15 @@ public class MultipleSelectPhotoUtils extends SelectPhotoUtils {
         Intent intent;
         switch (which) {
             case SELECT_PHOTO_CAMERA:
-                mCameraFileUri = Uri.fromFile(ImageUtils.generateRandomPhotoFile(mContext));
+                mCameraFileUri = Uri.fromFile(ImageUtils.generateRandomPhotoFile(mActivity));
                 intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, mCameraFileUri);
-                mContext.startActivityForResult(intent, Request.REQUEST_MULTI_CAMERA);
+                mActivity.startActivityForResult(intent, Request.REQUEST_MULTI_CAMERA);
                 break;
             case SELECT_PHOTO_GALLERY:
-                intent = new Intent(mContext, SelectorPicturesActivity.class);
+                intent = new Intent(mActivity, SelectorPicturesActivity.class);
                 intent.putExtra(SelectorPicture.Key.EXTRA_SELECT_COUNT, mCount);
-                mContext.startActivityForResult(intent, Request.REQUEST_MULTI_PICK);
+                mActivity.startActivityForResult(intent, Request.REQUEST_MULTI_PICK);
                 break;
         }
     }
@@ -108,7 +108,7 @@ public class MultipleSelectPhotoUtils extends SelectPhotoUtils {
 
         switch (requestCode) {
             case Request.REQUEST_MULTI_CAMERA:
-                mLoadingDialog = LoadingDialog.show(mContext, mLoadingDialog);
+                mLoadingDialog = LoadingDialog.show(mActivity, mLoadingDialog);
                 mPhotos.clear();
                 mPhotos.add("camera");
                 isAreadyOk = false;
@@ -120,7 +120,7 @@ public class MultipleSelectPhotoUtils extends SelectPhotoUtils {
                 break;
             case Request.REQUEST_MULTI_PICK:
                 List<String> photots = data.getStringArrayListExtra(SelectorPicture.Key.EXTRA_RESULT);
-                mLoadingDialog = LoadingDialog.show(mContext, mLoadingDialog);
+                mLoadingDialog = LoadingDialog.show(mActivity, mLoadingDialog);
                 mPhotos.clear();
                 // 把没有压缩前添加进入当占位符
                 mPhotos.addAll(photots);
@@ -150,7 +150,7 @@ public class MultipleSelectPhotoUtils extends SelectPhotoUtils {
 
         @Override
         public void run() {
-            String resultPath = ImageUtils.compressImage(mContext, path);
+            String resultPath = ImageUtils.compressImage(mActivity, path);
             mPhotos.set(key, resultPath);
             mHandler.sendEmptyMessageDelayed(0, 100);
         }

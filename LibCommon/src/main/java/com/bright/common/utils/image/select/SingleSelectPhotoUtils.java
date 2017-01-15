@@ -97,16 +97,16 @@ public class SingleSelectPhotoUtils extends SelectPhotoUtils implements DialogIn
         Intent intent;
         switch (which) {
             case SELECT_PHOTO_CAMERA:
-                mCameraFileUri = Uri.fromFile(ImageUtils.generateRandomPhotoFile(mContext));
+                mCameraFileUri = Uri.fromFile(ImageUtils.generateRandomPhotoFile(mActivity));
                 Log.i(TAG, "onClick: mCameraFileUri = " + mCameraFileUri);
                 intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, mCameraFileUri);
-                mContext.startActivityForResult(intent, Request.REQUEST_SINGLE_CAMERA);
+                mActivity.startActivityForResult(intent, Request.REQUEST_SINGLE_CAMERA);
                 break;
             case SELECT_PHOTO_GALLERY:
-                intent = new Intent(mContext, SelectorPicturesActivity.class);
+                intent = new Intent(mActivity, SelectorPicturesActivity.class);
                 intent.putExtra(SelectorPicture.Key.EXTRA_SELECT_MODE, SelectorPicture.Key.MODE_SINGLE);
-                mContext.startActivityForResult(intent, Request.REQUEST_SINGLE_PICK);
+                mActivity.startActivityForResult(intent, Request.REQUEST_SINGLE_PICK);
                 break;
         }
     }
@@ -126,7 +126,7 @@ public class SingleSelectPhotoUtils extends SelectPhotoUtils implements DialogIn
             case Request.REQUEST_SINGLE_CAMERA:
                 switch (mMode) {
                     case MODE_COMPRESS:
-                        mLoadingDialog = LoadingDialog.show(mContext, mLoadingDialog);
+                        mLoadingDialog = LoadingDialog.show(mActivity, mLoadingDialog);
                         new Thread(new CompressRunnable(mCameraFileUri)).start();
                         break;
                     case MODE_CROP:
@@ -140,7 +140,7 @@ public class SingleSelectPhotoUtils extends SelectPhotoUtils implements DialogIn
                 Log.d(TAG, "picPath = " + picPath);
                 switch (mMode) {
                     case MODE_COMPRESS:
-                        mLoadingDialog = LoadingDialog.show(mContext, mLoadingDialog);
+                        mLoadingDialog = LoadingDialog.show(mActivity, mLoadingDialog);
                         final Uri originUri = Uri.parse(picPath);
                         new Thread(new CompressRunnable(originUri)).start();
                         break;
@@ -163,11 +163,11 @@ public class SingleSelectPhotoUtils extends SelectPhotoUtils implements DialogIn
      * 跳转剪切
      */
     private void goToCrop(String path) {
-        Intent intent = new Intent(mContext, CropImageActivity.class);
+        Intent intent = new Intent(mActivity, CropImageActivity.class);
         intent.putExtra(CropImageActivity.KEY_PATH, path);
         intent.putExtra(CropImageActivity.KEY_RATIO_X, mScaleX);
         intent.putExtra(CropImageActivity.KEY_RATIO_Y, mScaleY);
-        mContext.startActivityForResult(intent, Request.REQUEST_CROP_IMAGE);
+        mActivity.startActivityForResult(intent, Request.REQUEST_CROP_IMAGE);
     }
 
 
@@ -194,7 +194,7 @@ public class SingleSelectPhotoUtils extends SelectPhotoUtils implements DialogIn
 
         @Override
         public void run() {
-            String result = ImageUtils.compressImage(mContext, original.getPath());
+            String result = ImageUtils.compressImage(mActivity, original.getPath());
             Message message = new Message();
             message.obj = Uri.parse(result);
             mHandler.sendMessage(message);

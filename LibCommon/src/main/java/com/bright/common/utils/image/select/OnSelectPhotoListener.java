@@ -25,8 +25,8 @@ import java.util.List;
 
 public interface OnSelectPhotoListener {
     /**
-     * @param pathList 选择后的图片路径
-     * @param count    选的图片的数量
+     * @param multiPath  多选图片的路径
+     * @param singlePath 单选图片
      */
-    void onSelectedPhoto(List<String> pathList, int count);
+    void onSelectedPhoto(List<String> multiPath, String singlePath);
 }
