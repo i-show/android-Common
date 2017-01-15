@@ -50,16 +50,7 @@
         <activity
             android:name=".modules.base.OnlyWebActivity"
             android:screenOrientation="portrait" />
-        <!--选择图片的类-->
-        <activity
-            android:name="com.bright.common.app.activity.SelectorPicturesActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.NoActionBar" />
-        <!--剪切图片的类-->
-        <activity
-            android:name="com.bright.common.app.activity.CropImageActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.NoActionBar.Fullscreen" />
+
 
         <!--++++++++++++++++++++控件或者工具的Demo区域（start）++++++++++++++++++++++++++-->
         <!--Demo的主类-->

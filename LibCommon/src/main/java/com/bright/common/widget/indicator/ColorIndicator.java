@@ -18,6 +18,7 @@ package com.bright.common.widget.indicator;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -26,7 +27,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
-import com.bright.common.constant.DefaultColors;
 import com.bright.common.utils.UnitUtils;
 
 import static android.widget.LinearLayout.HORIZONTAL;
@@ -34,7 +34,7 @@ import static android.widget.LinearLayout.VERTICAL;
 
 public class ColorIndicator extends View implements ViewPager.OnPageChangeListener {
     private static final String TAG = ColorIndicator.class.getSimpleName();
-    private static final int THUMB_COLOR = DefaultColors.BLUE;
+    private static final int THUMB_COLOR = Color.BLUE;
     private static final int BAR_COLOR = 0xFFFFFFFF;
     private static final int BAR_BORDER_COLOR = 0xFF999999;
     private static final int RADIUS = 4; // This is dp

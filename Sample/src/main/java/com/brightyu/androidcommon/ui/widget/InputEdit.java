@@ -32,10 +32,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bright.common.constant.DefaultColors;
 import com.bright.common.utils.StringUtils;
 import com.bright.common.utils.UnitUtils;
-import com.bright.common.utils.Utils;
 import com.brightyu.androidcommon.R;
 
 
@@ -72,8 +70,8 @@ public class InputEdit extends LinearLayout implements View.OnClickListener, Vie
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.InputEdit);
         mTipString = a.getString(R.styleable.InputEdit_tip);
         mHintString = a.getString(R.styleable.InputEdit_hint);
-        mNormalColor = a.getColor(R.styleable.InputEdit_normalColor, DefaultColors.GERY_LIGHT);
-        mFocusColor = a.getColor(R.styleable.InputEdit_focusColor, DefaultColors.GERY_LIGHT);
+        mNormalColor = a.getColor(R.styleable.InputEdit_normalColor, getDefaultTextColor());
+        mFocusColor = a.getColor(R.styleable.InputEdit_focusColor, getFocusTextColor());
         mInputType = a.getInt(R.styleable.InputEdit_android_inputType, InputType.TYPE_NULL);
         a.recycle();
 
@@ -178,6 +176,20 @@ public class InputEdit extends LinearLayout implements View.OnClickListener, Vie
         int width = getMeasuredWidth();
         int height = getMeasuredHeight();
         canvas.drawLine(0, height - mLineHeight, width, height - mLineHeight, mBottomPaint);
+    }
+
+    /**
+     * 获取默认的颜色值
+     */
+    private int getDefaultTextColor() {
+        return getContext().getResources().getColor(R.color.grey_deep_10);
+    }
+
+    /**
+     * 获取默认的颜色值
+     */
+    private int getFocusTextColor() {
+        return getContext().getResources().getColor(R.color.color_accent);
     }
 
     public interface CallBack {

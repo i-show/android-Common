@@ -87,7 +87,7 @@ public class CropImageActivity extends BaseActivity {
         String cachePath = ImageUtils.compressBitmap(this, bitmap, 300);
         Intent intent = new Intent();
         intent.putExtra(KEY_RESULT_PATH, cachePath);
-        setResult(SingleSelectPhotoUtils.Request.REQUEST_CROP, intent);
+        setResult(SingleSelectPhotoUtils.Request.REQUEST_CROP_IMAGE, intent);
         dialog.dismiss();
         finish();
     }

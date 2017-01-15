@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,7 +28,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bright.common.R;
-import com.bright.common.constant.DefaultColors;
 
 /**
  * 发送验证码的button
@@ -138,7 +137,7 @@ public class VerifyCodeButton extends FrameLayout {
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.VerifyCodeButton);
         int padding = a.getDimensionPixelSize(R.styleable.VerifyCodeButton_android_padding, getDefaultPadding());
-        mTextColor = a.getColor(R.styleable.VerifyCodeButton_textColor, DefaultColors.GERY_LIGHT);
+        mTextColor = a.getColor(R.styleable.VerifyCodeButton_textColor, getDefaultTextColor());
         mTextSize = a.getDimensionPixelSize(R.styleable.VerifyCodeButton_textSize, getDefaultTextSize());
         a.recycle();
 
@@ -236,6 +235,13 @@ public class VerifyCodeButton extends FrameLayout {
         super.onDetachedFromWindow();
         //   当不再显示的的时候移除控制
         mHandler.removeMessages(HANDLER_TIME);
+    }
+
+    /**
+     * 获取默认的颜色值
+     */
+    private int getDefaultTextColor() {
+        return getContext().getResources().getColor(R.color.text_grey_light_normal);
     }
 
     /**

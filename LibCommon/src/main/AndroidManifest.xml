@@ -22,6 +22,18 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application>
+
+        <!--选择图片的类-->
+        <activity
+            android:name="com.bright.common.app.activity.SelectorPicturesActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.NoActionBar" />
+        <!--剪切图片的类-->
+        <activity
+            android:name="com.bright.common.app.activity.CropImageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.NoActionBar.Fullscreen" />
+
         <meta-data
             android:name="com.bright.common.utils.glide.GlideConfiguration"
             android:value="GlideModule" />

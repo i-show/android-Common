@@ -17,47 +17,28 @@
 package com.brightyu.androidcommon.modules.sample.photo.select;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 
-import com.bright.common.utils.image.select.MultipleSelectPhotoUtils;
-import com.bright.common.utils.image.select.SingleSelectPhotoUtils;
+import com.bright.common.utils.image.select.SelectPhotoUtils;
 import com.bright.common.widget.TopBar;
 import com.brightyu.androidcommon.R;
 import com.brightyu.androidcommon.modules.base.AppBaseActivity;
-
-import java.util.List;
 
 /**
  * Created by Bright.Yu on 2017/1/15.
  * 选择图片
  */
 
-public class SampleSelectPhotoActivity extends AppBaseActivity {
+public class SampleSelectPhotoActivity extends AppBaseActivity implements View.OnClickListener {
 
-    MultipleSelectPhotoUtils mMultipleSelectPhotoUtils;
-    SingleSelectPhotoUtils mSingleSelectPhotoUtils;
+    private SelectPhotoUtils mSelectPhotoUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample_select_photo);
-
-        mSingleSelectPhotoUtils = new SingleSelectPhotoUtils(this);
-        mSingleSelectPhotoUtils.setCallBack(new SingleSelectPhotoUtils.CallBack() {
-            @Override
-            public void onResult(Uri url) {
-
-            }
-        });
-
-        mMultipleSelectPhotoUtils = new MultipleSelectPhotoUtils(this);
-        mMultipleSelectPhotoUtils.setCallBack(new MultipleSelectPhotoUtils.CallBack() {
-            @Override
-            public void onResult(List<String> urls) {
-
-            }
-        });
+        mSelectPhotoUtils = new SelectPhotoUtils(this, SelectPhotoUtils.SelectMode.SINGLE);
     }
 
     @Override
@@ -65,12 +46,22 @@ public class SampleSelectPhotoActivity extends AppBaseActivity {
         super.initViews();
         TopBar topBar = (TopBar) findViewById(R.id.top_bar);
         topBar.setOnTopBarListener(this);
+
+        View single = findViewById(R.id.sample_select_photo_single);
+        single.setOnClickListener(this);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        mMultipleSelectPhotoUtils.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.sample_select_photo_single:
+                mSelectPhotoUtils.select(1, 1);
+                break;
+        }
+    }
 }

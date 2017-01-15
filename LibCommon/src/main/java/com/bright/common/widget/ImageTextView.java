@@ -47,7 +47,6 @@ import android.util.TypedValue;
 import android.view.View;
 
 import com.bright.common.R;
-import com.bright.common.constant.DefaultColors;
 import com.bright.common.constant.Position;
 import com.bright.common.utils.image.ImageUtils;
 import com.bright.common.widget.prompt.IPrompt;
@@ -202,7 +201,7 @@ public class ImageTextView extends View implements IPrompt {
         a.recycle();
 
         if (mTextStateColor == null) {
-            mTextColor = DefaultColors.TEXT;
+            mTextColor = context.getResources().getColor(R.color.text_grey_normal);
         } else {
             mTextColor = mTextStateColor.getDefaultColor();
         }
@@ -763,7 +762,7 @@ public class ImageTextView extends View implements IPrompt {
     @Override
     public ImageTextView setPromptTextSize(@DimenRes int size) {
         mPromptTextSize = getResources().getDimensionPixelSize(size);
-        mPromptTextPaint.setColor(mPromptTextSize);
+        mPromptTextPaint.setTextSize(mPromptTextSize);
         return this;
     }
 

@@ -65,7 +65,7 @@ public class SingleSelectPhotoUtils extends SelectPhotoUtils implements DialogIn
     };
 
     public SingleSelectPhotoUtils(Activity context) {
-        super(context);
+        super(context, SelectMode.SINGLE);
     }
 
     /**
@@ -149,7 +149,7 @@ public class SingleSelectPhotoUtils extends SelectPhotoUtils implements DialogIn
                         break;
                 }
                 break;
-            case Request.REQUEST_CROP:
+            case Request.REQUEST_CROP_IMAGE:
                 picPath = data.getStringExtra(CropImageActivity.KEY_RESULT_PATH);
                 final Uri reuslt = Uri.parse("file://" + picPath);
                 if (mCallBack != null) {
@@ -167,7 +167,7 @@ public class SingleSelectPhotoUtils extends SelectPhotoUtils implements DialogIn
         intent.putExtra(CropImageActivity.KEY_PATH, path);
         intent.putExtra(CropImageActivity.KEY_RATIO_X, mScaleX);
         intent.putExtra(CropImageActivity.KEY_RATIO_Y, mScaleY);
-        mContext.startActivityForResult(intent, Request.REQUEST_CROP);
+        mContext.startActivityForResult(intent, Request.REQUEST_CROP_IMAGE);
     }
 
 

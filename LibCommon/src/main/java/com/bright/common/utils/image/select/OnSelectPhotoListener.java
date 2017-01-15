@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,15 +14,19 @@
  * limitations under the License.
  */
 
-package com.bright.common.constant;
+package com.bright.common.utils.image.select;
 
-public class DefaultColors {
-    public static final int GERY = 0XFF696969;
-    public static final int GERY_LIGHT = 0XFFc8c8c8;
-    public static final int GERY_DARK = 0XFF333333;
-    public static final int BLUE = 0xFF10A4E8;
-    public static final int GREEN = 0xff66CDAA;
-    public static final int RED = 0xFFFF0A0A;
-    public static final int ORANGE = 0xFFEF8936;
-    public static final int TEXT = GERY;
+import java.util.List;
+
+/**
+ * Created by Bright.Yu on 2017/1/15.
+ * 选择图片的监听
+ */
+
+public interface OnSelectPhotoListener {
+    /**
+     * @param pathList 选择后的图片路径
+     * @param count    选的图片的数量
+     */
+    void onSelectedPhoto(List<String> pathList, int count);
 }

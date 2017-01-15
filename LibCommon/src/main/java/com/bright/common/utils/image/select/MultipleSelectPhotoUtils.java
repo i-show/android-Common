@@ -69,7 +69,7 @@ public class MultipleSelectPhotoUtils extends SelectPhotoUtils {
     private List<String> mPhotos = Collections.synchronizedList(new ArrayList<String>());
 
     public MultipleSelectPhotoUtils(Activity context) {
-        super(context);
+        super(context, SelectMode.MULTIPLE);
     }
 
     public void select() {
