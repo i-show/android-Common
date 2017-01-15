@@ -143,7 +143,7 @@ public class MultipleSelectPhotoUtils extends SelectPhotoUtils {
         String path;
         int key;
 
-        public CompressRunnable(String path, int key) {
+        CompressRunnable(String path, int key) {
             this.path = path;
             this.key = key;
         }

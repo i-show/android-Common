@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <com.bright.common.widget.TopBar
+        android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftImage="@drawable/ic_back_white"

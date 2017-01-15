@@ -188,7 +188,7 @@ public class SingleSelectPhotoUtils extends SelectPhotoUtils implements DialogIn
     private class CompressRunnable implements Runnable {
         Uri original;
 
-        public CompressRunnable(Uri original) {
+        CompressRunnable(Uri original) {
             this.original = original;
         }
 
