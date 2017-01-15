@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- * <p/>
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p/>
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -46,7 +46,7 @@ public class RegisterActivity extends AppBaseActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        mPresenter = new RegisterPresenter(this, this);
+        mPresenter = new RegisterPresenter(this);
     }
 
     @Override
@@ -72,33 +72,18 @@ public class RegisterActivity extends AppBaseActivity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.send_verify_code:
                 mVerifyCodeButton.showLoading();
-                mPresenter.sendVerifiyCode();
+                mPresenter.sendVerifiyCode(this, mInputVerify.getInputText());
                 break;
             case R.id.submit:
                 String phone = mInputPhone.getInputText();
                 String verifyCode = mInputVerify.getInputText();
                 String password = mInputPassword.getInputText();
                 String passwordEnsure = mInputPasswordEnsure.getInputText();
-                mPresenter.register(phone, verifyCode, password, passwordEnsure);
+                mPresenter.register(this, phone, verifyCode, password, passwordEnsure);
                 break;
         }
     }
 
-    @Override
-    public void showRegistering() {
-        mLoadingDialog = LoadingDialog.show(this);
-    }
-
-    @Override
-    public void showRegisterFail(String message) {
-        LoadingDialog.dismiss(mLoadingDialog);
-        dialog(message);
-    }
-
-    @Override
-    public void showRegisterSuccess() {
-        LoadingDialog.dismiss(mLoadingDialog);
-    }
 
     @Override
     public void showSendVerifySuccess() {
@@ -109,5 +94,25 @@ public class RegisterActivity extends AppBaseActivity implements View.OnClickLis
     public void showSendVerifyFail(String message) {
         mVerifyCodeButton.reset();
         dialog(message);
+    }
+
+    @Override
+    public void showLoading(String message, boolean dialog) {
+        mLoadingDialog = LoadingDialog.show(this, mLoadingDialog);
+    }
+
+    @Override
+    public void dismissLoading(boolean dialog) {
+        LoadingDialog.dismiss(mLoadingDialog);
+    }
+
+    @Override
+    public void showError(String message, boolean dialog, int errorType) {
+        dialog(message);
+    }
+
+    @Override
+    public void showSuccess(String message) {
+        LoadingDialog.dismiss(mLoadingDialog);
     }
 }

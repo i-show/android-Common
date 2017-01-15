@@ -16,19 +16,15 @@
 
 package com.bright.common.widget.loading;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.annotation.StringRes;
+import android.support.annotation.NonNull;
 import android.view.KeyEvent;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.WindowManager.LayoutParams;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.bright.common.R;
 import com.bright.common.utils.ScreenUtils;
@@ -37,89 +33,46 @@ import com.bumptech.glide.Glide;
 
 public class LoadingDialog extends Dialog {
 
-    public static final int HANDLE_DISMISS = 0;
-    public static final int DISMISS_DELAY = 300;
-    private static Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            LoadingDialog dialog = (LoadingDialog) msg.obj;
-            dialog.dismiss();
-        }
-    };
-    private LinearLayout mContent;
-    private boolean hasActionBar = true;
-    private boolean isSemipermeable;
-
-    public LoadingDialog(Context context) {
-        this(context, true, true);
+    private LoadingDialog(Context context) {
+        this(context, R.style.Dialog_Semipermeable);
     }
 
-    public LoadingDialog(Context context, boolean hasBar, boolean semipermeable) {
-        this(context, R.style.Dialog_Transparent, hasBar, semipermeable);
-    }
-
-
-    public LoadingDialog(Context context, int themeResId, boolean hasBar, boolean semipermeable) {
+    private LoadingDialog(Context context, int themeResId) {
         super(context, themeResId);
-        hasActionBar = hasBar;
-        isSemipermeable = semipermeable;
     }
 
-    public static LoadingDialog show(Context context) {
+    private static LoadingDialog show(Context context) {
+        if (!(context instanceof Activity)) {
+            return null;
+        }
+
+        Activity activity = (Activity) context;
+        if (activity.isFinishing()) {
+            return null;
+        }
+
         LoadingDialog loadingDialog = new LoadingDialog(context);
         loadingDialog.show();
         return loadingDialog;
     }
 
-    public static LoadingDialog show(Context context, OnDismissListener listener) {
-        LoadingDialog loadingDialog = new LoadingDialog(context);
-        loadingDialog.show();
-        loadingDialog.setOnDismissListener(listener);
-        return loadingDialog;
-    }
-
-    public static LoadingDialog show(Context context, boolean hasBar) {
-        LoadingDialog loadingDialog = new LoadingDialog(context, hasBar, true);
-        loadingDialog.show();
-        return loadingDialog;
-    }
-
-    public static LoadingDialog show(Context context, boolean hasBar, boolean semipermeable) {
-        LoadingDialog loadingDialog = new LoadingDialog(context, hasBar, semipermeable);
-        loadingDialog.show();
-        return loadingDialog;
-    }
-
-    public static LoadingDialog show(Context context, String loadingText) {
-        LoadingDialog loadingDialog = new LoadingDialog(context);
-        loadingDialog.setLoadingText(loadingText);
-        loadingDialog.show();
-        return loadingDialog;
-    }
-
-    public static LoadingDialog show(Context context, @StringRes int loadingText) {
-        LoadingDialog loadingDialog = new LoadingDialog(context);
-        loadingDialog.setLoadingText(loadingText);
-        loadingDialog.show();
-        return loadingDialog;
-    }
-
-    public static LoadingDialog showSystom(Context context, @StringRes int loadingText) {
-        LoadingDialog loadingDialog = new LoadingDialog(context);
-        loadingDialog.setLoadingText(loadingText);
-        loadingDialog.getWindow().setType(LayoutParams.TYPE_TOAST);
-        loadingDialog.show();
-        return loadingDialog;
+    public static LoadingDialog show(Context context, LoadingDialog dialog) {
+        // 如果Dialog不存在那么就直接new一个
+        if (dialog == null) {
+            return show(context);
+        }
+        // 没有在显示就直接显示，如果已经在显示了 那么什么也不干
+        if (!dialog.isShowing()) {
+            dialog.show();
+        }
+        return dialog;
     }
 
     public static void dismiss(LoadingDialog dialog) {
-        if (dialog != null) {
-            Message message = new Message();
-            message.obj = dialog;
-            message.what = HANDLE_DISMISS;
-            mHandler.sendMessageDelayed(message, DISMISS_DELAY);
+        if (dialog == null) {
+            return;
         }
+        dialog.dismiss();
     }
 
     @Override
@@ -128,19 +81,6 @@ public class LoadingDialog extends Dialog {
         setTitle("dialog_loading");// for ddms show
         setContentView(R.layout.dialog_loading);
         ImageView photo = (ImageView) findViewById(R.id.photo);
-        View semipermeable = findViewById(R.id.semipermeable_bg);
-        mContent = (LinearLayout) findViewById(R.id.content);
-        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mContent.getLayoutParams();
-        if (!hasActionBar) {
-            lp.topMargin = 0;
-        }
-
-        if (isSemipermeable) {
-            mContent.setBackgroundResource(android.R.color.transparent);
-            semipermeable.setBackgroundResource(android.R.color.transparent);
-            photo.setBackgroundResource(R.drawable.default_loading_bg);
-
-        }
 
         Glide.with(getContext())
                 .load(R.drawable.default_loading)
@@ -160,16 +100,8 @@ public class LoadingDialog extends Dialog {
         window.setAttributes(lp);
     }
 
-    public void setLoadingText(CharSequence charSequence) {
-
-    }
-
-    public void setLoadingText(@StringRes int text) {
-
-    }
-
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    public boolean onKeyDown(int keyCode, @NonNull KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             dismiss();
         }

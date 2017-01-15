@@ -17,7 +17,6 @@
 package com.brightyu.androidcommon.modules.account.login;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.bright.common.utils.SharedPreferencesUtils;
@@ -27,64 +26,64 @@ import com.brightyu.androidcommon.manager.UserManager;
 /**
  * 登录的Presenter
  */
-public class LoginPresenter implements LoginContract.Presenter, UserManager.LoginCallBack {
-    private LoginContract.View mLoginView;
-    private Context mContext;
+class LoginPresenter extends LoginContract.Presenter implements UserManager.LoginCallBack {
     private UserManager mLoginManager;
 
-
-
-    public LoginPresenter(Context context, @NonNull LoginContract.View loginView) {
-        mLoginView = loginView;
-        mContext = context;
-        mLoginManager = UserManager.getInstance(context);
+    LoginPresenter(LoginContract.View view) {
+        super(view);
+        mLoginManager = UserManager.getInstance();
         mLoginManager.setLoginCallBack(this);
     }
 
-
-
     @Override
-    public void login(String account, String password) {
-        String errorMessage = UserManager.checkAccount(mContext, account);
+    void login(Context context, String account, String password) {
+        String errorMessage = UserManager.checkAccount(context, account);
         if (!TextUtils.isEmpty(errorMessage)) {
-            mLoginView.showLoginFail(errorMessage);
+            mView.showError(errorMessage, true, 0);
             return;
         }
 
-        errorMessage = UserManager.checkPassword(mContext, password);
+        errorMessage = UserManager.checkPassword(context, password);
         if (!TextUtils.isEmpty(errorMessage)) {
-            mLoginView.showLoginFail(errorMessage);
+            mView.showError(errorMessage, true, 0);
             return;
         }
 
-        saveUserInfo(account, password);
+        saveUserInfo(context, account, password);
 
-        mLoginView.showLoging();
+        mView.showLoading(null, true);
         mLoginManager.login(account, password);
     }
 
-    @Override
-    public void start() {
-        String account = SharedPreferencesUtils.get(mContext, User.Key.ACCOUNT, null);
-        String password = SharedPreferencesUtils.get(mContext, User.Key.PASSWORD, null);
-        mLoginView.updateUI(false, account, password);
-    }
 
     @Override
     public void onSuccess() {
-        mLoginView.showLoginSuccess();
+        mView.dismissLoading(true);
+        mView.showSuccess(null);
     }
 
     @Override
     public void onError(Exception e, String message, int type) {
-        mLoginView.showLoginFail(message);
+        mView.showError(message, true, 0);
     }
 
     /**
      * 保存用户信息
      */
-    private void saveUserInfo(String account, String password) {
-        SharedPreferencesUtils.save(mContext, User.Key.ACCOUNT, account);
-        SharedPreferencesUtils.save(mContext, User.Key.PASSWORD, password);
+    private void saveUserInfo(Context context, String account, String password) {
+        SharedPreferencesUtils.save(context, User.Key.ACCOUNT, account);
+        SharedPreferencesUtils.save(context, User.Key.PASSWORD, password);
+    }
+
+    @Override
+    public void start(Context context) {
+        String account = SharedPreferencesUtils.get(context, User.Key.ACCOUNT, null);
+        String password = SharedPreferencesUtils.get(context, User.Key.PASSWORD, null);
+        mView.updateUI(false, account, password);
+    }
+
+    @Override
+    public void stop(Context context) {
+
     }
 }

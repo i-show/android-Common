@@ -15,15 +15,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <!--Prompt 提示-->
         <TextView
-            android:id="@+id/prompt_sample"
+            android:id="@+id/sample_prompt"
             style="@style/TextView.Sample"
-            android:text="@string/prompt_sample" />
+            android:text="@string/sample_prompt" />
 
+        <!--PickerView选择器-->
         <TextView
-            android:id="@+id/pickview_sample"
+            android:id="@+id/sample_pick_view"
             style="@style/TextView.Sample"
-            android:text="@string/pickview_sample" />
+            android:text="@string/sample_pick_view" />
+
+        <!--图片选择-->
+        <TextView
+            android:id="@+id/sample_select_photo"
+            style="@style/TextView.Sample"
+            android:text="@string/sample_select_photo" />
 
     </com.bright.common.widget.Flowlayout>
 

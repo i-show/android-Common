@@ -17,7 +17,6 @@
             android:theme="@style/AppTheme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -65,16 +64,25 @@
         <!--++++++++++++++++++++控件或者工具的Demo区域（start）++++++++++++++++++++++++++-->
         <!--Demo的主类-->
         <activity
-            android:name=".modules.sample.SampleMainActivity"
-            android:screenOrientation="portrait" />
+            android:name=".modules.sample.main.SampleMainActivity"
+            android:exported="false"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.yuhaiyang.androidcommon.Test" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <!--Prompt 左上角或者右上角的提示的测试类-->
         <activity
             android:name=".modules.sample.prompt.SamplePromptActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".modules.sample.prompt.SamplePromptImageViewActivity"
-            android:screenOrientation="portrait" />
+        <!--滚轮样式的选择-->
         <activity
             android:name=".modules.sample.pickview.SamplePickerActivity"
+            android:screenOrientation="portrait" />
+        <!--选择图片-->
+        <activity
+            android:name=".modules.sample.photo.select.SampleSelectPhotoActivity"
             android:screenOrientation="portrait" />
         <!--++++++++++++++++++++控件或者工具的测试区域（end）++++++++++++++++++++++++++-->
 

@@ -1,8 +1,9 @@
 package com.brightyu.androidcommon.modules.sample.pickview;
 
 import android.os.Bundle;
-import android.widget.NumberPicker;
 
+import com.bright.common.widget.TopBar;
+import com.bright.common.widget.pickview.PickerView;
 import com.brightyu.androidcommon.R;
 import com.brightyu.androidcommon.modules.base.AppBaseActivity;
 
@@ -10,6 +11,8 @@ import com.brightyu.androidcommon.modules.base.AppBaseActivity;
  * 选择View的Sample
  */
 public class SamplePickerActivity extends AppBaseActivity {
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,7 +22,10 @@ public class SamplePickerActivity extends AppBaseActivity {
     @Override
     protected void initViews() {
         super.initViews();
+        TopBar topBar = (TopBar) findViewById(R.id.top_bar);
+        topBar.setOnTopBarListener(this);
 
-
+        PickerView pickerView = (PickerView) findViewById(R.id.picker_view);
+        pickerView.setAdapter(new SamplePickerAdapter());
     }
 }

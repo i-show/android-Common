@@ -20,6 +20,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
@@ -31,11 +32,13 @@ import android.widget.Toast;
 
 import com.bright.common.R;
 import com.bright.common.utils.SharedPreferencesUtils;
+import com.bright.common.utils.http.okhttp.OkHttpUtils;
 import com.bright.common.widget.TopBar;
 import com.bright.common.widget.YToast;
 import com.bright.common.widget.dialog.BaseDialog;
 
 public abstract class BaseFragment extends Fragment implements TopBar.OnTopBarListener {
+    protected Handler mHandler;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,12 @@ public abstract class BaseFragment extends Fragment implements TopBar.OnTopBarLi
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        OkHttpUtils.getInstance().cancelTag(this);
     }
 
     //************************ 数据保存区域*********************** //
@@ -264,5 +273,15 @@ public abstract class BaseFragment extends Fragment implements TopBar.OnTopBarLi
         BaseDialog dialog = bulider.create();
         dialog.show();
         return dialog;
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mHandler != null) {
+            mHandler.removeCallbacksAndMessages(null);
+            mHandler = null;
+        }
     }
 }

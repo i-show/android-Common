@@ -23,10 +23,10 @@ import android.widget.EditText;
 
 import com.bright.common.app.BaseActivity;
 import com.bright.common.widget.loading.LoadingDialog;
-import com.brightyu.androidcommon.modules.main.MainActivity;
 import com.brightyu.androidcommon.R;
 import com.brightyu.androidcommon.modules.account.password.forgot.ForgotPasswordActivity;
 import com.brightyu.androidcommon.modules.account.register.RegisterActivity;
+import com.brightyu.androidcommon.modules.main.MainActivity;
 
 
 /**
@@ -44,8 +44,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mPresenter = new LoginPresenter(this, this);
-        mPresenter.start();
+        mPresenter = new LoginPresenter(this);
+        mPresenter.start(this);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
             case R.id.login:
                 String account = mEditAccount.getText().toString();
                 String name = mEditPassword.getText().toString();
-                mPresenter.login(account, name);
+                mPresenter.login(this, account, name);
                 break;
             case R.id.regist:
                 intent = new Intent(this, RegisterActivity.class);
@@ -85,26 +85,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
         }
     }
 
-    @Override
-    public void showLoging() {
-        mLoadingDialog = LoadingDialog.show(this);
-    }
-
-    @Override
-    public void showLoginFail(String message) {
-        LoadingDialog.dismiss(mLoadingDialog);
-        dialog(message);
-    }
-
-
-    @Override
-    public void showLoginSuccess() {
-        LoadingDialog.dismiss(mLoadingDialog);
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
-    }
 
     @Override
     public void updateUI(boolean rememberPassword, String account, String password) {
@@ -112,5 +92,26 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
         mEditPassword.setText(password);
     }
 
+    @Override
+    public void showLoading(String message, boolean dialog) {
+        mLoadingDialog = LoadingDialog.show(this, mLoadingDialog);
+    }
 
+    @Override
+    public void dismissLoading(boolean dialog) {
+        LoadingDialog.dismiss(mLoadingDialog);
+    }
+
+    @Override
+    public void showError(String message, boolean dialog, int errorCode) {
+        dialog(message);
+    }
+
+    @Override
+    public void showSuccess(String message) {
+        // 这个地方不需要 finish
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
 }

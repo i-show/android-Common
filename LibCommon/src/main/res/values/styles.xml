@@ -33,6 +33,13 @@
         <item name="android:activityCloseExitAnimation">@anim/bottom_out</item>
     </style>
 
+    <style name="Animation.Activity.Alpha">
+        <item name="android:activityOpenEnterAnimation">@anim/alpha_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/alpha_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/alpha_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/alpha_out</item>
+    </style>
+
     <style name="Animation.Windows" />
 
     <style name="Animation.Windows.Bottom">
@@ -224,7 +231,7 @@
     </style>
 
     <!-- Button 默认样式统一样式 -->
-    <style name="Button" parent="Widget.AppCompat.Button" />
+    <style name="Button" parent="@style/Widget.AppCompat.Button.Borderless" />
 
     <!-- TextView 默认样式统一样式 -->
     <style name="TextView" parent="@android:style/Widget.DeviceDefault.TextView">

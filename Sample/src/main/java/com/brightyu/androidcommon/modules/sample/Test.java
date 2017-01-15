@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 yuhaiyang android source project
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,8 +24,7 @@ import java.util.Random;
  * 测试用的
  */
 public class Test {
-    private static final String TAG = Test.class.getSimpleName();
-
+    private static final String TAG = "Test";
 
     public static final String[] IMAGE_LIST = new String[]{
             "http://www.yuhaiyang.net/images/portfolio-1.jpg",
@@ -131,6 +130,7 @@ public class Test {
         }
         return photos;
     }
+
     public static String[] getPhotos(int count) {
         count = Math.max(1, count);
         String[] photos = new String[count];

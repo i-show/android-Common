@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- * <p/>
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p/>
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,10 +14,28 @@
  * limitations under the License.
  */
 
-package com.brightyu.androidcommon.modules.base;
+package com.brightyu.androidcommon.modules.base.mvp;
 
-public interface BasePresenter {
+import android.content.Context;
 
-    void start();
+/**
+ * 自己修改过的
+ */
+public abstract class BasePresenter<VIEW extends BaseView> {
+    protected VIEW mView;
+
+    public BasePresenter(VIEW view) {
+        mView = view;
+    }
+
+    /**
+     * start
+     */
+    public abstract void start(Context context);
+
+    /**
+     * stop
+     */
+    public abstract void stop(Context context);
 
 }

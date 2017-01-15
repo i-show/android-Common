@@ -126,7 +126,7 @@ public class SingleSelectPhotoUtils extends SelectPhotoUtils implements DialogIn
             case Request.REQUEST_SINGLE_CAMERA:
                 switch (mMode) {
                     case MODE_COMPRESS:
-                        mLoadingDialog = LoadingDialog.show(mContext);
+                        mLoadingDialog = LoadingDialog.show(mContext, mLoadingDialog);
                         new Thread(new CompressRunnable(mCameraFileUri)).start();
                         break;
                     case MODE_CROP:
@@ -140,7 +140,7 @@ public class SingleSelectPhotoUtils extends SelectPhotoUtils implements DialogIn
                 Log.d(TAG, "picPath = " + picPath);
                 switch (mMode) {
                     case MODE_COMPRESS:
-                        mLoadingDialog = LoadingDialog.show(mContext);
+                        mLoadingDialog = LoadingDialog.show(mContext, mLoadingDialog);
                         final Uri originUri = Uri.parse(picPath);
                         new Thread(new CompressRunnable(originUri)).start();
                         break;

@@ -27,7 +27,6 @@ import com.alibaba.fastjson.JSON;
 import com.bright.common.utils.RegexValidateUtils;
 import com.bright.common.utils.SharedPreferencesUtils;
 import com.bright.common.utils.StringUtils;
-import com.bright.common.utils.Utils;
 import com.brightyu.androidcommon.R;
 import com.brightyu.androidcommon.entries.User;
 
@@ -37,7 +36,6 @@ import java.util.Random;
 public class UserManager {
     private static final String TAG = "UserManager";
 
-    private Context mContext;
     private LoginCallBack mCallBack;
     private static UserManager sInstance;
 
@@ -46,26 +44,25 @@ public class UserManager {
     // 暂时用来模拟登录
     private Handler mHandler;
 
-    private UserManager(Context context) {
-        mContext = context;
+    private UserManager() {
         mHandler = new Handler();
     }
 
 
-    public static UserManager getInstance(Context context) {
+    public static UserManager getInstance() {
         if (sInstance == null) {
             synchronized (UserManager.class) {
                 if (sInstance == null) {
-                    sInstance = new UserManager(context.getApplicationContext());
+                    sInstance = new UserManager();
                 }
             }
         }
         return sInstance;
     }
 
-    public User getUser() {
+    public User getUser(Context context) {
         if (mUser == null || mUser.get() == null) {
-            String jsonString = SharedPreferencesUtils.get(mContext, User.Key.KEY_CACHE_USER, null);
+            String jsonString = SharedPreferencesUtils.get(context, User.Key.KEY_CACHE_USER, null, true);
             if (TextUtils.isEmpty(jsonString)) {
                 Log.i(TAG, "getUser: no user");
                 return null;

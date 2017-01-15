@@ -108,7 +108,7 @@ public class MultipleSelectPhotoUtils extends SelectPhotoUtils {
 
         switch (requestCode) {
             case Request.REQUEST_MULTI_CAMERA:
-                mLoadingDialog = LoadingDialog.show(mContext);
+                mLoadingDialog = LoadingDialog.show(mContext, mLoadingDialog);
                 mPhotos.clear();
                 mPhotos.add("camera");
                 isAreadyOk = false;
@@ -120,7 +120,7 @@ public class MultipleSelectPhotoUtils extends SelectPhotoUtils {
                 break;
             case Request.REQUEST_MULTI_PICK:
                 List<String> photots = data.getStringArrayListExtra(SelectorPicture.Key.EXTRA_RESULT);
-                mLoadingDialog = LoadingDialog.show(mContext);
+                mLoadingDialog = LoadingDialog.show(mContext, mLoadingDialog);
                 mPhotos.clear();
                 // 把没有压缩前添加进入当占位符
                 mPhotos.addAll(photots);

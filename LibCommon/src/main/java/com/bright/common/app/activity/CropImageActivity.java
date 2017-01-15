@@ -82,7 +82,7 @@ public class CropImageActivity extends BaseActivity {
     @Override
     public void onRightClick(View v) {
         super.onRightClick(v);
-        LoadingDialog dialog = LoadingDialog.show(this);
+        LoadingDialog dialog = LoadingDialog.show(this, null);
         Bitmap bitmap = mCropView.getCroppedBitmap();
         String cachePath = ImageUtils.compressBitmap(this, bitmap, 300);
         Intent intent = new Intent();

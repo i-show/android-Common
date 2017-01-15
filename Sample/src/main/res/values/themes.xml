@@ -30,9 +30,6 @@
 
     <style name="AppTheme.Guide" parent="Theme.NoActionBar.Fullscreen" />
 
-
-    <style name="AppTheme.Login">
-        <item name="android:windowBackground">@drawable/login_bg</item>
-    </style>
+    <style name="AppTheme.Login" />
 
 </resources>

@@ -17,21 +17,18 @@
 package com.brightyu.androidcommon.modules.account.login;
 
 
-import com.brightyu.androidcommon.modules.base.BasePresenter;
-import com.brightyu.androidcommon.modules.base.BaseView;
+import android.content.Context;
+
+import com.brightyu.androidcommon.modules.base.mvp.BasePresenter;
+import com.brightyu.androidcommon.modules.base.mvp.BaseView;
 
 /**
  * This specifies the contract between the view and the presenter.
  */
-public interface LoginContract {
+interface LoginContract {
 
-    interface View extends BaseView<Presenter> {
+    interface View extends BaseView {
 
-        void showLoging();
-
-        void showLoginFail(String message);
-
-        void showLoginSuccess();
 
         /**
          * password 暂时占位，预防有记住密码功能
@@ -39,7 +36,11 @@ public interface LoginContract {
         void updateUI(boolean rememberPassword, String account, String password);
     }
 
-    interface Presenter extends BasePresenter {
-        void login(String name, String password);
+    abstract class Presenter extends BasePresenter<View> {
+        Presenter(View view) {
+            super(view);
+        }
+
+        abstract void login(Context context, String name, String password);
     }
 }

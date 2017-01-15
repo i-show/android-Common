@@ -14,37 +14,50 @@
  * limitations under the License.
  */
 
-package com.brightyu.androidcommon.modules.main;
+package com.brightyu.androidcommon.modules.sample.photo.select;
 
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 
-import com.bright.common.app.BaseActivity;
 import com.bright.common.utils.image.select.MultipleSelectPhotoUtils;
 import com.bright.common.utils.image.select.SingleSelectPhotoUtils;
 import com.bright.common.widget.TopBar;
-import com.bright.common.widget.YToast;
 import com.brightyu.androidcommon.R;
+import com.brightyu.androidcommon.modules.base.AppBaseActivity;
 
 import java.util.List;
 
-public class MainActivity extends BaseActivity {
-    private static final String TAG = "MainActivity";
+/**
+ * Created by Bright.Yu on 2017/1/15.
+ * 选择图片
+ */
 
-    private long mLastTime;
-    final String test[] = {"山东", "北京", "青岛", "苏州", "上海"};
+public class SampleSelectPhotoActivity extends AppBaseActivity {
 
+    MultipleSelectPhotoUtils mMultipleSelectPhotoUtils;
+    SingleSelectPhotoUtils mSingleSelectPhotoUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_sample_select_photo);
 
+        mSingleSelectPhotoUtils = new SingleSelectPhotoUtils(this);
+        mSingleSelectPhotoUtils.setCallBack(new SingleSelectPhotoUtils.CallBack() {
+            @Override
+            public void onResult(Uri url) {
 
+            }
+        });
+
+        mMultipleSelectPhotoUtils = new MultipleSelectPhotoUtils(this);
+        mMultipleSelectPhotoUtils.setCallBack(new MultipleSelectPhotoUtils.CallBack() {
+            @Override
+            public void onResult(List<String> urls) {
+
+            }
+        });
     }
 
     @Override
@@ -55,29 +68,9 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public void onRightClick(View v) {
-        super.onRightClick(v);
-        try {
-            Intent intent = new Intent("com.yuhaiyang.androidcommon.Test");
-            startActivity(intent);
-        } catch (ActivityNotFoundException e) {
-            Log.i(TAG, "onRightClick: activity is not found");
-        }
-
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mMultipleSelectPhotoUtils.onActivityResult(requestCode, resultCode, data);
     }
 
-
-    @Override
-    public void onBackPressed() {
-        final long nowTime = System.currentTimeMillis();
-        if (nowTime - mLastTime < 2000) {
-            super.onBackPressed();
-        } else {
-            mLastTime = nowTime;
-            YToast.show(this, R.string.click_again_to_exit);
-        }
-    }
 }
-
-
-
