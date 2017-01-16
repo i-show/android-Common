@@ -18,33 +18,23 @@ package com.brightyu.androidcommon.modules.main;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
 import com.bright.common.app.BaseActivity;
-import com.bright.common.utils.image.select.MultipleSelectPhotoUtils;
-import com.bright.common.utils.image.select.SingleSelectPhotoUtils;
 import com.bright.common.widget.TopBar;
 import com.bright.common.widget.YToast;
 import com.brightyu.androidcommon.R;
 
-import java.util.List;
-
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
-
     private long mLastTime;
-    final String test[] = {"山东", "北京", "青岛", "苏州", "上海"};
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
     }
 
     @Override

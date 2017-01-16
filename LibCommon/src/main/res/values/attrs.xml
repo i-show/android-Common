@@ -134,6 +134,9 @@
     <attr name="rightPadding" format="dimension" />
     <attr name="leftPadding" format="dimension" />
 
+    <attr name="widthScale" format="integer" />
+    <attr name="heightScale" format="integer" />
+
     <attr name="selectedChild" format="reference" />
     <attr name="cannotSelectedChild" format="reference" />
 
@@ -509,6 +512,11 @@
         <attr name="unselectedTextColor" />
         <attr name="divider" />
         <attr name="visiableCount" />
+    </declare-styleable>
+
+    <declare-styleable name="ScaleImageView">
+        <attr name="widthScale" />
+        <attr name="heightScale" />
     </declare-styleable>
 
 </resources>

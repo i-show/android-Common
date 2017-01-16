@@ -33,9 +33,16 @@
 
         <!--单选图片-->
         <TextView
-            android:id="@+id/sample_select_photo_single"
+            android:id="@+id/sample_select_photo_single_compress"
             style="@style/TextView.Sample"
-            android:text="@string/sample_select_photo_single" />
+            android:text="@string/sample_select_photo_single_compress" />
+
+
+        <!--单选图片-->
+        <TextView
+            android:id="@+id/sample_select_photo_single_crop"
+            style="@style/TextView.Sample"
+            android:text="@string/sample_select_photo_single_crop" />
 
         <!--多选图片-->
         <TextView

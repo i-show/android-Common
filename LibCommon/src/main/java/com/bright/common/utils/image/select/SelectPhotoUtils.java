@@ -68,11 +68,11 @@ public class SelectPhotoUtils implements
     /**
      * 通过拍照 来选择
      */
-    public static final int SELECT_PHOTO_CAMERA = 0;
+    private static final int SELECT_PHOTO_CAMERA = 0;
     /**
      * 通过画廊来选择
      */
-    public static final int SELECT_PHOTO_GALLERY = 1;
+    private static final int SELECT_PHOTO_GALLERY = 1;
 
 
     /**
@@ -80,23 +80,23 @@ public class SelectPhotoUtils implements
      */
     private List<String> mPhotos = Collections.synchronizedList(new ArrayList<String>());
 
-    protected Activity mActivity;
+    private Activity mActivity;
 
     /**
      * Camera拍照输出的地址
      */
-    protected Uri mCameraFileUri;
+    private Uri mCameraFileUri;
     /**
      * 选择方式的Dialog
      */
     private BaseDialog mSelectDialog;
 
-    protected LoadingDialog mLoadingDialog;
+    private LoadingDialog mLoadingDialog;
 
     /**
      * 选择图片的Listener
      */
-    private OnSelectPhotoListener mListener;
+    private OnSelectPhotoListener mSelectPhotoListener;
 
     /**
      * 选择图片的类型， 单选还是多选
@@ -118,10 +118,7 @@ public class SelectPhotoUtils implements
      * 可以选择的最大数量
      */
     private int mMaxSelectCount;
-    /**
-     * 选择图片的数量
-     */
-    private int mSelectCount;
+
     /**
      * 数据是否已经完成
      */
@@ -136,6 +133,12 @@ public class SelectPhotoUtils implements
         mSelectMode = selectMode;
     }
 
+    /**
+     * 设置选择模式
+     */
+    public void setSelectMode(@mode int selectMode) {
+        mSelectMode = selectMode;
+    }
 
     /**
      * 默认选择图片
@@ -147,16 +150,18 @@ public class SelectPhotoUtils implements
             mResultMode = ResultMode.COMPRESS;
             mMaxSelectCount = MAX_SELECT_COUNT;
         }
+
+        showSelectDialog();
     }
 
     /**
      * 选择图片
      */
-    public void select(@IntRange(from = 1) int count) {
+    public void select(@IntRange(from = 1) int maxCount) {
         if (mSelectMode == SelectMode.SINGLE) {
             throw new IllegalStateException("only mult select mode can select mulit count");
         }
-        mSelectCount = count;
+        mMaxSelectCount = maxCount;
         mResultMode = ResultMode.COMPRESS;
         mMaxSelectCount = MAX_SELECT_COUNT;
 
@@ -184,7 +189,7 @@ public class SelectPhotoUtils implements
     /**
      * 显示选择框
      */
-    protected void showSelectDialog() {
+    private void showSelectDialog() {
         if (mSelectDialog == null) {
             mSelectDialog = new BaseDialog.Builder(mActivity, R.style.Dialog_Bottom_IOS)
                     .setTitle(R.string.select_photo_title)
@@ -241,7 +246,7 @@ public class SelectPhotoUtils implements
                 break;
             case SelectMode.MULTIPLE:
                 intent.putExtra(SelectorPicture.Key.EXTRA_SELECT_MODE, SelectorPicture.Key.MODE_MULTI);
-                intent.putExtra(SelectorPicture.Key.EXTRA_SELECT_COUNT, mSelectCount);
+                intent.putExtra(SelectorPicture.Key.EXTRA_SELECT_COUNT, mMaxSelectCount);
                 mActivity.startActivityForResult(intent, Request.REQUEST_MULTI_PICK);
                 break;
         }
@@ -250,6 +255,7 @@ public class SelectPhotoUtils implements
     @Override
     public void onDismiss(DialogInterface dialog) {
         mSelectDialog = null;
+        mHandler.removeCallbacksAndMessages(null);
     }
 
     /**
@@ -296,6 +302,7 @@ public class SelectPhotoUtils implements
             case Request.REQUEST_SINGLE_CAMERA:
             case Request.REQUEST_MULTI_PICK:
             case Request.REQUEST_MULTI_CAMERA:
+            case Request.REQUEST_CROP_IMAGE:
                 YToast.show(mActivity, R.string.cancle_photo);
                 break;
         }
@@ -324,7 +331,6 @@ public class SelectPhotoUtils implements
                 resolveResultPhotosForCompress(photos);
                 break;
             case ResultMode.CROP:
-                picPath = mCameraFileUri.getPath();
                 goToCrop(picPath);
                 break;
         }
@@ -393,16 +399,14 @@ public class SelectPhotoUtils implements
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if (mListener == null) {
+            if (mSelectPhotoListener == null) {
                 LoadingDialog.dismiss(mLoadingDialog);
                 return;
             }
 
             if (mExecutorService.isTerminated() && !isAlreadyOk) {
                 isAlreadyOk = true;
-                mListener.onSelectedPhoto(mPhotos, mPhotos.get(0));
-                Log.i(TAG, "mCallBack  = =" + mPhotos.size());
-                LoadingDialog.dismiss(mLoadingDialog);
+                notifySelectPhoto(mPhotos, mPhotos.get(0));
             }
 
         }
@@ -413,19 +417,18 @@ public class SelectPhotoUtils implements
      * 提示已经选了多少图片
      */
     private void notifySelectPhoto(String singlePath) {
-        if (mListener != null) {
-            List<String> multiPath = new ArrayList<>();
-            multiPath.add(singlePath);
-            mListener.onSelectedPhoto(multiPath, singlePath);
-        }
+        List<String> multiPath = new ArrayList<>();
+        multiPath.add(singlePath);
+        notifySelectPhoto(multiPath, singlePath);
     }
 
     /**
      * 提示已经选了多少图片
      */
     private void notifySelectPhoto(List<String> multiPath, String singlePath) {
-        if (mListener != null) {
-            mListener.onSelectedPhoto(multiPath, singlePath);
+        LoadingDialog.dismiss(mLoadingDialog);
+        if (mSelectPhotoListener != null) {
+            mSelectPhotoListener.onSelectedPhoto(multiPath, singlePath);
         }
     }
 
@@ -433,7 +436,7 @@ public class SelectPhotoUtils implements
      * 设置选择图片的监听
      */
     public void setOnSelectPhotoListener(OnSelectPhotoListener listener) {
-        mListener = listener;
+        mSelectPhotoListener = listener;
     }
 
     /**
@@ -457,15 +460,15 @@ public class SelectPhotoUtils implements
     }
 
 
-    public final static class ResultMode {
+    private final static class ResultMode {
         /**
          * 压缩
          */
-        public final static int COMPRESS = 1;
+        private final static int COMPRESS = 1;
         /**
          * 剪切
          */
-        public final static int CROP = 2;
+        private final static int CROP = 2;
     }
 
 

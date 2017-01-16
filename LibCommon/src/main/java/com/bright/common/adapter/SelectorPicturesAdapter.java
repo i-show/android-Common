@@ -120,12 +120,12 @@ public class SelectorPicturesAdapter extends ListAdapter<SelectorPicture, Select
                 .into(holder.image);
     }
 
-    public class ViewHolde extends ListAdapter.Holder implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+    class ViewHolde extends ListAdapter.Holder implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
         ImageView image;
         CheckBox state;
         View mask;
 
-        public ViewHolde(View item, int type) {
+        ViewHolde(View item, int type) {
             super(item, type);
             item.setLayoutParams(mItemLayoutParams);
             item.setOnClickListener(this);

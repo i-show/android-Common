@@ -24,7 +24,7 @@ import android.view.View;
 import com.bright.common.R;
 import com.bright.common.app.BaseActivity;
 import com.bright.common.utils.image.ImageUtils;
-import com.bright.common.utils.image.select.SingleSelectPhotoUtils;
+import com.bright.common.utils.image.select.SelectPhotoUtils;
 import com.bright.common.widget.CropImageView;
 import com.bright.common.widget.TopBar;
 import com.bright.common.widget.loading.LoadingDialog;
@@ -87,7 +87,7 @@ public class CropImageActivity extends BaseActivity {
         String cachePath = ImageUtils.compressBitmap(this, bitmap, 300);
         Intent intent = new Intent();
         intent.putExtra(KEY_RESULT_PATH, cachePath);
-        setResult(SingleSelectPhotoUtils.Request.REQUEST_CROP_IMAGE, intent);
+        setResult(SelectPhotoUtils.Request.REQUEST_CROP_IMAGE, intent);
         dialog.dismiss();
         finish();
     }

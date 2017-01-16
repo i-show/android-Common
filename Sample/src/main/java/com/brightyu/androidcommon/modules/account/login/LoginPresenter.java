@@ -64,6 +64,7 @@ class LoginPresenter extends LoginContract.Presenter implements UserManager.Logi
 
     @Override
     public void onError(Exception e, String message, int type) {
+        mView.dismissLoading(true);
         mView.showError(message, true, 0);
     }
 
