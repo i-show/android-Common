@@ -16,16 +16,22 @@
 
 package com.bright.common.utils.image.select;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.annotation.IntDef;
 import android.support.annotation.IntRange;
 import android.support.annotation.Keep;
+import android.support.annotation.StringRes;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -144,6 +150,11 @@ public class SelectPhotoUtils implements
      * 默认选择图片
      */
     public void select() {
+        if (!hasPermission()) {
+            Log.i(TAG, "select: no premission");
+            return;
+        }
+
         if (mSelectMode == SelectMode.SINGLE) {
             mResultMode = ResultMode.COMPRESS;
         } else {
@@ -158,6 +169,11 @@ public class SelectPhotoUtils implements
      * 选择图片
      */
     public void select(@IntRange(from = 1) int maxCount) {
+        if (!hasPermission()) {
+            Log.i(TAG, "select: no premission");
+            return;
+        }
+
         if (mSelectMode == SelectMode.SINGLE) {
             throw new IllegalStateException("only mult select mode can select mulit count");
         }
@@ -176,6 +192,11 @@ public class SelectPhotoUtils implements
      * @param scaleY 单选图片-Y轴的比例
      */
     public void select(@IntRange(from = 1) int scaleX, @IntRange(from = 1) int scaleY) {
+        if (!hasPermission()) {
+            Log.i(TAG, "select: no premission");
+            return;
+        }
+
         if (mSelectMode == SelectMode.MULTIPLE) {
             throw new IllegalStateException("only single select mode can set scaleX and scaleY");
         }
@@ -440,6 +461,45 @@ public class SelectPhotoUtils implements
     }
 
     /**
+     * 如果是Android6.0 以上就需要配置权限
+     */
+
+    private boolean hasPermission() {
+        if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                requestPermissionRationale(R.string.premission_storage_select_photo);
+            } else {
+                ActivityCompat.requestPermissions(mActivity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Request.REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION);
+            }
+            return false;
+        } else if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                requestPermissionRationale(R.string.premission_storage_select_photo);
+            } else {
+                ActivityCompat.requestPermissions(mActivity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, Request.REQUEST_READ_EXTERNAL_STORAGE_PERMISSION);
+            }
+            return false;
+        }
+        return true;
+    }
+
+
+    private void requestPermissionRationale(@StringRes int message) {
+        BaseDialog dialog = new BaseDialog.Builder(mActivity)
+                .setMessage(message)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Uri url = Uri.parse("package:" + mActivity.getPackageName());
+                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, url);
+                        mActivity.startActivity(intent);
+                    }
+                })
+                .create();
+        dialog.show();
+    }
+
+    /**
      * 定义图片是单选还是多选
      */
     @IntDef({SelectMode.SINGLE, SelectMode.MULTIPLE})
@@ -496,5 +556,13 @@ public class SelectPhotoUtils implements
          * 剪切图片
          */
         public static final int REQUEST_CROP_IMAGE = REQUEST_SINGLE_CAMERA + 4;
+        /**
+         * 请求处理 权限
+         */
+        public static final int REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION = REQUEST_SINGLE_CAMERA + 5;
+        /**
+         * 请求处理 权限
+         */
+        public static final int REQUEST_READ_EXTERNAL_STORAGE_PERMISSION = REQUEST_SINGLE_CAMERA + 6;
     }
 }

@@ -52,4 +52,5 @@
     <string name="all_photos">所有照片</string>
     <string name="already_select_max">已经达到最高选择数量</string>
     <string name="exception_intent_open">没有找到相关应用</string>
+    <string name="premission_storage_select_photo">请提供内部存储权限，否则将无法选择图片</string>
 </resources>
