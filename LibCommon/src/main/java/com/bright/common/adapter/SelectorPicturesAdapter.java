@@ -27,7 +27,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.bright.common.R;
-import com.bright.common.entries.SelectorPicture;
+import com.bright.common.entries.Photo;
 import com.bright.common.widget.YToast;
 import com.bright.common.widget.dialog.ShowPhotoDialog;
 import com.bumptech.glide.Glide;
@@ -39,14 +39,14 @@ import java.util.List;
  * 图片Adapter
  * Created by Nereo on 2015/4/7.
  */
-public class SelectorPicturesAdapter extends ListAdapter<SelectorPicture, SelectorPicturesAdapter.ViewHolde> {
+public class SelectorPicturesAdapter extends ListAdapter<Photo, SelectorPicturesAdapter.ViewHolde> {
     private static final String TAG = "MultiImageAdapter";
 
     private boolean isMultiSelector = true;
     private int mItemSize;
     private int mMaxSelectedCount;
 
-    private List<SelectorPicture> mSelectedImages = new ArrayList<>();
+    private List<Photo> mSelectedImages = new ArrayList<>();
     private GridView.LayoutParams mItemLayoutParams;
     private CallBack mCallBack;
 
@@ -74,7 +74,7 @@ public class SelectorPicturesAdapter extends ListAdapter<SelectorPicture, Select
     /**
      * 设定已经选择了的照片
      */
-    public void setSelectedImages(List<SelectorPicture> selectedImages) {
+    public void setSelectedImages(List<Photo> selectedImages) {
         if (selectedImages == null) {
             mSelectedImages = new ArrayList<>();
         } else {
@@ -98,13 +98,13 @@ public class SelectorPicturesAdapter extends ListAdapter<SelectorPicture, Select
 
     @Override
     public ViewHolde onCreateViewHolder(ViewGroup parent, int type) {
-        View view = mLayoutInflater.inflate(R.layout.item_multi_choice_image, parent, false);
+        View view = mLayoutInflater.inflate(R.layout.item_photo_selector, parent, false);
         return new ViewHolde(view, type);
     }
 
     @Override
     public void onBindViewHolder(ViewHolde holder, int position, int type) {
-        SelectorPicture entry = getRealItem(position);
+        Photo entry = getRealItem(position);
         holder.getItemView().setTag(R.id.tag_01, entry);
 
         holder.state.setTag(R.id.tag_01, entry);
@@ -149,7 +149,7 @@ public class SelectorPicturesAdapter extends ListAdapter<SelectorPicture, Select
         }
 
         private void selectImage(CompoundButton v, boolean isChecked) {
-            SelectorPicture entry = (SelectorPicture) v.getTag(R.id.tag_01);
+            Photo entry = (Photo) v.getTag(R.id.tag_01);
 
             if (entry.isSelected == isChecked) {
                 Log.i(TAG, "selectImage: state is same just return");
@@ -184,7 +184,7 @@ public class SelectorPicturesAdapter extends ListAdapter<SelectorPicture, Select
         }
 
         private void onItemClick(View v) {
-            SelectorPicture entry = (SelectorPicture) v.getTag(R.id.tag_01);
+            Photo entry = (Photo) v.getTag(R.id.tag_01);
             ShowPhotoDialog dialog = new ShowPhotoDialog(mContext);
             dialog.setData(entry.path);
             dialog.setShowThumb(false);
@@ -198,7 +198,7 @@ public class SelectorPicturesAdapter extends ListAdapter<SelectorPicture, Select
         /**
          * 点击图片
          */
-        void onSelectImage(SelectorPicture entry, boolean selected);
+        void onSelectImage(Photo entry, boolean selected);
     }
 
 }

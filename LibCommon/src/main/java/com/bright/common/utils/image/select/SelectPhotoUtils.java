@@ -36,10 +36,10 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.bright.common.R;
-import com.bright.common.app.activity.CropImageActivity;
-import com.bright.common.app.activity.SelectorPicturesActivity;
 import com.bright.common.constant.Shift;
-import com.bright.common.entries.SelectorPicture;
+import com.bright.common.entries.Photo;
+import com.bright.common.modules.image.cutter.PhotoCutterActivity;
+import com.bright.common.modules.image.select.PhotoSelectorActivity;
 import com.bright.common.utils.image.ImageUtils;
 import com.bright.common.utils.log.L;
 import com.bright.common.widget.YToast;
@@ -259,15 +259,15 @@ public class SelectPhotoUtils implements
      * 通过相册来选择图片
      */
     private void selectPhotoByGallery() {
-        Intent intent = new Intent(mActivity, SelectorPicturesActivity.class);
+        Intent intent = new Intent(mActivity, PhotoSelectorActivity.class);
         switch (mSelectMode) {
             case SelectMode.SINGLE:
-                intent.putExtra(SelectorPicture.Key.EXTRA_SELECT_MODE, SelectorPicture.Key.MODE_SINGLE);
+                intent.putExtra(Photo.Key.EXTRA_SELECT_MODE, Photo.Key.MODE_SINGLE);
                 mActivity.startActivityForResult(intent, Request.REQUEST_SINGLE_PICK);
                 break;
             case SelectMode.MULTIPLE:
-                intent.putExtra(SelectorPicture.Key.EXTRA_SELECT_MODE, SelectorPicture.Key.MODE_MULTI);
-                intent.putExtra(SelectorPicture.Key.EXTRA_SELECT_COUNT, mMaxSelectCount);
+                intent.putExtra(Photo.Key.EXTRA_SELECT_MODE, Photo.Key.MODE_MULTI);
+                intent.putExtra(Photo.Key.EXTRA_SELECT_COUNT, mMaxSelectCount);
                 mActivity.startActivityForResult(intent, Request.REQUEST_MULTI_PICK);
                 break;
         }
@@ -296,15 +296,15 @@ public class SelectPhotoUtils implements
                 resolveSingleResult(mCameraFileUri.getPath());
                 break;
             case Request.REQUEST_SINGLE_PICK:
-                String path = data.getStringExtra(SelectorPicture.Key.EXTRA_RESULT);
+                String path = data.getStringExtra(Photo.Key.EXTRA_RESULT);
                 resolveSingleResult(path);
                 break;
             case Request.REQUEST_MULTI_PICK:
-                List<String> pathList = data.getStringArrayListExtra(SelectorPicture.Key.EXTRA_RESULT);
+                List<String> pathList = data.getStringArrayListExtra(Photo.Key.EXTRA_RESULT);
                 resolveMultiResult(pathList);
                 break;
             case Request.REQUEST_CROP_IMAGE:
-                String picPath = data.getStringExtra(CropImageActivity.KEY_RESULT_PATH);
+                String picPath = data.getStringExtra(PhotoCutterActivity.KEY_RESULT_PATH);
                 notifySelectPhoto(picPath);
                 break;
             default:
@@ -392,10 +392,10 @@ public class SelectPhotoUtils implements
      * 跳转剪切
      */
     private void goToCrop(String path) {
-        Intent intent = new Intent(mActivity, CropImageActivity.class);
-        intent.putExtra(CropImageActivity.KEY_PATH, path);
-        intent.putExtra(CropImageActivity.KEY_RATIO_X, mScaleX);
-        intent.putExtra(CropImageActivity.KEY_RATIO_Y, mScaleY);
+        Intent intent = new Intent(mActivity, PhotoCutterActivity.class);
+        intent.putExtra(PhotoCutterActivity.KEY_PATH, path);
+        intent.putExtra(PhotoCutterActivity.KEY_RATIO_X, mScaleX);
+        intent.putExtra(PhotoCutterActivity.KEY_RATIO_Y, mScaleY);
         mActivity.startActivityForResult(intent, Request.REQUEST_CROP_IMAGE);
     }
 

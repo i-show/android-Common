@@ -231,29 +231,30 @@
     </style>
 
     <!-- Button 默认样式统一样式 -->
-    <style name="Button" parent="@style/Widget.AppCompat.Button.Borderless" />
+    <style name="AppButton" parent="@style/Widget.AppCompat.Button.Borderless" />
 
     <!-- TextView 默认样式统一样式 -->
-    <style name="TextView" parent="@android:style/Widget.DeviceDefault.TextView">
-        <!--<item name="android:textAppearance">@style/TextAppearance.TextView</item>-->
-        <!--<item name="textSelectHandleLeft">?attr/textSelectHandleLeft</item>-->
-        <!--<item name="textSelectHandleRight">?attr/textSelectHandleRight</item>-->
-        <!--<item name="textSelectHandle">?attr/textSelectHandle</item>-->
-        <!--<item name="textEditPasteWindowLayout">?attr/textEditPasteWindowLayout</item>-->
-        <!--<item name="textEditNoPasteWindowLayout">?attr/textEditNoPasteWindowLayout</item>-->
-        <!--<item name="textEditSidePasteWindowLayout">?attr/textEditSidePasteWindowLayout</item>-->
-        <!--<item name="textEditSideNoPasteWindowLayout">?attr/textEditSideNoPasteWindowLayout</item>-->
-        <!--<item name="textEditSuggestionItemLayout">?attr/textEditSuggestionItemLayout</item>-->
-        <!--<item name="textCursorDrawable">?attr/textCursorDrawable</item>-->
+    <style name="AppTextView" parent="@android:style/Widget.DeviceDefault.TextView" />
+
+    <!-- 图片选择器-->
+    <style name="AppTextView.PhotoSelector" />
+
+    <style name="AppTextView.PhotoSelector.TimeLine">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:alpha">0</item>
+        <item name="android:background">@color/grey_alpha_0_8_5</item>
+        <item name="android:paddingTop">@dimen/gap_grade_1</item>
+        <item name="android:paddingLeft">@dimen/gap_grade_3</item>
+        <item name="android:paddingRight">@dimen/gap_grade_3</item>
+        <item name="android:paddingBottom">@dimen/gap_grade_1</item>
+        <item name="android:textColor">@color/text_white_normal</item>
+        <item name="android:textSize">@dimen/H_title</item>
     </style>
+
+
     <!-- EditText 默认样式统一样式 -->
-    <style name="EditText" parent="Widget.AppCompat.EditText">
-        <!--<item name="android:textAppearance">@style/TextAppearance.EditText</item>-->
-        <!--<item name="android:textColor">@color/text_grey</item>-->
-        <!--<item name="android:textColorHint">@color/text_color_hint</item>-->
-        <!--<item name="android:minWidth">64dip</item>-->
-        <!--<item name="android:padding">5dip</item>-->
-        <!--<item name="android:textCursorDrawable">@null</item>-->
-    </style>
+    <style name="AppEditText" parent="Widget.AppCompat.EditText" />
+
 
 </resources>

@@ -28,9 +28,16 @@
             android:name="com.bright.common.app.activity.SelectorPicturesActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.NoActionBar" />
+        
+        <!--选择图片的类-->
+        <activity
+            android:name=".modules.image.select.PhotoSelectorActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.NoActionBar" />
+
         <!--剪切图片的类-->
         <activity
-            android:name="com.bright.common.app.activity.CropImageActivity"
+            android:name="com.bright.common.modules.image.cutter.PhotoCutterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.NoActionBar.Fullscreen" />
 

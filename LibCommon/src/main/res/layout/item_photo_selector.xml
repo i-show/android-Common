@@ -14,15 +14,15 @@
   limitations under the License.
   -->
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.bright.common.widget.ScaleFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/image"
+        android:id="@+id/photo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/grey_deep_3"
+        android:contentDescription="@string/des_image"
         android:scaleType="center" />
 
     <View
@@ -32,11 +32,21 @@
         android:background="@color/grey_alpha_0_7"
         android:visibility="gone" />
 
-    <CheckBox
-        android:id="@+id/state"
+    <FrameLayout
+        android:id="@+id/status_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|end"
-        android:layout_margin="@dimen/dp_1" />
+        android:minHeight="@dimen/dp_55"
+        android:minWidth="@dimen/dp_55">
 
-</FrameLayout>
+        <CheckBox
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:layout_margin="@dimen/dp_1"
+            android:enabled="false" />
+    </FrameLayout>
+
+</com.bright.common.widget.ScaleFrameLayout>

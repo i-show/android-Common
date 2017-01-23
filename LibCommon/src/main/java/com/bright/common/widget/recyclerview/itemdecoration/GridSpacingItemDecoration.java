@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,28 +18,40 @@ package com.bright.common.widget.recyclerview.itemdecoration;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.support.annotation.DimenRes;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
-import com.bright.common.utils.UnitUtils;
-
 /**
- * 增加间距
+ * 只进行增加空边距的
+ * <p>
+ * 注意：
+ * 1. 目前仅仅支持 GridLayoutManager
  */
 public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
+    /**
+     * Item间距
+     */
+    private int mSpacing;
 
-    private int spacing;
-    private boolean includeEdge;
+    /**
+     * 最边缘是否包含
+     */
+    private boolean mIncludeEdge;
 
-    public GridSpacingItemDecoration(Context context, int spacing) {
+    public GridSpacingItemDecoration(Context context, @DimenRes int spacing) {
         this(context, spacing, false);
     }
 
-    public GridSpacingItemDecoration(Context context, int spacing, boolean includeEdge) {
-        this.spacing = UnitUtils.dip2px(context, spacing);
-        this.includeEdge = includeEdge;
+    /**
+     * @param spacing     item 的间距
+     * @param includeEdge 最周边是否包含
+     */
+    public GridSpacingItemDecoration(Context context, @DimenRes int spacing, boolean includeEdge) {
+        mSpacing = context.getResources().getDimensionPixelSize(spacing);
+        mIncludeEdge = includeEdge;
     }
 
     private int getSpanCount(RecyclerView parent) {
@@ -57,23 +69,32 @@ public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         int spanCount = getSpanCount(parent);
-        int position = parent.getChildAdapterPosition(view); // item position
-        int column = position % spanCount; // item column
+        int position = parent.getChildAdapterPosition(view);
+        int column = position % spanCount;
 
-        if (includeEdge) {
-            outRect.left = spacing - column * spacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
-            outRect.right = (column + 1) * spacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
-
-            if (position < spanCount) { // top edge
-                outRect.top = spacing;
-            }
-            outRect.bottom = spacing; // item bottom
+        if (mIncludeEdge) {
+            outRect.left = isLeftColumn(position, spanCount) ? mSpacing : 0;
+            outRect.top = isFirstRow(position, spanCount) ? mSpacing : 0;
+            outRect.right = mSpacing;
+            outRect.bottom = mSpacing;
         } else {
-            outRect.left = column * spacing / spanCount; // column * ((1f / spanCount) * spacing)
-            outRect.right = spacing - (column + 1) * spacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
-            if (position >= spanCount) {
-                outRect.top = spacing; // item top
-            }
+            outRect.left = column * mSpacing / spanCount;
+            outRect.right = mSpacing - (column + 1) * mSpacing / spanCount;
+            outRect.top = position >= spanCount ? mSpacing : 0;
         }
+    }
+
+    /**
+     * 是否是第一行
+     */
+    private boolean isFirstRow(int position, int spanCount) {
+        return position < spanCount;
+    }
+
+    /**
+     * 是否是第一行
+     */
+    private boolean isLeftColumn(int position, int spanCount) {
+        return position % spanCount == 0;
     }
 }

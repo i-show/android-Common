@@ -70,7 +70,7 @@ public class SampleSelectPhotoActivity extends AppBaseActivity implements
         RecyclerView list = (RecyclerView) findViewById(R.id.photo_list);
         list.setAdapter(mAdapter);
         list.setLayoutManager(new GridLayoutManager(this, 3));
-        list.addItemDecoration(new GridSpacingItemDecoration(this, 3));
+        list.addItemDecoration(new GridSpacingItemDecoration(this, R.dimen.photo_selector_item_gap));
     }
 
     @Override

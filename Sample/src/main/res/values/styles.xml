@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="EditText.Login">
+    <style name="AppEditText.Login">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/girdle_min_h</item>
         <item name="android:textColor">@color/text_grey_normal</item>
@@ -13,7 +13,7 @@
         <item name="android:background">@drawable/bottom_line_normal_bg</item>
     </style>
 
-    <style name="Button.Login">
+    <style name="AppButton.Login">
         <item name="android:textColor">@color/text_white_normal</item>
         <item name="android:textSize">@dimen/H_title</item>
         <item name="android:gravity">center</item>
@@ -22,7 +22,7 @@
         <item name="android:background">@drawable/round_accent_color_button_bg</item>
     </style>
 
-    <style name="TextView.Login">
+    <style name="AppTextView.Login">
         <item name="android:textSize">@dimen/I_title</item>
         <item name="android:textColor">@color/text_grey_light_normal</item>
         <item name="android:background">?selectableItemBackground</item>

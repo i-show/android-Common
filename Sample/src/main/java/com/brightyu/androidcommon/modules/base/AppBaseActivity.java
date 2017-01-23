@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.bright.common.app.BaseActivity;
+import com.bright.common.app.activity.BaseActivity;
 import com.brightyu.androidcommon.AppApplication;
 import com.brightyu.androidcommon.modules.init.SplashActivity;
 
@@ -57,7 +57,7 @@ public abstract class AppBaseActivity extends BaseActivity {
     @Override
     protected void goSplash() {
         Intent intent = new Intent(AppBaseActivity.this, SplashActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
     }

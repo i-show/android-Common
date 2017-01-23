@@ -42,9 +42,8 @@ import android.widget.TextView;
 import com.bright.common.R;
 import com.bright.common.adapter.SelectorFolderAdapter;
 import com.bright.common.adapter.SelectorPicturesAdapter;
-import com.bright.common.app.BaseFragment;
-import com.bright.common.entries.SelectorFolder;
-import com.bright.common.entries.SelectorPicture;
+import com.bright.common.entries.Folder;
+import com.bright.common.entries.Photo;
 import com.bright.common.utils.AnimatorUtils;
 import com.bright.common.utils.DateUtils;
 import com.bright.common.widget.dialog.BaseDialog;
@@ -72,9 +71,9 @@ public class SelectorPicturesFragment extends BaseFragment implements View.OnCli
     /**
      * 选中图片
      */
-    private List<SelectorPicture> mAlreadySelectedImage = new ArrayList<>();
+    private List<Photo> mAlreadySelectedImage = new ArrayList<>();
 
-    private SelectorFolder mSelectedFolder;
+    private Folder mSelectedFolder;
 
     // 图片Grid
     private GridView mGridView;
@@ -112,12 +111,12 @@ public class SelectorPicturesFragment extends BaseFragment implements View.OnCli
         Bundle args = getArguments();
 
         // 选择图片数量
-        mDesireImageCount = args.getInt(SelectorPicture.Key.EXTRA_SELECT_COUNT);
+        mDesireImageCount = args.getInt(Photo.Key.EXTRA_SELECT_COUNT);
         // 图片选择模式
-        mMode = args.getInt(SelectorPicture.Key.EXTRA_SELECT_MODE);
+        mMode = args.getInt(Photo.Key.EXTRA_SELECT_MODE);
         // 默认选择
-        if (mMode == SelectorPicture.Key.MODE_MULTI) {
-            ArrayList<String> tmp = args.getStringArrayList(SelectorPicture.Key.EXTRA_DEFAULT_SELECTED_LIST);
+        if (mMode == Photo.Key.MODE_MULTI) {
+            ArrayList<String> tmp = args.getStringArrayList(Photo.Key.EXTRA_DEFAULT_SELECTED_LIST);
             if (tmp != null && tmp.size() > 0) {
                 mAlreadySelectedPath = tmp;
             }
@@ -137,7 +136,7 @@ public class SelectorPicturesFragment extends BaseFragment implements View.OnCli
         mCategoryText.setOnClickListener(this);
 
         mImageAdapter = new SelectorPicturesAdapter(getActivity());
-        mImageAdapter.setMultiSelector(mMode == SelectorPicture.Key.MODE_MULTI);
+        mImageAdapter.setMultiSelector(mMode == Photo.Key.MODE_MULTI);
         mImageAdapter.setMaxSelectedCount(mDesireImageCount);
         mImageAdapter.setCallBack(mImageAdapterCallBack);
 
@@ -213,7 +212,7 @@ public class SelectorPicturesFragment extends BaseFragment implements View.OnCli
             @Override
             public void run() {
 
-                SelectorFolder folder = mFolderAdapter.getItem(position);
+                Folder folder = mFolderAdapter.getItem(position);
                 folder.isSelected = true;
                 mFolderAdapter.notifyDataSetChanged();
 
@@ -234,7 +233,7 @@ public class SelectorPicturesFragment extends BaseFragment implements View.OnCli
     /**
      * 通知图片的选中状态有改变
      */
-    private void notifyImageSelectedStateChanged(SelectorPicture entry, boolean selected) {
+    private void notifyImageSelectedStateChanged(Photo entry, boolean selected) {
         if (entry == null) {
             Log.i(TAG, "notifyImageSelectedStateChanged: entry is null");
             return;
@@ -246,10 +245,10 @@ public class SelectorPicturesFragment extends BaseFragment implements View.OnCli
         }
 
         switch (mMode) {
-            case SelectorPicture.Key.MODE_SINGLE:
+            case Photo.Key.MODE_SINGLE:
                 mCallback.onSingleImageSelected(entry.path);
                 break;
-            case SelectorPicture.Key.MODE_MULTI:
+            case Photo.Key.MODE_MULTI:
                 mCallback.onImageSelectedStateChanged(entry.path, selected);
                 break;
         }
@@ -257,7 +256,7 @@ public class SelectorPicturesFragment extends BaseFragment implements View.OnCli
 
     private SelectorPicturesAdapter.CallBack mImageAdapterCallBack = new SelectorPicturesAdapter.CallBack() {
         @Override
-        public void onSelectImage(SelectorPicture entry, boolean selected) {
+        public void onSelectImage(Photo entry, boolean selected) {
             notifyImageSelectedStateChanged(entry, selected);
         }
     };
@@ -329,8 +328,8 @@ public class SelectorPicturesFragment extends BaseFragment implements View.OnCli
             // 如果load重新加载那么重新制作当前已经保存的path
             checkSelectedPath();
 
-            List<SelectorPicture> images = new ArrayList<>();
-            List<SelectorFolder> folders = new ArrayList<>();
+            List<Photo> images = new ArrayList<>();
+            List<Folder> folders = new ArrayList<>();
             Log.i(TAG, "onLoadFinished: cursor size = " + cursor.getCount());
             while (cursor.moveToNext()) {
                 String path = cursor.getString(INDEX_PATH);
@@ -339,7 +338,7 @@ public class SelectorPicturesFragment extends BaseFragment implements View.OnCli
                 String folderName = cursor.getString(INDEX_FLODER_NAME);
                 long modifyDate = cursor.getLong(INDEX_MODIFY_DATE);
 
-                SelectorPicture image = new SelectorPicture(path, name, modifyDate, folderName);
+                Photo image = new Photo(path, name, modifyDate, folderName);
                 image.isSelected = mAlreadySelectedPath.contains(path);
                 images.add(image);
                 if (image.isSelected) {
@@ -347,7 +346,7 @@ public class SelectorPicturesFragment extends BaseFragment implements View.OnCli
                 }
 
                 // 获取文件夹名称
-                SelectorFolder folder = new SelectorFolder();
+                Folder folder = new Folder();
                 folder.id = folderId;
                 folder.name = folderName;
                 folder.cover = image;
@@ -356,7 +355,7 @@ public class SelectorPicturesFragment extends BaseFragment implements View.OnCli
                     folder.addImage(image);
                     folders.add(folder);
                 } else {
-                    SelectorFolder f = folders.get(folders.indexOf(folder));
+                    Folder f = folders.get(folders.indexOf(folder));
                     f.addImage(image);
                 }
             }
@@ -365,7 +364,7 @@ public class SelectorPicturesFragment extends BaseFragment implements View.OnCli
             mImageAdapter.setSelectedImages(mAlreadySelectedImage);
             mImageAdapter.setData(images);
 
-            SelectorFolder all = new SelectorFolder();
+            Folder all = new Folder();
             all.id = "all";
             all.name = getString(R.string.all_photos);
             all.cover = images.isEmpty() ? null : images.get(0);
@@ -377,7 +376,7 @@ public class SelectorPicturesFragment extends BaseFragment implements View.OnCli
                 mSelectedFolder = all;
             } else {
                 all.isSelected = false;
-                for (SelectorFolder folder : folders) {
+                for (Folder folder : folders) {
                     if (folder.equals(mSelectedFolder)) {
                         mSelectedFolder = folder;
                         folder.isSelected = true;
@@ -406,7 +405,7 @@ public class SelectorPicturesFragment extends BaseFragment implements View.OnCli
         }
 
         mAlreadySelectedPath.clear();
-        for (SelectorPicture image : mAlreadySelectedImage) {
+        for (Photo image : mAlreadySelectedImage) {
             mAlreadySelectedPath.add(image.path);
         }
 
@@ -421,7 +420,7 @@ public class SelectorPicturesFragment extends BaseFragment implements View.OnCli
 
                 final int width = mGridView.getWidth();
                 final int desireSize = getResources().getDimensionPixelOffset(R.dimen.image_size);
-                final int columnSpace = getResources().getDimensionPixelOffset(R.dimen.space_size);
+                final int columnSpace = getResources().getDimensionPixelOffset(R.dimen.photo_selector_item_gap);
                 final int numCount = width / desireSize;
                 int columnWidth = (width - columnSpace * (numCount - 1)) / numCount;
                 mImageAdapter.setItemSize(columnWidth);
@@ -447,8 +446,8 @@ public class SelectorPicturesFragment extends BaseFragment implements View.OnCli
 
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-            if (mTimeLineText.getAlpha() >= 0.15f) {
-                SelectorPicture image = mImageAdapter.getItem(firstVisibleItem);
+                if (mTimeLineText.getAlpha() >= 0.15f) {
+                Photo image = mImageAdapter.getItem(firstVisibleItem);
                 mTimeLineText.setText(DateUtils.formatFriendly(getActivity(), image.modifyDate * 1000));
             }
         }

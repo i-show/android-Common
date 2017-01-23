@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- * <p>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
-package com.bright.common.app;
+package com.bright.common.app.fragment;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -36,115 +37,33 @@ import com.bright.common.widget.TopBar;
 import com.bright.common.widget.YToast;
 import com.bright.common.widget.dialog.BaseDialog;
 
-
-public abstract class BaseActivity extends AppCompatActivity implements TopBar.OnTopBarListener {
-    private static final String TAG = "BaseActivity";
-    /**
-     * Activity的TYPE
-     */
-    public static final String KEY_TYPE = "activity_type";
-    /**
-     * 默认返回的result
-     */
-    public static final String KEY_RESULT = "activity_result";
-    /**
-     * 需要重新进入应用
-     */
-    private static final String KEY_REOPEN = "key_need_reopen_activity";
-
+public abstract class BaseFragment extends Fragment implements TopBar.OnTopBarListener {
     protected Handler mHandler;
-    /**
-     * 保存变量
-     */
-    private SharedPreferences mSharedPreferences;
 
-    //************************ 生命周期 区域*********************** //
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        resetStatusBar();
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        if (savedInstanceState != null && needCheckReopen()) {
-            goSplash();
-        }
-
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putBoolean(KEY_REOPEN, true);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        // 取消请求接口
+    public void onDestroyView() {
+        super.onDestroyView();
         OkHttpUtils.getInstance().cancelTag(this);
-        // 清除Handler预防内存泄露
-        if (mHandler != null) {
-            mHandler.removeCallbacksAndMessages(null);
-            mHandler = null;
-        }
     }
 
+    //************************ 数据保存区域*********************** //
 
-    //************************ 初始化 区域*********************** //
-    @Override
-    public void setContentView(int layoutResID) {
-        super.setContentView(layoutResID);
-        initNecessaryData();
-        initViews();
-    }
-
-    @Override
-    public void setContentView(View view) {
-        super.setContentView(view);
-        initNecessaryData();
-        initViews(view);
-    }
-
-    @Override
-    public void setContentView(View view, ViewGroup.LayoutParams params) {
-        super.setContentView(view, params);
-        initNecessaryData();
-        initViews(view, params);
-    }
-
-    protected void initViews() {
-        //TODO
-    }
-
-    protected void initViews(View view) {
-        //TODO
-    }
-
-    protected void initViews(View view, ViewGroup.LayoutParams params) {
-        //TODO
-    }
-
-    /**
-     * 有一些数据要在initViews之前处理的在这个方法中处理
-     * <p>
-     * 注意：尽量少用
-     */
-    protected void initNecessaryData() {
-        //TODO
-    }
 
     //************************ 数据保存区域*********************** //
     protected void save(String key, Object value) {
@@ -152,7 +71,7 @@ public abstract class BaseActivity extends AppCompatActivity implements TopBar.O
     }
 
     protected void save(String key, Object value, boolean isCache) {
-        SharedPreferencesUtils.save(this, key, value, isCache);
+        SharedPreferencesUtils.save(getActivity(), key, value, isCache);
     }
 
     protected <T> T get(String key, T defaultValue) {
@@ -160,7 +79,7 @@ public abstract class BaseActivity extends AppCompatActivity implements TopBar.O
     }
 
     protected <T> T get(String key, T defaultValue, boolean isCache) {
-        return SharedPreferencesUtils.get(this, key, defaultValue, isCache);
+        return SharedPreferencesUtils.get(getActivity(), key, defaultValue, isCache);
     }
     //************************ 重写 各种事件区域*********************** //
 
@@ -169,7 +88,7 @@ public abstract class BaseActivity extends AppCompatActivity implements TopBar.O
      */
     @Override
     public void onLeftClick(View v) {
-        onBackPressed();
+        //TODO
     }
 
     /**
@@ -177,7 +96,7 @@ public abstract class BaseActivity extends AppCompatActivity implements TopBar.O
      */
     @Override
     public void onRightClick(View v) {
-
+        //TODO
     }
 
     /**
@@ -185,29 +104,9 @@ public abstract class BaseActivity extends AppCompatActivity implements TopBar.O
      */
     @Override
     public void onTitleClick(View v) {
-
+        //TODO
     }
 
-    /**
-     * 用来设置全屏样式
-     */
-    protected void resetStatusBar() {
-        // TODO
-    }
-
-    /**
-     * 跳转到Splash
-     */
-    protected void goSplash() {
-        // TODO
-    }
-
-    /**
-     * 检测是否要重新打开应用
-     */
-    protected boolean needCheckReopen() {
-        return true;
-    }
 
     // ******************** 提示区域 ***************************//
 
@@ -215,14 +114,18 @@ public abstract class BaseActivity extends AppCompatActivity implements TopBar.O
      * 提示 Toast简易封装操作
      */
     public void toast(String toast) {
-        YToast.makeText(this, toast, Toast.LENGTH_SHORT).show();
+        if (isAdded()) {
+            YToast.makeText(getActivity(), toast, Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
      * 提示 Toast简易封装操作
      */
     public void toast(int toast) {
-        YToast.makeText(this, toast, Toast.LENGTH_SHORT).show();
+        if (isAdded()) {
+            YToast.makeText(getActivity(), toast, Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
@@ -350,7 +253,7 @@ public abstract class BaseActivity extends AppCompatActivity implements TopBar.O
      * @param cancelable 是否可以点击取消
      */
     protected Dialog dialog(String title, String message, final boolean finishSelf, boolean cancelable) {
-        BaseDialog.Builder bulider = new BaseDialog.Builder(this);
+        BaseDialog.Builder bulider = new BaseDialog.Builder(getActivity());
         // 设置标题
         if (!TextUtils.isEmpty(title)) {
             bulider.setTitle(title);
@@ -361,7 +264,7 @@ public abstract class BaseActivity extends AppCompatActivity implements TopBar.O
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (finishSelf) {
-                    BaseActivity.this.finish();
+                    getActivity().finish();
                 }
             }
         });
@@ -370,5 +273,15 @@ public abstract class BaseActivity extends AppCompatActivity implements TopBar.O
         BaseDialog dialog = bulider.create();
         dialog.show();
         return dialog;
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mHandler != null) {
+            mHandler.removeCallbacksAndMessages(null);
+            mHandler = null;
+        }
     }
 }

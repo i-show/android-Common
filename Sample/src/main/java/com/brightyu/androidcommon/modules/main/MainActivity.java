@@ -19,10 +19,13 @@ package com.brightyu.androidcommon.modules.main;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 
-import com.bright.common.app.BaseActivity;
+import com.bright.common.app.activity.BaseActivity;
+import com.bright.common.utils.log.L;
 import com.bright.common.widget.TopBar;
 import com.bright.common.widget.YToast;
 import com.brightyu.androidcommon.R;
@@ -35,6 +38,9 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mHandler.sendEmptyMessageDelayed(1, 2000);
+        mHandler.sendEmptyMessageDelayed(2, 4000);
+        mHandler.sendEmptyMessageDelayed(3, 6000);
     }
 
     @Override
@@ -67,6 +73,31 @@ public class MainActivity extends BaseActivity {
             YToast.show(this, R.string.click_again_to_exit);
         }
     }
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Log.i(TAG, "handleMessage: msg.what = " + msg.what);
+            switch (msg.what) {
+                case 1:
+                    L.i(TAG, "has message 1" + mHandler.hasMessages(1));
+                    L.i(TAG, "has message 1" + mHandler.hasMessages(2));
+                    L.i(TAG, "has message 1" + mHandler.hasMessages(3));
+                    break;
+                case 2:
+                    L.i(TAG, "has message 2" + mHandler.hasMessages(1));
+                    L.i(TAG, "has message 2" + mHandler.hasMessages(2));
+                    L.i(TAG, "has message 2" + mHandler.hasMessages(3));
+                    break;
+                case 3:
+                    L.i(TAG, "has message 3" + mHandler.hasMessages(1));
+                    L.i(TAG, "has message 3" + mHandler.hasMessages(2));
+                    L.i(TAG, "has message 3" + mHandler.hasMessages(3));
+                    break;
+            }
+        }
+    };
 }
 
 

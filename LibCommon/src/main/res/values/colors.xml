@@ -102,6 +102,7 @@
     <color name="text_white_pressed">@color/grey_deep_14</color>
 
     <color name="color_accent">@color/blue_300</color>
+    <color name="color_accent_pressed">@color/blue_500</color>
     <!-- 标题栏颜色 -->
     <color name="color_primary">@color/blue_400</color>
     <!-- 状态栏颜色 -->

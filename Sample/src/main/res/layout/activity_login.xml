@@ -41,7 +41,7 @@
 
     <EditText
         android:id="@+id/account"
-        style="@style/EditText.Login"
+        style="@style/AppEditText.Login"
         android:drawableStart="@drawable/ic_account"
         android:hint="@string/login_hint_account"
         android:singleLine="true" />
@@ -49,7 +49,7 @@
 
     <EditText
         android:id="@+id/password"
-        style="@style/EditText.Login"
+        style="@style/AppEditText.Login"
         android:drawableStart="@drawable/ic_password"
         android:hint="@string/login_hint_passwrod"
         android:inputType="textPassword"
@@ -57,7 +57,7 @@
 
     <TextView
         android:id="@+id/forget_password"
-        style="@style/TextView.Login"
+        style="@style/AppTextView.Login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
@@ -66,7 +66,7 @@
 
     <Button
         android:id="@+id/login"
-        style="@style/Button.Login"
+        style="@style/AppButton.Login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/gap_grade_5"
@@ -74,7 +74,7 @@
 
     <Button
         android:id="@+id/regist"
-        style="@style/Button.Login"
+        style="@style/AppButton.Login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/gap_grade_5"

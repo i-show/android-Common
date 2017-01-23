@@ -22,15 +22,15 @@ import java.util.List;
 /**
  * 文件夹
  */
-public class SelectorFolder {
+public class Folder {
     public String id;
     public String name;
-    public SelectorPicture cover;
-    public List<SelectorPicture> images;
+    public Photo cover;
+    public List<Photo> images;
     public int count;
     public boolean isSelected;
 
-    public void addImage(SelectorPicture image) {
+    public void addImage(Photo image) {
         if (images == null) {
             images = new ArrayList<>();
         }
@@ -40,7 +40,7 @@ public class SelectorFolder {
     @Override
     public boolean equals(Object o) {
         try {
-            SelectorFolder other = (SelectorFolder) o;
+            Folder other = (Folder) o;
             return this.id.equalsIgnoreCase(other.id);
         } catch (ClassCastException e) {
             e.printStackTrace();

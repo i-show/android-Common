@@ -27,9 +27,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bright.common.R;
-import com.bright.common.app.BaseActivity;
 import com.bright.common.app.fragment.SelectorPicturesFragment;
-import com.bright.common.entries.SelectorPicture;
+import com.bright.common.entries.Photo;
 import com.bright.common.utils.StringUtils;
 
 import java.io.File;
@@ -59,16 +58,16 @@ public class SelectorPicturesActivity extends BaseActivity implements View.OnCli
     protected void initNecessaryData() {
         super.initNecessaryData();
         Intent intent = getIntent();
-        mDefaultCount = intent.getIntExtra(SelectorPicture.Key.EXTRA_SELECT_COUNT, SelectorPicture.Key.DEAFULT_MAX_COUNT);
-        mMode = intent.getIntExtra(SelectorPicture.Key.EXTRA_SELECT_MODE, SelectorPicture.Key.MODE_MULTI);
-        if (mMode == SelectorPicture.Key.MODE_MULTI && intent.hasExtra(SelectorPicture.Key.EXTRA_DEFAULT_SELECTED_LIST)) {
-            mResultList = intent.getStringArrayListExtra(SelectorPicture.Key.EXTRA_DEFAULT_SELECTED_LIST);
+        mDefaultCount = intent.getIntExtra(Photo.Key.EXTRA_SELECT_COUNT, Photo.Key.DEAFULT_MAX_COUNT);
+        mMode = intent.getIntExtra(Photo.Key.EXTRA_SELECT_MODE, Photo.Key.MODE_MULTI);
+        if (mMode == Photo.Key.MODE_MULTI && intent.hasExtra(Photo.Key.EXTRA_DEFAULT_SELECTED_LIST)) {
+            mResultList = intent.getStringArrayListExtra(Photo.Key.EXTRA_DEFAULT_SELECTED_LIST);
         }
 
         Bundle bundle = new Bundle();
-        bundle.putInt(SelectorPicture.Key.EXTRA_SELECT_COUNT, mDefaultCount);
-        bundle.putInt(SelectorPicture.Key.EXTRA_SELECT_MODE, mMode);
-        bundle.putStringArrayList(SelectorPicture.Key.EXTRA_DEFAULT_SELECTED_LIST, mResultList);
+        bundle.putInt(Photo.Key.EXTRA_SELECT_COUNT, mDefaultCount);
+        bundle.putInt(Photo.Key.EXTRA_SELECT_MODE, mMode);
+        bundle.putStringArrayList(Photo.Key.EXTRA_DEFAULT_SELECTED_LIST, mResultList);
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.content, SelectorPicturesFragment.newInstance(bundle))
@@ -130,7 +129,7 @@ public class SelectorPicturesActivity extends BaseActivity implements View.OnCli
         }
         Intent data = new Intent();
         mResultList.add(file.getAbsolutePath());
-        data.putStringArrayListExtra(SelectorPicture.Key.EXTRA_RESULT, mResultList);
+        data.putStringArrayListExtra(Photo.Key.EXTRA_RESULT, mResultList);
         setResult(RESULT_OK, data);
         finish();
     }
@@ -138,7 +137,7 @@ public class SelectorPicturesActivity extends BaseActivity implements View.OnCli
 
     private void setResult() {
         switch (mMode) {
-            case SelectorPicture.Key.MODE_SINGLE:
+            case Photo.Key.MODE_SINGLE:
                 if (TextUtils.isEmpty(mResultString)) {
                     Log.i(TAG, "setResult: mResultString is null or empty");
                     return;
@@ -146,11 +145,11 @@ public class SelectorPicturesActivity extends BaseActivity implements View.OnCli
 
                 // 返回已选择的图片数据
                 Intent singleData = new Intent();
-                singleData.putExtra(SelectorPicture.Key.EXTRA_RESULT, mResultString);
+                singleData.putExtra(Photo.Key.EXTRA_RESULT, mResultString);
                 setResult(RESULT_OK, singleData);
                 finish();
                 break;
-            case SelectorPicture.Key.MODE_MULTI:
+            case Photo.Key.MODE_MULTI:
                 if (mResultList == null || mResultList.size() == 0) {
                     Log.i(TAG, "setResult: mResultList is null or empty");
                     return;
@@ -158,7 +157,7 @@ public class SelectorPicturesActivity extends BaseActivity implements View.OnCli
 
                 // 返回已选择的图片数据
                 Intent multiData = new Intent();
-                multiData.putStringArrayListExtra(SelectorPicture.Key.EXTRA_RESULT, mResultList);
+                multiData.putStringArrayListExtra(Photo.Key.EXTRA_RESULT, mResultList);
                 setResult(RESULT_OK, multiData);
                 finish();
 
@@ -172,7 +171,7 @@ public class SelectorPicturesActivity extends BaseActivity implements View.OnCli
     private void updateComplete() {
 
         switch (mMode) {
-            case SelectorPicture.Key.MODE_SINGLE:
+            case Photo.Key.MODE_SINGLE:
                 mCompleteButton.setText(R.string.complete);
                 if (TextUtils.isEmpty(mResultString)) {
                     mCompleteButton.setEnabled(false);
@@ -180,7 +179,7 @@ public class SelectorPicturesActivity extends BaseActivity implements View.OnCli
                     mCompleteButton.setEnabled(true);
                 }
                 break;
-            case SelectorPicture.Key.MODE_MULTI:
+            case Photo.Key.MODE_MULTI:
                 if (mResultList == null || mResultList.size() <= 0) {
                     mCompleteButton.setText(R.string.complete);
                     mCompleteButton.setEnabled(false);

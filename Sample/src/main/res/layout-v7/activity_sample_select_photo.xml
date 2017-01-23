@@ -34,20 +34,20 @@
         <!--单选图片-->
         <TextView
             android:id="@+id/sample_select_photo_single_compress"
-            style="@style/TextView.Sample"
+            style="@style/AppTextView.Sample"
             android:text="@string/sample_select_photo_single_compress" />
 
 
         <!--单选图片-->
         <TextView
             android:id="@+id/sample_select_photo_single_crop"
-            style="@style/TextView.Sample"
+            style="@style/AppTextView.Sample"
             android:text="@string/sample_select_photo_single_crop" />
 
         <!--多选图片-->
         <TextView
             android:id="@+id/sample_select_photo_mult"
-            style="@style/TextView.Sample"
+            style="@style/AppTextView.Sample"
             android:text="@string/sample_select_photo_mult" />
 
     </com.bright.common.widget.Flowlayout>

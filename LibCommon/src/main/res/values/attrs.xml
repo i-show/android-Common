@@ -519,4 +519,8 @@
         <attr name="heightScale" />
     </declare-styleable>
 
+    <declare-styleable name="ScaleFrameLayout">
+        <attr name="widthScale" />
+        <attr name="heightScale" />
+    </declare-styleable>
 </resources>

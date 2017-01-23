@@ -19,7 +19,7 @@ package com.bright.common.entries;
 /**
  * 图片实体
  */
-public class SelectorPicture {
+public class Photo {
     /**
      * 图片的绝对路径
      */
@@ -32,10 +32,7 @@ public class SelectorPicture {
      * 包含本图片的名字
      */
     public String folderName;
-    /**
-     * 创建时间
-     */
-    public long createDate;
+
     /**
      * 修改时间
      */
@@ -44,7 +41,7 @@ public class SelectorPicture {
     public boolean isSelected;
 
 
-    public SelectorPicture(String path, String name, long modifyDate, String folderName) {
+    public Photo(String path, String name, long modifyDate, String folderName) {
         this.path = path;
         this.name = name;
         this.modifyDate = modifyDate;
@@ -54,7 +51,7 @@ public class SelectorPicture {
     @Override
     public boolean equals(Object o) {
         try {
-            SelectorPicture other = (SelectorPicture) o;
+            Photo other = (Photo) o;
             return this.path.equalsIgnoreCase(other.path);
         } catch (ClassCastException e) {
             e.printStackTrace();

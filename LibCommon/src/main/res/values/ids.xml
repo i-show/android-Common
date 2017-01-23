@@ -20,6 +20,8 @@
     <item name="tag_glide" type="id" />
     <!-- 封装后 ListAdapter 中使用 -->
     <item name="tag_view_holder" type="id" />
+    <!-- Loading Dialogtag -->
+    <item name="tag_loading_dialog" type="id" />
     <!-- widget -->
     <item name="widget" type="id" />
     <!-- 左中右 -->
@@ -28,7 +30,7 @@
     <item name="leftText" type="id" />
     <item name="leftImage" type="id" />
     <item name="leftImage2" type="id" />
-    
+
     <item name="right" type="id" />
     <item name="rightText" type="id" />
     <item name="rightImage" type="id" />

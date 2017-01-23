@@ -12,11 +12,11 @@
         android:layout_margin="@dimen/gap_grade_0"
         android:clipToPadding="false"
         android:columnWidth="@dimen/image_size"
-        android:horizontalSpacing="@dimen/space_size"
+        android:horizontalSpacing="@dimen/photo_selector_item_gap"
         android:numColumns="auto_fit"
         android:overScrollMode="never"
         android:paddingBottom="?android:attr/actionBarSize"
-        android:verticalSpacing="@dimen/space_size" />
+        android:verticalSpacing="@dimen/photo_selector_item_gap" />
 
     <TextView
         android:id="@+id/timeline"

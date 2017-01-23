@@ -30,13 +30,13 @@
         -->
 
         <!-- 默认 Button的Style -->
-        <item name="buttonStyle">@style/Button</item>
+        <item name="buttonStyle">@style/AppButton</item>
         <!-- 默认 TextView的Style -->
-        <item name="android:textViewStyle">@style/TextView</item>
+        <item name="android:textViewStyle">@style/AppTextView</item>
 
         <!-- v7 包 需要把android 去掉 -->
         <item name="editTextBackground">@android:color/transparent</item>
-        <item name="editTextStyle">@style/EditText</item>
+        <item name="editTextStyle">@style/AppEditText</item>
 
         <!-- 标题栏颜色 -->
         <item name="colorPrimary">@color/color_primary</item>
