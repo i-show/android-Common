@@ -216,7 +216,7 @@ public class SelectorPicturesFragment extends BaseFragment implements View.OnCli
                 folder.isSelected = true;
                 mFolderAdapter.notifyDataSetChanged();
 
-                mImageAdapter.setData(folder.images);
+                mImageAdapter.setData(folder.photoList);
                 mCategoryText.setText(folder.name);
 
                 if (mSelectedFolder != null) {
@@ -352,11 +352,11 @@ public class SelectorPicturesFragment extends BaseFragment implements View.OnCli
                 folder.cover = image;
 
                 if (!folders.contains(folder)) {
-                    folder.addImage(image);
+                    folder.addPhoto(image);
                     folders.add(folder);
                 } else {
                     Folder f = folders.get(folders.indexOf(folder));
-                    f.addImage(image);
+                    f.addPhoto(image);
                 }
             }
             cursor.close();
@@ -368,7 +368,7 @@ public class SelectorPicturesFragment extends BaseFragment implements View.OnCli
             all.id = "all";
             all.name = getString(R.string.all_photos);
             all.cover = images.isEmpty() ? null : images.get(0);
-            all.images = images;
+            all.photoList = images;
             all.isSelected = true;
             folders.add(0, all);
             // 这个地方loader 可能会自动刷新 虽然概率很小
@@ -446,7 +446,7 @@ public class SelectorPicturesFragment extends BaseFragment implements View.OnCli
 
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (mTimeLineText.getAlpha() >= 0.15f) {
+            if (mTimeLineText.getAlpha() >= 0.15f) {
                 Photo image = mImageAdapter.getItem(firstVisibleItem);
                 mTimeLineText.setText(DateUtils.formatFriendly(getActivity(), image.modifyDate * 1000));
             }

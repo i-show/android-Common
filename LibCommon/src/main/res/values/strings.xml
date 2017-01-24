@@ -19,7 +19,7 @@
     <string name="cancel">取消</string>
     <string name="back">返回</string>
     <string name="complete">完成</string>
-    <string name="link_complete">完成%s</string>
+    <string name="link_complete" formatted="false">完成(%d/%d)</string>
     <string name="link_sheet">%s张</string>
 
     <string name="get_verify_code">获取验证码</string>
@@ -39,6 +39,8 @@
 
     <string name="today">今天</string>
     <string name="yesterday">昨天</string>
+    <string name="this_week">本周</string>
+    <string name="this_month">这个月</string>
     <string name="spacer"> · </string>
     <string name="nothing">暂时没有数据</string>
 
@@ -50,7 +52,7 @@
     <string name="reload_data">重新加载</string>
 
     <string name="all_photos">所有照片</string>
-    <string name="already_select_max">已经达到最高选择数量</string>
+    <string name="already_select_max">您最多只能选择%d张图片</string>
     <string name="exception_intent_open">没有找到相关应用</string>
     <string name="premission_storage_select_photo">请提供内部存储权限，否则将无法选择图片</string>
 </resources>

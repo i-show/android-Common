@@ -49,7 +49,7 @@ public class SelectorFolderAdapter extends ListAdapter<Folder, SelectorFolderAda
 
         Folder entry = getItem(position);
         holder.name.setText(entry.name);
-        holder.size.setText(mContext.getString(R.string.link_sheet, entry.images.size()));
+        holder.size.setText(mContext.getString(R.string.link_sheet, entry.photoList.size()));
         // 显示图片
         Glide.with(mContext)
                 .load(entry.cover.path)

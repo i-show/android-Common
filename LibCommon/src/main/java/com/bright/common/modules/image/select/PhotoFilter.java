@@ -14,36 +14,12 @@
  * limitations under the License.
  */
 
-package com.bright.common.mvp.base;
+package com.bright.common.modules.image.select;
 
 /**
- * 自己修改过的
+ * Created by Bright.Yu on 2017/1/24.
+ * 图片的搜索分类
  */
-public interface BaseView {
-    /**
-     * 显示加载动画
-     */
-    void showLoading(String message, boolean dialog);
 
-    /**
-     * 隐藏加载动画
-     */
-    void dismissLoading(boolean dialog);
-
-    /**
-     * 加载失败
-     *
-     * @param errorType 预防点击退出
-     */
-    void showError(String message, boolean dialog, int errorType);
-
-    /**
-     * 加载成功
-     */
-    void showSuccess(String message);
-
-    /**
-     * 加载成功
-     */
-    void showEmpty(String message);
+public class PhotoFilter {
 }

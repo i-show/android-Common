@@ -115,8 +115,8 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
             mThumbLayoutParams.width = width;
             mThumbLayoutParams.height = height;
 
-            width = Math.min(screen[0] / 5, width * 4 / 7);
-            height = Math.min(screen[1] / 5, height * 4 / 7);
+            width = Math.min(screen[0] / 6, width * 3 / 7);
+            height = Math.min(screen[1] / 6, height * 3 / 7);
 
             mProgressParams.width = width;
             mProgressParams.height = height;

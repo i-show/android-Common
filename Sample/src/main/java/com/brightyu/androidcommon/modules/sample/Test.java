@@ -27,18 +27,18 @@ public class Test {
     private static final String TAG = "Test";
 
     public static final String[] IMAGE_LIST = new String[]{
-            "http://www.yuhaiyang.net/images/portfolio-1.jpg",
-            "http://www.yuhaiyang.net/images/portfolio-2.jpg",
-            "http://www.yuhaiyang.net/images/portfolio-3.jpg",
-            "http://www.yuhaiyang.net/images/portfolio-4.jpg",
-            "http://www.yuhaiyang.net/images/portfolio-5.jpg",
-            "http://www.yuhaiyang.net/images/portfolio-6.jpg",
-            "http://www.yuhaiyang.net/images/portfolio-7.jpg",
-            "http://www.yuhaiyang.net/images/portfolio-8.jpg",
-            "http://www.yuhaiyang.net/images/portfolio-9.jpg",
-            "http://www.yuhaiyang.net/images/portfolio-10.jpg",
-            "http://www.yuhaiyang.net/images/portfolio-11.jpg",
-            "http://www.yuhaiyang.net/images/portfolio-12.jpg",
+            "http://www.yuhaiyang.net/photoList/portfolio-1.jpg",
+            "http://www.yuhaiyang.net/photoList/portfolio-2.jpg",
+            "http://www.yuhaiyang.net/photoList/portfolio-3.jpg",
+            "http://www.yuhaiyang.net/photoList/portfolio-4.jpg",
+            "http://www.yuhaiyang.net/photoList/portfolio-5.jpg",
+            "http://www.yuhaiyang.net/photoList/portfolio-6.jpg",
+            "http://www.yuhaiyang.net/photoList/portfolio-7.jpg",
+            "http://www.yuhaiyang.net/photoList/portfolio-8.jpg",
+            "http://www.yuhaiyang.net/photoList/portfolio-9.jpg",
+            "http://www.yuhaiyang.net/photoList/portfolio-10.jpg",
+            "http://www.yuhaiyang.net/photoList/portfolio-11.jpg",
+            "http://www.yuhaiyang.net/photoList/portfolio-12.jpg",
     };
 
     public static final String[] IMAGE_3 = new String[]{

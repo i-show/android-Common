@@ -50,7 +50,7 @@ public class SelectorPicturesActivity extends BaseActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // 多选照片的主题如果要更新其中的东西请在App里面复写此主题
-        setTheme(R.style.Theme_MultiSelectorImage);
+        setTheme(R.style.Theme_PhotoSelector);
         setContentView(R.layout.activity_multi_choice_pictures);
     }
 

@@ -16,8 +16,12 @@
 
 package com.bright.common.modules.image.select;
 
+import com.bright.common.entries.Folder;
+import com.bright.common.entries.Photo;
 import com.bright.common.mvp.base.BasePresenter;
 import com.bright.common.mvp.base.BaseView;
+
+import java.util.List;
 
 /**
  * Created by Bright.Yu on 2017/1/23.
@@ -29,7 +33,10 @@ class PhotoSelectorContract {
      * View
      */
     interface View extends BaseView {
-
+        /**
+         * 数据都加载出来了 进行显示
+         */
+        void updateUI(List<Photo> photoList, List<Folder> folderList);
     }
 
     /**

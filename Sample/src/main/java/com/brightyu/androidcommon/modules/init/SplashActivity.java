@@ -28,6 +28,7 @@ import com.brightyu.androidcommon.constant.Configure;
 import com.brightyu.androidcommon.manager.VersionManager;
 import com.brightyu.androidcommon.modules.account.login.LoginActivity;
 import com.brightyu.androidcommon.modules.base.AppBaseActivity;
+import com.brightyu.androidcommon.modules.main.MainActivity;
 
 /**
  * 引导界面
@@ -97,9 +98,9 @@ public class SplashActivity extends AppBaseActivity {
                 case HANDLE_GO_NEXT:
                     Intent intent;
                     if (VersionManager.isFirstEnterThisVerison()) {
-                        intent = new Intent(SplashActivity.this, GuideActivity.class);
+                        intent = new Intent(SplashActivity.this, MainActivity.class);
                     } else {
-                        intent = new Intent(SplashActivity.this, LoginActivity.class);
+                        intent = new Intent(SplashActivity.this, MainActivity.class);
                     }
                     startActivity(intent);
                     finish();

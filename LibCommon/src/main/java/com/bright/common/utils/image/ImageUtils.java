@@ -206,7 +206,7 @@ public final class ImageUtils {
     }
 
     /**
-     * Get rounded corner images
+     * Get rounded corner photoList
      */
     public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, float roundPx) {
         int w = bitmap.getWidth();

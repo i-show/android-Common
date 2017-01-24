@@ -282,10 +282,20 @@ public class DateUtils {
         long today = removeHourMinSec(now);
         long yesterday = removeHourMinSec(now - DAY_1);
         long current = removeHourMinSec(time);
+
+        // 0.先把Date类型的对象转换Calendar类型的对象
+        Calendar todayCalendar = Calendar.getInstance();
+        Calendar targetCalendar = Calendar.getInstance();
+
+        todayCalendar.setTimeInMillis(now);
+        targetCalendar.setTimeInMillis(time);
+
         if (current == today) {
             return context.getString(R.string.today);
         } else if (current == yesterday) {
             return context.getString(R.string.yesterday);
+        } else if (todayCalendar.get(Calendar.WEEK_OF_YEAR) == targetCalendar.get(Calendar.WEEK_OF_YEAR)) {
+            return context.getString(R.string.this_week);
         } else {
             return format(time, targetModel);
         }

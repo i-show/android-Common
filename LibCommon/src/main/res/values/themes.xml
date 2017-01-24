@@ -81,14 +81,13 @@
         <item name="android:windowBackground">@color/semipermeable</item>
     </style>
 
+
     <!-- 多选照片的主题如果要更新其中的东西请在App里面复写此主题 -->
-    <style name="Theme.MultiSelectorImage">
+    <style name="Theme.PhotoSelector">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="colorPrimary">@color/grey_deep_3</item>
-        <item name="colorPrimaryDark">@color/grey_deep_2</item>
-        <item name="colorControlNormal">@android:color/white</item>
-        <item name="colorControlActivated">@color/green_400</item>
+        <item name="colorControlNormal">@color/color_accent</item>
+        <item name="colorControlActivated">@color/color_accent</item>
     </style>
 
     <!-- ################ Dialog ################ -->

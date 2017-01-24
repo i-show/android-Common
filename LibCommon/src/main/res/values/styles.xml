@@ -224,9 +224,9 @@
     <!-- TopBar 默认样式统一样式 -->
     <style name="TopBar">
         <item name="textSize">@dimen/top_bar_title_text_size</item>
-        <item name="textColor">@android:color/white</item>
+        <item name="textColor">@color/top_bar_text_color</item>
         <item name="subTextSize">@dimen/top_bar_sub_title_text_size</item>
-        <item name="subTextColor">@android:color/white</item>
+        <item name="subTextColor">@color/top_bar_text_color</item>
         <item name="android:background">@color/color_primary</item>
     </style>
 
@@ -243,7 +243,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:alpha">0</item>
-        <item name="android:background">@color/grey_alpha_0_8_5</item>
+        <item name="android:background">@color/grey_alpha_0_7</item>
         <item name="android:paddingTop">@dimen/gap_grade_1</item>
         <item name="android:paddingLeft">@dimen/gap_grade_3</item>
         <item name="android:paddingRight">@dimen/gap_grade_3</item>

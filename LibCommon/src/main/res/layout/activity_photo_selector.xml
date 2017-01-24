@@ -34,10 +34,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/top_bar"
+        android:overScrollMode="never"
         android:paddingBottom="?android:actionBarSize" />
 
     <TextView
-        android:id="@+id/timeline"
+        android:id="@+id/time_line"
         style="@style/AppTextView.PhotoSelector.TimeLine"
         android:layout_below="@id/top_bar"
         tools:text="2015年4月1日" />

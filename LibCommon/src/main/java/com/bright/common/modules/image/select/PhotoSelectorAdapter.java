@@ -17,6 +17,7 @@
 package com.bright.common.modules.image.select;
 
 import android.content.Context;
+import android.support.annotation.IntRange;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -25,7 +26,12 @@ import android.widget.ImageView;
 import com.bright.common.R;
 import com.bright.common.adapter.RecyclerAdapter;
 import com.bright.common.entries.Photo;
+import com.bright.common.widget.YToast;
+import com.bright.common.widget.dialog.ShowPhotoDialog;
 import com.bumptech.glide.Glide;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Bright.Yu on 2017/1/23.
@@ -34,13 +40,24 @@ import com.bumptech.glide.Glide;
 
 class PhotoSelectorAdapter extends RecyclerAdapter<Photo, PhotoSelectorAdapter.ViewHolder> {
 
+    private List<Photo> mSelectedPhotos;
+    private OnSelectedChangedListener mSelectedChangedListener;
+    private int mMaxCount;
+
     PhotoSelectorAdapter(Context context) {
         super(context);
+        mSelectedPhotos = new ArrayList<>();
     }
 
-    @Override
-    public int getItemCount() {
-        return 10;
+    /**
+     * 获取 选中照片
+     */
+    List<Photo> getSelectedPhotos() {
+        return mSelectedPhotos;
+    }
+
+    void setMaxCount(@IntRange(from = 1) int maxCount) {
+        mMaxCount = maxCount;
     }
 
     @Override
@@ -51,13 +68,18 @@ class PhotoSelectorAdapter extends RecyclerAdapter<Photo, PhotoSelectorAdapter.V
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position, int type) {
-        // Photo entry = getItem(position);
+        Photo entry = getItem(position);
 
         Glide.with(mContext)
-                .load("http://pic18.nipic.com/20120113/9262696_160127381000_2.jpg")
+                .load(entry.getPath())
                 .crossFade()
                 .centerCrop()
                 .into(holder.photo);
+
+        holder.getItemView().setTag(entry);
+        holder.statusContainer.setTag(entry);
+        holder.status.setChecked(entry.isSelected);
+        holder.mask.setVisibility(entry.isSelected ? View.VISIBLE : View.GONE);
     }
 
     class ViewHolder extends RecyclerAdapter.Holder implements View.OnClickListener {
@@ -80,15 +102,74 @@ class PhotoSelectorAdapter extends RecyclerAdapter<Photo, PhotoSelectorAdapter.V
 
         ViewHolder(View item, int type) {
             super(item, type);
+            item.setOnClickListener(this);
             photo = (ImageView) item.findViewById(R.id.photo);
-            status = (CheckBox) item.findViewById(R.id.state);
-            statusContainer = item.findViewById(R.id.status_container);
             mask = item.findViewById(R.id.mask);
+
+            status = (CheckBox) item.findViewById(R.id.status);
+            statusContainer = item.findViewById(R.id.status_container);
+            statusContainer.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            status.setChecked(!status.isChecked());
+            Photo entry = (Photo) v.getTag();
+            if (v.getId() == R.id.status_container) {
+                selectPhoto(entry);
+            } else {
+                showBigPhoto(v, entry);
+            }
+        }
+
+        /**
+         * 选择照片
+         */
+        private void selectPhoto(Photo entry) {
+            int alreadyCount = mSelectedPhotos.size();
+            // 如果当前数量已经是最大数量，当前图片还没有选中
+            if (alreadyCount >= mMaxCount && !entry.isSelected) {
+                String tip = mContext.getString(R.string.already_select_max, mMaxCount);
+                YToast.show(mContext, tip);
+                return;
+            }
+
+            entry.isSelected = !entry.isSelected;
+            status.setChecked(entry.isSelected);
+            mask.setVisibility(entry.isSelected ? View.VISIBLE : View.GONE);
+            if (entry.isSelected) {
+                mSelectedPhotos.add(entry);
+            } else {
+                mSelectedPhotos.remove(entry);
+            }
+            notifySelectedChanged();
+        }
+
+        /**
+         * 看大图
+         */
+        private void showBigPhoto(View v, Photo entry) {
+            ShowPhotoDialog dialog = new ShowPhotoDialog(mContext);
+            dialog.setData(entry.path);
+            dialog.setBeforeView(v);
+            dialog.show();
+        }
+    }
+
+
+    /**
+     * 选中状态修改的Listener
+     */
+    interface OnSelectedChangedListener {
+        void onSelectedChanged(int selectCount);
+    }
+
+    public void setSelectedChangedListener(OnSelectedChangedListener listener) {
+        mSelectedChangedListener = listener;
+    }
+
+    private void notifySelectedChanged() {
+        if (mSelectedChangedListener != null) {
+            mSelectedChangedListener.onSelectedChanged(mSelectedPhotos.size());
         }
     }
 }

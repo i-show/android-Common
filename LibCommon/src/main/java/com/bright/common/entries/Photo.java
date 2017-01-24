@@ -48,6 +48,14 @@ public class Photo {
         this.folderName = folderName;
     }
 
+    public String getPath() {
+        return path;
+    }
+
+    public long getModifyDate() {
+        return modifyDate;
+    }
+
     @Override
     public boolean equals(Object o) {
         try {

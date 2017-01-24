@@ -23,28 +23,66 @@ import java.util.List;
  * 文件夹
  */
 public class Folder {
+    /**
+     * ID
+     */
     public String id;
+    /**
+     * 名称
+     */
     public String name;
+    /**
+     * 封面
+     */
     public Photo cover;
-    public List<Photo> images;
+    /**
+     * 包含的图片
+     */
+    public List<Photo> photoList;
+
     public int count;
     public boolean isSelected;
 
-    public void addImage(Photo image) {
-        if (images == null) {
-            images = new ArrayList<>();
+    public Folder() {
+
+    }
+
+    public Folder(String id, String name, Photo cover) {
+        this.id = id;
+        this.name = name;
+        this.cover = cover;
+        addPhoto(cover);
+    }
+
+    public void addPhoto(Photo image) {
+        if (photoList == null) {
+            photoList = new ArrayList<>();
         }
-        images.add(image);
+        photoList.add(image);
+    }
+
+    public void addAll(List<Photo> photos) {
+        if (photos == null || photos.isEmpty()) {
+            return;
+        }
+        if (photoList == null) {
+            photoList = new ArrayList<>();
+        } else {
+            photoList.clear();
+        }
+        cover = photos.get(0);
+        photoList.addAll(photos);
     }
 
     @Override
     public boolean equals(Object o) {
-        try {
-            Folder other = (Folder) o;
-            return this.id.equalsIgnoreCase(other.id);
-        } catch (ClassCastException e) {
-            e.printStackTrace();
-        }
-        return super.equals(o);
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Folder folder = (Folder) o;
+
+        return id != null ? id.equals(folder.id) : folder.id == null;
+
     }
+
 }

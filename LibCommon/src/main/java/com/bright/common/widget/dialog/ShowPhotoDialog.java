@@ -118,7 +118,7 @@ public class ShowPhotoDialog extends Dialog {
         window.setAttributes(lp);
     }
 
-    protected void resetStatusBar() {
+    private void resetStatusBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window window = getWindow();
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN

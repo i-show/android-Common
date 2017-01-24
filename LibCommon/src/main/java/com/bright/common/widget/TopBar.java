@@ -526,7 +526,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
             mTitleView.setIncludeFontPadding(false);
             mTitleView.setOnClickListener(this);
             mTitleView.setGravity(Gravity.CENTER);
-            mTitleView.setEnabled(isClickable);
+            mTitleView.setClickable(isClickable);
             addView(mTitleView, 0);
 
             computeTitleDesireWidth();
@@ -551,7 +551,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
             mSubTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mSubTitleSize);
             mSubTitleView.setIncludeFontPadding(false);
             mSubTitleView.setGravity(Gravity.CENTER);
-            mSubTitleView.setEnabled(isClickable);
+            mSubTitleView.setClickable(isClickable);
             addView(mSubTitleView, 0);
 
             computeSubTitleDesireWidth();
