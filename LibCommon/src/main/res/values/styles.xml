@@ -244,12 +244,12 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:alpha">0</item>
         <item name="android:background">@color/grey_alpha_0_7</item>
-        <item name="android:paddingTop">@dimen/gap_grade_1</item>
+        <item name="android:paddingTop">@dimen/gap_grade_0</item>
         <item name="android:paddingLeft">@dimen/gap_grade_3</item>
         <item name="android:paddingRight">@dimen/gap_grade_3</item>
-        <item name="android:paddingBottom">@dimen/gap_grade_1</item>
+        <item name="android:paddingBottom">@dimen/gap_grade_0</item>
         <item name="android:textColor">@color/text_white_normal</item>
-        <item name="android:textSize">@dimen/H_title</item>
+        <item name="android:textSize">@dimen/I_title</item>
     </style>
 
 

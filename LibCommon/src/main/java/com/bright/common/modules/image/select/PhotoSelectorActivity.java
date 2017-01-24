@@ -17,7 +17,9 @@
 package com.bright.common.modules.image.select;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
@@ -48,6 +50,7 @@ public class PhotoSelectorActivity extends BaseActivity implements
 
     private TextView mRightTextView;
     private TextView mTimeLine;
+    private TextView mFolderTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +93,11 @@ public class PhotoSelectorActivity extends BaseActivity implements
         photoList.addItemDecoration(new GridSpacingItemDecoration(this, R.dimen.photo_selector_item_gap));
         photoList.setAdapter(mPhotoAdapter);
         photoList.addOnScrollListener(mScrollListener);
+
+        Drawable drawable = getResources().getDrawable(R.drawable.ic_photo_selector_floder);
+        DrawableCompat.setTint(drawable, getResources().getColor(R.color.color_accent));
+        mFolderTextView = (TextView) findViewById(R.id.folder);
+        mFolderTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(drawable, null, null, null);
     }
 
 
