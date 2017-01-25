@@ -142,7 +142,7 @@
 
     <!-- 从底部弹出的Dialog -->
     <style name="Dialog.Bottom">
-        <item name="android:windowBackground">@drawable/corner_top_5dp_normal</item>
+        <item name="android:windowBackground">@drawable/top_line_white_bg</item>
         <item name="android:listDivider">@color/line</item>
         <!--Settings the Dialog Title-->
         <item name="android:listPreferredItemHeightSmall">@dimen/dp_55</item>

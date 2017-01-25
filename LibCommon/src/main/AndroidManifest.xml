@@ -25,12 +25,6 @@
 
         <!--选择图片的类-->
         <activity
-            android:name="com.bright.common.app.activity.SelectorPicturesActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.NoActionBar" />
-        
-        <!--选择图片的类-->
-        <activity
             android:name=".modules.image.select.PhotoSelectorActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.NoActionBar" />

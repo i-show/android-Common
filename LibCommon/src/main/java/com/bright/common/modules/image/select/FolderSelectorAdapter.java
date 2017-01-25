@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.bright.common.adapter;
+package com.bright.common.modules.image.select;
 
 import android.content.Context;
 import android.view.View;
@@ -24,16 +24,18 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.bright.common.R;
+import com.bright.common.adapter.ListAdapter;
 import com.bright.common.entries.Folder;
 import com.bumptech.glide.Glide;
 
 
 /**
  * 文件夹Adapter
+ * 相册文件夹
  */
-public class SelectorFolderAdapter extends ListAdapter<Folder, SelectorFolderAdapter.ViewHolder> {
+class FolderSelectorAdapter extends ListAdapter<Folder, FolderSelectorAdapter.ViewHolder> {
 
-    public SelectorFolderAdapter(Context context) {
+    public FolderSelectorAdapter(Context context) {
         super(context);
     }
 
@@ -62,13 +64,13 @@ public class SelectorFolderAdapter extends ListAdapter<Folder, SelectorFolderAda
     }
 
 
-    public class ViewHolder extends ListAdapter.Holder {
+    class ViewHolder extends ListAdapter.Holder {
         ImageView cover;
         TextView name;
         TextView size;
         RadioButton state;
 
-        public ViewHolder(View item, int type) {
+        ViewHolder(View item, int type) {
             super(item, type);
             cover = (ImageView) item.findViewById(R.id.cover);
             name = (TextView) item.findViewById(R.id.name);

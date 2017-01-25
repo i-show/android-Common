@@ -173,15 +173,16 @@
         <item name="android:textColor">@color/text_grey</item>
     </style>
 
+    <style name="Line" />
     <!--横线-->
-    <style name="line_h">
+    <style name="Line.Horizontal">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1px</item>
         <item name="android:background">@color/line</item>
     </style>
 
     <!--横线有padding-->
-    <style name="line_H">
+    <style name="Line.Horizontal.Padding">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1px</item>
         <item name="android:background">@color/windows_background_light</item>
@@ -191,13 +192,14 @@
         <item name="android:contentDescription">@null</item>
     </style>
     <!--竖线-->
-    <style name="line_v">
+    <style name="Line.Vertical">
         <item name="android:layout_width">1px</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">@color/line</item>
     </style>
+
     <!--竖线有padding-->
-    <style name="line_V">
+    <style name="Line.Vertical.Padding">
         <item name="android:layout_width">1px</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">@color/windows_background_light</item>

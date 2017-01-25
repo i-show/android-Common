@@ -74,6 +74,18 @@ public class Folder {
         photoList.addAll(photos);
     }
 
+    public List<Photo> getPhotoList() {
+        if (photoList == null) {
+            photoList = new ArrayList<>();
+        }
+        return photoList;
+    }
+
+
+    public String getName() {
+        return name;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -50,11 +50,29 @@
         android:layout_width="match_parent"
         android:layout_height="?android:actionBarSize"
         android:layout_alignParentBottom="true"
+        android:background="@drawable/top_line_white_normal_bg"
         android:gravity="center_vertical">
 
         <TextView
             android:id="@+id/folder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="?android:selectableItemBackground"
+            android:clickable="true"
+            android:drawablePadding="@dimen/gap_grade_1"
+            android:gravity="center"
+            android:maxWidth="@dimen/dp_180"
+            android:paddingLeft="@dimen/gap_grade_3"
+            android:paddingRight="@dimen/gap_grade_3"
+            android:textColor="@color/color_accent"
+            android:textSize="@dimen/I_title" />
+
+        <View
+            android:id="@+id/bottom_line"
+            style="@style/Line.Vertical"
+            android:layout_marginBottom="@dimen/gap_grade_4"
+            android:layout_marginTop="@dimen/gap_grade_4"
+            android:layout_toEndOf="@id/folder" />
+
     </RelativeLayout>
 </RelativeLayout>

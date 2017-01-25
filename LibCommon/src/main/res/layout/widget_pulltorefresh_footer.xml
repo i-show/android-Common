@@ -22,7 +22,7 @@
 
     <View
         android:id="@+id/footer_line"
-        style="@style/line_h" />
+        style="@style/Line.Horizontal" />
 
     <RelativeLayout
         android:layout_width="match_parent"

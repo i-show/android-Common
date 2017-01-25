@@ -16,12 +16,15 @@
 
 package com.bright.common.modules.image.select;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.bright.common.R;
@@ -31,8 +34,10 @@ import com.bright.common.entries.Photo;
 import com.bright.common.utils.AnimatorUtils;
 import com.bright.common.utils.DateUtils;
 import com.bright.common.widget.TopBar;
+import com.bright.common.widget.dialog.BaseDialog;
 import com.bright.common.widget.recyclerview.itemdecoration.GridSpacingItemDecoration;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,16 +46,21 @@ import java.util.List;
  */
 
 public class PhotoSelectorActivity extends BaseActivity implements
+        View.OnClickListener,
         PhotoSelectorContract.View {
-
+    private static final String TAG = "PhotoSelectorActivity";
     private PhotoSelectorAdapter mPhotoAdapter;
+    private FolderSelectorAdapter mFolderAdapter;
+    private RecyclerView mRecyclerView;
     private GridLayoutManager mLayoutManager;
-    private int mMaxCount;
-    private int mMode;
-
     private TextView mRightTextView;
     private TextView mTimeLine;
     private TextView mFolderTextView;
+
+    private int mMaxCount;
+    private int mMode;
+    private Folder mSelectedFolder;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,27 +93,33 @@ public class PhotoSelectorActivity extends BaseActivity implements
 
         mTimeLine = (TextView) findViewById(R.id.time_line);
 
+        mFolderAdapter = new FolderSelectorAdapter(this);
+
         mPhotoAdapter = new PhotoSelectorAdapter(this);
         mPhotoAdapter.setSelectedChangedListener(mSelectedChangedListener);
-        mPhotoAdapter.setMaxCount(mMaxCount);
+        mPhotoAdapter.setMaxCount(mMode == Photo.Key.MODE_MULTI ? mMaxCount : 1);
 
         mLayoutManager = new GridLayoutManager(this, 3);
-        RecyclerView photoList = (RecyclerView) findViewById(R.id.list);
-        photoList.setLayoutManager(mLayoutManager);
-        photoList.addItemDecoration(new GridSpacingItemDecoration(this, R.dimen.photo_selector_item_gap));
-        photoList.setAdapter(mPhotoAdapter);
-        photoList.addOnScrollListener(mScrollListener);
+        mRecyclerView = (RecyclerView) findViewById(R.id.list);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(this, R.dimen.photo_selector_item_gap));
+        mRecyclerView.setAdapter(mPhotoAdapter);
+        mRecyclerView.addOnScrollListener(mScrollListener);
 
         Drawable drawable = getResources().getDrawable(R.drawable.ic_photo_selector_floder);
         DrawableCompat.setTint(drawable, getResources().getColor(R.color.color_accent));
         mFolderTextView = (TextView) findViewById(R.id.folder);
+        mFolderTextView.setOnClickListener(this);
         mFolderTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(drawable, null, null, null);
+        mFolderTextView.setText(R.string.all_photos);
     }
 
 
     @Override
     public void updateUI(List<Photo> photoList, List<Folder> folderList) {
         mPhotoAdapter.setData(photoList);
+        mFolderAdapter.setData(folderList);
+        mSelectedFolder = folderList.isEmpty() ? null : folderList.get(0);
     }
 
     @Override
@@ -137,6 +153,9 @@ public class PhotoSelectorActivity extends BaseActivity implements
             if (selectCount <= 0) {
                 mRightTextView.setEnabled(false);
                 mRightTextView.setText(R.string.complete);
+            } else if (mMode == Photo.Key.MODE_SINGLE) {
+                mRightTextView.setEnabled(true);
+                mRightTextView.setText(R.string.complete);
             } else {
                 mRightTextView.setEnabled(true);
                 String count = getString(R.string.link_complete, selectCount, mMaxCount);
@@ -167,4 +186,93 @@ public class PhotoSelectorActivity extends BaseActivity implements
             }
         }
     };
+
+    @Override
+    public void onClick(View v) {
+        final int id = v.getId();
+        if (id == R.id.folder) {
+            selectPhotoFolder();
+        }
+    }
+
+    @Override
+    public void onRightClick(View v) {
+        super.onRightClick(v);
+        setResult();
+    }
+
+    /**
+     * 选择图片文件夹
+     */
+    private void selectPhotoFolder() {
+        BaseDialog dialog = new BaseDialog.Builder(this, R.style.Dialog_Bottom)
+                .isShowFromBottom(true)
+                .setAdapter(mFolderAdapter, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, final int which) {
+                        Folder folder = mFolderAdapter.getItem(which);
+                        updatePhotos(folder);
+                    }
+                }).create();
+        dialog.show();
+    }
+
+    private void updatePhotos(Folder folder) {
+
+        if (folder.equals(mSelectedFolder)) {
+            Log.i(TAG, "updatePhotos: is same folder");
+            return;
+        }
+
+        folder.isSelected = true;
+        if (mSelectedFolder != null) {
+            mSelectedFolder.isSelected = false;
+        }
+        mSelectedFolder = folder;
+
+        mFolderTextView.setText(folder.getName());
+        mPhotoAdapter.setData(folder.getPhotoList());
+        mFolderAdapter.notifyDataSetChanged();
+        mRecyclerView.scrollToPosition(0);
+    }
+
+
+    private void setResult() {
+        List<Photo> photoList = mPhotoAdapter.getSelectedPhotos();
+        switch (mMode) {
+            case Photo.Key.MODE_SINGLE:
+                if (photoList.isEmpty()) {
+                    Log.i(TAG, "setResult: photoList is null or empty");
+                    finish();
+                    return;
+                }
+                Photo photo = photoList.get(0);
+                // 返回已选择的图片数据
+                Intent singleData = new Intent();
+                singleData.putExtra(Photo.Key.EXTRA_RESULT, photo.getPath());
+                setResult(RESULT_OK, singleData);
+                finish();
+                break;
+            case Photo.Key.MODE_MULTI:
+                if (photoList.isEmpty()) {
+                    Log.i(TAG, "setResult: photoList is null or empty");
+                    finish();
+                    return;
+                }
+
+                ArrayList<String> photoPaths = new ArrayList<>();
+                for (Photo _photo : photoList) {
+                    photoPaths.add(_photo.getPath());
+                }
+
+                // 返回已选择的图片数据
+                Intent multiData = new Intent();
+                multiData.putStringArrayListExtra(Photo.Key.EXTRA_RESULT, photoPaths);
+                setResult(RESULT_OK, multiData);
+                finish();
+
+                break;
+        }
+    }
+
 }

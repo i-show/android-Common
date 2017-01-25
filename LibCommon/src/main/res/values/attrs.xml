@@ -161,6 +161,7 @@
 
     <attr name="fadeBack" format="boolean" />
     <attr name="animationDuration" format="integer" />
+    <attr name="maxHeight" format="dimension" />
 
     <attr name="position">
         <enum name="left" value="0" />
@@ -522,5 +523,9 @@
     <declare-styleable name="ScaleFrameLayout">
         <attr name="widthScale" />
         <attr name="heightScale" />
+    </declare-styleable>
+
+    <declare-styleable name="RecycleListView">
+        <attr name="maxHeight" />
     </declare-styleable>
 </resources>

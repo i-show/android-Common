@@ -66,5 +66,5 @@
 
     <View
         android:id="@+id/header_line"
-        style="@style/line_h" />
+        style="@style/Line.Horizontal" />
 </LinearLayout>
