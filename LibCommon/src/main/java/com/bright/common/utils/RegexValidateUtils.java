@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -65,4 +65,17 @@ public class RegexValidateUtils {
         }
         return flag;
     }
+
+
+    /**
+     * 验证身份证号码
+     *
+     * @param idCard 居民身份证号码15位或18位，最后一位可能是数字或字母
+     * @return 验证成功返回true，验证失败返回false
+     */
+    public static boolean checkIdCard(String idCard) {
+        String regex = "([0-9]{17}([0-9]|X))|([0-9]{15})";
+        return Pattern.matches(regex, idCard);
+    }
+
 }
