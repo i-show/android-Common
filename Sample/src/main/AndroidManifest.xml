@@ -31,7 +31,6 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
-
         <!--登录界面-->
         <activity
             android:name=".modules.account.login.LoginActivity"
@@ -74,6 +73,11 @@
         <!--选择图片-->
         <activity
             android:name=".modules.sample.photo.select.SampleSelectPhotoActivity"
+            android:screenOrientation="portrait" />
+
+        <!--权限获取-->
+        <activity
+            android:name=".modules.sample.permission.SamplePermissionActivity"
             android:screenOrientation="portrait" />
         <!--++++++++++++++++++++控件或者工具的测试区域（end）++++++++++++++++++++++++++-->
 

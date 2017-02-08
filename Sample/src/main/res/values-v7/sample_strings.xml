@@ -7,4 +7,7 @@
     <string name="sample_select_photo_single_compress">单选图片-压缩</string>
     <string name="sample_select_photo_single_crop">单选图片-剪切</string>
     <string name="sample_select_photo_mult">多选选图片</string>
+
+    <string name="sample_select_permission">权限设置</string>
+    <string name="sample_select_permission_sdcard">SD卡读取权限</string>
 </resources>

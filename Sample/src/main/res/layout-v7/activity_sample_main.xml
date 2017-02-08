@@ -34,6 +34,12 @@
             style="@style/AppTextView.Sample"
             android:text="@string/sample_select_photo" />
 
+        <!--权限获取-->
+        <TextView
+            android:id="@+id/sample_select_permission"
+            style="@style/AppTextView.Sample"
+            android:text="@string/sample_select_permission" />
+
     </com.bright.common.widget.Flowlayout>
 
 </LinearLayout>

@@ -20,9 +20,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-
+/**
+ * Permission denied
+ */
+@SuppressWarnings("all")
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface PermissionNo {
+public @interface PermissionDenied {
     int value() default 0;
 }

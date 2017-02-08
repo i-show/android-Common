@@ -30,7 +30,7 @@ import java.util.List;
 
 class DefaultPermission implements Permission {
 
-    private static final String TAG = "AndPermission";
+    private static final String TAG = "PermissionManager";
 
     private String[] permissions;
     private String[] deniedPermissions;
@@ -72,22 +72,13 @@ class DefaultPermission implements Permission {
      */
     private Rationale rationale = new Rationale() {
         @Override
-        public void cancel() {
-            int[] results = new int[permissions.length];
-            Context context = PermissionUtils.getContext(object);
-            for (int i = 0; i < results.length; i++) {
-                results[i] = ActivityCompat.checkSelfPermission(context, permissions[i]);
-            }
-            onRequestPermissionsResult(object, requestCode, permissions, results);
-        }
-
-        @Override
         public void resume() {
             requestPermissions(object, requestCode, deniedPermissions);
         }
     };
 
     @Override
+    @SuppressWarnings("unused")
     public void send() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             Context context = PermissionUtils.getContext(object);
@@ -114,10 +105,13 @@ class DefaultPermission implements Permission {
             } else { // All permission granted.
                 final int[] grantResults = new int[permissions.length];
 
-                final int permissionCount = permissions.length;
-                for (int i = 0; i < permissionCount; i++) {
-                    grantResults[i] = PackageManager.PERMISSION_GRANTED;
+                for (int result : grantResults) {
+                    result = PackageManager.PERMISSION_GRANTED;
                 }
+//                final int permissionCount = permissions.length;
+//                for (int i = 0; i < permissionCount; i++) {
+//                    grantResults[i] = PackageManager.PERMISSION_GRANTED;
+//                }
                 onRequestPermissionsResult(object, requestCode, permissions, grantResults);
             }
         }
@@ -126,9 +120,11 @@ class DefaultPermission implements Permission {
     private static String[] getDeniedPermissions(Object o, String... permissions) {
         Context context = PermissionUtils.getContext(o);
         List<String> deniedList = new ArrayList<>(1);
-        for (String permission : permissions)
-            if (!AndPermission.hasPermission(context, permission))
+        for (String permission : permissions) {
+            if (!PermissionManager.hasPermission(context, permission)) {
                 deniedList.add(permission);
+            }
+        }
         return deniedList.toArray(new String[deniedList.size()]);
     }
 
@@ -145,19 +141,17 @@ class DefaultPermission implements Permission {
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    private static void onRequestPermissionsResult(Object o, int requestCode, @NonNull String[] permissions,
-                                                   @NonNull int[] grantResults) {
+    private static void onRequestPermissionsResult(Object o, int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (o instanceof Activity) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 ((Activity) o).onRequestPermissionsResult(requestCode, permissions, grantResults);
-            else if (o instanceof ActivityCompat.OnRequestPermissionsResultCallback)
-                ((ActivityCompat.OnRequestPermissionsResultCallback) o).onRequestPermissionsResult(requestCode,
-                        permissions, grantResults);
-            else
+            } else if (o instanceof ActivityCompat.OnRequestPermissionsResultCallback) {
+                ((ActivityCompat.OnRequestPermissionsResultCallback) o).onRequestPermissionsResult(requestCode, permissions, grantResults);
+            } else {
                 Log.e(TAG, "The " + o.getClass().getName() + " is not support " + "onRequestPermissionsResult()");
+            }
         } else if (o instanceof android.support.v4.app.Fragment) {
-            ((android.support.v4.app.Fragment) o).onRequestPermissionsResult(requestCode, permissions,
-                    grantResults);
+            ((android.support.v4.app.Fragment) o).onRequestPermissionsResult(requestCode, permissions, grantResults);
         } else if (o instanceof android.app.Fragment) {
             ((android.app.Fragment) o).onRequestPermissionsResult(requestCode, permissions, grantResults);
         }

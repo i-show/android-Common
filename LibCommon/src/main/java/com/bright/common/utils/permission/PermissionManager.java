@@ -30,9 +30,12 @@ import java.util.List;
 
 
 @SuppressWarnings("all")
-public class AndPermission {
+public class PermissionManager {
 
-    private static final String TAG = "AndPermission";
+    private static final String TAG = "PermissionManager";
+
+    private PermissionManager() {
+    }
 
     /**
      * Check if the calling context has a set of permissions.
@@ -45,8 +48,7 @@ public class AndPermission {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return true;
 
         for (String permission : permissions) {
-            boolean hasPermission = (ContextCompat.checkSelfPermission(context, permission) == PackageManager
-                    .PERMISSION_GRANTED);
+            boolean hasPermission = (ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED);
             if (!hasPermission) return false;
         }
         return true;
@@ -59,8 +61,7 @@ public class AndPermission {
      * @param deniedPermissions one or more permissions.
      * @return true, other wise is false.
      */
-    public static boolean hasAlwaysDeniedPermission(@NonNull Activity activity, @NonNull List<String>
-            deniedPermissions) {
+    public static boolean hasAlwaysDeniedPermission(@NonNull Activity activity, @NonNull List<String> deniedPermissions) {
         for (String deniedPermission : deniedPermissions) {
             if (!PermissionUtils.shouldShowRationalePermissions(activity, deniedPermission)) {
                 return true;
@@ -76,9 +77,7 @@ public class AndPermission {
      * @param deniedPermissions one or more permissions.
      * @return true, other wise is false.
      */
-    public static boolean hasAlwaysDeniedPermission(@NonNull android.support.v4.app.Fragment fragment, @NonNull
-            List<String>
-            deniedPermissions) {
+    public static boolean hasAlwaysDeniedPermission(@NonNull android.support.v4.app.Fragment fragment, @NonNull List<String> deniedPermissions) {
         for (String deniedPermission : deniedPermissions) {
             if (!PermissionUtils.shouldShowRationalePermissions(fragment, deniedPermission)) {
                 return true;
@@ -94,8 +93,7 @@ public class AndPermission {
      * @param deniedPermissions one or more permissions.
      * @return true, other wise is false.
      */
-    public static boolean hasAlwaysDeniedPermission(@NonNull android.app.Fragment fragment, @NonNull String...
-            deniedPermissions) {
+    public static boolean hasAlwaysDeniedPermission(@NonNull android.app.Fragment fragment, @NonNull String... deniedPermissions) {
         for (String deniedPermission : deniedPermissions) {
             if (!PermissionUtils.shouldShowRationalePermissions(fragment, deniedPermission)) {
                 return true;
@@ -127,8 +125,7 @@ public class AndPermission {
      */
     public static
     @NonNull
-    SettingService defineSettingDialog(@NonNull android.support.v4.app.Fragment fragment, int
-            requestCode) {
+    SettingService defineSettingDialog(@NonNull android.support.v4.app.Fragment fragment, int requestCode) {
         return new SettingExecutor(fragment, requestCode);
     }
 
@@ -224,8 +221,7 @@ public class AndPermission {
      * @param permissions  all permissions.
      * @param grantResults results.
      */
-    public static void onRequestPermissionsResult(@NonNull Activity activity, int requestCode, @NonNull String[]
-            permissions, int[] grantResults) {
+    public static void onRequestPermissionsResult(@NonNull Activity activity, int requestCode, @NonNull String[] permissions, int[] grantResults) {
         callbackAnnotation(activity, requestCode, permissions, grantResults);
     }
 
@@ -237,8 +233,7 @@ public class AndPermission {
      * @param permissions  all permissions.
      * @param grantResults results.
      */
-    public static void onRequestPermissionsResult(@NonNull android.support.v4.app.Fragment fragment, int
-            requestCode,
+    public static void onRequestPermissionsResult(@NonNull android.support.v4.app.Fragment fragment, int requestCode,
                                                   @NonNull String[] permissions, int[] grantResults) {
         callbackAnnotation(fragment, requestCode, permissions, grantResults);
     }
@@ -265,8 +260,7 @@ public class AndPermission {
      * @param permissions  all permissions.
      * @param grantResults results.
      */
-    private static void callbackAnnotation(@NonNull Object o, int requestCode, @NonNull String[] permissions, int[]
-            grantResults) {
+    private static void callbackAnnotation(@NonNull Object o, int requestCode, @NonNull String[] permissions, int[] grantResults) {
         List<String> grantedList = new ArrayList<>();
         List<String> deniedList = new ArrayList<>();
         for (int i = 0; i < permissions.length; i++) {
@@ -278,10 +272,10 @@ public class AndPermission {
 
         boolean isAllGrant = deniedList.isEmpty();
 
-        Class<? extends Annotation> clazz = isAllGrant ? PermissionYes.class : PermissionNo.class;
+        Class<? extends Annotation> clazz = isAllGrant ? PermissionGranted.class : PermissionDenied.class;
         Method[] methods = findMethodForRequestCode(o.getClass(), clazz, requestCode);
         if (methods.length == 0) {
-            Log.e(TAG, "Not found the callback method, do you forget @PermissionYes or @permissionNo" +
+            Log.e(TAG, "Not found the callback method, do you forget @PermissionGranted or @permissionNo" +
                     " for callback method ? Or you can use PermissionListener.");
         } else
             try {
@@ -306,10 +300,10 @@ public class AndPermission {
 
     private static <T extends Annotation> boolean isSameRequestCode(@NonNull Method method, @NonNull Class<T>
             annotation, int requestCode) {
-        if (PermissionYes.class.equals(annotation))
-            return method.getAnnotation(PermissionYes.class).value() == requestCode;
-        else if (PermissionNo.class.equals(annotation))
-            return method.getAnnotation(PermissionNo.class).value() == requestCode;
+        if (PermissionGranted.class.equals(annotation))
+            return method.getAnnotation(PermissionGranted.class).value() == requestCode;
+        else if (PermissionDenied.class.equals(annotation))
+            return method.getAnnotation(PermissionDenied.class).value() == requestCode;
         return false;
     }
 
@@ -338,7 +332,5 @@ public class AndPermission {
             listener.onFailed(requestCode, deniedList);
     }
 
-    private AndPermission() {
-    }
 
 }

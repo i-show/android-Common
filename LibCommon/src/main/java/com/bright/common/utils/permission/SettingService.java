@@ -16,7 +16,8 @@
 package com.bright.common.utils.permission;
 
 
-public interface SettingService extends Cancelable {
+@SuppressWarnings("all")
+public interface SettingService {
 
     /**
      * Execute setting.

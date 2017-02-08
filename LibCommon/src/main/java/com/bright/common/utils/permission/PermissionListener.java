@@ -17,7 +17,7 @@ package com.bright.common.utils.permission;
 
 import java.util.List;
 
-
+@SuppressWarnings("all")
 public interface PermissionListener {
 
     void onSucceed(int requestCode, List<String> grantPermissions);

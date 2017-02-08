@@ -22,9 +22,7 @@ import android.net.Uri;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 
-/**
- * Created by Yan Zhenjie on 2016/12/28.
- */
+
 class SettingExecutor implements SettingService {
 
     private Object object;
@@ -44,9 +42,6 @@ class SettingExecutor implements SettingService {
         startForResult(object, intent, requestCode);
     }
 
-    @Override
-    public void cancel() {
-    }
 
     private static void startForResult(Object object, Intent intent, int requestCode) {
         if (object instanceof Activity) {

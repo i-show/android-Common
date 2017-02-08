@@ -23,6 +23,7 @@ import android.view.View;
 import com.bright.common.widget.TopBar;
 import com.brightyu.androidcommon.R;
 import com.brightyu.androidcommon.modules.base.AppBaseActivity;
+import com.brightyu.androidcommon.modules.sample.permission.SamplePermissionActivity;
 import com.brightyu.androidcommon.modules.sample.photo.select.SampleSelectPhotoActivity;
 import com.brightyu.androidcommon.modules.sample.pickview.SamplePickerActivity;
 
@@ -48,6 +49,9 @@ public class SampleMainActivity extends AppBaseActivity implements View.OnClickL
         // 图片选择器
         view = findViewById(R.id.sample_select_photo);
         view.setOnClickListener(this);
+        // 权限设置
+        view = findViewById(R.id.sample_select_permission);
+        view.setOnClickListener(this);
     }
 
     @Override
@@ -62,6 +66,11 @@ public class SampleMainActivity extends AppBaseActivity implements View.OnClickL
                 intent = new Intent(this, SampleSelectPhotoActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.sample_select_permission:
+                intent = new Intent(this, SamplePermissionActivity.class);
+                startActivity(intent);
+                break;
         }
     }
+
 }
