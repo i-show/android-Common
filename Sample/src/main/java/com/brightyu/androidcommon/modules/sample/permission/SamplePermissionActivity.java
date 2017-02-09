@@ -17,10 +17,7 @@
 package com.brightyu.androidcommon.modules.sample.permission;
 
 import android.Manifest;
-import android.app.Activity;
-import android.content.pm.PermissionInfo;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.view.View;
 
 import com.bright.common.utils.permission.PermissionDenied;
@@ -28,8 +25,6 @@ import com.bright.common.utils.permission.PermissionGranted;
 import com.bright.common.utils.permission.PermissionManager;
 import com.brightyu.androidcommon.R;
 import com.brightyu.androidcommon.modules.base.AppBaseActivity;
-
-import java.util.List;
 
 /**
  * Created by Bright.Yu on 2017/2/8.
@@ -51,6 +46,7 @@ public class SamplePermissionActivity extends AppBaseActivity implements View.On
     @Override
     protected void initViews() {
         super.initViews();
+
         View view = findViewById(R.id.sample_select_permission_sdcard);
         view.setOnClickListener(this);
     }

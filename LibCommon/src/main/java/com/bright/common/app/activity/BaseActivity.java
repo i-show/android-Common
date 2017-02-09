@@ -18,7 +18,6 @@ package com.bright.common.app.activity;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
@@ -45,20 +44,8 @@ public abstract class BaseActivity extends AppCompatActivity implements TopBar.O
      * Activity的TYPE
      */
     public static final String KEY_TYPE = "activity_type";
-    /**
-     * 默认返回的result
-     */
-    public static final String KEY_RESULT = "activity_result";
-    /**
-     * 需要重新进入应用
-     */
-    private static final String KEY_REOPEN = "key_need_reopen_activity";
 
     protected Handler mHandler;
-    /**
-     * 保存变量
-     */
-    private SharedPreferences mSharedPreferences;
 
     //************************ 生命周期 区域*********************** //
     @Override
@@ -78,19 +65,6 @@ public abstract class BaseActivity extends AppCompatActivity implements TopBar.O
         super.onPause();
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putBoolean(KEY_REOPEN, true);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        if (savedInstanceState != null && needCheckReopen()) {
-            goSplash();
-        }
-    }
 
     @Override
     protected void onDestroy() {
@@ -133,6 +107,12 @@ public abstract class BaseActivity extends AppCompatActivity implements TopBar.O
     }
 
     protected void initViews() {
+        // 主动设置TopBar
+        View topBarView = findViewById(R.id.top_bar);
+        if (topBarView != null && topBarView instanceof TopBar) {
+            TopBar topBar = (TopBar) topBarView;
+            topBar.setOnTopBarListener(this);
+        }
         //TODO
     }
 
@@ -202,19 +182,6 @@ public abstract class BaseActivity extends AppCompatActivity implements TopBar.O
         // TODO
     }
 
-    /**
-     * 跳转到Splash
-     */
-    protected void goSplash() {
-        // TODO
-    }
-
-    /**
-     * 检测是否要重新打开应用
-     */
-    protected boolean needCheckReopen() {
-        return true;
-    }
 
     // ******************** 提示区域 ***************************//
 
