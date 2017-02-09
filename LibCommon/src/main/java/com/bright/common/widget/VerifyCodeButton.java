@@ -32,6 +32,7 @@ import com.bright.common.R;
 /**
  * 发送验证码的button
  */
+@SuppressWarnings("unused")
 public class VerifyCodeButton extends FrameLayout {
     private static final String TAG = "VerifyCodeButton";
     /**

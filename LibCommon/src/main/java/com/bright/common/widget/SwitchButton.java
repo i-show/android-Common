@@ -47,7 +47,7 @@ import com.bright.common.utils.ColorUtils;
  * @author kyleduo
  * @since 2014-09-24
  */
-
+@SuppressWarnings("unused")
 public class SwitchButton extends CompoundButton {
     public static final float DEFAULT_BACK_MEASURE_RATIO = 1.8f;
     public static final int DEFAULT_THUMB_SIZE_DP = 20;

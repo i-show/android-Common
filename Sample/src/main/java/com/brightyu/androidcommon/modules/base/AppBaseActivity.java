@@ -50,15 +50,4 @@ public abstract class AppBaseActivity extends BaseActivity {
         return true;
     }
 
-    /**
-     * 一个新的内存检测机制
-     * 1. 如果被强制关闭后会强制回退的Splash 界面
-     */
-    @Override
-    protected void goSplash() {
-        Intent intent = new Intent(AppBaseActivity.this, SplashActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        finish();
-    }
 }

@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.bright.common.widget;
+package com.bright.common.widget.imageview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -41,11 +41,10 @@ import android.widget.ImageView;
 
 import com.bright.common.R;
 
-
+@SuppressWarnings("unused")
 public class CropImageView extends ImageView {
     private static final String TAG = CropImageView.class.getSimpleName();
 
-    // Constants ///////////////////////////////////////////////////////////////////////////////////
 
     private static final int HANDLE_SIZE_IN_DP = 16;
     private static final int MIN_FRAME_SIZE_IN_DP = 50;
@@ -1321,7 +1320,7 @@ public class CropImageView extends ImageView {
         RATIO_FIT_IMAGE(0), RATIO_4_3(1), RATIO_3_4(2), RATIO_1_1(3), RATIO_16_9(4), RATIO_9_16(5), RATIO_FREE(6), RATIO_CUSTOM(7), CIRCLE(8);
         private final int ID;
 
-        private CropMode(final int id) {
+        CropMode(final int id) {
             this.ID = id;
         }
 

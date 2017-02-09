@@ -20,7 +20,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.bright.common.widget.TopBar;
 import com.brightyu.androidcommon.R;
 import com.brightyu.androidcommon.modules.base.AppBaseActivity;
 import com.brightyu.androidcommon.modules.sample.permission.SamplePermissionActivity;
@@ -40,9 +39,6 @@ public class SampleMainActivity extends AppBaseActivity implements View.OnClickL
     @Override
     protected void initViews() {
         super.initViews();
-        TopBar topBar = (TopBar) findViewById(R.id.top_bar);
-        topBar.setOnTopBarListener(this);
-
         // 滚轮选择器
         View view = findViewById(R.id.sample_pick_view);
         view.setOnClickListener(this);

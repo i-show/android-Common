@@ -2,7 +2,6 @@ package com.brightyu.androidcommon.modules.sample.pickview;
 
 import android.os.Bundle;
 
-import com.bright.common.widget.TopBar;
 import com.bright.common.widget.pickview.PickerView;
 import com.brightyu.androidcommon.R;
 import com.brightyu.androidcommon.modules.base.AppBaseActivity;
@@ -22,9 +21,6 @@ public class SamplePickerActivity extends AppBaseActivity {
     @Override
     protected void initViews() {
         super.initViews();
-        TopBar topBar = (TopBar) findViewById(R.id.top_bar);
-        topBar.setOnTopBarListener(this);
-
         PickerView pickerView = (PickerView) findViewById(R.id.picker_view);
         pickerView.setAdapter(new SamplePickerAdapter());
     }

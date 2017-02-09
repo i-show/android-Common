@@ -21,7 +21,7 @@
     android:orientation="vertical">
 
 
-    <com.bright.common.widget.CropImageView
+    <com.bright.common.widget.imageview.CropImageView
         android:id="@+id/crop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

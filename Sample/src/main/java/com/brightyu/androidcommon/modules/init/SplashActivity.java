@@ -26,7 +26,6 @@ import android.view.View;
 import com.bright.common.constant.Shift;
 import com.brightyu.androidcommon.constant.Configure;
 import com.brightyu.androidcommon.manager.VersionManager;
-import com.brightyu.androidcommon.modules.account.login.LoginActivity;
 import com.brightyu.androidcommon.modules.base.AppBaseActivity;
 import com.brightyu.androidcommon.modules.main.MainActivity;
 
@@ -58,13 +57,6 @@ public class SplashActivity extends AppBaseActivity {
         return false;
     }
 
-    /**
-     * 检测是否被内存回收了
-     */
-    @Override
-    protected boolean needCheckReopen() {
-        return false;
-    }
 
     @Override
     protected void onResume() {

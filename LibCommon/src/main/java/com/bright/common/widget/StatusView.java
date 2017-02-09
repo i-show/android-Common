@@ -37,6 +37,7 @@ import com.bumptech.glide.Glide;
 /**
  * 一个状态显示的View
  */
+@SuppressWarnings("unused")
 public class StatusView extends FrameLayout implements View.OnClickListener {
     /**
      * 正在加载

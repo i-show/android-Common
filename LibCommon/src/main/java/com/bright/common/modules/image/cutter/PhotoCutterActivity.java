@@ -25,7 +25,7 @@ import com.bright.common.R;
 import com.bright.common.app.activity.BaseActivity;
 import com.bright.common.utils.image.ImageUtils;
 import com.bright.common.utils.image.select.SelectPhotoUtils;
-import com.bright.common.widget.CropImageView;
+import com.bright.common.widget.imageview.CropImageView;
 import com.bright.common.widget.TopBar;
 import com.bright.common.widget.loading.LoadingDialog;
 import com.bumptech.glide.Glide;

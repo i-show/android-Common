@@ -35,13 +35,14 @@ import java.lang.ref.WeakReference;
  * <p>
  * YToast 集成为单例Toast 预防多次提示
  */
+@SuppressWarnings("unused")
 public class YToast extends Toast {
     private static final String TAG = "YToast";
 
     private static WeakReference<YToast> mToast;
     private static int mScreenHeight;
 
-    public YToast(Context context) {
+    private YToast(Context context) {
         super(context);
         mScreenHeight = ScreenUtils.getScreenSize()[1];
     }

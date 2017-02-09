@@ -39,10 +39,11 @@ import android.widget.TextView;
 
 import com.bright.common.R;
 import com.bright.common.widget.prompt.IPrompt;
-import com.bright.common.widget.prompt.PromptImageView;
-import com.bright.common.widget.prompt.PromptTextView;
+import com.bright.common.widget.imageview.PromptImageView;
+import com.bright.common.widget.textview.MarqueeTextView;
+import com.bright.common.widget.textview.PromptTextView;
 
-
+@SuppressWarnings("unused")
 public class TopBar extends ViewGroup implements OnClickListener {
 
     private static final String TAG = "TopBar";

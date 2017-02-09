@@ -335,5 +335,8 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     // 基础库
     compile project(':LibCommon')
+    // 检测内存泄露的库
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 }
 

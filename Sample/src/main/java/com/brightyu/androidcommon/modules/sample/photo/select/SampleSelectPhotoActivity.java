@@ -54,8 +54,6 @@ public class SampleSelectPhotoActivity extends AppBaseActivity implements
     @Override
     protected void initViews() {
         super.initViews();
-        TopBar topBar = (TopBar) findViewById(R.id.top_bar);
-        topBar.setOnTopBarListener(this);
 
         View singleCompress = findViewById(R.id.sample_select_photo_single_compress);
         singleCompress.setOnClickListener(this);

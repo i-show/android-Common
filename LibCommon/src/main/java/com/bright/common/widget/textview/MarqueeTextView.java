@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.bright.common.widget;
+package com.bright.common.widget.textview;
 
 import android.content.Context;
 import android.graphics.Rect;
