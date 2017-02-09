@@ -17,11 +17,16 @@ package com.bright.common.utils.permission;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+
+import com.bright.common.R;
+import com.bright.common.utils.IntentUtils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -52,6 +57,24 @@ public class PermissionManager {
             if (!hasPermission) return false;
         }
         return true;
+    }
+
+
+    /**
+     * Some privileges permanently disabled, may need to set up in the execute.
+     *
+     * @param activity          {@link Activity}.
+     * @param deniedPermissions one or more permissions.
+     * @return true, other wise is false.
+     */
+    private static boolean hasAlwaysDeniedPermission(@NonNull Object activity, @NonNull List<String> deniedPermissions) {
+        // Warning this method only set private
+        for (String deniedPermission : deniedPermissions) {
+            if (!PermissionUtils.shouldShowRationalePermissions(activity, deniedPermission)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -100,46 +123,6 @@ public class PermissionManager {
             }
         }
         return false;
-    }
-
-
-    /**
-     * Get define setting dialog setting object.
-     *
-     * @param activity    {@link Activity}.
-     * @param requestCode requestCode for {@code startActivityForResult(Intent, int)}.
-     * @return {@link SettingService}.
-     */
-    public static
-    @NonNull
-    SettingService defineSettingDialog(@NonNull Activity activity, int requestCode) {
-        return new SettingExecutor(activity, requestCode);
-    }
-
-    /**
-     * Get define setting dialog setting object.
-     *
-     * @param fragment    {@link android.support.v4.app.Fragment}.
-     * @param requestCode requestCode for {@code startActivityForResult(Intent, int)}.
-     * @return {@link SettingService}.
-     */
-    public static
-    @NonNull
-    SettingService defineSettingDialog(@NonNull android.support.v4.app.Fragment fragment, int requestCode) {
-        return new SettingExecutor(fragment, requestCode);
-    }
-
-    /**
-     * Get define setting dialog setting object.
-     *
-     * @param fragment    {@link android.app.Fragment}.
-     * @param requestCode requestCode for {@code startActivityForResult(Intent, int)}.
-     * @return {@link SettingService}.
-     */
-    public static
-    @NonNull
-    SettingService defineSettingDialog(@NonNull android.app.Fragment fragment, int requestCode) {
-        return new SettingExecutor(fragment, requestCode);
     }
 
     /**
@@ -208,8 +191,7 @@ public class PermissionManager {
      * @param requestCode request code.
      * @param permissions all permissions.
      */
-    public static void send(@NonNull android.app.Fragment fragment, int requestCode, @NonNull String...
-            permissions) {
+    public static void send(@NonNull android.app.Fragment fragment, int requestCode, @NonNull String... permissions) {
         with(fragment).requestCode(requestCode).permission(permissions).send();
     }
 
@@ -233,8 +215,7 @@ public class PermissionManager {
      * @param permissions  all permissions.
      * @param grantResults results.
      */
-    public static void onRequestPermissionsResult(@NonNull android.support.v4.app.Fragment fragment, int requestCode,
-                                                  @NonNull String[] permissions, int[] grantResults) {
+    public static void onRequestPermissionsResult(@NonNull android.support.v4.app.Fragment fragment, int requestCode, @NonNull String[] permissions, int[] grantResults) {
         callbackAnnotation(fragment, requestCode, permissions, grantResults);
     }
 
@@ -246,8 +227,7 @@ public class PermissionManager {
      * @param permissions  all permissions.
      * @param grantResults results.
      */
-    public static void onRequestPermissionsResult(@NonNull android.app.Fragment fragment, int requestCode,
-                                                  @NonNull String[] permissions, int[] grantResults) {
+    public static void onRequestPermissionsResult(@NonNull android.app.Fragment fragment, int requestCode, @NonNull String[] permissions, int[] grantResults) {
         callbackAnnotation(fragment, requestCode, permissions, grantResults);
     }
 
@@ -270,6 +250,7 @@ public class PermissionManager {
                 deniedList.add(permissions[i]);
         }
 
+        dialogDeniedTip(o, deniedList);
         boolean isAllGrant = deniedList.isEmpty();
 
         Class<? extends Annotation> clazz = isAllGrant ? PermissionGranted.class : PermissionDenied.class;
@@ -277,7 +258,8 @@ public class PermissionManager {
         if (methods.length == 0) {
             Log.e(TAG, "Not found the callback method, do you forget @PermissionGranted or @permissionNo" +
                     " for callback method ? Or you can use PermissionListener.");
-        } else
+        } else {
+            // 这里提供了2中返回的方法 1. 带有参数 2. 不带参数
             try {
                 for (Method method : methods) {
                     if (!method.isAccessible()) method.setAccessible(true);
@@ -285,7 +267,41 @@ public class PermissionManager {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                try {
+                    for (Method method : methods) {
+                        if (!method.isAccessible()) method.setAccessible(true);
+                        method.invoke(o);
+                    }
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
             }
+        }
+    }
+
+    private static void dialogDeniedTip(final Object o, List<String> deniedList) {
+        if (deniedList == null || deniedList.isEmpty()) {
+            Log.i(TAG, "dialogDeniedTip:deniedList is empty ");
+            return;
+        }
+
+        final Context context = PermissionUtils.getContext(o);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(R.string.premission_denied_tip);
+        builder.setNegativeButton(R.string.cancel, null);
+        if (hasAlwaysDeniedPermission(o, deniedList)) {
+            builder.setPositiveButton(R.string.go_settings, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    IntentUtils.goToAppSettings(context);
+                }
+            });
+        } else {
+            builder.setPositiveButton(R.string.yes, null);
+        }
+
+        builder.create().show();
     }
 
     private static <T extends Annotation> Method[] findMethodForRequestCode(@NonNull Class<?> source, @NonNull
@@ -306,31 +322,5 @@ public class PermissionManager {
             return method.getAnnotation(PermissionDenied.class).value() == requestCode;
         return false;
     }
-
-    /**
-     * Parse the request results.
-     *
-     * @param requestCode  request code.
-     * @param permissions  one or more permissions.
-     * @param grantResults results.
-     * @param listener     {@link PermissionListener}.
-     */
-    public static void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, int[]
-            grantResults, @NonNull PermissionListener listener) {
-        List<String> grantedList = new ArrayList<>();
-        List<String> deniedList = new ArrayList<>();
-        for (int i = 0; i < permissions.length; i++) {
-            if (grantResults[i] == PackageManager.PERMISSION_GRANTED)
-                grantedList.add(permissions[i]);
-            else
-                deniedList.add(permissions[i]);
-        }
-
-        if (deniedList.isEmpty())
-            listener.onSucceed(requestCode, grantedList);
-        else
-            listener.onFailed(requestCode, deniedList);
-    }
-
 
 }

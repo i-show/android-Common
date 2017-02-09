@@ -36,7 +36,6 @@ class DefaultPermission implements Permission {
     private String[] deniedPermissions;
     private int requestCode;
     private Object object;
-    private RationaleListener listener;
 
     DefaultPermission(Object o) {
         if (o == null)
@@ -60,23 +59,6 @@ class DefaultPermission implements Permission {
         return this;
     }
 
-    @NonNull
-    @Override
-    public Permission rationale(RationaleListener listener) {
-        this.listener = listener;
-        return this;
-    }
-
-    /**
-     * Rationale.
-     */
-    private Rationale rationale = new Rationale() {
-        @Override
-        public void resume() {
-            requestPermissions(object, requestCode, deniedPermissions);
-        }
-    };
-
     @Override
     @SuppressWarnings("unused")
     public void send() {
@@ -96,12 +78,7 @@ class DefaultPermission implements Permission {
             deniedPermissions = getDeniedPermissions(object, permissions);
             // Denied permissions size > 0.
             if (deniedPermissions.length > 0) {
-                // Remind users of the purpose of permissions.
-                boolean showRationale = PermissionUtils.shouldShowRationalePermissions(object, deniedPermissions);
-                if (showRationale && listener != null)
-                    listener.showRequestPermissionRationale(requestCode, rationale);
-                else
-                    rationale.resume();
+                requestPermissions(object, requestCode, deniedPermissions);
             } else { // All permission granted.
                 final int[] grantResults = new int[permissions.length];
 

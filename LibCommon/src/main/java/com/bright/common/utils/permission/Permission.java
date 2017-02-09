@@ -17,7 +17,7 @@ package com.bright.common.utils.permission;
 
 import android.support.annotation.NonNull;
 
-
+@SuppressWarnings("all")
 public interface Permission {
 
     /**
@@ -38,16 +38,6 @@ public interface Permission {
      */
     @NonNull
     Permission requestCode(int requestCode);
-
-    /**
-     * With user privilege refused many times, the Listener will be called back, you can prompt the user
-     * permissions role in this method.
-     *
-     * @param listener {@link RationaleListener}.
-     * @return {@link Permission}.
-     */
-    @NonNull
-    Permission rationale(RationaleListener listener);
 
     /**
      * Request permission.

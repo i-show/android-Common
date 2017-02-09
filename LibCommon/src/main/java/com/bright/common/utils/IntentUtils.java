@@ -20,6 +20,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.widget.Toast;
 
@@ -92,6 +93,17 @@ public class IntentUtils {
     public static void openApp(Context context, String appPackageName) {
         try {
             Intent intent = context.getPackageManager().getLaunchIntentForPackage(appPackageName.trim());
+            context.startActivity(intent);
+        } catch (Exception e) {
+            YToast.makeText(context, R.string.exception_intent_open, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public static void goToAppSettings(Context context) {
+        try {
+            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            Uri uri = Uri.fromParts("package", context.getPackageName(), null);
+            intent.setData(uri);
             context.startActivity(intent);
         } catch (Exception e) {
             YToast.makeText(context, R.string.exception_intent_open, Toast.LENGTH_SHORT).show();
