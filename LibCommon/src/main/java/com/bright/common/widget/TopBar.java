@@ -213,24 +213,24 @@ public class TopBar extends ViewGroup implements OnClickListener {
         mLeftTextDrawable = a.getDrawable(R.styleable.TopBar_leftTextDrawable);
         mLeftTextDrawablePadding = a.getDimensionPixelSize(R.styleable.TopBar_leftTextDrawablePadding, 0);
 
-        mLeftBackground = a.getResourceId(R.styleable.TopBar_leftBackground, 0);
+        mLeftBackground = a.getResourceId(R.styleable.TopBar_leftImageBackground, 0);
 
         mLeftImageResId = a.getResourceId(R.styleable.TopBar_leftImage, 0);
-        mLeftImageVisibility = a.getInt(R.styleable.TopBar_leftVisibility, View.VISIBLE);
+        mLeftImageVisibility = a.getInt(R.styleable.TopBar_leftImageVisibility, View.VISIBLE);
         mLeftImage2ResId = a.getResourceId(R.styleable.TopBar_leftImage2, 0);
-        mLeftImage2Visibility = a.getInt(R.styleable.TopBar_leftVisibility2, View.VISIBLE);
+        mLeftImage2Visibility = a.getInt(R.styleable.TopBar_leftImageVisibility2, View.VISIBLE);
 
         mRightStr = a.getString(R.styleable.TopBar_rightText);
         mRightTextSize = a.getDimensionPixelSize(R.styleable.TopBar_rightTextSize, 0);
         mRightTextColor = a.getColorStateList(R.styleable.TopBar_rightTextColor);
         mRightTextBackground = a.getDrawable(R.styleable.TopBar_rightTextBackground);
 
-        mRightBackground = a.getResourceId(R.styleable.TopBar_rightBackground, 0);
+        mRightBackground = a.getResourceId(R.styleable.TopBar_rightImageBackground, 0);
 
         mRightImageResId = a.getResourceId(R.styleable.TopBar_rightImage, 0);
-        mRightImageVisibility = a.getInt(R.styleable.TopBar_rightVisibility, View.VISIBLE);
+        mRightImageVisibility = a.getInt(R.styleable.TopBar_rightImageVisibility, View.VISIBLE);
         mRightImage2ResId = a.getResourceId(R.styleable.TopBar_rightImage2, 0);
-        mRightImage2Visibility = a.getInt(R.styleable.TopBar_rightVisibility2, View.VISIBLE);
+        mRightImage2Visibility = a.getInt(R.styleable.TopBar_rightImageVisibility2, View.VISIBLE);
 
         mTitleStr = a.getString(R.styleable.TopBar_text);
         mTitleSize = a.getDimensionPixelSize(R.styleable.TopBar_textSize, getDefaultTextSize(context));
