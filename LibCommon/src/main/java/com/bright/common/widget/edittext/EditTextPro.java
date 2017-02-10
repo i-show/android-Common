@@ -18,9 +18,10 @@ package com.bright.common.widget.edittext;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.text.InputFilter;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
@@ -31,7 +32,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.bright.common.R;
+import com.bright.common.utils.UnitUtils;
 import com.bright.common.widget.imageview.PromptImageView;
+import com.bright.common.widget.prompt.IPrompt;
 import com.bright.common.widget.textview.PromptTextView;
 
 /**
@@ -39,7 +42,7 @@ import com.bright.common.widget.textview.PromptTextView;
  * 加强版本的EditText
  */
 @SuppressWarnings("unused")
-public class EditTextPro extends ViewGroup {
+public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener {
     private static final String TAG = "EditTextPro";
 
     /**
@@ -72,6 +75,8 @@ public class EditTextPro extends ViewGroup {
     private int mLeftTextSize;
     private int mLeftTextColor;
     private int mLeftTextVisibility;
+    private int mLeftTextMinWidth;
+    private int mLeftTextMaxWidth;
     private Drawable mLeftTextBackgroundDrawable;
 
     /**
@@ -94,6 +99,8 @@ public class EditTextPro extends ViewGroup {
     private int mRightTextSize;
     private int mRightTextColor;
     private int mRightTextVisibility;
+    private int mRightTextMinWidth;
+    private int mRightTextMaxWidth;
     private Drawable mRightTextBackgroundDrawable;
 
     /**
@@ -102,13 +109,22 @@ public class EditTextPro extends ViewGroup {
     private Drawable mRightImageDrawable;
     private Drawable mRightImageBackgroundDrawable;
     private int mRightImageVisibility;
-
+    /**
+     * 图片的建议宽度
+     */
+    private int mSuggestIconWidth;
+    private int mSuggestCancelWidth;
     /**
      * 最底部的线
      */
     private int mNormalColor;
     private int mFocusColor;
     private int mBottomLineVisibility;
+
+    private int mMinHegiht;
+    private int mBottomLineHegiht;
+
+    private Paint mBottomLinePaint;
 
     public EditTextPro(Context context) {
         this(context, null);
@@ -128,6 +144,8 @@ public class EditTextPro extends ViewGroup {
         mLeftTextString = a.getString(R.styleable.EditTextPro_leftText);
         mLeftTextSize = a.getDimensionPixelSize(R.styleable.EditTextPro_leftTextSize, getDefaultTipTextSize());
         mLeftTextColor = a.getColor(R.styleable.EditTextPro_leftTextColor, getDefaultTipTextColor());
+        mLeftTextMinWidth = a.getDimensionPixelSize(R.styleable.EditTextPro_leftTextMinWidth, getDefaultTipMinWidth());
+        mLeftTextMaxWidth = a.getDimensionPixelSize(R.styleable.EditTextPro_leftTextMinWidth, getDefaultTipMaxWidth());
         mLeftTextVisibility = a.getInt(R.styleable.EditTextPro_leftTextVisibility, getDefaultTipTextColor());
         mLeftTextBackgroundDrawable = a.getDrawable(R.styleable.EditTextPro_leftTextBackground);
 
@@ -145,6 +163,8 @@ public class EditTextPro extends ViewGroup {
         mRightTextSize = a.getDimensionPixelSize(R.styleable.EditTextPro_rightTextSize, getDefaultTipTextSize());
         mRightTextColor = a.getColor(R.styleable.EditTextPro_rightTextColor, getDefaultTipTextColor());
         mRightTextVisibility = a.getColor(R.styleable.EditTextPro_rightTextVisibility, View.GONE);
+        mRightTextMinWidth = a.getDimensionPixelSize(R.styleable.EditTextPro_rightTextMinWidth, getDefaultTipMinWidth());
+        mRightTextMaxWidth = a.getDimensionPixelSize(R.styleable.EditTextPro_rightTextMinWidth, getDefaultTipMaxWidth());
         mRightTextBackgroundDrawable = a.getDrawable(R.styleable.EditTextPro_rightTextBackground);
 
         mRightImageDrawable = a.getDrawable(R.styleable.EditTextPro_rightImage);
@@ -153,20 +173,183 @@ public class EditTextPro extends ViewGroup {
 
         mNormalColor = a.getColor(R.styleable.EditTextPro_normalColor, getDefaultNormalColor());
         mFocusColor = a.getColor(R.styleable.EditTextPro_focusColor, getDefaultFocusColor());
+        mBottomLineHegiht = a.getDimensionPixelSize(R.styleable.EditTextPro_bottomLineHegiht, getDefaultBottomLineHeight());
         mBottomLineVisibility = a.getInt(R.styleable.EditTextPro_bottomLineVisibility, View.VISIBLE);
+
+        mMinHegiht = a.getDimensionPixelSize(R.styleable.EditTextPro_android_minHeight, getDefaultMinHeight());
         a.recycle();
 
+        initNecessaryData();
         initView();
+    }
+
+    private void initNecessaryData() {
+        mSuggestIconWidth = getContext().getResources().getDimensionPixelSize(R.dimen.dp_45);
+        mSuggestCancelWidth = getContext().getResources().getDimensionPixelSize(R.dimen.dp_15);
+        mBottomLinePaint = new Paint();
+        mBottomLinePaint.setDither(true);
+        mBottomLinePaint.setAntiAlias(true);
+        mBottomLinePaint.setColor(mNormalColor);
     }
 
     private void initView() {
         getLeftImageView();
         getLeftTextView();
         getInputView();
+        getCancelButton();
+        getRightTextView();
+        getRightImageView();
+    }
+
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+
+        final int width = measureWidth(widthMeasureSpec);
+        final int height = measureHeight(width, heightMeasureSpec);
+        final int heightSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
+        final int imageWidthSpec = MeasureSpec.makeMeasureSpec(mSuggestIconWidth, MeasureSpec.EXACTLY);
+        if (mLeftImageView != null && mLeftImageView.getVisibility() != View.GONE) {
+            mLeftImageView.measure(imageWidthSpec, heightSpec);
+        }
+
+        if (mRightImageView != null && mRightImageView.getVisibility() != View.GONE) {
+            mRightImageView.measure(imageWidthSpec, heightSpec);
+        }
+
+        int test = UnitUtils.dip2px(height);
+
+        setMeasuredDimension(width, height);
+    }
+
+    private int measureWidth(int widthMeasureSpec) {
+        final int mode = MeasureSpec.getMode(widthMeasureSpec);
+        final int size = MeasureSpec.getSize(widthMeasureSpec);
+
+        switch (mode) {
+            case MeasureSpec.UNSPECIFIED:
+                throw new IllegalStateException("need not set  width MeasureSpec.UNSPECIFIED");
+            case MeasureSpec.EXACTLY:
+            case MeasureSpec.AT_MOST:
+                return size;
+        }
+        return size;
+    }
+
+    private int measureHeight(final int width, int heightMeasureSpec) {
+        final int mode = MeasureSpec.getMode(heightMeasureSpec);
+        final int size = MeasureSpec.getSize(heightMeasureSpec);
+        switch (mode) {
+            case MeasureSpec.EXACTLY:
+                return size;
+            case MeasureSpec.UNSPECIFIED:
+            case MeasureSpec.AT_MOST:
+                final int paddingStart = getPaddingStart();
+                final int paddingEnd = getPaddingEnd();
+                int height = mMinHegiht;
+
+                int inputWidth = width - paddingStart - paddingEnd;
+
+                if (mLeftImageView != null && mLeftImageView.getVisibility() != View.GONE) {
+                    inputWidth = inputWidth - mSuggestIconWidth;
+                }
+
+                if (mLeftTextView != null && mLeftTextView.getVisibility() != View.GONE) {
+                    final int unspecified = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
+                    mLeftTextView.measure(unspecified, unspecified);
+                    final int leftTextHeight = mLeftTextView.getMeasuredHeight();
+                    final int leftTextWidth = mLeftTextView.getMeasuredWidth();
+                    inputWidth = inputWidth - leftTextWidth;
+                    height = Math.max(height, leftTextHeight);
+                }
+
+                if (mRightTextView != null && mRightTextView.getVisibility() != View.GONE) {
+                    final int unspecified = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
+                    mRightTextView.measure(unspecified, unspecified);
+                    final int rightTextHeight = mRightTextView.getMeasuredHeight();
+                    final int rightTextWidth = mRightTextView.getMeasuredWidth();
+                    inputWidth = inputWidth - rightTextWidth;
+                    height = Math.max(height, rightTextHeight);
+                }
+
+                if (mRightImageView != null && mRightImageView.getVisibility() != View.GONE) {
+                    inputWidth = inputWidth - mSuggestIconWidth;
+                }
+
+                if (!mInputEditable) {
+                    inputWidth = inputWidth - mSuggestCancelWidth;
+                }
+
+                final int widthSpec = MeasureSpec.makeMeasureSpec(inputWidth, MeasureSpec.EXACTLY);
+                final int heightSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
+                mInputView.measure(widthSpec, heightSpec);
+                final int inputHeight = mInputView.getMeasuredHeight();
+                height = Math.max(height, inputHeight);
+                return height;
+        }
+        return size;
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        left = getPaddingStart();
+        top = getPaddingTop();
+        right = right - getPaddingEnd();
+        bottom = bottom - getPaddingBottom();
+
+        if (mLeftImageView != null && mLeftImageView.getVisibility() != View.GONE) {
+            int height = mLeftImageView.getMeasuredHeight();
+            int height2 = getMeasuredHeight();
+
+            mLeftImageView.layout(left, top, left + mSuggestIconWidth, bottom);
+            left = left + mSuggestIconWidth;
+        }
+
+        if (mLeftTextView != null && mLeftTextView.getVisibility() != View.GONE) {
+            int width = mLeftTextView.getMeasuredWidth();
+            mLeftTextView.layout(left, top, left + width, bottom);
+            left = left + width;
+        }
+
+        int inputWidth = mInputView.getMeasuredWidth();
+        mInputView.layout(left, top, left + inputWidth, bottom);
+        left = left + inputWidth;
+
+        if (mInputEditable && mCancelView != null) {
+            mCancelView.layout(left, top, left + mSuggestIconWidth, bottom);
+            left = left + mSuggestIconWidth;
+        }
+
+        if (mRightTextView != null && mRightTextView.getVisibility() != View.GONE) {
+            int width = mRightTextView.getMeasuredWidth();
+            mLeftTextView.layout(left, top, left + width, bottom);
+            left = left + width;
+        }
+
+        if (mRightImageView != null && mRightImageView.getVisibility() != View.GONE) {
+            mRightImageView.layout(left, top, right, bottom);
+        }
+
+    }
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        mBottomLinePaint.setColor(hasFocus ? mFocusColor : mNormalColor);
+        invalidate();
+    }
+
+    @Override
+    protected void dispatchDraw(Canvas canvas) {
+        super.dispatchDraw(canvas);
+        int width = getMeasuredWidth();
+        int height = getMeasuredHeight();
+
+        if (mBottomLineVisibility == VISIBLE) {
+            canvas.drawLine(0, height - mBottomLineHegiht, width, height, mBottomLinePaint);
+        }
     }
 
     public PromptImageView getLeftImageView() {
-
         if (mLeftImageVisibility == View.GONE) {
             Log.i(TAG, "getLeftImageView: is visiable gone just not add");
             return null;
@@ -175,10 +358,11 @@ public class EditTextPro extends ViewGroup {
         if (mLeftImageView == null) {
             mLeftImageView = new PromptImageView(getContext());
             mLeftImageView.setId(R.id.leftImage);
-            mLeftImageView.setVisibility(mLeftImageVisibility);
+            mLeftImageView.setVisibility(VISIBLE);
             mLeftImageView.setImageDrawable(mLeftImageDrawable);
             mLeftImageView.setBackground(mLeftImageBackgroundDrawable);
-            mLeftImageView.setScaleType(ImageView.ScaleType.CENTER);
+            mLeftImageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            setDefaultPromptState(mLeftImageView);
             addView(mLeftImageView);
         }
         return mLeftImageView;
@@ -197,9 +381,10 @@ public class EditTextPro extends ViewGroup {
             mLeftTextView.setGravity(Gravity.CENTER);
             mLeftTextView.setTextColor(mLeftTextColor);
             mLeftTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mLeftTextSize);
-            mLeftTextView.setLines(1);
-            mLeftTextView.setEllipsize(TextUtils.TruncateAt.END);
+            mLeftTextView.setMinWidth(mLeftTextMinWidth);
+            mLeftTextView.setMaxWidth(mLeftTextMaxWidth);
             mLeftTextView.setBackground(mLeftTextBackgroundDrawable);
+            setDefaultPromptState(mLeftTextView);
             addView(mLeftTextView);
         }
         return mLeftTextView;
@@ -217,6 +402,7 @@ public class EditTextPro extends ViewGroup {
             mInputView.setHint(mInputHintString);
             mInputView.setLines(mInputLines);
             mInputView.setHintTextColor(mInputHintTextColor);
+            mInputView.setOnFocusChangeListener(this);
             if (mInputMaxLength != 0) {
                 mInputView.setFilters(new InputFilter[]{new InputFilter.LengthFilter(mInputMaxLength)});
             }
@@ -226,14 +412,71 @@ public class EditTextPro extends ViewGroup {
         return mInputView;
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    private ImageView getCancelButton() {
+        if (!mInputEditable) {
+            Log.i(TAG, "getCancelButton: can not editable ");
+            return null;
+        }
+
+
+        if (mCancelView == null) {
+            mCancelView = new ImageView(getContext());
+            mCancelView.setImageResource(R.drawable.ic_cancel);
+            mCancelView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            addView(mCancelView);
+        }
+        return mCancelView;
     }
 
-    @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+    public PromptTextView getRightTextView() {
+        if (mRightTextVisibility == View.GONE) {
+            Log.i(TAG, "getLeftTextView: is visiable gone just not add");
+            return null;
+        }
 
+        if (mRightTextView == null) {
+            mRightTextView = new PromptTextView(getContext());
+            mRightTextView.setId(R.id.rightText);
+            mRightTextView.setText(mRightTextString);
+            mRightTextView.setGravity(Gravity.CENTER);
+            mRightTextView.setTextColor(mRightTextColor);
+            mRightTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mRightTextSize);
+            mRightTextView.setMinWidth(mRightTextMinWidth);
+            mRightTextView.setMaxWidth(mRightTextMaxWidth);
+            mRightTextView.setBackground(mRightTextBackgroundDrawable);
+            setDefaultPromptState(mRightTextView);
+            addView(mRightTextView);
+        }
+        return mRightTextView;
+    }
+
+    public PromptImageView getRightImageView() {
+        if (mRightImageVisibility == View.GONE) {
+            Log.i(TAG, "getLeftImageView: is visiable gone just not add");
+            return null;
+        }
+
+        if (mRightImageView == null) {
+            mRightImageView = new PromptImageView(getContext());
+            mRightImageView.setId(R.id.rightImage);
+            mRightImageView.setVisibility(mRightImageVisibility);
+            mRightImageView.setImageDrawable(mRightImageDrawable);
+            mRightImageView.setBackground(mRightImageBackgroundDrawable);
+            mRightImageView.setScaleType(ImageView.ScaleType.CENTER);
+            setDefaultPromptState(mRightImageView);
+            addView(mRightImageView);
+        }
+        return mRightImageView;
+    }
+
+    private void setDefaultPromptState(IPrompt prompt) {
+        if (prompt == null) {
+            Log.i(TAG, "setDefaultPromptState: ");
+            return;
+        }
+
+        prompt.setPromptMode(IPrompt.MODE_NONE);
+        prompt.commit();
     }
 
 
@@ -241,6 +484,15 @@ public class EditTextPro extends ViewGroup {
         return getContext().getResources().getDimensionPixelSize(R.dimen.G_title);
     }
 
+    private int getDefaultTipMinWidth() {
+        return getContext().getResources().getDimensionPixelSize(R.dimen.dp_50);
+    }
+
+    private int getDefaultTipMaxWidth() {
+        return getContext().getResources().getDimensionPixelSize(R.dimen.dp_120);
+    }
+
+    @SuppressWarnings("deprecation")
     private int getDefaultTipTextColor() {
         return getContext().getResources().getColor(R.color.text_grey_light_normal);
     }
@@ -249,10 +501,12 @@ public class EditTextPro extends ViewGroup {
         return getContext().getResources().getDimensionPixelSize(R.dimen.H_title);
     }
 
+    @SuppressWarnings("deprecation")
     private int getDefaultInputTextColor() {
         return getContext().getResources().getColor(R.color.text_grey_normal);
     }
 
+    @SuppressWarnings("deprecation")
     private int getDefaultInputHintTextColor() {
         return getContext().getResources().getColor(R.color.text_grey_hint);
     }
@@ -260,6 +514,7 @@ public class EditTextPro extends ViewGroup {
     /**
      * 获取默认的颜色值
      */
+    @SuppressWarnings("deprecation")
     private int getDefaultNormalColor() {
         return getContext().getResources().getColor(R.color.grey_deep_10);
     }
@@ -267,8 +522,23 @@ public class EditTextPro extends ViewGroup {
     /**
      * 获取默认的颜色值
      */
+    @SuppressWarnings("deprecation")
     private int getDefaultFocusColor() {
         return getContext().getResources().getColor(R.color.color_accent);
+    }
+
+    /**
+     * 获取默认的最小高度
+     */
+    private int getDefaultMinHeight() {
+        return getResources().getDimensionPixelSize(R.dimen.girdle_min_h);
+    }
+
+    /**
+     * 获取默认的最小高度
+     */
+    private int getDefaultBottomLineHeight() {
+        return UnitUtils.dip2px(0.8f);
     }
 
 

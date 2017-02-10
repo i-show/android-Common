@@ -40,6 +40,12 @@
             style="@style/AppTextView.Sample"
             android:text="@string/sample_select_permission" />
 
+        <!--EditTextPro-->
+        <TextView
+            android:id="@+id/sample_select_edittextpro"
+            style="@style/AppTextView.Sample"
+            android:text="@string/sample_select_edittextpro" />
+
     </com.bright.common.widget.Flowlayout>
 
 </LinearLayout>

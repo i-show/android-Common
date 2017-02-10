@@ -85,6 +85,8 @@
     <attr name="leftTextColor" format="reference" />
     <attr name="leftTextDrawable" format="reference" />
     <attr name="leftTextDrawablePadding" format="reference" />
+    <attr name="leftTextMinWidth" format="dimension" />
+    <attr name="leftTextMaxWidth" format="dimension" />
     <attr name="leftTextBackground" format="reference|color" />
     <attr name="leftTextVisibility">
         <enum name="visible" value="0" />
@@ -112,6 +114,8 @@
     <attr name="rightText" format="string" />
     <attr name="rightTextSize" format="reference" />
     <attr name="rightTextColor" format="reference" />
+    <attr name="rightTextMinWidth" format="dimension" />
+    <attr name="rightTextMaxWidth" format="dimension" />
     <attr name="rightTextBackground" format="reference|color" />
     <attr name="rightTextVisibility">
         <enum name="visible" value="0" />
@@ -226,6 +230,9 @@
         <enum name="invisible" value="4" />
         <enum name="gone" value="8" />
     </attr>
+
+    <attr name="lineHegiht" format="dimension" />
+    <attr name="bottomLineHegiht" format="dimension" />
 
     <attr name="hasEmptyView" format="boolean" />
     <attr name="normalColor" format="color" />
@@ -572,6 +579,8 @@
         <attr name="leftTextSize" />
         <attr name="leftTextColor" />
         <attr name="leftTextVisibility" />
+        <attr name="leftTextMinWidth" />
+        <attr name="leftTextMaxWidth" />
         <attr name="leftTextBackground" />
 
         <attr name="inputBackground" />
@@ -588,6 +597,8 @@
         <attr name="rightTextSize" />
         <attr name="rightTextColor" />
         <attr name="rightTextBackground" />
+        <attr name="rightTextMinWidth" />
+        <attr name="rightTextMaxWidth" />
         <attr name="rightTextVisibility" />
 
         <attr name="rightImage" />
@@ -598,7 +609,10 @@
         <attr name="focusColor" />
 
         <attr name="cancelVisibility" />
+        <attr name="bottomLineHegiht" />
         <attr name="bottomLineVisibility" />
+
+        <attr name="android:minHeight" />
     </declare-styleable>
 
 

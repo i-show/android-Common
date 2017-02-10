@@ -281,7 +281,6 @@ public class ImageTextView extends View implements IPrompt {
         int height = measureHeight(heightMeasureSpec);
         measurePrompt(width, height);
         setMeasuredDimension(width, height);
-
     }
 
     private int measureWidth(int widthMeasureSpec) {

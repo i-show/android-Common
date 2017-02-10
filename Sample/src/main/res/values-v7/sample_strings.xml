@@ -10,4 +10,6 @@
 
     <string name="sample_select_permission">权限设置</string>
     <string name="sample_select_permission_sdcard">SD卡读取权限</string>
+
+    <string name="sample_select_edittextpro">EditTextPro</string>
 </resources>
