@@ -151,7 +151,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
 
         mInputBackgroundDrawable = a.getDrawable(R.styleable.EditTextPro_inputBackground);
         mInputGravity = a.getInt(R.styleable.EditTextPro_inputGravity, Gravity.CENTER_VERTICAL);
-        mInputTextSize = a.getDimensionPixelSize(R.styleable.EditTextPro_inputTextSize, getDefaultInputTextColor());
+        mInputTextSize = a.getDimensionPixelSize(R.styleable.EditTextPro_inputTextSize, getDefaultInputTextSize());
         mInputTextColor = a.getColor(R.styleable.EditTextPro_inputTextColor, getDefaultInputTextColor());
         mInputHintTextColor = a.getColor(R.styleable.EditTextPro_inputHintTextColor, getDefaultInputHintTextColor());
         mInputLines = a.getInt(R.styleable.EditTextPro_inputLines, 1);
@@ -184,8 +184,8 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     }
 
     private void initNecessaryData() {
-        mSuggestIconWidth = getContext().getResources().getDimensionPixelSize(R.dimen.dp_45);
-        mSuggestCancelWidth = getContext().getResources().getDimensionPixelSize(R.dimen.dp_15);
+        mSuggestIconWidth = getContext().getResources().getDimensionPixelSize(R.dimen.dp_40);
+        mSuggestCancelWidth = getContext().getResources().getDimensionPixelSize(R.dimen.dp_30);
         mBottomLinePaint = new Paint();
         mBottomLinePaint.setDither(true);
         mBottomLinePaint.setAntiAlias(true);
@@ -209,15 +209,23 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         final int height = measureHeight(width, heightMeasureSpec);
         final int heightSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
         final int imageWidthSpec = MeasureSpec.makeMeasureSpec(mSuggestIconWidth, MeasureSpec.EXACTLY);
+        final int unspecified = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
+
         if (mLeftImageView != null && mLeftImageView.getVisibility() != View.GONE) {
             mLeftImageView.measure(imageWidthSpec, heightSpec);
+        }
+
+        if (mLeftTextView != null && mLeftTextView.getVisibility() != View.GONE) {
+            mLeftTextView.measure(unspecified, heightSpec);
         }
 
         if (mRightImageView != null && mRightImageView.getVisibility() != View.GONE) {
             mRightImageView.measure(imageWidthSpec, heightSpec);
         }
 
-        int test = UnitUtils.dip2px(height);
+        if (mRightTextView != null && mRightTextView.getVisibility() != View.GONE) {
+            mRightTextView.measure(unspecified, heightSpec);
+        }
 
         setMeasuredDimension(width, height);
     }
@@ -276,7 +284,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
                     inputWidth = inputWidth - mSuggestIconWidth;
                 }
 
-                if (!mInputEditable) {
+                if (mInputEditable) {
                     inputWidth = inputWidth - mSuggestCancelWidth;
                 }
 
@@ -291,11 +299,11 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     }
 
     @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        left = getPaddingStart();
-        top = getPaddingTop();
-        right = right - getPaddingEnd();
-        bottom = bottom - getPaddingBottom();
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        int left = getPaddingStart();
+        int top = getPaddingTop();
+        int right = r - l - getPaddingEnd();
+        int bottom = b - t - getPaddingBottom();
 
         if (mLeftImageView != null && mLeftImageView.getVisibility() != View.GONE) {
             int height = mLeftImageView.getMeasuredHeight();
@@ -316,8 +324,8 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         left = left + inputWidth;
 
         if (mInputEditable && mCancelView != null) {
-            mCancelView.layout(left, top, left + mSuggestIconWidth, bottom);
-            left = left + mSuggestIconWidth;
+            mCancelView.layout(left, top, left + mSuggestCancelWidth, bottom);
+            left = left + mSuggestCancelWidth;
         }
 
         if (mRightTextView != null && mRightTextView.getVisibility() != View.GONE) {
@@ -460,7 +468,12 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
             mRightImageView = new PromptImageView(getContext());
             mRightImageView.setId(R.id.rightImage);
             mRightImageView.setVisibility(mRightImageVisibility);
-            mRightImageView.setImageDrawable(mRightImageDrawable);
+            if (mRightImageDrawable == null) {
+                mRightImageView.setImageResource(R.drawable.ic_arrow_right);
+            } else {
+                mRightImageView.setImageDrawable(mRightImageDrawable);
+
+            }
             mRightImageView.setBackground(mRightImageBackgroundDrawable);
             mRightImageView.setScaleType(ImageView.ScaleType.CENTER);
             setDefaultPromptState(mRightImageView);
@@ -481,7 +494,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
 
 
     private int getDefaultTipTextSize() {
-        return getContext().getResources().getDimensionPixelSize(R.dimen.G_title);
+        return getContext().getResources().getDimensionPixelSize(R.dimen.H_title);
     }
 
     private int getDefaultTipMinWidth() {
