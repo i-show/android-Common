@@ -85,6 +85,7 @@
     <attr name="leftTextColor" format="reference" />
     <attr name="leftTextDrawable" format="reference" />
     <attr name="leftTextDrawablePadding" format="reference" />
+    <attr name="leftTextRightMargin" format="dimension" />
     <attr name="leftTextMinWidth" format="dimension" />
     <attr name="leftTextMaxWidth" format="dimension" />
     <attr name="leftTextBackground" format="reference|color" />
@@ -96,6 +97,7 @@
 
     <attr name="leftImage" format="reference" />
     <attr name="leftImageBackground" format="reference|color" />
+    <attr name="leftImageRightMargin" format="dimension" />
     <attr name="leftImageVisibility">
         <enum name="visible" value="0" />
         <enum name="invisible" value="4" />
@@ -104,6 +106,7 @@
 
     <attr name="leftImage2" format="reference" />
     <attr name="leftImageBackground2" format="reference|color" />
+    <attr name="leftImageRightMargin2" format="dimension" />
     <attr name="leftImageVisibility2">
         <enum name="visible" value="0" />
         <enum name="invisible" value="4" />
@@ -114,6 +117,7 @@
     <attr name="rightText" format="string" />
     <attr name="rightTextSize" format="reference" />
     <attr name="rightTextColor" format="reference" />
+    <attr name="rightTextRightMargin" format="dimension" />
     <attr name="rightTextMinWidth" format="dimension" />
     <attr name="rightTextMaxWidth" format="dimension" />
     <attr name="rightTextBackground" format="reference|color" />
@@ -125,6 +129,7 @@
 
     <attr name="rightImage" format="reference" />
     <attr name="rightImageBackground" format="reference|color" />
+    <attr name="rightImageRightMargin" format="dimension" />
     <attr name="rightImageVisibility">
         <enum name="visible" value="0" />
         <enum name="invisible" value="4" />
@@ -240,6 +245,7 @@
 
     <attr name="inputBackground" format="reference" />
     <attr name="inputHint" format="string" />
+    <attr name="inputRightMargin" format="dimension" />
     <attr name="inputTextSize" format="dimension" />
     <attr name="inputTextColor" format="color" />
     <attr name="inputHintTextColor" format="color" />
@@ -573,12 +579,14 @@
     <declare-styleable name="EditTextPro">
         <attr name="leftImage" />
         <attr name="leftImageBackground" />
+        <attr name="leftImageRightMargin" />
         <attr name="leftImageVisibility" />
 
         <attr name="leftText" />
         <attr name="leftTextSize" />
         <attr name="leftTextColor" />
         <attr name="leftTextVisibility" />
+        <attr name="leftTextRightMargin" />
         <attr name="leftTextMinWidth" />
         <attr name="leftTextMaxWidth" />
         <attr name="leftTextBackground" />
@@ -586,6 +594,7 @@
         <attr name="inputBackground" />
         <attr name="inputGravity" />
         <attr name="inputHint" />
+        <attr name="inputRightMargin" />
         <attr name="inputTextSize" />
         <attr name="inputTextColor" />
         <attr name="inputTextMaxLenght" />
@@ -597,6 +606,7 @@
         <attr name="rightTextSize" />
         <attr name="rightTextColor" />
         <attr name="rightTextBackground" />
+        <attr name="rightTextRightMargin" />
         <attr name="rightTextMinWidth" />
         <attr name="rightTextMaxWidth" />
         <attr name="rightTextVisibility" />
@@ -612,6 +622,7 @@
         <attr name="bottomLineHegiht" />
         <attr name="bottomLineVisibility" />
 
+        <attr name="android:inputType" />
         <attr name="android:minHeight" />
     </declare-styleable>
 

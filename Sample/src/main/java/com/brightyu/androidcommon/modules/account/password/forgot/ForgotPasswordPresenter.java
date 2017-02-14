@@ -36,6 +36,7 @@ class ForgotPasswordPresenter extends ForgotPasswordContract.Presenter {
 
     ForgotPasswordPresenter(ForgotPasswordContract.View view) {
         super(view);
+        mHandler = new Handler();
     }
 
     @Override

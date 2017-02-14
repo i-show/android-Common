@@ -21,20 +21,20 @@ import android.view.View;
 
 import com.bright.common.widget.TopBar;
 import com.bright.common.widget.VerifyCodeButton;
+import com.bright.common.widget.edittext.EditTextPro;
 import com.bright.common.widget.loading.LoadingDialog;
 import com.brightyu.androidcommon.R;
 import com.brightyu.androidcommon.modules.base.AppBaseActivity;
-import com.brightyu.androidcommon.ui.widget.InputEdit;
 
 /**
  * 注册界面
  */
 public class RegisterActivity extends AppBaseActivity implements View.OnClickListener, RegisterContract.View {
 
-    private InputEdit mInputPhone;
-    private InputEdit mInputVerify;
-    private InputEdit mInputPassword;
-    private InputEdit mInputPasswordEnsure;
+    private EditTextPro mInputPhone;
+    private EditTextPro mInputVerify;
+    private EditTextPro mInputPassword;
+    private EditTextPro mInputPasswordEnsure;
 
     private VerifyCodeButton mVerifyCodeButton;
 
@@ -55,10 +55,10 @@ public class RegisterActivity extends AppBaseActivity implements View.OnClickLis
         TopBar topBar = (TopBar) findViewById(R.id.top_bar);
         topBar.setOnTopBarListener(this);
 
-        mInputPhone = (InputEdit) findViewById(R.id.phone);
-        mInputVerify = (InputEdit) findViewById(R.id.verify_code);
-        mInputPassword = (InputEdit) findViewById(R.id.password);
-        mInputPasswordEnsure = (InputEdit) findViewById(R.id.ensure_password);
+        mInputPhone = (EditTextPro) findViewById(R.id.phone);
+        mInputVerify = (EditTextPro) findViewById(R.id.verify_code);
+        mInputPassword = (EditTextPro) findViewById(R.id.password);
+        mInputPasswordEnsure = (EditTextPro) findViewById(R.id.ensure_password);
 
         mVerifyCodeButton = (VerifyCodeButton) findViewById(R.id.send_verify_code);
         mVerifyCodeButton.setOnClickListener(this);

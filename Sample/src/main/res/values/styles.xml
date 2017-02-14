@@ -32,14 +32,18 @@
         <item name="android:minHeight">@dimen/girdle_min_h</item>
     </style>
 
-    <style name="InputEdit" />
+    <style name="EditTextPro" />
 
-    <style name="InputEdit.Register">
+    <style name="EditTextPro.Register">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/dp_52</item>
         <item name="android:background">@android:color/white</item>
         <item name="android:gravity">center</item>
         <item name="focusColor">?colorAccent</item>
+        <item name="leftImageVisibility">gone</item>
+        <item name="rightImageVisibility">gone</item>
+        <item name="android:paddingStart">@dimen/gap_grade_2</item>
+        <item name="android:paddingEnd">@dimen/gap_grade_2</item>
 
     </style>
 

@@ -12,19 +12,28 @@
         app:leftImage="@drawable/ic_back_white"
         app:text="@string/register_title" />
 
-    <com.brightyu.androidcommon.ui.widget.InputEdit
+    <com.bright.common.widget.edittext.EditTextPro
         android:id="@+id/phone"
-        style="@style/InputEdit.Register"
+        style="@style/EditTextPro.Register"
         android:inputType="phone"
-        app:hint="@string/register_hint_phone"
-        app:tip="@string/register_tip_phone" />
+        app:inputHint="@string/register_hint_phone"
+        app:leftText="@string/register_tip_phone" />
 
 
-    <com.brightyu.androidcommon.ui.widget.InputEdit
-        android:id="@+id/verify_code"
-        style="@style/InputEdit.Register"
-        app:hint="@string/register_hint_verify_code"
-        app:tip="@string/register_tip_verify_code">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.bright.common.widget.edittext.EditTextPro
+            android:id="@+id/verify_code"
+            style="@style/EditTextPro.Register"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            app:inputHint="@string/register_hint_verify_code"
+            app:leftText="@string/register_tip_verify_code" />
 
         <com.bright.common.widget.VerifyCodeButton
             android:id="@+id/send_verify_code"
@@ -36,21 +45,20 @@
             android:minWidth="@dimen/dp_90"
             app:textColor="@color/normal_coloraccent_pressed_white"
             app:textSize="@dimen/I_title" />
-    </com.brightyu.androidcommon.ui.widget.InputEdit>
+    </LinearLayout>
 
-
-    <com.brightyu.androidcommon.ui.widget.InputPasswordEdit
+    <com.bright.common.widget.edittext.EditTextPro
         android:id="@+id/password"
-        style="@style/InputEdit.Register"
-        app:hint="@string/register_hint_password"
-        app:tip="@string/register_tip_password" />
+        style="@style/EditTextPro.Register"
+        app:inputHint="@string/register_hint_password"
+        app:leftText="@string/register_tip_password" />
 
-    <com.brightyu.androidcommon.ui.widget.InputPasswordEdit
+    <com.bright.common.widget.edittext.EditTextPro
         android:id="@+id/ensure_password"
-        style="@style/InputEdit.Register"
+        style="@style/EditTextPro.Register"
         app:focusColor="?colorAccent"
-        app:hint="@string/register_hint_ensure_password"
-        app:tip="@string/register_tip_ensure_password" />
+        app:inputHint="@string/register_hint_ensure_password"
+        app:leftText="@string/register_tip_ensure_password" />
 
     <Button
         android:id="@+id/submit"
