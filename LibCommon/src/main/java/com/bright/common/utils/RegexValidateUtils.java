@@ -55,6 +55,10 @@ public class RegexValidateUtils {
      * 验证手机号码
      */
     public static boolean checkMobileNumber(String number) {
+        if (TextUtils.isEmpty(number) || number.length() != 11) {
+            return false;
+        }
+
         boolean flag = false;
         try {
             Pattern regex = Pattern.compile("^((1[3-9][0-9])\\d{8})$");
@@ -74,6 +78,14 @@ public class RegexValidateUtils {
      * @return 验证成功返回true，验证失败返回false
      */
     public static boolean checkIdCard(String idCard) {
+        if (TextUtils.isEmpty(idCard)) {
+            return false;
+        }
+
+        if (idCard.length() != 15 && idCard.length() != 18) {
+            return false;
+        }
+
         String regex = "([0-9]{17}([0-9]|X))|([0-9]{15})";
         return Pattern.matches(regex, idCard);
     }
