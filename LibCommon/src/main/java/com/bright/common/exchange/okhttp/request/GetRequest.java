@@ -16,10 +16,49 @@
 
 package com.bright.common.exchange.okhttp.request;
 
+import android.support.annotation.NonNull;
+
+import com.bright.common.entries.KeyValue;
+import com.bright.common.exchange.okhttp.Http;
+import com.bright.common.exchange.okhttp.Method;
+import com.bright.common.exchange.okhttp.executor.Executor;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Bright.Yu on 2017/2/16.
+ * Get Request
  */
 
+@SuppressWarnings("unused")
 public class GetRequest extends Request {
+    private List<KeyValue> params;
+
+    public GetRequest() {
+        super(Method.GET);
+        params = new ArrayList<>();
+    }
+
+    // -------- 参数的封装 ----------//
+    public void addParams(@NonNull String key, @NonNull String value) {
+        params.add(new KeyValue(key, value));
+    }
+
+    public void addParams(@NonNull String key, long value) {
+        params.add(new KeyValue(key, String.valueOf(value)));
+    }
+
+    public void addParams(@NonNull String key, double value) {
+        params.add(new KeyValue(key, String.valueOf(value)));
+    }
+
+    public List<KeyValue> getParams() {
+        if (params == null) {
+            params = new ArrayList<>();
+        }
+        return params;
+    }
+
 
 }

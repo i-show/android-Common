@@ -13,24 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bright.common.entries;
 
+package com.bright.common.exchange.okhttp.config;
 
-public class KeyValue {
+/**
+ * Created by Bright.Yu on 2017/2/20.
+ * Http的配置
+ */
 
-    private String key;
-    private Object value;
-
-    public KeyValue(String key, Object value) {
-        this.key = key;
-        this.value = value;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public Object getValue() {
-        return value;
-    }
+public class HttpConfig {
 }

@@ -19,6 +19,10 @@ package com.bright.common.exchange.okhttp.request;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 
+import com.bright.common.exchange.okhttp.Http;
+import com.bright.common.exchange.okhttp.Method;
+
+import java.util.HashMap;
 import java.util.Map;
 
 import okhttp3.MediaType;
@@ -26,6 +30,7 @@ import okhttp3.MediaType;
 /**
  * Request
  */
+@SuppressWarnings("unused")
 public abstract class Request {
     /**
      * Id
@@ -64,8 +69,17 @@ public abstract class Request {
     /**
      * Request headers
      */
-    private Map<String, Object> headers;
+    private Map<String, String> headers;
 
+    /**
+     * Request method
+     */
+    private Method method;
+
+    public Request(Method method) {
+        headers = new HashMap<>();
+        this.method = method;
+    }
 
     public Request id(@IntRange(from = 1, to = Integer.MAX_VALUE) long id) {
         this.id = id;
@@ -108,5 +122,64 @@ public abstract class Request {
         return this;
     }
 
-    public abstract void execute();
+    public Request addHeader(@NonNull String key, long value) {
+        headers.put(key, String.valueOf(value));
+        return this;
+    }
+
+    public Request addHeader(@NonNull String key, double value) {
+        headers.put(key, String.valueOf(value));
+        return this;
+    }
+
+    public Request addHeader(@NonNull String key, @NonNull String value) {
+        headers.put(key, value);
+        return this;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public long getReadTimeOut() {
+        return readTimeOut;
+    }
+
+    public long getWriteTimeOut() {
+        return writeTimeOut;
+    }
+
+    public long getConnTimeOut() {
+        return connTimeOut;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public Object getTag() {
+        return tag;
+    }
+
+    public String getLogTag() {
+        return logTag;
+    }
+
+    public MediaType getMediaType() {
+        return mediaType;
+    }
+
+    public Map<String, String> getHeaders() {
+        return headers;
+    }
+
+    public Method getMethod() {
+        return method;
+    }
+
+    public void execute() {
+        Http.getInstance().getExecutor().execute(this);
+    }
+
+    ;
 }
