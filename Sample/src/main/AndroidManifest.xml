@@ -83,6 +83,11 @@
         <activity
             android:name=".modules.sample.edittextpro.SampleEditTextProActivity"
             android:screenOrientation="portrait" />
+
+        <!--Http-->
+        <activity
+            android:name=".modules.sample.http.SampleHttpActivity"
+            android:screenOrientation="portrait" />
         <!--++++++++++++++++++++控件或者工具的测试区域（end）++++++++++++++++++++++++++-->
 
 

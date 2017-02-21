@@ -19,10 +19,13 @@ package com.bright.common.exchange.okhttp.request;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 
+import com.bright.common.entries.KeyValue;
 import com.bright.common.exchange.okhttp.Http;
 import com.bright.common.exchange.okhttp.Method;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.MediaType;
@@ -76,8 +79,14 @@ public abstract class Request {
      */
     private Method method;
 
+    /**
+     * params
+     */
+    private List<KeyValue> params;
+
     public Request(Method method) {
         headers = new HashMap<>();
+        params = new ArrayList<>();
         this.method = method;
     }
 
@@ -136,6 +145,27 @@ public abstract class Request {
         headers.put(key, value);
         return this;
     }
+
+    // -------- 参数的封装 ----------//
+    public void addParams(@NonNull String key, @NonNull String value) {
+        params.add(new KeyValue(key, value));
+    }
+
+    public void addParams(@NonNull String key, long value) {
+        params.add(new KeyValue(key, String.valueOf(value)));
+    }
+
+    public void addParams(@NonNull String key, double value) {
+        params.add(new KeyValue(key, String.valueOf(value)));
+    }
+
+    public List<KeyValue> getParams() {
+        if (params == null) {
+            params = new ArrayList<>();
+        }
+        return params;
+    }
+
 
     public long getId() {
         return id;

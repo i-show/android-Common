@@ -17,9 +17,9 @@
 package com.bright.common.exchange.okhttp;
 
 import com.bright.common.exchange.okhttp.executor.Executor;
+import com.bright.common.exchange.okhttp.executor.OkhttpExecutor;
 import com.bright.common.exchange.okhttp.request.GetRequest;
 
-import okhttp3.OkHttpClient;
 
 /**
  * Created by Bright.Yu on 2017/2/20.
@@ -28,7 +28,6 @@ import okhttp3.OkHttpClient;
 
 public class Http {
     private static Http mInstance;
-    private OkHttpClient mOkHttpClient;
     private Executor mExecutor;
 
     private Http() {
@@ -47,19 +46,18 @@ public class Http {
     }
 
     public void init() {
-
+        mExecutor = new OkhttpExecutor();
+        mExecutor.init();
     }
 
-    public OkHttpClient getHttpClient() {
-        return mOkHttpClient;
-    }
 
     /**
      * @return
      */
-    public GetRequest get() {
+    public static GetRequest get() {
         return new GetRequest();
     }
+
 
     public Executor getExecutor() {
         return mExecutor;

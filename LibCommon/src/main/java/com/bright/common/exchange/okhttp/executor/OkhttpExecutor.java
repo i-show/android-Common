@@ -17,8 +17,7 @@
 package com.bright.common.exchange.okhttp.executor;
 
 import android.text.TextUtils;
-
-import com.bright.common.exchange.okhttp.request.GetRequest;
+import android.util.Log;
 
 import java.io.IOException;
 import java.util.Map;
@@ -44,11 +43,19 @@ public class OkhttpExecutor extends Executor {
                 .build();
     }
 
-    /**
-     * Execute Get
-     */
     @Override
-    public void execute(GetRequest request) {
+    public void execute(com.bright.common.exchange.okhttp.request.Request request) {
+        switch (request.getMethod()) {
+            case GET:
+                executeGet(request);
+                break;
+        }
+    }
+
+    /**
+     * Request Get
+     */
+    private void executeGet(com.bright.common.exchange.okhttp.request.Request request) {
         String url = request.getUrl();
         if (TextUtils.isEmpty(url)) {
             throw new IllegalStateException("need a url");
@@ -71,13 +78,14 @@ public class OkhttpExecutor extends Executor {
         mOkHttpClient.newCall(okHttpRequest).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-
+                Log.i("nian", "onResponse: ");
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-
+                Log.i("nian", "onResponse: ");
             }
         });
     }
+
 }

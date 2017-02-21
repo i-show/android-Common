@@ -46,6 +46,12 @@
             style="@style/AppTextView.Sample"
             android:text="@string/sample_select_edittextpro" />
 
+        <!--Http-->
+        <TextView
+            android:id="@+id/sample_select_http"
+            style="@style/AppTextView.Sample"
+            android:text="@string/sample_select_http" />
+
     </com.bright.common.widget.Flowlayout>
 
 </LinearLayout>

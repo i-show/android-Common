@@ -33,32 +33,12 @@ import java.util.List;
 
 @SuppressWarnings("unused")
 public class GetRequest extends Request {
-    private List<KeyValue> params;
+
 
     public GetRequest() {
         super(Method.GET);
-        params = new ArrayList<>();
     }
 
-    // -------- 参数的封装 ----------//
-    public void addParams(@NonNull String key, @NonNull String value) {
-        params.add(new KeyValue(key, value));
-    }
-
-    public void addParams(@NonNull String key, long value) {
-        params.add(new KeyValue(key, String.valueOf(value)));
-    }
-
-    public void addParams(@NonNull String key, double value) {
-        params.add(new KeyValue(key, String.valueOf(value)));
-    }
-
-    public List<KeyValue> getParams() {
-        if (params == null) {
-            params = new ArrayList<>();
-        }
-        return params;
-    }
 
 
 }

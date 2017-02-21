@@ -12,4 +12,6 @@
     <string name="sample_select_permission_sdcard">SD卡读取权限</string>
 
     <string name="sample_select_edittextpro">EditTextPro</string>
+    <string name="sample_select_http">Http</string>
+    <string name="sample_select_http_get">GET</string>
 </resources>

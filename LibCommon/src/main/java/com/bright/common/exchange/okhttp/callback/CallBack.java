@@ -16,10 +16,26 @@
 
 package com.bright.common.exchange.okhttp.callback;
 
+import android.support.annotation.NonNull;
+
+import com.bright.common.entries.HttpError;
+
 /**
  * Created by Bright.Yu on 2017/2/20.
  * 返回
  */
 
-public abstract class CallBack {
+public abstract class CallBack<T> {
+    /**
+     * CallBack onFailed
+     */
+    public abstract void onFailed(final long id, @NonNull HttpError error);
+
+    /**
+     * CallBack onSuccess
+     */
+    public abstract void onSuccess(final long id, T result);
+
+
+    public abstract T parseResponse(byte[] responseBody);
 }
