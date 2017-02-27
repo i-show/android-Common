@@ -16,14 +16,20 @@
 
 package com.bright.common.exchange.okhttp.executor;
 
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.bright.common.entries.HttpError;
 import com.bright.common.entries.KeyValue;
-import com.bright.common.exchange.okhttp.request.GetRequest;
+import com.bright.common.exchange.okhttp.callback.CallBack;
+import com.bright.common.exchange.okhttp.exception.CanceledException;
 import com.bright.common.exchange.okhttp.request.Request;
+import com.bright.common.exchange.okhttp.response.Response;
 import com.bright.common.utils.StringUtils;
+import com.bright.common.utils.log.L;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Bright.Yu on 2017/2/20.
@@ -34,13 +40,13 @@ public abstract class Executor {
 
     public abstract void init();
 
-    public abstract void execute(Request request);
+    public abstract <T> void execute(Request request, CallBack<T> callBack);
 
 
     /**
      * Format Url
      */
-    protected String formatUrl(String url, List<KeyValue> paramList) {
+    String formatUrl(String url, List<KeyValue> paramList) {
         String paramsString = buildParams(paramList);
         if (TextUtils.isEmpty(paramsString)) {
             return url;
@@ -78,4 +84,65 @@ public abstract class Executor {
         }
         return builder.toString();
     }
+
+
+    /**
+     * Debug this
+     * <p>
+     * TODO ：
+     * 1. 请求的参数和Mediatype打印
+     */
+    protected void debugRequest(final Request request) {
+        L.d(request.getLogTag(), StringUtils.plusString("=================== ", request.getMethod(), ":", request.getId(), " ==================="));
+        L.d(request.getLogTag(), StringUtils.plusString(request.getId(), " URL     = " + request.getUrl()));
+
+        Map<String, String> headers = request.getHeaders();
+        if (headers != null && headers.size() > 0) {
+            L.d(request.getLogTag(), StringUtils.plusString(request.getId(), " HEADERS = " + headers.toString()));
+        }
+
+        L.d(request.getLogTag(), StringUtils.plusString(request.getId(), " TIMEOUT = " + request.getConnTimeOut()));
+    }
+
+
+    /**
+     * 请求是否已经被取消掉
+     */
+    protected boolean isCanceled(@NonNull Response response, @NonNull CallBack callBack) {
+        boolean canceled = response.isCanceled();
+        if (canceled) {
+            sendCanceledReuslt(response.getId(), callBack);
+        }
+        return canceled;
+    }
+
+    protected void sendCanceledReuslt(long id, @NonNull CallBack callBack) {
+        HttpError error = new HttpError();
+        error.setCode(HttpError.ERROR_CANCELED);
+        error.setMessage("call is canceled");
+        error.setException(new CanceledException());
+        callBack.runOnUiThreadFailed(id, error);
+    }
+
+    /**
+     * 请求是否成功
+     */
+    protected boolean isSuccessful(@NonNull Response response, @NonNull CallBack callBack) {
+        boolean successful = response.isSuccessful();
+        if (!successful) {
+            sendResponseCodeErrorResult(response.getId(), response.getCode(), callBack);
+        }
+        return successful;
+
+    }
+
+    protected void sendResponseCodeErrorResult(long id, int code, @NonNull CallBack callBack) {
+        HttpError error = new HttpError();
+        error.setCode(code);
+        error.setMessage("request failed , reponse's code is :" + code);
+        error.setException(new IllegalStateException());
+        callBack.runOnUiThreadFailed(id, error);
+    }
+
+
 }

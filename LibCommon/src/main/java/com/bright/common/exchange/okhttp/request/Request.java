@@ -18,10 +18,13 @@ package com.bright.common.exchange.okhttp.request;
 
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.bright.common.entries.KeyValue;
 import com.bright.common.exchange.okhttp.Http;
 import com.bright.common.exchange.okhttp.Method;
+import com.bright.common.exchange.okhttp.callback.CallBack;
+import com.bright.common.exchange.okhttp.config.HttpConfig;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +38,10 @@ import okhttp3.MediaType;
  */
 @SuppressWarnings("unused")
 public abstract class Request {
+    /**
+     * Debug tag
+     */
+    private static final String DEFAULT_DEBUG_TAG = "HTTP";
     /**
      * Id
      */
@@ -168,10 +175,20 @@ public abstract class Request {
 
 
     public long getId() {
+        if (id == 0) {
+            id = Integer.valueOf(String.valueOf(System.currentTimeMillis()).substring(5));
+        }
         return id;
     }
 
     public long getReadTimeOut() {
+        return readTimeOut;
+    }
+
+    public long getReadTimeOut(boolean useDefault) {
+        if(readTimeOut <=0){
+            return useDefault? 0:readTimeOut;
+        }
         return readTimeOut;
     }
 
@@ -192,6 +209,9 @@ public abstract class Request {
     }
 
     public String getLogTag() {
+        if (TextUtils.isEmpty(logTag)) {
+            logTag = DEFAULT_DEBUG_TAG;
+        }
         return logTag;
     }
 
@@ -207,9 +227,11 @@ public abstract class Request {
         return method;
     }
 
-    public void execute() {
-        Http.getInstance().getExecutor().execute(this);
+    public boolean isChangedTimeOut() {
+        return (readTimeOut > 0 || writeTimeOut > 0 || connTimeOut > 0);
     }
 
-    ;
+    public final void execute(CallBack callBack) {
+        Http.getInstance().getExecutor().execute(this, callBack);
+    }
 }

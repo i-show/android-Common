@@ -16,12 +16,22 @@
 
 package com.bright.common.entries;
 
+import com.bright.common.utils.StringUtils;
+
 /**
  * Created by Bright.Yu on 2017/2/15.
  * Http 返回的Error信息
  */
 
 public class HttpError {
+    /**
+     * IOException
+     */
+    public static final int ERROR_IO = -100;
+    /**
+     * call is canceled
+     */
+    public static final int ERROR_CANCELED = -101;
     /**
      * Error Code
      */
@@ -30,6 +40,33 @@ public class HttpError {
      * Error Message
      */
     private String message;
+    /**
+     * Error Message
+     */
+    private Exception exception;
+
+    public HttpError() {
+        this(ERROR_IO, StringUtils.EMPTY);
+    }
+
+    public HttpError(Exception e) {
+        this(ERROR_IO, StringUtils.EMPTY, e);
+    }
+
+    public HttpError(int code, String message) {
+        this(code, message, new Exception(message));
+    }
+
+    public HttpError(String message, Exception e) {
+        this(ERROR_IO, message, e);
+    }
+
+    public HttpError(int code, String message, Exception exception) {
+        this.code = code;
+        this.message = message;
+        this.exception = exception;
+    }
+
 
     public int getCode() {
         return code;
@@ -45,5 +82,13 @@ public class HttpError {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public Exception getException() {
+        return exception;
+    }
+
+    public void setException(Exception exception) {
+        this.exception = exception;
     }
 }

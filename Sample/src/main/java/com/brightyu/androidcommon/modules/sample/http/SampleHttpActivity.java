@@ -17,9 +17,13 @@
 package com.brightyu.androidcommon.modules.sample.http;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 
+import com.bright.common.entries.HttpError;
 import com.bright.common.exchange.okhttp.Http;
+import com.bright.common.exchange.okhttp.callback.CallBack;
+import com.bright.common.exchange.okhttp.response.Response;
 import com.brightyu.androidcommon.R;
 import com.brightyu.androidcommon.modules.base.AppBaseActivity;
 
@@ -52,7 +56,23 @@ public class SampleHttpActivity extends AppBaseActivity implements View.OnClickL
     }
 
     private void testGet() {
-        Http.get().url("https://www.baidu.com/")
-                .execute();
+        Http.get()
+                .url("https://www.baidu.com/")
+                .execute(new CallBack() {
+                    @Override
+                    protected void onFailed(long id, @NonNull HttpError error) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(long id, Object result) {
+
+                    }
+
+                    @Override
+                    public Object parseResponse(Response response) {
+                        return null;
+                    }
+                });
     }
 }

@@ -22,4 +22,55 @@ package com.bright.common.exchange.okhttp.config;
  */
 
 public class HttpConfig {
+    /**
+     * 默认的回调时间
+     */
+    public static final long DEFAULT_TIME_OUT_MILLISECONDS = 10_000L;
+
+    /**
+     * Request readTimeOut
+     */
+    private long readTimeOut;
+    /**
+     * Request writeTimeOut
+     */
+    private long writeTimeOut;
+    /**
+     * Request connTimeOut
+     */
+    private long connTimeOut;
+
+
+    public long getReadTimeOut() {
+        if (readTimeOut <= 0) {
+            readTimeOut = DEFAULT_TIME_OUT_MILLISECONDS;
+        }
+        return readTimeOut;
+    }
+
+    public void setReadTimeOut(long readTimeOut) {
+        this.readTimeOut = readTimeOut;
+    }
+
+    public long getWriteTimeOut() {
+        if (writeTimeOut <= 0) {
+            writeTimeOut = DEFAULT_TIME_OUT_MILLISECONDS;
+        }
+        return writeTimeOut;
+    }
+
+    public void setWriteTimeOut(long writeTimeOut) {
+        this.writeTimeOut = writeTimeOut;
+    }
+
+    public long getConnTimeOut() {
+        if (connTimeOut <= 0) {
+            connTimeOut = DEFAULT_TIME_OUT_MILLISECONDS;
+        }
+        return connTimeOut;
+    }
+
+    public void setConnTimeOut(long connTimeOut) {
+        this.connTimeOut = connTimeOut;
+    }
 }

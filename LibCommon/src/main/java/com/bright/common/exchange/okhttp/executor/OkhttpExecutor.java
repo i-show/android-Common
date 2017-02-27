@@ -16,18 +16,22 @@
 
 package com.bright.common.exchange.okhttp.executor;
 
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
+
+import com.bright.common.entries.HttpError;
+import com.bright.common.exchange.okhttp.callback.CallBack;
+import com.bright.common.exchange.okhttp.request.Request;
+import com.bright.common.exchange.okhttp.response.Response;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Headers;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * Created by Bright.Yu on 2017/2/20.
@@ -44,10 +48,10 @@ public class OkhttpExecutor extends Executor {
     }
 
     @Override
-    public void execute(com.bright.common.exchange.okhttp.request.Request request) {
+    public <T> void execute(com.bright.common.exchange.okhttp.request.Request request, CallBack<T> callBack) {
         switch (request.getMethod()) {
             case GET:
-                executeGet(request);
+                executeGet(request, callBack);
                 break;
         }
     }
@@ -55,7 +59,7 @@ public class OkhttpExecutor extends Executor {
     /**
      * Request Get
      */
-    private void executeGet(com.bright.common.exchange.okhttp.request.Request request) {
+    private <T> void executeGet(final Request request, final CallBack<T> callBack) {
         String url = request.getUrl();
         if (TextUtils.isEmpty(url)) {
             throw new IllegalStateException("need a url");
@@ -70,22 +74,58 @@ public class OkhttpExecutor extends Executor {
         }
         Headers headers = headersBuilder.build();
 
-        Request okHttpRequest = new Request.Builder()
+        okhttp3.Request okHttpRequest = new okhttp3.Request.Builder()
                 .url(url)
                 .headers(headers)
                 .build();
 
-        mOkHttpClient.newCall(okHttpRequest).enqueue(new Callback() {
+        // Debug this
+        debugRequest(request);
+        executeOkHttp(request, okHttpRequest, callBack);
+    }
+
+    private <T> void executeOkHttp(@NonNull final Request request,
+                                   @NonNull final okhttp3.Request okHttpRequest,
+                                   @NonNull final CallBack<T> callBack) {
+        Call call;
+        if (request.isChangedTimeOut()) {
+            OkHttpClient client = mOkHttpClient.newBuilder()
+                    .readTimeout(request.getConnTimeOut(), TimeUnit.MILLISECONDS)
+                    .build();
+            call = client.newCall(okHttpRequest);
+        } else {
+            call = mOkHttpClient.newCall(okHttpRequest);
+        }
+
+        call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.i("nian", "onResponse: ");
+                if (call.isCanceled()) {
+                    sendCanceledReuslt(request.getId(), callBack);
+                } else {
+                    HttpError error = new HttpError();
+                    error.setCode(HttpError.ERROR_IO);
+                    error.setMessage("io exception");
+                    error.setException(e);
+                    callBack.runOnUiThreadFailed(request.getId(), error);
+                }
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Log.i("nian", "onResponse: ");
+            public void onResponse(Call call, okhttp3.Response okhttp3Response) throws IOException {
+                Response response = new Response(request);
+                response.setCanceled(call.isCanceled());
+                response.setSuccessful(okhttp3Response.isSuccessful());
+                response.setCode(okhttp3Response.code());
+                response.setBody(okhttp3Response.body().bytes());
+
+                if (!isCanceled(response, callBack) && isSuccessful(response, callBack)) {
+                    T t = callBack.parseResponse(response);
+                    callBack.runOnUiThreadSuccessful(request.getId(), t);
+                }
             }
         });
     }
+
 
 }
