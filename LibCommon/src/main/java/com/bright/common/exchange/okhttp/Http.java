@@ -16,6 +16,11 @@
 
 package com.bright.common.exchange.okhttp;
 
+import android.content.Context;
+import android.content.res.Resources;
+import android.support.annotation.NonNull;
+
+import com.bright.common.exchange.okhttp.config.HttpConfig;
 import com.bright.common.exchange.okhttp.executor.Executor;
 import com.bright.common.exchange.okhttp.executor.OkhttpExecutor;
 import com.bright.common.exchange.okhttp.request.GetRequest;
@@ -29,9 +34,10 @@ import com.bright.common.exchange.okhttp.request.GetRequest;
 public class Http {
     private static Http mInstance;
     private Executor mExecutor;
+    private HttpConfig mHttpConfig;
+    private Resources mResources;
 
     private Http() {
-
     }
 
     public static Http getInstance() {
@@ -45,15 +51,26 @@ public class Http {
         return mInstance;
     }
 
-    public void init() {
-        mExecutor = new OkhttpExecutor();
+    public void init(@NonNull Context context) {
+        init(context, new OkhttpExecutor(), HttpConfig.getDefaultConfig());
+    }
+
+    public void init(@NonNull Context context, @NonNull Executor executor) {
+        init(context, executor, HttpConfig.getDefaultConfig());
+    }
+
+    public void init(@NonNull Context context, @NonNull HttpConfig config) {
+        init(context, new OkhttpExecutor(), config);
+    }
+
+    public void init(@NonNull Context context, @NonNull Executor executor, @NonNull HttpConfig config) {
+        mExecutor = executor;
         mExecutor.init();
+        mHttpConfig = config;
+        mResources = context.getApplicationContext().getResources();
     }
 
 
-    /**
-     * @return
-     */
     public static GetRequest get() {
         return new GetRequest();
     }
@@ -61,5 +78,13 @@ public class Http {
 
     public Executor getExecutor() {
         return mExecutor;
+    }
+
+    public HttpConfig getHttpConfig() {
+        return mHttpConfig;
+    }
+
+    public Resources getResources() {
+        return mResources;
     }
 }

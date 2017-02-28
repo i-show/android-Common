@@ -92,6 +92,7 @@ public abstract class Executor {
      * TODO ：
      * 1. 请求的参数和Mediatype打印
      */
+    @SuppressWarnings("WeakerAccess")
     protected void debugRequest(final Request request) {
         L.d(request.getLogTag(), StringUtils.plusString("=================== ", request.getMethod(), ":", request.getId(), " ==================="));
         L.d(request.getLogTag(), StringUtils.plusString(request.getId(), " URL     = " + request.getUrl()));
@@ -108,40 +109,44 @@ public abstract class Executor {
     /**
      * 请求是否已经被取消掉
      */
-    protected boolean isCanceled(@NonNull Response response, @NonNull CallBack callBack) {
+    @SuppressWarnings("WeakerAccess")
+    protected boolean isCanceled(@NonNull Request request, @NonNull Response response, @NonNull CallBack callBack) {
         boolean canceled = response.isCanceled();
         if (canceled) {
-            sendCanceledReuslt(response.getId(), callBack);
+            sendCanceledReuslt(request, callBack);
         }
         return canceled;
     }
 
-    protected void sendCanceledReuslt(long id, @NonNull CallBack callBack) {
-        HttpError error = new HttpError();
+    @SuppressWarnings("WeakerAccess")
+    protected void sendCanceledReuslt(@NonNull Request request, @NonNull CallBack callBack) {
+        HttpError error = HttpError.makeError(request);
         error.setCode(HttpError.ERROR_CANCELED);
         error.setMessage("call is canceled");
         error.setException(new CanceledException());
-        callBack.runOnUiThreadFailed(id, error);
+        callBack.runOnUiThreadFailed(error);
     }
 
     /**
      * 请求是否成功
      */
-    protected boolean isSuccessful(@NonNull Response response, @NonNull CallBack callBack) {
+    @SuppressWarnings("WeakerAccess")
+    protected boolean isSuccessful(@NonNull Request request, @NonNull Response response, @NonNull CallBack callBack) {
         boolean successful = response.isSuccessful();
         if (!successful) {
-            sendResponseCodeErrorResult(response.getId(), response.getCode(), callBack);
+            sendResponseCodeErrorResult(request, response, callBack);
         }
         return successful;
 
     }
 
-    protected void sendResponseCodeErrorResult(long id, int code, @NonNull CallBack callBack) {
-        HttpError error = new HttpError();
-        error.setCode(code);
-        error.setMessage("request failed , reponse's code is :" + code);
+    @SuppressWarnings("WeakerAccess")
+    protected void sendResponseCodeErrorResult(@NonNull Request request, @NonNull Response response, @NonNull CallBack callBack) {
+        HttpError error = HttpError.makeError(request);
+        error.setCode(response.getCode());
+        error.setMessage("request failed , reponse's code is :" + response.getCode());
         error.setException(new IllegalStateException());
-        callBack.runOnUiThreadFailed(id, error);
+        callBack.runOnUiThreadFailed(error);
     }
 
 

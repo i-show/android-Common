@@ -16,6 +16,8 @@
 
 package com.bright.common.exchange.okhttp.response;
 
+import android.support.annotation.NonNull;
+
 import com.bright.common.exchange.okhttp.request.Request;
 
 /**
@@ -43,12 +45,15 @@ public class Response {
      */
     private long id;
     /**
+     * sync by Request
+     */
+    private String logtag;
+    /**
      * body
      */
     private byte[] body;
 
-    public Response(Request request) {
-        id = request.getId();
+    private Response() {
     }
 
     public byte[] getBody() {
@@ -90,5 +95,23 @@ public class Response {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getLogtag() {
+        return logtag;
+    }
+
+    public void setLogtag(String logtag) {
+        this.logtag = logtag;
+    }
+
+    /**
+     * 创建Error
+     */
+    public static Response makeResponse(@NonNull Request request) {
+        Response response = new Response();
+        response.setId(request.getId());
+        response.setLogtag(request.getLogTag());
+        return response;
     }
 }

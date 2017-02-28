@@ -14,18 +14,32 @@
  * limitations under the License.
  */
 
-package com.bright.common.exchange.okhttp.request;
-
-import com.bright.common.exchange.okhttp.Method;
+package com.bright.common.exchange.okhttp;
 
 /**
- * Created by Bright.Yu on 2017/2/16.
- * Get Request
+ * Created by bright.yu on 2017/2/28.
+ * Request mediatype
  */
 
-@SuppressWarnings("unused")
-public class GetRequest extends Request {
-    public GetRequest() {
-        super(Method.GET);
+public class MediaType {
+    /**
+     * JSON 格式
+     */
+    public static final String JSON = "application/json;charset=UTF-8";
+    /**
+     * content
+     */
+    private String body;
+
+    public MediaType(String body) {
+        this.body = body;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
     }
 }

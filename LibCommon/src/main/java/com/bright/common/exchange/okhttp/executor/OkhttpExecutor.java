@@ -37,7 +37,6 @@ import okhttp3.OkHttpClient;
  * Created by Bright.Yu on 2017/2/20.
  * Okhttp的请求
  */
-
 public class OkhttpExecutor extends Executor {
     private OkHttpClient mOkHttpClient;
 
@@ -88,9 +87,12 @@ public class OkhttpExecutor extends Executor {
                                    @NonNull final okhttp3.Request okHttpRequest,
                                    @NonNull final CallBack<T> callBack) {
         Call call;
+
         if (request.isChangedTimeOut()) {
             OkHttpClient client = mOkHttpClient.newBuilder()
-                    .readTimeout(request.getConnTimeOut(), TimeUnit.MILLISECONDS)
+                    .readTimeout(request.getConnTimeOut(true), TimeUnit.MILLISECONDS)
+                    .writeTimeout(request.getWriteTimeOut(true), TimeUnit.MILLISECONDS)
+                    .connectTimeout(request.getConnTimeOut(true), TimeUnit.MILLISECONDS)
                     .build();
             call = client.newCall(okHttpRequest);
         } else {
@@ -101,25 +103,25 @@ public class OkhttpExecutor extends Executor {
             @Override
             public void onFailure(Call call, IOException e) {
                 if (call.isCanceled()) {
-                    sendCanceledReuslt(request.getId(), callBack);
+                    sendCanceledReuslt(request, callBack);
                 } else {
-                    HttpError error = new HttpError();
+                    HttpError error = HttpError.makeError(request);
                     error.setCode(HttpError.ERROR_IO);
                     error.setMessage("io exception");
                     error.setException(e);
-                    callBack.runOnUiThreadFailed(request.getId(), error);
+                    callBack.runOnUiThreadFailed(error);
                 }
             }
 
             @Override
             public void onResponse(Call call, okhttp3.Response okhttp3Response) throws IOException {
-                Response response = new Response(request);
+                Response response = Response.makeResponse(request);
                 response.setCanceled(call.isCanceled());
                 response.setSuccessful(okhttp3Response.isSuccessful());
                 response.setCode(okhttp3Response.code());
                 response.setBody(okhttp3Response.body().bytes());
 
-                if (!isCanceled(response, callBack) && isSuccessful(response, callBack)) {
+                if (!isCanceled(request, response, callBack) && isSuccessful(request, response, callBack)) {
                     T t = callBack.parseResponse(response);
                     callBack.runOnUiThreadSuccessful(request.getId(), t);
                 }

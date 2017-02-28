@@ -16,7 +16,9 @@
 
 package com.bright.common.entries;
 
-import com.bright.common.utils.StringUtils;
+import android.support.annotation.NonNull;
+
+import com.bright.common.exchange.okhttp.request.Request;
 
 /**
  * Created by Bright.Yu on 2017/2/15.
@@ -33,6 +35,14 @@ public class HttpError {
      */
     public static final int ERROR_CANCELED = -101;
     /**
+     * HttpRequest Id
+     */
+    private long id;
+    /**
+     * HttpRequest logtag
+     */
+    private String logtag;
+    /**
      * Error Code
      */
     private int code;
@@ -45,28 +55,24 @@ public class HttpError {
      */
     private Exception exception;
 
-    public HttpError() {
-        this(ERROR_IO, StringUtils.EMPTY);
+    private HttpError() {
     }
 
-    public HttpError(Exception e) {
-        this(ERROR_IO, StringUtils.EMPTY, e);
+    public long getId() {
+        return id;
     }
 
-    public HttpError(int code, String message) {
-        this(code, message, new Exception(message));
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public HttpError(String message, Exception e) {
-        this(ERROR_IO, message, e);
+    public String getLogtag() {
+        return logtag;
     }
 
-    public HttpError(int code, String message, Exception exception) {
-        this.code = code;
-        this.message = message;
-        this.exception = exception;
+    public void setLogtag(String logtag) {
+        this.logtag = logtag;
     }
-
 
     public int getCode() {
         return code;
@@ -90,5 +96,25 @@ public class HttpError {
 
     public void setException(Exception exception) {
         this.exception = exception;
+    }
+
+
+    /**
+     * 创建Error
+     */
+    public static HttpError makeError(@NonNull Request request) {
+        HttpError error = new HttpError();
+        error.setId(request.getId());
+        error.setLogtag(request.getLogTag());
+        return error;
+    }
+
+    @Override
+    public String toString() {
+        return "HttpError{" +
+                "code=" + code +
+                ", message='" + message + '\'' +
+                ", exception=" + exception.toString() +
+                '}';
     }
 }

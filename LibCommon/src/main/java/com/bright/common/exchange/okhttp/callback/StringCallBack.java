@@ -14,18 +14,17 @@
  * limitations under the License.
  */
 
-package com.bright.common.exchange.okhttp.request;
+package com.bright.common.exchange.okhttp.callback;
 
-import com.bright.common.exchange.okhttp.Method;
+import com.bright.common.exchange.okhttp.response.Response;
 
 /**
- * Created by Bright.Yu on 2017/2/16.
- * Get Request
+ * Created by bright.yu on 2017/2/28.
+ * String CallBack
  */
-
-@SuppressWarnings("unused")
-public class GetRequest extends Request {
-    public GetRequest() {
-        super(Method.GET);
+public abstract class StringCallBack extends CallBack<String> {
+    @Override
+    public String parseResponse(Response response) {
+        return new String(response.getBody());
     }
 }

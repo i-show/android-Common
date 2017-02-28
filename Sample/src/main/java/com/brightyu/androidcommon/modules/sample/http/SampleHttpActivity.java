@@ -18,11 +18,13 @@ package com.brightyu.androidcommon.modules.sample.http;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 
 import com.bright.common.entries.HttpError;
 import com.bright.common.exchange.okhttp.Http;
 import com.bright.common.exchange.okhttp.callback.CallBack;
+import com.bright.common.exchange.okhttp.callback.StringCallBack;
 import com.bright.common.exchange.okhttp.response.Response;
 import com.brightyu.androidcommon.R;
 import com.brightyu.androidcommon.modules.base.AppBaseActivity;
@@ -36,7 +38,7 @@ public class SampleHttpActivity extends AppBaseActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample_http);
-        Http.getInstance().init();
+        Http.getInstance().init(this);
     }
 
     @Override
@@ -58,20 +60,15 @@ public class SampleHttpActivity extends AppBaseActivity implements View.OnClickL
     private void testGet() {
         Http.get()
                 .url("https://www.baidu.com/")
-                .execute(new CallBack() {
+                .execute(new StringCallBack() {
                     @Override
                     protected void onFailed(long id, @NonNull HttpError error) {
-
+                        Log.i("nian", "onFailed: error = " + error.toString());
                     }
 
                     @Override
-                    public void onSuccess(long id, Object result) {
-
-                    }
-
-                    @Override
-                    public Object parseResponse(Response response) {
-                        return null;
+                    protected void onSuccess(long id, String result) {
+                        Log.i("nian", "onSuccess: result = " + result);
                     }
                 });
     }

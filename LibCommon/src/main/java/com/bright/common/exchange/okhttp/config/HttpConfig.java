@@ -21,10 +21,12 @@ package com.bright.common.exchange.okhttp.config;
  * Http的配置
  */
 
+@SuppressWarnings("unused")
 public class HttpConfig {
     /**
      * 默认的回调时间
      */
+    @SuppressWarnings("WeakerAccess")
     public static final long DEFAULT_TIME_OUT_MILLISECONDS = 10_000L;
 
     /**
@@ -72,5 +74,16 @@ public class HttpConfig {
 
     public void setConnTimeOut(long connTimeOut) {
         this.connTimeOut = connTimeOut;
+    }
+
+    /**
+     * 获取默认的Configure
+     */
+    public static HttpConfig getDefaultConfig() {
+        HttpConfig config = new HttpConfig();
+        config.readTimeOut = DEFAULT_TIME_OUT_MILLISECONDS;
+        config.writeTimeOut = DEFAULT_TIME_OUT_MILLISECONDS;
+        config.connTimeOut = DEFAULT_TIME_OUT_MILLISECONDS;
+        return config;
     }
 }

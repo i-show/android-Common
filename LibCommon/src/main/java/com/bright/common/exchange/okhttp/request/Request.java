@@ -91,10 +91,14 @@ public abstract class Request {
      */
     private List<KeyValue> params;
 
+    private HttpConfig mHttpConfig;
+
     public Request(Method method) {
         headers = new HashMap<>();
         params = new ArrayList<>();
         this.method = method;
+
+        mHttpConfig = Http.getInstance().getHttpConfig();
     }
 
     public Request id(@IntRange(from = 1, to = Integer.MAX_VALUE) long id) {
@@ -182,23 +186,39 @@ public abstract class Request {
     }
 
     public long getReadTimeOut() {
-        return readTimeOut;
+        return getReadTimeOut(false);
     }
 
     public long getReadTimeOut(boolean useDefault) {
-        if(readTimeOut <=0){
-            return useDefault? 0:readTimeOut;
+        if (readTimeOut <= 0) {
+            return useDefault ? mHttpConfig.getReadTimeOut() : readTimeOut;
         }
         return readTimeOut;
     }
 
     public long getWriteTimeOut() {
+        return getWriteTimeOut(false);
+    }
+
+    public long getWriteTimeOut(boolean useDefault) {
+        if (writeTimeOut <= 0) {
+            return useDefault ? mHttpConfig.getWriteTimeOut() : writeTimeOut;
+        }
         return writeTimeOut;
     }
 
+
     public long getConnTimeOut() {
+        return getConnTimeOut(false);
+    }
+
+    public long getConnTimeOut(boolean useDefault) {
+        if (connTimeOut <= 0) {
+            return useDefault ? mHttpConfig.getConnTimeOut() : connTimeOut;
+        }
         return connTimeOut;
     }
+
 
     public String getUrl() {
         return url;
