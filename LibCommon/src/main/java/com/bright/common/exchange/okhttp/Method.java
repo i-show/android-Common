@@ -47,7 +47,7 @@ public enum Method {
         return value;
     }
 
-    public boolean isOut() {
+    public boolean allowRequestBody() {
         switch (this) {
             case POST:
             case PUT:

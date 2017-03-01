@@ -18,14 +18,11 @@ package com.brightyu.androidcommon.modules.sample.http;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.View;
 
 import com.bright.common.entries.HttpError;
 import com.bright.common.exchange.okhttp.Http;
-import com.bright.common.exchange.okhttp.callback.CallBack;
 import com.bright.common.exchange.okhttp.callback.StringCallBack;
-import com.bright.common.exchange.okhttp.response.Response;
 import com.brightyu.androidcommon.R;
 import com.brightyu.androidcommon.modules.base.AppBaseActivity;
 
@@ -46,6 +43,9 @@ public class SampleHttpActivity extends AppBaseActivity implements View.OnClickL
         super.initViews();
         View view = findViewById(R.id.sample_select_http_get);
         view.setOnClickListener(this);
+
+        view = findViewById(R.id.sample_select_http_post);
+        view.setOnClickListener(this);
     }
 
     @Override
@@ -53,6 +53,9 @@ public class SampleHttpActivity extends AppBaseActivity implements View.OnClickL
         switch (v.getId()) {
             case R.id.sample_select_http_get:
                 testGet();
+                break;
+            case R.id.sample_select_http_post:
+                testPost();
                 break;
         }
     }
@@ -62,14 +65,19 @@ public class SampleHttpActivity extends AppBaseActivity implements View.OnClickL
                 .url("https://www.baidu.com/")
                 .execute(new StringCallBack() {
                     @Override
-                    protected void onFailed(long id, @NonNull HttpError error) {
-                        Log.i("nian", "onFailed: error = " + error.toString());
+                    protected void onFailed(@NonNull HttpError error) {
+                        dialog(error.getMessage());
                     }
 
                     @Override
-                    protected void onSuccess(long id, String result) {
-                        Log.i("nian", "onSuccess: result = " + result);
+                    protected void onSuccess(String result) {
+                        dialog(result);
                     }
                 });
     }
+
+    private void testPost() {
+
+    }
+
 }

@@ -25,7 +25,7 @@ public class MediaType {
     /**
      * JSON 格式
      */
-    public static final String JSON = "application/json;charset=UTF-8";
+    public static final MediaType JSON = new MediaType("application/json;charset=UTF-8");
     /**
      * content
      */

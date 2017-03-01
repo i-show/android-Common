@@ -24,6 +24,7 @@ import com.bright.common.exchange.okhttp.config.HttpConfig;
 import com.bright.common.exchange.okhttp.executor.Executor;
 import com.bright.common.exchange.okhttp.executor.OkhttpExecutor;
 import com.bright.common.exchange.okhttp.request.GetRequest;
+import com.bright.common.exchange.okhttp.request.PostRequest;
 
 
 /**
@@ -76,15 +77,19 @@ public class Http {
     }
 
 
-    public Executor getExecutor() {
-        return mExecutor;
+    public static PostRequest post() {
+        return new PostRequest();
     }
 
-    public HttpConfig getHttpConfig() {
-        return mHttpConfig;
+    public static Executor getExecutor() {
+        return getInstance().mExecutor;
     }
 
-    public Resources getResources() {
-        return mResources;
+    public static HttpConfig getConfig() {
+        return getInstance().mHttpConfig;
+    }
+
+    public static Resources getResources() {
+        return getInstance().mResources;
     }
 }

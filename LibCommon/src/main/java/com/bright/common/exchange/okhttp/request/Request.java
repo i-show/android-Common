@@ -22,16 +22,15 @@ import android.text.TextUtils;
 
 import com.bright.common.entries.KeyValue;
 import com.bright.common.exchange.okhttp.Http;
+import com.bright.common.exchange.okhttp.MediaType;
 import com.bright.common.exchange.okhttp.Method;
+import com.bright.common.exchange.okhttp.RequestParams;
 import com.bright.common.exchange.okhttp.callback.CallBack;
 import com.bright.common.exchange.okhttp.config.HttpConfig;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import okhttp3.MediaType;
 
 /**
  * Request
@@ -89,16 +88,17 @@ public abstract class Request {
     /**
      * params
      */
-    private List<KeyValue> params;
-
-    private HttpConfig mHttpConfig;
+    private RequestParams params;
+    /**
+     * config
+     */
+    private HttpConfig httpConfig;
 
     public Request(Method method) {
-        headers = new HashMap<>();
-        params = new ArrayList<>();
         this.method = method;
-
-        mHttpConfig = Http.getInstance().getHttpConfig();
+        headers = new HashMap<>();
+        params = new RequestParams();
+        httpConfig = Http.getConfig();
     }
 
     public Request id(@IntRange(from = 1, to = Integer.MAX_VALUE) long id) {
@@ -132,6 +132,7 @@ public abstract class Request {
         return this;
     }
 
+    @SuppressWarnings("WeakerAccess")
     public Request mediaType(@NonNull MediaType mediaType) {
         this.mediaType = mediaType;
         return this;
@@ -139,6 +140,11 @@ public abstract class Request {
 
     public Request url(@NonNull String url) {
         this.url = url;
+        return this;
+    }
+
+    public Request headers(@NonNull Map<String, String> headers) {
+        this.headers.putAll(headers);
         return this;
     }
 
@@ -159,21 +165,22 @@ public abstract class Request {
 
     // -------- 参数的封装 ----------//
     public void addParams(@NonNull String key, @NonNull String value) {
-        params.add(new KeyValue(key, value));
+        params.addParams(key, value);
     }
 
     public void addParams(@NonNull String key, long value) {
-        params.add(new KeyValue(key, String.valueOf(value)));
+        params.addParams(key, value);
     }
 
     public void addParams(@NonNull String key, double value) {
-        params.add(new KeyValue(key, String.valueOf(value)));
+        params.addParams(key, value);
     }
 
-    public List<KeyValue> getParams() {
-        if (params == null) {
-            params = new ArrayList<>();
-        }
+    public void params(@NonNull List<KeyValue> listParams) {
+        params.params(listParams);
+    }
+
+    public RequestParams getParams() {
         return params;
     }
 
@@ -185,36 +192,60 @@ public abstract class Request {
         return id;
     }
 
+    /**
+     * Get Request Read Time Out
+     */
     public long getReadTimeOut() {
         return getReadTimeOut(false);
     }
 
+    /**
+     * Get Request Read Time Out
+     *
+     * @param useDefault if readTimeOut = 0 return defualt
+     */
     public long getReadTimeOut(boolean useDefault) {
         if (readTimeOut <= 0) {
-            return useDefault ? mHttpConfig.getReadTimeOut() : readTimeOut;
+            return useDefault ? httpConfig.getReadTimeOut() : readTimeOut;
         }
         return readTimeOut;
     }
 
+    /**
+     * Get Request Write Time Out
+     */
     public long getWriteTimeOut() {
         return getWriteTimeOut(false);
     }
 
+    /**
+     * Get Request Write Time Out
+     *
+     * @param useDefault if writeTimeOut = 0 return defualt
+     */
     public long getWriteTimeOut(boolean useDefault) {
         if (writeTimeOut <= 0) {
-            return useDefault ? mHttpConfig.getWriteTimeOut() : writeTimeOut;
+            return useDefault ? httpConfig.getWriteTimeOut() : writeTimeOut;
         }
         return writeTimeOut;
     }
 
 
+    /**
+     * Get Request Conn Time Out
+     */
     public long getConnTimeOut() {
         return getConnTimeOut(false);
     }
 
+    /**
+     * Get Request Conn Time Out
+     *
+     * @param useDefault if connTimeOut = 0 return defualt
+     */
     public long getConnTimeOut(boolean useDefault) {
         if (connTimeOut <= 0) {
-            return useDefault ? mHttpConfig.getConnTimeOut() : connTimeOut;
+            return useDefault ? httpConfig.getConnTimeOut() : connTimeOut;
         }
         return connTimeOut;
     }
@@ -252,6 +283,6 @@ public abstract class Request {
     }
 
     public final void execute(CallBack callBack) {
-        Http.getInstance().getExecutor().execute(this, callBack);
+        Http.getExecutor().execute(this, callBack);
     }
 }

@@ -20,6 +20,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.bright.common.entries.HttpError;
+import com.bright.common.exchange.okhttp.RequestParams;
 import com.bright.common.exchange.okhttp.callback.CallBack;
 import com.bright.common.exchange.okhttp.request.Request;
 import com.bright.common.exchange.okhttp.response.Response;
@@ -32,6 +33,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Headers;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 
 /**
  * Created by Bright.Yu on 2017/2/20.
@@ -48,39 +50,27 @@ public class OkhttpExecutor extends Executor {
 
     @Override
     public <T> void execute(com.bright.common.exchange.okhttp.request.Request request, CallBack<T> callBack) {
+        // Step 1. url
+        String url = makeUrl(request);
+        // Step 2. headers
+        Headers headers = makeHeaders(request);
+        // Setp 3. params
+        RequestParams params = request.getParams();
+
+        okhttp3.Request.Builder builder = new okhttp3.Request.Builder()
+                .url(url)
+                .headers(headers);
+
         switch (request.getMethod()) {
-            case GET:
-                executeGet(request, callBack);
+            case POST:
+                RequestBody body = RequestBody.create()
+                params.getStringParams();
                 break;
         }
-    }
-
-    /**
-     * Request Get
-     */
-    private <T> void executeGet(final Request request, final CallBack<T> callBack) {
-        String url = request.getUrl();
-        if (TextUtils.isEmpty(url)) {
-            throw new IllegalStateException("need a url");
-        }
-        url = formatUrl(url, request.getParams());
-
-        // 2. 设置Headers
-        Map<String, String> headersMap = request.getHeaders();
-        Headers.Builder headersBuilder = new Headers.Builder();
-        for (String key : headersMap.keySet()) {
-            headersBuilder.add(key, headersMap.get(key));
-        }
-        Headers headers = headersBuilder.build();
-
-        okhttp3.Request okHttpRequest = new okhttp3.Request.Builder()
-                .url(url)
-                .headers(headers)
-                .build();
 
         // Debug this
         debugRequest(request);
-        executeOkHttp(request, okHttpRequest, callBack);
+        executeOkHttp(request, builder.build(), callBack);
     }
 
     private <T> void executeOkHttp(@NonNull final Request request,
@@ -90,7 +80,7 @@ public class OkhttpExecutor extends Executor {
 
         if (request.isChangedTimeOut()) {
             OkHttpClient client = mOkHttpClient.newBuilder()
-                    .readTimeout(request.getConnTimeOut(true), TimeUnit.MILLISECONDS)
+                    .readTimeout(request.getReadTimeOut(true), TimeUnit.MILLISECONDS)
                     .writeTimeout(request.getWriteTimeOut(true), TimeUnit.MILLISECONDS)
                     .connectTimeout(request.getConnTimeOut(true), TimeUnit.MILLISECONDS)
                     .build();
@@ -123,11 +113,31 @@ public class OkhttpExecutor extends Executor {
 
                 if (!isCanceled(request, response, callBack) && isSuccessful(request, response, callBack)) {
                     T t = callBack.parseResponse(response);
-                    callBack.runOnUiThreadSuccessful(request.getId(), t);
+                    callBack.runOnUiThreadSuccessful(t);
                 }
             }
         });
     }
 
 
+    private String makeUrl(Request request) {
+        String url = request.getUrl();
+        if (TextUtils.isEmpty(url)) {
+            throw new IllegalStateException("need a url");
+        }
+
+        return formatUrl(url, request.getParams().getNormalParams());
+    }
+
+    /**
+     * Maker Header
+     */
+    private Headers makeHeaders(Request request) {
+        Map<String, String> headersMap = request.getHeaders();
+        Headers.Builder headersBuilder = new Headers.Builder();
+        for (String key : headersMap.keySet()) {
+            headersBuilder.add(key, headersMap.get(key));
+        }
+        return headersBuilder.build();
+    }
 }

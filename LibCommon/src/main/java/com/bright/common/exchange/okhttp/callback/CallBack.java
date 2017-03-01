@@ -142,7 +142,7 @@ public abstract class CallBack<T> {
     @SuppressWarnings("WeakerAccess")
     protected String parseUniteErrorMessage(@NonNull HttpError error) {
         Exception e = error.getException();
-        Resources resources = Http.getInstance().getResources();
+        Resources resources = Http.getResources();
 
         if (e instanceof ConnectException) {
             return resources.getString(R.string.net_poor_connections);
