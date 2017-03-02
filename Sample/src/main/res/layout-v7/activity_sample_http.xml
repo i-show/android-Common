@@ -27,7 +27,7 @@
         app:leftImage="@drawable/ic_back_white"
         app:text="@string/sample_select_http" />
 
-    <FrameLayout
+    <com.bright.common.widget.Flowlayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <!--单选图片-->
@@ -40,6 +40,6 @@
         <TextView
             android:id="@+id/sample_select_http_post"
             style="@style/AppTextView.Sample"
-            android:text="@string/sample_select_http_get" />
-    </FrameLayout>
+            android:text="@string/sample_select_http_post" />
+    </com.bright.common.widget.Flowlayout>
 </LinearLayout>

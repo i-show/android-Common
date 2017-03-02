@@ -33,7 +33,6 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Headers;
 import okhttp3.OkHttpClient;
-import okhttp3.RequestBody;
 
 /**
  * Created by Bright.Yu on 2017/2/20.
@@ -63,8 +62,7 @@ public class OkhttpExecutor extends Executor {
 
         switch (request.getMethod()) {
             case POST:
-                RequestBody body = RequestBody.create()
-                params.getStringParams();
+
                 break;
         }
 

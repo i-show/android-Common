@@ -23,11 +23,6 @@
         <!-- Activity 进出动画 -->
         <item name="android:windowAnimationStyle">@style/Animation.Activity</item>
         <item name="android:windowContentOverlay">@null</item>
-        <!-- 全局修改单选框和多选框的样式-->
-        <!--
-        <item name="android:listChoiceIndicatorSingle">@drawable/checkbox_bg</item>
-        <item name="android:listChoiceIndicatorMultiple">@drawable/checkbox_bg</item>
-        -->
 
         <!-- 默认 Button的Style -->
         <item name="buttonStyle">@style/AppButton</item>

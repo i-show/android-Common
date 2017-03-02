@@ -18,7 +18,6 @@ package com.bright.common.exchange.okhttp.request;
 
 import android.support.annotation.NonNull;
 
-import com.bright.common.exchange.okhttp.MediaType;
 import com.bright.common.exchange.okhttp.Method;
 
 /**
@@ -35,19 +34,9 @@ public class PostRequest extends Request {
     /**
      * Add String Params, Default is json
      */
-    public void params(@NonNull String stringParams) {
-        params(stringParams, true);
+    public void params(@NonNull String body) {
+        getParams().params(body);
     }
 
-
-    /**
-     * Add String Params
-     */
-    public void params(@NonNull String stringParams, boolean isJson) {
-        if (isJson && getMediaType() != null) {
-            mediaType(MediaType.JSON);
-        }
-        getParams().params(stringParams);
-    }
 
 }

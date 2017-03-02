@@ -15,6 +15,7 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/parentPanel"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -43,18 +44,19 @@
         android:gravity="center_vertical"
         android:orientation="vertical">
 
-        <ScrollView
+        <com.bright.common.widget.MaxHeightScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clipToPadding="false">
+            android:clipToPadding="false"
+            app:maxHeight="@dimen/dp_300">
 
             <TextView
                 android:id="@+id/message"
                 style="?attr/dialogMessageStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-        </ScrollView>
+        </com.bright.common.widget.MaxHeightScrollView>
     </LinearLayout>
 
     <FrameLayout

@@ -20,6 +20,7 @@ import android.support.annotation.NonNull;
 
 import com.bright.common.entries.KeyValue;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class RequestParams {
     /**
      * 如果是请求json的时候使用的
      */
-    private String stringParams;
+    private Object body;
 
     public RequestParams() {
         normalParams = new ArrayList<>();
@@ -58,8 +59,16 @@ public class RequestParams {
         normalParams.addAll(params);
     }
 
-    public void params(@NonNull String params) {
-        stringParams = params;
+    public void params(@NonNull String body) {
+        this.body = body;
+    }
+
+    public void params(@NonNull File body) {
+        this.body = body;
+    }
+
+    public void params(@NonNull byte[] body) {
+        this.body = body;
     }
 
     public List<KeyValue> getNormalParams() {
@@ -69,7 +78,7 @@ public class RequestParams {
         return normalParams;
     }
 
-    public String getStringParams() {
-        return stringParams;
+    public Object getBody() {
+        return body;
     }
 }

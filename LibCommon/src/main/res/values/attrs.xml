@@ -575,6 +575,9 @@
         <attr name="maxHeight" />
     </declare-styleable>
 
+    <declare-styleable name="MaxHeightScrollView">
+        <attr name="maxHeight" />
+    </declare-styleable>
 
     <declare-styleable name="EditTextPro">
         <attr name="leftImage" />
