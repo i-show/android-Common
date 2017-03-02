@@ -31,7 +31,7 @@ import android.widget.Toast;
 
 import com.bright.common.R;
 import com.bright.common.utils.SharedPreferencesUtils;
-import com.bright.common.utils.http.okhttp.OkHttpUtils;
+import com.bright.common.utils.http.rest.Http;
 import com.bright.common.utils.permission.PermissionManager;
 import com.bright.common.widget.TopBar;
 import com.bright.common.widget.YToast;
@@ -70,7 +70,7 @@ public abstract class BaseActivity extends AppCompatActivity implements TopBar.O
     protected void onDestroy() {
         super.onDestroy();
         // 取消请求接口
-        OkHttpUtils.getInstance().cancelTag(this);
+        Http.cancel(this);
         // 清除Handler预防内存泄露
         if (mHandler != null) {
             mHandler.removeCallbacksAndMessages(null);

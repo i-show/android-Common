@@ -20,9 +20,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import com.bright.common.entries.HttpError;
-import com.bright.common.exchange.okhttp.Http;
-import com.bright.common.exchange.okhttp.callback.StringCallBack;
+import com.bright.common.utils.http.rest.HttpError;
+import com.bright.common.utils.http.rest.Http;
+import com.bright.common.utils.http.rest.callback.StringCallBack;
 import com.brightyu.androidcommon.R;
 import com.brightyu.androidcommon.modules.base.AppBaseActivity;
 
@@ -35,7 +35,7 @@ public class SampleHttpActivity extends AppBaseActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample_http);
-        Http.getInstance().init(this);
+        Http.init(this);
     }
 
     @Override
@@ -77,6 +77,20 @@ public class SampleHttpActivity extends AppBaseActivity implements View.OnClickL
     }
 
     private void testPost() {
+        Http.post()
+                .url("https://test.cn.nuskin.com/ws/api/account/terminatedAccount")
+                .params("{\"mailOrPhone\":\"15900667472\",\"sponsorId\":\"CN2173000\",\"taxId\":\"370306198112143925\"}")
+                .execute(new StringCallBack() {
+                    @Override
+                    protected void onFailed(@NonNull HttpError error) {
+                        dialog(error.getMessage());
+                    }
+
+                    @Override
+                    protected void onSuccess(String result) {
+                        dialog(result);
+                    }
+                });
 
     }
 

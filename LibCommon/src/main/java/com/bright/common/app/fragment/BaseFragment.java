@@ -33,7 +33,7 @@ import android.widget.Toast;
 
 import com.bright.common.R;
 import com.bright.common.utils.SharedPreferencesUtils;
-import com.bright.common.utils.http.okhttp.OkHttpUtils;
+import com.bright.common.utils.http.rest.Http;
 import com.bright.common.utils.permission.PermissionManager;
 import com.bright.common.widget.TopBar;
 import com.bright.common.widget.YToast;
@@ -61,7 +61,7 @@ public abstract class BaseFragment extends Fragment implements TopBar.OnTopBarLi
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        OkHttpUtils.getInstance().cancelTag(this);
+        Http.cancel(this);
     }
 
     @Override
