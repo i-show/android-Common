@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2016 The yuhaiyang Android Source Project
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,11 +25,12 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.bright.common.R;
-import com.bright.common.utils.http.rest.HttpError;
 import com.bright.common.utils.StringUtils;
 import com.bright.common.utils.debug.DEBUG;
 import com.bright.common.utils.http.rest.Http;
+import com.bright.common.utils.http.rest.HttpError;
 import com.bright.common.utils.http.rest.exception.CanceledException;
+import com.bright.common.utils.http.rest.request.Request;
 import com.bright.common.utils.http.rest.response.Response;
 
 import java.net.ConnectException;
@@ -44,10 +45,12 @@ import java.net.UnknownHostException;
 public abstract class CallBack<T> {
     private Context mContext;
 
+    @SuppressWarnings("WeakerAccess")
     public CallBack() {
         this(null);
     }
 
+    @SuppressWarnings("WeakerAccess")
     public CallBack(Context context) {
         mContext = context;
     }
@@ -111,7 +114,7 @@ public abstract class CallBack<T> {
     /**
      * CallBack parseResponse
      */
-    public abstract T parseResponse(Response response);
+    public abstract T parseResponse(@NonNull final Request request, @NonNull final Response response) throws Exception;
 
     /**
      * 检测是否需要中断处理

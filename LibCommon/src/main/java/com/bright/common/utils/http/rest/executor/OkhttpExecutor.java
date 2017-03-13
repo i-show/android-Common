@@ -19,9 +19,9 @@ package com.bright.common.utils.http.rest.executor;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.bright.common.utils.http.rest.HttpError;
 import com.bright.common.entries.KeyValue;
 import com.bright.common.utils.http.rest.Http;
+import com.bright.common.utils.http.rest.HttpError;
 import com.bright.common.utils.http.rest.RequestParams;
 import com.bright.common.utils.http.rest.callback.CallBack;
 import com.bright.common.utils.http.rest.config.HttpConfig;
@@ -137,8 +137,16 @@ public class OkhttpExecutor extends Executor {
                 response.setBody(okhttp3Response.body().bytes());
 
                 if (!isCanceled(request, response, callBack) && isSuccessful(request, response, callBack)) {
-                    T t = callBack.parseResponse(response);
-                    callBack.runOnUiThreadSuccessful(t);
+                    try {
+                        T t = callBack.parseResponse(request, response);
+                        callBack.runOnUiThreadSuccessful(t);
+                    } catch (Exception e) {
+                        HttpError error = HttpError.makeError(request);
+                        error.setCode(HttpError.ERROR_TYPE);
+                        error.setMessage(e.getMessage());
+                        error.setException(e);
+                        callBack.runOnUiThreadFailed(error);
+                    }
                 }
             }
         });

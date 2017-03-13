@@ -20,17 +20,22 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import com.bright.common.utils.http.rest.HttpError;
 import com.bright.common.utils.http.rest.Http;
+import com.bright.common.utils.http.rest.HttpError;
+import com.bright.common.utils.http.rest.callback.JsonCallBack;
 import com.bright.common.utils.http.rest.callback.StringCallBack;
+import com.bright.common.widget.loading.LoadingDialog;
 import com.brightyu.androidcommon.R;
 import com.brightyu.androidcommon.modules.base.AppBaseActivity;
+import com.brightyu.androidcommon.modules.sample.entries.SampleJson;
 
 /**
  * Created by bright.yu on 2017/2/21.
  * Http测试类
  */
 public class SampleHttpActivity extends AppBaseActivity implements View.OnClickListener {
+    private LoadingDialog mLoadingDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,17 +66,20 @@ public class SampleHttpActivity extends AppBaseActivity implements View.OnClickL
     }
 
     private void testGet() {
+        mLoadingDialog = LoadingDialog.show(this, mLoadingDialog);
         Http.get()
-                .url("https://www.baidu.com/")
-                .execute(new StringCallBack() {
+                .url("https://soatest.cn.nuskin.com/ws/api/auth/loginWithID?password=a11111&loginid=1234567")
+                .execute(new JsonCallBack<SampleJson>() {
                     @Override
                     protected void onFailed(@NonNull HttpError error) {
+                        LoadingDialog.dismiss(mLoadingDialog);
                         dialog(error.getMessage());
                     }
 
                     @Override
-                    protected void onSuccess(String result) {
-                        dialog(result);
+                    protected void onSuccess(SampleJson result) {
+                        LoadingDialog.dismiss(mLoadingDialog);
+                        dialog(result.toString());
                     }
                 });
     }

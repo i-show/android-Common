@@ -17,17 +17,28 @@
 package com.bright.common.utils.http.rest.callback;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
 import com.bright.common.utils.http.rest.request.Request;
 import com.bright.common.utils.http.rest.response.Response;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+
 /**
- * Created by bright.yu on 2017/2/28.
- * String CallBack
+ * Created by Bright.Yu on 2017/3/13.
+ * Json的解析
  */
-public abstract class StringCallBack extends CallBack<String> {
+@SuppressWarnings("unused")
+public abstract class JsonCallBack<T> extends CallBack<T> {
+
     @Override
-    public String parseResponse(@NonNull final Request request, @NonNull final Response response) throws Exception {
-        return new String(response.getBody());
+    public T parseResponse(@NonNull final Request request, @NonNull final Response response) throws Exception {
+        Type genType = getClass().getGenericSuperclass();
+        Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
+        Type type = params[0];
+        Log.i("nian", "parseResponse: = " + new String(response.getBody()));
+        return JSON.parseObject(response.getBody(), type);
     }
 }

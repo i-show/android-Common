@@ -36,6 +36,10 @@ public class HttpError {
      */
     public static final int ERROR_CANCELED = -101;
     /**
+     * 泛型的Type没有设置
+     */
+    public static final int ERROR_TYPE = -102;
+    /**
      * HttpRequest Id
      */
     private long id;
@@ -70,7 +74,7 @@ public class HttpError {
     public String getLogtag() {
         return logtag;
     }
-    
+
     @SuppressWarnings("WeakerAccess")
     public void setLogtag(String logtag) {
         this.logtag = logtag;
