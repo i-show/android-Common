@@ -27,7 +27,7 @@
         app:leftImage="@drawable/ic_back_white"
         app:text="@string/sample_select_photo" />
 
-    <com.bright.common.widget.Flowlayout
+    <com.bright.common.widget.flowlayout.FlowLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -50,7 +50,7 @@
             style="@style/AppTextView.Sample"
             android:text="@string/sample_select_photo_mult" />
 
-    </com.bright.common.widget.Flowlayout>
+    </com.bright.common.widget.flowlayout.FlowLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/photo_list"

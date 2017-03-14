@@ -1,22 +1,20 @@
-/*
- * Copyright (C) 2015 Bright Yu Haiyang
+/**
+ * Copyright (C) 2016 The yuhaiyang Android Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * @author: y.haiyang@qq.com
  */
 
-package com.bright.common.widget;
+package com.bright.common.widget.flowlayout;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -25,20 +23,20 @@ import android.view.ViewGroup;
 
 import com.bright.common.R;
 
-public class Flowlayout extends ViewGroup {
+public class FlowLayout extends ViewGroup {
     private static final String TAG = "Flowlayout";
     private int mGap;
     private MarginLayoutParams mChildLayoutParams;
 
-    public Flowlayout(Context context) {
+    public FlowLayout(Context context) {
         this(context, null);
     }
 
-    public Flowlayout(Context context, AttributeSet attrs) {
+    public FlowLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public Flowlayout(Context context, AttributeSet attrs, int defStyle) {
+    public FlowLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
     }
@@ -95,7 +93,8 @@ public class Flowlayout extends ViewGroup {
         desireWidth = Math.max(desireWidth, lineWidth);
         desireHeight = desireHeight + lineHeight + getPaddingTop() + getPaddingBottom() + mGap;
 
-        setMeasuredDimension(widthMode == MeasureSpec.EXACTLY ? widthSize : desireWidth,
+        setMeasuredDimension(
+                widthMode == MeasureSpec.EXACTLY ? widthSize : desireWidth,
                 heightMode == MeasureSpec.EXACTLY ? heightSize : desireHeight);
     }
 
