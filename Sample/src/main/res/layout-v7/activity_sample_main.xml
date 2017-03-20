@@ -12,9 +12,11 @@
         app:leftImage="@drawable/ic_back_white"
         app:text="@string/sample_main" />
 
+
     <com.bright.common.widget.flowlayout.FlowLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:flowMode="wrap">
 
         <!--Prompt 提示-->
         <TextView

@@ -207,6 +207,11 @@
         <enum name="circle" value="4" />
     </attr>
 
+    <attr name="flowMode">
+        <enum name="wrap" value="1" />
+        <enum name="adapter" value="2" />
+    </attr>
+
     <attr name="stripHeight" format="dimension" />
     <attr name="stripColor" format="color" />
     <attr name="stripPaddingRatio" format="float" />
@@ -629,5 +634,9 @@
         <attr name="android:minHeight" />
     </declare-styleable>
 
+
+    <declare-styleable name="FlowLayout">
+        <attr name="flowMode" />
+    </declare-styleable>
 
 </resources>

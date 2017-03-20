@@ -29,7 +29,8 @@
 
     <com.bright.common.widget.flowlayout.FlowLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:flowMode="wrap">
 
         <!--单选图片-->
         <TextView
