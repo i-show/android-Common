@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2016 The yuhaiyang Android Source Project
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,19 +29,22 @@ import java.util.List;
 /**
  *
  */
-public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holder> extends RecyclerView.Adapter {
+public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holder> extends RecyclerView.Adapter<HOLDER> {
     private static final String TAG = "RecyclerAdapter";
     /**
      * 类型 是头部
      */
+    @SuppressWarnings("unused")
     public static final int TYPE_HEADER = 0;
     /**
      * 类型是body
      */
+    @SuppressWarnings("WeakerAccess")
     public static final int TYPE_BODY = 1;
     /**
      * 类型是最后一个
      */
+    @SuppressWarnings("unused")
     public static final int TYPE_FOOTER = 2;
 
 
@@ -87,6 +90,7 @@ public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holde
     /**
      * 只添加一组数据
      */
+    @SuppressWarnings("unused")
     public void setOnlyOneData(DATA data) {
         if (data != null) {
             mData.clear();
@@ -100,6 +104,7 @@ public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holde
     /**
      * 增加数据
      */
+    @SuppressWarnings("unused")
     public void plusData(List<DATA> data) {
         if (data != null) {
             mData.addAll(data);
@@ -131,6 +136,7 @@ public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holde
     /**
      * 获取移除Header的Count
      */
+    @SuppressWarnings("unused")
     public int getRealCount() {
         return mData.size();
     }
@@ -138,6 +144,7 @@ public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holde
     /**
      * 获取真正的 DATA index
      */
+    @SuppressWarnings("unused")
     public int getRealPosition(int position) {
         return position - getHeaderCount();
     }
@@ -149,6 +156,7 @@ public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holde
     /**
      * 获取移除 Header的Item
      */
+    @SuppressWarnings("unused")
     public DATA getRealItem(int position) {
         return mData.get(position - getHeaderCount());
     }
@@ -162,7 +170,6 @@ public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holde
      * 获取请求参数
      */
     public Object getParam() {
-        // TODO
         return mParam;
     }
 
@@ -190,6 +197,7 @@ public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holde
     /**
      * 获取头部数量
      */
+    @SuppressWarnings("WeakerAccess")
     public int getHeaderCount() {
         return 0;
     }
@@ -197,6 +205,7 @@ public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holde
     /**
      * 获取Footer数量
      */
+    @SuppressWarnings("WeakerAccess")
     public int getFooterCount() {
         return 0;
     }
@@ -207,8 +216,8 @@ public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holde
     public abstract void onBindViewHolder(HOLDER holder, int position, int type);
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        onBindViewHolder((HOLDER) holder, position, holder.getItemViewType());
+    public void onBindViewHolder(HOLDER holder, int position) {
+        onBindViewHolder(holder, position, holder.getItemViewType());
     }
 
     public static abstract class Holder extends RecyclerView.ViewHolder {
