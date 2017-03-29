@@ -38,14 +38,17 @@ public abstract class ListAdapter<DATA, HOLDER extends ListAdapter.Holder> exten
     /**
      * 类型 是头部
      */
+    @SuppressWarnings("unused")
     public static final int TYPE_HEADER = 0;
     /**
      * 类型是body
      */
+    @SuppressWarnings("WeakerAccess")
     public static final int TYPE_BODY = 1;
     /**
      * 类型是最后一个
      */
+    @SuppressWarnings("unused")
     public static final int TYPE_FOOTER = 2;
 
 
@@ -92,6 +95,7 @@ public abstract class ListAdapter<DATA, HOLDER extends ListAdapter.Holder> exten
     /**
      * 只添加一组数据
      */
+    @SuppressWarnings("unused")
     public void setOnlyOneData(DATA data) {
         if (data != null) {
             mData.clear();
@@ -105,6 +109,7 @@ public abstract class ListAdapter<DATA, HOLDER extends ListAdapter.Holder> exten
     /**
      * 增加数据
      */
+    @SuppressWarnings("WeakerAccess")
     public void plusData(List<DATA> data) {
         if (data != null) {
             mData.addAll(data);
@@ -136,6 +141,7 @@ public abstract class ListAdapter<DATA, HOLDER extends ListAdapter.Holder> exten
     /**
      * 获取移除Header的Count
      */
+    @SuppressWarnings("WeakerAccess")
     public int getRealCount() {
         return mData.size();
     }
@@ -143,6 +149,7 @@ public abstract class ListAdapter<DATA, HOLDER extends ListAdapter.Holder> exten
     /**
      * 获取真正的 DATA index
      */
+    @SuppressWarnings("unused")
     public int getRealPosition(int position) {
         return position - getHeaderCount();
     }
@@ -155,10 +162,12 @@ public abstract class ListAdapter<DATA, HOLDER extends ListAdapter.Holder> exten
     /**
      * 获取移除 Header的Item
      */
+    @SuppressWarnings("WeakerAccess")
     public DATA getRealItem(int position) {
         return mData.get(position - getHeaderCount());
     }
 
+    @SuppressWarnings("unused")
     public DATA getRealItem(ListView list, int position) {
         int index = position - list.getHeaderViewsCount() - getHeaderCount();
         if (index >= 0 && mData.size() > 0) {
@@ -182,7 +191,6 @@ public abstract class ListAdapter<DATA, HOLDER extends ListAdapter.Holder> exten
      * 获取请求参数
      */
     public Object getParam() {
-        // TODO
         return mParam;
     }
 
@@ -210,6 +218,7 @@ public abstract class ListAdapter<DATA, HOLDER extends ListAdapter.Holder> exten
     /**
      * 获取头部数量
      */
+    @SuppressWarnings("WeakerAccess")
     public int getHeaderCount() {
         return 0;
     }
@@ -217,19 +226,20 @@ public abstract class ListAdapter<DATA, HOLDER extends ListAdapter.Holder> exten
     /**
      * 获取Footer数量
      */
+    @SuppressWarnings("WeakerAccess")
     public int getFooterCount() {
         return 0;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Holder holder;
+        HOLDER holder;
         final int type = getItemViewType(position);
         if (convertView == null) {
             holder = onCreateViewHolder(parent, type);
             convertView = holder.getItemView();
         } else {
-            holder = (Holder) convertView.getTag(R.id.tag_view_holder);
+            holder = (HOLDER) convertView.getTag(R.id.tag_view_holder);
             // 如果当前的View Type 和 已经缓存的不同就重新加载
             int _type = holder.getType();
             if (type != _type) {
@@ -238,7 +248,7 @@ public abstract class ListAdapter<DATA, HOLDER extends ListAdapter.Holder> exten
             }
 
         }
-        onBindViewHolder((HOLDER) holder, position, type);
+        onBindViewHolder(holder, position, type);
         return convertView;
     }
 
