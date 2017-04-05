@@ -1,12 +1,10 @@
 package com.brightyu.androidcommon.modules.base;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.bright.common.app.activity.BaseActivity;
+import com.ishow.common.app.activity.BaseActivity;
 import com.brightyu.androidcommon.AppApplication;
-import com.brightyu.androidcommon.modules.init.SplashActivity;
 
 
 /**

@@ -24,10 +24,10 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 
-import com.bright.common.app.activity.BaseActivity;
-import com.bright.common.utils.log.L;
-import com.bright.common.widget.TopBar;
-import com.bright.common.widget.YToast;
+import com.ishow.common.app.activity.BaseActivity;
+import com.ishow.common.utils.log.L;
+import com.ishow.common.widget.TopBar;
+import com.ishow.common.widget.YToast;
 import com.brightyu.androidcommon.R;
 
 public class MainActivity extends BaseActivity {

@@ -5,14 +5,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.bright.common.widget.TopBar
+    <com.ishow.common.widget.TopBar
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftImage="@drawable/ic_back_white"
         app:text="@string/sample_pick_view" />
 
-    <com.bright.common.widget.pickview.PickerView
+    <com.ishow.common.widget.pickview.PickerView
         android:id="@+id/picker_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

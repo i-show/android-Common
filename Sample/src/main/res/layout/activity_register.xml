@@ -5,14 +5,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.bright.common.widget.TopBar
+    <com.ishow.common.widget.TopBar
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftImage="@drawable/ic_back_white"
         app:text="@string/register_title" />
 
-    <com.bright.common.widget.edittext.EditTextPro
+    <com.ishow.common.widget.edittext.EditTextPro
         android:id="@+id/phone"
         style="@style/EditTextPro.Register"
         android:inputType="phone"
@@ -27,7 +27,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <com.bright.common.widget.edittext.EditTextPro
+        <com.ishow.common.widget.edittext.EditTextPro
             android:id="@+id/verify_code"
             style="@style/EditTextPro.Register"
             android:layout_width="0dp"
@@ -35,7 +35,7 @@
             app:inputHint="@string/register_hint_verify_code"
             app:leftText="@string/register_tip_verify_code" />
 
-        <com.bright.common.widget.VerifyCodeButton
+        <com.ishow.common.widget.VerifyCodeButton
             android:id="@+id/send_verify_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -47,13 +47,13 @@
             app:textSize="@dimen/I_title" />
     </LinearLayout>
 
-    <com.bright.common.widget.edittext.EditTextPro
+    <com.ishow.common.widget.edittext.EditTextPro
         android:id="@+id/password"
         style="@style/EditTextPro.Register"
         app:inputHint="@string/register_hint_password"
         app:leftText="@string/register_tip_password" />
 
-    <com.bright.common.widget.edittext.EditTextPro
+    <com.ishow.common.widget.edittext.EditTextPro
         android:id="@+id/ensure_password"
         style="@style/EditTextPro.Register"
         app:focusColor="?colorAccent"

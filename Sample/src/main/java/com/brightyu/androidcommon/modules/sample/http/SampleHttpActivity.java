@@ -20,11 +20,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import com.bright.common.utils.http.rest.Http;
-import com.bright.common.utils.http.rest.HttpError;
-import com.bright.common.utils.http.rest.callback.JsonCallBack;
-import com.bright.common.utils.http.rest.callback.StringCallBack;
-import com.bright.common.widget.loading.LoadingDialog;
+import com.ishow.common.utils.http.rest.Http;
+import com.ishow.common.utils.http.rest.HttpError;
+import com.ishow.common.utils.http.rest.callback.JsonCallBack;
+import com.ishow.common.utils.http.rest.callback.StringCallBack;
+import com.ishow.common.widget.loading.LoadingDialog;
 import com.brightyu.androidcommon.R;
 import com.brightyu.androidcommon.modules.base.AppBaseActivity;
 import com.brightyu.androidcommon.modules.sample.entries.SampleJson;

@@ -44,7 +44,7 @@
         android:gravity="center_vertical"
         android:orientation="vertical">
 
-        <com.bright.common.widget.MaxHeightScrollView
+        <com.ishow.common.widget.MaxHeightScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
                 style="?attr/dialogMessageStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-        </com.bright.common.widget.MaxHeightScrollView>
+        </com.ishow.common.widget.MaxHeightScrollView>
     </LinearLayout>
 
     <FrameLayout

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.bright.common.widget.TopBar
+    <com.ishow.common.widget.TopBar
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -13,7 +13,7 @@
         app:text="@string/sample_main" />
 
 
-    <com.bright.common.widget.flowlayout.FlowLayout
+    <com.ishow.common.widget.flowlayout.FlowLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:flowMode="wrap">
@@ -54,6 +54,6 @@
             style="@style/AppTextView.Sample"
             android:text="@string/sample_select_http" />
 
-    </com.bright.common.widget.flowlayout.FlowLayout>
+    </com.ishow.common.widget.flowlayout.FlowLayout>
 
 </LinearLayout>

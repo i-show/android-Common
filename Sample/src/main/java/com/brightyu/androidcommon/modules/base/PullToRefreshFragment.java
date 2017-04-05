@@ -19,8 +19,8 @@ package com.brightyu.androidcommon.modules.base;
 import android.util.Log;
 import android.view.View;
 
-import com.bright.common.widget.pulltorefresh.IPullToRefreshUtils;
-import com.bright.common.widget.pulltorefresh.OnPullToRefreshListener;
+import com.ishow.common.widget.pulltorefresh.IPullToRefreshUtils;
+import com.ishow.common.widget.pulltorefresh.OnPullToRefreshListener;
 
 
 /**

@@ -17,7 +17,7 @@
 package com.brightyu.androidcommon.entries;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.bright.common.utils.StringUtils;
+import com.ishow.common.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;

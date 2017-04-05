@@ -16,7 +16,7 @@
 
 package com.brightyu.androidcommon.modules.sample.pickview;
 
-import com.bright.common.widget.pickview.adapter.PickerAdapter;
+import com.ishow.common.widget.pickview.adapter.PickerAdapter;
 
 /**
  * Created by Bright.Yu on 2017/1/15.

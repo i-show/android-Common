@@ -21,8 +21,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bright.common.adapter.RecyclerAdapter;
-import com.bright.common.widget.dialog.ShowPhotoDialog;
+import com.ishow.common.adapter.RecyclerAdapter;
+import com.ishow.common.widget.dialog.ShowPhotoDialog;
 import com.brightyu.androidcommon.R;
 import com.bumptech.glide.Glide;
 

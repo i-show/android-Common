@@ -21,8 +21,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-import com.bright.common.app.activity.BaseActivity;
-import com.bright.common.widget.loading.LoadingDialog;
+import com.ishow.common.app.activity.BaseActivity;
+import com.ishow.common.widget.loading.LoadingDialog;
 import com.brightyu.androidcommon.R;
 import com.brightyu.androidcommon.modules.account.password.forgot.ForgotPasswordActivity;
 import com.brightyu.androidcommon.modules.account.register.RegisterActivity;

@@ -19,7 +19,7 @@ package com.brightyu.androidcommon.modules.account.login;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.bright.common.utils.SharedPreferencesUtils;
+import com.ishow.common.utils.SharedPreferencesUtils;
 import com.brightyu.androidcommon.entries.User;
 import com.brightyu.androidcommon.manager.UserManager;
 

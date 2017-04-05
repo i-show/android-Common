@@ -23,10 +23,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 
-import com.bright.common.constant.Shift;
+import com.ishow.common.constant.Shift;
 import com.brightyu.androidcommon.constant.Configure;
 import com.brightyu.androidcommon.manager.VersionManager;
-import com.brightyu.androidcommon.modules.account.login.LoginActivity;
 import com.brightyu.androidcommon.modules.base.AppBaseActivity;
 import com.brightyu.androidcommon.modules.main.MainActivity;
 

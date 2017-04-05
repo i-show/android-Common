@@ -21,7 +21,7 @@
     android:orientation="vertical">
 
 
-    <com.bright.common.widget.imageview.CropImageView
+    <com.ishow.common.widget.imageview.CropImageView
         android:id="@+id/crop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
         app:overlayColor="@color/semipermeable_dark"
         app:touchPadding="8dp" />
 
-    <com.bright.common.widget.TopBar
+    <com.ishow.common.widget.TopBar
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

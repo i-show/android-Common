@@ -15,7 +15,7 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bright.common">
+    package="com.ishow.common">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -25,18 +25,18 @@
 
         <!--选择图片的类-->
         <activity
-            android:name=".modules.image.select.PhotoSelectorActivity"
+            android:name="com.ishow.common.modules.image.select.PhotoSelectorActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.NoActionBar" />
 
         <!--剪切图片的类-->
         <activity
-            android:name="com.bright.common.modules.image.cutter.PhotoCutterActivity"
+            android:name="com.ishow.common.modules.image.cutter.PhotoCutterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.NoActionBar.Fullscreen" />
 
         <meta-data
-            android:name="com.bright.common.utils.glide.GlideConfiguration"
+            android:name="com.ishow.common.utils.glide.GlideConfiguration"
             android:value="GlideModule" />
     </application>
 

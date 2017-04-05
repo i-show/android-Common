@@ -24,9 +24,9 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
-import com.bright.common.utils.RegexValidateUtils;
-import com.bright.common.utils.SharedPreferencesUtils;
-import com.bright.common.utils.StringUtils;
+import com.ishow.common.utils.RegexValidateUtils;
+import com.ishow.common.utils.SharedPreferencesUtils;
+import com.ishow.common.utils.StringUtils;
 import com.brightyu.androidcommon.R;
 import com.brightyu.androidcommon.entries.User;
 

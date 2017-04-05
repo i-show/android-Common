@@ -20,28 +20,28 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.bright.common.widget.TopBar
+    <com.ishow.common.widget.TopBar
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftImage="@drawable/ic_back_white"
         app:text="@string/sample_select_permission" />
 
-    <com.bright.common.widget.edittext.EditTextPro
+    <com.ishow.common.widget.edittext.EditTextPro
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftImage="@drawable/ic_account"
         app:leftText="@string/forgot_password_tip_password" />
 
 
-    <com.bright.common.widget.edittext.EditTextPro
+    <com.ishow.common.widget.edittext.EditTextPro
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftImage="@drawable/ic_account"
         app:leftText="@string/forgot_password_tip_password"
         app:rightImageVisibility="gone" />
 
-    <com.bright.common.widget.edittext.EditTextPro
+    <com.ishow.common.widget.edittext.EditTextPro
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword"

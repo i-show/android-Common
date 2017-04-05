@@ -20,9 +20,9 @@ import android.Manifest;
 import android.os.Bundle;
 import android.view.View;
 
-import com.bright.common.utils.permission.PermissionDenied;
-import com.bright.common.utils.permission.PermissionGranted;
-import com.bright.common.utils.permission.PermissionManager;
+import com.ishow.common.utils.permission.PermissionDenied;
+import com.ishow.common.utils.permission.PermissionGranted;
+import com.ishow.common.utils.permission.PermissionManager;
 import com.brightyu.androidcommon.R;
 import com.brightyu.androidcommon.modules.base.AppBaseActivity;
 

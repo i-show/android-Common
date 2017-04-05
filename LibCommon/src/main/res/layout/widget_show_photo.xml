@@ -19,13 +19,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.bright.common.widget.ViewPagerFix
+    <com.ishow.common.widget.ViewPagerFix
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:overScrollMode="never" />
 
-    <com.bright.common.widget.indicator.SizeIndicator
+    <com.ishow.common.widget.indicator.SizeIndicator
         android:id="@+id/state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

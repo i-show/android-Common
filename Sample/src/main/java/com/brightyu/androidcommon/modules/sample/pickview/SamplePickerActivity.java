@@ -2,7 +2,7 @@ package com.brightyu.androidcommon.modules.sample.pickview;
 
 import android.os.Bundle;
 
-import com.bright.common.widget.pickview.PickerView;
+import com.ishow.common.widget.pickview.PickerView;
 import com.brightyu.androidcommon.R;
 import com.brightyu.androidcommon.modules.base.AppBaseActivity;
 

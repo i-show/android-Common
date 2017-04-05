@@ -1,6 +1,6 @@
 package com.brightyu.androidcommon.modules.base;
 
-import com.bright.common.app.fragment.BaseFragment;
+import com.ishow.common.app.fragment.BaseFragment;
 
 /**
  * 基础Fragment

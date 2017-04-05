@@ -20,8 +20,8 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.bright.common.utils.PackagesUtils;
-import com.bright.common.utils.SharedPreferencesUtils;
+import com.ishow.common.utils.PackagesUtils;
+import com.ishow.common.utils.SharedPreferencesUtils;
 
 import java.lang.ref.WeakReference;
 

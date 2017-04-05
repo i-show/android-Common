@@ -19,10 +19,10 @@ package com.brightyu.androidcommon.modules.account.password.forgot;
 import android.os.Bundle;
 import android.view.View;
 
-import com.bright.common.widget.TopBar;
-import com.bright.common.widget.VerifyCodeButton;
-import com.bright.common.widget.edittext.EditTextPro;
-import com.bright.common.widget.loading.LoadingDialog;
+import com.ishow.common.widget.TopBar;
+import com.ishow.common.widget.VerifyCodeButton;
+import com.ishow.common.widget.edittext.EditTextPro;
+import com.ishow.common.widget.loading.LoadingDialog;
 import com.brightyu.androidcommon.R;
 import com.brightyu.androidcommon.modules.base.AppBaseActivity;
 

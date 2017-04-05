@@ -22,10 +22,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.bright.common.utils.image.select.OnSelectPhotoListener;
-import com.bright.common.utils.image.select.SelectPhotoUtils;
-import com.bright.common.widget.TopBar;
-import com.bright.common.widget.recyclerview.itemdecoration.GridSpacingItemDecoration;
+import com.ishow.common.utils.image.select.OnSelectPhotoListener;
+import com.ishow.common.utils.image.select.SelectPhotoUtils;
+import com.ishow.common.widget.recyclerview.itemdecoration.GridSpacingItemDecoration;
 import com.brightyu.androidcommon.R;
 import com.brightyu.androidcommon.modules.base.AppBaseActivity;
 
