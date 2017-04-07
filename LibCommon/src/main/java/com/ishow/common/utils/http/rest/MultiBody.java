@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ishow.common.utils.http.rest.response;
+package com.ishow.common.utils.http.rest;
 
 import android.support.annotation.NonNull;
 

@@ -34,6 +34,9 @@ import java.util.Map;
 
 /**
  * Request
+ *
+ * 注意：
+ * 暂时实现了 Get和Post 如果有其他需求例如：PUT DELETE 可以进行另加
  */
 @SuppressWarnings("unused")
 public abstract class Request<T extends Request> {

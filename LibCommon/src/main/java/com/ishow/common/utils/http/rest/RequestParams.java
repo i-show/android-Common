@@ -19,7 +19,6 @@ package com.ishow.common.utils.http.rest;
 import android.support.annotation.NonNull;
 
 import com.ishow.common.entries.KeyValue;
-import com.ishow.common.utils.http.rest.response.MultiBody;
 
 import java.io.File;
 import java.util.ArrayList;
