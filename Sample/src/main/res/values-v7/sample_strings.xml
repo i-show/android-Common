@@ -15,4 +15,5 @@
     <string name="sample_select_http">Http</string>
     <string name="sample_select_http_get">GET</string>
     <string name="sample_select_http_post">POST</string>
+    <string name="sample_select_imageloader">ImageLoader</string>
 </resources>

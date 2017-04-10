@@ -54,6 +54,12 @@
             style="@style/AppTextView.Sample"
             android:text="@string/sample_select_http" />
 
+        <!--Imageloader-->
+        <TextView
+            android:id="@+id/sample_select_imageloader"
+            style="@style/AppTextView.Sample"
+            android:text="@string/sample_select_imageloader" />
+
     </com.ishow.common.widget.flowlayout.FlowLayout>
 
 </LinearLayout>

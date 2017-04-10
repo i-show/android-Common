@@ -88,6 +88,11 @@
         <activity
             android:name=".modules.sample.http.SampleHttpActivity"
             android:screenOrientation="portrait" />
+
+        <!--ImageLoader-->
+        <activity
+            android:name=".modules.sample.imageloader.SampleImageLoaderActivity"
+            android:screenOrientation="portrait" />
         <!--++++++++++++++++++++控件或者工具的测试区域（end）++++++++++++++++++++++++++-->
 
 

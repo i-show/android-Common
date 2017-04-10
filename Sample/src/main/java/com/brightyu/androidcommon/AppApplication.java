@@ -2,6 +2,7 @@ package com.brightyu.androidcommon;
 
 import android.app.Application;
 
+import com.ishow.common.utils.image.loader.ImageLoader;
 import com.squareup.leakcanary.LeakCanary;
 
 /**
@@ -17,5 +18,8 @@ public class AppApplication extends Application {
             return;
         }
         LeakCanary.install(this);
+
+
+        ImageLoader.init(this);
     }
 }

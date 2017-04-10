@@ -24,6 +24,7 @@ import com.brightyu.androidcommon.R;
 import com.brightyu.androidcommon.modules.base.AppBaseActivity;
 import com.brightyu.androidcommon.modules.sample.edittextpro.SampleEditTextProActivity;
 import com.brightyu.androidcommon.modules.sample.http.SampleHttpActivity;
+import com.brightyu.androidcommon.modules.sample.imageloader.SampleImageLoaderActivity;
 import com.brightyu.androidcommon.modules.sample.permission.SamplePermissionActivity;
 import com.brightyu.androidcommon.modules.sample.photo.select.SampleSelectPhotoActivity;
 import com.brightyu.androidcommon.modules.sample.pickview.SamplePickerActivity;
@@ -56,6 +57,10 @@ public class SampleMainActivity extends AppBaseActivity implements View.OnClickL
         // Http
         view = findViewById(R.id.sample_select_http);
         view.setOnClickListener(this);
+
+        // ImageLoader
+        view = findViewById(R.id.sample_select_imageloader);
+        view.setOnClickListener(this);
     }
 
     @Override
@@ -80,6 +85,10 @@ public class SampleMainActivity extends AppBaseActivity implements View.OnClickL
                 break;
             case R.id.sample_select_http:
                 intent = new Intent(this, SampleHttpActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.sample_select_imageloader:
+                intent = new Intent(this, SampleImageLoaderActivity.class);
                 startActivity(intent);
                 break;
         }
