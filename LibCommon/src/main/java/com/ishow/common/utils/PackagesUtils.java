@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2016 The yuhaiyang Android Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,8 +39,9 @@ public class PackagesUtils {
      * 已经删除此Api
      */
     @Deprecated
+    @SuppressWarnings("WeakerAccess,unused")
     public static int getVersion(Context context) {
-        return getVersion(context, context.getPackageName());
+        return getVersionCode(context);
     }
 
     /**
@@ -49,13 +50,9 @@ public class PackagesUtils {
      * 已经删除此Api 使用getVersionCode 更明确和直接
      */
     @Deprecated
+    @SuppressWarnings("unused,WeakerAccess")
     public static int getVersion(Context context, String packageName) {
-        try {
-            return context.getPackageManager().getPackageInfo(packageName, PackageManager.GET_META_DATA).versionCode;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-            return 0;
-        }
+        return getVersionCode(context, packageName);
     }
 
     /**
@@ -68,6 +65,7 @@ public class PackagesUtils {
     /**
      * 获取版本code
      */
+    @SuppressWarnings("WeakerAccess")
     public static int getVersionCode(Context context, String packageName) {
         try {
             return context.getPackageManager().getPackageInfo(packageName, PackageManager.GET_META_DATA).versionCode;
@@ -87,6 +85,7 @@ public class PackagesUtils {
     /**
      * 获取版本名称
      */
+    @SuppressWarnings("WeakerAccess")
     public static String getVersionName(Context context, String packageName) {
         try {
             return context.getPackageManager().getPackageInfo(packageName, PackageManager.GET_META_DATA).versionName;
@@ -115,6 +114,7 @@ public class PackagesUtils {
     /***
      * 获取当前用户安装的App
      */
+    @SuppressWarnings("unused")
     public static Map<String, String> getUserApps(Context context) {
         PackageManager packageManager = context.getPackageManager();
         List<PackageInfo> packages = packageManager.getInstalledPackages(0);
