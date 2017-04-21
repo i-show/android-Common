@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.brightyu.androidcommon.R;
 import com.brightyu.androidcommon.modules.base.AppBaseFragment;
+import com.ishow.common.widget.StatusView;
 import com.ishow.common.widget.TopBar;
 
 /**
@@ -38,6 +39,9 @@ public class MineFragment extends AppBaseFragment {
         mRootView = inflater.inflate(R.layout.fragement_mine, container, false);
         TopBar topBar = (TopBar) mRootView.findViewById(R.id.top_bar);
         topBar.setOnTopBarListener(this);
+
+        StatusView statusView = (StatusView) mRootView.findViewById(R.id.status_view);
+        statusView.showError();
         return mRootView;
     }
 }

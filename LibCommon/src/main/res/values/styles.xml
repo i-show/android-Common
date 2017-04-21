@@ -17,7 +17,7 @@
 <resources>
 
     <!-- ****************动画*****************-->
-    <style name="Animation" />
+    <style name="Animation"/>
 
     <style name="Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/right_in</item>
@@ -40,7 +40,7 @@
         <item name="android:activityCloseExitAnimation">@anim/alpha_out</item>
     </style>
 
-    <style name="Animation.Windows" />
+    <style name="Animation.Windows"/>
 
     <style name="Animation.Windows.Bottom">
         <item name="android:windowEnterAnimation">@anim/bottom_in</item>
@@ -53,7 +53,7 @@
     </style>
 
     <!-- ****************Dialog区域*****************-->
-    <style name="BaseDialog" />
+    <style name="BaseDialog"/>
     <!-- 基础布局-->
     <style name="BaseDialog.Layout">
         <item name="dialogMainLayout">@layout/dialog</item>
@@ -63,11 +63,11 @@
         <item name="dialogMultiChoiceItem">@layout/select_dialog_multichoice</item>
     </style>
     <!-- 从底部弹出的-->
-    <style name="BaseDialog.Bottom" />
+    <style name="BaseDialog.Bottom"/>
     <!-- 从底部弹出的布局文件-->
-    <style name="BaseDialog.Bottom.Layout" />
+    <style name="BaseDialog.Bottom.Layout"/>
     <!-- 从底部弹出的 仿IOS风格-->
-    <style name="BaseDialog.Bottom.IOS" />
+    <style name="BaseDialog.Bottom.IOS"/>
     <!-- 从底部弹出的 仿IOS风格 的布局文件-->
     <style name="BaseDialog.Bottom.IOS.Layout">
         <item name="dialogMainLayout">@layout/bottom_dialog_ios</item>
@@ -173,7 +173,7 @@
         <item name="android:textColor">@color/text_grey</item>
     </style>
 
-    <style name="Line" />
+    <style name="Line"/>
     <!--横线-->
     <style name="Line.Horizontal">
         <item name="android:layout_width">match_parent</item>
@@ -211,7 +211,7 @@
     </style>
 
     <!-- ToolBar 的样式 -->
-    <style name="ToolBar" />
+    <style name="ToolBar"/>
 
     <style name="ToolBar.Title">
         <item name="android:textSize">@dimen/top_bar_title_text_size</item>
@@ -233,13 +233,13 @@
     </style>
 
     <!-- Button 默认样式统一样式 -->
-    <style name="AppButton" parent="@style/Widget.AppCompat.Button.Borderless" />
+    <style name="AppButton" parent="@style/Widget.AppCompat.Button.Borderless"/>
 
     <!-- TextView 默认样式统一样式 -->
-    <style name="AppTextView" parent="@android:style/Widget.DeviceDefault.TextView" />
+    <style name="AppTextView" parent="@android:style/Widget.DeviceDefault.TextView"/>
 
     <!-- 图片选择器-->
-    <style name="AppTextView.PhotoSelector" />
+    <style name="AppTextView.PhotoSelector"/>
 
     <style name="AppTextView.PhotoSelector.TimeLine">
         <item name="android:layout_width">match_parent</item>
@@ -256,7 +256,8 @@
 
 
     <!-- EditText 默认样式统一样式 -->
-    <style name="AppEditText" parent="Widget.AppCompat.EditText" />
+    <style name="AppEditText" parent="Widget.AppCompat.EditText"/>
+
 
 
 </resources>

@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import com.ishow.common.R;
 import com.ishow.common.utils.ScreenUtils;
 import com.bumptech.glide.Glide;
+import com.ishow.common.widget.spinkit.SpinKitView;
 
 
 public class LoadingDialog extends Dialog {
@@ -80,11 +81,7 @@ public class LoadingDialog extends Dialog {
         super.onCreate(savedInstanceState);
         setTitle("dialog_loading");// for ddms show
         setContentView(R.layout.dialog_loading);
-        ImageView photo = (ImageView) findViewById(R.id.photo);
 
-        Glide.with(getContext())
-                .load(R.drawable.default_loading)
-                .into(photo);
     }
 
     @Override

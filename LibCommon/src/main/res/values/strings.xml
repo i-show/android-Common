@@ -44,6 +44,7 @@
     <string name="this_week">本周</string>
     <string name="this_month">这个月</string>
     <string name="spacer"> · </string>
+    <string name="loading">努力加载中&#8230;</string>
     <string name="nothing">暂时没有数据</string>
 
     <string name="net_poor_connections">网络连接失败，请确认可以连接服务</string>

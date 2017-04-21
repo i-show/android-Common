@@ -18,7 +18,9 @@
     <com.ishow.common.widget.BottomBar
         android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/bottom_bar_height">
+        android:layout_height="@dimen/bottom_bar_height"
+        android:background="@drawable/top_line_white_normal_bg"
+        android:paddingTop="@dimen/dp_1">
 
         <com.ishow.common.widget.ImageTextView
             android:id="@+id/home"

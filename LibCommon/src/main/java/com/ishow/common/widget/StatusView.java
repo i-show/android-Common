@@ -33,6 +33,7 @@ import android.widget.TextView;
 import com.ishow.common.R;
 import com.ishow.common.utils.AnimatorUtils;
 import com.bumptech.glide.Glide;
+import com.ishow.common.widget.spinkit.SpinKitView;
 
 /**
  * 一个状态显示的View
@@ -63,6 +64,7 @@ public class StatusView extends FrameLayout implements View.OnClickListener {
 
     private View mRoot;
     private ImageView mIconView;
+    private SpinKitView mLoadingView;
     private TextView mTitle;
     private TextView mSubTitle;
     private TextView mReload;
@@ -103,6 +105,7 @@ public class StatusView extends FrameLayout implements View.OnClickListener {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         mRoot = inflater.inflate(R.layout.widget_status_view, this, true);
         mIconView = (ImageView) findViewById(R.id.icon);
+        mLoadingView = (SpinKitView) findViewById(R.id.status_loading);
         mTitle = (TextView) findViewById(R.id.title);
         mSubTitle = (TextView) findViewById(R.id.subTitle);
 
@@ -146,10 +149,12 @@ public class StatusView extends FrameLayout implements View.OnClickListener {
         setText(mTitle, title);
         setText(mSubTitle, subTitle);
         mIconView.setImageResource(icon);
+        mIconView.setVisibility(VISIBLE);
+        mLoadingView.setVisibility(GONE);
     }
 
     public void showLoading() {
-        showLoading(null);
+        showLoading(R.string.loading);
     }
 
     public void showLoading(@StringRes int text) {
@@ -163,10 +168,8 @@ public class StatusView extends FrameLayout implements View.OnClickListener {
         mSubTitle.setVisibility(GONE);
         mReload.setVisibility(GONE);
 
-        Glide.with(getContext())
-                .load(R.drawable.default_loading)
-                .asGif()
-                .into(mIconView);
+        mIconView.setVisibility(GONE);
+        mLoadingView.setVisibility(VISIBLE);
     }
 
 
@@ -191,6 +194,8 @@ public class StatusView extends FrameLayout implements View.OnClickListener {
         mReload.setVisibility(GONE);
 
         mIconView.setImageResource(icon);
+        mIconView.setVisibility(VISIBLE);
+        mLoadingView.setVisibility(GONE);
     }
 
     public void dismiss() {

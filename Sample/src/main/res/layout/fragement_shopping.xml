@@ -12,4 +12,9 @@
         android:layout_height="wrap_content"
         app:text="@string/shopping"/>
 
+
+    <com.ishow.common.widget.StatusView
+        android:id="@+id/status_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </LinearLayout>

@@ -16,627 +16,652 @@
 
 <resources>
 
-    <attr name="dialogTitleStyle" format="reference" />
-    <attr name="dialogMessageStyle" format="reference" />
-    <attr name="dialogButtonStyle" format="reference" />
+    <attr name="dialogTitleStyle" format="reference"/>
+    <attr name="dialogMessageStyle" format="reference"/>
+    <attr name="dialogButtonStyle" format="reference"/>
 
-    <attr name="dialogLayouts" format="reference" />
-    <attr name="dialogMainLayout" format="reference" />
-    <attr name="dialogListLayout" format="reference" />
-    <attr name="dialogMultiChoiceItem" format="reference" />
-    <attr name="dialogSingleChoiceItem" format="reference" />
-    <attr name="dialogListItem" format="reference" />
+    <attr name="dialogLayouts" format="reference"/>
+    <attr name="dialogMainLayout" format="reference"/>
+    <attr name="dialogListLayout" format="reference"/>
+    <attr name="dialogMultiChoiceItem" format="reference"/>
+    <attr name="dialogSingleChoiceItem" format="reference"/>
+    <attr name="dialogListItem" format="reference"/>
 
-    <attr name="dialogButtonBackgrounds" format="reference" />
-    <attr name="middleBackground" format="reference|color" />
-    <attr name="wholeBackground" format="reference|color" />
+    <attr name="dialogButtonBackgrounds" format="reference"/>
+    <attr name="middleBackground" format="reference|color"/>
+    <attr name="wholeBackground" format="reference|color"/>
     <!-- TopBar的样式 -->
-    <attr name="topbarStyle" format="reference" />
-    <attr name="actionMinWidth" format="dimension" />
+    <attr name="topbarStyle" format="reference"/>
+    <attr name="actionMinWidth" format="dimension"/>
 
-    <attr name="loadingText" format="string" />
-    <attr name="errorText" format="string" />
-    <attr name="errorImage" format="reference" />
+    <attr name="loadingText" format="string"/>
+    <attr name="errorText" format="string"/>
+    <attr name="errorImage" format="reference"/>
 
 
-    <attr name="tip" format="string" />
+    <attr name="tip" format="string"/>
     <!-- 强制提醒 -->
-    <attr name="tipStrengthen" format="boolean" />
+    <attr name="tipStrengthen" format="boolean"/>
     <!-- 提醒的宽度 -->
-    <attr name="tipWidth" format="dimension" />
+    <attr name="tipWidth" format="dimension"/>
     <!-- 提醒的宽度 -->
-    <attr name="rightTip" format="string" />
+    <attr name="rightTip" format="string"/>
 
     <!-- 是否可以点击 -->
-    <attr name="clickable" format="boolean" />
+    <attr name="clickable" format="boolean"/>
     <!-- 是否开启密码格式 -->
-    <attr name="secretable" format="boolean" />
+    <attr name="secretable" format="boolean"/>
     <!-- 是否可以编辑 -->
-    <attr name="editable" format="boolean" />
+    <attr name="editable" format="boolean"/>
 
-    <attr name="hint" format="string" />
+    <attr name="hint" format="string"/>
 
-    <attr name="unit" format="string" />
-    <attr name="unitTextSize" format="dimension" />
+    <attr name="unit" format="string"/>
+    <attr name="unitTextSize" format="dimension"/>
 
-    <attr name="text" format="string" />
-    <attr name="textSize" format="dimension" />
-    <attr name="textColor" format="color" />
-    <attr name="textBackground" format="reference|color" />
-    <attr name="textAppearance" format="reference" />
+    <attr name="text" format="string"/>
+    <attr name="textSize" format="dimension"/>
+    <attr name="textColor" format="color"/>
+    <attr name="textBackground" format="reference|color"/>
+    <attr name="textAppearance" format="reference"/>
 
-    <attr name="selectedTextColor" format="reference|color" />
-    <attr name="selectedTextSize" format="reference|color" />
-    <attr name="unselectedTextColor" format="reference|color" />
-    <attr name="unselectedTextSize" format="reference|color" />
+    <attr name="selectedTextColor" format="reference|color"/>
+    <attr name="selectedTextSize" format="reference|color"/>
+    <attr name="unselectedTextColor" format="reference|color"/>
+    <attr name="unselectedTextSize" format="reference|color"/>
 
-    <attr name="subText" format="string" />
-    <attr name="subTextSize" format="dimension" />
-    <attr name="subTextColor" format="color" />
+    <attr name="subText" format="string"/>
+    <attr name="subTextSize" format="dimension"/>
+    <attr name="subTextColor" format="color"/>
 
-    <attr name="promptText" format="string" />
-    <attr name="promptTextColor" format="color" />
-    <attr name="promptTextSize" format="dimension" />
+    <attr name="promptText" format="string"/>
+    <attr name="promptTextColor" format="color"/>
+    <attr name="promptTextSize" format="dimension"/>
 
-    <attr name="leftBackground" format="reference|color" />
+    <attr name="leftBackground" format="reference|color"/>
 
-    <attr name="leftText" format="string" />
-    <attr name="leftTextSize" format="reference" />
-    <attr name="leftTextColor" format="reference" />
-    <attr name="leftTextDrawable" format="reference" />
-    <attr name="leftTextDrawablePadding" format="reference" />
-    <attr name="leftTextRightMargin" format="dimension" />
-    <attr name="leftTextMinWidth" format="dimension" />
-    <attr name="leftTextMaxWidth" format="dimension" />
-    <attr name="leftTextBackground" format="reference|color" />
+    <attr name="leftText" format="string"/>
+    <attr name="leftTextSize" format="reference"/>
+    <attr name="leftTextColor" format="reference"/>
+    <attr name="leftTextDrawable" format="reference"/>
+    <attr name="leftTextDrawablePadding" format="reference"/>
+    <attr name="leftTextRightMargin" format="dimension"/>
+    <attr name="leftTextMinWidth" format="dimension"/>
+    <attr name="leftTextMaxWidth" format="dimension"/>
+    <attr name="leftTextBackground" format="reference|color"/>
     <attr name="leftTextVisibility">
-        <enum name="visible" value="0" />
-        <enum name="invisible" value="4" />
-        <enum name="gone" value="8" />
+        <enum name="visible" value="0"/>
+        <enum name="invisible" value="4"/>
+        <enum name="gone" value="8"/>
     </attr>
 
-    <attr name="leftImage" format="reference" />
-    <attr name="leftImageBackground" format="reference|color" />
-    <attr name="leftImageRightMargin" format="dimension" />
+    <attr name="leftImage" format="reference"/>
+    <attr name="leftImageBackground" format="reference|color"/>
+    <attr name="leftImageRightMargin" format="dimension"/>
     <attr name="leftImageVisibility">
-        <enum name="visible" value="0" />
-        <enum name="invisible" value="4" />
-        <enum name="gone" value="8" />
+        <enum name="visible" value="0"/>
+        <enum name="invisible" value="4"/>
+        <enum name="gone" value="8"/>
     </attr>
 
-    <attr name="leftImage2" format="reference" />
-    <attr name="leftImageBackground2" format="reference|color" />
-    <attr name="leftImageRightMargin2" format="dimension" />
+    <attr name="leftImage2" format="reference"/>
+    <attr name="leftImageBackground2" format="reference|color"/>
+    <attr name="leftImageRightMargin2" format="dimension"/>
     <attr name="leftImageVisibility2">
-        <enum name="visible" value="0" />
-        <enum name="invisible" value="4" />
-        <enum name="gone" value="8" />
+        <enum name="visible" value="0"/>
+        <enum name="invisible" value="4"/>
+        <enum name="gone" value="8"/>
     </attr>
 
-    <attr name="rightBackground" format="reference|color" />
-    <attr name="rightText" format="string" />
-    <attr name="rightTextSize" format="reference" />
-    <attr name="rightTextColor" format="reference" />
-    <attr name="rightTextRightMargin" format="dimension" />
-    <attr name="rightTextMinWidth" format="dimension" />
-    <attr name="rightTextMaxWidth" format="dimension" />
-    <attr name="rightTextBackground" format="reference|color" />
+    <attr name="rightBackground" format="reference|color"/>
+    <attr name="rightText" format="string"/>
+    <attr name="rightTextSize" format="reference"/>
+    <attr name="rightTextColor" format="reference"/>
+    <attr name="rightTextRightMargin" format="dimension"/>
+    <attr name="rightTextMinWidth" format="dimension"/>
+    <attr name="rightTextMaxWidth" format="dimension"/>
+    <attr name="rightTextBackground" format="reference|color"/>
     <attr name="rightTextVisibility">
-        <enum name="visible" value="0" />
-        <enum name="invisible" value="4" />
-        <enum name="gone" value="8" />
+        <enum name="visible" value="0"/>
+        <enum name="invisible" value="4"/>
+        <enum name="gone" value="8"/>
     </attr>
 
-    <attr name="rightImage" format="reference" />
-    <attr name="rightImageBackground" format="reference|color" />
-    <attr name="rightImageRightMargin" format="dimension" />
+    <attr name="rightImage" format="reference"/>
+    <attr name="rightImageBackground" format="reference|color"/>
+    <attr name="rightImageRightMargin" format="dimension"/>
     <attr name="rightImageVisibility">
-        <enum name="visible" value="0" />
-        <enum name="invisible" value="4" />
-        <enum name="gone" value="8" />
+        <enum name="visible" value="0"/>
+        <enum name="invisible" value="4"/>
+        <enum name="gone" value="8"/>
     </attr>
 
-    <attr name="rightImage2" format="reference" />
-    <attr name="rightImageBackground2" format="reference|color" />
+    <attr name="rightImage2" format="reference"/>
+    <attr name="rightImageBackground2" format="reference|color"/>
     <attr name="rightImageVisibility2">
-        <enum name="visible" value="0" />
-        <enum name="invisible" value="4" />
-        <enum name="gone" value="8" />
+        <enum name="visible" value="0"/>
+        <enum name="invisible" value="4"/>
+        <enum name="gone" value="8"/>
     </attr>
 
-    <attr name="tint" format="color" />
-    <attr name="tintAlpha" format="color" />
-    <attr name="tintColor" format="color|reference" />
+    <attr name="tint" format="color"/>
+    <attr name="tintAlpha" format="color"/>
+    <attr name="tintColor" format="color|reference"/>
 
-    <attr name="image" format="reference|color" />
+    <attr name="image" format="reference|color"/>
 
-    <attr name="padding" format="dimension" />
-    <attr name="promptPadding" format="dimension" />
-    <attr name="widthPaddingScale" format="float" />
-    <attr name="heightPaddingScale" format="float" />
+    <attr name="padding" format="dimension"/>
+    <attr name="promptPadding" format="dimension"/>
+    <attr name="widthPaddingScale" format="float"/>
+    <attr name="heightPaddingScale" format="float"/>
 
-    <attr name="rightPadding" format="dimension" />
-    <attr name="leftPadding" format="dimension" />
+    <attr name="rightPadding" format="dimension"/>
+    <attr name="leftPadding" format="dimension"/>
 
-    <attr name="widthScale" format="integer" />
-    <attr name="heightScale" format="integer" />
+    <attr name="widthScale" format="integer"/>
+    <attr name="heightScale" format="integer"/>
 
-    <attr name="selectedChild" format="reference" />
-    <attr name="cannotSelectedChild" format="reference" />
+    <attr name="selectedChild" format="reference"/>
+    <attr name="cannotSelectedChild" format="reference"/>
 
-    <attr name="radius" format="dimension|reference" />
-    <attr name="promptRadius" format="dimension|reference" />
+    <attr name="radius" format="dimension|reference"/>
+    <attr name="promptRadius" format="dimension|reference"/>
 
-    <attr name="thumbDrawable" format="reference" />
-    <attr name="thumbColor" format="color|reference" />
-    <attr name="thumbMargin" format="dimension|reference" />
-    <attr name="thumbMarginTop" format="dimension|reference" />
-    <attr name="thumbMarginBottom" format="dimension|reference" />
-    <attr name="thumbMarginLeft" format="dimension|reference" />
-    <attr name="thumbMarginRight" format="dimension|reference" />
-    <attr name="thumbWidth" format="dimension|reference" />
-    <attr name="thumbHeight" format="dimension|reference" />
-    <attr name="thumbRadius" format="dimension|reference" />
+    <attr name="thumbDrawable" format="reference"/>
+    <attr name="thumbColor" format="color|reference"/>
+    <attr name="thumbMargin" format="dimension|reference"/>
+    <attr name="thumbMarginTop" format="dimension|reference"/>
+    <attr name="thumbMarginBottom" format="dimension|reference"/>
+    <attr name="thumbMarginLeft" format="dimension|reference"/>
+    <attr name="thumbMarginRight" format="dimension|reference"/>
+    <attr name="thumbWidth" format="dimension|reference"/>
+    <attr name="thumbHeight" format="dimension|reference"/>
+    <attr name="thumbRadius" format="dimension|reference"/>
 
-    <attr name="backgroundRadius" format="dimension|reference" />
-    <attr name="backgroundDrawable" format="reference" />
-    <attr name="backgroundColor" format="color|reference" />
-    <attr name="backgroundMeasureRatio" format="float" />
+    <attr name="backgroundRadius" format="dimension|reference"/>
+    <attr name="backgroundDrawable" format="reference"/>
+    <attr name="backgroundColor" format="color|reference"/>
+    <attr name="backgroundMeasureRatio" format="float"/>
 
-    <attr name="fadeBack" format="boolean" />
-    <attr name="animationDuration" format="integer" />
-    <attr name="maxHeight" format="dimension" />
+    <attr name="fadeBack" format="boolean"/>
+    <attr name="animationDuration" format="integer"/>
+    <attr name="maxHeight" format="dimension"/>
 
     <attr name="position">
-        <enum name="left" value="0" />
-        <enum name="right" value="4" />
-        <enum name="top" value="8" />
-        <enum name="bottom" value="16" />
+        <enum name="left" value="0"/>
+        <enum name="right" value="4"/>
+        <enum name="top" value="8"/>
+        <enum name="bottom" value="16"/>
     </attr>
 
     <attr name="promptPosition">
-        <enum name="left" value="0" />
-        <enum name="right" value="4" />
-        <enum name="top" value="8" />
-        <enum name="bottom" value="16" />
+        <enum name="left" value="0"/>
+        <enum name="right" value="4"/>
+        <enum name="top" value="8"/>
+        <enum name="bottom" value="16"/>
     </attr>
 
 
     <attr name="shape">
-        <enum name="rect" value="0" />
-        <enum name="circle" value="4" />
+        <enum name="rect" value="0"/>
+        <enum name="circle" value="4"/>
     </attr>
 
     <attr name="flowMode">
-        <enum name="wrap" value="1" />
-        <enum name="adapter" value="2" />
+        <enum name="wrap" value="1"/>
+        <enum name="adapter" value="2"/>
     </attr>
 
-    <attr name="stripHeight" format="dimension" />
-    <attr name="stripColor" format="color" />
-    <attr name="stripPaddingRatio" format="float" />
-    <attr name="lineColor" format="color" />
-    <attr name="linePaddingRatio" format="float" />
+    <attr name="stripHeight" format="dimension"/>
+    <attr name="stripColor" format="color"/>
+    <attr name="stripPaddingRatio" format="float"/>
+    <attr name="lineColor" format="color"/>
+    <attr name="linePaddingRatio" format="float"/>
     <attr name="headerLineVisibility">
-        <enum name="visible" value="0" />
-        <enum name="invisible" value="4" />
-        <enum name="gone" value="8" />
+        <enum name="visible" value="0"/>
+        <enum name="invisible" value="4"/>
+        <enum name="gone" value="8"/>
     </attr>
 
     <attr name="footerLineVisibility">
-        <enum name="visible" value="0" />
-        <enum name="invisible" value="4" />
-        <enum name="gone" value="8" />
+        <enum name="visible" value="0"/>
+        <enum name="invisible" value="4"/>
+        <enum name="gone" value="8"/>
     </attr>
 
     <attr name="bottomLineVisibility">
-        <enum name="visible" value="0" />
-        <enum name="invisible" value="4" />
-        <enum name="gone" value="8" />
+        <enum name="visible" value="0"/>
+        <enum name="invisible" value="4"/>
+        <enum name="gone" value="8"/>
     </attr>
 
     <attr name="cancelVisibility">
-        <enum name="visible" value="0" />
-        <enum name="invisible" value="4" />
-        <enum name="gone" value="8" />
+        <enum name="visible" value="0"/>
+        <enum name="invisible" value="4"/>
+        <enum name="gone" value="8"/>
     </attr>
 
-    <attr name="lineHegiht" format="dimension" />
-    <attr name="bottomLineHegiht" format="dimension" />
+    <attr name="lineHegiht" format="dimension"/>
+    <attr name="bottomLineHegiht" format="dimension"/>
 
-    <attr name="hasEmptyView" format="boolean" />
-    <attr name="normalColor" format="color" />
-    <attr name="focusColor" format="color" />
+    <attr name="hasEmptyView" format="boolean"/>
+    <attr name="normalColor" format="color"/>
+    <attr name="focusColor" format="color"/>
 
-    <attr name="inputBackground" format="reference" />
-    <attr name="inputHint" format="string" />
-    <attr name="inputRightMargin" format="dimension" />
-    <attr name="inputTextSize" format="dimension" />
-    <attr name="inputTextColor" format="color" />
-    <attr name="inputHintTextColor" format="color" />
-    <attr name="inputLines" format="integer" />
-    <attr name="inputTextMaxLenght" format="integer" />
+    <attr name="inputBackground" format="reference"/>
+    <attr name="inputHint" format="string"/>
+    <attr name="inputRightMargin" format="dimension"/>
+    <attr name="inputTextSize" format="dimension"/>
+    <attr name="inputTextColor" format="color"/>
+    <attr name="inputHintTextColor" format="color"/>
+    <attr name="inputLines" format="integer"/>
+    <attr name="inputTextMaxLenght" format="integer"/>
     <attr name="inputGravity">
         <!-- Push object to the top of its container, not changing its size. -->
-        <flag name="top" value="0x30" />
+        <flag name="top" value="0x30"/>
         <!-- Push object to the bottom of its container, not changing its size. -->
-        <flag name="bottom" value="0x50" />
+        <flag name="bottom" value="0x50"/>
         <!-- Push object to the left of its container, not changing its size. -->
-        <flag name="left" value="0x03" />
+        <flag name="left" value="0x03"/>
         <!-- Push object to the right of its container, not changing its size. -->
-        <flag name="right" value="0x05" />
+        <flag name="right" value="0x05"/>
         <!-- Place object in the vertical center of its container, not changing its size. -->
-        <flag name="center_vertical" value="0x10" />
+        <flag name="center_vertical" value="0x10"/>
         <!-- Place object in the horizontal center of its container, not changing its size. -->
-        <flag name="center_horizontal" value="0x01" />
+        <flag name="center_horizontal" value="0x01"/>
         <!-- Place the object in the center of its container in both the vertical and horizontal axis, not changing its size. -->
-        <flag name="center" value="0x11" />
+        <flag name="center" value="0x11"/>
     </attr>
 
     <attr name="photomode">
-        <enum name="compress" value="0" />
-        <enum name="crop" value="1" />
+        <enum name="compress" value="0"/>
+        <enum name="crop" value="1"/>
     </attr>
 
     <attr name="promptMode">
-        <enum name="text" value="0" />
-        <enum name="graph" value="1" />
+        <enum name="text" value="0"/>
+        <enum name="graph" value="1"/>
     </attr>
 
-    <attr name="promptBackground" format="color|reference" />
+    <attr name="promptBackground" format="color|reference"/>
 
     <attr name="cropMode">
-        <enum name="ratio_fit_image" value="0" />
-        <enum name="ratio_4_3" value="1" />
-        <enum name="ratio_3_4" value="2" />
-        <enum name="ratio_1_1" value="3" />
-        <enum name="ratio_16_9" value="4" />
-        <enum name="ratio_9_16" value="5" />
-        <enum name="ratio_free" value="6" />
-        <enum name="ratio_custom" value="7" />
-        <enum name="circle" value="8" />
+        <enum name="ratio_fit_image" value="0"/>
+        <enum name="ratio_4_3" value="1"/>
+        <enum name="ratio_3_4" value="2"/>
+        <enum name="ratio_1_1" value="3"/>
+        <enum name="ratio_16_9" value="4"/>
+        <enum name="ratio_9_16" value="5"/>
+        <enum name="ratio_free" value="6"/>
+        <enum name="ratio_custom" value="7"/>
+        <enum name="circle" value="8"/>
     </attr>
 
     <attr name="guideShowMode">
-        <enum name="show_always" value="1" />
-        <enum name="show_on_touch" value="2" />
-        <enum name="not_show" value="3" />
+        <enum name="show_always" value="1"/>
+        <enum name="show_on_touch" value="2"/>
+        <enum name="not_show" value="3"/>
     </attr>
 
     <attr name="handleShowMode">
-        <enum name="show_always" value="1" />
-        <enum name="show_on_touch" value="2" />
-        <enum name="not_show" value="3" />
+        <enum name="show_always" value="1"/>
+        <enum name="show_on_touch" value="2"/>
+        <enum name="not_show" value="3"/>
     </attr>
 
-    <attr name="overlayColor" format="color" />
-    <attr name="frameColor" format="color" />
-    <attr name="handleColor" format="color" />
-    <attr name="guideColor" format="color" />
+    <attr name="overlayColor" format="color"/>
+    <attr name="frameColor" format="color"/>
+    <attr name="handleColor" format="color"/>
+    <attr name="guideColor" format="color"/>
 
-    <attr name="handleSize" format="dimension" />
-    <attr name="touchPadding" format="dimension" />
-    <attr name="minFrameSize" format="dimension" />
-    <attr name="frameStrokeWeight" format="dimension" />
-    <attr name="guideStrokeWeight" format="dimension" />
+    <attr name="handleSize" format="dimension"/>
+    <attr name="touchPadding" format="dimension"/>
+    <attr name="minFrameSize" format="dimension"/>
+    <attr name="frameStrokeWeight" format="dimension"/>
+    <attr name="guideStrokeWeight" format="dimension"/>
 
-    <attr name="cropEnabled" format="boolean" />
-    <attr name="initialFrameScale" format="float" />
+    <attr name="cropEnabled" format="boolean"/>
+    <attr name="initialFrameScale" format="float"/>
 
-    <attr name="scale_x" format="integer" />
-    <attr name="scale_y" format="integer" />
+    <attr name="scale_x" format="integer"/>
+    <attr name="scale_y" format="integer"/>
 
-    <attr name="visiableCount" format="integer" />
+    <attr name="visiableCount" format="integer"/>
+
+    <attr name="spinKit" format="reference"/>
+    <attr name="spinKitStyle">
+        <enum name="RotatingPlane" value="0"/>
+        <enum name="DoubleBounce" value="1"/>
+        <enum name="Wave" value="2"/>
+        <enum name="WanderingCubes" value="3"/>
+        <enum name="Pulse" value="4"/>
+        <enum name="ChasingDots" value="5"/>
+        <enum name="ThreeBounce" value="6"/>
+        <enum name="Circle" value="7"/>
+        <enum name="CubeGrid" value="8"/>
+        <enum name="FadingCircle" value="9"/>
+        <enum name="FoldingCube" value="10"/>
+        <enum name="RotatingCircle" value="11"/>
+        <enum name="MultiplePulse" value="12"/>
+        <enum name="PulseRing" value="13"/>
+        <enum name="MultiplePulseRing" value="14"/>
+    </attr>
+
+    <attr name="spinKitColor" format="color"/>
 
     <declare-styleable name="ImageTextView">
-        <attr name="text" />
-        <attr name="textSize" />
-        <attr name="textColor" />
+        <attr name="text"/>
+        <attr name="textSize"/>
+        <attr name="textColor"/>
 
-        <attr name="tint" />
-        <attr name="tintAlpha" />
+        <attr name="tint"/>
+        <attr name="tintAlpha"/>
 
-        <attr name="image" />
-        <attr name="position" />
-        <attr name="padding" />
+        <attr name="image"/>
+        <attr name="position"/>
+        <attr name="padding"/>
 
         <!--提示的类型-->
-        <attr name="promptMode" />
+        <attr name="promptMode"/>
         <!--提示的背景-->
-        <attr name="promptBackground" />
+        <attr name="promptBackground"/>
         <!--提示的位置-->
-        <attr name="promptPosition" />
+        <attr name="promptPosition"/>
 
-        <attr name="promptText" />
-        <attr name="promptTextColor" />
-        <attr name="promptTextSize" />
+        <attr name="promptText"/>
+        <attr name="promptTextColor"/>
+        <attr name="promptTextSize"/>
 
-        <attr name="promptPadding" />
-        <attr name="promptRadius" />
+        <attr name="promptPadding"/>
+        <attr name="promptRadius"/>
 
-        <attr name="widthPaddingScale" />
-        <attr name="heightPaddingScale" />
+        <attr name="widthPaddingScale"/>
+        <attr name="heightPaddingScale"/>
 
     </declare-styleable>
 
 
     <declare-styleable name="TopBar">
-        <attr name="android:actionBarSize" />
-        <attr name="android:background" />
-        <attr name="android:selectableItemBackground" />
+        <attr name="android:actionBarSize"/>
+        <attr name="android:background"/>
+        <attr name="android:selectableItemBackground"/>
 
-        <attr name="actionMinWidth" />
+        <attr name="actionMinWidth"/>
 
-        <attr name="clickable" />
-        <attr name="secretable" />
+        <attr name="clickable"/>
+        <attr name="secretable"/>
 
-        <attr name="text" />
-        <attr name="textColor" />
-        <attr name="textSize" />
+        <attr name="text"/>
+        <attr name="textColor"/>
+        <attr name="textSize"/>
 
-        <attr name="subText" />
-        <attr name="subTextSize" />
-        <attr name="subTextColor" />
+        <attr name="subText"/>
+        <attr name="subTextSize"/>
+        <attr name="subTextColor"/>
 
-        <attr name="leftText" />
-        <attr name="leftTextSize" />
-        <attr name="leftTextColor" />
-        <attr name="leftTextDrawable" />
-        <attr name="leftTextDrawablePadding" />
-        <attr name="leftTextBackground" />
+        <attr name="leftText"/>
+        <attr name="leftTextSize"/>
+        <attr name="leftTextColor"/>
+        <attr name="leftTextDrawable"/>
+        <attr name="leftTextDrawablePadding"/>
+        <attr name="leftTextBackground"/>
 
-        <attr name="leftImage" />
-        <attr name="leftImageBackground" />
-        <attr name="leftImageVisibility" />
+        <attr name="leftImage"/>
+        <attr name="leftImageBackground"/>
+        <attr name="leftImageVisibility"/>
 
-        <attr name="leftImage2" />
-        <attr name="leftImageBackground2" />
-        <attr name="leftImageVisibility2" />
+        <attr name="leftImage2"/>
+        <attr name="leftImageBackground2"/>
+        <attr name="leftImageVisibility2"/>
 
-        <attr name="rightText" />
-        <attr name="rightTextSize" />
-        <attr name="rightTextColor" />
-        <attr name="rightTextBackground" />
+        <attr name="rightText"/>
+        <attr name="rightTextSize"/>
+        <attr name="rightTextColor"/>
+        <attr name="rightTextBackground"/>
 
-        <attr name="rightImage" />
-        <attr name="rightImageBackground" />
-        <attr name="rightImageVisibility" />
+        <attr name="rightImage"/>
+        <attr name="rightImageBackground"/>
+        <attr name="rightImageVisibility"/>
 
-        <attr name="rightImage2" />
-        <attr name="rightImageBackground2" />
-        <attr name="rightImageVisibility2" />
+        <attr name="rightImage2"/>
+        <attr name="rightImageBackground2"/>
+        <attr name="rightImageVisibility2"/>
 
     </declare-styleable>
 
     <declare-styleable name="BottomBar">
-        <attr name="android:orientation" />
-        <attr name="selectedChild" />
-        <attr name="cannotSelectedChild" />
+        <attr name="android:orientation"/>
+        <attr name="selectedChild"/>
+        <attr name="cannotSelectedChild"/>
     </declare-styleable>
 
     <declare-styleable name="DialogLayouts">
-        <attr name="dialogMainLayout" />
-        <attr name="dialogListLayout" />
-        <attr name="dialogMultiChoiceItem" />
-        <attr name="dialogSingleChoiceItem" />
-        <attr name="dialogListItem" />
+        <attr name="dialogMainLayout"/>
+        <attr name="dialogListLayout"/>
+        <attr name="dialogMultiChoiceItem"/>
+        <attr name="dialogSingleChoiceItem"/>
+        <attr name="dialogListItem"/>
     </declare-styleable>
 
     <declare-styleable name="DialogButtonBackground">
-        <attr name="leftBackground" />
-        <attr name="rightBackground" />
-        <attr name="middleBackground" />
-        <attr name="wholeBackground" />
+        <attr name="leftBackground"/>
+        <attr name="rightBackground"/>
+        <attr name="middleBackground"/>
+        <attr name="wholeBackground"/>
     </declare-styleable>
 
     <!--状态的View转换-->
     <declare-styleable name="StatusView">
-        <attr name="loadingText" />
-        <attr name="errorText" />
-        <attr name="errorImage" />
-        <attr name="textColor" />
-        <attr name="textSize" />
+        <attr name="loadingText"/>
+        <attr name="errorText"/>
+        <attr name="errorImage"/>
+        <attr name="textColor"/>
+        <attr name="textSize"/>
     </declare-styleable>
 
 
     <!-- 发送验证码的Button -->
     <declare-styleable name="VerifyCodeButton">
-        <attr name="android:padding" />
-        <attr name="textSize" />
-        <attr name="textColor" />
+        <attr name="android:padding"/>
+        <attr name="textSize"/>
+        <attr name="textColor"/>
     </declare-styleable>
 
     <declare-styleable name="SwitchButton">
-        <attr name="thumbDrawable" />
-        <attr name="thumbColor" />
+        <attr name="thumbDrawable"/>
+        <attr name="thumbColor"/>
 
-        <attr name="thumbMargin" />
-        <attr name="thumbMarginTop" />
-        <attr name="thumbMarginBottom" />
-        <attr name="thumbMarginLeft" />
-        <attr name="thumbMarginRight" />
+        <attr name="thumbMargin"/>
+        <attr name="thumbMarginTop"/>
+        <attr name="thumbMarginBottom"/>
+        <attr name="thumbMarginLeft"/>
+        <attr name="thumbMarginRight"/>
 
-        <attr name="thumbWidth" />
-        <attr name="thumbHeight" />
-        <attr name="thumbRadius" />
+        <attr name="thumbWidth"/>
+        <attr name="thumbHeight"/>
+        <attr name="thumbRadius"/>
 
-        <attr name="backgroundRadius" />
-        <attr name="backgroundDrawable" />
-        <attr name="backgroundColor" />
-        <attr name="backgroundMeasureRatio" />
+        <attr name="backgroundRadius"/>
+        <attr name="backgroundDrawable"/>
+        <attr name="backgroundColor"/>
+        <attr name="backgroundMeasureRatio"/>
 
-        <attr name="fadeBack" />
-        <attr name="animationDuration" />
-        <attr name="tintColor" />
+        <attr name="fadeBack"/>
+        <attr name="animationDuration"/>
+        <attr name="tintColor"/>
     </declare-styleable>
 
     <declare-styleable name="CropImageView">
-        <attr name="image" />
-        <attr name="cropMode" />
+        <attr name="image"/>
+        <attr name="cropMode"/>
 
-        <attr name="backgroundColor" />
-        <attr name="overlayColor" />
+        <attr name="backgroundColor"/>
+        <attr name="overlayColor"/>
 
-        <attr name="minFrameSize" />
-        <attr name="initialFrameScale" />
-        <attr name="frameColor" />
-        <attr name="frameStrokeWeight" />
+        <attr name="minFrameSize"/>
+        <attr name="initialFrameScale"/>
+        <attr name="frameColor"/>
+        <attr name="frameStrokeWeight"/>
 
-        <attr name="guideColor" />
-        <attr name="guideShowMode" />
-        <attr name="guideStrokeWeight" />
+        <attr name="guideColor"/>
+        <attr name="guideShowMode"/>
+        <attr name="guideStrokeWeight"/>
 
-        <attr name="handleColor" />
-        <attr name="handleSize" />
-        <attr name="handleShowMode" />
+        <attr name="handleColor"/>
+        <attr name="handleSize"/>
+        <attr name="handleShowMode"/>
 
-        <attr name="touchPadding" />
-        <attr name="cropEnabled" />
+        <attr name="touchPadding"/>
+        <attr name="cropEnabled"/>
     </declare-styleable>
 
     <declare-styleable name="XScrollView">
-        <attr name="headerLineVisibility" />
-        <attr name="footerLineVisibility" />
-        <attr name="hasEmptyView" />
+        <attr name="headerLineVisibility"/>
+        <attr name="footerLineVisibility"/>
+        <attr name="hasEmptyView"/>
     </declare-styleable>
 
     <declare-styleable name="XListView">
-        <attr name="headerLineVisibility" />
-        <attr name="footerLineVisibility" />
-        <attr name="hasEmptyView" />
+        <attr name="headerLineVisibility"/>
+        <attr name="footerLineVisibility"/>
+        <attr name="hasEmptyView"/>
     </declare-styleable>
 
     <declare-styleable name="SizeIndicator">
-        <attr name="android:paddingLeft" />
-        <attr name="android:paddingStart" />
-        <attr name="android:paddingRight" />
-        <attr name="android:paddingEnd" />
-        <attr name="android:paddingTop" />
-        <attr name="android:paddingBottom" />
-        <attr name="thumbRadius" />
+        <attr name="android:paddingLeft"/>
+        <attr name="android:paddingStart"/>
+        <attr name="android:paddingRight"/>
+        <attr name="android:paddingEnd"/>
+        <attr name="android:paddingTop"/>
+        <attr name="android:paddingBottom"/>
+        <attr name="thumbRadius"/>
     </declare-styleable>
 
 
     <declare-styleable name="PromptTextView">
         <!--提示的类型-->
-        <attr name="promptMode" />
+        <attr name="promptMode"/>
         <!--提示的背景-->
-        <attr name="promptBackground" />
+        <attr name="promptBackground"/>
         <!--提示的位置-->
-        <attr name="promptPosition" />
+        <attr name="promptPosition"/>
 
-        <attr name="promptText" />
-        <attr name="promptTextColor" />
-        <attr name="promptTextSize" />
+        <attr name="promptText"/>
+        <attr name="promptTextColor"/>
+        <attr name="promptTextSize"/>
 
-        <attr name="promptPadding" />
-        <attr name="promptRadius" />
+        <attr name="promptPadding"/>
+        <attr name="promptRadius"/>
 
-        <attr name="widthPaddingScale" />
-        <attr name="heightPaddingScale" />
+        <attr name="widthPaddingScale"/>
+        <attr name="heightPaddingScale"/>
 
     </declare-styleable>
 
     <declare-styleable name="PromptImageView">
         <!--提示的类型-->
-        <attr name="promptMode" />
+        <attr name="promptMode"/>
         <!--提示的背景-->
-        <attr name="promptBackground" />
+        <attr name="promptBackground"/>
         <!--提示的位置-->
-        <attr name="promptPosition" />
+        <attr name="promptPosition"/>
 
-        <attr name="promptText" />
-        <attr name="promptTextColor" />
-        <attr name="promptTextSize" />
+        <attr name="promptText"/>
+        <attr name="promptTextColor"/>
+        <attr name="promptTextSize"/>
 
-        <attr name="promptPadding" />
-        <attr name="promptRadius" />
+        <attr name="promptPadding"/>
+        <attr name="promptRadius"/>
 
-        <attr name="widthPaddingScale" />
-        <attr name="heightPaddingScale" />
+        <attr name="widthPaddingScale"/>
+        <attr name="heightPaddingScale"/>
     </declare-styleable>
 
     <declare-styleable name="PickerView">
-        <attr name="unit" />
-        <attr name="unitTextSize" />
-        <attr name="textSize" />
-        <attr name="selectedTextColor" />
-        <attr name="unselectedTextColor" />
-        <attr name="divider" />
-        <attr name="visiableCount" />
+        <attr name="unit"/>
+        <attr name="unitTextSize"/>
+        <attr name="textSize"/>
+        <attr name="selectedTextColor"/>
+        <attr name="unselectedTextColor"/>
+        <attr name="divider"/>
+        <attr name="visiableCount"/>
     </declare-styleable>
 
     <declare-styleable name="ScaleImageView">
-        <attr name="widthScale" />
-        <attr name="heightScale" />
+        <attr name="widthScale"/>
+        <attr name="heightScale"/>
     </declare-styleable>
 
     <declare-styleable name="ScaleFrameLayout">
-        <attr name="widthScale" />
-        <attr name="heightScale" />
+        <attr name="widthScale"/>
+        <attr name="heightScale"/>
     </declare-styleable>
 
     <declare-styleable name="RecycleListView">
-        <attr name="maxHeight" />
+        <attr name="maxHeight"/>
     </declare-styleable>
 
     <declare-styleable name="MaxHeightScrollView">
-        <attr name="maxHeight" />
+        <attr name="maxHeight"/>
     </declare-styleable>
 
     <declare-styleable name="EditTextPro">
-        <attr name="leftImage" />
-        <attr name="leftImageBackground" />
-        <attr name="leftImageRightMargin" />
-        <attr name="leftImageVisibility" />
+        <attr name="leftImage"/>
+        <attr name="leftImageBackground"/>
+        <attr name="leftImageRightMargin"/>
+        <attr name="leftImageVisibility"/>
 
-        <attr name="leftText" />
-        <attr name="leftTextSize" />
-        <attr name="leftTextColor" />
-        <attr name="leftTextVisibility" />
-        <attr name="leftTextRightMargin" />
-        <attr name="leftTextMinWidth" />
-        <attr name="leftTextMaxWidth" />
-        <attr name="leftTextBackground" />
+        <attr name="leftText"/>
+        <attr name="leftTextSize"/>
+        <attr name="leftTextColor"/>
+        <attr name="leftTextVisibility"/>
+        <attr name="leftTextRightMargin"/>
+        <attr name="leftTextMinWidth"/>
+        <attr name="leftTextMaxWidth"/>
+        <attr name="leftTextBackground"/>
 
-        <attr name="inputBackground" />
-        <attr name="inputGravity" />
-        <attr name="inputHint" />
-        <attr name="inputRightMargin" />
-        <attr name="inputTextSize" />
-        <attr name="inputTextColor" />
-        <attr name="inputTextMaxLenght" />
-        <attr name="inputHintTextColor" />
-        <attr name="inputLines" />
-        <attr name="editable" />
+        <attr name="inputBackground"/>
+        <attr name="inputGravity"/>
+        <attr name="inputHint"/>
+        <attr name="inputRightMargin"/>
+        <attr name="inputTextSize"/>
+        <attr name="inputTextColor"/>
+        <attr name="inputTextMaxLenght"/>
+        <attr name="inputHintTextColor"/>
+        <attr name="inputLines"/>
+        <attr name="editable"/>
 
-        <attr name="rightText" />
-        <attr name="rightTextSize" />
-        <attr name="rightTextColor" />
-        <attr name="rightTextBackground" />
-        <attr name="rightTextRightMargin" />
-        <attr name="rightTextMinWidth" />
-        <attr name="rightTextMaxWidth" />
-        <attr name="rightTextVisibility" />
+        <attr name="rightText"/>
+        <attr name="rightTextSize"/>
+        <attr name="rightTextColor"/>
+        <attr name="rightTextBackground"/>
+        <attr name="rightTextRightMargin"/>
+        <attr name="rightTextMinWidth"/>
+        <attr name="rightTextMaxWidth"/>
+        <attr name="rightTextVisibility"/>
 
-        <attr name="rightImage" />
-        <attr name="rightImageBackground" />
-        <attr name="rightImageVisibility" />
+        <attr name="rightImage"/>
+        <attr name="rightImageBackground"/>
+        <attr name="rightImageVisibility"/>
 
-        <attr name="normalColor" />
-        <attr name="focusColor" />
+        <attr name="normalColor"/>
+        <attr name="focusColor"/>
 
-        <attr name="cancelVisibility" />
-        <attr name="bottomLineHegiht" />
-        <attr name="bottomLineVisibility" />
+        <attr name="cancelVisibility"/>
+        <attr name="bottomLineHegiht"/>
+        <attr name="bottomLineVisibility"/>
 
-        <attr name="android:inputType" />
-        <attr name="android:minHeight" />
+        <attr name="android:inputType"/>
+        <attr name="android:minHeight"/>
     </declare-styleable>
 
 
     <declare-styleable name="FlowLayout">
-        <attr name="flowMode" />
+        <attr name="flowMode"/>
     </declare-styleable>
 
+    <declare-styleable name="SpinKitView">
+        <attr name="spinKitStyle"/>
+        <attr name="spinKitColor"/>
+    </declare-styleable>
 </resources>
