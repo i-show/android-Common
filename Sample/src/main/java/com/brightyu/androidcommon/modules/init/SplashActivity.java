@@ -23,6 +23,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 
+import com.brightyu.androidcommon.modules.account.login.LoginActivity;
 import com.ishow.common.constant.Shift;
 import com.brightyu.androidcommon.constant.Configure;
 import com.brightyu.androidcommon.manager.VersionManager;
@@ -40,6 +41,7 @@ public class SplashActivity extends AppBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mHandler = new RecycleHandler();
+        init();
     }
 
     /**
@@ -90,7 +92,7 @@ public class SplashActivity extends AppBaseActivity {
                 case HANDLE_GO_NEXT:
                     Intent intent;
                     if (VersionManager.isFirstEnterThisVerison()) {
-                        intent = new Intent(SplashActivity.this, MainActivity.class);
+                        intent = new Intent(SplashActivity.this, LoginActivity.class);
                     } else {
                         intent = new Intent(SplashActivity.this, MainActivity.class);
                     }

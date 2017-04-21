@@ -1,8 +1,4 @@
 <resources>
-    <!--密码长度验证 -->
-    <integer name="min_password">6</integer>
-    <integer name="max_password">16</integer>
-
     <!-- 顶部按钮栏高度 -->
     <dimen name="pickerview_topbar_height">44dp</dimen>
     <!-- 顶部按钮paddingLeft -->

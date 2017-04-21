@@ -1,20 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/content"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    tools:context=".modules.main.MainActivity">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center_horizontal"
+              android:orientation="vertical"
+              tools:context=".modules.main.MainActivity">
 
-    <com.ishow.common.widget.TopBar
-        android:id="@+id/top_bar"
+
+    <FrameLayout
+        android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:leftImage="@drawable/ic_back_white"
-        app:rightImage="@drawable/ic_list"
-        app:text="@string/home" />
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
+    <com.ishow.common.widget.BottomBar
+        android:id="@+id/bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_bar_height">
+
+        <com.ishow.common.widget.ImageTextView
+            android:id="@+id/home"
+            style="@style/ImageTextView.BottomBar"
+            app:image="@drawable/footer_home"
+            app:text="@string/home"/>
+
+        <com.ishow.common.widget.ImageTextView
+            android:id="@+id/prod"
+            style="@style/ImageTextView.BottomBar"
+            app:image="@drawable/footer_prod"
+            app:text="@string/prod"/>
+
+        <com.ishow.common.widget.ImageTextView
+            android:id="@+id/shopping"
+            style="@style/ImageTextView.BottomBar"
+            app:image="@drawable/footer_shopping"
+            app:text="@string/shopping"/>
+
+        <com.ishow.common.widget.ImageTextView
+            android:id="@+id/mine"
+            style="@style/ImageTextView.BottomBar"
+            app:image="@drawable/footer_mine"
+            app:text="@string/mine"/>
+
+    </com.ishow.common.widget.BottomBar>
 </LinearLayout>

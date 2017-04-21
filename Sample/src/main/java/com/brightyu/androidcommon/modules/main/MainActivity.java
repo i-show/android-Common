@@ -16,50 +16,62 @@
 
 package com.brightyu.androidcommon.modules.main;
 
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
+import android.support.annotation.IdRes;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.view.ViewGroup;
 
-import com.ishow.common.app.activity.BaseActivity;
-import com.ishow.common.utils.log.L;
-import com.ishow.common.widget.TopBar;
-import com.ishow.common.widget.YToast;
 import com.brightyu.androidcommon.R;
+import com.brightyu.androidcommon.modules.base.AppBaseActivity;
+import com.brightyu.androidcommon.modules.main.home.HomeFragment;
+import com.brightyu.androidcommon.modules.main.mine.MineFragment;
+import com.brightyu.androidcommon.modules.main.product.ProductFragment;
+import com.brightyu.androidcommon.modules.main.shopping.ShoppingFragment;
+import com.ishow.common.widget.BottomBar;
+import com.ishow.common.widget.YToast;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends AppBaseActivity implements BottomBar.OnBottomBarListener {
     private static final String TAG = "MainActivity";
+
+    public static final int TYPE_HOME = R.id.home;
+    public static final int TYPE_PROD = R.id.prod;
+    public static final int TYPE_SHIPPING = R.id.shopping;
+    public static final int TYPE_MINE = R.id.mine;
+
+
+    private HomeFragment mHomeFragment;
+    private ProductFragment mProductFragment;
+    private ShoppingFragment mShoppingFragment;
+    private MineFragment mMineFragment;
+
+    private BottomBar mBottomBar;
     private long mLastTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mHandler.sendEmptyMessageDelayed(1, 2000);
-        mHandler.sendEmptyMessageDelayed(2, 4000);
-        mHandler.sendEmptyMessageDelayed(3, 6000);
+        Intent intent = getIntent();
+        int type = intent.getIntExtra(KEY_TYPE, TYPE_HOME);
+        mBottomBar.setSelectedId(type, true);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        int type = intent.getIntExtra(KEY_TYPE, TYPE_HOME);
+        mBottomBar.setSelectedId(type, true);
     }
 
     @Override
     protected void initViews() {
         super.initViews();
-        TopBar topBar = (TopBar) findViewById(R.id.top_bar);
-        topBar.setOnTopBarListener(this);
-    }
-
-    @Override
-    public void onRightClick(View v) {
-        super.onRightClick(v);
-        try {
-            Intent intent = new Intent("com.yuhaiyang.androidcommon.Test");
-            startActivity(intent);
-        } catch (ActivityNotFoundException e) {
-            Log.i(TAG, "onRightClick: activity is not found");
-        }
-
+        mBottomBar = (BottomBar) findViewById(R.id.bottom_bar);
+        mBottomBar.setOnSelectedChangedListener(this);
     }
 
 
@@ -74,30 +86,54 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            Log.i(TAG, "handleMessage: msg.what = " + msg.what);
-            switch (msg.what) {
-                case 1:
-                    L.i(TAG, "has message 1" + mHandler.hasMessages(1));
-                    L.i(TAG, "has message 1" + mHandler.hasMessages(2));
-                    L.i(TAG, "has message 1" + mHandler.hasMessages(3));
-                    break;
-                case 2:
-                    L.i(TAG, "has message 2" + mHandler.hasMessages(1));
-                    L.i(TAG, "has message 2" + mHandler.hasMessages(2));
-                    L.i(TAG, "has message 2" + mHandler.hasMessages(3));
-                    break;
-                case 3:
-                    L.i(TAG, "has message 3" + mHandler.hasMessages(1));
-                    L.i(TAG, "has message 3" + mHandler.hasMessages(2));
-                    L.i(TAG, "has message 3" + mHandler.hasMessages(3));
-                    break;
-            }
+
+    @Override
+    public void onSelectedChanged(ViewGroup parent, @IdRes int selectId, int index) {
+        selectFragment(selectId);
+    }
+
+    @Override
+    public void onClickChlid(View v, boolean isSameView) {
+
+    }
+
+    public void selectFragment(int selectId) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        switch (selectId) {
+            case R.id.home:
+                if (mHomeFragment == null) {
+                    mHomeFragment = HomeFragment.newInstance();
+                }
+
+                transaction.replace(R.id.content, mHomeFragment);
+                transaction.commitAllowingStateLoss();
+
+                break;
+            case R.id.prod:
+                if (mProductFragment == null) {
+                    mProductFragment = ProductFragment.newInstance();
+                }
+
+                transaction.replace(R.id.content, mProductFragment);
+                transaction.commitAllowingStateLoss();
+                break;
+            case R.id.shopping:
+                if (mShoppingFragment == null) {
+                    mShoppingFragment = ShoppingFragment.newInstance();
+                }
+                transaction.replace(R.id.content, mShoppingFragment);
+                transaction.commitAllowingStateLoss();
+                break;
+            case R.id.mine:
+                if (mMineFragment == null) {
+                    mMineFragment = MineFragment.newInstance();
+                }
+                transaction.replace(R.id.content, mMineFragment);
+                transaction.commitAllowingStateLoss();
+                break;
         }
-    };
+    }
 }
 
 

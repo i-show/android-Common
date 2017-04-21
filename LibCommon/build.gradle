@@ -77,6 +77,6 @@ dependencies {
 
     compile "com.android.support:support-v4:${SUPPORT_V4_VERSION}"
     compile "com.android.support:appcompat-v7:${SUPPORT_V7_VERSION}"
-    compile "com.android.support:recyclerview-v7:${ANDOID_SUPPORT_VERSION}"
-    compile "com.android.support:design:${ANDOID_SUPPORT_VERSION}"
+    compile "com.android.support:recyclerview-v7:${ANDROID_SUPPORT_VERSION}"
+    compile "com.android.support:design:${ANDROID_SUPPORT_VERSION}"
 }
