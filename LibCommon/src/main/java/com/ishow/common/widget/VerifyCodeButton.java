@@ -17,7 +17,9 @@
 package com.ishow.common.widget;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -76,7 +78,7 @@ public class VerifyCodeButton extends FrameLayout {
     /**
      * 字体的颜色
      */
-    private int mTextColor;
+    private ColorStateList mTextColor;
     /**
      * 字体的大小
      */
@@ -138,9 +140,14 @@ public class VerifyCodeButton extends FrameLayout {
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.VerifyCodeButton);
         int padding = a.getDimensionPixelSize(R.styleable.VerifyCodeButton_android_padding, getDefaultPadding());
-        mTextColor = a.getColor(R.styleable.VerifyCodeButton_textColor, getDefaultTextColor());
+        //mTextColor = a.getColor(R.styleable.VerifyCodeButton_textColor, getDefaultTextColor());
+        mTextColor = a.getColorStateList(R.styleable.VerifyCodeButton_textColor);
         mTextSize = a.getDimensionPixelSize(R.styleable.VerifyCodeButton_textSize, getDefaultTextSize());
         a.recycle();
+
+        if (mTextColor == null) {
+            mTextColor = getDefaultTextColor();
+        }
 
         setPadding(padding, padding, padding, padding);
         mProgressBar = getProgressBar();
@@ -241,8 +248,8 @@ public class VerifyCodeButton extends FrameLayout {
     /**
      * 获取默认的颜色值
      */
-    private int getDefaultTextColor() {
-        return getContext().getResources().getColor(R.color.text_grey_light_normal);
+    private ColorStateList getDefaultTextColor() {
+        return getContext().getResources().getColorStateList(R.color.text_grey_light_normal);
     }
 
     /**

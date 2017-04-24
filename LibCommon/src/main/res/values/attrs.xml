@@ -118,6 +118,7 @@
     <attr name="rightTextSize" format="reference"/>
     <attr name="rightTextColor" format="reference"/>
     <attr name="rightTextRightMargin" format="dimension"/>
+    <attr name="rightTextRightDrawable" format="reference"/>
     <attr name="rightTextMinWidth" format="dimension"/>
     <attr name="rightTextMaxWidth" format="dimension"/>
     <attr name="rightTextBackground" format="reference|color"/>
@@ -635,6 +636,7 @@
         <attr name="rightTextSize"/>
         <attr name="rightTextColor"/>
         <attr name="rightTextBackground"/>
+        <attr name="rightTextRightDrawable"/>
         <attr name="rightTextRightMargin"/>
         <attr name="rightTextMinWidth"/>
         <attr name="rightTextMaxWidth"/>

@@ -116,6 +116,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     private int mRightTextMinWidth;
     private int mRightTextMaxWidth;
     private Drawable mRightTextBackgroundDrawable;
+    private Drawable mRightTextRightDrawable;
 
     /**
      * 右侧图片信息
@@ -188,6 +189,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         mRightTextRightMargin = a.getDimensionPixelSize(R.styleable.EditTextPro_rightTextRightMargin, 0);
         mRightTextMinWidth = a.getDimensionPixelSize(R.styleable.EditTextPro_rightTextMinWidth, getDefaultTipMinWidth());
         mRightTextMaxWidth = a.getDimensionPixelSize(R.styleable.EditTextPro_rightTextMinWidth, getDefaultTipMaxWidth());
+        mRightTextRightDrawable = a.getDrawable(R.styleable.EditTextPro_rightTextRightDrawable);
         mRightTextBackgroundDrawable = a.getDrawable(R.styleable.EditTextPro_rightTextBackground);
 
         mRightImageDrawable = a.getDrawable(R.styleable.EditTextPro_rightImage);
@@ -511,6 +513,9 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
             mRightTextView.setMinWidth(mRightTextMinWidth);
             mRightTextView.setMaxWidth(mRightTextMaxWidth);
             mRightTextView.setBackground(mRightTextBackgroundDrawable);
+            if (mRightTextRightDrawable != null) {
+                mRightTextView.setCompoundDrawablesWithIntrinsicBounds(null, null, mRightTextRightDrawable, null);
+            }
             setDefaultPromptState(mRightTextView);
             addView(mRightTextView);
         }

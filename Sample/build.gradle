@@ -16,12 +16,12 @@
 
 apply plugin: 'com.android.application'
 // 生成版本的时间
-def releaseTime() {
+static def releaseTime() {
     return new Date().format("yyyy_MMdd")
 }
 
 // APP的VersionCode
-def generateVersionCode() {
+static def generateVersionCode() {
     return new Date().format("yyyyMMddHH")
 }
 
@@ -29,14 +29,6 @@ def renameAPK(variant, output) {
     def flavor = variant.productFlavors[0];
     def flavorName;
     def versionName;
-
-
-    File unaligned = output.packageApplication.outputFile;
-    File aligned = output.outputFile
-    if (!unaligned.getName().equalsIgnoreCase(aligned.getName())) {
-        println "deleting " + unaligned.getName()
-        unaligned.delete()
-    }
 
     if (flavor == null) {
         flavorName = ""
@@ -149,21 +141,6 @@ android {
             // 设置那个版本
             buildConfigField "int", "VERSION_TYPE", VERSION_DEV
 
-            //将release版本的包名重命名，加上版本及日期
-            applicationVariants.all { variant ->
-                variant.outputs.each { output ->
-                    renameAPK(variant, output);
-                }
-            }
-
-            // delete unaligned files
-            android.applicationVariants.all { variant ->
-                variant.assemble.doLast {
-                    variant.outputs.each { output ->
-                        deleteUnaligned(output);
-                    }
-                }
-            }
         }
 
 
@@ -189,22 +166,6 @@ android {
 
             // 设置那个版本
             buildConfigField "int", "VERSION_TYPE", VERSION_SIT
-
-            //将release版本的包名重命名，加上版本及日期
-            applicationVariants.all { variant ->
-                variant.outputs.each { output ->
-                    renameAPK(variant, output);
-                }
-            }
-
-            // delete unaligned files
-            android.applicationVariants.all { variant ->
-                variant.assemble.doLast {
-                    variant.outputs.each { output ->
-                        deleteUnaligned(output);
-                    }
-                }
-            }
         }
 
 
@@ -230,22 +191,6 @@ android {
 
             // 设置那个版本
             buildConfigField "int", "VERSION_TYPE", VERSION_UAT
-
-            //将release版本的包名重命名，加上版本及日期
-            applicationVariants.all { variant ->
-                variant.outputs.each { output ->
-                    renameAPK(variant, output);
-                }
-            }
-
-            // delete unaligned files
-            android.applicationVariants.all { variant ->
-                variant.assemble.doLast {
-                    variant.outputs.each { output ->
-                        deleteUnaligned(output);
-                    }
-                }
-            }
         }
 
         release {
@@ -271,22 +216,6 @@ android {
 
             // 设置那个版本
             buildConfigField "int", "VERSION_TYPE", VERSION_PROD
-
-            //将release版本的包名重命名，加上版本及日期
-            applicationVariants.all { variant ->
-                variant.outputs.each { output ->
-                    renameAPK(variant, output);
-                }
-            }
-
-            // delete unaligned files
-            android.applicationVariants.all { variant ->
-                variant.assemble.doLast {
-                    variant.outputs.each { output ->
-                        deleteUnaligned(output);
-                    }
-                }
-            }
         }
     }
 
@@ -325,6 +254,22 @@ android {
         abortOnError false
         // if true, only report errors
         ignoreWarnings true
+    }
+
+    // 包名重命名，加上版本及日期
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            renameAPK(variant, output);
+        }
+    }
+
+    // delete unaligned files
+    android.applicationVariants.all { variant ->
+        variant.assemble.doLast {
+            variant.outputs.each { output ->
+                deleteUnaligned(output);
+            }
+        }
     }
 }
 
