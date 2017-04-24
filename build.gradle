@@ -1,13 +1,19 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
     repositories {
         jcenter()
+        // Fabric- Crashlytics统计错误信息 注册来源
+        maven { url 'https://maven.fabric.io/public' }
     }
+
     dependencies {
+        //  Android 默认的编译工具库插件
         classpath 'com.android.tools.build:gradle:2.3.1'
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        //  GreenDao 插件- 生成实体类和数据库主要类别
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.0'
+        // AA 插件（注解的插件）
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.2+'
+        // Fabric- Crashlytics统计错误信息 插件
+        classpath 'io.fabric.tools:gradle:1.+'
     }
 }
 
@@ -15,14 +21,78 @@ allprojects {
     repositories {
         jcenter()
     }
+}
 
-    // Javadoc设定为UTF-8了
-    tasks.withType(Javadoc) {
-        options.addStringOption('Xdoclint:none', '-quiet')
-        options.addStringOption('encoding', 'UTF-8')
+
+/**
+ * 生成版本的时间
+ */
+static def releaseTime() {
+    return new Date().format("yyyy_MMdd")
+}
+
+/**
+ * 生成VersionCode
+ */
+static def generateVersionCode() {
+    return new Date().format("yyyyMMddHH")
+}
+
+/**
+ *  重命名Apk的方法
+ */
+def renameAPK(android, variant, output) {
+    def flavor = variant.productFlavors[0];
+    def flavorName;
+    def versionName;
+
+    if (flavor == null) {
+        flavorName = ""
+        versionName = android.defaultConfig.versionName
+    } else {
+        versionName = flavor.versionName
+        flavorName = flavor.name
+    }
+
+    if (versionName == null || versionName.toString().equals("null")) {
+        versionName = ""
+    }
+
+    def versionNameSuffix = variant.buildType.versionNameSuffix
+    if (versionNameSuffix.toString().equals("null")) {
+        versionNameSuffix = ""
+    }
+
+    def buildTypeName = variant.buildType.name;
+
+    if (buildTypeName.equals("debug")) {
+        buildTypeName = "dev"
+    } else if (buildTypeName.equals("release")) {
+        buildTypeName = "prod"
+    }
+
+
+    def outputFile = output.outputFile
+
+    if (outputFile != null) {
+        def newName;
+        if (flavorName.equals("") || flavorName.equals("null")) {
+            newName = "${APK_PREFIX}_${buildTypeName}_v${versionName}${versionNameSuffix}_${releaseTime()}.apk"
+        } else {
+            newName = "${APK_PREFIX}_${buildTypeName}_${flavorName}_v${versionName}${versionNameSuffix}_${releaseTime()}.apk"
+        }
+        output.outputFile = new File(outputFile.parent, newName)
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+/**
+ * 移除掉未签名APK的方法
+ */
+def deleteUnaligned(output) {
+    File unaligned = output.packageApplication.outputFile;
+    File aligned = output.outputFile
+    if (!unaligned.getName().equalsIgnoreCase(aligned.getName())) {
+        println "deleting " + unaligned.getName()
+        unaligned.delete()
+    }
 }

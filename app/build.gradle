@@ -15,68 +15,6 @@
  */
 
 apply plugin: 'com.android.application'
-// 生成版本的时间
-static def releaseTime() {
-    return new Date().format("yyyy_MMdd")
-}
-
-// APP的VersionCode
-static def generateVersionCode() {
-    return new Date().format("yyyyMMddHH")
-}
-
-def renameAPK(variant, output) {
-    def flavor = variant.productFlavors[0];
-    def flavorName;
-    def versionName;
-
-    if (flavor == null) {
-        flavorName = ""
-        versionName = android.defaultConfig.versionName
-    } else {
-        versionName = flavor.versionName
-        flavorName = flavor.name
-    }
-
-    if (versionName == null || versionName.toString().equals("null")) {
-        versionName = ""
-    }
-
-    def versionNameSuffix = variant.buildType.versionNameSuffix
-    if (versionNameSuffix.toString().equals("null")) {
-        versionNameSuffix = ""
-    }
-
-    def buildTypeName = variant.buildType.name;
-
-    if (buildTypeName.equals("debug")) {
-        buildTypeName = "dev"
-    } else if (buildTypeName.equals("release")) {
-        buildTypeName = "prod"
-    }
-
-
-    def outputFile = output.outputFile
-
-    if (outputFile != null) {
-        def newName;
-        if (flavorName.equals("") || flavorName.equals("null")) {
-            newName = "${APK_PREFIX}_${buildTypeName}_v${versionName}${versionNameSuffix}_${releaseTime()}.apk"
-        } else {
-            newName = "${APK_PREFIX}_${buildTypeName}_${flavorName}_v${versionName}${versionNameSuffix}_${releaseTime()}.apk"
-        }
-        output.outputFile = new File(outputFile.parent, newName)
-    }
-}
-
-def deleteUnaligned(output) {
-    File unaligned = output.packageApplication.outputFile;
-    File aligned = output.outputFile
-    if (!unaligned.getName().equalsIgnoreCase(aligned.getName())) {
-        println "deleting " + unaligned.getName()
-        unaligned.delete()
-    }
-}
 
 android {
     compileSdkVersion COMPILE_SDK_VERSION as int
@@ -227,7 +165,7 @@ android {
     dexOptions {
         jumboMode true
     }
-    
+
     sourceSets {
         // Move the tests to tests/java, tests/res, etc...
         //  instrumentTest.setRoot('tests')
@@ -263,7 +201,7 @@ android {
     // 包名重命名，加上版本及日期
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
-            renameAPK(variant, output);
+            renameAPK(android, variant, output);
         }
     }
 
