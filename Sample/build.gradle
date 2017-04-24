@@ -38,6 +38,10 @@ def renameAPK(variant, output) {
         flavorName = flavor.name
     }
 
+    if (versionName == null || versionName.toString().equals("null")) {
+        versionName = ""
+    }
+
     def versionNameSuffix = variant.buildType.versionNameSuffix
     if (versionNameSuffix.toString().equals("null")) {
         versionNameSuffix = ""
