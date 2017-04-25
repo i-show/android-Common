@@ -247,6 +247,7 @@ public class DateUtils {
         c.set(Calendar.SECOND, 0);
         //设置当前的毫秒钟为0
         c.set(Calendar.MILLISECOND, 0);
+
         return c.getTimeInMillis();
     }
 

@@ -259,5 +259,14 @@
     <style name="AppEditText" parent="Widget.AppCompat.EditText"/>
 
 
+    <style name="PickerView"/>
+
+    <style name="PickerView.DateTimePicker">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">@dimen/gap_grade_2</item>
+        <item name="android:paddingEnd">@dimen/gap_grade_2</item>
+    </style>
+
 
 </resources>

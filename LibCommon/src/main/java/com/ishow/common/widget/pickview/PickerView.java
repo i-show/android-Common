@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2016 The yuhaiyang Android Source Project
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,10 +18,12 @@ package com.ishow.common.widget.pickview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.database.DataSetObserver;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.text.Layout;
 import android.text.TextPaint;
 import android.text.TextUtils;
@@ -34,13 +36,14 @@ import android.view.ViewConfiguration;
 import android.widget.Scroller;
 
 import com.ishow.common.R;
+import com.ishow.common.widget.flowlayout.FlowLayout;
 import com.ishow.common.widget.pickview.adapter.PickerAdapter;
 import com.ishow.common.widget.pickview.constant.Direction;
 import com.ishow.common.widget.pickview.listener.OnItemSelectedListener;
 
 
 public class PickerView extends View {
-    private static final String TAG = "SmartPickerView";
+    private static final String TAG = "PickerView";
 
     /**
      * 默认可以看到的几个Item
@@ -49,11 +52,11 @@ public class PickerView extends View {
     /**
      * ITEM间距倍数
      */
-    private static final float LINE_SPACING_MULTIPLIER = 1.8f;
+    private static final float LINE_SPACING_MULTIPLIER = 2.0f;
     /**
      * 未选中TextSize大小比例
      */
-    private static final float UNSELECTED_TEXT_SIZE_RATIO = 0.8f;
+    private static final float UNSELECTED_TEXT_SIZE_RATIO = 0.78f;
 
     /**
      * 校准数据时应该增加或者减少的Position
@@ -104,6 +107,7 @@ public class PickerView extends View {
 
     private OnItemSelectedListener mListener;
 
+    private DefaultDataSetObserver mDataSetObserver;
 
     public PickerView(Context context) {
         this(context, null);
@@ -123,7 +127,7 @@ public class PickerView extends View {
         mUnselectedTextColor = a.getColor(R.styleable.PickerView_unselectedTextColor, getDefaultUnselectedTextColor());
 
         mSelectedTextSize = a.getDimensionPixelOffset(R.styleable.PickerView_textSize, getDefaultTextSize());
-        mUnitTextSize = a.getDimensionPixelSize(R.styleable.PickerView_unitTextSize, getDefaultTextSize());
+        mUnitTextSize = a.getDimensionPixelSize(R.styleable.PickerView_unitTextSize, getDefaultUnitTextSize());
         mUnselectedTextSize = mSelectedTextSize * UNSELECTED_TEXT_SIZE_RATIO;
 
         mVisibleCount = a.getInteger(R.styleable.PickerView_visiableCount, DEFAULT_VISIABLE_COUNT);
@@ -155,7 +159,7 @@ public class PickerView extends View {
             Log.i(TAG, "forecast: adapter is null");
             return;
         }
-
+        mItemHeight = 0;
         Rect rect = new Rect();
         for (int i = 0; i < mAdapter.getCount(); i++) {
             String centerString = mAdapter.getItemText(i);
@@ -166,8 +170,9 @@ public class PickerView extends View {
         }
         mItemHeight = (int) (LINE_SPACING_MULTIPLIER * mItemHeight);
 
+
         if (!TextUtils.isEmpty(mUnit)) {
-            int gap = getContext().getResources().getDimensionPixelSize(R.dimen.dp_6);
+            int gap = getContext().getResources().getDimensionPixelSize(R.dimen.dp_10);
             mUnitWidth = (int) Layout.getDesiredWidth(mUnit, mUnitPaint) + gap;
         }
     }
@@ -193,8 +198,8 @@ public class PickerView extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        final int width = measureWidth(widthMeasureSpec);
-        final int height = measureHeight(heightMeasureSpec);
+        final int width = measureWidth(widthMeasureSpec) + getPaddingStart() + getPaddingEnd();
+        final int height = measureHeight(heightMeasureSpec) + getPaddingTop() + getPaddingBottom();
         setMeasuredDimension(width, height);
     }
 
@@ -263,7 +268,7 @@ public class PickerView extends View {
      * 从中间往两边开始画刻度线
      */
     private void drawText(Canvas canvas, final int width, final int height) {
-        /**
+        /*
          * 画中间的
          */
         final float scale = parabola(mItemHeight, mMove);
@@ -277,7 +282,8 @@ public class PickerView extends View {
         canvas.save();
         Paint.FontMetricsInt fmi = mTextPaint.getFontMetricsInt();
         float baseline = (float) (mItemHeight - (fmi.bottom + fmi.top)) / 2.0f;
-        canvas.drawText(text, mDrawItemX, baseline + mItemHeight * (mVisibleCount / 2) - mMove, mTextPaint);
+        final float y = baseline + mItemHeight * (mVisibleCount / 2) - mMove + getPaddingTop();
+        canvas.drawText(text, mDrawItemX, y, mTextPaint);
 
         // 绘制上方data
         // 这里因为要滚动所以要比可见的多画一个 所以要 >= -1
@@ -317,11 +323,13 @@ public class PickerView extends View {
         String text;
 
         if (direction == Direction.UP) {
+            final float y = baseline + mItemHeight * (mVisibleCount / 2 - position) - mMove + getPaddingTop();
             text = getItemText(mCurrentPosition - position);
-            canvas.drawText(text, mDrawItemX, baseline + mItemHeight * (mVisibleCount / 2 - position) - mMove, mTextPaint);
+            canvas.drawText(text, mDrawItemX, y, mTextPaint);
         } else {
+            final float y = baseline + mItemHeight * (mVisibleCount / 2 + position) - mMove + getPaddingTop();
             text = getItemText(mCurrentPosition + position);
-            canvas.drawText(text, mDrawItemX, baseline + mItemHeight * (mVisibleCount / 2 + position) - mMove, mTextPaint);
+            canvas.drawText(text, mDrawItemX, y, mTextPaint);
         }
     }
 
@@ -334,7 +342,8 @@ public class PickerView extends View {
         Paint.FontMetricsInt fmi = mUnitPaint.getFontMetricsInt();
         final float baseline = (float) (mItemHeight - (fmi.bottom + fmi.top)) / 2.0f;
         final int x = mDrawItemX + mItemWidth / 2 + mUnitWidth / 2;
-        canvas.drawText(mUnit, x, baseline + mItemHeight * (mVisibleCount / 2), mUnitPaint);
+        final int y = (int) (baseline + mItemHeight * (mVisibleCount / 2) + getPaddingBottom());
+        canvas.drawText(mUnit, x, y, mUnitPaint);
     }
 
     @Override
@@ -412,7 +421,6 @@ public class PickerView extends View {
             }
         }
 
-
         invalidate();
     }
 
@@ -448,6 +456,7 @@ public class PickerView extends View {
         }
         return positon;
     }
+
 
     @Override
     public void computeScroll() {
@@ -486,8 +495,19 @@ public class PickerView extends View {
         }
     }
 
+
     public void setAdapter(PickerAdapter adapter) {
         mAdapter = adapter;
+
+
+        if (mAdapter != null && mDataSetObserver != null) {
+            mAdapter.unregisterDataSetObserver(mDataSetObserver);
+        }
+
+        mAdapter = adapter;
+        mDataSetObserver = new DefaultDataSetObserver();
+        mAdapter.registerDataSetObserver(mDataSetObserver);
+
         forecast();
         requestLayout();
     }
@@ -500,6 +520,21 @@ public class PickerView extends View {
 
     public void setOnItemSelectedListener(OnItemSelectedListener listener) {
         mListener = listener;
+    }
+
+    /**
+     * 设置当前的position
+     */
+    public void setCurrentPosition(int position) {
+        if (mAdapter == null) {
+            Log.i(TAG, "setCurrentPosition: adapter is null");
+            return;
+        }
+        if (position >= mAdapter.getCount()) {
+            throw new IllegalArgumentException("positon is " + position + "  while totol count" + mAdapter.getCount());
+        }
+        mCurrentPosition = position;
+        postInvalidate();
     }
 
     /**
@@ -543,7 +578,7 @@ public class PickerView extends View {
         return f < 0 ? 0 : f;
     }
 
-    /***
+    /*
      * ============= 默认值区域 ================
      */
 
@@ -590,10 +625,16 @@ public class PickerView extends View {
     }
 
     /**
+     * 获取默认的自提大小
+     */
+    protected int getDefaultUnitTextSize() {
+        return getResources().getDimensionPixelSize(R.dimen.I_title);
+    }
+
+    /**
      * @param colorA 原始颜色
      * @param colorB 目标颜色
      * @param bias   转变比例
-     * @return
      */
     private int interpolateColor(int colorA, int colorB, float bias) {
         if (bias > 0.5) {
@@ -617,5 +658,16 @@ public class PickerView extends View {
 
     private float interpolate(float a, float b, float bias) {
         return (a + ((b - a) * bias));
+    }
+
+
+    private class DefaultDataSetObserver extends DataSetObserver {
+
+        @Override
+        public void onChanged() {
+            super.onChanged();
+            forecast();
+            requestLayout();
+        }
     }
 }

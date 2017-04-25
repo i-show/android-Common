@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:app="http://schemas.android.com/apk/res-auto"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="horizontal">
+
+    <com.ishow.common.widget.pickview.PickerView
+        android:id="@+id/year"
+        style="@style/PickerView.DateTimePicker"
+        app:unit="@string/year"/>
+
+    <com.ishow.common.widget.pickview.PickerView
+        android:id="@+id/month"
+        style="@style/PickerView.DateTimePicker"
+        app:unit="@string/month"/>
+
+    <com.ishow.common.widget.pickview.PickerView
+        android:id="@+id/date"
+        style="@style/PickerView.DateTimePicker"
+        app:unit="@string/date"/>
+
+    <com.ishow.common.widget.pickview.PickerView
+        android:id="@+id/hour"
+        style="@style/PickerView.DateTimePicker"
+        app:unit="@string/hour"/>
+
+    <com.ishow.common.widget.pickview.PickerView
+        android:id="@+id/min"
+        style="@style/PickerView.DateTimePicker"
+        app:unit="@string/min"/>
+
+</merge>

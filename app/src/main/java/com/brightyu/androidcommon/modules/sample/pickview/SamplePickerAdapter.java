@@ -23,7 +23,7 @@ import com.ishow.common.widget.pickview.adapter.PickerAdapter;
  * Picker的Adapter
  */
 
-public class SamplePickerAdapter implements PickerAdapter<String> {
+public class SamplePickerAdapter extends PickerAdapter<String> {
     private final String city[] = {"山东", "北京", "青岛", "苏州", "上海"};
 
     @Override

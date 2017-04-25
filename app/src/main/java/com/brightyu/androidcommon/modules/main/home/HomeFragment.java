@@ -1,5 +1,6 @@
 package com.brightyu.androidcommon.modules.main.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.TextViewCompat;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.brightyu.androidcommon.R;
 import com.brightyu.androidcommon.modules.base.AppBaseFragment;
+import com.ishow.common.utils.log.L;
 import com.ishow.common.widget.TopBar;
 
 /**
@@ -18,6 +20,7 @@ import com.ishow.common.widget.TopBar;
  */
 
 public class HomeFragment extends AppBaseFragment {
+    private static final String TAG = "HomeFragment";
 
     private View mRootView;
 
@@ -41,5 +44,17 @@ public class HomeFragment extends AppBaseFragment {
         TopBar topBar = (TopBar) mRootView.findViewById(R.id.top_bar);
         topBar.setOnTopBarListener(this);
         return mRootView;
+    }
+
+    @Override
+    public void onRightClick(View v) {
+        super.onRightClick(v);
+        try {
+            Intent intent = new Intent("com.yuhaiyang.androidcommon.Test");
+            startActivity(intent);
+        } catch (Exception e) {
+            L.i(TAG, "Exception = " + e);
+        }
+
     }
 }

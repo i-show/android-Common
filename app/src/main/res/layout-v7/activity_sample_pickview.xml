@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <com.ishow.common.widget.TopBar
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftImage="@drawable/ic_back_white"
-        app:text="@string/sample_pick_view" />
+        app:text="@string/sample_pick_view"/>
 
     <com.ishow.common.widget.pickview.PickerView
         android:id="@+id/picker_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
+
+    <com.ishow.common.widget.pickview.DateTimePicker
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </LinearLayout>
