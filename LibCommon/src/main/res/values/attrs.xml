@@ -350,6 +350,12 @@
 
     <attr name="spinKitColor" format="color"/>
 
+    <attr name="datePickerStyle">
+        <enum name="dateTime" value="1"/>
+        <enum name="date" value="2"/>
+        <enum name="time" value="3"/>
+    </attr>
+
     <declare-styleable name="ImageTextView">
         <attr name="text"/>
         <attr name="textSize"/>
@@ -665,5 +671,9 @@
     <declare-styleable name="SpinKitView">
         <attr name="spinKitStyle"/>
         <attr name="spinKitColor"/>
+    </declare-styleable>
+
+    <declare-styleable name="DateTimePicker">
+        <attr name="datePickerStyle"/>
     </declare-styleable>
 </resources>

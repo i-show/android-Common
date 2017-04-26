@@ -19,6 +19,10 @@ public class DateTimeAdapter extends PickerAdapter<Integer> {
     }
 
     public void setStart(@IntRange(from = 0) int start) {
+        if (mStart == start) {
+            return;
+        }
+
         mStart = start;
         if (mStart > mEnd) {
             mEnd = mStart;
@@ -27,6 +31,10 @@ public class DateTimeAdapter extends PickerAdapter<Integer> {
     }
 
     public void setEnd(@IntRange(from = 1) int end) {
+        if (mEnd == end) {
+            return;
+        }
+
         mEnd = end;
         if (mStart > mEnd) {
             mStart = mEnd;
@@ -34,6 +42,13 @@ public class DateTimeAdapter extends PickerAdapter<Integer> {
         notifyDataSetChanged();
     }
 
+    public int getStart() {
+        return mStart;
+    }
+
+    public int getEnd() {
+        return mEnd;
+    }
 
     @Override
     public int getCount() {

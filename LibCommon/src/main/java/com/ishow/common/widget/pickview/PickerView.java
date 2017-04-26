@@ -160,6 +160,9 @@ public class PickerView extends View {
             return;
         }
         mItemHeight = 0;
+        mCurrentPosition = Math.min(mCurrentPosition, mAdapter.getCount() - 1);
+
+        mTextPaint.setTextSize(mSelectedTextSize);
         Rect rect = new Rect();
         for (int i = 0; i < mAdapter.getCount(); i++) {
             String centerString = mAdapter.getItemText(i);
@@ -168,8 +171,8 @@ public class PickerView extends View {
             mItemWidth = Math.max(mItemWidth, rect.width());
             mItemHeight = Math.max(mItemHeight, rect.height());
         }
-        mItemHeight = (int) (LINE_SPACING_MULTIPLIER * mItemHeight);
 
+        mItemHeight = (int) (LINE_SPACING_MULTIPLIER * mItemHeight);
 
         if (!TextUtils.isEmpty(mUnit)) {
             int gap = getContext().getResources().getDimensionPixelSize(R.dimen.dp_10);
@@ -198,8 +201,8 @@ public class PickerView extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        final int width = measureWidth(widthMeasureSpec) + getPaddingStart() + getPaddingEnd();
-        final int height = measureHeight(heightMeasureSpec) + getPaddingTop() + getPaddingBottom();
+        final int width = measureWidth(widthMeasureSpec);
+        final int height = measureHeight(heightMeasureSpec);
         setMeasuredDimension(width, height);
     }
 
@@ -209,11 +212,12 @@ public class PickerView extends View {
 
         switch (mode) {
             case MeasureSpec.UNSPECIFIED:
-                return mItemWidth + mUnitWidth;
+                return mItemWidth + mUnitWidth + getPaddingStart() + getPaddingEnd();
             case MeasureSpec.EXACTLY:
                 return size;
             case MeasureSpec.AT_MOST:
-                return Math.min(size, (mItemWidth + mUnitWidth));
+                int wantSize = mItemWidth + mUnitWidth + getPaddingStart() + getPaddingEnd();
+                return Math.min(size, wantSize);
         }
 
         return size;
@@ -226,11 +230,12 @@ public class PickerView extends View {
 
         switch (mode) {
             case MeasureSpec.UNSPECIFIED:
-                return (mVisibleCount * mItemHeight);
+                return (mVisibleCount * mItemHeight) + getPaddingTop() + getPaddingBottom();
             case MeasureSpec.EXACTLY:
                 return size;
             case MeasureSpec.AT_MOST:
-                return Math.min(mVisibleCount * mItemHeight, size);
+                int wantSize = (mVisibleCount * mItemHeight) + getPaddingTop() + getPaddingBottom();
+                return Math.min(size, wantSize);
         }
 
         return size;
@@ -252,7 +257,8 @@ public class PickerView extends View {
         super.onDraw(canvas);
         final int width = getMeasuredWidth();
         final int height = getMeasuredHeight();
-        mDrawItemX = (width - mUnitWidth) / 2;
+        // 视觉上有点偏左
+        mDrawItemX = (width - mUnitWidth) / 2 + width / 11;
         drawLine(canvas, width);
         drawText(canvas, width, height);
         drawUnit(canvas, width);
@@ -484,6 +490,9 @@ public class PickerView extends View {
         }
         if (mAdjustScroller.getCurrY() == mAdjustScroller.getFinalY()) {
             mCurrentPosition = mCurrentPosition + mAdjustPosition;
+
+            notifyValueChange();
+            mAdjustPosition = 0;
             mLastScrollerY = 0;
             mLastY = 0;
             mMove = 0;
@@ -537,6 +546,10 @@ public class PickerView extends View {
         postInvalidate();
     }
 
+    public int getCurrentPosition() {
+        return mCurrentPosition;
+    }
+
     /**
      * 通过Item来显示第几个
      */
@@ -547,7 +560,7 @@ public class PickerView extends View {
         }
 
         if (isCyclic) {
-            /**
+            /*
              * 先进行取于，如果还小于0 那么只要加一个count值即可
              */
             if (positon < 0) {
