@@ -147,6 +147,8 @@
         <item name="wholeBackground">@drawable/top_line_white_bg</item>
     </style>
 
+
+
     <style name="TextAppearance">
         <item name="android:textColor">@color/text_grey</item>
         <item name="android:textColorHighlight">?android:textColorHighlight</item>

@@ -258,7 +258,11 @@ public class PickerView extends View {
         final int width = getMeasuredWidth();
         final int height = getMeasuredHeight();
         // 视觉上有点偏左
-        mDrawItemX = (width - mUnitWidth) / 2 + width / 11;
+        if (mUnitWidth > 0) {
+            mDrawItemX = (width - mUnitWidth) / 2 + width / 11;
+        } else {
+            mDrawItemX = width / 2;
+        }
         drawLine(canvas, width);
         drawText(canvas, width, height);
         drawUnit(canvas, width);
@@ -368,6 +372,7 @@ public class PickerView extends View {
                 mAdjustScroller.forceFinished(true);
                 mLastY = y;
                 mMove = 0;
+                getParent().requestDisallowInterceptTouchEvent(true);
                 break;
             case MotionEvent.ACTION_MOVE:
                 mMove += (mLastY - y);
@@ -376,6 +381,7 @@ public class PickerView extends View {
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
                 countVelocityTracker();
+                getParent().requestDisallowInterceptTouchEvent(false);
                 return false;
             default:
                 break;

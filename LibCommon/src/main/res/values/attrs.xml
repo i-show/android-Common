@@ -412,6 +412,7 @@
         <attr name="leftTextDrawable"/>
         <attr name="leftTextDrawablePadding"/>
         <attr name="leftTextBackground"/>
+        <attr name="leftTextMinWidth"/>
 
         <attr name="leftImage"/>
         <attr name="leftImageBackground"/>
@@ -425,6 +426,7 @@
         <attr name="rightTextSize"/>
         <attr name="rightTextColor"/>
         <attr name="rightTextBackground"/>
+        <attr name="rightTextMinWidth"/>
 
         <attr name="rightImage"/>
         <attr name="rightImageBackground"/>

@@ -125,6 +125,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
      * 左边和右边字体大小
      */
     private int mLeftTextSize, mRightTextSize;
+    private int mLeftTextMinWidth, mRightTextMinWidth;
     private int mLeftTextDrawablePadding;
     /**
      * 左边和右边字体颜色
@@ -212,6 +213,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
         mLeftTextBackgound = a.getDrawable(R.styleable.TopBar_leftTextBackground);
         mLeftTextDrawable = a.getDrawable(R.styleable.TopBar_leftTextDrawable);
         mLeftTextDrawablePadding = a.getDimensionPixelSize(R.styleable.TopBar_leftTextDrawablePadding, 0);
+        mLeftTextMinWidth = a.getDimensionPixelSize(R.styleable.TopBar_leftTextMinWidth, 0);
 
         mLeftBackground = a.getResourceId(R.styleable.TopBar_leftImageBackground, 0);
 
@@ -224,6 +226,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
         mRightTextSize = a.getDimensionPixelSize(R.styleable.TopBar_rightTextSize, 0);
         mRightTextColor = a.getColorStateList(R.styleable.TopBar_rightTextColor);
         mRightTextBackground = a.getDrawable(R.styleable.TopBar_rightTextBackground);
+        mRightTextMinWidth = a.getDimensionPixelSize(R.styleable.TopBar_rightTextMinWidth, 0);
 
         mRightBackground = a.getResourceId(R.styleable.TopBar_rightImageBackground, 0);
 
@@ -623,7 +626,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
             mLeftTextView.setOnClickListener(this);
             mLeftTextView.setLines(1);
             // 至少要这么宽 位了美观
-            mLeftTextView.setMinWidth(mUnitWidth);
+            mLeftTextView.setMinWidth(Math.max(mLeftTextMinWidth, mUnitWidth));
             mLeftTextView.setEllipsize(TextUtils.TruncateAt.END);
             if (mLeftTextBackgound != null) {
                 mLeftTextView.setBackground(mLeftTextBackgound);
@@ -700,7 +703,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
             mRightTextView.setLines(1);
             mRightTextView.setOnClickListener(this);
             // 至少要这么宽 位了美观
-            mRightTextView.setMinWidth(mTopBarHeight);
+            mRightTextView.setMinWidth(Math.max(mUnitWidth, mRightTextMinWidth));
             mRightTextView.setEllipsize(TextUtils.TruncateAt.END);
             if (mRightTextBackground != null) {
                 mRightTextView.setBackground(mRightTextBackground);

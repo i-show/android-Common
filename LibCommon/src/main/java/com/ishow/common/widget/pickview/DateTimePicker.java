@@ -88,7 +88,7 @@ public class DateTimePicker extends LinearLayout {
     public DateTimePicker(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.DateTimePicker);
-        mStyle = a.getInt(R.styleable.DateTimePicker_datePickerStyle, STYLE_DATE_TIME);
+        int style = a.getInt(R.styleable.DateTimePicker_datePickerStyle, STYLE_DATE_TIME);
         a.recycle();
 
         setOrientation(HORIZONTAL);
@@ -97,7 +97,7 @@ public class DateTimePicker extends LinearLayout {
         initViews();
         initDatas();
 
-        setStyle(mStyle);
+        setStyle(style);
     }
 
 
@@ -178,10 +178,6 @@ public class DateTimePicker extends LinearLayout {
         mMinPicker.setCurrentPosition(now - 1);
     }
 
-    public Date getCurrentTime() {
-        Calendar calendar = Calendar.getInstance();
-        return calendar.getTime();
-    }
 
     /**
      * 设置样式
@@ -217,6 +213,31 @@ public class DateTimePicker extends LinearLayout {
         }
     }
 
+    public Date getCurrentTime() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, getCurrentYear());
+        calendar.set(Calendar.MONTH, getCurrentMonth() - 1);
+        calendar.set(Calendar.DAY_OF_MONTH, getCurrentDay());
+        calendar.set(Calendar.HOUR_OF_DAY, getCurrentHour());
+        calendar.set(Calendar.MINUTE, getCurrentMin());
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
+    }
+
+    public long getCurrentTimeInMillis() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, getCurrentYear());
+        calendar.set(Calendar.MONTH, getCurrentMonth() - 1);
+        calendar.set(Calendar.DAY_OF_MONTH, getCurrentDay());
+        calendar.set(Calendar.HOUR_OF_DAY, getCurrentHour());
+        calendar.set(Calendar.MINUTE, getCurrentMin());
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTimeInMillis();
+    }
+
+
     /**
      * 获取当前是那一年
      */
@@ -230,6 +251,91 @@ public class DateTimePicker extends LinearLayout {
     public int getCurrentMonth() {
         return mMonthAdapter.getStart() + mMonthPicker.getCurrentPosition();
     }
+
+    /**
+     * 获取当前是那一天
+     */
+    public int getCurrentDay() {
+        return mDayAdapter.getStart() + mDayPicker.getCurrentPosition();
+    }
+
+    /**
+     * 获取当前小时
+     */
+    public int getCurrentHour() {
+        return mHourAdapter.getStart() + mHourPicker.getCurrentPosition();
+    }
+
+    /**
+     * 获取当前分钟
+     */
+    public int getCurrentMin() {
+        return mMinAdapter.getStart() + mMinPicker.getCurrentPosition();
+    }
+
+    public void setCurrentDate(@NonNull Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int now = calendar.get(Calendar.YEAR);
+        mYearPicker.setCurrentPosition(now - DEFAULT_START_YEAR);
+
+        now = calendar.get(Calendar.MONTH) + 1;
+        mMonthPicker.setCurrentPosition(now - 1);
+
+        now = calendar.get(Calendar.DAY_OF_MONTH);
+        mDayPicker.setCurrentPosition(now - 1);
+
+        now = calendar.get(Calendar.HOUR_OF_DAY);
+        mHourPicker.setCurrentPosition(now - 1);
+
+        now = calendar.get(Calendar.MINUTE);
+        mMinPicker.setCurrentPosition(now - 1);
+    }
+
+    public void setCurrentDate(int year, int month, int day, int hour, int min) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month - 1);
+        calendar.set(Calendar.DAY_OF_MONTH, day);
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, min);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        int now = calendar.get(Calendar.YEAR);
+        mYearPicker.setCurrentPosition(now - DEFAULT_START_YEAR);
+
+        now = calendar.get(Calendar.MONTH) + 1;
+        mMonthPicker.setCurrentPosition(now - 1);
+
+        now = calendar.get(Calendar.DAY_OF_MONTH);
+        mDayPicker.setCurrentPosition(now - 1);
+
+        now = calendar.get(Calendar.HOUR_OF_DAY);
+        mHourPicker.setCurrentPosition(now - 1);
+
+        now = calendar.get(Calendar.MINUTE);
+        mMinPicker.setCurrentPosition(now - 1);
+    }
+
+    public void setCurrentDate(long time) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(time);
+        int now = calendar.get(Calendar.YEAR);
+        mYearPicker.setCurrentPosition(now - DEFAULT_START_YEAR);
+
+        now = calendar.get(Calendar.MONTH) + 1;
+        mMonthPicker.setCurrentPosition(now - 1);
+
+        now = calendar.get(Calendar.DAY_OF_MONTH);
+        mDayPicker.setCurrentPosition(now - 1);
+
+        now = calendar.get(Calendar.HOUR_OF_DAY);
+        mHourPicker.setCurrentPosition(now - 1);
+
+        now = calendar.get(Calendar.MINUTE);
+        mMinPicker.setCurrentPosition(now - 1);
+    }
+
 
     /**
      * 设置开始日期
@@ -290,13 +396,14 @@ public class DateTimePicker extends LinearLayout {
 
         @Override
         public void onItemSelected(int position) {
+            final int year, month, day, hour;
             switch (mType) {
                 case Calendar.YEAR:
-                    final int month = getCurrentMonth();
-                    // 只有当2月的时候再进行计算
+                    month = getCurrentMonth();
                     if (month == 2) {
                         updateDay();
                     }
+
                     break;
                 case Calendar.MONTH:
                     updateDay();
@@ -304,10 +411,13 @@ public class DateTimePicker extends LinearLayout {
             }
         }
 
+
         void updateDay() {
             final int year = getCurrentYear();
             final int month = getCurrentMonth();
             mDayAdapter.setEnd(getDay(year, month));
         }
+
+
     }
 }
