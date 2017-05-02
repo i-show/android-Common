@@ -8,6 +8,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.ishow.common.R;
+import com.ishow.common.utils.glide.transform.GlideCircleTransform;
 import com.ishow.common.utils.image.loader.IImageLoaderExecutor;
 import com.ishow.common.utils.image.loader.ImageLoader;
 import com.ishow.common.utils.image.loader.ImageLoaderParams;
@@ -65,7 +67,13 @@ public class GlideImageLoaderExecutor implements IImageLoaderExecutor {
     private void setPlan(DrawableTypeRequest<String> request, final ImageLoaderParams params) {
         switch (params.getPlan()) {
             case ImageLoader.PLAN_NORMAL:
-                // TODO 常规配置，例如可以配置默认的pleaseholder和Error
+                request.centerCrop();
+                request.crossFade();
+                request.placeholder(R.drawable.no_picture);
+                break;
+            case ImageLoader.PLAN_CIRCLE_HEADER:
+                request.bitmapTransform(new GlideCircleTransform(params.getContext()));
+                request.crossFade();
                 break;
         }
     }

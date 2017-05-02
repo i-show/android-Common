@@ -34,7 +34,7 @@ import java.util.Map;
 
 /**
  * Request
- *
+ * <p>
  * 注意：
  * 暂时实现了 Get和Post 如果有其他需求例如：PUT DELETE 可以进行另加
  */
@@ -64,6 +64,10 @@ public abstract class Request<T extends Request> {
      * Request url
      */
     private String url;
+    /**
+     * 增加参数后的
+     */
+    private String finalUrl;
     /**
      * Request tag
      * You can cancel the request by tag
@@ -292,11 +296,27 @@ public abstract class Request<T extends Request> {
     }
 
     public Map<String, String> getHeaders() {
+        if (headers == null) {
+            headers = new HashMap<>();
+        }
         return headers;
     }
 
     public Method getMethod() {
         return method;
+    }
+
+
+    public String getFinalUrl() {
+        if (TextUtils.isEmpty(finalUrl)) {
+            return url;
+        } else {
+            return finalUrl;
+        }
+    }
+
+    public void setFinalUrl(String finalUrl) {
+        this.finalUrl = finalUrl;
     }
 
     public boolean isChangedTimeOut() {

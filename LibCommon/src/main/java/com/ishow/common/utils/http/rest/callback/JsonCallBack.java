@@ -19,6 +19,7 @@ package com.ishow.common.utils.http.rest.callback;
 import android.support.annotation.NonNull;
 
 import com.alibaba.fastjson.JSON;
+import com.ishow.common.utils.http.rest.exception.HttpErrorException;
 import com.ishow.common.utils.http.rest.request.Request;
 import com.ishow.common.utils.http.rest.response.Response;
 
@@ -33,10 +34,13 @@ import java.lang.reflect.Type;
 public abstract class JsonCallBack<T> extends CallBack<T> {
 
     @Override
-    public T parseResponse(@NonNull final Request request, @NonNull final Response response) throws Exception {
+    public T parseResponse(@NonNull final Request request, @NonNull final Response response) throws HttpErrorException {
         Type genType = getClass().getGenericSuperclass();
         Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
         Type type = params[0];
+
+        response.setDebugString(new String(response.getBody()));
+
         return JSON.parseObject(response.getBody(), type);
     }
 }

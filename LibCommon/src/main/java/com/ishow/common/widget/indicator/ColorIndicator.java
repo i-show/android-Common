@@ -215,10 +215,10 @@ public class ColorIndicator extends View implements ViewPager.OnPageChangeListen
     }
 
     /**
-     * Determines the width of this view
+     * Determines the with of this view
      *
      * @param measureSpec A measureSpec packed into an int
-     * @return The width of the view, honoring constraints from measureSpec
+     * @return The with of the view, honoring constraints from measureSpec
      */
     private int measureLong(int measureSpec) {
         int result;
@@ -229,7 +229,7 @@ public class ColorIndicator extends View implements ViewPager.OnPageChangeListen
             // We were told how big to be
             result = specSize;
         } else {
-            // Calculate the width according the views count
+            // Calculate the with according the views count
             final int count = mViewPager.getAdapter().getCount();
             result = getPaddingLeft() + getPaddingRight() + (count * mItemWidth);
             // Respect AT_MOST value if that was what is called for by

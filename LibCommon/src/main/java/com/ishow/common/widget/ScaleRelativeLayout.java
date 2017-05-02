@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-package com.ishow.common.widget.imageview;
+package com.ishow.common.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.ishow.common.R;
 
@@ -29,23 +28,23 @@ import com.ishow.common.R;
  * 比例的ImageView
  */
 
-public class ScaleImageView extends AppCompatImageView {
+public class ScaleRelativeLayout extends RelativeLayout {
     private int mWidthRatio;
     private int mHeightRatio;
 
-    public ScaleImageView(Context context) {
+    public ScaleRelativeLayout(Context context) {
         this(context, null);
     }
 
-    public ScaleImageView(Context context, AttributeSet attrs) {
+    public ScaleRelativeLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ScaleImageView(Context context, AttributeSet attrs, int defStyle) {
+    public ScaleRelativeLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ScaleImageView);
-        mWidthRatio = a.getInt(R.styleable.ScaleImageView_widthScale, 16);
-        mHeightRatio = a.getInt(R.styleable.ScaleImageView_heightScale, 9);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ScaleFrameLayout);
+        mWidthRatio = a.getInt(R.styleable.ScaleFrameLayout_widthScale, 1);
+        mHeightRatio = a.getInt(R.styleable.ScaleFrameLayout_heightScale, 1);
         a.recycle();
     }
 

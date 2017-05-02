@@ -22,6 +22,7 @@ import android.text.TextUtils;
 import com.ishow.common.utils.http.rest.HttpError;
 import com.ishow.common.entries.KeyValue;
 import com.ishow.common.utils.StringUtils;
+import com.ishow.common.utils.http.rest.RequestParams;
 import com.ishow.common.utils.http.rest.callback.CallBack;
 import com.ishow.common.utils.http.rest.exception.CanceledException;
 import com.ishow.common.utils.http.rest.request.Request;
@@ -46,24 +47,42 @@ public abstract class Executor {
     /**
      * Format Url
      */
-    String formatUrl(String url, List<KeyValue> paramList) {
-        String paramsString = buildParams(paramList);
+    String formatUrl(Request request) {
+        String url = request.getUrl();
+        if (TextUtils.isEmpty(url)) {
+            throw new IllegalStateException("need a url");
+        }
+
+        String paramsString = buildParams(request);
         if (TextUtils.isEmpty(paramsString)) {
             return url;
         }
 
         if (url.contains("?")) {
-            return url + "&" + paramsString;
+            return StringUtils.plusString(url, "&", paramsString);
         } else {
-            return url + "?" + paramsString;
+            return StringUtils.plusString(url, "?", paramsString);
         }
     }
 
     /**
      * parsms to string
      */
-    private String buildParams(List<KeyValue> paramList) {
-        if (paramList == null || paramList.isEmpty()) {
+    private String buildParams(Request request) {
+        List<KeyValue> paramList = request.getParams().getNormalParams();
+
+        switch (request.getMethod()) {
+            case POST:
+                // POST的时候放到里 Body里面
+                return StringUtils.EMPTY;
+            default:
+                return buildParams(paramList);
+        }
+    }
+
+
+    private String buildParams(@NonNull List<KeyValue> paramList) {
+        if (paramList.isEmpty()) {
             return StringUtils.EMPTY;
         }
 
@@ -73,8 +92,9 @@ public abstract class Executor {
             Object value = param.getValue();
 
             if (value instanceof String) {
-                builder.append(key);
                 builder.append("&");
+                builder.append(key);
+                builder.append("=");
                 builder.append(String.valueOf(value));
             }
         }
@@ -85,7 +105,6 @@ public abstract class Executor {
         return builder.toString();
     }
 
-
     /**
      * Debug this
      * <p>
@@ -95,13 +114,25 @@ public abstract class Executor {
     @SuppressWarnings("WeakerAccess")
     protected void debugRequest(@NonNull final Request request) {
         L.d(request.getLogTag(), StringUtils.plusString("=================== ", request.getMethod(), ":", request.getId(), " ==================="));
-        L.d(request.getLogTag(), StringUtils.plusString(request.getId(), " URL     = " + request.getUrl()));
+        L.d(request.getLogTag(), StringUtils.plusString(request.getId(), " URL     = ", request.getFinalUrl()));
 
         Map<String, String> headers = request.getHeaders();
         if (headers != null && headers.size() > 0) {
-            L.d(request.getLogTag(), StringUtils.plusString(request.getId(), " HEADERS = " + headers.toString()));
+            L.d(request.getLogTag(), StringUtils.plusString(request.getId(), " HEADERS = ", headers.toString()));
         }
-        L.d(request.getLogTag(), StringUtils.plusString(request.getId(), " TIMEOUT = " + request.getConnTimeOut(true)));
+        L.d(request.getLogTag(), StringUtils.plusString(request.getId(), " TIMEOUT = ", request.getConnTimeOut(true)));
+
+        RequestParams params = request.getParams();
+        
+        String normalParsms = buildParams(params.getNormalParams());
+        if (!TextUtils.isEmpty(normalParsms)) {
+            L.d(request.getLogTag(), StringUtils.plusString(request.getId(), " PARAMS = ", normalParsms));
+        }
+
+        Object body = params.getBody();
+        if (body != null && body instanceof String) {
+            L.d(request.getLogTag(), StringUtils.plusString(request.getId(), " PARAMS = ", body.toString()));
+        }
     }
 
 

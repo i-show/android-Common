@@ -59,11 +59,11 @@ public final class ImageUtils {
     /**
      * 压缩图片后最大边长度
      */
-    public static final int MAX_SIZE = 2000;
+    private static final int MAX_SIZE = 2000;
     /**
      * 默认的的压缩图片质量
      */
-    public static final int DEFAULT_COMPRESS_QUALITY = 75;
+    private static final int DEFAULT_COMPRESS_QUALITY = 75;
 
     /**
      * Drawable转Bitmap
@@ -410,7 +410,7 @@ public final class ImageUtils {
             // 直到原图宽高值的一半除以压缩值后都~大于所需宽高值为止
             while ((width / inSampleSize) >= MAX_SIZE) {
                 inSampleSize *= 2;
-                Log.i(TAG, "width inSampleSize = " + inSampleSize);
+                Log.i(TAG, "with inSampleSize = " + inSampleSize);
             }
         } else {
             // 压缩比例值每次循环两倍增加,

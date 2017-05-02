@@ -73,7 +73,7 @@ public class ForgotPasswordActivity extends AppBaseActivity implements View.OnCl
         switch (v.getId()) {
             case R.id.send_verify_code:
                 mVerifyCodeButton.showLoading();
-                mPresenter.sendVerifiyCode();
+                mPresenter.sendVerifiyCode(this, mInputPhone.getInputText());
                 break;
             case R.id.submit:
                 String phone = mInputPhone.getInputText();
@@ -114,6 +114,11 @@ public class ForgotPasswordActivity extends AppBaseActivity implements View.OnCl
 
     @Override
     public void showSuccess(String message) {
+
+    }
+
+    @Override
+    public void showEmpty(String message) {
 
     }
 }

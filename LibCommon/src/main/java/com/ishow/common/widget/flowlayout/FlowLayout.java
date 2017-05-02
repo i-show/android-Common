@@ -88,7 +88,7 @@ public class FlowLayout extends ViewGroup {
         int desireWidth = 0;
         int desireHeight = 0;
 
-        // width 2端需要空格
+        // with 2端需要空格
         int lineWidth = mGap + getPaddingLeft() + getPaddingRight();
         int lineHeight = mGap;
 

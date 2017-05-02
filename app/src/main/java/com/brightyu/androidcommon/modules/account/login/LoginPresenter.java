@@ -26,17 +26,17 @@ import com.brightyu.androidcommon.manager.UserManager;
 /**
  * 登录的Presenter
  */
-class LoginPresenter extends LoginContract.Presenter implements UserManager.LoginCallBack {
-    private UserManager mLoginManager;
+class LoginPresenter implements UserManager.LoginCallBack, LoginContract.Presenter {
+    private UserManager mUserManager;
+    private LoginContract.View mView;
 
     LoginPresenter(LoginContract.View view) {
-        super(view);
-        mLoginManager = UserManager.getInstance();
-        mLoginManager.setLoginCallBack(this);
+        mView = view;
+        mUserManager = UserManager.getInstance();
     }
 
     @Override
-    void login(Context context, String account, String password) {
+    public void login(Context context, String account, String password) {
         String errorMessage = UserManager.checkAccount(context, account);
         if (!TextUtils.isEmpty(errorMessage)) {
             mView.showError(errorMessage, true, 0);
@@ -52,7 +52,7 @@ class LoginPresenter extends LoginContract.Presenter implements UserManager.Logi
         saveUserInfo(context, account, password);
 
         mView.showLoading(null, true);
-        mLoginManager.login(account, password);
+        mUserManager.login(context, account, password, this);
     }
 
 
@@ -81,10 +81,15 @@ class LoginPresenter extends LoginContract.Presenter implements UserManager.Logi
         String account = SharedPreferencesUtils.get(context, User.Key.ACCOUNT, null);
         String password = SharedPreferencesUtils.get(context, User.Key.PASSWORD, null);
         mView.updateUI(false, account, password);
+        clear(context);
     }
 
     @Override
     public void stop(Context context) {
 
+    }
+
+    private void clear(Context context) {
+        SharedPreferencesUtils.remove(context, User.Key.AUTO_LOGIN);
     }
 }

@@ -34,5 +34,9 @@ public class User {
          * 保存密码的key
          */
         public static final String PASSWORD = "key_login_password";
+        /**
+         * 自动登录
+         */
+        public static final String AUTO_LOGIN = "key_auto_login";
     }
 }

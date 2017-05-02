@@ -88,6 +88,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     private int mLeftTextMinWidth;
     private int mLeftTextMaxWidth;
     private int mLeftTextRightMargin;
+    private int mLeftTextGravity;
     private Drawable mLeftTextBackgroundDrawable;
 
     /**
@@ -115,6 +116,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     private int mRightTextRightMargin;
     private int mRightTextMinWidth;
     private int mRightTextMaxWidth;
+    private int mRightTextGravity;
     private Drawable mRightTextBackgroundDrawable;
     private Drawable mRightTextRightDrawable;
 
@@ -165,8 +167,9 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         mLeftTextColor = a.getColor(R.styleable.EditTextPro_leftTextColor, getDefaultTipTextColor());
         mLeftTextRightMargin = a.getDimensionPixelSize(R.styleable.EditTextPro_leftTextRightMargin, 0);
         mLeftTextMinWidth = a.getDimensionPixelSize(R.styleable.EditTextPro_leftTextMinWidth, getDefaultTipMinWidth());
-        mLeftTextMaxWidth = a.getDimensionPixelSize(R.styleable.EditTextPro_leftTextMinWidth, getDefaultTipMaxWidth());
+        mLeftTextMaxWidth = a.getDimensionPixelSize(R.styleable.EditTextPro_leftTextMaxWidth, getDefaultTipMaxWidth());
         mLeftTextVisibility = a.getInt(R.styleable.EditTextPro_leftTextVisibility, View.VISIBLE);
+        mLeftTextGravity = a.getInt(R.styleable.EditTextPro_leftTextGravity, Gravity.CENTER);
         mLeftTextBackgroundDrawable = a.getDrawable(R.styleable.EditTextPro_leftTextBackground);
 
         mInputBackgroundDrawable = a.getDrawable(R.styleable.EditTextPro_inputBackground);
@@ -188,8 +191,9 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         mRightTextVisibility = a.getColor(R.styleable.EditTextPro_rightTextVisibility, View.GONE);
         mRightTextRightMargin = a.getDimensionPixelSize(R.styleable.EditTextPro_rightTextRightMargin, 0);
         mRightTextMinWidth = a.getDimensionPixelSize(R.styleable.EditTextPro_rightTextMinWidth, getDefaultTipMinWidth());
-        mRightTextMaxWidth = a.getDimensionPixelSize(R.styleable.EditTextPro_rightTextMinWidth, getDefaultTipMaxWidth());
+        mRightTextMaxWidth = a.getDimensionPixelSize(R.styleable.EditTextPro_rightTextMaxWidth, getDefaultTipMaxWidth());
         mRightTextRightDrawable = a.getDrawable(R.styleable.EditTextPro_rightTextRightDrawable);
+        mRightTextGravity = a.getInt(R.styleable.EditTextPro_rightTextGravity, Gravity.CENTER);
         mRightTextBackgroundDrawable = a.getDrawable(R.styleable.EditTextPro_rightTextBackground);
 
         mRightImageDrawable = a.getDrawable(R.styleable.EditTextPro_rightImage);
@@ -448,6 +452,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
             mLeftTextView.setMinWidth(mLeftTextMinWidth);
             mLeftTextView.setMaxWidth(mLeftTextMaxWidth);
             mLeftTextView.setBackground(mLeftTextBackgroundDrawable);
+            mLeftTextView.setGravity(mLeftTextGravity);
             setDefaultPromptState(mLeftTextView);
             addView(mLeftTextView);
         }
@@ -513,6 +518,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
             mRightTextView.setMinWidth(mRightTextMinWidth);
             mRightTextView.setMaxWidth(mRightTextMaxWidth);
             mRightTextView.setBackground(mRightTextBackgroundDrawable);
+            mRightTextView.setGravity(mRightTextGravity);
             if (mRightTextRightDrawable != null) {
                 mRightTextView.setCompoundDrawablesWithIntrinsicBounds(null, null, mRightTextRightDrawable, null);
             }

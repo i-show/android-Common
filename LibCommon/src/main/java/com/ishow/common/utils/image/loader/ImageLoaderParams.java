@@ -27,7 +27,7 @@ public class ImageLoaderParams {
 
     ImageLoaderParams(Context context) {
         mContext = context;
-        mMode = ImageLoader.MODE_CENTER_CROP;
+        mMode = ImageLoader.MODE_NONE;
         mPlan = ImageLoader.PLAN_NORMAL;
     }
 

@@ -193,7 +193,7 @@ public class SizeIndicator extends View implements ViewPager.OnPageChangeListene
             // We were told how big to be
             result = specSize;
         } else {
-            // Calculate the width according the views count
+            // Calculate the with according the views count
             final int count = mViewPager.getAdapter().getCount();
             result = getPaddingLeft() + getPaddingRight() + (count * mItemWidth);
             // Respect AT_MOST value if that was what is called for by

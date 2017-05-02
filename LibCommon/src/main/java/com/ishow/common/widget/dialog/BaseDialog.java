@@ -217,7 +217,7 @@ public class BaseDialog extends Dialog implements DialogInterface {
         return super.onKeyUp(keyCode, event);
     }
 
-    // Just Set width is screen - PADDING_W , no full screen
+    // Just Set with is screen - PADDING_W , no full screen
     @Override
     public void show() {
         super.show();

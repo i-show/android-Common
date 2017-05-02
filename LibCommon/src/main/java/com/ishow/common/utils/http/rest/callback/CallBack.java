@@ -30,6 +30,7 @@ import com.ishow.common.utils.debug.DEBUG;
 import com.ishow.common.utils.http.rest.Http;
 import com.ishow.common.utils.http.rest.HttpError;
 import com.ishow.common.utils.http.rest.exception.CanceledException;
+import com.ishow.common.utils.http.rest.exception.HttpErrorException;
 import com.ishow.common.utils.http.rest.request.Request;
 import com.ishow.common.utils.http.rest.response.Response;
 
@@ -65,6 +66,9 @@ public abstract class CallBack<T> {
      * CallBack onFailed runOnUiThread
      */
     public final void runOnUiThreadFailed(@NonNull final HttpError error) {
+        // 输出Debug信息
+        debugForFailed(error);
+
         // Step 1. 检测是否需要终端操作
         boolean interruption = checkInterruptionFailed(error);
         if (interruption) {
@@ -101,12 +105,21 @@ public abstract class CallBack<T> {
     /**
      * CallBack onFailed runOnUiThread
      */
-    public final void runOnUiThreadSuccessful(@NonNull final T response) {
+    public final void runOnUiThreadSuccessful(@NonNull final Response response, @NonNull final T result) {
+        debugForSuccess(response, result);
+
+        // Step 1. 检测是否需要终端操作
+        boolean interruption = checkInterruptionSuccessed(response);
+        if (interruption) {
+            DEBUG.d(response.getLogtag(), "sendFailResult: interruption");
+            return;
+        }
+
         final Handler handler = new Handler(Looper.getMainLooper());
         handler.post(new Runnable() {
             @Override
             public void run() {
-                onSuccess(response);
+                onSuccess(result);
             }
         });
     }
@@ -114,7 +127,7 @@ public abstract class CallBack<T> {
     /**
      * CallBack parseResponse
      */
-    public abstract T parseResponse(@NonNull final Request request, @NonNull final Response response) throws Exception;
+    public abstract T parseResponse(@NonNull final Request request, @NonNull final Response response) throws HttpErrorException;
 
     /**
      * 检测是否需要中断处理
@@ -134,6 +147,23 @@ public abstract class CallBack<T> {
         if (error.getException() instanceof CanceledException) {
             DEBUG.d(error.getLogtag(), StringUtils.plusString(error.getId(), "  is canceled "));
             return true;
+        }
+        return false;
+    }
+
+    /**
+     * 检测是否需要中断处理
+     * <p>
+     * 例如： 如果context 已经finish了 那么再进行继续操作了
+     */
+    @SuppressWarnings("WeakerAccess")
+    protected boolean checkInterruptionSuccessed(@NonNull final Response response) {
+        if (mContext != null && mContext instanceof Activity) {
+            Activity activity = (Activity) mContext;
+            if (activity.isFinishing()) {
+                DEBUG.d(response.getLogtag(), StringUtils.plusString(response.getId(), " on Error activity is finishing to do nothing "));
+                return true;
+            }
         }
         return false;
     }
@@ -165,5 +195,35 @@ public abstract class CallBack<T> {
         return null;
     }
 
+
+    /**
+     * 当Failed的时候打印debug信息
+     */
+    private void debugForFailed(@NonNull HttpError error) {
+        if (!TextUtils.isEmpty(error.getMessage())) {
+            DEBUG.d(error.getLogtag(), StringUtils.plusString(error.getId(), " ERROR_MSG  = " + error.getMessage()));
+        }
+
+        if (error.getCode() != 0) {
+            DEBUG.d(error.getLogtag(), StringUtils.plusString(error.getId(), " ERROR_TYPE  = " + error.getCode()));
+        }
+
+        if (error.getException() == null) {
+            error.setException(new Exception(error.getMessage()));
+        }
+
+        DEBUG.d(error.getLogtag(), StringUtils.plusString(error.getId(), " EXCEPTION  = " + error.getException().toString()));
+    }
+
+    /**
+     * 当Successed的时候打印debug信息
+     */
+    private void debugForSuccess(@NonNull final Response response, @NonNull final T result) {
+        if (!TextUtils.isEmpty(response.getDebugString())) {
+            DEBUG.d(response.getLogtag(), StringUtils.plusString(response.getId(), " RESULT  = " + response.getDebugString()));
+        } else {
+            DEBUG.d(response.getLogtag(), StringUtils.plusString(response.getId(), " RESULT  Success but no debugString or empty"));
+        }
+    }
 
 }

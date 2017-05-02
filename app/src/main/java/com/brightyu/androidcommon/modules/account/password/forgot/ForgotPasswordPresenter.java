@@ -28,19 +28,20 @@ import java.util.Random;
 /**
  * 注册的Presenter
  */
-class ForgotPasswordPresenter extends ForgotPasswordContract.Presenter {
+class ForgotPasswordPresenter implements ForgotPasswordContract.Presenter {
 
 
     //  用来模拟网络连接的Handler
     private Handler mHandler;
+    private ForgotPasswordContract.View mView;
 
     ForgotPasswordPresenter(ForgotPasswordContract.View view) {
-        super(view);
+        mView = view;
         mHandler = new Handler();
     }
 
     @Override
-    void resetPassword(Context context, String name, String verifyCode, String password, String ensurePassword) {
+    public void resetPassword(Context context, String name, String verifyCode, String password, String ensurePassword) {
         String errorMessage = UserManager.checkAccount(context, name);
         if (!TextUtils.isEmpty(errorMessage)) {
             mView.showError(errorMessage, true, 0);
@@ -82,7 +83,7 @@ class ForgotPasswordPresenter extends ForgotPasswordContract.Presenter {
     }
 
     @Override
-    public void sendVerifiyCode() {
+    public void sendVerifiyCode(Context context, String phoneNumber) {
         // 模拟发送验证码
         mHandler.postDelayed(new Runnable() {
             @Override

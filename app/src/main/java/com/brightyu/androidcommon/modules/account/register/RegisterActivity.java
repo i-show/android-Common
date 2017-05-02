@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2016 The yuhaiyang Android Source Project
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -114,5 +114,10 @@ public class RegisterActivity extends AppBaseActivity implements View.OnClickLis
     @Override
     public void showSuccess(String message) {
         LoadingDialog.dismiss(mLoadingDialog);
+    }
+
+    @Override
+    public void showEmpty(String message) {
+
     }
 }

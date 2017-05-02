@@ -16,6 +16,12 @@ import java.lang.annotation.RetentionPolicy;
 
 public class ImageLoader {
 
+
+    /**
+     * 居中
+     */
+    @SuppressWarnings("WeakerAccess")
+    public static final int MODE_NONE = 0;
     /**
      * 居中
      */
@@ -34,13 +40,18 @@ public class ImageLoader {
      */
     @SuppressWarnings("WeakerAccess")
     public static final int PLAN_NORMAL = 1;
+    /**
+     * 方案- 圆形头像
+     */
+    @SuppressWarnings("WeakerAccess")
+    public static final int PLAN_CIRCLE_HEADER = 2;
 
-    @IntDef({MODE_FIT_CENTER, MODE_CENTER_CROP})
+    @IntDef({MODE_NONE, MODE_FIT_CENTER, MODE_CENTER_CROP})
     @Retention(RetentionPolicy.SOURCE)
     public @interface mode {
     }
 
-    @IntDef({PLAN_NORMAL})
+    @IntDef({PLAN_NORMAL, PLAN_CIRCLE_HEADER})
     @Retention(RetentionPolicy.SOURCE)
     public @interface plan {
     }
@@ -110,7 +121,7 @@ public class ImageLoader {
     }
 
 
-    public static ImageLoaderParams width(Context context) {
+    public static ImageLoaderParams with(Context context) {
         return new ImageLoaderParams(context);
     }
 

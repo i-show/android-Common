@@ -23,6 +23,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 
+import com.brightyu.androidcommon.manager.UserManager;
 import com.brightyu.androidcommon.modules.account.login.LoginActivity;
 import com.ishow.common.constant.Shift;
 import com.brightyu.androidcommon.constant.Configure;
@@ -91,10 +92,10 @@ public class SplashActivity extends AppBaseActivity {
             switch (msg.what) {
                 case HANDLE_GO_NEXT:
                     Intent intent;
-                    if (VersionManager.isFirstEnterThisVerison()) {
-                        intent = new Intent(SplashActivity.this, LoginActivity.class);
-                    } else {
+                    if (UserManager.getInstance().isAutoLogin(SplashActivity.this)) {
                         intent = new Intent(SplashActivity.this, MainActivity.class);
+                    } else {
+                        intent = new Intent(SplashActivity.this, LoginActivity.class);
                     }
                     startActivity(intent);
                     finish();

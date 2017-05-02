@@ -36,16 +36,14 @@ import java.util.Random;
 public class UserManager {
     private static final String TAG = "UserManager";
 
-    private LoginCallBack mCallBack;
     private static UserManager sInstance;
 
     private WeakReference<User> mUser;
 
     // 暂时用来模拟登录
-    private Handler mHandler;
+    private Handler mHandler = new Handler();
 
     private UserManager() {
-        mHandler = new Handler();
     }
 
 
@@ -81,8 +79,8 @@ public class UserManager {
      * @param account  用户名
      * @param password 密码
      */
-    public void login(String account, String password) {
-        login(account, password, false);
+    public void login(Context context, String account, String password, final LoginCallBack callBack) {
+        login(context, account, password, false, callBack);
     }
 
     /**
@@ -92,19 +90,19 @@ public class UserManager {
      * @param password  密码
      * @param autoLogin 是否是自动登录
      */
-    public void login(String account, String password, boolean autoLogin) {
+    public void login(final Context context, String account, String password, boolean autoLogin, final LoginCallBack callBack) {
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (mCallBack == null) {
+                if (callBack == null) {
                     Log.i(TAG, "run: call back is null");
                     return;
                 }
                 int result = new Random().nextInt() % 5;
                 if (result == 1) {
-                    mCallBack.onError(new NetworkErrorException("Net"), "用户名或密码不对（模拟）", 1);
+                    callBack.onError(new NetworkErrorException("Net"), "用户名或密码不对（模拟）", 1);
                 } else {
-                    mCallBack.onSuccess();
+                    callBack.onSuccess();
                 }
             }
         }, 1000);
@@ -156,11 +154,8 @@ public class UserManager {
         return StringUtils.EMPTY;
     }
 
-    /**
-     * 设置登录的CallBack
-     */
-    public void setLoginCallBack(LoginCallBack callBack) {
-        mCallBack = callBack;
+    public boolean isAutoLogin(Context context) {
+        return SharedPreferencesUtils.get(context, User.Key.AUTO_LOGIN, false);
     }
 
     public interface LoginCallBack {

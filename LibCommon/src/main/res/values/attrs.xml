@@ -89,6 +89,23 @@
     <attr name="leftTextMinWidth" format="dimension"/>
     <attr name="leftTextMaxWidth" format="dimension"/>
     <attr name="leftTextBackground" format="reference|color"/>
+    <attr name="leftTextGravity">
+        <!-- Push object to the top of its container, not changing its size. -->
+        <flag name="top" value="0x30"/>
+        <!-- Push object to the bottom of its container, not changing its size. -->
+        <flag name="bottom" value="0x50"/>
+        <!-- Push object to the left of its container, not changing its size. -->
+        <flag name="left" value="0x03"/>
+        <!-- Push object to the right of its container, not changing its size. -->
+        <flag name="right" value="0x05"/>
+        <!-- Place object in the vertical center of its container, not changing its size. -->
+        <flag name="center_vertical" value="0x10"/>
+        <!-- Place object in the horizontal center of its container, not changing its size. -->
+        <flag name="center_horizontal" value="0x01"/>
+        <!-- Place the object in the center of its container in both the vertical and horizontal axis, not changing its size. -->
+        <flag name="center" value="0x11"/>
+    </attr>
+
     <attr name="leftTextVisibility">
         <enum name="visible" value="0"/>
         <enum name="invisible" value="4"/>
@@ -122,6 +139,22 @@
     <attr name="rightTextMinWidth" format="dimension"/>
     <attr name="rightTextMaxWidth" format="dimension"/>
     <attr name="rightTextBackground" format="reference|color"/>
+    <attr name="rightTextGravity">
+        <!-- Push object to the top of its container, not changing its size. -->
+        <flag name="top" value="0x30"/>
+        <!-- Push object to the bottom of its container, not changing its size. -->
+        <flag name="bottom" value="0x50"/>
+        <!-- Push object to the left of its container, not changing its size. -->
+        <flag name="left" value="0x03"/>
+        <!-- Push object to the right of its container, not changing its size. -->
+        <flag name="right" value="0x05"/>
+        <!-- Place object in the vertical center of its container, not changing its size. -->
+        <flag name="center_vertical" value="0x10"/>
+        <!-- Place object in the horizontal center of its container, not changing its size. -->
+        <flag name="center_horizontal" value="0x01"/>
+        <!-- Place the object in the center of its container in both the vertical and horizontal axis, not changing its size. -->
+        <flag name="center" value="0x11"/>
+    </attr>
     <attr name="rightTextVisibility">
         <enum name="visible" value="0"/>
         <enum name="invisible" value="4"/>
@@ -628,6 +661,7 @@
         <attr name="leftTextMinWidth"/>
         <attr name="leftTextMaxWidth"/>
         <attr name="leftTextBackground"/>
+        <attr name="leftTextGravity"/>
 
         <attr name="inputBackground"/>
         <attr name="inputGravity"/>
@@ -649,6 +683,7 @@
         <attr name="rightTextMinWidth"/>
         <attr name="rightTextMaxWidth"/>
         <attr name="rightTextVisibility"/>
+        <attr name="rightTextGravity"/>
 
         <attr name="rightImage"/>
         <attr name="rightImageBackground"/>

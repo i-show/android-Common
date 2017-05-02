@@ -446,7 +446,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
      * 进行检测参数的有效性
      */
     private void checkEffectiveParams() {
-        // just set left and right button width = height
+        // just set left and right button with = height
         if (mTitleColor == null) {
             mTitleColor = ColorStateList.valueOf(Color.WHITE);
         }

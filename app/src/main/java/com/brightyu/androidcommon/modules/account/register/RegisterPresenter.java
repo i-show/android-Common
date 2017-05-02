@@ -28,19 +28,20 @@ import java.util.Random;
 /**
  * 注册的Presenter
  */
-class RegisterPresenter extends RegisterContract.Presenter {
+class RegisterPresenter implements RegisterContract.Presenter {
 
 
     //  用来模拟网络连接的Handler
     private Handler mHandler = new Handler();
+    private RegisterContract.View mView;
 
     RegisterPresenter(RegisterContract.View view) {
-        super(view);
+        mView = view;
     }
 
 
     @Override
-    void register(Context context, String name, String verifyCode, String password, String ensurePassword) {
+    public void register(Context context, String name, String verifyCode, String password, String ensurePassword) {
         String errorMessage = UserManager.checkAccount(context, name);
         if (!TextUtils.isEmpty(errorMessage)) {
             mView.showError(errorMessage, true, 0);
@@ -82,7 +83,7 @@ class RegisterPresenter extends RegisterContract.Presenter {
     }
 
     @Override
-    void sendVerifiyCode(Context context, String phoneNumber) {
+    public void sendVerifiyCode(Context context, String phoneNumber) {
         // 模拟发送验证码
         mHandler.postDelayed(new Runnable() {
             @Override

@@ -25,6 +25,7 @@ import com.ishow.common.utils.http.rest.HttpError;
 import com.ishow.common.utils.http.rest.RequestParams;
 import com.ishow.common.utils.http.rest.callback.CallBack;
 import com.ishow.common.utils.http.rest.config.HttpConfig;
+import com.ishow.common.utils.http.rest.exception.HttpErrorException;
 import com.ishow.common.utils.http.rest.request.Request;
 import com.ishow.common.utils.http.rest.MultiBody;
 import com.ishow.common.utils.http.rest.response.Response;
@@ -64,7 +65,8 @@ public class OkhttpExecutor extends Executor {
     @Override
     public <T> void execute(Request request, CallBack<T> callBack) {
         // Step 1. url
-        String url = makeUrl(request);
+        String url = formatUrl(request);
+        request.setFinalUrl(url);
         // Step 2. headers
         Headers headers = makeHeaders(request);
         okhttp3.Request.Builder builder = new okhttp3.Request.Builder()
@@ -139,7 +141,10 @@ public class OkhttpExecutor extends Executor {
                 if (!isCanceled(request, response, callBack) && isSuccessful(request, response, callBack)) {
                     try {
                         T t = callBack.parseResponse(request, response);
-                        callBack.runOnUiThreadSuccessful(t);
+                        callBack.runOnUiThreadSuccessful(response, t);
+                    } catch (HttpErrorException e) {
+                        HttpError error = e.getHttpError();
+                        callBack.runOnUiThreadFailed(error);
                     } catch (Exception e) {
                         HttpError error = HttpError.makeError(request);
                         error.setCode(HttpError.ERROR_TYPE);
@@ -152,17 +157,6 @@ public class OkhttpExecutor extends Executor {
         });
     }
 
-    /**
-     * Maker url
-     */
-    private String makeUrl(@NonNull Request request) {
-        String url = request.getUrl();
-        if (TextUtils.isEmpty(url)) {
-            throw new IllegalStateException("need a url");
-        }
-
-        return formatUrl(url, request.getParams().getNormalParams());
-    }
 
     /**
      * Maker Header
@@ -185,7 +179,7 @@ public class OkhttpExecutor extends Executor {
         List<MultiBody> bodyList = params.getBodyList();
         List<KeyValue> normalParams = params.getNormalParams();
 
-        if (!normalParams.isEmpty() && body == null && bodyList.isEmpty()) {
+        if (body == null && bodyList.isEmpty()) {
             // 只有key value样式的
             FormBody.Builder builder = new FormBody.Builder();
             for (KeyValue keyValue : normalParams) {

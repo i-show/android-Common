@@ -19,15 +19,17 @@ package com.brightyu.androidcommon.modules.account.password.forgot;
 
 import android.content.Context;
 
-import com.brightyu.androidcommon.modules.base.mvp.BasePresenter;
-import com.brightyu.androidcommon.modules.base.mvp.BaseView;
+import com.ishow.common.mvp.base.BasePresenter;
+import com.ishow.common.mvp.base.BaseView;
+import com.ishow.common.mvp.base.IViewStatus;
+
 
 /**
  * This specifies the contract between the view and the presenter.
  */
 interface ForgotPasswordContract {
 
-    interface View extends BaseView {
+    interface View extends BaseView, IViewStatus {
 
         void showSendVerifySuccess();
 
@@ -35,19 +37,16 @@ interface ForgotPasswordContract {
 
     }
 
-    abstract class Presenter extends BasePresenter<View> {
-        Presenter(View view) {
-            super(view);
-        }
+    interface Presenter extends BasePresenter {
 
         /**
          * 重置密码
          */
-        abstract void resetPassword(Context context, String name, String verifyCode, String password, String ensurePassword);
+        void resetPassword(Context context, String name, String verifyCode, String password, String ensurePassword);
 
         /**
          * 发送验证码
          */
-        abstract void sendVerifiyCode();
+        void sendVerifiyCode(Context context, String phoneNumber);
     }
 }

@@ -19,15 +19,16 @@ package com.brightyu.androidcommon.modules.account.login;
 
 import android.content.Context;
 
-import com.brightyu.androidcommon.modules.base.mvp.BasePresenter;
-import com.brightyu.androidcommon.modules.base.mvp.BaseView;
+import com.ishow.common.mvp.base.BasePresenter;
+import com.ishow.common.mvp.base.BaseView;
+import com.ishow.common.mvp.base.IViewStatus;
 
 /**
  * This specifies the contract between the view and the presenter.
  */
 interface LoginContract {
 
-    interface View extends BaseView {
+    interface View extends BaseView, IViewStatus {
 
 
         /**
@@ -36,11 +37,8 @@ interface LoginContract {
         void updateUI(boolean rememberPassword, String account, String password);
     }
 
-    abstract class Presenter extends BasePresenter<View> {
-        Presenter(View view) {
-            super(view);
-        }
+    interface Presenter extends BasePresenter {
 
-        abstract void login(Context context, String name, String password);
+        void login(Context context, String name, String password);
     }
 }
