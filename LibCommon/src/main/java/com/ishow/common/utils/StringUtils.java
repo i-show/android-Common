@@ -21,10 +21,26 @@ import android.text.TextUtils;
 import java.util.Locale;
 
 public class StringUtils {
+    /**
+     * 空字符串
+     */
     public static final String EMPTY = "";
+    /**
+     * 换行
+     */
+    @SuppressWarnings("unused")
     public static final String NEW_LINE = "\n";
+    /**
+     * 制表符
+     */
+    @SuppressWarnings("unused")
     public static final String TAB = "\t";
+    /**
+     * 人民币
+     */
+    @SuppressWarnings("unused")
     public static final String MONEY = "￥";
+
     /**
      * 字符串累加
      */
@@ -45,6 +61,7 @@ public class StringUtils {
      * @param data 要转换的字节数组。
      * @return 转换后的结果。
      */
+    @SuppressWarnings("unused")
     public static String byteArrayToHexString(byte[] data) {
         StringBuilder sb = new StringBuilder(data.length * 2);
         for (byte b : data) {
@@ -63,6 +80,7 @@ public class StringUtils {
      * @param s 16进制表示的字符串
      * @return byte[] 字节数组
      */
+    @SuppressWarnings("unused")
     public static byte[] hexStringToByteArray(String s) {
         int len = s.length();
         byte[] d = new byte[len / 2];

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2016 The yuhaiyang Android Source Project
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +16,7 @@
 
 package com.brightyu.androidcommon.modules.init;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,7 +36,6 @@ import com.brightyu.androidcommon.modules.main.MainActivity;
  * 引导界面
  */
 public class SplashActivity extends AppBaseActivity {
-    private static final String TAG = "SplashActivity";
     private static final int HANDLE_GO_NEXT = 1 << Shift.ACTIVITY;
 
     @Override
@@ -85,6 +85,7 @@ public class SplashActivity extends AppBaseActivity {
     /**
      * 父类中自动回收Handler机制
      */
+    @SuppressLint("HandlerLeak")
     private class RecycleHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {

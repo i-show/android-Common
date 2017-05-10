@@ -100,7 +100,6 @@ public class DateTimePicker extends LinearLayout {
         this(context, attrs, 0);
     }
 
-    @SuppressWarnings("all")
     public DateTimePicker(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.DateTimePicker);
@@ -113,6 +112,7 @@ public class DateTimePicker extends LinearLayout {
         initViews();
         initDatas();
 
+        //noinspection WrongConstant
         setStyle(style);
     }
 
@@ -289,6 +289,7 @@ public class DateTimePicker extends LinearLayout {
         return mMinAdapter.getStart() + mMinPicker.getCurrentPosition();
     }
 
+    @SuppressWarnings("unused")
     public void setCurrentDate(@NonNull Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -308,6 +309,7 @@ public class DateTimePicker extends LinearLayout {
         mMinPicker.setCurrentPosition(now - 1);
     }
 
+    @SuppressWarnings("unused")
     public void setCurrentDate(int year, int month, int day, int hour, int min) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
@@ -357,6 +359,7 @@ public class DateTimePicker extends LinearLayout {
      * 设置开始日期
      * 先暂时不使用
      */
+    @SuppressWarnings("unused")
     private void setStartDate(@NonNull Date date) {
         mStartDate.setTime(date);
     }
@@ -365,6 +368,7 @@ public class DateTimePicker extends LinearLayout {
      * 设置结束日期
      * 先暂时不使用
      */
+    @SuppressWarnings("unused")
     private void setEndDate(@NonNull Date date) {
         mEndDate.setTime(date);
     }
@@ -412,10 +416,9 @@ public class DateTimePicker extends LinearLayout {
 
         @Override
         public void onItemSelected(int position) {
-            final int year, month, day, hour;
             switch (mType) {
                 case Calendar.YEAR:
-                    month = getCurrentMonth();
+                    final int month = getCurrentMonth();
                     if (month == 2) {
                         updateDay();
                     }
