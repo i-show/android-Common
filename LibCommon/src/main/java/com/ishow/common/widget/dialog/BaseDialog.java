@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2016 The yuhaiyang Android Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,7 +36,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.ishow.common.R;
-import com.ishow.common.utils.Utils;
+import com.ishow.common.utils.ScreenUtils;
 
 
 /**
@@ -223,8 +223,8 @@ public class BaseDialog extends Dialog implements DialogInterface {
         super.show();
         Window window = getWindow();
         LayoutParams lp = window.getAttributes();
-        int width = Utils.getScreenSize(getContext())[0];
-        int height = Utils.getScreenSize(getContext())[1];
+        int width = ScreenUtils.getScreenSize()[0];
+        int height = ScreenUtils.getScreenSize()[1];
         if (isShowFromBottom) {
             if (width > height) {
                 lp.width = height;

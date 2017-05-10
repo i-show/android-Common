@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2016 The yuhaiyang Android Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,6 +28,8 @@ import android.support.v7.widget.RecyclerView.State;
 import android.util.Log;
 import android.view.View;
 
+import com.ishow.common.utils.UnitUtils;
+
 public class LinearItemDecoration extends RecyclerView.ItemDecoration {
     private static final String TAG = "LinearItemDecoration";
     /**
@@ -38,6 +40,19 @@ public class LinearItemDecoration extends RecyclerView.ItemDecoration {
     private int mDividerSize;
     private int mOrientation;
     private boolean showLastDivier;
+
+
+    public LinearItemDecoration(Context context, @DrawableRes int divider) {
+        this(context, divider, LinearLayoutManager.VERTICAL);
+    }
+
+    public LinearItemDecoration(Context context, @DrawableRes int divider, int orientation) {
+        mDivider = context.getResources().getDrawable(divider);
+        mDividerSize = UnitUtils.dip2px(context, 1);
+        repairDividerSize();
+
+        setOrientation(orientation);
+    }
 
     public LinearItemDecoration(Context context, @DrawableRes int divider, @DimenRes int dividerSize, int orientation) {
         mDivider = context.getResources().getDrawable(divider);
