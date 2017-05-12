@@ -25,7 +25,6 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ishow.common.R;
@@ -55,20 +54,19 @@ public class XHeaderView extends LinearLayout {
      */
     public final static int STATE_REFRESH_FAIL = 4;
 
-    private static final int ROTATE_ANIM_DURATION = 180;
+    private static final int ROTATE_ANIM_DURATION = 300;
 
     private LinearLayout mContainer;
 
-    private ImageView mArrowImageView;
-    private ProgressBar mProgressBar;
-
-    private TextView mHintTextView;
+    private ImageView mIconVIew;
+    private TextView mTextView;
     private View mLine;
 
     private int mState = STATE_NORMAL;
 
     private Animation mRotateUpAnim;
     private Animation mRotateDownAnim;
+    private Animation mRotateLoading;
 
     private boolean mIsFirst;
 
@@ -93,9 +91,8 @@ public class XHeaderView extends LinearLayout {
         addView(mContainer, lp);
         setGravity(Gravity.BOTTOM);
 
-        mArrowImageView = (ImageView) findViewById(R.id.header_arrow);
-        mHintTextView = (TextView) findViewById(R.id.header_hint_text);
-        mProgressBar = (ProgressBar) findViewById(R.id.header_progressbar);
+        mIconVIew = (ImageView) findViewById(R.id.pull_to_refresh_header_image);
+        mTextView = (TextView) findViewById(R.id.pull_to_refresh_header_text);
         mLine = findViewById(R.id.header_line);
 
         mRotateUpAnim = new RotateAnimation(0.0f, -180.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
@@ -105,6 +102,11 @@ public class XHeaderView extends LinearLayout {
         mRotateDownAnim = new RotateAnimation(-180.0f, 0.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         mRotateDownAnim.setDuration(ROTATE_ANIM_DURATION);
         mRotateDownAnim.setFillAfter(true);
+
+        mRotateLoading = new RotateAnimation(0, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        mRotateLoading.setDuration(ROTATE_ANIM_DURATION * 2);
+        mRotateLoading.setRepeatCount(Animation.INFINITE);
+        mRotateLoading.setFillAfter(false);
     }
 
     public void setState(int newState) {
@@ -115,48 +117,45 @@ public class XHeaderView extends LinearLayout {
 
         switch (newState) {
             case STATE_NORMAL:
-                mHintTextView.setText(R.string.pulltorefresh_header_normal);
-                mArrowImageView.setImageResource(R.drawable.ic_pulltorefresh_arrow_down);
-                mArrowImageView.setVisibility(View.VISIBLE);
-                mProgressBar.setVisibility(View.INVISIBLE);
+                mTextView.setText(R.string.pulltorefresh_header_normal);
+                mIconVIew.setImageResource(R.drawable.ic_pulltorefresh_arrow);
+                mIconVIew.setVisibility(View.VISIBLE);
                 if (mState == STATE_READY) {
-                    mArrowImageView.startAnimation(mRotateDownAnim);
+                    mIconVIew.startAnimation(mRotateDownAnim);
                 }
 
                 if (mState == STATE_REFRESHING) {
-                    mArrowImageView.clearAnimation();
+                    mIconVIew.clearAnimation();
                 }
 
                 break;
 
             case STATE_READY:
                 if (mState != STATE_READY) {
-                    mArrowImageView.clearAnimation();
-                    mArrowImageView.startAnimation(mRotateUpAnim);
-                    mHintTextView.setText(R.string.pulltorefresh_header_ready);
+                    mIconVIew.clearAnimation();
+                    mIconVIew.startAnimation(mRotateUpAnim);
+                    mTextView.setText(R.string.pulltorefresh_header_ready);
                 }
-                mArrowImageView.setImageResource(R.drawable.ic_pulltorefresh_arrow_down);
-                mArrowImageView.setVisibility(View.VISIBLE);
-                mProgressBar.setVisibility(View.INVISIBLE);
+                mIconVIew.setImageResource(R.drawable.ic_pulltorefresh_arrow);
+                mIconVIew.setVisibility(View.VISIBLE);
                 break;
 
             case STATE_REFRESHING:
-                mHintTextView.setText(R.string.pulltorefresh_header_loading);
-                mArrowImageView.clearAnimation();
-                mArrowImageView.setVisibility(View.INVISIBLE);
-                mProgressBar.setVisibility(View.VISIBLE);
+                mIconVIew.clearAnimation();
+                mIconVIew.setImageResource(R.drawable.ic_pulltorefresh_loading);
+                mIconVIew.startAnimation(mRotateLoading);
+                mTextView.setText(R.string.pulltorefresh_header_loading);
+                requestLayout();
                 break;
             case STATE_REFRESH_SUCCESS:
-                mHintTextView.setText(R.string.pulltorefresh_header_success);
-                mArrowImageView.setImageResource(R.drawable.ic_pulltorefresh_refresh_success);
-                mArrowImageView.setVisibility(View.VISIBLE);
-                mProgressBar.setVisibility(View.INVISIBLE);
+                mTextView.setText(R.string.pulltorefresh_header_success);
+                mIconVIew.setImageResource(R.drawable.ic_pulltorefresh_refresh_success);
+                mIconVIew.setVisibility(View.VISIBLE);
                 break;
             case STATE_REFRESH_FAIL:
-                mHintTextView.setText(R.string.pulltorefresh_header_fail);
-                mArrowImageView.setImageResource(R.drawable.ic_pulltorefresh_refresh_fail);
-                mArrowImageView.setVisibility(View.VISIBLE);
-                mProgressBar.setVisibility(View.INVISIBLE);
+                mTextView.setText(R.string.pulltorefresh_header_fail);
+                mIconVIew.setImageResource(R.drawable.ic_pulltorefresh_refresh_fail);
+                mIconVIew.setVisibility(View.VISIBLE);
                 break;
             default:
                 break;

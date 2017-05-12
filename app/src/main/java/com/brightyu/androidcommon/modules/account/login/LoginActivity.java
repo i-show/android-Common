@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.ishow.common.app.activity.BaseActivity;
+import com.ishow.common.widget.edittext.EditTextPro;
 import com.ishow.common.widget.loading.LoadingDialog;
 import com.brightyu.androidcommon.R;
 import com.brightyu.androidcommon.modules.account.password.forgot.ForgotPasswordActivity;
@@ -34,8 +35,8 @@ import com.brightyu.androidcommon.modules.main.MainActivity;
  */
 public class LoginActivity extends BaseActivity implements LoginContract.View, View.OnClickListener {
     private LoginContract.Presenter mPresenter;
-    private EditText mEditAccount;
-    private EditText mEditPassword;
+    private EditTextPro mEditAccount;
+    private EditTextPro mEditPassword;
 
     private LoadingDialog mLoadingDialog;
 
@@ -52,8 +53,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
     protected void initViews() {
         super.initViews();
 
-        mEditAccount = (EditText) findViewById(R.id.account);
-        mEditPassword = (EditText) findViewById(R.id.password);
+        mEditAccount = (EditTextPro) findViewById(R.id.account);
+        mEditPassword = (EditTextPro) findViewById(R.id.password);
 
         View login = findViewById(R.id.login);
         login.setOnClickListener(this);
@@ -70,8 +71,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
         Intent intent;
         switch (v.getId()) {
             case R.id.login:
-                String account = mEditAccount.getText().toString();
-                String name = mEditPassword.getText().toString();
+                String account = mEditAccount.getInputText();
+                String name = mEditPassword.getInputText();
                 mPresenter.login(this, account, name);
                 break;
             case R.id.regist:
@@ -88,8 +89,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
 
     @Override
     public void updateUI(boolean rememberPassword, String account, String password) {
-        mEditAccount.setText(account);
-        mEditPassword.setText(password);
+        mEditAccount.setInputText(account);
+        mEditPassword.setInputText(password);
     }
 
     @Override

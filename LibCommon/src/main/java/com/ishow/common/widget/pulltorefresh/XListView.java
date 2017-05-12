@@ -79,7 +79,7 @@ public class XListView extends ListView implements IPullToRefresh, OnScrollListe
 
 
     // header view content, use it to calculate the Header's height. And hide it when disable pull refresh.
-    private RelativeLayout mHeaderContent;
+    private View mHeaderContent;
     private int mHeaderHeight;
 
     private XHeaderView mHeaderView;
@@ -122,7 +122,7 @@ public class XListView extends ListView implements IPullToRefresh, OnScrollListe
         // init header view
         mHeaderView = new XHeaderView(context);
         mHeaderView.setLineVisibility(headerLineVisibility);
-        mHeaderContent = (RelativeLayout) mHeaderView.findViewById(R.id.header_content);
+        mHeaderContent = mHeaderView.findViewById(R.id.header_content);
         addHeaderView(mHeaderView);
         setHeaderDividersEnabled(false);
         setFooterDividersEnabled(false);
@@ -148,11 +148,7 @@ public class XListView extends ListView implements IPullToRefresh, OnScrollListe
                     ViewTreeObserver observer = getViewTreeObserver();
 
                     if (null != observer) {
-                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                            observer.removeGlobalOnLayoutListener(this);
-                        } else {
-                            observer.removeOnGlobalLayoutListener(this);
-                        }
+                        observer.removeOnGlobalLayoutListener(this);
                     }
                 }
             });
@@ -262,7 +258,6 @@ public class XListView extends ListView implements IPullToRefresh, OnScrollListe
         mPullRefreshing = false;
         mHeaderView.setState(XHeaderView.STATE_REFRESH_SUCCESS);
         mHandler.sendEmptyMessageDelayed(HANDLER_RESET_HEADER_HEIGHT, 500);
-
     }
 
     /**
@@ -395,6 +390,7 @@ public class XListView extends ListView implements IPullToRefresh, OnScrollListe
                 mFooterView.setState(XFooterView.STATE_NORMAL);
             }
         }
+        Log.i("nian", "updateFooterHeight: height = " + height);
 
         mFooterView.setBottomMargin(height);
     }

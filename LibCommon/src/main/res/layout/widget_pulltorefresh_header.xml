@@ -15,55 +15,38 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="bottom"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="bottom"
+              android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/header_content"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_50">
-
-        <LinearLayout
-            android:id="@+id/header_text_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/header_hint_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/pulltorefresh_header_normal"
-                android:textSize="@dimen/H_title" />
-        </LinearLayout>
-
-        <ProgressBar
-            android:id="@+id/header_progressbar"
-            android:layout_width="@dimen/dp_25"
-            android:layout_height="@dimen/dp_25"
-            android:layout_centerVertical="true"
-            android:layout_margin="@dimen/dp_15"
-            android:layout_toLeftOf="@id/header_text_layout"
-            android:visibility="gone" />
+        android:layout_height="@dimen/pulltorefresh_classic_header_min_h"
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/header_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/header_text_layout"
+            android:id="@+id/pull_to_refresh_header_image"
+            android:layout_width="@dimen/pulltorefresh_classic_header_image_size"
+            android:layout_height="@dimen/pulltorefresh_classic_header_image_size"
             android:contentDescription="@null"
             android:minWidth="@dimen/dp_40"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_pulltorefresh_arrow_down" />
+            android:src="@drawable/ic_pulltorefresh_arrow"/>
 
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/pull_to_refresh_header_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_12"
+            android:textColor="@color/text_grey_light_normal"
+            android:textSize="@dimen/H_title"/>
+
+    </LinearLayout>
 
     <View
         android:id="@+id/header_line"
-        style="@style/Line.Horizontal" />
+        style="@style/Line.Horizontal"/>
 </LinearLayout>

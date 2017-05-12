@@ -34,6 +34,20 @@
 
     <style name="EditTextPro"/>
 
+    <style name="EditTextPro.Login">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/girdle_min_h</item>
+        <item name="android:textColor">@color/text_grey_normal</item>
+        <item name="android:textSize">@dimen/H_title</item>
+        <item name="android:textColorHint">@color/text_grey_hint</item>
+        <item name="android:layout_marginStart">@dimen/dp_30</item>
+        <item name="android:layout_marginEnd">@dimen/dp_30</item>
+        <item name="leftTextVisibility">gone</item>
+        <item name="rightImageVisibility">gone</item>
+        <item name="tintColor">@color/color_primary</item>
+        <item name="inputLines">1</item>
+    </style>
+
     <style name="EditTextPro.Register">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/dp_52</item>

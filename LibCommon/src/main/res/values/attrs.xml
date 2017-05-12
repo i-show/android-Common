@@ -648,6 +648,8 @@
     </declare-styleable>
 
     <declare-styleable name="EditTextPro">
+        <attr name="tintColor"/>
+
         <attr name="leftImage"/>
         <attr name="leftImageBackground"/>
         <attr name="leftImageRightMargin"/>

@@ -22,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -48,16 +49,15 @@ public class XFooterView extends LinearLayout {
      */
     public final static int STATE_END = 3;
 
-    private static final int ROTATE_ANIM_DURATION = 180;
+    private static final int ROTATE_ANIM_DURATION = 300;
 
     private View mLayout;
 
-    private View mProgressBar;
-    private TextView mHintView;
+    private TextView mLoadMoreTextView;
+    private ImageView mLoadMoreLoadingView;
     private View mLine;
 
-    private Animation mRotateUpAnim;
-    private Animation mRotateDownAnim;
+    private Animation mRotateLoading;
 
     private int mState = STATE_NORMAL;
 
@@ -72,27 +72,24 @@ public class XFooterView extends LinearLayout {
     }
 
     private void initView(Context context) {
-        mLayout = LayoutInflater.from(context).inflate(R.layout.widget_pulltorefresh_footer, null);
+        mLayout = LayoutInflater.from(context).inflate(R.layout.widget_pulltorefresh_footer, this, false);
         mLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         addView(mLayout);
 
-        mProgressBar = mLayout.findViewById(R.id.footer_progressbar);
-        mHintView = (TextView) mLayout.findViewById(R.id.footer_hint_text);
+        mLoadMoreTextView = (TextView) mLayout.findViewById(R.id.pull_to_refesh_footer_text);
+        mLoadMoreLoadingView = (ImageView) mLayout.findViewById(R.id.pull_to_refesh_footer_loading);
         mLine = mLayout.findViewById(R.id.footer_line);
 
-        mRotateUpAnim = new RotateAnimation(0.0f, 180.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        mRotateUpAnim.setDuration(ROTATE_ANIM_DURATION);
-        mRotateUpAnim.setFillAfter(true);
-
-        mRotateDownAnim = new RotateAnimation(180.0f, 0.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        mRotateDownAnim.setDuration(ROTATE_ANIM_DURATION);
-        mRotateDownAnim.setFillAfter(true);
+        mRotateLoading = new RotateAnimation(0, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        mRotateLoading.setDuration(ROTATE_ANIM_DURATION * 2);
+        mRotateLoading.setRepeatCount(Animation.INFINITE);
+        mRotateLoading.setFillAfter(false);
+        setNormalStatus();
     }
 
     /**
      * Set footer view state
      *
-     * @param newState
      * @see #STATE_LOADING
      * @see #STATE_NORMAL
      * @see #STATE_READY
@@ -102,27 +99,20 @@ public class XFooterView extends LinearLayout {
 
         switch (newState) {
             case STATE_NORMAL:
-                mHintView.setText(R.string.pulltorefresh_footer_normal);
-                mHintView.setVisibility(View.VISIBLE);
-                mProgressBar.setVisibility(View.INVISIBLE);
+                setNormalStatus();
                 break;
 
             case STATE_READY:
-                if (mState != STATE_READY) {
-                    mHintView.setText(R.string.pulltorefresh_footer_ready);
-                }
-                mHintView.setVisibility(View.VISIBLE);
-                mProgressBar.setVisibility(View.INVISIBLE);
+                mLoadMoreLoadingView.setVisibility(View.GONE);
+                mLoadMoreTextView.setText(R.string.pulltorefresh_footer_ready);
                 break;
 
             case STATE_LOADING:
-                mProgressBar.setVisibility(View.VISIBLE);
-                mHintView.setVisibility(View.INVISIBLE);
+                setLoadingStatus();
                 break;
             case STATE_END:
-                mHintView.setText(R.string.pulltorefresh_footer_end);
-                mHintView.setVisibility(View.VISIBLE);
-                mProgressBar.setVisibility(View.INVISIBLE);
+                mLoadMoreLoadingView.setVisibility(View.GONE);
+                mLoadMoreTextView.setText(R.string.pulltorefresh_footer_end);
                 break;
         }
 
@@ -131,8 +121,6 @@ public class XFooterView extends LinearLayout {
 
     /**
      * Get footer view bottom margin.
-     *
-     * @return
      */
     public int getBottomMargin() {
         LayoutParams lp = (LayoutParams) mLayout.getLayoutParams();
@@ -141,8 +129,6 @@ public class XFooterView extends LinearLayout {
 
     /**
      * Set footer view bottom margin.
-     *
-     * @param margin
      */
     public void setBottomMargin(int margin) {
         if (margin < 0) return;
@@ -152,19 +138,21 @@ public class XFooterView extends LinearLayout {
     }
 
     /**
-     * normal status
+     * setNormalStatus status
      */
-    public void normal() {
-        mHintView.setVisibility(View.VISIBLE);
-        mProgressBar.setVisibility(View.GONE);
+    public void setNormalStatus() {
+        mLoadMoreLoadingView.setVisibility(View.GONE);
+        mLoadMoreTextView.setText(R.string.pulltorefresh_footer_normal);
     }
 
     /**
-     * loading status
+     * setLoadingStatus status
      */
-    public void loading() {
-        mHintView.setVisibility(View.GONE);
-        mProgressBar.setVisibility(View.VISIBLE);
+    public void setLoadingStatus() {
+        mLoadMoreLoadingView.clearAnimation();
+        mLoadMoreLoadingView.startAnimation(mRotateLoading);
+        mLoadMoreLoadingView.setVisibility(View.VISIBLE);
+        mLoadMoreTextView.setText(R.string.pulltorefresh_footer_loading);
     }
 
     /**

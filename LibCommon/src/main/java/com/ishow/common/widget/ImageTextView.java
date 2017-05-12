@@ -679,7 +679,7 @@ public class ImageTextView extends View implements IPrompt {
     }
 
     /**
-     * Gets the text colors for the different states (normal, selected, focused) of the ImageTextButton.
+     * Gets the text colors for the different states (setNormalStatus, selected, focused) of the ImageTextButton.
      * <p/>
      * if is null , just it default
      *

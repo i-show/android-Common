@@ -7,7 +7,7 @@ buildscript {
 
     dependencies {
         //  Android 默认的编译工具库插件
-        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'com.android.tools.build:gradle:2.3.2'
         //  GreenDao 插件- 生成实体类和数据库主要类别
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.0'
         // AA 插件（注解的插件）

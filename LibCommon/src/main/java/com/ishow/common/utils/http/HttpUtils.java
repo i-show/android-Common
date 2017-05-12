@@ -18,11 +18,14 @@ package com.ishow.common.utils.http;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.net.Network;
 import android.net.NetworkInfo;
+import android.os.Build;
 
 /**
  * 网络工具
  */
+
 public class HttpUtils {
     /**
      * 判断是否具有网络连接
@@ -66,21 +69,34 @@ public class HttpUtils {
 
     /**
      * 判断网络连接类型
+     * <p>This method requires the caller to hold the permission
+     * {@link android.Manifest.permission#ACCESS_NETWORK_STATE}.
      */
     public static int getNetworkConnectionType(Context context) {
-        final ConnectivityManager connectivityManager = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        final NetworkInfo wifiNetWorkInfo = connectivityManager
-                .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        final NetworkInfo mobileNetWorkInfo = connectivityManager
-                .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-
-        if (wifiNetWorkInfo != null && wifiNetWorkInfo.isAvailable()) {
-            return ConnectivityManager.TYPE_WIFI;
-        } else if (mobileNetWorkInfo != null && mobileNetWorkInfo.isAvailable()) {
-            return ConnectivityManager.TYPE_MOBILE;
-        } else {
+        final ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Network[] networks = manager.getAllNetworks();
+            NetworkInfo networkInfo;
+            for (Network network : networks) {
+                networkInfo = manager.getNetworkInfo(network);
+                if (networkInfo.isAvailable()) {
+                    return networkInfo.getType();
+                }
+            }
             return -1;
+        } else {
+            @SuppressWarnings("deprecation")
+            final NetworkInfo wifiNetWorkInfo = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            @SuppressWarnings("deprecation")
+            final NetworkInfo mobileNetWorkInfo = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+            if (wifiNetWorkInfo != null && wifiNetWorkInfo.isAvailable()) {
+                return ConnectivityManager.TYPE_WIFI;
+            } else if (mobileNetWorkInfo != null && mobileNetWorkInfo.isAvailable()) {
+                return ConnectivityManager.TYPE_MOBILE;
+            } else {
+                return -1;
+            }
         }
     }
 }

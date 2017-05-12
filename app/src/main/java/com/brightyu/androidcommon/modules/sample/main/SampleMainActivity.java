@@ -28,6 +28,7 @@ import com.brightyu.androidcommon.modules.sample.imageloader.SampleImageLoaderAc
 import com.brightyu.androidcommon.modules.sample.permission.SamplePermissionActivity;
 import com.brightyu.androidcommon.modules.sample.photo.select.SampleSelectPhotoActivity;
 import com.brightyu.androidcommon.modules.sample.pickview.SamplePickerActivity;
+import com.ishow.common.widget.pulltorefresh.XListView;
 
 /**
  * 测试Demo
@@ -61,6 +62,11 @@ public class SampleMainActivity extends AppBaseActivity implements View.OnClickL
         // ImageLoader
         view = findViewById(R.id.sample_select_imageloader);
         view.setOnClickListener(this);
+
+
+        TestAdapter adapter = new TestAdapter(this);
+        XListView listView = (XListView) findViewById(R.id.list);
+        listView.setAdapter(adapter);
     }
 
     @Override

@@ -17,6 +17,7 @@
 package com.ishow.common.widget.edittext;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -24,6 +25,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -143,6 +145,8 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     private int mMinHegiht;
     private int mBottomLineHegiht;
 
+    private ColorStateList mTintColor;
+
     private Paint mBottomLinePaint;
     private OnEditTextListener mEditTextListener;
 
@@ -157,6 +161,9 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     public EditTextPro(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.EditTextPro);
+
+        mTintColor = a.getColorStateList(R.styleable.EditTextPro_tintColor);
+
         mLeftImageDrawable = a.getDrawable(R.styleable.EditTextPro_leftImage);
         mLeftImageBackgroundDrawable = a.getDrawable(R.styleable.EditTextPro_leftImageBackground);
         mLeftImageVisibility = a.getInt(R.styleable.EditTextPro_leftImageVisibility, View.VISIBLE);
@@ -424,6 +431,11 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         }
 
         if (mLeftImageView == null) {
+            if (mTintColor != null) {
+                mLeftImageDrawable = DrawableCompat.wrap(mLeftImageDrawable);
+                DrawableCompat.setTintList(mLeftImageDrawable, mTintColor);
+            }
+
             mLeftImageView = new PromptImageView(getContext());
             mLeftImageView.setId(R.id.leftImage);
             mLeftImageView.setVisibility(VISIBLE);
@@ -520,6 +532,11 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
             mRightTextView.setBackground(mRightTextBackgroundDrawable);
             mRightTextView.setGravity(mRightTextGravity);
             if (mRightTextRightDrawable != null) {
+                if (mTintColor != null) {
+                    mRightTextRightDrawable = DrawableCompat.wrap(mRightTextRightDrawable);
+                    DrawableCompat.setTintList(mRightTextRightDrawable, mTintColor);
+                }
+
                 mRightTextView.setCompoundDrawablesWithIntrinsicBounds(null, null, mRightTextRightDrawable, null);
             }
             setDefaultPromptState(mRightTextView);
@@ -535,6 +552,12 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         }
 
         if (mRightImageView == null) {
+
+            if (mTintColor != null && mRightImageDrawable != null) {
+                mRightImageDrawable = DrawableCompat.wrap(mRightImageDrawable);
+                DrawableCompat.setTintList(mRightImageDrawable, mTintColor);
+            }
+
             mRightImageView = new PromptImageView(getContext());
             mRightImageView.setId(R.id.rightImage);
             mRightImageView.setVisibility(mRightImageVisibility);
@@ -635,6 +658,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         mEditTextListener = listener;
     }
 
+    @SuppressWarnings("WeakerAccess")
     public interface OnEditTextListener {
         void onCancel();
     }

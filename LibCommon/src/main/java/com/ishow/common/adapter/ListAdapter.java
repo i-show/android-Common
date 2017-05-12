@@ -291,7 +291,7 @@ public abstract class ListAdapter<DATA, HOLDER extends ListAdapter.Holder> exten
             return mType;
         }
 
-        View getItemView() {
+        public View getItemView() {
             return item;
         }
     }
