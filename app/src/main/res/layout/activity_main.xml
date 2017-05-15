@@ -26,25 +26,29 @@
             android:id="@+id/home"
             style="@style/ImageTextView.BottomBar"
             app:image="@drawable/footer_home"
-            app:text="@string/home"/>
+            app:text="@string/home"
+            app:tint="@color/bottom_bar_tint"/>
 
         <com.ishow.common.widget.ImageTextView
             android:id="@+id/prod"
             style="@style/ImageTextView.BottomBar"
             app:image="@drawable/footer_prod"
-            app:text="@string/prod"/>
+            app:text="@string/prod"
+            app:tint="@color/bottom_bar_tint"/>
 
         <com.ishow.common.widget.ImageTextView
             android:id="@+id/shopping"
             style="@style/ImageTextView.BottomBar"
             app:image="@drawable/footer_shopping"
-            app:text="@string/shopping"/>
+            app:text="@string/shopping"
+            app:tint="@color/bottom_bar_tint"/>
 
         <com.ishow.common.widget.ImageTextView
             android:id="@+id/mine"
             style="@style/ImageTextView.BottomBar"
             app:image="@drawable/footer_mine"
-            app:text="@string/mine"/>
+            app:text="@string/mine"
+            app:tint="@color/bottom_bar_tint"/>
 
     </com.ishow.common.widget.BottomBar>
 </LinearLayout>

@@ -19,24 +19,24 @@ package com.ishow.common.widget;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
+import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.FloatRange;
 import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
@@ -48,7 +48,6 @@ import android.view.View;
 
 import com.ishow.common.R;
 import com.ishow.common.constant.Position;
-import com.ishow.common.utils.image.ImageUtils;
 import com.ishow.common.widget.prompt.IPrompt;
 
 import java.lang.annotation.Retention;
@@ -74,11 +73,7 @@ public class ImageTextView extends View implements IPrompt {
     /**
      * 覆盖的颜色
      */
-    private int mTintColor;
-    /**
-     * 覆盖颜色的透明度
-     */
-    private int mTintAlpha;
+    private ColorStateList mTintColor;
 
     /**
      * 字体颜色
@@ -99,14 +94,7 @@ public class ImageTextView extends View implements IPrompt {
      * 字体颜色
      */
     private ColorStateList mTextStateColor;
-    /**
-     * 原始图标的Bitmap
-     */
-    private Bitmap mIconBitmap;
-    /**
-     * 要显示原始图标的Bitmap
-     */
-    private Bitmap mShowBitmap;
+
     /**
      * 图标的Drawable
      */
@@ -116,10 +104,7 @@ public class ImageTextView extends View implements IPrompt {
      * 画图标的区域
      */
     private Rect mIconRect = new Rect();
-    /**
-     * 是否显示提示
-     */
-    private boolean isShowPromt;
+
     /**
      * 文本内容
      */
@@ -167,6 +152,7 @@ public class ImageTextView extends View implements IPrompt {
      */
     public ImageTextView(Context context) {
         super(context);
+        //noinspection deprecation
         mTextColor = context.getResources().getColor(R.color.text_grey_normal);
         init();
     }
@@ -181,8 +167,7 @@ public class ImageTextView extends View implements IPrompt {
         mTextStateColor = a.getColorStateList(R.styleable.ImageTextView_textColor);
         mTextSize = a.getDimensionPixelSize(R.styleable.ImageTextView_textSize, getDefaultTextSize());
 
-        mTintColor = a.getColor(R.styleable.ImageTextView_tint, Color.TRANSPARENT);
-        mTintAlpha = a.getInt(R.styleable.ImageTextView_tintAlpha, 0);
+        mTintColor = a.getColorStateList(R.styleable.ImageTextView_tint);
 
         mPosition = a.getInt(R.styleable.ImageTextView_position, Position.TOP);
         mPadding = a.getDimensionPixelSize(R.styleable.ImageTextView_padding, DEFAULT_PADDING);
@@ -201,6 +186,7 @@ public class ImageTextView extends View implements IPrompt {
         a.recycle();
 
         if (mTextStateColor == null) {
+            //noinspection deprecation
             mTextColor = context.getResources().getColor(R.color.text_grey_normal);
         } else {
             mTextColor = mTextStateColor.getDefaultColor();
@@ -210,11 +196,15 @@ public class ImageTextView extends View implements IPrompt {
             throw new IllegalStateException(" need a image !");
         }
 
-        mIconBitmap = ImageUtils.drawableToBitmap(mIconDrawable);
         init();
     }
 
     private void init() {
+        if (mTintColor != null) {
+            mIconDrawable = DrawableCompat.wrap(mIconDrawable);
+            DrawableCompat.setTintList(mIconDrawable, mTintColor);
+        }
+
         // 取值范围为0 -1
         mWidthPaddingScale = Math.min(1.0f, Math.max(0, mWidthPaddingScale));
         mHeightPaddingScale = Math.min(1.0f, Math.max(0, mHeightPaddingScale));
@@ -261,7 +251,6 @@ public class ImageTextView extends View implements IPrompt {
             if (mIconDrawable.isStateful()) {
                 int[] states = getDrawableState();
                 drawable.setState(states);
-                mIconBitmap = ImageUtils.drawableToBitmap(drawable);
                 needInvalidate = true;
             }
         }
@@ -305,12 +294,12 @@ public class ImageTextView extends View implements IPrompt {
         switch (mPosition) {
             case Position.TOP:
             case Position.BOTTOM:
-                width = DEFAULT_PADDING + Math.max(mLayout.getWidth(), mIconBitmap.getWidth()) + DEFAULT_PADDING;
+                width = DEFAULT_PADDING + Math.max(mLayout.getWidth(), mIconDrawable.getIntrinsicWidth()) + DEFAULT_PADDING;
                 break;
 
             case Position.LEFT:
             case Position.RIGHT:
-                width = DEFAULT_PADDING + mLayout.getWidth() + mPadding + mIconBitmap.getWidth() + DEFAULT_PADDING;
+                width = DEFAULT_PADDING + mLayout.getWidth() + mPadding + mIconDrawable.getIntrinsicWidth() + DEFAULT_PADDING;
                 break;
         }
         return width;
@@ -328,7 +317,7 @@ public class ImageTextView extends View implements IPrompt {
 
             case Position.LEFT:
             case Position.RIGHT:
-                maxSize = size - mIconBitmap.getWidth() - 2 * DEFAULT_PADDING - mPadding;
+                maxSize = size - mIconDrawable.getIntrinsicWidth() - 2 * DEFAULT_PADDING - mPadding;
                 mLayout = new StaticLayout(mText, mTextPaint, maxSize, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
                 break;
         }
@@ -343,7 +332,7 @@ public class ImageTextView extends View implements IPrompt {
             case Position.BOTTOM:
                 if (mDesireWidth < size) {
                     mLayout = new StaticLayout(mText, mTextPaint, mTextDesireWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
-                    width = DEFAULT_PADDING + Math.max(mLayout.getWidth(), mIconBitmap.getWidth()) + DEFAULT_PADDING;
+                    width = DEFAULT_PADDING + Math.max(mLayout.getWidth(), mIconDrawable.getIntrinsicWidth()) + DEFAULT_PADDING;
                 } else {
                     maxSize = size - 2 * DEFAULT_PADDING;
                     mLayout = new StaticLayout(mText, mTextPaint, maxSize, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
@@ -355,9 +344,9 @@ public class ImageTextView extends View implements IPrompt {
             case Position.RIGHT:
                 if (mDesireWidth < size) {
                     mLayout = new StaticLayout(mText, mTextPaint, mTextDesireWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
-                    width = DEFAULT_PADDING + mLayout.getWidth() + mPadding + mIconBitmap.getWidth() + DEFAULT_PADDING;
+                    width = DEFAULT_PADDING + mLayout.getWidth() + mPadding + mIconDrawable.getIntrinsicWidth() + DEFAULT_PADDING;
                 } else {
-                    maxSize = size - mIconBitmap.getWidth() - 2 * DEFAULT_PADDING - mPadding;
+                    maxSize = size - mIconDrawable.getIntrinsicWidth() - 2 * DEFAULT_PADDING - mPadding;
                     mLayout = new StaticLayout(mText, mTextPaint, maxSize, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
                     width = size;
                 }
@@ -388,12 +377,12 @@ public class ImageTextView extends View implements IPrompt {
         switch (mPosition) {
             case Position.TOP:
             case Position.BOTTOM:
-                height = DEFAULT_PADDING + mLayout.getHeight() + mPadding + mIconBitmap.getHeight() + DEFAULT_PADDING;
+                height = DEFAULT_PADDING + mLayout.getHeight() + mPadding + mIconDrawable.getIntrinsicHeight() + DEFAULT_PADDING;
                 break;
 
             case Position.LEFT:
             case Position.RIGHT:
-                height = DEFAULT_PADDING + Math.max(mLayout.getHeight(), mIconBitmap.getHeight()) + DEFAULT_PADDING;
+                height = DEFAULT_PADDING + Math.max(mLayout.getHeight(), mIconDrawable.getIntrinsicHeight()) + DEFAULT_PADDING;
                 break;
         }
         return height;
@@ -404,12 +393,12 @@ public class ImageTextView extends View implements IPrompt {
         switch (mPosition) {
             case Position.TOP:
             case Position.BOTTOM:
-                desireHeight = DEFAULT_PADDING + mLayout.getHeight() + mPadding + mIconBitmap.getHeight() + DEFAULT_PADDING;
+                desireHeight = DEFAULT_PADDING + mLayout.getHeight() + mPadding + mIconDrawable.getIntrinsicHeight() + DEFAULT_PADDING;
                 break;
 
             case Position.LEFT:
             case Position.RIGHT:
-                desireHeight = DEFAULT_PADDING + Math.max(mLayout.getHeight(), mIconBitmap.getHeight()) + DEFAULT_PADDING;
+                desireHeight = DEFAULT_PADDING + Math.max(mLayout.getHeight(), mIconDrawable.getIntrinsicHeight()) + DEFAULT_PADDING;
                 break;
         }
         return Math.min(size, desireHeight);
@@ -446,8 +435,8 @@ public class ImageTextView extends View implements IPrompt {
         final int width = getMeasuredWidth();
         final int height = getMeasuredHeight();
 
-        final int iconWidth = mIconBitmap.getWidth();
-        final int iconHeight = mIconBitmap.getHeight();
+        final int iconWidth = mIconDrawable.getIntrinsicWidth();
+        final int iconHeight = mIconDrawable.getIntrinsicHeight();
 
         final int textWidth = mLayout.getWidth();
         final int textHeight = mLayout.getHeight();
@@ -508,11 +497,9 @@ public class ImageTextView extends View implements IPrompt {
         if (width <= 0 || height <= 0) {
             return;
         }
-        // Clear canvas
-        canvas.drawBitmap(mIconBitmap, null, mIconRect, null);
-        // draw icon
-        drawIcon(width, height);
-        canvas.drawBitmap(mShowBitmap, 0, 0, null);
+
+        // draw text
+        drawIcon(canvas);
         // draw text
         drawText(canvas);
         // drawPrompt
@@ -520,23 +507,11 @@ public class ImageTextView extends View implements IPrompt {
     }
 
 
-    private void drawIcon(int width, int height) {
-        //二级缓存
-        mShowBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(mShowBitmap);
-        Paint paint = new Paint();
-
-        paint.setColor(mTintColor);
-        paint.setAntiAlias(true);
-        paint.setDither(true);
-        paint.setAlpha(mTintAlpha);
-        canvas.drawRect(mIconRect, paint);
-
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
-        paint.setAlpha(255);
-        canvas.drawBitmap(mIconBitmap, null, mIconRect, paint);
+    private void drawIcon(Canvas canvas) {
+        Drawable drawable = mIconDrawable;
+        drawable.setBounds(mIconRect);
+        drawable.draw(canvas);
     }
-
 
     private void drawText(Canvas canvas) {
         if (TextUtils.isEmpty(mText)) {
@@ -569,7 +544,7 @@ public class ImageTextView extends View implements IPrompt {
     private void computeDesireWidth() {
         mTextDesireWidth = (int) Layout.getDesiredWidth(mText, mTextPaint);
 
-        final int iconWidth = mIconBitmap.getWidth();
+        final int iconWidth = mIconDrawable.getIntrinsicWidth();
 
         switch (mPosition) {
             case Position.LEFT:
@@ -590,19 +565,21 @@ public class ImageTextView extends View implements IPrompt {
     /**
      * Sets the ImageTextButton to display the Text show .
      */
-
-    public void setTint(int color) {
-        mTintColor = color;
+    @SuppressWarnings("unused")
+    public void setTint(@ColorInt int color) {
+        mTintColor = ColorStateList.valueOf(color);
         postInvalidate();
     }
 
     /**
      * Sets the ImageTextButton to display the Text show .
      */
-    public void setTintAlpha(int alpha) {
-        mTintAlpha = alpha;
+    @SuppressWarnings("unused")
+    public void setTint(@NonNull ColorStateList color) {
+        mTintColor = color;
         postInvalidate();
     }
+
 
     /**
      * Sets the ImageTextButton to display the Text show .
@@ -670,9 +647,13 @@ public class ImageTextView extends View implements IPrompt {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mTextStateColor = getContext().getResources().getColorStateList(color, getContext().getTheme());
         } else {
+            //noinspection deprecation
             mTextStateColor = getContext().getResources().getColorStateList(color);
         }
-
+        if (mTextStateColor == null) {
+            Log.i(TAG, "setTextColor:  color is null");
+            return;
+        }
         mTextColor = mTextStateColor.getDefaultColor();
         mTextPaint.setColor(mTextColor);
         postInvalidate();
@@ -685,6 +666,7 @@ public class ImageTextView extends View implements IPrompt {
      *
      * @see #setTextColor(int)
      */
+    @SuppressWarnings("unused")
     public ColorStateList getTextColors() {
         return mTextStateColor;
     }
@@ -703,18 +685,10 @@ public class ImageTextView extends View implements IPrompt {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mIconDrawable = getContext().getResources().getDrawable(resId, getContext().getTheme());
         } else {
+            //noinspection deprecation
             mIconDrawable = getContext().getResources().getDrawable(resId);
         }
-        mIconBitmap = ImageUtils.drawableToBitmap(mIconDrawable);
         postInvalidate();
-    }
-
-
-    /**
-     * Return the view's drawable, or null if no drawable has been assigned.
-     */
-    public Bitmap getIcon() {
-        return mIconBitmap;
     }
 
     /**
@@ -752,6 +726,7 @@ public class ImageTextView extends View implements IPrompt {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mPromptTextColor = getResources().getColor(color, getContext().getTheme());
         } else {
+            //noinspection deprecation
             mPromptTextColor = getResources().getColor(color);
         }
         mPromptTextPaint.setColor(mPromptTextColor);
@@ -770,6 +745,7 @@ public class ImageTextView extends View implements IPrompt {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mPromptBackgroundColor = getResources().getColor(color, getContext().getTheme());
         } else {
+            //noinspection deprecation
             mPromptBackgroundColor = getResources().getColor(color);
         }
         mPromptBackgroundPaint.setColor(mPromptBackgroundColor);

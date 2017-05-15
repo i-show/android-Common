@@ -1,5 +1,6 @@
 package com.brightyu.androidcommon.modules.main.mine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.brightyu.androidcommon.R;
 import com.brightyu.androidcommon.modules.base.AppBaseFragment;
+import com.brightyu.androidcommon.modules.settings.SettingsActivity;
 import com.ishow.common.widget.StatusView;
 import com.ishow.common.widget.TopBar;
 
@@ -43,5 +45,11 @@ public class MineFragment extends AppBaseFragment {
         StatusView statusView = (StatusView) mRootView.findViewById(R.id.status_view);
         statusView.showError();
         return mRootView;
+    }
+
+    @Override
+    public void onRightClick(View v) {
+        Intent intent = new Intent(getActivity(), SettingsActivity.class);
+        startActivity(intent);
     }
 }

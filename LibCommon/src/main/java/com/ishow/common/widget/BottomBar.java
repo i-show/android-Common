@@ -15,6 +15,7 @@
  */
 package com.ishow.common.widget;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.IdRes;
@@ -83,6 +84,7 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
     /**
      * 获取当前选中的ID
      */
+    @SuppressWarnings("unused")
     public int getSelectedId() {
         return mSelectedId;
     }
@@ -136,10 +138,13 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
      * 更新选中View的状态
      */
     private void setSelectedStateForView(int viewId, boolean checked) {
-        View selectedView = findViewById(viewId);
-        if (selectedView != null) {
-            selectedView.setSelected(checked);
+        View view = findViewById(viewId);
+        if (view == null) {
+            Log.i(TAG, "setSelectedStateForView: unknow view");
+            return;
         }
+        view.setSelected(checked);
+        zoomView(view, checked);
     }
 
 
@@ -191,5 +196,30 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
         public void onChildViewRemoved(View parent, View child) {
             child.setOnClickListener(null);
         }
+    }
+
+
+    private void zoomView(final View view, boolean checked) {
+        if (view == null) {
+            Log.i(TAG, "zoomView: view is null");
+            return;
+        }
+
+        final float start = checked ? 1f : 1.03f;
+        final float end = checked ? 1.03f : 1f;
+
+        view.clearAnimation();
+        ValueAnimator animator = ValueAnimator.ofFloat(start, end);
+        animator.setDuration(100);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                final float zoom = (float) animation.getAnimatedValue();
+                view.setScaleX(zoom);
+                view.setScaleY(zoom);
+            }
+        });
+        animator.start();
+
     }
 }

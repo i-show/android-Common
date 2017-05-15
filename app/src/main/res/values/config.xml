@@ -23,5 +23,7 @@
     <integer name="max_password">12</integer>
     <integer name="max_address_user_name">20</integer>
     <integer name="max_address_detail_address">100</integer>
-    <dimen name="bottom_bar_height">60dp</dimen>
+
+    <dimen name="bottom_bar_height">@dimen/dp_60</dimen>
+    <dimen name="item_height">@dimen/dp_52</dimen>
 </resources>

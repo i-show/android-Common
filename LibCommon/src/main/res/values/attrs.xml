@@ -179,7 +179,7 @@
     </attr>
 
     <attr name="tint" format="color"/>
-    <attr name="tintAlpha" format="color"/>
+    <attr name="tintAlpha" format="integer"/>
     <attr name="tintColor" format="color|reference"/>
 
     <attr name="image" format="reference|color"/>
@@ -395,7 +395,6 @@
         <attr name="textColor"/>
 
         <attr name="tint"/>
-        <attr name="tintAlpha"/>
 
         <attr name="image"/>
         <attr name="position"/>

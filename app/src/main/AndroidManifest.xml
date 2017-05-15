@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.brightyu.androidcommon">
+          package="com.brightyu.androidcommon">
 
     <application
         android:name=".AppApplication"
@@ -16,39 +16,43 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Splash">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <!-- 引导页-->
         <activity
             android:name=".modules.init.GuideActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Guide" />
+            android:theme="@style/AppTheme.Guide"/>
         <!--主界面-->
         <activity
             android:name=".modules.main.MainActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
 
         <!--登录界面-->
         <activity
             android:name=".modules.account.login.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Login"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"/>
         <!--注册界面-->
         <activity
             android:name=".modules.account.register.RegisterActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <!--修改密码重置密码-->
         <activity
             android:name=".modules.account.password.forgot.ForgotPasswordActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <!--只有一个测试图片的类-->
         <activity
             android:name=".modules.base.OnlyWebActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
+        <!--设置界面-->
+        <activity
+            android:name=".modules.settings.SettingsActivity"
+            android:screenOrientation="portrait"/>
 
 
         <!--++++++++++++++++++++控件或者工具的Demo区域（start）++++++++++++++++++++++++++-->
@@ -58,41 +62,41 @@
             android:exported="false"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="com.yuhaiyang.androidcommon.Test" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="com.yuhaiyang.androidcommon.Test"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <!--Prompt 左上角或者右上角的提示的测试类-->
         <activity
             android:name=".modules.sample.prompt.SamplePromptActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <!--滚轮样式的选择-->
         <activity
             android:name=".modules.sample.pickview.SamplePickerActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <!--选择图片-->
         <activity
             android:name=".modules.sample.photo.select.SampleSelectPhotoActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
 
         <!--权限获取-->
         <activity
             android:name=".modules.sample.permission.SamplePermissionActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <!--EditTextPro-->
         <activity
             android:name=".modules.sample.edittextpro.SampleEditTextProActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
 
         <!--Http-->
         <activity
             android:name=".modules.sample.http.SampleHttpActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
 
         <!--ImageLoader-->
         <activity
             android:name=".modules.sample.imageloader.SampleImageLoaderActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <!--++++++++++++++++++++控件或者工具的测试区域（end）++++++++++++++++++++++++++-->
 
 
@@ -100,15 +104,15 @@
         <!--百度统计的id-->
         <meta-data
             android:name="BaiduMobAd_STAT_ID"
-            android:value="${BAIDU_STATISTICS_ID}" />
+            android:value="${BAIDU_STATISTICS_ID}"/>
         <!-- 百度统计的id 渠道商编号 -->
         <meta-data
             android:name="BaiduMobAd_CHANNEL"
-            android:value="${BAIDU_STATISTICS_CHANNEL}" />
+            android:value="${BAIDU_STATISTICS_CHANNEL}"/>
         <!-- 百度统计 是否开启错误日志统计，默认为false -->
         <meta-data
             android:name="BaiduMobAd_EXCEPTION_LOG"
-            android:value="true" />
+            android:value="true"/>
     </application>
 
 </manifest>
