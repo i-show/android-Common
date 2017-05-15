@@ -18,11 +18,12 @@ package com.ishow.common.widget.textview;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-public class MarqueeTextView extends TextView {
+public class MarqueeTextView extends AppCompatTextView {
 
     public MarqueeTextView(Context context, AttributeSet attrs) {
         super(context, attrs);

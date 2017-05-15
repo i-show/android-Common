@@ -16,6 +16,7 @@
 
 package com.ishow.common.utils.http.rest.callback;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.alibaba.fastjson.JSON;
@@ -32,6 +33,15 @@ import java.lang.reflect.Type;
  */
 @SuppressWarnings("unused")
 public abstract class JsonCallBack<T> extends CallBack<T> {
+
+    @SuppressWarnings("WeakerAccess")
+    public JsonCallBack() {
+        super();
+    }
+
+    public JsonCallBack(Context context) {
+        super(context);
+    }
 
     @Override
     public T parseResponse(@NonNull final Request request, @NonNull final Response response) throws HttpErrorException {

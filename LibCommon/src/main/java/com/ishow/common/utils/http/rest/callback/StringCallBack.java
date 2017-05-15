@@ -16,6 +16,7 @@
 
 package com.ishow.common.utils.http.rest.callback;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.ishow.common.utils.http.rest.exception.HttpErrorException;
@@ -27,6 +28,15 @@ import com.ishow.common.utils.http.rest.response.Response;
  * String CallBack
  */
 public abstract class StringCallBack extends CallBack<String> {
+    @SuppressWarnings("WeakerAccess")
+    public StringCallBack() {
+        super();
+    }
+
+    public StringCallBack(Context context) {
+        super(context);
+    }
+
     @Override
     public String parseResponse(@NonNull final Request request, @NonNull final Response response) throws HttpErrorException {
         String body = new String(response.getBody());
