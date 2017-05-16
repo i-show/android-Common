@@ -1,8 +1,6 @@
 buildscript {
     repositories {
         jcenter()
-        // Fabric- Crashlytics统计错误信息 注册来源
-        maven { url 'https://maven.fabric.io/public' }
     }
 
     dependencies {
