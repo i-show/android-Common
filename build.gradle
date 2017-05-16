@@ -23,7 +23,6 @@ allprojects {
     }
 }
 
-
 /**
  * 生成版本的时间
  */
@@ -52,6 +51,10 @@ def renameAPK(android, variant, output) {
     } else {
         versionName = flavor.versionName
         flavorName = flavor.name
+    }
+
+    if (versionName == null || versionName.toString().equals("null")) {
+        versionName = variant.versionName;
     }
 
     if (versionName == null || versionName.toString().equals("null")) {

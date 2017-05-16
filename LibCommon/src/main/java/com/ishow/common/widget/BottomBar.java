@@ -32,6 +32,11 @@ import com.ishow.common.R;
  */
 public class BottomBar extends LinearLayout implements View.OnClickListener {
     private static final String TAG = "BottomBar";
+
+    /**
+     * 可放大多少
+     */
+    private static final float ZOOM = 1.05f;
     /**
      * 选中切换的监听
      */
@@ -205,8 +210,8 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
             return;
         }
 
-        final float start = checked ? 1f : 1.03f;
-        final float end = checked ? 1.03f : 1f;
+        final float start = checked ? 1f : ZOOM;
+        final float end = checked ? ZOOM : 1f;
 
         view.clearAnimation();
         ValueAnimator animator = ValueAnimator.ofFloat(start, end);
