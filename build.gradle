@@ -8,12 +8,7 @@ buildscript {
     dependencies {
         //  Android 默认的编译工具库插件
         classpath 'com.android.tools.build:gradle:2.3.2'
-        //  GreenDao 插件- 生成实体类和数据库主要类别
-        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.0'
-        // AA 插件（注解的插件）
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.2+'
-        // Fabric- Crashlytics统计错误信息 插件
-        classpath 'io.fabric.tools:gradle:1.+'
+
     }
 }
 
@@ -21,8 +16,13 @@ allprojects {
     repositories {
         jcenter()
     }
-}
 
+    // Javadoc设定为UTF-8了
+    tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+        options.addStringOption('encoding', 'UTF-8')
+    }
+}
 
 /**
  * 生成版本的时间
@@ -52,6 +52,10 @@ def renameAPK(android, variant, output) {
     } else {
         versionName = flavor.versionName
         flavorName = flavor.name
+    }
+
+    if (versionName == null || versionName.toString().equals("null")) {
+        versionName = variant.versionName;
     }
 
     if (versionName == null || versionName.toString().equals("null")) {
