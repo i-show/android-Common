@@ -506,7 +506,5 @@ public final class ImageUtils {
         }
         String name = StringUtils.plusString(UUID.randomUUID().toString().toUpperCase(), ".jpg");
         return StringUtils.plusString(cacheFolder.getAbsolutePath(), File.separator, name);
-
     }
-
 }

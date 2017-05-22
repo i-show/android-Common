@@ -669,7 +669,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     }
 
     public boolean hasFocus() {
-        return mInputView.hasFocus();
+        return mInputView != null && mInputView.hasFocus();
     }
 
     public String getInputText() {

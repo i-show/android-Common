@@ -2,6 +2,11 @@
 <paths>
 
     <external-cache-path
-        name="images"
-        path="."/>
+        name="cache_photo_into_app_cache"
+        path=""/>
+
+    <external-path
+        name="cache_photo_into_sdcard"
+        path=""/>
+
 </paths>

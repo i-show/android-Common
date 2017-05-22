@@ -119,7 +119,7 @@ public class DateTimePicker extends LinearLayout {
 
     private void initViews() {
         LayoutInflater inflater = LayoutInflater.from(getContext());
-        View root = inflater.inflate(R.layout.view_date_time_picker, this, true);
+        View root = inflater.inflate(R.layout.widget_date_time_picker, this, true);
         mYearAdapter = new DateTimeAdapter();
         mYearPicker = (PickerView) root.findViewById(R.id.year);
         mYearPicker.setAdapter(mYearAdapter);

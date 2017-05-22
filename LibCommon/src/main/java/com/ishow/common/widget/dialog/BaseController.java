@@ -147,10 +147,10 @@ public class BaseController {
         TypedArray a = mContext.obtainStyledAttributes(null, R.styleable.DialogLayouts, R.attr.dialogLayouts, 0);
 
         mAlertDialogLayout = a.getResourceId(R.styleable.DialogLayouts_dialogMainLayout, R.layout.dialog);
-        mListLayout = a.getResourceId(R.styleable.DialogLayouts_dialogListLayout, R.layout.select_dialog);
-        mMultiChoiceItemLayout = a.getResourceId(R.styleable.DialogLayouts_dialogMultiChoiceItem, R.layout.select_dialog_multichoice);
-        mSingleChoiceItemLayout = a.getResourceId(R.styleable.DialogLayouts_dialogSingleChoiceItem, R.layout.select_dialog_singlechoice);
-        mListItemLayout = a.getResourceId(R.styleable.DialogLayouts_dialogListItem, R.layout.select_dialog_item);
+        mListLayout = a.getResourceId(R.styleable.DialogLayouts_dialogListLayout, R.layout.dialog_select);
+        mMultiChoiceItemLayout = a.getResourceId(R.styleable.DialogLayouts_dialogMultiChoiceItem, R.layout.dialog_select_multichoice);
+        mSingleChoiceItemLayout = a.getResourceId(R.styleable.DialogLayouts_dialogSingleChoiceItem, R.layout.dialog_select_singlechoice);
+        mListItemLayout = a.getResourceId(R.styleable.DialogLayouts_dialogListItem, R.layout.dialog_select_item);
         a.recycle();
     }
 
@@ -629,7 +629,7 @@ public class BaseController {
         }
 
         private void createListView(final BaseController dialog) {
-            final RecycleListView listView = (RecycleListView)
+            final ListView listView = (ListView)
                     mInflater.inflate(dialog.mListLayout, null);
             ListAdapter adapter;
 
@@ -729,7 +729,6 @@ public class BaseController {
             } else if (mIsMultiChoice) {
                 listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
             }
-            listView.mRecycleOnMeasure = mRecycleOnMeasure;
             dialog.mListView = listView;
         }
 

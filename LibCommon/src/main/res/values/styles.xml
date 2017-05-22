@@ -57,10 +57,10 @@
     <!-- 基础布局-->
     <style name="BaseDialog.Layout">
         <item name="dialogMainLayout">@layout/dialog</item>
-        <item name="dialogListLayout">@layout/select_dialog</item>
-        <item name="dialogListItem">@layout/select_dialog_item</item>
-        <item name="dialogSingleChoiceItem">@layout/select_dialog_singlechoice</item>
-        <item name="dialogMultiChoiceItem">@layout/select_dialog_multichoice</item>
+        <item name="dialogListLayout">@layout/dialog_select</item>
+        <item name="dialogListItem">@layout/dialog_select_item</item>
+        <item name="dialogSingleChoiceItem">@layout/dialog_select_singlechoice</item>
+        <item name="dialogMultiChoiceItem">@layout/dialog_select_multichoice</item>
     </style>
     <!-- 从底部弹出的-->
     <style name="BaseDialog.Bottom"/>
@@ -70,9 +70,9 @@
     <style name="BaseDialog.Bottom.IOS"/>
     <!-- 从底部弹出的 仿IOS风格 的布局文件-->
     <style name="BaseDialog.Bottom.IOS.Layout">
-        <item name="dialogMainLayout">@layout/bottom_dialog_ios</item>
-        <item name="dialogListLayout">@layout/bottom_dialog_ios_listview</item>
-        <item name="dialogListItem">@layout/bottom_dialog_ios_item</item>
+        <item name="dialogMainLayout">@layout/dialog_bottom_ios</item>
+        <item name="dialogListLayout">@layout/dialog_bottom_ios_listview</item>
+        <item name="dialogListItem">@layout/dialog_bottom_ios_item</item>
     </style>
 
     <style name="BaseDialog.Title">

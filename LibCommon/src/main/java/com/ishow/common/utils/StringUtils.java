@@ -40,6 +40,11 @@ public class StringUtils {
      */
     @SuppressWarnings("unused")
     public static final String MONEY = "￥";
+    /**
+     * 字符串0通常用来计算
+     */
+    @SuppressWarnings("unused")
+    public static final String ZERO = "0";
 
     /**
      * 字符串累加

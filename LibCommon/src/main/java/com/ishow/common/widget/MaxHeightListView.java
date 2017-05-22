@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ishow.common.widget.dialog;
+package com.ishow.common.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -25,21 +25,21 @@ import com.ishow.common.R;
 import com.ishow.common.utils.ScreenUtils;
 
 
-public class RecycleListView extends ListView {
+public class MaxHeightListView extends ListView {
     public boolean mRecycleOnMeasure = true;
     private int mMaxHeight;
 
-    public RecycleListView(Context context) {
+    public MaxHeightListView(Context context) {
         super(context);
         init(context, null);
     }
 
-    public RecycleListView(Context context, AttributeSet attrs) {
+    public MaxHeightListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
-    public RecycleListView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public MaxHeightListView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }

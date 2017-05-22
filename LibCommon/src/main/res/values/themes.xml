@@ -142,8 +142,25 @@
         <!--Settings the Dialog Title-->
         <item name="android:listPreferredItemHeightSmall">@dimen/dp_55</item>
         <item name="dialogTitleStyle">@style/BaseDialog.Title.Bottom</item>
+        <item name="android:windowAnimationStyle">@style/Animation.Windows.Bottom</item>
         <item name="dialogButtonBackgrounds">@style/BaseDialog.Button.Backgrounds.Bottom</item>
     </style>
+
+    <!-- 从底部弹出的Dialog -->
+    <style name="Dialog.Bottom.Transparent">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@style/Animation.Windows.Bottom</item>
+        <item name="android:listDivider">@color/line</item>
+        <!--Settings the Dialog Title-->
+        <item name="android:listPreferredItemHeightSmall">@dimen/dp_55</item>
+        <item name="dialogTitleStyle">@style/BaseDialog.Title.Bottom</item>
+        <item name="dialogButtonBackgrounds">@style/BaseDialog.Button.Backgrounds.Bottom</item>
+    </style>
+
     <!-- 从底部弹出的仿IOS风格的Dialog -->
     <style name="Dialog.Bottom.IOS">
         <item name="android:windowBackground">@android:color/transparent</item>

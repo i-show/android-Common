@@ -60,14 +60,14 @@ public class ImageLoader {
      * 方案- 圆形头像
      */
     @SuppressWarnings("WeakerAccess")
-    public static final int PLAN_CIRCLE_HEADER = 2;
+    public static final int PLAN_CIRCLE = 2;
 
     @IntDef({MODE_NONE, MODE_FIT_CENTER, MODE_CENTER_CROP})
     @Retention(RetentionPolicy.SOURCE)
     public @interface mode {
     }
 
-    @IntDef({PLAN_NORMAL, PLAN_CIRCLE_HEADER})
+    @IntDef({PLAN_NORMAL, PLAN_CIRCLE})
     @Retention(RetentionPolicy.SOURCE)
     public @interface plan {
     }

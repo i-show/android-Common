@@ -32,6 +32,7 @@ import android.support.annotation.Keep;
 import android.support.annotation.StringRes;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -40,12 +41,14 @@ import com.ishow.common.constant.Shift;
 import com.ishow.common.entries.Photo;
 import com.ishow.common.modules.image.cutter.PhotoCutterActivity;
 import com.ishow.common.modules.image.select.PhotoSelectorActivity;
+import com.ishow.common.utils.StringUtils;
 import com.ishow.common.utils.image.ImageUtils;
 import com.ishow.common.utils.log.L;
 import com.ishow.common.widget.YToast;
 import com.ishow.common.widget.dialog.BaseDialog;
 import com.ishow.common.widget.loading.LoadingDialog;
 
+import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
@@ -242,9 +245,13 @@ public class SelectPhotoUtils implements
      * 通过相机来选择图片
      */
     private void selectPhotoByCamera() {
-        mCameraFileUri = Uri.fromFile(ImageUtils.generateRandomPhotoFile(mActivity));
+        String authority = StringUtils.plusString(mActivity.getPackageName(), ".fileprovider");
+        File file = ImageUtils.generateRandomPhotoFile(mActivity);
+        mCameraFileUri = Uri.fromFile(file);
+        Uri uri = FileProvider.getUriForFile(mActivity, authority, file);
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, mCameraFileUri);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         switch (mSelectMode) {
             case SelectMode.SINGLE:
                 mActivity.startActivityForResult(intent, Request.REQUEST_SINGLE_CAMERA);

@@ -42,7 +42,7 @@ public class LoadingDialog extends Dialog {
         super(context, themeResId);
     }
 
-    public static LoadingDialog show(Context context) {
+    private static LoadingDialog show(Context context) {
         if (!(context instanceof Activity)) {
             return null;
         }

@@ -64,6 +64,12 @@
     <attr name="textColor" format="color"/>
     <attr name="textBackground" format="reference|color"/>
     <attr name="textAppearance" format="reference"/>
+    <attr name="textStyle" format="enum">
+        <enum name="NORMAL" value="0"/>
+        <enum name="BOLD" value="1"/>
+        <enum name="ITALIC" value="2"/>
+        <enum name="BOLD_ITALIC" value="3"/>
+    </attr>
 
     <attr name="selectedTextColor" format="reference|color"/>
     <attr name="selectedTextSize" format="reference|color"/>
@@ -387,6 +393,20 @@
         <enum name="dateTime" value="1"/>
         <enum name="date" value="2"/>
         <enum name="time" value="3"/>
+    </attr>
+
+    <attr name="strokeWidth" format="dimension"/>
+    <attr name="strokeColor" format="color"/>
+
+    <attr name="labelDistance" format="dimension"/>
+    <attr name="labelHeight" format="dimension"/>
+
+    <attr name="labelEnable" format="boolean"/>
+    <attr name="labelGravity" format="enum">
+        <enum name="LEFT_TOP" value="1"/>
+        <enum name="RIGHT_TOP" value="2"/>
+        <enum name="LEFT_BOTTOM" value="3"/>
+        <enum name="RIGHT_BOTTOM" value="4"/>
     </attr>
 
     <declare-styleable name="ImageTextView">
@@ -714,4 +734,24 @@
     <declare-styleable name="DateTimePicker">
         <attr name="datePickerStyle"/>
     </declare-styleable>
+
+
+    <declare-styleable name="LabelView">
+        <attr name="text"/>
+        <attr name="textSize"/>
+        <attr name="textStyle"/>
+        <attr name="textColor"/>
+
+        <attr name="backgroundColor"/>
+
+        <attr name="strokeWidth"/>
+        <attr name="strokeColor"/>
+
+        <attr name="labelDistance"/>
+        <attr name="labelHeight"/>
+        <attr name="labelEnable"/>
+
+        <attr name="labelGravity"/>
+    </declare-styleable>
+
 </resources>

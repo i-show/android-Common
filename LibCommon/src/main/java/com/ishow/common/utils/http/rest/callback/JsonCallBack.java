@@ -48,8 +48,8 @@ public abstract class JsonCallBack<T> extends CallBack<T> {
         Type genType = getClass().getGenericSuperclass();
         Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
         Type type = params[0];
-
-        response.setDebugString(new String(response.getBody()));
+        String body = new String(response.getBody());
+        response.setDebugString(body);
 
         return JSON.parseObject(response.getBody(), type);
     }

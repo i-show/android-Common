@@ -87,7 +87,7 @@ public class GlideImageLoaderExecutor implements IImageLoaderExecutor {
                 request.crossFade();
                 request.placeholder(R.drawable.no_picture);
                 break;
-            case ImageLoader.PLAN_CIRCLE_HEADER:
+            case ImageLoader.PLAN_CIRCLE:
                 request.bitmapTransform(new GlideCircleTransform(params.getContext()));
                 request.crossFade();
                 break;
