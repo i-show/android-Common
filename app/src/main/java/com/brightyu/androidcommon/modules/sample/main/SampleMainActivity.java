@@ -62,11 +62,6 @@ public class SampleMainActivity extends AppBaseActivity implements View.OnClickL
         // ImageLoader
         view = findViewById(R.id.sample_select_imageloader);
         view.setOnClickListener(this);
-
-
-        TestAdapter adapter = new TestAdapter(this);
-        XListView listView = (XListView) findViewById(R.id.list);
-        listView.setAdapter(adapter);
     }
 
     @Override

@@ -62,9 +62,4 @@
 
     </com.ishow.common.widget.flowlayout.FlowLayout>
 
-
-    <com.ishow.common.widget.pulltorefresh.XListView
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
 </LinearLayout>
