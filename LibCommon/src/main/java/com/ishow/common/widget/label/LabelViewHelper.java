@@ -314,7 +314,7 @@ public class LabelViewHelper {
 
     public void setLabelTextStyle(@TextStyle int textStyle) {
         if (mTextStyle == textStyle) {
-            Log.i(TAG, "setLabelTextStyle: is same style");
+            Log.i(TAG, "setLabelTextStyle: is same Style");
             return;
         }
 

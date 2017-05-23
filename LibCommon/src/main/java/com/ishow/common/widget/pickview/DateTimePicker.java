@@ -37,6 +37,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.Calendar;
 import java.util.Date;
 
+
 /**
  * Created by yuhaiyang on 2017/4/25.
  * 时间选择器
@@ -54,18 +55,6 @@ public class DateTimePicker extends LinearLayout {
      */
     private static final int DEFAULT_END_YEAR = 2600;
 
-    /**
-     * 日期+时间
-     */
-    public static final int STYLE_DATE_TIME = 1;
-    /**
-     * 仅日期
-     */
-    public static final int STYLE_DATE = 2;
-    /**
-     * 仅时间
-     */
-    public static final int STYLE_TIME = 3;
 
     private PickerView mYearPicker;
     private DateTimeAdapter mYearAdapter;
@@ -87,9 +76,21 @@ public class DateTimePicker extends LinearLayout {
 
     private int mStyle;
 
-    @IntDef({STYLE_DATE_TIME, STYLE_DATE, STYLE_TIME})
+    @IntDef({Style.DATE_TIME, Style.DATE, Style.TIME})
     @Retention(RetentionPolicy.SOURCE)
-    public @interface style {
+    public @interface Style {
+        /**
+         * 日期+时间
+         */
+        int DATE_TIME = 1;
+        /**
+         * 仅日期
+         */
+        int DATE = 2;
+        /**
+         * 仅时间
+         */
+        int TIME = 3;
     }
 
     public DateTimePicker(Context context) {
@@ -103,7 +104,7 @@ public class DateTimePicker extends LinearLayout {
     public DateTimePicker(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.DateTimePicker);
-        int style = a.getInt(R.styleable.DateTimePicker_datePickerStyle, STYLE_DATE_TIME);
+        int style = a.getInt(R.styleable.DateTimePicker_datePickerStyle, Style.DATE_TIME);
         a.recycle();
 
         setOrientation(HORIZONTAL);
@@ -198,28 +199,28 @@ public class DateTimePicker extends LinearLayout {
     /**
      * 设置样式
      */
-    public void setStyle(@style int style) {
+    public void setStyle(@Style int style) {
         if (mStyle == style) {
-            Log.i(TAG, "setStyle: style is same");
+            Log.i(TAG, "setStyle: Style is same");
             return;
         }
         mStyle = style;
         switch (mStyle) {
-            case STYLE_DATE_TIME:
+            case Style.DATE_TIME:
                 mYearPicker.setVisibility(VISIBLE);
                 mMonthPicker.setVisibility(VISIBLE);
                 mDayPicker.setVisibility(VISIBLE);
                 mHourPicker.setVisibility(VISIBLE);
                 mMinPicker.setVisibility(VISIBLE);
                 break;
-            case STYLE_DATE:
+            case Style.DATE:
                 mYearPicker.setVisibility(VISIBLE);
                 mMonthPicker.setVisibility(VISIBLE);
                 mDayPicker.setVisibility(VISIBLE);
                 mHourPicker.setVisibility(GONE);
                 mMinPicker.setVisibility(GONE);
                 break;
-            case STYLE_TIME:
+            case Style.TIME:
                 mYearPicker.setVisibility(GONE);
                 mMonthPicker.setVisibility(GONE);
                 mDayPicker.setVisibility(GONE);

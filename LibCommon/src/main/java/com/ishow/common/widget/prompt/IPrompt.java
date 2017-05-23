@@ -21,48 +21,56 @@ import android.support.annotation.DimenRes;
 import android.support.annotation.FloatRange;
 import android.support.annotation.IntDef;
 
-import com.ishow.common.constant.Position;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
  * 接口类
  */
+@SuppressWarnings("unused")
 public interface IPrompt {
     /**
      * 位置比例
      */
     float DEFAULT_PADDING_SCALE = 0.06f;
-    /**
-     * 不显示模式
-     */
-    int MODE_NONE = 0;
-    /**
-     * 是文字模式
-     */
-    int MODE_TEXT = 1;
 
-    /**
-     * 是小圈圈模式
-     */
-    int MODE_GRAPH = 2;
 
     // 定义Ann
-    @IntDef({Position.LEFT, Position.RIGHT})
+    @IntDef({PromptPosition.LEFT, PromptPosition.RIGHT})
     @Retention(RetentionPolicy.SOURCE)
-    public @interface position {
+    @interface PromptPosition {
+        /**
+         * Pictures in the text to the left
+         */
+        int LEFT = 0;
+        /**
+         * Pictures in the text to the right
+         */
+        int RIGHT = 4;
     }
 
-    @IntDef({MODE_NONE, MODE_TEXT, MODE_GRAPH})
+    @IntDef({PromptMode.NONE, PromptMode.TEXT, PromptMode.GRAPH})
     @Retention(RetentionPolicy.SOURCE)
-    public @interface mode {
+    @interface PromptMode {
+        /**
+         * 不显示模式
+         */
+        int NONE = 0;
+        /**
+         * 是文字模式
+         */
+        int TEXT = 1;
+
+        /**
+         * 是小圈圈模式
+         */
+        int GRAPH = 2;
     }
 
     /**
      * 设置当前模式
      */
-    IPrompt setPromptMode(@mode int mode);
+    IPrompt setPromptMode(@PromptMode int mode);
 
     IPrompt setPromptText(String text);
 
@@ -79,7 +87,7 @@ public interface IPrompt {
 
     IPrompt setPromptPadding(@DimenRes int padding);
 
-    IPrompt setPromptPosition(@position int position);
+    IPrompt setPromptPosition(@PromptPosition int position);
 
     IPrompt setPromptWidthPaddingScale(@FloatRange(from = 0.0f, to = 1.0f) float scale);
 

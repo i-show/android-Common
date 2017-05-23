@@ -43,8 +43,8 @@ public class ImageLoaderParams {
 
     ImageLoaderParams(Context context) {
         mContext = context;
-        mMode = ImageLoader.MODE_NONE;
-        mPlan = ImageLoader.PLAN_NORMAL;
+        mMode = ImageLoader.LoaderMode.NONE;
+        mPlan = ImageLoader.Plan.NORMAL;
     }
 
     public Context getContext() {
@@ -56,13 +56,13 @@ public class ImageLoaderParams {
         return this;
     }
 
-    public ImageLoaderParams mode(@ImageLoader.mode int mode) {
+    public ImageLoaderParams mode(@ImageLoader.LoaderMode int mode) {
         mMode = mode;
         return this;
     }
 
     @SuppressWarnings("unused")
-    public ImageLoaderParams plan(@ImageLoader.plan int plan) {
+    public ImageLoaderParams plan(@ImageLoader.Plan int plan) {
         mPlan = plan;
         return this;
     }
@@ -111,7 +111,7 @@ public class ImageLoaderParams {
      * 获取当前的Mode
      */
     public
-    @ImageLoader.mode
+    @ImageLoader.LoaderMode
     int getMode() {
         return mMode;
     }
@@ -120,7 +120,7 @@ public class ImageLoaderParams {
      * 获取档期那的加载类型
      */
     public
-    @ImageLoader.plan
+    @ImageLoader.Plan
     int getPlan() {
         return mPlan;
     }

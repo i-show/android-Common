@@ -56,7 +56,7 @@ import com.ishow.common.utils.ScreenUtils;
  * View.onCheckIsTextEditor()}.  Generally you want this set for a Dialog
  * without text editors, so that it will be placed on top of the current
  * input method UI.  You can modify this behavior by forcing the flag to your
- * desired mode after calling {@link #onCreate}.
+ * desired LoaderMode after calling {@link #onCreate}.
  * <p/>
  * <div class="special reference">
  * <h3>Developer Guides</h3>
@@ -76,10 +76,10 @@ public class BaseDialog extends Dialog implements DialogInterface {
     }
 
     /**
-     * Construct an HaiyangDialog that uses an explicit theme.  The actual style
+     * Construct an HaiyangDialog that uses an explicit theme.  The actual Style
      * that an HaiyangDialog uses is a private implementation, however you can
      * here supply either the name of an attribute in the theme from which
-     * to get the dialog's style (such as {@link android.R.attr#alertDialogTheme}
+     * to get the dialog's Style (such as {@link android.R.attr#alertDialogTheme}
      */
     protected BaseDialog(Context context, int theme) {
         this(context, theme, true);
@@ -263,7 +263,7 @@ public class BaseDialog extends Dialog implements DialogInterface {
          * the {@link BaseDialog} it creates.  The actual theme
          * that an HaiyangDialog uses is a private implementation, however you can
          * here supply either the name of an attribute in the theme from which
-         * to get the dialog's style (such as {@link android.R.attr#alertDialogTheme}
+         * to get the dialog's Style (such as {@link android.R.attr#alertDialogTheme}
          * or one of the constants
          */
         public Builder(Context context, int theme) {

@@ -1098,9 +1098,9 @@ public class CropImageView extends ImageView {
     }
 
     /**
-     * Set crop mode
+     * Set crop LoaderMode
      *
-     * @param mode crop mode
+     * @param mode crop LoaderMode
      */
     public void setCropMode(CropMode mode) {
         if (mode == CropMode.RATIO_CUSTOM) {
@@ -1205,10 +1205,10 @@ public class CropImageView extends ImageView {
     }
 
     /**
-     * Set guideline show mode.
+     * Set guideline show LoaderMode.
      * (SHOW_ALWAYS/NOT_SHOW/SHOW_ON_TOUCH)
      *
-     * @param mode guideline show mode
+     * @param mode guideline show LoaderMode
      */
     public void setGuideShowMode(ShowMode mode) {
         mGuideShowMode = mode;
@@ -1225,10 +1225,10 @@ public class CropImageView extends ImageView {
     }
 
     /**
-     * Set handle show mode.
+     * Set handle show LoaderMode.
      * (SHOW_ALWAYS/NOT_SHOW/SHOW_ON_TOUCH)
      *
-     * @param mode handle show mode
+     * @param mode handle show LoaderMode
      */
     public void setHandleShowMode(ShowMode mode) {
         mHandleShowMode = mode;

@@ -34,7 +34,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 
 import com.ishow.common.R;
-import com.ishow.common.constant.Position;
 import com.ishow.common.widget.prompt.IPrompt;
 
 /**
@@ -77,13 +76,13 @@ public class PromptTextView extends AppCompatTextView implements IPrompt {
         super(context, attrs, defStyle);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.PromptTextView);
-        mMode = a.getInt(R.styleable.PromptTextView_promptMode, MODE_GRAPH);
+        mMode = a.getInt(R.styleable.PromptTextView_promptMode, PromptMode.GRAPH);
         mPromptTextString = a.getString(R.styleable.PromptTextView_promptText);
         mPromptTextColor = a.getColor(R.styleable.PromptTextView_promptTextColor, Color.WHITE);
         mPromptTextSize = a.getDimensionPixelSize(R.styleable.PromptTextView_promptTextSize, getDefaultTextSize(context));
         mPromptPadding = a.getDimensionPixelSize(R.styleable.PromptTextView_promptPadding, getDefaultPadding(context));
         mPromptRadius = a.getDimensionPixelSize(R.styleable.PromptTextView_promptRadius, getDefaultRadius(context));
-        mPromptPosition = a.getInt(R.styleable.PromptTextView_promptPosition, Position.LEFT);
+        mPromptPosition = a.getInt(R.styleable.PromptTextView_promptPosition, PromptPosition.LEFT);
         mPromptBackgroundColor = a.getColor(R.styleable.PromptTextView_promptBackground, Color.RED);
         mWidthPaddingScale = a.getFloat(R.styleable.PromptTextView_widthPaddingScale, DEFAULT_PADDING_SCALE);
         mHeightPaddingScale = a.getFloat(R.styleable.PromptTextView_heightPaddingScale, DEFAULT_PADDING_SCALE);
@@ -124,12 +123,12 @@ public class PromptTextView extends AppCompatTextView implements IPrompt {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        if (mMode == MODE_NONE) {
-            Log.i(TAG, "onMeasure: mode = NONE");
+        if (mMode == PromptMode.NONE) {
+            Log.i(TAG, "onMeasure: LoaderMode = NONE");
             return;
         }
 
-        if (mMode == MODE_TEXT && TextUtils.isEmpty(mPromptTextString)) {
+        if (mMode == PromptMode.TEXT && TextUtils.isEmpty(mPromptTextString)) {
             Log.i(TAG, "onMeasure: mPromptTextString is empty");
             return;
         }
@@ -138,11 +137,11 @@ public class PromptTextView extends AppCompatTextView implements IPrompt {
         int height = getMeasuredHeight();
 
         switch (mPromptPosition) {
-            case Position.LEFT:
+            case PromptPosition.LEFT:
                 mPromptUsedRectF.set(mPromptRecordRectF);
                 mPromptUsedRectF.offset(width * mWidthPaddingScale, height * mHeightPaddingScale);
                 break;
-            case Position.RIGHT:
+            case PromptPosition.RIGHT:
                 mPromptUsedRectF.set(mPromptRecordRectF);
                 mPromptUsedRectF.offset(width * (1 - mWidthPaddingScale) - mPromptRecordRectF.width(), height * mHeightPaddingScale);
                 break;
@@ -153,15 +152,15 @@ public class PromptTextView extends AppCompatTextView implements IPrompt {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if (mMode == MODE_NONE) {
+        if (mMode == PromptMode.NONE) {
             return;
         }
 
-        if (mMode == MODE_TEXT && TextUtils.isEmpty(mPromptTextString)) {
+        if (mMode == PromptMode.TEXT && TextUtils.isEmpty(mPromptTextString)) {
             return;
         }
         canvas.drawRoundRect(mPromptUsedRectF, 999, 999, mPromptBackgroundPaint);
-        if (mMode == MODE_TEXT && !TextUtils.isEmpty(mPromptTextString)) {
+        if (mMode == PromptMode.TEXT && !TextUtils.isEmpty(mPromptTextString)) {
             Paint.FontMetricsInt fontMetrics = mPromptTextPaint.getFontMetricsInt();
             float baseline = mPromptUsedRectF.top + (mPromptUsedRectF.bottom - mPromptUsedRectF.top - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top;
             mPromptTextPaint.setTextAlign(Paint.Align.CENTER);
@@ -174,7 +173,7 @@ public class PromptTextView extends AppCompatTextView implements IPrompt {
      * 设置当前模式
      */
     @Override
-    public PromptTextView setPromptMode(@mode int mode) {
+    public PromptTextView setPromptMode(@PromptMode int mode) {
         mMode = mode;
         return this;
     }
@@ -205,6 +204,7 @@ public class PromptTextView extends AppCompatTextView implements IPrompt {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mPromptTextColor = getResources().getColor(color, getContext().getTheme());
         } else {
+            //noinspection deprecation
             mPromptTextColor = getResources().getColor(color);
         }
         mPromptTextPaint.setColor(mPromptTextColor);
@@ -223,6 +223,7 @@ public class PromptTextView extends AppCompatTextView implements IPrompt {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mPromptBackgroundColor = getResources().getColor(color, getContext().getTheme());
         } else {
+            //noinspection deprecation
             mPromptBackgroundColor = getResources().getColor(color);
         }
         mPromptBackgroundPaint.setColor(mPromptBackgroundColor);
@@ -242,7 +243,7 @@ public class PromptTextView extends AppCompatTextView implements IPrompt {
     }
 
     @Override
-    public PromptTextView setPromptPosition(@position int position) {
+    public PromptTextView setPromptPosition(@PromptPosition int position) {
         mPromptPosition = position;
         return this;
     }
@@ -274,7 +275,7 @@ public class PromptTextView extends AppCompatTextView implements IPrompt {
      */
     protected PromptTextView commit(boolean init) {
         switch (mMode) {
-            case MODE_TEXT:
+            case PromptMode.TEXT:
                 if (TextUtils.isEmpty(mPromptTextString)) {
                     mPromptTextRect.set(0, 0, mPromptRadius, mPromptRadius);
                     mPromptRecordRectF.set(mPromptTextRect);
@@ -289,7 +290,7 @@ public class PromptTextView extends AppCompatTextView implements IPrompt {
                     mPromptRecordRectF.offset(mPromptPadding, mPromptTextRect.height() + mPromptPadding);
                 }
                 break;
-            case MODE_GRAPH:
+            case PromptMode.GRAPH:
                 mPromptRecordRectF.set(0, 0, mPromptRadius, mPromptRadius);
                 break;
         }

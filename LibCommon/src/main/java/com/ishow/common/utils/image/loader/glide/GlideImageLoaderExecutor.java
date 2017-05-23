@@ -63,10 +63,10 @@ public class GlideImageLoaderExecutor implements IImageLoaderExecutor {
 
         // 设置加载的模式
         switch (params.getMode()) {
-            case ImageLoader.MODE_CENTER_CROP:
+            case ImageLoader.LoaderMode.CENTER_CROP:
                 request.centerCrop();
                 break;
-            case ImageLoader.MODE_FIT_CENTER:
+            case ImageLoader.LoaderMode.FIT_CENTER:
                 request.fitCenter();
                 break;
         }
@@ -82,12 +82,12 @@ public class GlideImageLoaderExecutor implements IImageLoaderExecutor {
      */
     private void setPlan(DrawableTypeRequest<String> request, final ImageLoaderParams params) {
         switch (params.getPlan()) {
-            case ImageLoader.PLAN_NORMAL:
+            case ImageLoader.Plan.NORMAL:
                 request.centerCrop();
                 request.crossFade();
                 request.placeholder(R.drawable.no_picture);
                 break;
-            case ImageLoader.PLAN_CIRCLE:
+            case ImageLoader.Plan.CIRCLE:
                 request.bitmapTransform(new GlideCircleTransform(params.getContext()));
                 request.crossFade();
                 break;

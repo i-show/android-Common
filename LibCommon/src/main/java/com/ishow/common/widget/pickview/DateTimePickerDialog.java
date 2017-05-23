@@ -21,6 +21,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -36,7 +37,7 @@ import com.ishow.common.widget.TopBar;
  * 日期选择对话框
  */
 public class DateTimePickerDialog extends Dialog implements TopBar.OnTopBarListener {
-
+    private static final String TAG = "DateTimePickerDialog";
     private DateTimePicker mPicker;
     private OnSelectDateListener mListener;
     private long mTime;
@@ -44,9 +45,10 @@ public class DateTimePickerDialog extends Dialog implements TopBar.OnTopBarListe
     private String mTopBarString;
 
     public DateTimePickerDialog(Context context) {
-        this(context, DateTimePicker.STYLE_DATE_TIME);
+        this(context, DateTimePicker.Style.DATE_TIME);
     }
 
+    @SuppressWarnings("WeakerAccess")
     public DateTimePickerDialog(Context context, int type) {
         super(context, R.style.Dialog_DateTimePicker);
         mStyle = type;
@@ -85,10 +87,15 @@ public class DateTimePickerDialog extends Dialog implements TopBar.OnTopBarListe
     public void show() {
         super.show();
         Window window = getWindow();
+        if (window == null) {
+            Log.i(TAG, "show: window is null");
+            return;
+        }
         WindowManager.LayoutParams lp = window.getAttributes();
         int width = ScreenUtils.getScreenSize()[0];
         int height = ScreenUtils.getScreenSize()[1];
         if (width > height) {
+            //noinspection SuspiciousNameCombination
             lp.width = height;
         } else {
             lp.width = width;
@@ -116,10 +123,12 @@ public class DateTimePickerDialog extends Dialog implements TopBar.OnTopBarListe
 
     }
 
+    @SuppressWarnings("unused")
     public void setSelectDateListener(OnSelectDateListener listener) {
         mListener = listener;
     }
 
+    @SuppressWarnings("WeakerAccess")
     public interface OnSelectDateListener {
         void onSelected(long time);
     }

@@ -32,7 +32,7 @@ import com.bumptech.glide.Glide;
 
 /**
  * 图片剪切界面
- * 需要使用的Theme  android:theme="@style/Theme.NoActionBar.Fullscreen"
+ * 需要使用的Theme  android:theme="@Style/Theme.NoActionBar.Fullscreen"
  */
 public class PhotoCutterActivity extends BaseActivity {
     private static final String TAG = "PhotoCutterActivity";

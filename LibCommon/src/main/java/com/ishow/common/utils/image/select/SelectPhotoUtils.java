@@ -137,7 +137,7 @@ public class SelectPhotoUtils implements
      */
     private ExecutorService mExecutorService;
 
-    public SelectPhotoUtils(Activity context, @mode int selectMode) {
+    public SelectPhotoUtils(Activity context, @SelectMode int selectMode) {
         mActivity = context;
         mSelectMode = selectMode;
     }
@@ -145,7 +145,7 @@ public class SelectPhotoUtils implements
     /**
      * 设置选择模式
      */
-    public void setSelectMode(@mode int selectMode) {
+    public void setSelectMode(@SelectMode int selectMode) {
         mSelectMode = selectMode;
     }
 
@@ -178,7 +178,7 @@ public class SelectPhotoUtils implements
         }
 
         if (mSelectMode == SelectMode.SINGLE) {
-            throw new IllegalStateException("only mult select mode can select mulit count");
+            throw new IllegalStateException("only mult select SelectMode can select mulit count");
         }
         mMaxSelectCount = maxCount;
         mResultMode = ResultMode.COMPRESS;
@@ -201,7 +201,7 @@ public class SelectPhotoUtils implements
         }
 
         if (mSelectMode == SelectMode.MULTIPLE) {
-            throw new IllegalStateException("only single select mode can set scaleX and scaleY");
+            throw new IllegalStateException("only single select SelectMode can set scaleX and scaleY");
         }
         mResultMode = ResultMode.CROP;
         mScaleX = scaleX;
@@ -511,19 +511,15 @@ public class SelectPhotoUtils implements
      */
     @IntDef({SelectMode.SINGLE, SelectMode.MULTIPLE})
     @Retention(RetentionPolicy.SOURCE)
-    @interface mode {
-    }
-
-    @Keep
-    public final static class SelectMode {
+    public @interface SelectMode {
         /**
          * 单选
          */
-        public final static int SINGLE = 1;
+        int SINGLE = 1;
         /**
          * 多选
          */
-        public final static int MULTIPLE = 2;
+        int MULTIPLE = 2;
     }
 
 

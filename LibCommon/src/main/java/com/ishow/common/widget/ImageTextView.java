@@ -47,7 +47,6 @@ import android.util.TypedValue;
 import android.view.View;
 
 import com.ishow.common.R;
-import com.ishow.common.constant.Position;
 import com.ishow.common.widget.prompt.IPrompt;
 
 import java.lang.annotation.Retention;
@@ -64,7 +63,7 @@ public class ImageTextView extends View implements IPrompt {
     /**
      * 图片位置
      */
-    private int mPosition;
+    private int mImageOrientation;
     /**
      * 文本和图片之间的间距
      */
@@ -142,9 +141,26 @@ public class ImageTextView extends View implements IPrompt {
     private RectF mPromptUsedRectF;
 
     // 定义Ann
-    @IntDef({Position.LEFT, Position.TOP, Position.RIGHT, Position.BOTTOM})
+    @SuppressWarnings("WeakerAccess")
+    @IntDef({Orientation.LEFT, Orientation.TOP, Orientation.RIGHT, Orientation.BOTTOM})
     @Retention(RetentionPolicy.SOURCE)
-    public @interface position {
+    public @interface Orientation {
+        /**
+         * Pictures in the text to the left
+         */
+        int LEFT = 0;
+        /**
+         * Pictures in the text to the right
+         */
+        int RIGHT = 4;
+        /**
+         * Pictures in the text to the top
+         */
+        int TOP = 8;
+        /**
+         * Pictures in the text to the bottom
+         */
+        int BOTTOM = 16;
     }
 
     /**
@@ -169,16 +185,16 @@ public class ImageTextView extends View implements IPrompt {
 
         mTintColor = a.getColorStateList(R.styleable.ImageTextView_tint);
 
-        mPosition = a.getInt(R.styleable.ImageTextView_position, Position.TOP);
+        mImageOrientation = a.getInt(R.styleable.ImageTextView_position, Orientation.TOP);
         mPadding = a.getDimensionPixelSize(R.styleable.ImageTextView_padding, DEFAULT_PADDING);
 
-        mMode = a.getInt(R.styleable.ImageTextView_promptMode, MODE_NONE);
+        mMode = a.getInt(R.styleable.ImageTextView_promptMode, PromptMode.NONE);
         mPromptTextString = a.getString(R.styleable.ImageTextView_promptText);
         mPromptTextColor = a.getColor(R.styleable.ImageTextView_promptTextColor, Color.WHITE);
         mPromptTextSize = a.getDimensionPixelSize(R.styleable.ImageTextView_promptTextSize, getDefaultPromptTextSize(context));
         mPromptPadding = a.getDimensionPixelSize(R.styleable.ImageTextView_promptPadding, getDefaultPromptPadding(context));
         mPromptRadius = a.getDimensionPixelSize(R.styleable.ImageTextView_promptRadius, getDefaultPromptRadius(context));
-        mPromptPosition = a.getInt(R.styleable.ImageTextView_promptPosition, Position.LEFT);
+        mPromptPosition = a.getInt(R.styleable.ImageTextView_promptPosition, PromptPosition.LEFT);
         mPromptBackgroundColor = a.getColor(R.styleable.ImageTextView_promptBackground, Color.RED);
         mWidthPaddingScale = a.getFloat(R.styleable.ImageTextView_widthPaddingScale, DEFAULT_PADDING_SCALE);
         mHeightPaddingScale = a.getFloat(R.styleable.ImageTextView_heightPaddingScale, DEFAULT_PADDING_SCALE);
@@ -291,14 +307,14 @@ public class ImageTextView extends View implements IPrompt {
     private int measureWidthUnspecified() {
         int width = 0;
         mLayout = new StaticLayout(mText, mTextPaint, mTextDesireWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
-        switch (mPosition) {
-            case Position.TOP:
-            case Position.BOTTOM:
+        switch (mImageOrientation) {
+            case Orientation.TOP:
+            case Orientation.BOTTOM:
                 width = DEFAULT_PADDING + Math.max(mLayout.getWidth(), mIconDrawable.getIntrinsicWidth()) + DEFAULT_PADDING;
                 break;
 
-            case Position.LEFT:
-            case Position.RIGHT:
+            case Orientation.LEFT:
+            case Orientation.RIGHT:
                 width = DEFAULT_PADDING + mLayout.getWidth() + mPadding + mIconDrawable.getIntrinsicWidth() + DEFAULT_PADDING;
                 break;
         }
@@ -308,15 +324,15 @@ public class ImageTextView extends View implements IPrompt {
 
     private int measureWidthByExactly(int size) {
         int maxSize;
-        switch (mPosition) {
-            case Position.TOP:
-            case Position.BOTTOM:
+        switch (mImageOrientation) {
+            case Orientation.TOP:
+            case Orientation.BOTTOM:
                 maxSize = size - 2 * DEFAULT_PADDING;
                 mLayout = new StaticLayout(mText, mTextPaint, maxSize, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
                 break;
 
-            case Position.LEFT:
-            case Position.RIGHT:
+            case Orientation.LEFT:
+            case Orientation.RIGHT:
                 maxSize = size - mIconDrawable.getIntrinsicWidth() - 2 * DEFAULT_PADDING - mPadding;
                 mLayout = new StaticLayout(mText, mTextPaint, maxSize, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
                 break;
@@ -327,9 +343,9 @@ public class ImageTextView extends View implements IPrompt {
     private int measureWidthByAtmost(int size) {
         int width = size;
         int maxSize;
-        switch (mPosition) {
-            case Position.TOP:
-            case Position.BOTTOM:
+        switch (mImageOrientation) {
+            case Orientation.TOP:
+            case Orientation.BOTTOM:
                 if (mDesireWidth < size) {
                     mLayout = new StaticLayout(mText, mTextPaint, mTextDesireWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
                     width = DEFAULT_PADDING + Math.max(mLayout.getWidth(), mIconDrawable.getIntrinsicWidth()) + DEFAULT_PADDING;
@@ -340,8 +356,8 @@ public class ImageTextView extends View implements IPrompt {
                 }
                 break;
 
-            case Position.LEFT:
-            case Position.RIGHT:
+            case Orientation.LEFT:
+            case Orientation.RIGHT:
                 if (mDesireWidth < size) {
                     mLayout = new StaticLayout(mText, mTextPaint, mTextDesireWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
                     width = DEFAULT_PADDING + mLayout.getWidth() + mPadding + mIconDrawable.getIntrinsicWidth() + DEFAULT_PADDING;
@@ -374,14 +390,14 @@ public class ImageTextView extends View implements IPrompt {
 
     private int measureHeightUnspecified() {
         int height = 0;
-        switch (mPosition) {
-            case Position.TOP:
-            case Position.BOTTOM:
+        switch (mImageOrientation) {
+            case Orientation.TOP:
+            case Orientation.BOTTOM:
                 height = DEFAULT_PADDING + mLayout.getHeight() + mPadding + mIconDrawable.getIntrinsicHeight() + DEFAULT_PADDING;
                 break;
 
-            case Position.LEFT:
-            case Position.RIGHT:
+            case Orientation.LEFT:
+            case Orientation.RIGHT:
                 height = DEFAULT_PADDING + Math.max(mLayout.getHeight(), mIconDrawable.getIntrinsicHeight()) + DEFAULT_PADDING;
                 break;
         }
@@ -390,14 +406,14 @@ public class ImageTextView extends View implements IPrompt {
 
     private int measureHeightByAtmost(int size) {
         int desireHeight = size;
-        switch (mPosition) {
-            case Position.TOP:
-            case Position.BOTTOM:
+        switch (mImageOrientation) {
+            case Orientation.TOP:
+            case Orientation.BOTTOM:
                 desireHeight = DEFAULT_PADDING + mLayout.getHeight() + mPadding + mIconDrawable.getIntrinsicHeight() + DEFAULT_PADDING;
                 break;
 
-            case Position.LEFT:
-            case Position.RIGHT:
+            case Orientation.LEFT:
+            case Orientation.RIGHT:
                 desireHeight = DEFAULT_PADDING + Math.max(mLayout.getHeight(), mIconDrawable.getIntrinsicHeight()) + DEFAULT_PADDING;
                 break;
         }
@@ -406,23 +422,23 @@ public class ImageTextView extends View implements IPrompt {
 
 
     private void measurePrompt(int width, int height) {
-        if (mMode == MODE_NONE) {
-            Log.i(TAG, "onMeasure: mode = NONE");
+        if (mMode == PromptMode.NONE) {
+            Log.i(TAG, "onMeasure: LoaderMode = NONE");
             return;
         }
 
-        if (mMode == MODE_TEXT && TextUtils.isEmpty(mPromptTextString)) {
+        if (mMode == PromptMode.TEXT && TextUtils.isEmpty(mPromptTextString)) {
             Log.i(TAG, "onMeasure: mPromptTextString is empty");
             return;
         }
 
 
         switch (mPromptPosition) {
-            case Position.LEFT:
+            case PromptPosition.LEFT:
                 mPromptUsedRectF.set(mPromptRecordRectF);
                 mPromptUsedRectF.offset(width * mWidthPaddingScale, height * mHeightPaddingScale);
                 break;
-            case Position.RIGHT:
+            case PromptPosition.RIGHT:
                 mPromptUsedRectF.set(mPromptRecordRectF);
                 mPromptUsedRectF.offset(width * (1 - mWidthPaddingScale) - mPromptRecordRectF.width(), height * mHeightPaddingScale);
                 break;
@@ -441,8 +457,8 @@ public class ImageTextView extends View implements IPrompt {
         final int textWidth = mLayout.getWidth();
         final int textHeight = mLayout.getHeight();
 
-        switch (mPosition) {
-            case Position.TOP:
+        switch (mImageOrientation) {
+            case Orientation.TOP:
                 // Calculate icon Rect
                 mIconRect.left = (width - iconWidth) / 2;
                 mIconRect.right = mIconRect.left + iconWidth;
@@ -453,7 +469,7 @@ public class ImageTextView extends View implements IPrompt {
                 mTranslationX = (width - textWidth) / 2;
                 mTranslationY = mIconRect.bottom + mPadding;
                 break;
-            case Position.BOTTOM:
+            case Orientation.BOTTOM:
                 // Calculate text Rect
                 mTranslationX = (width - textWidth) / 2;
                 mTranslationY = (height - iconHeight - textHeight - mPadding) / 2;
@@ -464,7 +480,7 @@ public class ImageTextView extends View implements IPrompt {
                 mIconRect.top = mTranslationY + textHeight + mPadding;
                 mIconRect.bottom = mIconRect.top + iconHeight;
                 break;
-            case Position.LEFT:
+            case Orientation.LEFT:
                 // Calculate icon Rect
                 mIconRect.left = (width - iconWidth - textWidth - mPadding) / 2;
                 mIconRect.right = mIconRect.left + iconWidth;
@@ -475,7 +491,7 @@ public class ImageTextView extends View implements IPrompt {
                 mTranslationX = mIconRect.right + mPadding;
                 mTranslationY = (height - textHeight) / 2;
                 break;
-            case Position.RIGHT:
+            case Orientation.RIGHT:
                 // Calculate text Rect
                 mTranslationX = (width - iconWidth - textWidth - mPadding) / 2;
                 mTranslationY = (height - textHeight) / 2;
@@ -525,15 +541,15 @@ public class ImageTextView extends View implements IPrompt {
     }
 
     private void drawPrompt(Canvas canvas) {
-        if (mMode == MODE_NONE) {
+        if (mMode == PromptMode.NONE) {
             return;
         }
 
-        if (mMode == MODE_TEXT && TextUtils.isEmpty(mPromptTextString)) {
+        if (mMode == PromptMode.TEXT && TextUtils.isEmpty(mPromptTextString)) {
             return;
         }
         canvas.drawRoundRect(mPromptUsedRectF, 999, 999, mPromptBackgroundPaint);
-        if (mMode == MODE_TEXT && !TextUtils.isEmpty(mPromptTextString)) {
+        if (mMode == PromptMode.TEXT && !TextUtils.isEmpty(mPromptTextString)) {
             Paint.FontMetricsInt fontMetrics = mPromptTextPaint.getFontMetricsInt();
             float baseline = mPromptUsedRectF.top + (mPromptUsedRectF.bottom - mPromptUsedRectF.top - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top;
             mPromptTextPaint.setTextAlign(Paint.Align.CENTER);
@@ -546,12 +562,12 @@ public class ImageTextView extends View implements IPrompt {
 
         final int iconWidth = mIconDrawable.getIntrinsicWidth();
 
-        switch (mPosition) {
-            case Position.LEFT:
-            case Position.RIGHT:
+        switch (mImageOrientation) {
+            case Orientation.LEFT:
+            case Orientation.RIGHT:
                 mDesireWidth = mTextDesireWidth + iconWidth + mPadding + DEFAULT_PADDING * 2;
-            case Position.TOP:
-            case Position.BOTTOM:
+            case Orientation.TOP:
+            case Orientation.BOTTOM:
                 mDesireWidth = Math.max(mTextDesireWidth, iconWidth) + DEFAULT_PADDING * 2;
                 break;
         }
@@ -625,12 +641,13 @@ public class ImageTextView extends View implements IPrompt {
     }
 
     /**
-     * Located in a position to set the picture text
+     * Located in a imageOrientation to set the picture text
      *
-     * @param position can be set TOP BOTTOM LEFT RIGHT
+     * @param imageOrientation can be set TOP BOTTOM LEFT RIGHT
      */
-    public void setPosition(@position int position) {
-        mPosition = position;
+    @SuppressWarnings("unused")
+    public void setImageOrientation(@Orientation int imageOrientation) {
+        mImageOrientation = imageOrientation;
         computeDesireWidth();
         requestLayout();
         postInvalidate();
@@ -695,7 +712,7 @@ public class ImageTextView extends View implements IPrompt {
      * 设置当前模式
      */
     @Override
-    public ImageTextView setPromptMode(@mode int mode) {
+    public ImageTextView setPromptMode(@PromptMode int mode) {
         mMode = mode;
         return this;
     }
@@ -765,7 +782,7 @@ public class ImageTextView extends View implements IPrompt {
     }
 
     @Override
-    public ImageTextView setPromptPosition(@position int position) {
+    public ImageTextView setPromptPosition(@PromptMode int position) {
         mPromptPosition = position;
         return this;
     }
@@ -797,7 +814,7 @@ public class ImageTextView extends View implements IPrompt {
      */
     protected ImageTextView commit(boolean init) {
         switch (mMode) {
-            case MODE_TEXT:
+            case PromptMode.TEXT:
                 if (TextUtils.isEmpty(mPromptTextString)) {
                     mPromptTextRect.set(0, 0, mPromptRadius, mPromptRadius);
                     mPromptRecordRectF.set(mPromptTextRect);
@@ -812,7 +829,7 @@ public class ImageTextView extends View implements IPrompt {
                     mPromptRecordRectF.offset(mPromptPadding, mPromptTextRect.height() + mPromptPadding);
                 }
                 break;
-            case MODE_GRAPH:
+            case PromptMode.GRAPH:
                 mPromptRecordRectF.set(0, 0, mPromptRadius, mPromptRadius);
                 break;
         }

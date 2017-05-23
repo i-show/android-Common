@@ -33,43 +33,37 @@ import java.lang.annotation.RetentionPolicy;
 public class ImageLoader {
 
 
-    /**
-     * 居中
-     */
     @SuppressWarnings("WeakerAccess")
-    public static final int MODE_NONE = 0;
-    /**
-     * 居中
-     */
-    @SuppressWarnings("WeakerAccess")
-    public static final int MODE_FIT_CENTER = 1;
-    /**
-     * 剪切
-     */
-    @SuppressWarnings("WeakerAccess")
-    public static final int MODE_CENTER_CROP = 2;
-
-
-    /**
-     * 方案-普通
-     * 普通加载方案
-     */
-    @SuppressWarnings("WeakerAccess")
-    public static final int PLAN_NORMAL = 1;
-    /**
-     * 方案- 圆形头像
-     */
-    @SuppressWarnings("WeakerAccess")
-    public static final int PLAN_CIRCLE = 2;
-
-    @IntDef({MODE_NONE, MODE_FIT_CENTER, MODE_CENTER_CROP})
+    @IntDef({LoaderMode.NONE, LoaderMode.FIT_CENTER, LoaderMode.CENTER_CROP})
     @Retention(RetentionPolicy.SOURCE)
-    public @interface mode {
+    public @interface LoaderMode {
+        /**
+         * 居中
+         */
+        int NONE = 0;
+        /**
+         * 居中
+         */
+        int FIT_CENTER = 1;
+        /**
+         * 剪切
+         */
+        int CENTER_CROP = 2;
     }
 
-    @IntDef({PLAN_NORMAL, PLAN_CIRCLE})
+    @SuppressWarnings("WeakerAccess")
+    @IntDef({Plan.NORMAL, Plan.CIRCLE})
     @Retention(RetentionPolicy.SOURCE)
-    public @interface plan {
+    public @interface Plan {
+        /**
+         * 方案-普通
+         * 普通加载方案
+         */
+        int NORMAL = 1;
+        /**
+         * 方案- 圆形头像
+         */
+        int CIRCLE = 2;
     }
 
     private static ImageLoader sInstance;
@@ -81,6 +75,7 @@ public class ImageLoader {
 
     }
 
+    @SuppressWarnings("WeakerAccess")
     public static ImageLoader getInstance() {
         if (sInstance == null) {
             synchronized (ImageLoader.class) {
