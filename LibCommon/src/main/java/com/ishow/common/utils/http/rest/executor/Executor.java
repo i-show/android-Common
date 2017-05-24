@@ -16,6 +16,7 @@
 
 package com.ishow.common.utils.http.rest.executor;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
@@ -39,15 +40,16 @@ import java.util.Map;
 
 public abstract class Executor {
 
-    public abstract void init();
+    public abstract void init(Context context);
 
     public abstract <T> void execute(Request request, CallBack<T> callBack);
 
+    public abstract void clearCookie(Context context);
 
     /**
      * Format Url
      */
-    String formatUrl(Request request) {
+    protected String formatUrl(Request request) {
         String url = request.getUrl();
         if (TextUtils.isEmpty(url)) {
             throw new IllegalStateException("need a url");
@@ -123,7 +125,7 @@ public abstract class Executor {
         L.d(request.getLogTag(), StringUtils.plusString(request.getId(), " TIMEOUT = ", request.getConnTimeOut(true)));
 
         RequestParams params = request.getParams();
-        
+
         String normalParsms = buildParams(params.getNormalParams());
         if (!TextUtils.isEmpty(normalParsms)) {
             L.d(request.getLogTag(), StringUtils.plusString(request.getId(), " PARAMS = ", normalParsms));

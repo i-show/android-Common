@@ -16,14 +16,16 @@
 
 package com.ishow.common.utils.http.rest.config;
 
+import android.support.annotation.Keep;
+
 /**
  * Created by Bright.Yu on 2017/2/20.
  * Http的配置
- *
+ * <p>
  * 扩展：
  * 1. HTTPS 配置
  */
-
+@Keep
 @SuppressWarnings("unused")
 public class HttpConfig {
     /**

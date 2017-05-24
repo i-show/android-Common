@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package com.ishow.common.utils.http.rest.executor;
+package com.ishow.common.utils.http.rest.okhttp;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.ishow.common.entries.KeyValue;
 import com.ishow.common.utils.http.rest.Http;
@@ -26,6 +28,8 @@ import com.ishow.common.utils.http.rest.RequestParams;
 import com.ishow.common.utils.http.rest.callback.CallBack;
 import com.ishow.common.utils.http.rest.config.HttpConfig;
 import com.ishow.common.utils.http.rest.exception.HttpErrorException;
+import com.ishow.common.utils.http.rest.executor.Executor;
+import com.ishow.common.utils.http.rest.okhttp.cookie.CookiesManager;
 import com.ishow.common.utils.http.rest.request.Request;
 import com.ishow.common.utils.http.rest.MultiBody;
 import com.ishow.common.utils.http.rest.response.Response;
@@ -53,12 +57,13 @@ public class OkhttpExecutor extends Executor {
     private OkHttpClient mOkHttpClient;
 
     @Override
-    public void init() {
+    public void init(Context context) {
         HttpConfig config = Http.getConfig();
         mOkHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(config.getConnTimeOut(), TimeUnit.MILLISECONDS)
                 .readTimeout(config.getReadTimeOut(), TimeUnit.MILLISECONDS)
                 .writeTimeout(config.getWriteTimeOut(), TimeUnit.MILLISECONDS)
+                .cookieJar(CookiesManager.init(context))
                 .build();
     }
 
@@ -83,6 +88,12 @@ public class OkhttpExecutor extends Executor {
         // Debug this
         debugRequest(request);
         executeOkHttp(request, builder.build(), callBack);
+    }
+
+    @Override
+    public void clearCookie(Context context) {
+        CookiesManager cookies = CookiesManager.getInstance(context);
+        cookies.clearCookie();
     }
 
     @Override

@@ -16,6 +16,7 @@
 
 package com.ishow.common.utils.http.rest;
 
+import android.support.annotation.Keep;
 import android.support.annotation.NonNull;
 
 import com.ishow.common.utils.http.rest.request.Request;
@@ -25,7 +26,7 @@ import com.ishow.common.utils.http.rest.request.Request;
  * Created by Bright.Yu on 2017/2/15.
  * Http 返回的Error信息
  */
-
+@Keep
 public class HttpError {
     /**
      * IOException

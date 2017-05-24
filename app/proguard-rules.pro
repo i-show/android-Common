@@ -15,6 +15,8 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+
 #指定代码的压缩级别
 -optimizationpasses 5
 #包明不混合大小写
@@ -44,6 +46,17 @@
 -keep public class * extends android.support.v4.app.Fragment
 #如果引用了v4或者v7包
 -dontwarn android.support.**
+
+#手动启用support keep注解
+#http://tools.android.com/tech-docs/support-annotations
+-dontskipnonpubliclibraryclassmembers
+-printconfiguration
+-keep,allowobfuscation @interface android.support.annotation.Keep
+
+-keep @android.support.annotation.Keep class *
+-keepclassmembers class * {
+    @android.support.annotation.Keep *;
+}
 
 #忽略警告
 -ignorewarning

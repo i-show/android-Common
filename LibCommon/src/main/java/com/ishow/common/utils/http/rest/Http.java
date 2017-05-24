@@ -22,7 +22,7 @@ import android.support.annotation.NonNull;
 
 import com.ishow.common.utils.http.rest.config.HttpConfig;
 import com.ishow.common.utils.http.rest.executor.Executor;
-import com.ishow.common.utils.http.rest.executor.OkhttpExecutor;
+import com.ishow.common.utils.http.rest.okhttp.OkhttpExecutor;
 import com.ishow.common.utils.http.rest.request.GetRequest;
 import com.ishow.common.utils.http.rest.request.PostRequest;
 
@@ -70,7 +70,7 @@ public class Http {
         http.mHttpConfig = config;
         // Warning： executor 必须在config后面初始化
         http.mExecutor = executor;
-        http.mExecutor.init();
+        http.mExecutor.init(context);
     }
 
 
@@ -107,5 +107,9 @@ public class Http {
         if (getInstance().mExecutor != null) {
             getExecutor().cancle(tag);
         }
+    }
+
+    public static void clearCookie(Context context) {
+        getExecutor().clearCookie(context);
     }
 }
