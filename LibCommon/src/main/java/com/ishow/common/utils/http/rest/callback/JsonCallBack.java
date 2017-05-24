@@ -46,8 +46,15 @@ public abstract class JsonCallBack<T> extends CallBack<T> {
     @Override
     public T parseResponse(@NonNull final Request request, @NonNull final Response response) throws HttpErrorException {
         Type genType = getClass().getGenericSuperclass();
-        Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
-        Type type = params[0];
+
+        Type type;
+        if (genType instanceof ParameterizedType) {
+            Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
+            type = params[0];
+        } else {
+            type = String.class;
+        }
+
         String body = new String(response.getBody());
         response.setDebugString(body);
 

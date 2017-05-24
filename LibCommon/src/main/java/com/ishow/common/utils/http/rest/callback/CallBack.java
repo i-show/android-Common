@@ -26,13 +26,13 @@ import android.text.TextUtils;
 
 import com.ishow.common.R;
 import com.ishow.common.utils.StringUtils;
-import com.ishow.common.utils.debug.DEBUG;
 import com.ishow.common.utils.http.rest.Http;
 import com.ishow.common.utils.http.rest.HttpError;
 import com.ishow.common.utils.http.rest.exception.CanceledException;
 import com.ishow.common.utils.http.rest.exception.HttpErrorException;
 import com.ishow.common.utils.http.rest.request.Request;
 import com.ishow.common.utils.http.rest.response.Response;
+import com.ishow.common.utils.log.L;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -58,6 +58,8 @@ public abstract class CallBack<T> {
 
     /**
      * CallBack onFailed
+     *
+     * @param error 错误信息的的组合对象
      */
     @SuppressWarnings("WeakerAccess")
     protected abstract void onFailed(@NonNull HttpError error);
@@ -72,7 +74,7 @@ public abstract class CallBack<T> {
         // Step 1. 检测是否需要终端操作
         boolean interruption = checkInterruptionFailed(error);
         if (interruption) {
-            DEBUG.d(error.getLogtag(), "sendFailResult: interruption");
+            L.d(error.getLogtag(), "sendFailResult: interruption");
             return;
         }
 
@@ -98,6 +100,8 @@ public abstract class CallBack<T> {
 
     /**
      * CallBack onSuccess
+     *
+     * @param result 返回成功的组合对象
      */
     @SuppressWarnings("WeakerAccess")
     protected abstract void onSuccess(T result);
@@ -111,7 +115,7 @@ public abstract class CallBack<T> {
         // Step 1. 检测是否需要终端操作
         boolean interruption = checkInterruptionSuccessed(response);
         if (interruption) {
-            DEBUG.d(response.getLogtag(), "sendFailResult: interruption");
+            L.d(response.getLogtag(), "sendFailResult: interruption");
             return;
         }
 
@@ -139,13 +143,13 @@ public abstract class CallBack<T> {
         if (mContext != null && mContext instanceof Activity) {
             Activity activity = (Activity) mContext;
             if (activity.isFinishing()) {
-                DEBUG.d(error.getLogtag(), StringUtils.plusString(error.getId(), " on Error activity is finishing to do nothing "));
+                L.d(error.getLogtag(), StringUtils.plusString(error.getId(), " on Error activity is finishing to do nothing "));
                 return true;
             }
         }
 
         if (error.getException() instanceof CanceledException) {
-            DEBUG.d(error.getLogtag(), StringUtils.plusString(error.getId(), "  is canceled "));
+            L.d(error.getLogtag(), StringUtils.plusString(error.getId(), "  is canceled "));
             return true;
         }
         return false;
@@ -161,7 +165,7 @@ public abstract class CallBack<T> {
         if (mContext != null && mContext instanceof Activity) {
             Activity activity = (Activity) mContext;
             if (activity.isFinishing()) {
-                DEBUG.d(response.getLogtag(), StringUtils.plusString(response.getId(), " on Error activity is finishing to do nothing "));
+                L.d(response.getLogtag(), StringUtils.plusString(response.getId(), " on Error activity is finishing to do nothing "));
                 return true;
             }
         }
@@ -201,18 +205,18 @@ public abstract class CallBack<T> {
      */
     private void debugForFailed(@NonNull HttpError error) {
         if (!TextUtils.isEmpty(error.getMessage())) {
-            DEBUG.d(error.getLogtag(), StringUtils.plusString(error.getId(), " ERROR_MSG  = " + error.getMessage()));
+            L.d(error.getLogtag(), StringUtils.plusString(error.getId(), " ERROR_MSG  = " + error.getMessage()));
         }
 
         if (error.getCode() != 0) {
-            DEBUG.d(error.getLogtag(), StringUtils.plusString(error.getId(), " ERROR_TYPE  = " + error.getCode()));
+            L.d(error.getLogtag(), StringUtils.plusString(error.getId(), " ERROR_TYPE  = " + error.getCode()));
         }
 
         if (error.getException() == null) {
             error.setException(new Exception(error.getMessage()));
         }
 
-        DEBUG.d(error.getLogtag(), StringUtils.plusString(error.getId(), " EXCEPTION  = " + error.getException().toString()));
+        L.d(error.getLogtag(), StringUtils.plusString(error.getId(), " EXCEPTION  = " + error.getException().toString()));
     }
 
     /**
@@ -220,9 +224,9 @@ public abstract class CallBack<T> {
      */
     private void debugForSuccess(@NonNull final Response response, @NonNull final T result) {
         if (!TextUtils.isEmpty(response.getDebugString())) {
-            DEBUG.d(response.getLogtag(), StringUtils.plusString(response.getId(), " RESULT  = " + response.getDebugString()));
+            L.d(response.getLogtag(), StringUtils.plusString(response.getId(), " RESULT  = " + response.getDebugString()));
         } else {
-            DEBUG.d(response.getLogtag(), StringUtils.plusString(response.getId(), " RESULT  Success but no debugString or empty"));
+            L.d(response.getLogtag(), StringUtils.plusString(response.getId(), " RESULT  Success but no debugString or empty"));
         }
     }
 
