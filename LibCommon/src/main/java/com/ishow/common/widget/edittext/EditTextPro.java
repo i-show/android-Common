@@ -242,7 +242,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
         final int width = measureWidth(widthMeasureSpec);
-        final int height = measureHeight(width, heightMeasureSpec);
+        int height = measureHeight(width, heightMeasureSpec);
 
         final int heightSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
         final int imageWidthSpec = MeasureSpec.makeMeasureSpec(mSuggestIconWidth, MeasureSpec.EXACTLY);
@@ -276,6 +276,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         inputWidth = inputWidth - mInputRightMargin;
         mInputView.measure(MeasureSpec.makeMeasureSpec(inputWidth, MeasureSpec.EXACTLY), heightSpec);
 
+        height = height + getPaddingTop() + getPaddingBottom();
         setMeasuredDimension(width, height);
     }
 
@@ -458,7 +459,6 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
             mLeftTextView = new PromptTextView(getContext());
             mLeftTextView.setId(R.id.leftText);
             mLeftTextView.setText(mLeftTextString);
-            mLeftTextView.setGravity(Gravity.CENTER);
             mLeftTextView.setTextColor(mLeftTextColor);
             mLeftTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mLeftTextSize);
             mLeftTextView.setMinWidth(mLeftTextMinWidth);
@@ -481,11 +481,11 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
             mInputView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mInputTextSize);
             mInputView.setTextColor(mInputTextColor);
             mInputView.setHint(mInputHintString);
-            mInputView.setLines(mInputLines);
             mInputView.setHintTextColor(mInputHintTextColor);
             mInputView.setOnFocusChangeListener(this);
             mInputView.addTextChangedListener(new InputWatcher());
             mInputView.setInputType(mInputType);
+            mInputView.setLines(mInputLines);
             if (mInputMaxLength != 0) {
                 mInputView.setFilters(new InputFilter[]{new InputFilter.LengthFilter(mInputMaxLength)});
             }

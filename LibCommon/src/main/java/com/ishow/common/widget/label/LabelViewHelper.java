@@ -86,6 +86,7 @@ public class LabelViewHelper {
         mTextPath = new Path();
         mTextPath.reset();
 
+        mTextBound = new Rect();
         mTextPaint = new Paint();
         mTextPaint.setDither(true);
         mTextPaint.setAntiAlias(true);
@@ -98,7 +99,6 @@ public class LabelViewHelper {
             mTextPaint.getTextBounds(mText, 0, mText.length(), mTextBound);
         }
 
-        mTextBound = new Rect();
         // 检测有效性
         checkVaild();
     }

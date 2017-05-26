@@ -16,6 +16,7 @@
 
 package com.ishow.common.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.annotation.StringRes;
@@ -61,10 +62,26 @@ public class YToast extends Toast {
     }
 
     public static void show(Context context, CharSequence text, int duration) {
-        YToast.makeText(context.getApplicationContext(), text, duration).show();
+        Toast toast = YToast.makeText(context.getApplicationContext(), text, duration);
+        if (toast != null) {
+            toast.show();
+        }
     }
 
     public static Toast makeText(Context context, CharSequence text, int duration) {
+        if (context == null) {
+            Log.i(TAG, "makeText: context is null");
+            return null;
+        }
+
+        if (context instanceof Activity) {
+            Activity activity = (Activity) context;
+            if (activity.isFinishing()) {
+                Log.i(TAG, "makeText: activity is alreay finish");
+                return null;
+            }
+        }
+
         YToast toast;
         if (mToast == null || mToast.get() == null) {
             toast = new YToast(context);
@@ -88,14 +105,13 @@ public class YToast extends Toast {
      * Make a standard toast that just contains a text view with the text from a resource.
      *
      * @param context  The context to use.  Usually your {@link android.app.Application}
-     *                 or {@link android.app.Activity} object.
+     *                 or {@link Activity} object.
      * @param resId    The resource id of the string resource to use.  Can be formatted text.
      * @param duration How long to display the message.  Either {@link #LENGTH_SHORT} or
      *                 {@link #LENGTH_LONG}
      * @throws Resources.NotFoundException if the resource can't be found.
      */
-    public static Toast makeText(Context context, @StringRes int resId, int duration)
-            throws Resources.NotFoundException {
+    public static Toast makeText(Context context, @StringRes int resId, int duration) throws Resources.NotFoundException {
         return makeText(context, context.getResources().getText(resId), duration);
     }
 
