@@ -18,8 +18,6 @@ package com.ishow.common.utils.http.rest.okhttp;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
-import android.util.Log;
 
 import com.ishow.common.entries.KeyValue;
 import com.ishow.common.utils.http.rest.Http;
@@ -29,7 +27,7 @@ import com.ishow.common.utils.http.rest.callback.CallBack;
 import com.ishow.common.utils.http.rest.config.HttpConfig;
 import com.ishow.common.utils.http.rest.exception.HttpErrorException;
 import com.ishow.common.utils.http.rest.executor.Executor;
-import com.ishow.common.utils.http.rest.okhttp.cookie.CookiesManager;
+import com.ishow.common.utils.http.rest.okhttp.cookie.OkCookiesManager;
 import com.ishow.common.utils.http.rest.request.Request;
 import com.ishow.common.utils.http.rest.MultiBody;
 import com.ishow.common.utils.http.rest.response.Response;
@@ -55,17 +53,25 @@ import okhttp3.RequestBody;
  */
 public class OkhttpExecutor extends Executor {
     private OkHttpClient mOkHttpClient;
+    private OkCookiesManager mCookiesManager;
 
     @Override
     public void init(Context context) {
         HttpConfig config = Http.getConfig();
-        mOkHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(config.getConnTimeOut(), TimeUnit.MILLISECONDS)
-                .readTimeout(config.getReadTimeOut(), TimeUnit.MILLISECONDS)
-                .writeTimeout(config.getWriteTimeOut(), TimeUnit.MILLISECONDS)
-                .cookieJar(CookiesManager.init(context))
-                .build();
+
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        // Step 1. 设置超时时间
+        builder.connectTimeout(config.getConnTimeOut(), TimeUnit.MILLISECONDS);
+        builder.readTimeout(config.getReadTimeOut(), TimeUnit.MILLISECONDS);
+        builder.writeTimeout(config.getWriteTimeOut(), TimeUnit.MILLISECONDS);
+        // Step 2. 设置Cookie
+        mCookiesManager = new OkCookiesManager(context, config.getCookieType());
+        builder.cookieJar(mCookiesManager);
+
+        mOkHttpClient = builder.build();
+
     }
+
 
     @Override
     public <T> void execute(Request request, CallBack<T> callBack) {
@@ -92,8 +98,7 @@ public class OkhttpExecutor extends Executor {
 
     @Override
     public void clearCookie(Context context) {
-        CookiesManager cookies = CookiesManager.getInstance(context);
-        cookies.clearCookie();
+        mCookiesManager.clearCookie();
     }
 
     @Override

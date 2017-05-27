@@ -18,6 +18,8 @@ package com.ishow.common.utils.http.rest.config;
 
 import android.support.annotation.Keep;
 
+import com.ishow.common.utils.http.rest.Cookie;
+
 /**
  * Created by Bright.Yu on 2017/2/20.
  * Http的配置
@@ -46,6 +48,16 @@ public class HttpConfig {
      * Request connTimeOut
      */
     private long connTimeOut;
+    /**
+     * 保存Cookie的类型
+     */
+    @Cookie.Type
+    private int cookieType;
+
+    @SuppressWarnings("WeakerAccess")
+    public HttpConfig() {
+        cookieType = Cookie.Type.FILE;
+    }
 
 
     public long getReadTimeOut() {
@@ -81,6 +93,16 @@ public class HttpConfig {
         this.connTimeOut = connTimeOut;
     }
 
+
+    @Cookie.Type
+    public int getCookieType() {
+        return cookieType;
+    }
+
+    public void setCookieType(@Cookie.Type int cookieType) {
+        this.cookieType = cookieType;
+    }
+
     /**
      * 获取默认的Configure
      */
@@ -89,6 +111,8 @@ public class HttpConfig {
         config.readTimeOut = DEFAULT_TIME_OUT_MILLISECONDS;
         config.writeTimeOut = DEFAULT_TIME_OUT_MILLISECONDS;
         config.connTimeOut = DEFAULT_TIME_OUT_MILLISECONDS;
+        // 默认的Type
+        config.cookieType = Cookie.Type.FILE;
         return config;
     }
 }

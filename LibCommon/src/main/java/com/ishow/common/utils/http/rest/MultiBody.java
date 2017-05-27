@@ -16,6 +16,7 @@
 
 package com.ishow.common.utils.http.rest;
 
+import android.support.annotation.Keep;
 import android.support.annotation.NonNull;
 
 import com.ishow.common.utils.http.rest.MediaType;
@@ -26,7 +27,7 @@ import java.io.File;
  * Created by bright.yu on 2017/3/2.
  * 多包上传
  */
-
+@Keep
 public class MultiBody {
     /**
      * Like image， file
@@ -67,6 +68,7 @@ public class MultiBody {
         return body;
     }
 
+    @SuppressWarnings("unused")
     public void setBody(@NonNull String body) {
         setBody(body, MediaType.JSON);
     }
@@ -77,6 +79,7 @@ public class MultiBody {
         this.mediaType = mediaType;
     }
 
+    @SuppressWarnings("unused")
     public void setBody(@NonNull File body) {
         setBody(body, MediaType.STREAM);
     }
@@ -87,6 +90,7 @@ public class MultiBody {
         this.mediaType = mediaType;
     }
 
+    @SuppressWarnings("unused")
     public void setBody(@NonNull byte[] body) {
         this.body = body;
     }

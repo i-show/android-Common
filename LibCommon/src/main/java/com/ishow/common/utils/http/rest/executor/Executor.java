@@ -20,6 +20,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.ishow.common.utils.http.rest.Cookie;
 import com.ishow.common.utils.http.rest.HttpError;
 import com.ishow.common.entries.KeyValue;
 import com.ishow.common.utils.StringUtils;
@@ -39,11 +40,19 @@ import java.util.Map;
  */
 
 public abstract class Executor {
-
+    /**
+     * 初始化
+     */
     public abstract void init(Context context);
 
+    /**
+     * 执行
+     */
     public abstract <T> void execute(Request request, CallBack<T> callBack);
 
+    /**
+     * 移除Cookie
+     */
     public abstract void clearCookie(Context context);
 
     /**

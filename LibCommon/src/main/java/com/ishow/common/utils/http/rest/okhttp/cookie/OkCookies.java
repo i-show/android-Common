@@ -1,5 +1,7 @@
 package com.ishow.common.utils.http.rest.okhttp.cookie;
 
+import android.support.annotation.Keep;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -7,33 +9,34 @@ import java.io.Serializable;
 
 import okhttp3.Cookie;
 
-public class SerializableOkHttpCookies implements Serializable {
+@Keep
+public class OkCookies implements Serializable {
 
-    private transient final Cookie cookies;
-    private transient Cookie clientCookies;
+    private transient final Cookie mCookies;
+    private transient Cookie mClientCookies;
 
-    public SerializableOkHttpCookies(Cookie cookies) {
-        this.cookies = cookies;
+    public OkCookies(Cookie cookies) {
+        this.mCookies = cookies;
     }
 
     public Cookie getCookies() {
-        Cookie bestCookies = cookies;
-        if (clientCookies != null) {
-            bestCookies = clientCookies;
+        Cookie bestCookies = mCookies;
+        if (mClientCookies != null) {
+            bestCookies = mClientCookies;
         }
         return bestCookies;
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {
-        out.writeObject(cookies.name());
-        out.writeObject(cookies.value());
-        out.writeLong(cookies.expiresAt());
-        out.writeObject(cookies.domain());
-        out.writeObject(cookies.path());
-        out.writeBoolean(cookies.secure());
-        out.writeBoolean(cookies.httpOnly());
-        out.writeBoolean(cookies.hostOnly());
-        out.writeBoolean(cookies.persistent());
+        out.writeObject(mCookies.name());
+        out.writeObject(mCookies.value());
+        out.writeLong(mCookies.expiresAt());
+        out.writeObject(mCookies.domain());
+        out.writeObject(mCookies.path());
+        out.writeBoolean(mCookies.secure());
+        out.writeBoolean(mCookies.httpOnly());
+        out.writeBoolean(mCookies.hostOnly());
+        out.writeBoolean(mCookies.persistent());
     }
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
@@ -54,6 +57,6 @@ public class SerializableOkHttpCookies implements Serializable {
         builder = builder.path(path);
         builder = secure ? builder.secure() : builder;
         builder = httpOnly ? builder.httpOnly() : builder;
-        clientCookies =builder.build();
+        mClientCookies = builder.build();
     }
 }
