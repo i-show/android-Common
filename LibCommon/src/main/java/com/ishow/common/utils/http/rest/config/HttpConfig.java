@@ -19,6 +19,7 @@ package com.ishow.common.utils.http.rest.config;
 import android.support.annotation.Keep;
 
 import com.ishow.common.utils.http.rest.Cookie;
+import com.ishow.common.utils.http.rest.Headers;
 
 /**
  * Created by Bright.Yu on 2017/2/20.
@@ -53,6 +54,11 @@ public class HttpConfig {
      */
     @Cookie.Type
     private int cookieType;
+
+    /**
+     * Request headers
+     */
+    private static Headers.Builder headersBuilder;
 
     @SuppressWarnings("WeakerAccess")
     public HttpConfig() {
@@ -114,5 +120,40 @@ public class HttpConfig {
         // 默认的Type
         config.cookieType = Cookie.Type.FILE;
         return config;
+    }
+
+    public static void clearHeaders() {
+        if (headersBuilder != null) {
+            headersBuilder.clear();
+        }
+    }
+
+    public static void addHeader(String name, String values) {
+        if (headersBuilder == null) {
+            headersBuilder = new Headers.Builder();
+        }
+        headersBuilder.add(name, values);
+    }
+
+    public static void setHeader(String name, String values) {
+        if (headersBuilder == null) {
+            headersBuilder = new Headers.Builder();
+        }
+        headersBuilder.set(name, values);
+    }
+
+    public static String getHeader(String name) {
+        if (headersBuilder == null) {
+            return null;
+        }
+
+        return headersBuilder.get(name);
+    }
+
+    public static Headers getHeaders() {
+        if (headersBuilder == null) {
+            headersBuilder = new Headers.Builder();
+        }
+        return headersBuilder.build();
     }
 }

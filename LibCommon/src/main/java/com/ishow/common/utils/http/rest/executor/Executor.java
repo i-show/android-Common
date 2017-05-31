@@ -21,11 +21,13 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.ishow.common.utils.http.rest.Cookie;
+import com.ishow.common.utils.http.rest.Headers;
 import com.ishow.common.utils.http.rest.HttpError;
 import com.ishow.common.entries.KeyValue;
 import com.ishow.common.utils.StringUtils;
 import com.ishow.common.utils.http.rest.RequestParams;
 import com.ishow.common.utils.http.rest.callback.CallBack;
+import com.ishow.common.utils.http.rest.config.HttpConfig;
 import com.ishow.common.utils.http.rest.exception.CanceledException;
 import com.ishow.common.utils.http.rest.request.Request;
 import com.ishow.common.utils.http.rest.response.Response;
@@ -127,10 +129,16 @@ public abstract class Executor {
         L.d(request.getLogTag(), StringUtils.plusString("=================== ", request.getMethod(), ":", request.getId(), " ==================="));
         L.d(request.getLogTag(), StringUtils.plusString(request.getId(), " URL     = ", request.getFinalUrl()));
 
-        Map<String, String> headers = request.getHeaders();
+        Headers headers = HttpConfig.getHeaders();
+        if (headers.size() > 0) {
+            L.d(request.getLogTag(), StringUtils.plusString(request.getId(), " HEADERS_DEFAULT = ", headers.toString()));
+        }
+
+        headers = request.getHeaders();
         if (headers != null && headers.size() > 0) {
             L.d(request.getLogTag(), StringUtils.plusString(request.getId(), " HEADERS = ", headers.toString()));
         }
+
         L.d(request.getLogTag(), StringUtils.plusString(request.getId(), " TIMEOUT = ", request.getConnTimeOut(true)));
 
         RequestParams params = request.getParams();

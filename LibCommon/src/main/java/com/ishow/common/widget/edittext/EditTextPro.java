@@ -644,7 +644,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
      * 获取默认的最小高度
      */
     private int getDefaultBottomLineHeight() {
-        return UnitUtils.dip2px(0.8f);
+        return 1;
     }
 
 

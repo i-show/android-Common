@@ -18,8 +18,10 @@ package com.ishow.common.utils.http.rest.okhttp;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.ishow.common.entries.KeyValue;
+import com.ishow.common.utils.http.rest.Headers;
 import com.ishow.common.utils.http.rest.Http;
 import com.ishow.common.utils.http.rest.HttpError;
 import com.ishow.common.utils.http.rest.RequestParams;
@@ -41,7 +43,6 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
-import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -79,10 +80,12 @@ public class OkhttpExecutor extends Executor {
         String url = formatUrl(request);
         request.setFinalUrl(url);
         // Step 2. headers
-        Headers headers = makeHeaders(request);
+        okhttp3.Headers headers = makeHeaders(request);
         okhttp3.Request.Builder builder = new okhttp3.Request.Builder()
                 .url(url)
                 .headers(headers);
+
+        Log.i("nian", "execute: headers = " + headers.toString());
 
         switch (request.getMethod()) {
             case POST:
@@ -153,6 +156,7 @@ public class OkhttpExecutor extends Executor {
                 response.setSuccessful(okhttp3Response.isSuccessful());
                 response.setCode(okhttp3Response.code());
                 response.setBody(okhttp3Response.body().bytes());
+                response.setHeaders(parseHeaders(okhttp3Response.headers()));
 
                 if (!isCanceled(request, response, callBack) && isSuccessful(request, response, callBack)) {
                     try {
@@ -177,13 +181,22 @@ public class OkhttpExecutor extends Executor {
     /**
      * Maker Header
      */
-    private Headers makeHeaders(@NonNull Request request) {
-        Map<String, String> headersMap = request.getHeaders();
-        Headers.Builder headersBuilder = new Headers.Builder();
-        for (String key : headersMap.keySet()) {
-            headersBuilder.add(key, headersMap.get(key));
+    private okhttp3.Headers makeHeaders(@NonNull Request request) {
+        Headers headers = request.getHeaders();
+        okhttp3.Headers.Builder builder = new okhttp3.Headers.Builder();
+
+        // 添加默认的Header
+        Headers defaultHeader = HttpConfig.getHeaders();
+        for (int i = 0, size = defaultHeader.size(); i < size; i++) {
+            builder.add(defaultHeader.name(i), defaultHeader.value(i));
         }
-        return headersBuilder.build();
+
+        if (headers != null) {
+            for (int i = 0, size = headers.size(); i < size; i++) {
+                builder.add(headers.name(i), headers.value(i));
+            }
+        }
+        return builder.build();
     }
 
     /**
@@ -253,5 +266,16 @@ public class OkhttpExecutor extends Executor {
             return builder.build();
         }
         return new FormBody.Builder().build();
+    }
+
+
+    private Headers parseHeaders(okhttp3.Headers header) {
+        Headers.Builder builder = new Headers.Builder();
+        if (header != null) {
+            for (int i = 0, size = header.size(); i < size; i++) {
+                builder.add(header.name(i), header.value(i));
+            }
+        }
+        return builder.build();
     }
 }

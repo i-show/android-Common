@@ -28,6 +28,9 @@ android {
         versionCode generateVersionCode() as int
         versionName VERSION_NAME
 
+        // 增加一个编译版本的时间
+        buildConfigField "long", "RELEASE_TIME", System.currentTimeMillis() + "L"
+
         // 配置 含有的版本类型
         buildConfigField "int", "VERSION_DEV", VERSION_DEV
         buildConfigField "int", "VERSION_SIT", VERSION_SIT

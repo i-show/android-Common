@@ -21,6 +21,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.ishow.common.entries.KeyValue;
+import com.ishow.common.utils.http.rest.Headers;
 import com.ishow.common.utils.http.rest.Http;
 import com.ishow.common.utils.http.rest.MediaType;
 import com.ishow.common.utils.http.rest.Method;
@@ -85,7 +86,7 @@ public abstract class Request<T extends Request> {
     /**
      * Request headers
      */
-    private Map<String, String> headers;
+    private Headers.Builder headers;
 
     /**
      * Request method
@@ -103,7 +104,7 @@ public abstract class Request<T extends Request> {
 
     public Request(Method method) {
         this.method = method;
-        headers = new HashMap<>();
+        headers = new Headers.Builder();
         params = new RequestParams();
         httpConfig = Http.getConfig();
     }
@@ -158,25 +159,25 @@ public abstract class Request<T extends Request> {
 
     @SuppressWarnings("unchecked")
     public T headers(@NonNull Map<String, String> headers) {
-        this.headers.putAll(headers);
+        this.headers.add(headers);
         return (T) this;
     }
 
     @SuppressWarnings("unchecked")
     public T addHeader(@NonNull String key, long value) {
-        headers.put(key, String.valueOf(value));
+        headers.add(key, String.valueOf(value));
         return (T) this;
     }
 
     @SuppressWarnings("unchecked")
     public T addHeader(@NonNull String key, double value) {
-        headers.put(key, String.valueOf(value));
+        headers.add(key, String.valueOf(value));
         return (T) this;
     }
 
     @SuppressWarnings("unchecked")
     public T addHeader(@NonNull String key, @NonNull String value) {
-        headers.put(key, value);
+        headers.add(key, value);
         return (T) this;
     }
 
@@ -295,11 +296,8 @@ public abstract class Request<T extends Request> {
         return mediaType;
     }
 
-    public Map<String, String> getHeaders() {
-        if (headers == null) {
-            headers = new HashMap<>();
-        }
-        return headers;
+    public Headers getHeaders() {
+        return headers.build();
     }
 
     public Method getMethod() {

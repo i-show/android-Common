@@ -18,6 +18,7 @@ package com.ishow.common.utils.http.rest.response;
 
 import android.support.annotation.NonNull;
 
+import com.ishow.common.utils.http.rest.Headers;
 import com.ishow.common.utils.http.rest.request.Request;
 
 /**
@@ -57,6 +58,7 @@ public class Response {
      */
     private String debugString;
 
+    private Headers headers;
     private Response() {
     }
 
@@ -118,6 +120,15 @@ public class Response {
 
     public String getDebugString() {
         return debugString;
+    }
+
+
+    public Headers getHeaders() {
+        return headers;
+    }
+
+    public void setHeaders(Headers headers) {
+        this.headers = headers;
     }
 
     /**
