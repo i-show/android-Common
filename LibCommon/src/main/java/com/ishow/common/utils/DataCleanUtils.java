@@ -22,10 +22,12 @@ import android.os.Environment;
 import java.io.File;
 import java.math.BigDecimal;
 
+@SuppressWarnings("unused")
 public class DataCleanUtils {
     /**
      * 清除本应用内部缓存(/data/data/com.xxx.xxx/cache)
      */
+    @SuppressWarnings("WeakerAccess")
     public static void cleanInternalCache(Context context) {
         deleteFilesByDirectory(context.getCacheDir());
     }
@@ -33,14 +35,17 @@ public class DataCleanUtils {
     /**
      * 清除本应用所有数据库(/data/data/com.xxx.xxx/databases)
      */
+    @SuppressWarnings("WeakerAccess")
     public static void cleanDatabases(Context context) {
-        deleteFilesByDirectory(new File("/data/data/"
-                + context.getPackageName() + "/databases"));
+        File file = context.getDatabasePath("cache");
+        file = file.getParentFile();
+        deleteFilesByDirectory(file);
     }
 
     /**
      * 清除本应用SharedPreference(/data/data/com.xxx.xxx/shared_prefs)
      */
+    @SuppressWarnings("WeakerAccess")
     public static void cleanSharedPreference(Context context) {
         // 只能清除 保存在cache里面的
         SharedPreferencesUtils.cleanCache(context);
@@ -56,6 +61,7 @@ public class DataCleanUtils {
     /**
      * 清除/data/data/com.xxx.xxx/files下的内容
      */
+    @SuppressWarnings("WeakerAccess")
     public static void cleanFiles(Context context) {
         deleteFilesByDirectory(context.getFilesDir());
     }
@@ -63,6 +69,7 @@ public class DataCleanUtils {
     /**
      * 清除外部cache下的内容(/mnt/sdcard/android/data/com.xxx.xxx/cache)
      */
+    @SuppressWarnings("WeakerAccess")
     public static void cleanExternalCache(Context context) {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             deleteFilesByDirectory(context.getExternalCacheDir());
@@ -72,6 +79,7 @@ public class DataCleanUtils {
     /**
      * 清除自定义路径下的文件，使用需小心，请不要误删。而且只支持目录下的文件删除
      */
+    @SuppressWarnings("WeakerAccess")
     public static void cleanCustomCache(String filePath) {
         deleteFilesByDirectory(new File(filePath));
     }
@@ -96,6 +104,7 @@ public class DataCleanUtils {
     private static void deleteFilesByDirectory(File directory) {
         if (directory != null && directory.exists() && directory.isDirectory()) {
             for (File item : directory.listFiles()) {
+                //noinspection ResultOfMethodCallIgnored
                 item.delete();
             }
         }
@@ -111,6 +120,7 @@ public class DataCleanUtils {
     /**
      * 格式化单位
      */
+    @SuppressWarnings("WeakerAccess")
     public static String getFormatSize(double size) {
         double kiloByte = size / 1024;
         if (kiloByte < 1) {
@@ -145,6 +155,7 @@ public class DataCleanUtils {
     /**
      * 获取对应文件夹大小
      */
+    @SuppressWarnings("WeakerAccess")
     public static long getFolderSize(File file) throws Exception {
         long size = 0;
         try {

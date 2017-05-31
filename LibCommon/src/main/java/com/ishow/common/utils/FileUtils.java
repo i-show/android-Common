@@ -21,16 +21,15 @@ import android.util.Log;
 
 import java.io.File;
 
+@SuppressWarnings("unused")
 public class FileUtils {
     private static final String TAG = "FileUtils";
-    public static final String LOCAL_URI_HEADER = "file://";
 
     /**
      * 根据Url删除一个文件
      */
     public static boolean delete(Uri uri) {
-        String uriStr = uri.toString();
-        String path = uriStr.substring(LOCAL_URI_HEADER.length());
+        String path = uri.getPath();
         Log.i(TAG, "path = " + path);
         File file = new File(path);
         if (file.exists()) {
@@ -41,14 +40,9 @@ public class FileUtils {
         }
     }
 
-    public static String getPathFromUri(Uri uri) {
-        String uriStr = uri.toString();
-        return uriStr.substring(LOCAL_URI_HEADER.length());
-    }
 
     public static File getFileFromUri(Uri uri) {
-        String uriStr = uri.toString();
-        String path = uriStr.substring(LOCAL_URI_HEADER.length());
+        String path = uri.getPath();
         Log.i(TAG, "path = " + path);
         return new File(path);
     }

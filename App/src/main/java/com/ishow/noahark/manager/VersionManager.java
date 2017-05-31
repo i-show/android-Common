@@ -20,7 +20,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.ishow.common.utils.PackagesUtils;
+import com.ishow.common.utils.AppUtils;
 import com.ishow.common.utils.SharedPreferencesUtils;
 
 import java.lang.ref.WeakReference;
@@ -70,17 +70,17 @@ public class VersionManager {
      */
     private static boolean checkIsFirstEnterThisVerison(Context context) {
         // 获取之前保存的版本信息
-        final int versionCode = SharedPreferencesUtils.get(context, PackagesUtils.VERSION_CODE, 0);
-        final String versionName = SharedPreferencesUtils.get(context, PackagesUtils.VERSION_NAME, null);
+        final int versionCode = SharedPreferencesUtils.get(context, AppUtils.VERSION_CODE, 0);
+        final String versionName = SharedPreferencesUtils.get(context, AppUtils.VERSION_NAME, null);
         // 获取当前版本号
-        final int _versionCode = PackagesUtils.getVersionCode(context);
-        final String _versionName = PackagesUtils.getVersionName(context);
+        final int _versionCode = AppUtils.getVersionCode(context);
+        final String _versionName = AppUtils.getVersionName(context);
         Log.d(TAG, "originVersion = " + versionCode + " ,localVersion = " + _versionCode);
         Log.d(TAG, "originVersionName = " + versionName + " ,localVersionName = " + _versionName);
 
         // 保存现在的版本号
-        SharedPreferencesUtils.save(context, PackagesUtils.VERSION_CODE, _versionCode);
-        SharedPreferencesUtils.save(context, PackagesUtils.VERSION_NAME, _versionName);
+        SharedPreferencesUtils.save(context, AppUtils.VERSION_CODE, _versionCode);
+        SharedPreferencesUtils.save(context, AppUtils.VERSION_NAME, _versionName);
 
         // 如果当前版本比保存的版本大，说明APP更新了
         // 版本名称不相等且版本code比上一个版本大 才进行走ViewPager

@@ -30,6 +30,7 @@ import java.util.Locale;
 /**
  * 时间工具类
  */
+@SuppressWarnings("unused,WeakerAccess")
 public class DateUtils {
     /**
      * 1秒
@@ -78,6 +79,7 @@ public class DateUtils {
     /**
      * 英文简写（默认）如：2016-12-01
      */
+    @SuppressWarnings("WeakerAccess")
     public static String FORMAT_YMD = "yyyy-MM-dd";
 
     /**

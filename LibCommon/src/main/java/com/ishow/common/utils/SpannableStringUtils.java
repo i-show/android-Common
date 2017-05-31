@@ -33,7 +33,7 @@ import android.text.style.SuperscriptSpan;
 import android.text.style.TypefaceSpan;
 import android.text.style.UnderlineSpan;
 
-public class TextViewUtils {
+public class SpannableStringUtils {
 
     /**
      * 设置字体大小，用px

@@ -28,32 +28,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PackagesUtils {
-    public final static String VERSION_CODE = "saved_version_code";
-    public final static String VERSION_NAME = "saved_version_name";
-    private static final String TAG = "PackagesUtils";
-
+public class AppUtils {
+    private static final String TAG = "AppUtils";
     /**
-     * 获取版本code
-     * <p>
-     * 已经删除此Api
+     * 缓存的versioncode 的key值
      */
-    @Deprecated
-    @SuppressWarnings("WeakerAccess,unused")
-    public static int getVersion(Context context) {
-        return getVersionCode(context);
-    }
-
+    public final static String VERSION_CODE = "cache_saved_version_code";
     /**
-     * 获取版本code
-     * <p>
-     * 已经删除此Api 使用getVersionCode 更明确和直接
+     * 缓存的versionname 的key值
      */
-    @Deprecated
-    @SuppressWarnings("unused,WeakerAccess")
-    public static int getVersion(Context context, String packageName) {
-        return getVersionCode(context, packageName);
-    }
+    public final static String VERSION_NAME = "cache_saved_version_name";
 
     /**
      * 获取版本code

@@ -41,7 +41,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.ishow.common.utils.PackagesUtils;
+import com.ishow.common.utils.AppUtils;
 import com.ishow.common.utils.StringUtils;
 
 import java.io.ByteArrayInputStream;
@@ -492,7 +492,7 @@ public final class ImageUtils {
         File cacheFolder = context.getExternalCacheDir();
         if (null == cacheFolder) {
             File target = Environment.getExternalStorageDirectory();
-            cacheFolder = new File(target + File.separator + PackagesUtils.getAppName(context));
+            cacheFolder = new File(target + File.separator + AppUtils.getAppName(context));
         }
 
         Log.d(TAG, "cacheFolder path = " + cacheFolder.getAbsolutePath());

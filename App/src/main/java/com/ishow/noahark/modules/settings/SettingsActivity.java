@@ -23,7 +23,7 @@ import android.view.View;
 import com.ishow.noahark.R;
 import com.ishow.noahark.modules.account.login.LoginActivity;
 import com.ishow.noahark.modules.base.AppBaseActivity;
-import com.ishow.common.utils.PackagesUtils;
+import com.ishow.common.utils.AppUtils;
 import com.ishow.common.widget.edittext.EditTextPro;
 
 /**
@@ -47,7 +47,7 @@ public class SettingsActivity extends AppBaseActivity implements View.OnClickLis
         logout.setOnClickListener(this);
 
         EditTextPro version = (EditTextPro) findViewById(R.id.now_version);
-        version.setInputText(PackagesUtils.getVersionName(this));
+        version.setInputText(AppUtils.getVersionName(this));
     }
 
     @Override

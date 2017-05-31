@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.CycleInterpolator;
 
+@SuppressWarnings("unused")
 public class AnimatorUtils {
 
     /**
@@ -54,6 +55,7 @@ public class AnimatorUtils {
     /**
      * translation x
      */
+    @SuppressWarnings("WeakerAccess")
     public static void translationX(View v, float fromX, float toX, int duration, Animator.AnimatorListener
             animatorListener) {
         ObjectAnimator animator = ObjectAnimator.ofFloat(v, View.TRANSLATION_X, fromX, toX);
@@ -74,6 +76,7 @@ public class AnimatorUtils {
     /**
      * translation y
      */
+    @SuppressWarnings("WeakerAccess")
     public static void translationY(View v, float fromY, float toY, int duration, Animator.AnimatorListener
             animatorListener) {
         ObjectAnimator animator = ObjectAnimator.ofFloat(v, View.TRANSLATION_Y, fromY, toY);
@@ -94,6 +97,7 @@ public class AnimatorUtils {
     /**
      * rotation x
      */
+    @SuppressWarnings("WeakerAccess")
     public static void rotationX(View v, float fromX, float toX, int duration, Animator.AnimatorListener
             animatorListener) {
         ObjectAnimator animator = ObjectAnimator.ofFloat(v, View.ROTATION_X, fromX, toX);
@@ -114,6 +118,7 @@ public class AnimatorUtils {
     /**
      * rotation y
      */
+    @SuppressWarnings("WeakerAccess")
     public static void rotationY(View v, float fromY, float toY, int duration, Animator.AnimatorListener
             animatorListener) {
         ObjectAnimator animator = ObjectAnimator.ofFloat(v, View.ROTATION_Y, fromY, toY);
@@ -134,6 +139,7 @@ public class AnimatorUtils {
     /**
      * scale x
      */
+    @SuppressWarnings("WeakerAccess")
     public static void scaleX(View v, float fromX, float toX, int duration, Animator.AnimatorListener
             animatorListener) {
         ObjectAnimator animator = ObjectAnimator.ofFloat(v, View.SCALE_X, fromX, toX);
@@ -154,8 +160,8 @@ public class AnimatorUtils {
     /**
      * scale y
      */
-    public static void scaleY(View v, float fromY, float toY, int duration, Animator.AnimatorListener
-            animatorListener) {
+    @SuppressWarnings("WeakerAccess")
+    public static void scaleY(View v, float fromY, float toY, int duration, Animator.AnimatorListener animatorListener) {
         ObjectAnimator animator = ObjectAnimator.ofFloat(v, View.SCALE_Y, fromY, toY);
         animator.setDuration(duration);
         if (animatorListener != null) {
@@ -166,8 +172,6 @@ public class AnimatorUtils {
 
     /**
      * shake x
-     *
-     * @param v
      */
     public static void shakeX(View v) {
         shakeX(v, 10, 1000, 5.0f);
@@ -176,6 +180,7 @@ public class AnimatorUtils {
     /**
      * shake x
      */
+    @SuppressWarnings("WeakerAccess")
     public static void shakeX(View v, float offset, long duration, float times) {
         ObjectAnimator animator = ObjectAnimator.ofFloat(v, View.TRANSLATION_X, 0, offset);
         animator.setDuration(duration);
@@ -185,8 +190,6 @@ public class AnimatorUtils {
 
     /**
      * shake y
-     *
-     * @param v
      */
     public static void shakeY(View v) {
         shakeY(v, 10, 1000, 5.0f);
@@ -195,6 +198,7 @@ public class AnimatorUtils {
     /**
      * shake y
      */
+    @SuppressWarnings("WeakerAccess")
     public static void shakeY(View v, float offset, long duration, float times) {
         ObjectAnimator animator = ObjectAnimator.ofFloat(v, View.TRANSLATION_Y, 0, offset);
         animator.setDuration(duration);
@@ -204,8 +208,6 @@ public class AnimatorUtils {
 
     /**
      * 呼吸灯效果
-     *
-     * @param v
      */
     public static void breath(View v) {
         breath(v, 0.0f, 1.0f, 1000);
@@ -214,6 +216,7 @@ public class AnimatorUtils {
     /**
      * 呼吸灯效果
      */
+    @SuppressWarnings("WeakerAccess")
     public static void breath(View v, float fromRange, float toRange, long duration) {
         ObjectAnimator animator = ObjectAnimator.ofFloat(v, View.ALPHA, fromRange, toRange);
         animator.setDuration(duration);

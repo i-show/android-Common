@@ -45,10 +45,12 @@ public class SharedPreferencesUtils {
     private static WeakReference<SharedPreferences> mCacheSharedPreferences;
 
 
+    @SuppressWarnings("WeakerAccess")
     public static SharedPreferences getSharedPreferences(Context context) {
         return getSharedPreferences(context, false);
     }
 
+    @SuppressWarnings("WeakerAccess")
     public static SharedPreferences getSharedPreferences(Context context, boolean cache) {
         SharedPreferences sharedPreferences;
 
@@ -147,6 +149,7 @@ public class SharedPreferencesUtils {
     /**
      * 移除某一组数据
      */
+    @SuppressWarnings("WeakerAccess")
     public static void remove(Context context, String key, boolean cache) {
         SharedPreferences sp = getSharedPreferences(context, cache);
         sp.edit().remove(key).apply();
@@ -155,15 +158,18 @@ public class SharedPreferencesUtils {
     /**
      * 清空数据
      */
+    @SuppressWarnings("WeakerAccess")
     public static void cleanCache(Context context) {
         SharedPreferences sharedPreferences = getSharedPreferences(context, true);
         sharedPreferences.edit().clear().apply();
     }
 
+    /**
+     * 清空所有数据
+     */
     public static void cleanAll(Context context) {
         SharedPreferences sharedPreferences = getSharedPreferences(context);
         sharedPreferences.edit().clear().apply();
-
         cleanCache(context);
     }
 }

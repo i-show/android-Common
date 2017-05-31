@@ -30,6 +30,7 @@ import com.ishow.common.widget.YToast;
 /**
  * Intent 跳转工具类
  */
+@SuppressWarnings("unused")
 public class IntentUtils {
 
     /**
@@ -56,6 +57,7 @@ public class IntentUtils {
     /**
      * 跳转 市场进行评分
      */
+    @SuppressWarnings("WeakerAccess")
     public static void goMarket(Context context, String packageName) {
 
         if (TextUtils.isEmpty(packageName)) {

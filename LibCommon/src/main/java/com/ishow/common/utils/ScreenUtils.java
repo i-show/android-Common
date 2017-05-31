@@ -29,6 +29,8 @@ public class ScreenUtils {
 
     /**
      * 获取屏幕的宽和高
+     *
+     * @deprecated 请使用 {@link DeviceUtils#getScreenSize()}  }
      */
     @Deprecated
     public static int[] getScreenSize(Context context) {
@@ -38,15 +40,21 @@ public class ScreenUtils {
 
     /**
      * 获取屏幕的宽和高
+     *
+     * @deprecated 请使用 {@link DeviceUtils#getScreenSize()}  }
      */
+    @Deprecated
     public static int[] getScreenSize() {
         DisplayMetrics displayMetrics = Resources.getSystem().getDisplayMetrics();
         return new int[]{displayMetrics.widthPixels, displayMetrics.heightPixels};
     }
 
     /**
-     * 获取状态懒的高度
+     * 获取状态栏的高度
+     *
+     * @deprecated 请使用 {@link DeviceUtils#getScreenSize()}  }
      */
+    @Deprecated
     public static int getStatusBarHeight(Activity context) {
         Rect rect = new Rect();
         context.getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
