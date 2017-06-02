@@ -18,6 +18,8 @@ package com.ishow.noahark.modules.sample;
 
 import android.net.Uri;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -27,18 +29,18 @@ public class Test {
     private static final String TAG = "Test";
 
     public static final String[] IMAGE_LIST = new String[]{
-            "http://www.yuhaiyang.net/photoList/portfolio-1.jpg",
-            "http://www.yuhaiyang.net/photoList/portfolio-2.jpg",
-            "http://www.yuhaiyang.net/photoList/portfolio-3.jpg",
-            "http://www.yuhaiyang.net/photoList/portfolio-4.jpg",
-            "http://www.yuhaiyang.net/photoList/portfolio-5.jpg",
-            "http://www.yuhaiyang.net/photoList/portfolio-6.jpg",
-            "http://www.yuhaiyang.net/photoList/portfolio-7.jpg",
-            "http://www.yuhaiyang.net/photoList/portfolio-8.jpg",
-            "http://www.yuhaiyang.net/photoList/portfolio-9.jpg",
-            "http://www.yuhaiyang.net/photoList/portfolio-10.jpg",
-            "http://www.yuhaiyang.net/photoList/portfolio-11.jpg",
-            "http://www.yuhaiyang.net/photoList/portfolio-12.jpg",
+            "http://www.yuhaiyang.net/images/portfolio-1.jpg",
+            "http://www.yuhaiyang.net/images/portfolio-2.jpg",
+            "http://www.yuhaiyang.net/images/portfolio-3.jpg",
+            "http://www.yuhaiyang.net/images/portfolio-4.jpg",
+            "http://www.yuhaiyang.net/images/portfolio-5.jpg",
+            "http://www.yuhaiyang.net/images/portfolio-6.jpg",
+            "http://www.yuhaiyang.net/images/portfolio-7.jpg",
+            "http://www.yuhaiyang.net/images/portfolio-8.jpg",
+            "http://www.yuhaiyang.net/images/portfolio-9.jpg",
+            "http://www.yuhaiyang.net/images/portfolio-10.jpg",
+            "http://www.yuhaiyang.net/images/portfolio-11.jpg",
+            "http://www.yuhaiyang.net/images/portfolio-12.jpg",
     };
 
     public static final String[] IMAGE_3 = new String[]{
@@ -131,11 +133,25 @@ public class Test {
         return photos;
     }
 
+
     public static String[] getPhotos(int count) {
         count = Math.max(1, count);
         String[] photos = new String[count];
         for (int i = 0; i < count; i++) {
             photos[i] = getPhoto();
+        }
+        return photos;
+    }
+
+    public static List<String> getPhotosList() {
+        return getPhotosList(new Random().nextInt(10));
+    }
+
+    public static List<String> getPhotosList(int count) {
+        count = Math.max(1, count);
+        List<String> photos = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            photos.add(getPhoto());
         }
         return photos;
     }

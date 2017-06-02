@@ -144,6 +144,7 @@ public class StatusView extends FrameLayout implements View.OnClickListener {
     }
 
     public void showError(String reload, String title, String subTitle, int icon) {
+        setAlpha(1F);
         mTitle.setTextColor(getResources().getColor(R.color.text_grey_normal));
         setText(mReload, reload);
         setText(mTitle, title);
@@ -163,6 +164,7 @@ public class StatusView extends FrameLayout implements View.OnClickListener {
     }
 
     public void showLoading(String title) {
+        setAlpha(1F);
         setText(mTitle, title);
         mTitle.setTextColor(mSubTitle.getTextColors());
         mSubTitle.setVisibility(GONE);
@@ -188,6 +190,7 @@ public class StatusView extends FrameLayout implements View.OnClickListener {
     }
 
     public void showEmpty(String title, @DrawableRes int icon) {
+        setAlpha(1F);
         setText(mTitle, title);
         mTitle.setTextColor(mSubTitle.getTextColors());
         mSubTitle.setVisibility(GONE);

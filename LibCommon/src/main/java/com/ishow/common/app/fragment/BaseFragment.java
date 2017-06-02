@@ -32,14 +32,32 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.ishow.common.R;
+import com.ishow.common.mvp.base.IViewStatus;
 import com.ishow.common.utils.SharedPreferencesUtils;
 import com.ishow.common.utils.http.rest.Http;
 import com.ishow.common.utils.permission.PermissionManager;
+import com.ishow.common.widget.StatusView;
 import com.ishow.common.widget.TopBar;
 import com.ishow.common.widget.YToast;
 import com.ishow.common.widget.dialog.BaseDialog;
+import com.ishow.common.widget.loading.LoadingDialog;
 
-public abstract class BaseFragment extends Fragment implements TopBar.OnTopBarListener {
+public abstract class BaseFragment extends Fragment implements
+        StatusView.CallBack,
+        IViewStatus,
+        TopBar.OnTopBarListener {
+
+    /**
+     * Loading的Dialog
+     */
+    protected LoadingDialog mLoadingDialog;
+    /**
+     * 状态的View
+     */
+    protected StatusView mStatusView;
+    /**
+     * 用来回收的Handler
+     */
     protected Handler mHandler;
 
     @Override
@@ -291,5 +309,50 @@ public abstract class BaseFragment extends Fragment implements TopBar.OnTopBarLi
             mHandler.removeCallbacksAndMessages(null);
             mHandler = null;
         }
+    }
+
+
+    @Override
+    public void showLoading(String message, boolean dialog) {
+        if (dialog) {
+            mLoadingDialog = LoadingDialog.show(getActivity(), mLoadingDialog);
+        } else if (mStatusView != null) {
+            mStatusView.showLoading();
+        }
+    }
+
+    @Override
+    public void dismissLoading(boolean dialog) {
+        if (dialog) {
+            LoadingDialog.dismiss(mLoadingDialog);
+        } else if (mStatusView != null) {
+            mStatusView.dismiss();
+        }
+    }
+
+    @Override
+    public void showError(String message, boolean dialog, int errorType) {
+        if (dialog) {
+            dialog(message);
+        } else if (mStatusView != null) {
+            mStatusView.showError();
+        }
+    }
+
+    @Override
+    public void showSuccess(String message) {
+
+    }
+
+    @Override
+    public void showEmpty(String message) {
+        if (mStatusView != null) {
+            mStatusView.showEmpty();
+        }
+    }
+
+    @Override
+    public void onReload() {
+
     }
 }

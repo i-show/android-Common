@@ -97,6 +97,10 @@
         <activity
             android:name="com.ishow.noahark.modules.sample.imageloader.SampleImageLoaderActivity"
             android:screenOrientation="portrait"/>
+        <!--动画Recycle-->
+        <activity
+            android:name=".modules.sample.recycle.SampleAnimationRecycleViewActivity"
+            android:screenOrientation="portrait"/>
         <!--++++++++++++++++++++控件或者工具的测试区域（end）++++++++++++++++++++++++++-->
 
 

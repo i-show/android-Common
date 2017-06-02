@@ -40,25 +40,31 @@
         <TextView
             android:id="@+id/sample_select_permission"
             style="@style/AppTextView.Sample"
-            android:text="@string/sample_select_permission" />
+            android:text="@string/sample_permission" />
 
         <!--EditTextPro-->
         <TextView
             android:id="@+id/sample_select_edittextpro"
             style="@style/AppTextView.Sample"
-            android:text="@string/sample_select_edittextpro" />
+            android:text="@string/sample_edittextpro" />
 
         <!--Http-->
         <TextView
             android:id="@+id/sample_select_http"
             style="@style/AppTextView.Sample"
-            android:text="@string/sample_select_http" />
+            android:text="@string/sample_http" />
 
         <!--Imageloader-->
         <TextView
             android:id="@+id/sample_select_imageloader"
             style="@style/AppTextView.Sample"
-            android:text="@string/sample_select_imageloader" />
+            android:text="@string/sample_imageloader" />
+
+        <!--Imageloader-->
+        <TextView
+            android:id="@+id/sample_ani_recycle"
+            style="@style/AppTextView.Sample"
+            android:text="@string/sample_ani_recycle" />
 
     </com.ishow.common.widget.flowlayout.FlowLayout>
 

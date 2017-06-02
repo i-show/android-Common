@@ -15,15 +15,14 @@
  * limitations under the License.
  */
 
-package com.ishow.noahark.modules.egg;
+package com.ishow.noahark.modules.egg.detail;
 
-import com.ishow.noahark.BuildConfig;
 import com.ishow.noahark.modules.base.AppBaseActivity;
 
 /**
- * Created by yuhaiyang on 2017/5/27.
- * 彩蛋
+ * Created by yuhaiyang on 2017/6/1.
+ * 彩蛋详情
  */
 
-public class EggActivity extends AppBaseActivity {
+public class EggDetailActivitiy extends AppBaseActivity {
 }

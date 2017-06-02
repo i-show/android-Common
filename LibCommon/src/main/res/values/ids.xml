@@ -60,4 +60,8 @@
     <item name="child_09" type="id" />
     <item name="child_10" type="id" />
 
+
+    <item name="top_bar" type="id" />
+    <item name="status_view" type="id" />
+
 </resources>

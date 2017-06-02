@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftImage="@drawable/ic_back_white"
-        app:text="@string/sample_select_http" />
+        app:text="@string/sample_http" />
 
     <com.ishow.common.widget.flowlayout.FlowLayout
         android:layout_width="match_parent"
@@ -35,12 +35,12 @@
         <TextView
             android:id="@+id/sample_select_http_get"
             style="@style/AppTextView.Sample"
-            android:text="@string/sample_select_http_get" />
+            android:text="@string/sample_http_get" />
 
         <!--单选图片-->
         <TextView
             android:id="@+id/sample_select_http_post"
             style="@style/AppTextView.Sample"
-            android:text="@string/sample_select_http_post" />
+            android:text="@string/sample_http_post" />
     </com.ishow.common.widget.flowlayout.FlowLayout>
 </LinearLayout>

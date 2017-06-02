@@ -266,7 +266,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         }
 
         if (mRightTextView != null && mRightTextView.getVisibility() != View.GONE) {
-            mRightTextView.measure(unspecified, heightSpec);
+            mRightTextView.measure(unspecified, unspecified);
             inputWidth = inputWidth - mRightTextView.getMeasuredWidth() - mRightTextRightMargin;
         }
 
@@ -382,7 +382,9 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
 
         if (mRightTextView != null && mRightTextView.getVisibility() != View.GONE) {
             int width = mRightTextView.getMeasuredWidth();
-            mRightTextView.layout(left, top, left + width, bottom);
+            int height = mRightTextView.getMeasuredHeight();
+            int _top = (getMeasuredHeight() - height) / 2;
+            mRightTextView.layout(left, _top, left + width, _top + height);
             left = left + width + mRightTextRightMargin;
         }
 
@@ -672,6 +674,18 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         return mInputView != null && mInputView.hasFocus();
     }
 
+    public void setLeftText(@StringRes int textRes) {
+        String text = getContext().getString(textRes);
+        setLeftText(text);
+    }
+
+    public void setLeftText(String text) {
+        mLeftTextString = text;
+        if (mLeftTextView != null) {
+            mLeftTextView.setText(text);
+        }
+    }
+
     public String getInputText() {
         return mInputView.getText().toString().trim();
     }
@@ -707,6 +721,18 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
 
     public void removeInputWatcher(TextWatcher watcher) {
         mInputView.removeTextChangedListener(watcher);
+    }
+
+    public void setRightText(@StringRes int textRes) {
+        String text = getContext().getString(textRes);
+        setRightText(text);
+    }
+
+    public void setRightText(String text) {
+        mRightTextString = text;
+        if (mRightTextView != null) {
+            mRightTextView.setText(text);
+        }
     }
 
     public void hideInput() {

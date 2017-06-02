@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (C) 2016 The yuhaiyang Android Source Project
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2017. The yuhaiyang Android Source Project
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -14,15 +15,10 @@
   ~ limitations under the License.
   -->
 
-<set xmlns:android="http://schemas.android.com/apk/res/android"
-    android:interpolator="@android:anim/decelerate_interpolator">
-
-    <translate
-        android:duration="@android:integer/config_mediumAnimTime"
-        android:fillAfter="true"
-        android:fromXDelta="-100%"
-        android:fromYDelta="0"
-        android:toXDelta="0%"
-        android:toYDelta="0" />
-
-</set>
+<gridLayoutAnimation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:animation="@anim/bottom_in"
+    android:animationOrder="normal"
+    android:columnDelay="15%"
+    android:direction="top_to_bottom|left_to_right"
+    android:rowDelay="15%"/>

@@ -30,21 +30,37 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.ishow.common.R;
+import com.ishow.common.mvp.base.IViewStatus;
 import com.ishow.common.utils.SharedPreferencesUtils;
 import com.ishow.common.utils.http.rest.Http;
 import com.ishow.common.utils.permission.PermissionManager;
+import com.ishow.common.widget.StatusView;
 import com.ishow.common.widget.TopBar;
 import com.ishow.common.widget.YToast;
 import com.ishow.common.widget.dialog.BaseDialog;
+import com.ishow.common.widget.loading.LoadingDialog;
 
 
-public abstract class BaseActivity extends AppCompatActivity implements TopBar.OnTopBarListener {
+public abstract class BaseActivity extends AppCompatActivity implements
+        StatusView.CallBack,
+        IViewStatus,
+        TopBar.OnTopBarListener {
     private static final String TAG = "BaseActivity";
     /**
      * Activity的TYPE
      */
     public static final String KEY_TYPE = "activity_type";
-
+    /**
+     * Loading的Dialog
+     */
+    protected LoadingDialog mLoadingDialog;
+    /**
+     * 状态的View
+     */
+    protected StatusView mStatusView;
+    /**
+     * 用来回收的Handler
+     */
     protected Handler mHandler;
 
     //************************ 生命周期 区域*********************** //
@@ -112,6 +128,13 @@ public abstract class BaseActivity extends AppCompatActivity implements TopBar.O
         if (topBarView != null && topBarView instanceof TopBar) {
             TopBar topBar = (TopBar) topBarView;
             topBar.setOnTopBarListener(this);
+        }
+
+        // 主动设置statusView
+        View statusView = findViewById(R.id.status_view);
+        if (statusView != null && statusView instanceof StatusView) {
+            mStatusView = (StatusView) statusView;
+            mStatusView.setCallBack(this);
         }
         //TODO
     }
@@ -344,5 +367,50 @@ public abstract class BaseActivity extends AppCompatActivity implements TopBar.O
         BaseDialog dialog = bulider.create();
         dialog.show();
         return dialog;
+    }
+
+
+    @Override
+    public void showLoading(String message, boolean dialog) {
+        if (dialog) {
+            mLoadingDialog = LoadingDialog.show(this, mLoadingDialog);
+        } else if (mStatusView != null) {
+            mStatusView.showLoading();
+        }
+    }
+
+    @Override
+    public void dismissLoading(boolean dialog) {
+        if (dialog) {
+            LoadingDialog.dismiss(mLoadingDialog);
+        } else if (mStatusView != null) {
+            mStatusView.dismiss();
+        }
+    }
+
+    @Override
+    public void showError(String message, boolean dialog, int errorType) {
+        if (dialog) {
+            dialog(message);
+        } else if (mStatusView != null) {
+            mStatusView.showError();
+        }
+    }
+
+    @Override
+    public void showSuccess(String message) {
+
+    }
+
+    @Override
+    public void showEmpty(String message) {
+        if (mStatusView != null) {
+            mStatusView.showEmpty();
+        }
+    }
+
+    @Override
+    public void onReload() {
+
     }
 }

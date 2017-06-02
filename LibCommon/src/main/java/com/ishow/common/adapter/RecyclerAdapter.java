@@ -52,14 +52,8 @@ public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holde
     protected Context mContext;
     protected LayoutInflater mLayoutInflater;
 
-    /**
-     * 可能会参数
-     */
-    private Object mParam;
-    /**
-     * 请求地址
-     */
-    private String mUrl;
+    //  RecyclerView 注意可能为空
+    private RecyclerView mRecyclerView;
 
     public RecyclerAdapter(Context context) {
         mContext = context;
@@ -79,27 +73,17 @@ public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holde
      */
     public void setData(List<DATA> data, boolean force) {
         if (data != null) {
+            boolean canAni = mData.isEmpty();
             mData = data;
-            notifyDataSetChanged();
+            notifyItemRangeChanged(0, mData.size());
+            if (canAni) animation();
         } else if (force) {
+            final int size = mData.size();
             mData.clear();
-            notifyDataSetChanged();
+            notifyItemRangeRemoved(0, size);
         }
     }
 
-    /**
-     * 只添加一组数据
-     */
-    @SuppressWarnings("unused")
-    public void setOnlyOneData(DATA data) {
-        if (data != null) {
-            mData.clear();
-            mData.add(data);
-            notifyDataSetChanged();
-        } else {
-            Log.i(TAG, "setOnlyOneData data is null");
-        }
-    }
 
     /**
      * 增加数据
@@ -107,8 +91,9 @@ public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holde
     @SuppressWarnings("unused")
     public void plusData(List<DATA> data) {
         if (data != null) {
+            int lastIndex = mData.size();
             mData.addAll(data);
-            notifyDataSetChanged();
+            notifyItemRangeInserted(lastIndex, data.size());
         }
     }
 
@@ -167,34 +152,6 @@ public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holde
     }
 
     /**
-     * 获取请求参数
-     */
-    public Object getParam() {
-        return mParam;
-    }
-
-    /**
-     * 设定请求参数
-     */
-    public void setParam(Object param) {
-        mParam = param;
-    }
-
-    /**
-     * 获取请求的地址
-     */
-    public String getUrl() {
-        return mUrl;
-    }
-
-    /**
-     * 请求的地址
-     */
-    public void setUrl(String url) {
-        mUrl = url;
-    }
-
-    /**
      * 获取头部数量
      */
     @SuppressWarnings("WeakerAccess")
@@ -218,6 +175,27 @@ public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holde
     @Override
     public void onBindViewHolder(HOLDER holder, int position) {
         onBindViewHolder(holder, position, holder.getItemViewType());
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        mRecyclerView = recyclerView;
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        mRecyclerView = null;
+    }
+
+    /**
+     * 执行动画
+     */
+    private void animation() {
+        if (mRecyclerView != null) {
+            mRecyclerView.scheduleLayoutAnimation();
+        }
     }
 
     public static abstract class Holder extends RecyclerView.ViewHolder {

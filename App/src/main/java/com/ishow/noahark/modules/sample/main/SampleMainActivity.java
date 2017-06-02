@@ -28,6 +28,7 @@ import com.ishow.noahark.modules.sample.imageloader.SampleImageLoaderActivity;
 import com.ishow.noahark.modules.sample.permission.SamplePermissionActivity;
 import com.ishow.noahark.modules.sample.photo.select.SampleSelectPhotoActivity;
 import com.ishow.noahark.modules.sample.pickview.SamplePickerActivity;
+import com.ishow.noahark.modules.sample.recycle.SampleAnimationRecycleViewActivity;
 
 /**
  * 测试Demo
@@ -61,6 +62,10 @@ public class SampleMainActivity extends AppBaseActivity implements View.OnClickL
         // ImageLoader
         view = findViewById(R.id.sample_select_imageloader);
         view.setOnClickListener(this);
+
+        // 动画RecycleView
+        view = findViewById(R.id.sample_ani_recycle);
+        view.setOnClickListener(this);
     }
 
     @Override
@@ -89,6 +94,10 @@ public class SampleMainActivity extends AppBaseActivity implements View.OnClickL
                 break;
             case R.id.sample_select_imageloader:
                 intent = new Intent(this, SampleImageLoaderActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.sample_ani_recycle:
+                intent = new Intent(this, SampleAnimationRecycleViewActivity.class);
                 startActivity(intent);
                 break;
         }
