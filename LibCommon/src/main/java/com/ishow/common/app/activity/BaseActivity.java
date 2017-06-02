@@ -27,7 +27,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.ishow.common.R;
 import com.ishow.common.mvp.base.IViewStatus;
@@ -45,7 +44,6 @@ public abstract class BaseActivity extends AppCompatActivity implements
         StatusView.CallBack,
         IViewStatus,
         TopBar.OnTopBarListener {
-    private static final String TAG = "BaseActivity";
     /**
      * Activity的TYPE
      */
@@ -136,15 +134,14 @@ public abstract class BaseActivity extends AppCompatActivity implements
             mStatusView = (StatusView) statusView;
             mStatusView.setCallBack(this);
         }
-        //TODO
     }
 
+    @SuppressWarnings("unused")
     protected void initViews(View view) {
-        //TODO
     }
 
+    @SuppressWarnings("unused")
     protected void initViews(View view, ViewGroup.LayoutParams params) {
-        //TODO
     }
 
     /**
@@ -153,7 +150,6 @@ public abstract class BaseActivity extends AppCompatActivity implements
      * 注意：尽量少用
      */
     protected void initNecessaryData() {
-        //TODO
     }
 
     //************************ 数据保存区域*********************** //
@@ -202,7 +198,6 @@ public abstract class BaseActivity extends AppCompatActivity implements
      * 用来设置全屏样式
      */
     protected void resetStatusBar() {
-        // TODO
     }
 
 
@@ -212,14 +207,15 @@ public abstract class BaseActivity extends AppCompatActivity implements
      * 提示 Toast简易封装操作
      */
     public void toast(String toast) {
-        YToast.makeText(this, toast, Toast.LENGTH_SHORT).show();
+        YToast.show(this, toast);
     }
 
     /**
      * 提示 Toast简易封装操作
      */
+    @SuppressWarnings("unused")
     public void toast(int toast) {
-        YToast.makeText(this, toast, Toast.LENGTH_SHORT).show();
+        YToast.show(this, toast);
     }
 
     /**

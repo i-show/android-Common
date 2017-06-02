@@ -29,7 +29,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.ishow.common.R;
 import com.ishow.common.mvp.base.IViewStatus;
@@ -114,7 +113,6 @@ public abstract class BaseFragment extends Fragment implements
      */
     @Override
     public void onLeftClick(View v) {
-        //TODO
     }
 
     /**
@@ -122,7 +120,6 @@ public abstract class BaseFragment extends Fragment implements
      */
     @Override
     public void onRightClick(View v) {
-        //TODO
     }
 
     /**
@@ -130,7 +127,6 @@ public abstract class BaseFragment extends Fragment implements
      */
     @Override
     public void onTitleClick(View v) {
-        //TODO
     }
 
 
@@ -139,18 +135,20 @@ public abstract class BaseFragment extends Fragment implements
     /**
      * 提示 Toast简易封装操作
      */
+    @SuppressWarnings("unused")
     public void toast(String toast) {
         if (isAdded()) {
-            YToast.makeText(getActivity(), toast, Toast.LENGTH_SHORT).show();
+            YToast.show(getActivity(), toast);
         }
     }
 
     /**
      * 提示 Toast简易封装操作
      */
+    @SuppressWarnings("unused")
     public void toast(int toast) {
         if (isAdded()) {
-            YToast.makeText(getActivity(), toast, Toast.LENGTH_SHORT).show();
+            YToast.show(getActivity(), toast);
         }
     }
 
