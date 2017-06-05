@@ -22,6 +22,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorInt;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
@@ -674,6 +675,14 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         return mInputView != null && mInputView.hasFocus();
     }
 
+
+    public void setLeftImageVisibility(int visibility) {
+        if (mLeftImageView != null) {
+            mLeftImageView.setVisibility(visibility);
+            mLeftImageVisibility = visibility;
+        }
+    }
+
     public void setLeftText(@StringRes int textRes) {
         String text = getContext().getString(textRes);
         setLeftText(text);
@@ -683,6 +692,19 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         mLeftTextString = text;
         if (mLeftTextView != null) {
             mLeftTextView.setText(text);
+        }
+    }
+
+    public void setLeftTextGravity(int gravity) {
+        if (mLeftTextView != null) {
+            mLeftTextView.setGravity(gravity);
+        }
+    }
+
+    public void setLeftTextMinWidth(final int width) {
+        if (mLeftTextView != null) {
+            mLeftTextView.setMinWidth(width);
+            requestLayout();
         }
     }
 
@@ -715,12 +737,29 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         mInputView.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
     }
 
+    public void setInputTextColor(@ColorInt int colorInt) {
+        mInputView.setTextColor(colorInt);
+    }
+
     public void addInputWatcher(TextWatcher watcher) {
         mInputView.addTextChangedListener(watcher);
     }
 
     public void removeInputWatcher(TextWatcher watcher) {
         mInputView.removeTextChangedListener(watcher);
+    }
+
+    public void setInputEditable(boolean editable) {
+        if (mInputView != null) {
+            mInputView.setEditable(editable);
+            if (!editable) {
+                mCancelVisibility = View.GONE;
+                mCancelView.setVisibility(mCancelVisibility);
+            } else {
+                mCancelVisibility = mInputView.getText().length() > 0 ? VISIBLE : GONE;
+                mCancelView.setVisibility(mCancelVisibility);
+            }
+        }
     }
 
     public void setRightText(@StringRes int textRes) {
@@ -733,6 +772,11 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         if (mRightTextView != null) {
             mRightTextView.setText(text);
         }
+    }
+
+    public void setBottomLineVisibility(int visibility) {
+        mBottomLineVisibility = visibility;
+        postInvalidate();
     }
 
     public void hideInput() {
@@ -758,6 +802,13 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     public void setRightImageResource(@DrawableRes int resid) {
         if (mRightImageView != null) {
             mRightImageView.setImageResource(resid);
+        }
+    }
+
+    public void setRightImageVisibility(int visibility) {
+        if (mRightImageView != null) {
+            mRightImageView.setVisibility(visibility);
+            mRightImageVisibility = visibility;
         }
     }
 

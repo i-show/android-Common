@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) 2017. The yuhaiyang Android Source Project
  *
@@ -15,14 +14,28 @@
  * limitations under the License.
  */
 
-package com.ishow.noahark.modules.egg.detail;
+package com.ishow.noahark.entries.egg;
 
-import com.ishow.noahark.modules.base.AppBaseActivity;
+import android.content.Context;
+import android.content.Intent;
 
 /**
- * Created by yuhaiyang on 2017/6/1.
- * 彩蛋详情
+ * Created by yuhaiyang on 2017/6/5.
+ * Egg
  */
 
-public class EggDetailActivitiy extends AppBaseActivity {
+public class Egg {
+    public String name;
+    public Class action;
+
+    public Intent getFormatAction(Context context) {
+        Intent intent = new Intent(context, action);
+        intent.putExtra(Key.NAME, name);
+        return intent;
+    }
+
+    @SuppressWarnings("WeakerAccess")
+    public static final class Key {
+        public static final String NAME = "key_egg_name";
+    }
 }

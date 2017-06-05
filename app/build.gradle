@@ -38,6 +38,7 @@ android {
         buildConfigField "int", "VERSION_PROD", VERSION_PROD
         // 配置默认版本-为开发版本
         buildConfigField "int", "VERSION_TYPE", VERSION_DEV
+        buildConfigField "String", "VERSION_DESCRIPTION", "\"开发版本\""
 
         // 配置语言信息
         resConfig "zh"
@@ -85,7 +86,7 @@ android {
 
             // 设置那个版本
             buildConfigField "int", "VERSION_TYPE", VERSION_DEV
-
+            buildConfigField "String", "VERSION_DESCRIPTION", "\"开发版本\""
         }
 
 
@@ -111,6 +112,7 @@ android {
 
             // 设置那个版本
             buildConfigField "int", "VERSION_TYPE", VERSION_SIT
+            buildConfigField "String", "VERSION_DESCRIPTION", "\"测试版本\""
         }
 
 
@@ -136,6 +138,7 @@ android {
 
             // 设置那个版本
             buildConfigField "int", "VERSION_TYPE", VERSION_UAT
+            buildConfigField "String", "VERSION_DESCRIPTION", "\"UAT版本\""
         }
 
         release {
@@ -161,6 +164,7 @@ android {
 
             // 设置那个版本
             buildConfigField "int", "VERSION_TYPE", VERSION_PROD
+            buildConfigField "String", "VERSION_DESCRIPTION", "\"正式版本\""
         }
     }
 

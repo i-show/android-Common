@@ -26,6 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftImage="@drawable/ic_back_white"
+        app:secretable="true"
         app:text="@string/settings"/>
 
     <LinearLayout

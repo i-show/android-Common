@@ -60,6 +60,7 @@ class LoginPresenter implements UserManager.LoginCallBack, LoginContract.Present
     public void onSuccess() {
         mView.dismissLoading(true);
         mView.showSuccess(null);
+
     }
 
     @Override

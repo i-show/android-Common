@@ -21,9 +21,11 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.ishow.common.app.activity.BaseActivity;
+import com.ishow.common.utils.SharedPreferencesUtils;
 import com.ishow.common.widget.edittext.EditTextPro;
 import com.ishow.common.widget.loading.LoadingDialog;
 import com.ishow.noahark.R;
+import com.ishow.noahark.entries.User;
 import com.ishow.noahark.modules.account.password.forgot.ForgotPasswordActivity;
 import com.ishow.noahark.modules.account.register.RegisterActivity;
 import com.ishow.noahark.modules.main.MainActivity;
@@ -113,6 +115,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+
+        SharedPreferencesUtils.save(this, User.Key.AUTO_LOGIN, true);
     }
 
     @Override

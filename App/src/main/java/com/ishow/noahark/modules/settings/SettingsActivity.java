@@ -20,18 +20,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.ishow.common.widget.TopBar;
 import com.ishow.noahark.R;
 import com.ishow.noahark.modules.account.login.LoginActivity;
 import com.ishow.noahark.modules.base.AppBaseActivity;
 import com.ishow.common.utils.AppUtils;
 import com.ishow.common.widget.edittext.EditTextPro;
+import com.ishow.noahark.modules.egg.EggActivity;
 
 /**
  * Created by yuhaiyang on 2017/4/24.
  * 设置
  */
 
-public class SettingsActivity extends AppBaseActivity implements View.OnClickListener {
+public class SettingsActivity extends AppBaseActivity implements
+        TopBar.OnSecretListener,
+        View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +46,9 @@ public class SettingsActivity extends AppBaseActivity implements View.OnClickLis
     @Override
     protected void initViews() {
         super.initViews();
+
+        TopBar topBar = (TopBar) findViewById(R.id.top_bar);
+        topBar.setOnSecretListener(this);
 
         View logout = findViewById(R.id.logout);
         logout.setOnClickListener(this);
@@ -60,6 +67,14 @@ public class SettingsActivity extends AppBaseActivity implements View.OnClickLis
                 startActivity(intent);
                 this.finish();
                 break;
+        }
+    }
+
+    @Override
+    public void onSecretClick(View v, int count) {
+        if (count == 8) {
+            Intent intent = new Intent(this, EggActivity.class);
+            startActivity(intent);
         }
     }
 }

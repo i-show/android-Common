@@ -17,7 +17,12 @@
 
 package com.ishow.noahark.modules.egg;
 
+import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+
 import com.ishow.noahark.BuildConfig;
+import com.ishow.noahark.R;
 import com.ishow.noahark.modules.base.AppBaseActivity;
 
 /**
@@ -26,4 +31,22 @@ import com.ishow.noahark.modules.base.AppBaseActivity;
  */
 
 public class EggActivity extends AppBaseActivity {
+    private EggAdapter mAdapter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_egg);
+        mAdapter.setData(EggFactory.product(this));
+    }
+
+    @Override
+    protected void initViews() {
+        super.initViews();
+
+        mAdapter = new EggAdapter(this);
+        RecyclerView list = (RecyclerView) findViewById(R.id.list);
+        list.setLayoutManager(new GridLayoutManager(this, 2));
+        list.setAdapter(mAdapter);
+    }
 }
