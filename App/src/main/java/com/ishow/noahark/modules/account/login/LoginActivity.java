@@ -18,10 +18,13 @@ package com.ishow.noahark.modules.account.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 
 import com.ishow.common.app.activity.BaseActivity;
 import com.ishow.common.utils.SharedPreferencesUtils;
+import com.ishow.common.utils.StringUtils;
 import com.ishow.common.widget.edittext.EditTextPro;
 import com.ishow.common.widget.loading.LoadingDialog;
 import com.ishow.noahark.R;
@@ -55,6 +58,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
         super.initViews();
 
         mEditAccount = (EditTextPro) findViewById(R.id.account);
+        mEditAccount.addInputWatcher(mTextWatcher);
         mEditPassword = (EditTextPro) findViewById(R.id.password);
 
         View login = findViewById(R.id.login);
@@ -94,20 +98,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
         mEditPassword.setInputText(password);
     }
 
-    @Override
-    public void showLoading(String message, boolean dialog) {
-        mLoadingDialog = LoadingDialog.show(this, mLoadingDialog);
-    }
-
-    @Override
-    public void dismissLoading(boolean dialog) {
-        LoadingDialog.dismiss(mLoadingDialog);
-    }
-
-    @Override
-    public void showError(String message, boolean dialog, int errorCode) {
-        dialog(message);
-    }
 
     @Override
     public void showSuccess(String message) {
@@ -119,8 +109,27 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
         SharedPreferencesUtils.save(this, User.Key.AUTO_LOGIN, true);
     }
 
-    @Override
-    public void showEmpty(String message) {
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mEditAccount.removeInputWatcher(mTextWatcher);
     }
+
+    private TextWatcher mTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            mEditPassword.setInputText(StringUtils.EMPTY);
+        }
+    };
 }
