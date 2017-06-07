@@ -319,20 +319,19 @@ public class TopBar extends ViewGroup implements OnClickListener {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         int width = right - left;
-
         if (mLeftImageVisibility != GONE) {
-            mLeftImageView.layout(left, top, left + mLeftImageWidth, bottom);
+            mLeftImageView.layout(left, 0, left + mLeftImageWidth, mTopBarHeight);
             left += mLeftImageWidth;
         }
 
         if (mLeftImage2Visibility != GONE) {
-            mLeftImageView2.layout(left, top, left + mLeftImage2Width, bottom);
+            mLeftImageView2.layout(left, 0, left + mLeftImage2Width, mTopBarHeight);
             left += mLeftImage2Width;
         }
 
         if (mLeftTextVisibility != GONE) {
             if (mLeftTextBackgound == null) {
-                mLeftTextView.layout(left, top, left + mLeftTextViewWidth, bottom);
+                mLeftTextView.layout(left, 0, left + mLeftTextViewWidth, mTopBarHeight);
             } else {
                 int _height = mLeftTextView.getMeasuredHeight();
                 int _top = (mTopBarHeight - _height) / 2;
@@ -345,7 +344,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
 
         if (mRightTextVisibility != GONE) {
             if (mRightTextBackground == null) {
-                mRightTextView.layout(right - mRightTextViewWidth, top, right, bottom);
+                mRightTextView.layout(right - mRightTextViewWidth, 0, right, mTopBarHeight);
             } else {
                 int _height = mRightTextView.getMeasuredHeight();
                 int _top = (mTopBarHeight - _height) / 2;
@@ -357,12 +356,12 @@ public class TopBar extends ViewGroup implements OnClickListener {
             right -= mRightTextViewWidth;
         }
         if (mRightImageVisibility != GONE) {
-            mRightImageView.layout(right - mRightImageWidth, top, right, bottom);
+            mRightImageView.layout(right - mRightImageWidth, 0, right, mTopBarHeight);
             right -= mRightImageWidth;
         }
 
         if (mRightImage2Visibility != GONE) {
-            mRightImageView2.layout(right - mRightImage2Width, top, right, bottom);
+            mRightImageView2.layout(right - mRightImage2Width, 0, right, mTopBarHeight);
         }
 
         final int titleHeight = mTitleVisibility == GONE ? 0 : mTitleView.getMeasuredHeight();
