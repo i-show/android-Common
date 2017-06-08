@@ -29,6 +29,7 @@ import com.ishow.common.R;
 import com.ishow.common.utils.IntentUtils;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -204,7 +205,21 @@ public class PermissionManager {
      * @param grantResults results.
      */
     public static void onRequestPermissionsResult(@NonNull Activity activity, int requestCode, @NonNull String[] permissions, int[] grantResults) {
-        callbackAnnotation(activity, requestCode, permissions, grantResults);
+        onRequestPermissionsResult(activity, activity.getClass(), requestCode, permissions, grantResults);
+    }
+
+
+    /**
+     * Parse the request results.
+     *
+     * @param activity     {@link Activity}.
+     * @param realizeClass 注解的实现类.
+     * @param requestCode  request code.
+     * @param permissions  all permissions.
+     * @param grantResults results.
+     */
+    public static void onRequestPermissionsResult(@NonNull Activity activity, Object realizeClass, int requestCode, @NonNull String[] permissions, int[] grantResults) {
+        callbackAnnotation(activity, realizeClass, requestCode, permissions, grantResults);
     }
 
     /**
@@ -216,19 +231,20 @@ public class PermissionManager {
      * @param grantResults results.
      */
     public static void onRequestPermissionsResult(@NonNull android.support.v4.app.Fragment fragment, int requestCode, @NonNull String[] permissions, int[] grantResults) {
-        callbackAnnotation(fragment, requestCode, permissions, grantResults);
+        onRequestPermissionsResult(fragment, fragment.getClass(), requestCode, permissions, grantResults);
     }
 
     /**
      * Parse the request results.
      *
-     * @param fragment     {@link android.app.Fragment}.
+     * @param fragment     {@link android.support.v4.app.Fragment}.
+     * @param realizeClass 注解的实现类.
      * @param requestCode  request code.
      * @param permissions  all permissions.
      * @param grantResults results.
      */
-    public static void onRequestPermissionsResult(@NonNull android.app.Fragment fragment, int requestCode, @NonNull String[] permissions, int[] grantResults) {
-        callbackAnnotation(fragment, requestCode, permissions, grantResults);
+    public static void onRequestPermissionsResult(@NonNull android.support.v4.app.Fragment fragment, Object realizeClass, int requestCode, @NonNull String[] permissions, int[] grantResults) {
+        callbackAnnotation(fragment, realizeClass, requestCode, permissions, grantResults);
     }
 
     /**
@@ -240,44 +256,76 @@ public class PermissionManager {
      * @param permissions  all permissions.
      * @param grantResults results.
      */
-    private static void callbackAnnotation(@NonNull Object o, int requestCode, @NonNull String[] permissions, int[] grantResults) {
+    private static void callbackAnnotation(@NonNull Object context, int requestCode, @NonNull String[] permissions, int[] grantResults) {
+        callbackAnnotation(context, null, requestCode, permissions, grantResults);
+    }
+
+
+    /**
+     * Parse the request results.
+     *
+     * @param o            {@link Activity} or {@link android.support.v4.app.Fragment} or
+     *                     {@link android.app.Fragment}.
+     * @param requestCode  request code.
+     * @param permissions  all permissions.
+     * @param grantResults results.
+     */
+    private static void callbackAnnotation(@NonNull Object context, Object realizeClass, int requestCode, @NonNull String[] permissions, int[] grantResults) {
         List<String> grantedList = new ArrayList<>();
         List<String> deniedList = new ArrayList<>();
         for (int i = 0; i < permissions.length; i++) {
-            if (grantResults[i] == PackageManager.PERMISSION_GRANTED)
+            if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
                 grantedList.add(permissions[i]);
-            else
+            } else {
                 deniedList.add(permissions[i]);
+            }
         }
 
-        dialogDeniedTip(o, deniedList);
+        dialogDeniedTip(context, deniedList);
         boolean isAllGrant = deniedList.isEmpty();
 
         Class<? extends Annotation> clazz = isAllGrant ? PermissionGranted.class : PermissionDenied.class;
-        Method[] methods = findMethodForRequestCode(o.getClass(), clazz, requestCode);
-        if (methods.length == 0) {
+        List<Method> methods = findMethodForRequestCode(realizeClass.getClass(), clazz, requestCode);
+        if (methods.size() == 0) {
             Log.e(TAG, "Not found the callback method, do you forget @PermissionGranted or @permissionNo" +
                     " for callback method ? Or you can use PermissionListener.");
-        } else {
-            // 这里提供了2中返回的方法 1. 带有参数 2. 不带参数
-            try {
-                for (Method method : methods) {
-                    if (!method.isAccessible()) method.setAccessible(true);
-                    method.invoke(o, isAllGrant ? grantedList : deniedList);
+            return;
+        }
+        // 这里提供了2中返回的方法 1. 带有参数 2. 不带参数
+        Object args = isAllGrant ? grantedList : deniedList;
+        // 返回（Context， List<Permission>）
+        boolean success = invoke(methods, realizeClass, context, args);
+        if (!success) {
+            // 返回（Context）
+            success = invoke(methods, realizeClass, context);
+        }
+        if (!success) {
+            // 返回（ List<Permission>）
+            success = invoke(methods, realizeClass, args);
+        }
+
+        if (!success) {
+            // 返回（）
+            invoke(methods, realizeClass);
+        }
+
+    }
+
+    private static boolean invoke(List<Method> methods, Object receiver, Object... args) {
+        try {
+            for (Method method : methods) {
+                if (!method.isAccessible()) {
+                    method.setAccessible(true);
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-                try {
-                    for (Method method : methods) {
-                        if (!method.isAccessible()) method.setAccessible(true);
-                        method.invoke(o);
-                    }
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
+                method.invoke(receiver, args);
             }
+        } catch (Exception e) {
+            return false;
+        } finally {
+            return true;
         }
     }
+
 
     private static void dialogDeniedTip(final Object o, List<String> deniedList) {
         if (deniedList == null || deniedList.isEmpty()) {
@@ -304,22 +352,24 @@ public class PermissionManager {
         builder.create().show();
     }
 
-    private static <T extends Annotation> Method[] findMethodForRequestCode(@NonNull Class<?> source, @NonNull
+    private static <T extends Annotation> List<Method> findMethodForRequestCode(@NonNull Class<?> source, @NonNull
             Class<T> annotation, int requestCode) {
         List<Method> methods = new ArrayList<>(1);
-        for (Method method : source.getDeclaredMethods())
-            if (method.isAnnotationPresent(annotation))
-                if (isSameRequestCode(method, annotation, requestCode))
-                    methods.add(method);
-        return methods.toArray(new Method[methods.size()]);
+        for (Method method : source.getDeclaredMethods()) {
+            if (method.isAnnotationPresent(annotation) && isSameRequestCode(method, annotation, requestCode)) {
+                methods.add(method);
+            }
+        }
+        return methods;
     }
 
     private static <T extends Annotation> boolean isSameRequestCode(@NonNull Method method, @NonNull Class<T>
             annotation, int requestCode) {
-        if (PermissionGranted.class.equals(annotation))
+        if (PermissionGranted.class.equals(annotation)) {
             return method.getAnnotation(PermissionGranted.class).value() == requestCode;
-        else if (PermissionDenied.class.equals(annotation))
+        } else if (PermissionDenied.class.equals(annotation)) {
             return method.getAnnotation(PermissionDenied.class).value() == requestCode;
+        }
         return false;
     }
 
