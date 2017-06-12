@@ -514,7 +514,6 @@ public class PickerView extends View {
     public void setAdapter(PickerAdapter adapter) {
         mAdapter = adapter;
 
-
         if (mAdapter != null && mDataSetObserver != null) {
             mAdapter.unregisterDataSetObserver(mDataSetObserver);
         }

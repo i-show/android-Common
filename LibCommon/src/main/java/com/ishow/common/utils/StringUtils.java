@@ -18,9 +18,12 @@ package com.ishow.common.utils;
 
 import android.text.TextUtils;
 
+import com.ishow.common.utils.log.L;
+
 import java.util.Locale;
 
 public class StringUtils {
+    private static final String TAG = "StringUtils";
     /**
      * 空字符串
      */
@@ -58,6 +61,19 @@ public class StringUtils {
             }
         }
         return builder.toString();
+    }
+
+
+    /**
+     * 字符传int
+     */
+    public static int format2int(String value) {
+        try {
+            return Integer.valueOf(value);
+        } catch (Exception e) {
+            L.d(TAG, "format2int e = " + e.toString());
+            return 0;
+        }
     }
 
     /**

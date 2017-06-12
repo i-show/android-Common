@@ -72,9 +72,9 @@
     </attr>
 
     <attr name="selectedTextColor" format="reference|color"/>
-    <attr name="selectedTextSize" format="reference|color"/>
+    <attr name="selectedTextSize" format="dimension"/>
     <attr name="unselectedTextColor" format="reference|color"/>
-    <attr name="unselectedTextSize" format="reference|color"/>
+    <attr name="unselectedTextSize" format="dimension"/>
 
     <attr name="subText" format="string"/>
     <attr name="subTextSize" format="dimension"/>
@@ -706,6 +706,7 @@
         <attr name="rightTextMaxWidth"/>
         <attr name="rightTextVisibility"/>
         <attr name="rightTextGravity"/>
+        <attr name="rightTextPadding"/>
 
         <attr name="rightImage"/>
         <attr name="rightImageBackground"/>
