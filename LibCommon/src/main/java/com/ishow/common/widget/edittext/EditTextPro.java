@@ -120,6 +120,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     private int mRightTextMinWidth;
     private int mRightTextMaxWidth;
     private int mRightTextGravity;
+    private int mRightTextPadding;
     private Drawable mRightTextBackgroundDrawable;
     private Drawable mRightTextRightDrawable;
 
@@ -198,6 +199,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         mRightTextColor = a.getColor(R.styleable.EditTextPro_rightTextColor, getDefaultTipTextColor());
         mRightTextVisibility = a.getColor(R.styleable.EditTextPro_rightTextVisibility, View.GONE);
         mRightTextRightMargin = a.getDimensionPixelSize(R.styleable.EditTextPro_rightTextRightMargin, 0);
+        mRightTextPadding = a.getDimensionPixelSize(R.styleable.EditTextPro_rightTextPadding, 0);
         mRightTextMinWidth = a.getDimensionPixelSize(R.styleable.EditTextPro_rightTextMinWidth, getDefaultTipMinWidth());
         mRightTextMaxWidth = a.getDimensionPixelSize(R.styleable.EditTextPro_rightTextMaxWidth, getDefaultTipMaxWidth());
         mRightTextRightDrawable = a.getDrawable(R.styleable.EditTextPro_rightTextRightDrawable);
@@ -534,6 +536,9 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
             mRightTextView.setMaxWidth(mRightTextMaxWidth);
             mRightTextView.setBackground(mRightTextBackgroundDrawable);
             mRightTextView.setGravity(mRightTextGravity);
+            if (mRightTextPadding > 0) {
+                mRightTextView.setPadding(mRightTextPadding, mRightTextPadding, mRightTextPadding, mRightTextPadding);
+            }
             if (mRightTextRightDrawable != null) {
                 if (mTintColor != null) {
                     mRightTextRightDrawable = DrawableCompat.wrap(mRightTextRightDrawable);

@@ -144,6 +144,7 @@
     <attr name="rightTextRightDrawable" format="reference"/>
     <attr name="rightTextMinWidth" format="dimension"/>
     <attr name="rightTextMaxWidth" format="dimension"/>
+    <attr name="rightTextPadding" format="dimension"/>
     <attr name="rightTextBackground" format="reference|color"/>
     <attr name="rightTextGravity">
         <!-- Push object to the top of its container, not changing its size. -->
