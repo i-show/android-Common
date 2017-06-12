@@ -46,8 +46,8 @@ public class MaxHeightListView extends ListView {
 
 
     private void init(Context context, AttributeSet attrs) {
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RecycleListView);
-        mMaxHeight = a.getDimensionPixelSize(R.styleable.RecycleListView_maxHeight, getDefaultHeight());
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MaxHeightListView);
+        mMaxHeight = a.getDimensionPixelSize(R.styleable.MaxHeightListView_maxHeight, getDefaultHeight());
         a.recycle();
     }
 
