@@ -50,7 +50,7 @@ public class DateTimePickerDialog extends Dialog implements TopBar.OnTopBarListe
 
     @SuppressWarnings("WeakerAccess")
     public DateTimePickerDialog(Context context, int type) {
-        super(context, R.style.Dialog_DateTimePicker);
+        super(context, R.style.AppDialog_DateTimePicker);
         mStyle = type;
     }
 

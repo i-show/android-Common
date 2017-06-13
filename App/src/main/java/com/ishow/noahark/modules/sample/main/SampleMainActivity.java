@@ -22,6 +22,7 @@ import android.view.View;
 
 import com.ishow.noahark.R;
 import com.ishow.noahark.modules.base.AppBaseActivity;
+import com.ishow.noahark.modules.sample.dialog.select.SampleSelectDialogAndPickerDialog;
 import com.ishow.noahark.modules.sample.edittextpro.SampleEditTextProActivity;
 import com.ishow.noahark.modules.sample.http.SampleHttpActivity;
 import com.ishow.noahark.modules.sample.imageloader.SampleImageLoaderActivity;
@@ -66,6 +67,9 @@ public class SampleMainActivity extends AppBaseActivity implements View.OnClickL
         // 动画RecycleView
         view = findViewById(R.id.sample_ani_recycle);
         view.setOnClickListener(this);
+        // 选择弹框和滚动弹框
+        view = findViewById(R.id.sample_picker_and_select);
+        view.setOnClickListener(this);
     }
 
     @Override
@@ -98,6 +102,10 @@ public class SampleMainActivity extends AppBaseActivity implements View.OnClickL
                 break;
             case R.id.sample_ani_recycle:
                 intent = new Intent(this, SampleAnimationRecycleViewActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.sample_picker_and_select:
+                intent = new Intent(this, SampleSelectDialogAndPickerDialog.class);
                 startActivity(intent);
                 break;
         }

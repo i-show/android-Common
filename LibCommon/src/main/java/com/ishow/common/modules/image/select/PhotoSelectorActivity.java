@@ -205,7 +205,7 @@ public class PhotoSelectorActivity extends BaseActivity implements
      * 选择图片文件夹
      */
     private void selectPhotoFolder() {
-        BaseDialog dialog = new BaseDialog.Builder(this, R.style.Dialog_Bottom)
+        BaseDialog dialog = new BaseDialog.Builder(this, R.style.AppDialog_Bottom)
                 .isShowFromBottom(true)
                 .setAdapter(mFolderAdapter, new DialogInterface.OnClickListener() {
                     @Override

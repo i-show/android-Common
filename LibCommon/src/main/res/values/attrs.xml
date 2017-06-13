@@ -37,6 +37,8 @@
     <attr name="loadingText" format="string"/>
     <attr name="errorText" format="string"/>
     <attr name="errorImage" format="reference"/>
+    
+    <attr name="itemMinHeight" format="dimension"/>
 
 
     <attr name="tip" format="string"/>
@@ -647,6 +649,7 @@
         <attr name="unselectedTextColor"/>
         <attr name="divider"/>
         <attr name="visiableCount"/>
+        <attr name="itemMinHeight"/>
     </declare-styleable>
 
     <declare-styleable name="ScaleImageView">

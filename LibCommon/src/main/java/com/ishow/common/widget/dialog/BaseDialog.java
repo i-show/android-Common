@@ -72,7 +72,7 @@ public class BaseDialog extends Dialog implements DialogInterface {
     private BaseController mAlert;
 
     protected BaseDialog(Context context) {
-        this(context, R.style.Dialog, true);
+        this(context, R.style.AppDialog, true);
     }
 
     /**
@@ -91,7 +91,7 @@ public class BaseDialog extends Dialog implements DialogInterface {
     }
 
     protected BaseDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
-        super(context, R.style.Dialog);
+        super(context, R.style.AppDialog);
         setCancelable(cancelable);
         setOnCancelListener(cancelListener);
         mAlert = new BaseController(context, this, getWindow());
@@ -255,7 +255,7 @@ public class BaseDialog extends Dialog implements DialogInterface {
          * Constructor using a context for this builder and the {@link BaseDialog} it creates.
          */
         public Builder(Context context) {
-            this(context, R.style.Dialog);
+            this(context, R.style.AppDialog);
         }
 
         /**

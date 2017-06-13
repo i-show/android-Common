@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (C) 2016 The yuhaiyang Android Source Project
+  ~ Copyright (C) 2017. The yuhaiyang Android Source Project
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -14,13 +14,10 @@
   ~ limitations under the License.
   -->
 
-<resources>
-    <!-- 默认的取值分页从第几页开始  可能在主project 进行修改-->
-    <integer name="default_pager_number">0</integer>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- topBar的默认值 -->
-    <dimen name="top_bar_height">@dimen/dp_50</dimen>
-    <dimen name="dialog_top_bar_height">@dimen/dp_46</dimen>
-    <dimen name="top_bar_title_text_size">@dimen/G_title</dimen>
-    <dimen name="top_bar_sub_title_text_size">@dimen/K_title</dimen>
-</resources>
+    <item android:drawable="@drawable/grey_corner_max_line_bg_white_pressed" android:state_pressed="true" />
+
+    <item android:drawable="@drawable/grey_corner_max_line_bg_white_normal" />
+
+</selector>

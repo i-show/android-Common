@@ -23,7 +23,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Build;
-import android.support.annotation.NonNull;
 import android.text.Layout;
 import android.text.TextPaint;
 import android.text.TextUtils;
@@ -36,7 +35,6 @@ import android.view.ViewConfiguration;
 import android.widget.Scroller;
 
 import com.ishow.common.R;
-import com.ishow.common.widget.flowlayout.FlowLayout;
 import com.ishow.common.widget.pickview.adapter.PickerAdapter;
 import com.ishow.common.widget.pickview.constant.Direction;
 import com.ishow.common.widget.pickview.listener.OnItemSelectedListener;
@@ -82,6 +80,7 @@ public class PickerView extends View {
     private int mUnitWidth;
 
     private int mDrawItemX;
+    private int mItemMinHeight;
 
     private float mUnitTextSize;
     private float mSelectedTextSize;
@@ -126,6 +125,7 @@ public class PickerView extends View {
         mSelectedTextColor = a.getColor(R.styleable.PickerView_selectedTextColor, getDefaultSelectedTextColor());
         mUnselectedTextColor = a.getColor(R.styleable.PickerView_unselectedTextColor, getDefaultUnselectedTextColor());
 
+        mItemMinHeight = a.getDimensionPixelOffset(R.styleable.PickerView_itemMinHeight, 0);
         mSelectedTextSize = a.getDimensionPixelOffset(R.styleable.PickerView_textSize, getDefaultTextSize());
         mUnitTextSize = a.getDimensionPixelSize(R.styleable.PickerView_unitTextSize, getDefaultUnitTextSize());
         mUnselectedTextSize = mSelectedTextSize * UNSELECTED_TEXT_SIZE_RATIO;
@@ -173,6 +173,7 @@ public class PickerView extends View {
         }
 
         mItemHeight = (int) (LINE_SPACING_MULTIPLIER * mItemHeight);
+        mItemHeight = Math.max(mItemMinHeight, mItemHeight);
 
         if (!TextUtils.isEmpty(mUnit)) {
             int gap = getContext().getResources().getDimensionPixelSize(R.dimen.dp_10);
@@ -277,6 +278,7 @@ public class PickerView extends View {
     /**
      * 从中间往两边开始画刻度线
      */
+    @SuppressWarnings("UnusedParameters")
     private void drawText(Canvas canvas, final int width, final int height) {
         /*
          * 画中间的
@@ -344,6 +346,7 @@ public class PickerView extends View {
     }
 
 
+    @SuppressWarnings("UnusedParameters")
     private void drawUnit(Canvas canvas, int width) {
         if (TextUtils.isEmpty(mUnit)) {
             return;
@@ -607,6 +610,7 @@ public class PickerView extends View {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return getResources().getColor(R.color.line, getContext().getTheme());
         } else {
+            //noinspection deprecation
             return getResources().getColor(R.color.line);
         }
     }
@@ -619,6 +623,7 @@ public class PickerView extends View {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return getResources().getColor(R.color.text_grey_light_normal, getContext().getTheme());
         } else {
+            //noinspection deprecation
             return getResources().getColor(R.color.text_grey_light_normal);
         }
     }
@@ -631,6 +636,7 @@ public class PickerView extends View {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return getResources().getColor(R.color.color_accent, getContext().getTheme());
         } else {
+            //noinspection deprecation
             return getResources().getColor(R.color.color_accent);
         }
     }
@@ -660,24 +666,8 @@ public class PickerView extends View {
         } else {
             return colorA;
         }
-//        float[] hsvColorA = new float[3];
-//        Color.colorToHSV(colorA, hsvColorA);
-//        float[] hsvColorB = new float[3];
-//        Color.colorToHSV(colorB, hsvColorB);
-//        hsvColorB[0] = interpolate(hsvColorA[0], hsvColorB[0], bias);
-//        hsvColorB[1] = interpolate(hsvColorA[1], hsvColorB[1], bias);
-//        hsvColorB[2] = interpolate(hsvColorA[2], hsvColorB[2], bias);
-//        // NOTE For some reason the method HSVToColor fail in edit LoaderMode. Just use the start color for now
-//        if (isInEditMode()) {
-//            return colorA;
-//        }
-        //return Color.HSVToColor(hsvColorB);
-    }
 
-    private float interpolate(float a, float b, float bias) {
-        return (a + ((b - a) * bias));
     }
-
 
     private class DefaultDataSetObserver extends DataSetObserver {
 

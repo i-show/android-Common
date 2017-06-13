@@ -86,7 +86,7 @@
     </style>
 
     <!-- ################ Dialog ################ -->
-    <style name="Dialog" parent="@style/Theme.AppCompat.Dialog">
+    <style name="AppDialog" parent="@style/Theme.AppCompat.Dialog">
         <!-- 标题栏颜色 -->
         <item name="colorPrimary">@color/color_primary</item>
         <!--常用的颜色例如 光标颜色-->
@@ -108,7 +108,7 @@
     </style>
 
     <!-- 透明Dialog -->
-    <style name="Dialog.Transparent">
+    <style name="AppDialog.Transparent">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -117,7 +117,7 @@
     </style>
 
     <!-- 透明Dialog -->
-    <style name="Dialog.Semipermeable">
+    <style name="AppDialog.Semipermeable">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@color/semipermeable</item>
@@ -126,7 +126,7 @@
     </style>
 
     <!-- 背景是纯黑色的的dialog -->
-    <style name="Dialog.Black">
+    <style name="AppDialog.Black">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/black</item>
@@ -136,7 +136,7 @@
     </style>
 
     <!-- 从底部弹出的Dialog -->
-    <style name="Dialog.Bottom">
+    <style name="AppDialog.Bottom">
         <item name="android:windowBackground">@drawable/top_line_white_bg</item>
         <item name="android:listDivider">@color/line</item>
         <!--Settings the Dialog Title-->
@@ -147,7 +147,7 @@
     </style>
 
     <!-- 从底部弹出的Dialog -->
-    <style name="Dialog.Bottom.Transparent">
+    <style name="AppDialog.Bottom.Transparent">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -162,7 +162,7 @@
     </style>
 
     <!-- 从底部弹出的仿IOS风格的Dialog -->
-    <style name="Dialog.Bottom.IOS">
+    <style name="AppDialog.Bottom.IOS">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:listDivider">@color/line</item>
         <item name="dialogLayouts">@style/BaseDialog.Bottom.IOS.Layout</item>
@@ -173,7 +173,7 @@
     </style>
 
 
-    <style name="Dialog.DateTimePicker" parent="@style/Theme.AppCompat.Dialog">
+    <style name="AppDialog.DateTimePicker" parent="@style/Theme.AppCompat.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowIsTranslucent">false</item>

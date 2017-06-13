@@ -35,7 +35,7 @@ import com.ishow.common.widget.spinkit.SpinKitView;
 public class LoadingDialog extends Dialog {
 
     private LoadingDialog(Context context) {
-        this(context, R.style.Dialog_Semipermeable);
+        this(context, R.style.AppDialog_Semipermeable);
     }
 
     private LoadingDialog(Context context, int themeResId) {
