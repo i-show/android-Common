@@ -161,7 +161,8 @@ public class PickerView extends View {
         }
         mItemHeight = 0;
         mCurrentPosition = Math.min(mCurrentPosition, mAdapter.getCount() - 1);
-
+        mCurrentPosition = computePosition(mCurrentPosition);
+        
         mTextPaint.setTextSize(mSelectedTextSize);
         Rect rect = new Rect();
         for (int i = 0; i < mAdapter.getCount(); i++) {
@@ -499,6 +500,7 @@ public class PickerView extends View {
         }
         if (mAdjustScroller.getCurrY() == mAdjustScroller.getFinalY()) {
             mCurrentPosition = mCurrentPosition + mAdjustPosition;
+            mCurrentPosition = computePosition(mCurrentPosition);
 
             notifyValueChange();
             mAdjustPosition = 0;
