@@ -22,7 +22,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.ishow.common.adapter.RecyclerAdapter;
-import com.ishow.common.widget.dialog.ShowPhotoDialog;
+import com.ishow.common.modules.image.show.ShowPhotoDialog;
 import com.ishow.noahark.R;
 import com.bumptech.glide.Glide;
 

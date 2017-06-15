@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 The yuhaiyang Android Source Project
+ * Copyright (C) 2017. The yuhaiyang Android Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ishow.common.widget.dialog;
+package com.ishow.common.modules.image.show;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -27,7 +27,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.ishow.common.R;
-import com.ishow.common.adapter.ShowPhotoAdapter;
+import com.ishow.common.modules.image.show.ShowPhotoAdapter;
 import com.ishow.common.utils.ScreenUtils;
 import com.ishow.common.widget.indicator.SizeIndicator;
 

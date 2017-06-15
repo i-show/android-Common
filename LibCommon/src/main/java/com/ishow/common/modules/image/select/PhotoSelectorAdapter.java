@@ -27,7 +27,7 @@ import com.ishow.common.R;
 import com.ishow.common.adapter.RecyclerAdapter;
 import com.ishow.common.entries.Photo;
 import com.ishow.common.widget.YToast;
-import com.ishow.common.widget.dialog.ShowPhotoDialog;
+import com.ishow.common.modules.image.show.ShowPhotoDialog;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;

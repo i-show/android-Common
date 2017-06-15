@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 The yuhaiyang Android Source Project
+ * Copyright (C) 2017. The yuhaiyang Android Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ishow.common.adapter;
+package com.ishow.common.modules.image.show;
 
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
@@ -31,7 +31,6 @@ import android.widget.ProgressBar;
 
 import com.ishow.common.R;
 import com.ishow.common.utils.ScreenUtils;
-import com.ishow.common.widget.dialog.ShowPhotoDialog;
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.DrawableTypeRequest;
 import com.bumptech.glide.Glide;
