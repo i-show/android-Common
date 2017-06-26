@@ -24,6 +24,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.text.Layout;
 import android.text.TextUtils;
@@ -910,6 +911,15 @@ public class TopBar extends ViewGroup implements OnClickListener {
         }
         mLeftImageView.setImageResource(resId);
     }
+
+    public void setLeftImageDrawable(@NonNull Drawable drawable) {
+        if (mLeftImageView == null) {
+            mLeftImageVisibility = VISIBLE;
+            getLeftImageView();
+        }
+        mLeftImageView.setImageDrawable(drawable);
+    }
+
 
     public void setLeft2ImageResource(@DrawableRes int resId) {
         if (mLeftImageView2 == null) {

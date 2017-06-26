@@ -199,6 +199,12 @@ public abstract class CallBack<T> {
         return null;
     }
 
+    /**
+     * 获取Context
+     */
+    protected Context getContext() {
+        return mContext;
+    }
 
     /**
      * 当Failed的时候打印debug信息

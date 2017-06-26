@@ -36,9 +36,10 @@ public interface IPrompt {
 
 
     // 定义Ann
+    @SuppressWarnings("UnnecessaryInterfaceModifier")
     @IntDef({PromptPosition.LEFT, PromptPosition.RIGHT})
     @Retention(RetentionPolicy.SOURCE)
-    @interface PromptPosition {
+    public @interface PromptPosition {
         /**
          * Pictures in the text to the left
          */
@@ -49,9 +50,10 @@ public interface IPrompt {
         int RIGHT = 4;
     }
 
+    @SuppressWarnings("UnnecessaryInterfaceModifier")
     @IntDef({PromptMode.NONE, PromptMode.TEXT, PromptMode.GRAPH})
     @Retention(RetentionPolicy.SOURCE)
-    @interface PromptMode {
+    public @interface PromptMode {
         /**
          * 不显示模式
          */
