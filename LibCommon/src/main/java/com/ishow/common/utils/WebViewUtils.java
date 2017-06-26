@@ -17,6 +17,7 @@
 package com.ishow.common.utils;
 
 import android.content.Context;
+import android.os.Build;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
@@ -34,6 +35,10 @@ public class WebViewUtils {
 
         // WebView 可以加载JavaScript
         settings.setJavaScriptEnabled(true);
+        //支持js
+        settings.setJavaScriptCanOpenWindowsAutomatically(true);
+        //设置编码
+        //mWebView.getSettings().setDefaultTextEncodingName("utf-8");
 
         // 提高加载WebView的优先级
         settings.setRenderPriority(WebSettings.RenderPriority.HIGH);
@@ -46,7 +51,18 @@ public class WebViewUtils {
         settings.setDatabasePath(databasePath);
 
         // 应用可以有缓存
-        settings.setAppCacheEnabled(true);
-        settings.setAppCachePath(cachePath);
+        //settings.setAppCacheEnabled(true);
+        //settings.setAppCachePath(cachePath);
+
+        // 设置可以支持缩放
+        settings.setSupportZoom(true);
+        // 设置出现缩放工具
+        settings.setBuiltInZoomControls(true);
+        // 为图片添加放大缩小功能
+        settings.setUseWideViewPort(true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
     }
 }

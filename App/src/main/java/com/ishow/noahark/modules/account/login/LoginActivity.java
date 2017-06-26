@@ -42,8 +42,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
     private EditTextPro mEditAccount;
     private EditTextPro mEditPassword;
 
-    private LoadingDialog mLoadingDialog;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
