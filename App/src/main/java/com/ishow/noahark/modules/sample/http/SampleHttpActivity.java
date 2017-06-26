@@ -68,8 +68,8 @@ public class SampleHttpActivity extends AppBaseActivity implements View.OnClickL
     private void testGet() {
         mLoadingDialog = LoadingDialog.show(this, mLoadingDialog);
         Http.get()
-                .url("https://soatest.cn.nuskin.com/ws/api/auth/loginWithID?password=a11111&loginid=1234567")
-                .execute(new JsonCallBack<SampleJson>() {
+                .url("http://www.qq.com/")
+                .execute(new StringCallBack() {
                     @Override
                     protected void onFailed(@NonNull HttpError error) {
                         LoadingDialog.dismiss(mLoadingDialog);
@@ -77,7 +77,7 @@ public class SampleHttpActivity extends AppBaseActivity implements View.OnClickL
                     }
 
                     @Override
-                    protected void onSuccess(SampleJson result) {
+                    protected void onSuccess(String result) {
                         LoadingDialog.dismiss(mLoadingDialog);
                         dialog(result.toString());
                     }

@@ -30,6 +30,7 @@ import com.ishow.noahark.modules.sample.permission.SamplePermissionActivity;
 import com.ishow.noahark.modules.sample.photo.select.SampleSelectPhotoActivity;
 import com.ishow.noahark.modules.sample.pickview.SamplePickerActivity;
 import com.ishow.noahark.modules.sample.recycle.SampleAnimationRecycleViewActivity;
+import com.ishow.noahark.modules.sample.webview.loading.SampleLoadingWebViewActivity;
 
 /**
  * 测试Demo
@@ -70,6 +71,9 @@ public class SampleMainActivity extends AppBaseActivity implements View.OnClickL
         // 选择弹框和滚动弹框
         view = findViewById(R.id.sample_picker_and_select);
         view.setOnClickListener(this);
+        // 顶部有加载的webview
+        view = findViewById(R.id.sample_loading_webview);
+        view.setOnClickListener(this);
     }
 
     @Override
@@ -106,6 +110,10 @@ public class SampleMainActivity extends AppBaseActivity implements View.OnClickL
                 break;
             case R.id.sample_picker_and_select:
                 intent = new Intent(this, SampleSelectDialogAndPickerDialog.class);
+                startActivity(intent);
+                break;
+            case R.id.sample_loading_webview:
+                intent = new Intent(this, SampleLoadingWebViewActivity.class);
                 startActivity(intent);
                 break;
         }

@@ -19,4 +19,6 @@
     <string name="sample_get_time">当前时间</string>
 
     <string name="sample_ani_recycle">AniRecycle</string>
+    <string name="sample_picker_and_select">选择、滚动弹框</string>
+    <string name="sample_loading_webview">LoadingWebView</string>
 </resources>

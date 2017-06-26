@@ -37,7 +37,7 @@
     <attr name="loadingText" format="string"/>
     <attr name="errorText" format="string"/>
     <attr name="errorImage" format="reference"/>
-    
+
     <attr name="itemMinHeight" format="dimension"/>
 
 
@@ -399,6 +399,7 @@
     </attr>
 
     <attr name="strokeWidth" format="dimension"/>
+    <attr name="strokeHeight" format="dimension"/>
     <attr name="strokeColor" format="color"/>
 
     <attr name="labelDistance" format="dimension"/>
@@ -759,4 +760,8 @@
         <attr name="labelGravity"/>
     </declare-styleable>
 
+    <declare-styleable name="LoadingWebView">
+        <attr name="strokeHeight"/>
+        <attr name="strokeColor"/>
+    </declare-styleable>
 </resources>
