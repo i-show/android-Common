@@ -52,6 +52,7 @@ public class EnableEditText extends AppCompatEditText {
         isEditable = editable;
     }
 
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         return isEditable && super.onTouchEvent(event);

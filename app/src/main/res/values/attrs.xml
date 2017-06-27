@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <attr name="normalColor" format="color" />
-    <attr name="focusColor" format="color" />
-
-
-    <declare-styleable name="InputEdit">
-        <attr name="tip" />
-        <attr name="hint" />
-        <attr name="normalColor" />
-        <attr name="focusColor" />
-        <attr name="android:inputType" />
-    </declare-styleable>
 
 
 </resources>

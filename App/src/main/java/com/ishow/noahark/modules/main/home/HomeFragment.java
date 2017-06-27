@@ -3,10 +3,14 @@ package com.ishow.noahark.modules.main.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.InputType;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.ishow.common.widget.edittext.EnableEditText;
 import com.ishow.noahark.R;
 import com.ishow.noahark.modules.base.AppBaseFragment;
 import com.ishow.common.utils.log.L;

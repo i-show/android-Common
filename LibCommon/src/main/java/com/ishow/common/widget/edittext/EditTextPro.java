@@ -38,13 +38,13 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.ishow.common.R;
 import com.ishow.common.utils.StringUtils;
-import com.ishow.common.utils.UnitUtils;
 import com.ishow.common.widget.imageview.PromptImageView;
 import com.ishow.common.widget.prompt.IPrompt;
 import com.ishow.common.widget.textview.PromptTextView;
@@ -99,6 +99,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
      */
     private Drawable mInputBackgroundDrawable;
     private int mInputGravity;
+    private int mInputEllipsize;
     private int mInputTextSize;
     private int mInputTextColor;
     private int mInputHintTextColor;
@@ -106,6 +107,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     private int mInputMaxLength;
     private int mInputRightMargin;
     private int mInputType;
+    private String mInputTextString;
     private String mInputHintString;
     private boolean mInputEditable;
 
@@ -183,16 +185,17 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
 
         mInputBackgroundDrawable = a.getDrawable(R.styleable.EditTextPro_inputBackground);
         mInputGravity = a.getInt(R.styleable.EditTextPro_inputGravity, Gravity.CENTER_VERTICAL);
+        mInputEllipsize = a.getInt(R.styleable.EditTextPro_inputEllipsize, -1);
         mInputTextSize = a.getDimensionPixelSize(R.styleable.EditTextPro_inputTextSize, getDefaultInputTextSize());
         mInputRightMargin = a.getDimensionPixelSize(R.styleable.EditTextPro_inputRightMargin, 0);
         mInputTextColor = a.getColor(R.styleable.EditTextPro_inputTextColor, getDefaultInputTextColor());
         mInputHintTextColor = a.getColor(R.styleable.EditTextPro_inputHintTextColor, getDefaultInputHintTextColor());
-        mInputLines = a.getInt(R.styleable.EditTextPro_inputLines, 1);
+        mInputLines = a.getInt(R.styleable.EditTextPro_inputLines, 0);
         mInputMaxLength = a.getInt(R.styleable.EditTextPro_inputTextMaxLenght, 0);
+        mInputTextString = a.getString(R.styleable.EditTextPro_inputText);
         mInputHintString = a.getString(R.styleable.EditTextPro_inputHint);
         mInputEditable = a.getBoolean(R.styleable.EditTextPro_editable, true);
-        mCancelVisibility = a.getInt(R.styleable.EditTextPro_cancelVisibility, View.INVISIBLE);
-        mInputType = a.getInt(R.styleable.EditTextPro_android_inputType, InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        mInputType = a.getInt(R.styleable.EditTextPro_inputType, InputType.TYPE_TEXT_FLAG_MULTI_LINE);
 
         mRightTextString = a.getString(R.styleable.EditTextPro_rightText);
         mRightTextSize = a.getDimensionPixelSize(R.styleable.EditTextPro_rightTextSize, getDefaultTipTextSize());
@@ -223,6 +226,8 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     }
 
     private void initNecessaryData() {
+        fixInputType();
+
         mSuggestIconWidth = getContext().getResources().getDimensionPixelSize(R.dimen.dp_40);
         mSuggestCancelWidth = getContext().getResources().getDimensionPixelSize(R.dimen.dp_30);
         mBottomLinePaint = new Paint();
@@ -485,15 +490,28 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
             mInputView.setGravity(mInputGravity);
             mInputView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mInputTextSize);
             mInputView.setTextColor(mInputTextColor);
-            mInputView.setHint(mInputHintString);
             mInputView.setHintTextColor(mInputHintTextColor);
             mInputView.setOnFocusChangeListener(this);
-            mInputView.addTextChangedListener(new InputWatcher());
-            mInputView.setInputType(mInputType);
-            mInputView.setLines(mInputLines);
+
+            if (mInputLines != 1) {
+                mInputView.setHorizontallyScrolling(false);
+            } else {
+                mInputView.setInputType(mInputType);
+            }
+
+            if (mInputLines > 0) {
+                mInputView.setLines(mInputLines);
+            }
+
             if (mInputMaxLength != 0) {
                 mInputView.setFilters(new InputFilter[]{new InputFilter.LengthFilter(mInputMaxLength)});
             }
+
+            setInputEllipsize();
+
+            mInputView.setText(mInputTextString);
+            mInputView.setHint(mInputHintString);
+            mInputView.addTextChangedListener(new InputWatcher());
             addView(mInputView);
         }
 
@@ -537,6 +555,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
             mRightTextView.setBackground(mRightTextBackgroundDrawable);
             mRightTextView.setGravity(mRightTextGravity);
             if (mRightTextPadding > 0) {
+                //noinspection SuspiciousNameCombination
                 mRightTextView.setPadding(mRightTextPadding, mRightTextPadding, mRightTextPadding, mRightTextPadding);
             }
             if (mRightTextRightDrawable != null) {
@@ -866,5 +885,31 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
             }
         }
     }
+
+
+    private void fixInputType() {
+        if ((mInputType & EditorInfo.TYPE_MASK_CLASS) == EditorInfo.TYPE_CLASS_TEXT) {
+            if (mInputLines == 1) {
+                mInputType &= ~EditorInfo.TYPE_TEXT_FLAG_MULTI_LINE;
+            } else {
+                mInputType |= EditorInfo.TYPE_TEXT_FLAG_MULTI_LINE;
+            }
+        }
+    }
+
+    private void setInputEllipsize() {
+        switch (mInputEllipsize) {
+            case 1:
+                mInputView.setEllipsize(TextUtils.TruncateAt.START);
+                break;
+            case 2:
+                mInputView.setEllipsize(TextUtils.TruncateAt.MIDDLE);
+                break;
+            case 3:
+                mInputView.setEllipsize(TextUtils.TruncateAt.END);
+                break;
+        }
+    }
+
 
 }
