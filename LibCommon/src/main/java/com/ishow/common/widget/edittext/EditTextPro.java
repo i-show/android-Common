@@ -499,6 +499,10 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
                 mInputView.setInputType(mInputType);
             }
 
+            if (!mInputEditable) {
+                mInputView.setKeyListener(null);
+            }
+
             if (mInputLines > 0) {
                 mInputView.setLines(mInputLines);
             }
