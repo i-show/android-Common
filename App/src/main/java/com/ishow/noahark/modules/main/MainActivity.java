@@ -23,29 +23,33 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ishow.common.utils.log.L;
+import com.ishow.common.widget.TopBar;
 import com.ishow.noahark.R;
 import com.ishow.noahark.modules.base.AppBaseActivity;
-import com.ishow.noahark.modules.main.home.HomeFragment;
-import com.ishow.noahark.modules.main.mine.MineFragment;
-import com.ishow.noahark.modules.main.product.ProductFragment;
-import com.ishow.noahark.modules.main.shopping.ShoppingFragment;
+import com.ishow.noahark.modules.main.tab1.Tab1Fragment;
+import com.ishow.noahark.modules.main.tab4.Tab4Fragment;
+import com.ishow.noahark.modules.main.tab2.Tab2Fragment;
+import com.ishow.noahark.modules.main.tab3.Tab3Fragment;
 import com.ishow.common.widget.BottomBar;
 import com.ishow.common.widget.YToast;
+import com.ishow.noahark.modules.settings.SettingsActivity;
 
 public class MainActivity extends AppBaseActivity implements BottomBar.OnBottomBarListener {
     private static final String TAG = "MainActivity";
 
-    public static final int TYPE_HOME = R.id.home;
-    public static final int TYPE_PROD = R.id.prod;
-    public static final int TYPE_SHIPPING = R.id.shopping;
-    public static final int TYPE_MINE = R.id.mine;
+    public static final int TAB_FIRST = R.id.tab_1;
+    public static final int TAB_SECOND = R.id.tab_2;
+    public static final int TAB_THIRD = R.id.tab_3;
+    public static final int TAB_FOURTH = R.id.tab_4;
 
 
-    private HomeFragment mHomeFragment;
-    private ProductFragment mProductFragment;
-    private ShoppingFragment mShoppingFragment;
-    private MineFragment mMineFragment;
+    private Tab1Fragment mHomeFragment;
+    private Tab2Fragment mProductFragment;
+    private Tab3Fragment mShoppingFragment;
+    private Tab4Fragment mMineFragment;
 
+    private TopBar mTopBar;
     private BottomBar mBottomBar;
     private long mLastTime;
 
@@ -54,20 +58,22 @@ public class MainActivity extends AppBaseActivity implements BottomBar.OnBottomB
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Intent intent = getIntent();
-        int type = intent.getIntExtra(KEY_TYPE, TYPE_HOME);
+        int type = intent.getIntExtra(KEY_TYPE, TAB_FIRST);
         mBottomBar.setSelectedId(type, true);
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        int type = intent.getIntExtra(KEY_TYPE, TYPE_HOME);
+        int type = intent.getIntExtra(KEY_TYPE, TAB_FIRST);
         mBottomBar.setSelectedId(type, true);
     }
 
     @Override
     protected void initViews() {
         super.initViews();
+        mTopBar = (TopBar) findViewById(R.id.top_bar);
+
         mBottomBar = (BottomBar) findViewById(R.id.bottom_bar);
         mBottomBar.setOnSelectedChangedListener(this);
     }
@@ -88,6 +94,7 @@ public class MainActivity extends AppBaseActivity implements BottomBar.OnBottomB
     @Override
     public void onSelectedChanged(ViewGroup parent, @IdRes int selectId, int index) {
         selectFragment(selectId);
+        updateTopBar(selectId);
     }
 
     @Override
@@ -95,42 +102,93 @@ public class MainActivity extends AppBaseActivity implements BottomBar.OnBottomB
 
     }
 
+    public void updateTopBar(int selectId) {
+        switch (selectId) {
+            case R.id.tab_1:
+                mTopBar.setText(R.string.tab_1);
+                mTopBar.setRightImageVisibility(View.VISIBLE);
+                mTopBar.setRightImageResource(R.drawable.ic_list);
+                break;
+            case R.id.tab_2:
+                mTopBar.setText(R.string.tab_2);
+                mTopBar.setRightImageVisibility(View.GONE);
+                break;
+            case R.id.tab_3:
+                mTopBar.setText(R.string.tab_3);
+                mTopBar.setRightImageVisibility(View.GONE);
+                break;
+            case R.id.tab_4:
+                mTopBar.setText(R.string.tab_4);
+                mTopBar.setRightImageVisibility(View.VISIBLE);
+                mTopBar.setRightImageResource(R.drawable.ic_settings);
+                break;
+        }
+    }
+
     public void selectFragment(int selectId) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         switch (selectId) {
-            case R.id.home:
+            case R.id.tab_1:
                 if (mHomeFragment == null) {
-                    mHomeFragment = HomeFragment.newInstance();
+                    mHomeFragment = Tab1Fragment.newInstance();
                 }
 
                 transaction.replace(R.id.content, mHomeFragment);
                 transaction.commitAllowingStateLoss();
 
                 break;
-            case R.id.prod:
+            case R.id.tab_2:
                 if (mProductFragment == null) {
-                    mProductFragment = ProductFragment.newInstance();
+                    mProductFragment = Tab2Fragment.newInstance();
                 }
 
                 transaction.replace(R.id.content, mProductFragment);
                 transaction.commitAllowingStateLoss();
                 break;
-            case R.id.shopping:
+            case R.id.tab_3:
                 if (mShoppingFragment == null) {
-                    mShoppingFragment = ShoppingFragment.newInstance();
+                    mShoppingFragment = Tab3Fragment.newInstance();
                 }
                 transaction.replace(R.id.content, mShoppingFragment);
                 transaction.commitAllowingStateLoss();
                 break;
-            case R.id.mine:
+            case R.id.tab_4:
                 if (mMineFragment == null) {
-                    mMineFragment = MineFragment.newInstance();
+                    mMineFragment = Tab4Fragment.newInstance();
                 }
                 transaction.replace(R.id.content, mMineFragment);
                 transaction.commitAllowingStateLoss();
                 break;
         }
+    }
+
+    @Override
+    public void onRightClick(View v) {
+        super.onRightClick(v);
+        switch (mBottomBar.getSelectedId()) {
+            case R.id.tab_1:
+                onRightClickForTab1();
+                break;
+            case R.id.tab_4:
+                onRightClickForTab4();
+                break;
+        }
+
+    }
+
+    private void onRightClickForTab1() {
+        try {
+            Intent intent = new Intent("com.yuhaiyang.androidcommon.Test");
+            startActivity(intent);
+        } catch (Exception e) {
+            L.i(TAG, "Exception = " + e);
+        }
+    }
+
+    private void onRightClickForTab4() {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
     }
 }
 

@@ -1,4 +1,4 @@
-package com.ishow.noahark.modules.main.product;
+package com.ishow.noahark.modules.main.tab3;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,15 +16,15 @@ import com.ishow.common.widget.TopBar;
  * Home Fragment
  */
 
-public class ProductFragment extends AppBaseFragment {
+public class Tab3Fragment extends AppBaseFragment {
 
     private View mRootView;
 
-    public static ProductFragment newInstance() {
+    public static Tab3Fragment newInstance() {
 
         Bundle args = new Bundle();
 
-        ProductFragment fragment = new ProductFragment();
+        Tab3Fragment fragment = new Tab3Fragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -36,12 +36,10 @@ public class ProductFragment extends AppBaseFragment {
             return mRootView;
         }
 
-        mRootView = inflater.inflate(R.layout.fragement_prod, container, false);
-        TopBar topBar = (TopBar) mRootView.findViewById(R.id.top_bar);
-        topBar.setOnTopBarListener(this);
+        mRootView = inflater.inflate(R.layout.fragement_tab_3, container, false);
 
         StatusView statusView = (StatusView) mRootView.findViewById(R.id.status_view);
-        statusView.showLoading();
+        statusView.showEmpty();
         return mRootView;
     }
 }

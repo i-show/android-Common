@@ -8,6 +8,10 @@
               android:orientation="vertical"
               tools:context=".modules.main.MainActivity">
 
+    <com.ishow.common.widget.TopBar
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <FrameLayout
         android:id="@+id/content"
@@ -23,31 +27,31 @@
         android:paddingTop="@dimen/dp_1">
 
         <com.ishow.common.widget.ImageTextView
-            android:id="@+id/home"
+            android:id="@+id/tab_1"
             style="@style/ImageTextView.BottomBar"
             app:image="@drawable/footer_home"
-            app:text="@string/home"
+            app:text="@string/tab_1"
             app:tint="@color/bottom_bar_tint"/>
 
         <com.ishow.common.widget.ImageTextView
-            android:id="@+id/prod"
+            android:id="@+id/tab_2"
             style="@style/ImageTextView.BottomBar"
             app:image="@drawable/footer_prod"
-            app:text="@string/prod"
+            app:text="@string/tab_2"
             app:tint="@color/bottom_bar_tint"/>
 
         <com.ishow.common.widget.ImageTextView
-            android:id="@+id/shopping"
+            android:id="@+id/tab_3"
             style="@style/ImageTextView.BottomBar"
             app:image="@drawable/footer_shopping"
-            app:text="@string/shopping"
+            app:text="@string/tab_3"
             app:tint="@color/bottom_bar_tint"/>
 
         <com.ishow.common.widget.ImageTextView
-            android:id="@+id/mine"
+            android:id="@+id/tab_4"
             style="@style/ImageTextView.BottomBar"
             app:image="@drawable/footer_mine"
-            app:text="@string/mine"
+            app:text="@string/tab_4"
             app:tint="@color/bottom_bar_tint"/>
 
     </com.ishow.common.widget.BottomBar>

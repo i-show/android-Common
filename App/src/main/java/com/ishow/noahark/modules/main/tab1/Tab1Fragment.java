@@ -1,5 +1,6 @@
-package com.ishow.noahark.modules.main.shopping;
+package com.ishow.noahark.modules.main.tab1;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -8,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.ishow.noahark.R;
 import com.ishow.noahark.modules.base.AppBaseFragment;
-import com.ishow.common.widget.StatusView;
+import com.ishow.common.utils.log.L;
 import com.ishow.common.widget.TopBar;
 
 /**
@@ -16,15 +17,16 @@ import com.ishow.common.widget.TopBar;
  * Home Fragment
  */
 
-public class ShoppingFragment extends AppBaseFragment {
+public class Tab1Fragment extends AppBaseFragment {
+    private static final String TAG = "Tab1Fragment";
 
     private View mRootView;
 
-    public static ShoppingFragment newInstance() {
+    public static Tab1Fragment newInstance() {
 
         Bundle args = new Bundle();
 
-        ShoppingFragment fragment = new ShoppingFragment();
+        Tab1Fragment fragment = new Tab1Fragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -36,12 +38,9 @@ public class ShoppingFragment extends AppBaseFragment {
             return mRootView;
         }
 
-        mRootView = inflater.inflate(R.layout.fragement_shopping, container, false);
-        TopBar topBar = (TopBar) mRootView.findViewById(R.id.top_bar);
-        topBar.setOnTopBarListener(this);
-
-        StatusView statusView = (StatusView) mRootView.findViewById(R.id.status_view);
-        statusView.showEmpty();
+        mRootView = inflater.inflate(R.layout.fragement_tab_1, container, false);
         return mRootView;
     }
+
+
 }

@@ -1,6 +1,5 @@
-package com.ishow.noahark.modules.main.mine;
+package com.ishow.noahark.modules.main.tab2;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -9,7 +8,6 @@ import android.view.ViewGroup;
 
 import com.ishow.noahark.R;
 import com.ishow.noahark.modules.base.AppBaseFragment;
-import com.ishow.noahark.modules.settings.SettingsActivity;
 import com.ishow.common.widget.StatusView;
 import com.ishow.common.widget.TopBar;
 
@@ -18,15 +16,15 @@ import com.ishow.common.widget.TopBar;
  * Home Fragment
  */
 
-public class MineFragment extends AppBaseFragment {
+public class Tab2Fragment extends AppBaseFragment {
 
     private View mRootView;
 
-    public static MineFragment newInstance() {
+    public static Tab2Fragment newInstance() {
 
         Bundle args = new Bundle();
 
-        MineFragment fragment = new MineFragment();
+        Tab2Fragment fragment = new Tab2Fragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -38,18 +36,10 @@ public class MineFragment extends AppBaseFragment {
             return mRootView;
         }
 
-        mRootView = inflater.inflate(R.layout.fragement_mine, container, false);
-        TopBar topBar = (TopBar) mRootView.findViewById(R.id.top_bar);
-        topBar.setOnTopBarListener(this);
+        mRootView = inflater.inflate(R.layout.fragement_tab_2, container, false);
 
         StatusView statusView = (StatusView) mRootView.findViewById(R.id.status_view);
-        statusView.showError();
+        statusView.showLoading();
         return mRootView;
-    }
-
-    @Override
-    public void onRightClick(View v) {
-        Intent intent = new Intent(getActivity(), SettingsActivity.class);
-        startActivity(intent);
     }
 }

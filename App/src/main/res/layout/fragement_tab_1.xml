@@ -6,15 +6,4 @@
               android:background="@color/windows_background"
               android:orientation="vertical">
 
-    <com.ishow.common.widget.TopBar
-        android:id="@+id/top_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:text="@string/prod"/>
-
-
-    <com.ishow.common.widget.StatusView
-        android:id="@+id/status_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
 </LinearLayout>

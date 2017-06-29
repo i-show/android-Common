@@ -6,11 +6,8 @@
               android:background="@color/windows_background"
               android:orientation="vertical">
 
-    <com.ishow.common.widget.TopBar
-        android:id="@+id/top_bar"
+    <com.ishow.common.widget.StatusView
+        android:id="@+id/status_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:rightImage="@drawable/ic_list"
-        app:text="@string/home"/>
-
+        android:layout_height="match_parent"/>
 </LinearLayout>

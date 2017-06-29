@@ -6,10 +6,10 @@
     <string name="app_name_uat">AndroidCommon(UAT)</string>
     <string name="app_name_prod">AndroidCommon</string>
 
-    <string name="home">首页</string>
-    <string name="mine">个人中心</string>
-    <string name="shopping">购物车</string>
-    <string name="prod">商品</string>
+    <string name="tab_1">TAB1</string>
+    <string name="tab_2">TAB2</string>
+    <string name="tab_3">TAB3</string>
+    <string name="tab_4">TAB4</string>
 
     <string name="login">登录</string>
     <string name="logout">登出</string>
@@ -17,6 +17,8 @@
     <string name="reset">重置</string>
 
     <string name="guide_coming">立即进入</string>
+    <string name="submit">提交</string>
+
 
     <string name="login_regist">注册账号</string>
     <string name="login_hint_passwrod">密码</string>
