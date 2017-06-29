@@ -45,6 +45,9 @@
         <!--<item name="android:divider">@color/line</item>-->
         <!-- 设置默认的高度-->
         <item name="android:actionBarSize">@dimen/top_bar_height</item>
+
+        <item name="colorControlNormal">@color/grey_deep_10</item>
+        <item name="colorControlActivated">@color/color_accent</item>
     </style>
 
     <!-- 移除状态栏和标题栏 -->

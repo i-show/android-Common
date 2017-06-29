@@ -37,14 +37,18 @@
         <com.ishow.common.widget.edittext.EditTextPro
             android:id="@+id/now_version"
             style="@style/EditTextPro.Item"
+            android:paddingEnd="@dimen/gap_grade_8"
+            android:paddingStart="@dimen/gap_grade_1"
             app:inputTextSize="@dimen/I_title"
-            app:leftImageVisibility="gone"
+            app:leftImage="@drawable/ic_version"
+            app:leftImageVisibility="visible"
             app:leftText="@string/settings_link_now_version"/>
     </LinearLayout>
 
     <Button
         android:id="@+id/logout"
         style="@style/AppButton.Submit"
+        android:layout_marginBottom="@dimen/dp_50"
         android:text="@string/logout"/>
 
 </LinearLayout>

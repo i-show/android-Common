@@ -228,6 +228,14 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     private void initNecessaryData() {
         fixInputType();
 
+        if (mInputEditable && TextUtils.isEmpty(mInputTextString)) {
+            mCancelVisibility = INVISIBLE;
+        } else if (!mInputEditable) {
+            mCancelVisibility = GONE;
+        } else {
+            mCancelVisibility = VISIBLE;
+        }
+
         mSuggestIconWidth = getContext().getResources().getDimensionPixelSize(R.dimen.dp_40);
         mSuggestCancelWidth = getContext().getResources().getDimensionPixelSize(R.dimen.dp_30);
         mBottomLinePaint = new Paint();

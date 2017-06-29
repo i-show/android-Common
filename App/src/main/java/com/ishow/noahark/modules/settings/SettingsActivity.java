@@ -72,7 +72,7 @@ public class SettingsActivity extends AppBaseActivity implements
 
     @Override
     public void onSecretClick(View v, int count) {
-        if (count == 8) {
+        if (count == 5) {
             Intent intent = new Intent(this, EggActivity.class);
             startActivity(intent);
         }
