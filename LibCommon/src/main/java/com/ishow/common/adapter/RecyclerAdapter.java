@@ -75,7 +75,7 @@ public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holde
         if (data != null) {
             boolean canAni = mData.isEmpty();
             mData = data;
-            notifyItemRangeChanged(0, mData.size());
+            notifyDataSetChanged();
             if (canAni) animation();
         } else if (force) {
             final int size = mData.size();
