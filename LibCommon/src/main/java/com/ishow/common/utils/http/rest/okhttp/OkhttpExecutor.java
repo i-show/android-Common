@@ -33,6 +33,7 @@ import com.ishow.common.utils.http.rest.okhttp.cookie.OkCookiesManager;
 import com.ishow.common.utils.http.rest.request.Request;
 import com.ishow.common.utils.http.rest.MultiBody;
 import com.ishow.common.utils.http.rest.response.Response;
+import com.ishow.common.utils.log.L;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,6 +54,7 @@ import okhttp3.RequestBody;
  * Okhttp的请求
  */
 public class OkhttpExecutor extends Executor {
+    private static final String TAG = "OkhttpExecutor";
     private OkHttpClient mOkHttpClient;
     private OkCookiesManager mCookiesManager;
 
@@ -106,16 +108,20 @@ public class OkhttpExecutor extends Executor {
 
     @Override
     public void cancle(@NonNull Object tag) {
-        for (Call call : mOkHttpClient.dispatcher().queuedCalls()) {
-            if (tag.equals(call.request().tag())) {
-                call.cancel();
+        try {
+            for (Call call : mOkHttpClient.dispatcher().queuedCalls()) {
+                if (tag.equals(call.request().tag())) {
+                    call.cancel();
+                }
             }
-        }
 
-        for (Call call : mOkHttpClient.dispatcher().runningCalls()) {
-            if (tag.equals(call.request().tag())) {
-                call.cancel();
+            for (Call call : mOkHttpClient.dispatcher().runningCalls()) {
+                if (tag.equals(call.request().tag())) {
+                    call.cancel();
+                }
             }
+        } catch (Exception e) {
+            L.i(TAG, "cancle " + e.toString());
         }
     }
 

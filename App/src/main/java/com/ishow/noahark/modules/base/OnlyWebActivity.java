@@ -16,20 +16,83 @@
 
 package com.ishow.noahark.modules.base;
 
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
+import com.ishow.common.utils.WebViewUtils;
+import com.ishow.common.utils.log.L;
+import com.ishow.common.widget.TopBar;
+import com.ishow.common.widget.YToast;
+import com.ishow.noahark.BuildConfig;
 import com.ishow.noahark.R;
 
 /**
  * Created by Bright.Yu on 2016/8/9.
  */
 public class OnlyWebActivity extends AppBaseActivity {
+    private static final String TAG = "OnlyWebActivity";
+    public static final String KEY_TITLE = "key_title";
+    public static final String KEY_CONTENT = "key_content";
+
+    private String mTitleString;
+    private String mUrl;
+    private WebView mWebView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_only_web);
-        WebView web = (WebView) findViewById(R.id.web);
-        web.loadUrl("http://ulivetest.ahgxtx.com:8070/weixin/cctv5Live?channelType=CCTV&channelNameMapping=CCTV5HD&openId=o_uqQuNUXF0qr6pXKMkF8R7s9Pdg");
+    }
+
+
+    @Override
+    protected void initNecessaryData() {
+        super.initNecessaryData();
+        Intent intent = getIntent();
+        mTitleString = intent.getStringExtra(KEY_TITLE);
+        mUrl = intent.getStringExtra(KEY_CONTENT);
+        if (BuildConfig.DEBUG) L.i(TAG, "initNecessaryData: mUrl = " + mUrl);
+    }
+
+    @Override
+    protected void initViews() {
+        super.initViews();
+        TopBar topBar = (TopBar) findViewById(R.id.top_bar);
+        topBar.setOnTopBarListener(this);
+        topBar.setText(mTitleString);
+
+        mWebView = (WebView) findViewById(R.id.web);
+        WebViewUtils.init(this, mWebView);
+        //‘ÿ»Îjs
+        mWebView.loadUrl(mUrl);
+        //‘ÿ»Îjs
+        mWebView.setWebViewClient(new WebClient());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+
+    private class WebClient extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
+            view.loadUrl(url);
+            return true;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (mWebView != null && mWebView.canGoBack()) {
+            mWebView.goBack();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
