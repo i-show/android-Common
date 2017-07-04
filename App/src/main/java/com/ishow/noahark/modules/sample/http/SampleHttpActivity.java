@@ -79,7 +79,7 @@ public class SampleHttpActivity extends AppBaseActivity implements View.OnClickL
                     @Override
                     protected void onSuccess(String result) {
                         LoadingDialog.dismiss(mLoadingDialog);
-                        dialog(result.toString());
+                        dialog(result);
                     }
                 });
     }

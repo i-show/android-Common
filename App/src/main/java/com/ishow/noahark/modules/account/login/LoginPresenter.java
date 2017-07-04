@@ -85,10 +85,6 @@ class LoginPresenter implements UserManager.LoginCallBack, LoginContract.Present
         clear(context);
     }
 
-    @Override
-    public void stop(Context context) {
-
-    }
 
     private void clear(Context context) {
         SharedPreferencesUtils.remove(context, User.Key.AUTO_LOGIN);

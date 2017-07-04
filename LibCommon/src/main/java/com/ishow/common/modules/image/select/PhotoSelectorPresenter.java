@@ -100,10 +100,6 @@ class PhotoSelectorPresenter implements PhotoSelectorContract.Presenter, LoaderM
         mLoaderManager.initLoader(0, null, this);
     }
 
-    @Override
-    public void stop(Context context) {
-
-    }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {

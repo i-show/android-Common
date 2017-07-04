@@ -38,6 +38,10 @@ interface LoginContract {
     }
 
     interface Presenter extends BasePresenter {
+        /**
+         * start
+         */
+        void start(Context context);
 
         void login(Context context, String name, String password);
     }

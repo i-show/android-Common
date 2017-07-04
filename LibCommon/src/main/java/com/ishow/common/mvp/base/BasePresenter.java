@@ -16,18 +16,7 @@
 
 package com.ishow.common.mvp.base;
 
-import android.content.Context;
-
 public interface BasePresenter {
 
-    /**
-     * start
-     */
-    void start(Context context);
-
-    /**
-     * stop
-     */
-    void stop(Context context);
 
 }

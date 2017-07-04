@@ -16,6 +16,8 @@
 
 package com.ishow.common.modules.image.select;
 
+import android.content.Context;
+
 import com.ishow.common.entries.Folder;
 import com.ishow.common.entries.Photo;
 import com.ishow.common.mvp.base.BasePresenter;
@@ -44,6 +46,6 @@ class PhotoSelectorContract {
      * Presenter
      */
     interface Presenter extends BasePresenter {
-
+        void start(Context context);
     }
 }

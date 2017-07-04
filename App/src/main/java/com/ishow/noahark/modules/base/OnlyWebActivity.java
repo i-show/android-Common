@@ -66,9 +66,9 @@ public class OnlyWebActivity extends AppBaseActivity {
 
         mWebView = (WebView) findViewById(R.id.web);
         WebViewUtils.init(this, mWebView);
-        //‘ÿ»Îjs
+        //ËΩΩÂÖ•js
         mWebView.loadUrl(mUrl);
-        //‘ÿ»Îjs
+        //ËΩΩÂÖ•js
         mWebView.setWebViewClient(new WebClient());
     }
 

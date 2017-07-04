@@ -43,7 +43,7 @@
         <com.ishow.common.widget.ImageTextView
             android:id="@+id/tab_3"
             style="@style/ImageTextView.BottomBar"
-            app:image="@drawable/footer_shopping"
+            app:image="@drawable/ic_footer_shopping_normal"
             app:text="@string/tab_3"
             app:tint="@color/bottom_bar_tint"/>
 

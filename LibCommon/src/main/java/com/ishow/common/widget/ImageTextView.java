@@ -247,7 +247,6 @@ public class ImageTextView extends View implements IPrompt {
         mPromptTextPaint.setTextSize(mPromptTextSize);
         mPromptTextPaint.setColor(mPromptTextColor);
 
-
         mPromptBackgroundPaint = new Paint();
         mPromptBackgroundPaint.setAntiAlias(true);
         mPromptBackgroundPaint.setDither(true);

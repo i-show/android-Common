@@ -99,13 +99,4 @@ class RegisterPresenter implements RegisterContract.Presenter {
         }, 3000);
     }
 
-    @Override
-    public void start(Context context) {
-
-    }
-
-    @Override
-    public void stop(Context context) {
-
-    }
 }

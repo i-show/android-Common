@@ -51,7 +51,13 @@ public class ImageLoaderParams {
         return mContext;
     }
 
+    @Deprecated
     public ImageLoaderParams url(@NonNull String url) {
+        mUrl = url;
+        return this;
+    }
+
+    public ImageLoaderParams load(@NonNull String url) {
         mUrl = url;
         return this;
     }
