@@ -175,6 +175,16 @@
         <item name="dialogButtonBackgrounds">@style/BaseDialog.Button.Backgrounds.SelecPhoto</item>
     </style>
 
+    <!-- 从底部弹出的仿IOS风格的Dialog -->
+    <style name="AppDialog.Bottom.IOS.NoTitle">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:listDivider">@color/line</item>
+        <item name="dialogLayouts">@style/BaseDialog.Bottom.IOS.Layout.NoTitle</item>
+        <!--Settings the Dialog Title-->
+        <item name="android:listPreferredItemHeightSmall">@dimen/dp_55</item>
+        <item name="dialogTitleStyle">@style/BaseDialog.Title.SelectPhoto</item>
+        <item name="dialogButtonBackgrounds">@style/BaseDialog.Button.Backgrounds.SelecPhoto</item>
+    </style>
 
     <style name="AppDialog.DateTimePicker" parent="@style/Theme.AppCompat.Dialog">
         <item name="android:windowFrame">@null</item>

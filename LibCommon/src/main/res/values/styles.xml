@@ -75,6 +75,13 @@
         <item name="dialogListItem">@layout/dialog_bottom_ios_item</item>
     </style>
 
+    <!-- 从底部弹出的 仿IOS风格 的布局文件-->
+    <style name="BaseDialog.Bottom.IOS.Layout.NoTitle">
+        <item name="dialogMainLayout">@layout/dialog_bottom_ios_notitle</item>
+        <item name="dialogListLayout">@layout/dialog_bottom_ios_listview</item>
+        <item name="dialogListItem">@layout/dialog_bottom_ios_item</item>
+    </style>
+
     <style name="BaseDialog.Title">
         <item name="android:maxLines">1</item>
         <item name="android:scrollHorizontally">true</item>
@@ -146,7 +153,6 @@
         <item name="middleBackground">@drawable/top_line_white_bg</item>
         <item name="wholeBackground">@drawable/top_line_white_bg</item>
     </style>
-
 
 
     <style name="TextAppearance">
