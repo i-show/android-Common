@@ -6,6 +6,8 @@ import android.os.Handler;
 import com.ishow.common.app.activity.BaseActivity;
 import com.ishow.noahark.AppApplication;
 
+import butterknife.ButterKnife;
+
 
 /**
  * 备用
@@ -17,12 +19,14 @@ public abstract class AppBaseActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        resetStatusBar();
     }
 
-    protected void resetStatusBar() {
-        // TODO
+    @Override
+    protected void initNecessaryData() {
+        super.initNecessaryData();
+        ButterKnife.bind(this);
     }
+
 
     protected AppApplication getAppApplication() {
         return (AppApplication) getApplication();
@@ -47,8 +51,6 @@ public abstract class AppBaseActivity extends BaseActivity {
     protected boolean needShowUpdateVersionDialog() {
         return true;
     }
-
-
 
 
 }

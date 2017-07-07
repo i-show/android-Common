@@ -43,11 +43,10 @@ public class MainActivity extends AppBaseActivity implements BottomBar.OnBottomB
     public static final int TAB_THIRD = R.id.tab_3;
     public static final int TAB_FOURTH = R.id.tab_4;
 
-
-    private Tab1Fragment mHomeFragment;
-    private Tab2Fragment mProductFragment;
-    private Tab3Fragment mShoppingFragment;
-    private Tab4Fragment mMineFragment;
+    private Tab1Fragment mTab1Fragment;
+    private Tab2Fragment mTab2Fragment;
+    private Tab3Fragment mTab3Fragment;
+    private Tab4Fragment mTab4Fragment;
 
     private TopBar mTopBar;
     private BottomBar mBottomBar;
@@ -130,34 +129,34 @@ public class MainActivity extends AppBaseActivity implements BottomBar.OnBottomB
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         switch (selectId) {
             case R.id.tab_1:
-                if (mHomeFragment == null) {
-                    mHomeFragment = Tab1Fragment.newInstance();
+                if (mTab1Fragment == null) {
+                    mTab1Fragment = Tab1Fragment.newInstance();
                 }
 
-                transaction.replace(R.id.content, mHomeFragment);
+                transaction.replace(R.id.content, mTab1Fragment);
                 transaction.commitAllowingStateLoss();
 
                 break;
             case R.id.tab_2:
-                if (mProductFragment == null) {
-                    mProductFragment = Tab2Fragment.newInstance();
+                if (mTab2Fragment == null) {
+                    mTab2Fragment = Tab2Fragment.newInstance();
                 }
 
-                transaction.replace(R.id.content, mProductFragment);
+                transaction.replace(R.id.content, mTab2Fragment);
                 transaction.commitAllowingStateLoss();
                 break;
             case R.id.tab_3:
-                if (mShoppingFragment == null) {
-                    mShoppingFragment = Tab3Fragment.newInstance();
+                if (mTab3Fragment == null) {
+                    mTab3Fragment = Tab3Fragment.newInstance();
                 }
-                transaction.replace(R.id.content, mShoppingFragment);
+                transaction.replace(R.id.content, mTab3Fragment);
                 transaction.commitAllowingStateLoss();
                 break;
             case R.id.tab_4:
-                if (mMineFragment == null) {
-                    mMineFragment = Tab4Fragment.newInstance();
+                if (mTab4Fragment == null) {
+                    mTab4Fragment = Tab4Fragment.newInstance();
                 }
-                transaction.replace(R.id.content, mMineFragment);
+                transaction.replace(R.id.content, mTab4Fragment);
                 transaction.commitAllowingStateLoss();
                 break;
         }

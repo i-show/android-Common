@@ -27,6 +27,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.ishow.common.R;
+import com.ishow.common.utils.DeviceUtils;
 import com.ishow.common.utils.ScreenUtils;
 import com.bumptech.glide.Glide;
 import com.ishow.common.widget.spinkit.SpinKitView;
@@ -88,8 +89,12 @@ public class LoadingDialog extends Dialog {
     public void show() {
         super.show();
         Window window = getWindow();
+        if (window == null) {
+            return;
+        }
+        
         WindowManager.LayoutParams lp = window.getAttributes();
-        final int screen[] = ScreenUtils.getScreenSize();
+        final int screen[] = DeviceUtils.getScreenSize();
         lp.width = screen[0];
         lp.height = screen[1];
 

@@ -229,10 +229,14 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     // 基础库
     compile project(':LibCommon')
-    // 检测内存泄露的库
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
-    sitCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-    uatCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    // 注解库
+    compile 'com.jakewharton:butterknife:8.6.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
+
+    //RX
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    // Because RxAndroid releases are few and far between, it is recommended you also
+    // explicitly depend on RxJava's latest version for bug fixes and new features.
+    compile 'io.reactivex.rxjava2:rxjava:2.1.0'
 }
 

@@ -38,9 +38,21 @@ import com.ishow.noahark.modules.main.MainActivity;
  * 登录界面
  */
 public class LoginActivity extends BaseActivity implements LoginContract.View, View.OnClickListener {
+    /**
+     * 是不是只关闭
+     */
+    public static final String KEY_ONLY_FINISH = "key_login_only_finish";
+    /**
+     * 是不是去首页
+     */
+    public static final String KEY_GOTO_MAIN = "key_go_to_main";
+
     private LoginContract.Presenter mPresenter;
     private EditTextPro mEditAccount;
     private EditTextPro mEditPassword;
+
+    private boolean isOnlyFinish;
+    private boolean isGoToMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +61,20 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
 
         mPresenter = new LoginPresenter(this);
         mPresenter.start(this);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        isOnlyFinish = intent.getBooleanExtra(KEY_ONLY_FINISH, false);
+        isGoToMain = intent.getBooleanExtra(KEY_GOTO_MAIN, false);
+    }
+
+    @Override
+    protected void initNecessaryData() {
+        super.initNecessaryData();
+        isOnlyFinish = getIntent().getBooleanExtra(KEY_ONLY_FINISH, false);
+        isGoToMain = getIntent().getBooleanExtra(KEY_GOTO_MAIN, false);
     }
 
     @Override
@@ -68,6 +94,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
         View forgotPassword = findViewById(R.id.forget_password);
         forgotPassword.setOnClickListener(this);
     }
+
 
     @Override
     public void onClick(View v) {
@@ -99,11 +126,12 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
 
     @Override
     public void showSuccess(String message) {
-        // 这个地方不需要 finish
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-
+        if (!isOnlyFinish) {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+        finish();
         SharedPreferencesUtils.save(this, User.Key.AUTO_LOGIN, true);
     }
 
@@ -112,6 +140,18 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
     protected void onDestroy() {
         super.onDestroy();
         mEditAccount.removeInputWatcher(mTextWatcher);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isGoToMain) {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            super.onBackPressed();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     private TextWatcher mTextWatcher = new TextWatcher() {
