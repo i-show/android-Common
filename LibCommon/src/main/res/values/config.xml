@@ -23,4 +23,6 @@
     <dimen name="dialog_top_bar_height">@dimen/dp_46</dimen>
     <dimen name="top_bar_title_text_size">@dimen/G_title</dimen>
     <dimen name="top_bar_sub_title_text_size">@dimen/K_title</dimen>
+
+    <dimen name="item_height">@dimen/dp_50</dimen>
 </resources>

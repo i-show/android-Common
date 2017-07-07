@@ -143,7 +143,7 @@
         <item name="android:windowBackground">@drawable/top_line_white_bg</item>
         <item name="android:listDivider">@color/line</item>
         <!--Settings the Dialog Title-->
-        <item name="android:listPreferredItemHeightSmall">@dimen/dp_55</item>
+        <item name="android:listPreferredItemHeightSmall">@dimen/item_height</item>
         <item name="dialogTitleStyle">@style/BaseDialog.Title.Bottom</item>
         <item name="android:windowAnimationStyle">@style/Animation.Windows.Bottom</item>
         <item name="dialogButtonBackgrounds">@style/BaseDialog.Button.Backgrounds.Bottom</item>
@@ -159,7 +159,7 @@
         <item name="android:windowAnimationStyle">@style/Animation.Windows.Bottom</item>
         <item name="android:listDivider">@color/line</item>
         <!--Settings the Dialog Title-->
-        <item name="android:listPreferredItemHeightSmall">@dimen/dp_55</item>
+        <item name="android:listPreferredItemHeightSmall">@dimen/item_height</item>
         <item name="dialogTitleStyle">@style/BaseDialog.Title.Bottom</item>
         <item name="dialogButtonBackgrounds">@style/BaseDialog.Button.Backgrounds.Bottom</item>
     </style>
@@ -170,7 +170,7 @@
         <item name="android:listDivider">@color/line</item>
         <item name="dialogLayouts">@style/BaseDialog.Bottom.IOS.Layout</item>
         <!--Settings the Dialog Title-->
-        <item name="android:listPreferredItemHeightSmall">@dimen/dp_55</item>
+        <item name="android:listPreferredItemHeightSmall">@dimen/item_height</item>
         <item name="dialogTitleStyle">@style/BaseDialog.Title.SelectPhoto</item>
         <item name="dialogButtonBackgrounds">@style/BaseDialog.Button.Backgrounds.SelecPhoto</item>
     </style>
@@ -181,7 +181,7 @@
         <item name="android:listDivider">@color/line</item>
         <item name="dialogLayouts">@style/BaseDialog.Bottom.IOS.Layout.NoTitle</item>
         <!--Settings the Dialog Title-->
-        <item name="android:listPreferredItemHeightSmall">@dimen/dp_55</item>
+        <item name="android:listPreferredItemHeightSmall">@dimen/item_height</item>
         <item name="dialogTitleStyle">@style/BaseDialog.Title.SelectPhoto</item>
         <item name="dialogButtonBackgrounds">@style/BaseDialog.Button.Backgrounds.SelecPhoto</item>
     </style>

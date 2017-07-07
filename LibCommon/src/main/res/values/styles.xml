@@ -121,7 +121,7 @@
         <item name="android:layout_weight">1</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:singleLine">true</item>
-        <item name="android:minHeight">@dimen/dp_45</item>
+        <item name="android:minHeight">@dimen/item_height</item>
         <item name="android:textSize">@dimen/H_title</item>
         <item name="android:textColor">@color/blue_400</item>
     </style>
