@@ -92,7 +92,7 @@ public class LoadingDialog extends Dialog {
         if (window == null) {
             return;
         }
-        
+
         WindowManager.LayoutParams lp = window.getAttributes();
         final int screen[] = DeviceUtils.getScreenSize();
         lp.width = screen[0];

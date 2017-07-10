@@ -72,6 +72,30 @@ tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }
 
+ext {
+    // 如果 在Project中没有配置，则使用Lib里面配置的
+    //noinspection GroovyUnusedCatchParameter
+    try {
+        GLIDE_VERSION = GLIDE_VERSION
+    } catch (Exception e) {
+        GLIDE_VERSION = GLIDE_VERSION_COMMON
+    }
+
+    //noinspection GroovyUnusedCatchParameter
+    try {
+        OKHTTP_VERSION = OKHTTP_VERSION
+    } catch (Exception e) {
+        OKHTTP_VERSION = OKHTTP_VERSION_COMMON
+    }
+
+    //noinspection GroovyUnusedCatchParameter
+    try {
+        FAST_JSON_VERSION = FAST_JSON_VERSION
+    } catch (Exception e) {
+        FAST_JSON_VERSION = FAST_JSON_VERSION_COMMON
+    }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
