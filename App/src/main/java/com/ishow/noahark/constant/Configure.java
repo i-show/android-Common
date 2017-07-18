@@ -7,5 +7,5 @@ public class Configure {
     /**
      * Splash 显示时间
      */
-    public static final int SPLASH_TIME = 3000;
+    public static final int SPLASH_TIME = 1000;
 }
