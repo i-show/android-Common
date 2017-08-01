@@ -16,16 +16,19 @@
 
 package com.ishow.common.utils.image.loader.glide;
 
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
-import com.bumptech.glide.DrawableTypeRequest;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
-import com.ishow.common.R;
-import com.ishow.common.utils.glide.transform.GlideCircleTransform;
 import com.ishow.common.utils.image.loader.IImageLoaderExecutor;
 import com.ishow.common.utils.image.loader.ImageLoader;
 import com.ishow.common.utils.image.loader.ImageLoaderParams;
@@ -38,58 +41,63 @@ public class GlideImageLoaderExecutor implements IImageLoaderExecutor {
     @Override
     public void display(@NonNull ImageLoaderParams params, @NonNull ImageView view) {
         params.checkValid();
-
-        DrawableTypeRequest<String> request = Glide.with(params.getContext())
+        // 请求
+        RequestBuilder<Drawable> builder = Glide.with(params.getContext())
                 .load(params.getUrl());
 
+
+        // 参数配置
+        RequestOptions options = new RequestOptions();
+
         // 配置特殊加载
-        setPlan(request, params);
-        // 加载监听
-        setListener(request, params);
+        setPlan(options, params);
+        // setListener
+        setListener(builder, params);
 
         // 设置加载的占位
         if (params.getPlaceholderDrawable() != null) {
-            request.placeholder(params.getPlaceholderDrawable());
+            options.placeholder(params.getPlaceholderDrawable());
         } else if (params.getPlaceholderRes() > 0) {
-            request.placeholder(params.getPlaceholderRes());
+            options.placeholder(params.getPlaceholderRes());
         }
 
         // 设置加载失败时候的显示
         if (params.getErrorDrawable() != null) {
-            request.error(params.getErrorDrawable());
+            options.error(params.getErrorDrawable());
         } else if (params.getErrorRes() > 0) {
-            request.error(params.getErrorRes());
+            options.error(params.getErrorRes());
         }
 
         // 设置加载的模式
         switch (params.getMode()) {
             case ImageLoader.LoaderMode.CENTER_CROP:
-                request.centerCrop();
+                options.centerCrop();
                 break;
             case ImageLoader.LoaderMode.FIT_CENTER:
-                request.fitCenter();
+                options.fitCenter();
+                break;
+            case ImageLoader.LoaderMode.CENTER_INSIDE:
+                options.centerInside();
+                break;
+            case ImageLoader.LoaderMode.NONE:
                 break;
         }
 
-
-        request.crossFade();
-        request.into(view);
+        builder.apply(options)
+                .into(view);
     }
 
 
     /**
      * 目的是有些特殊加载可以通过设置一个plan来特殊处理
      */
-    private void setPlan(DrawableTypeRequest<String> request, final ImageLoaderParams params) {
+    private void setPlan(RequestOptions options, final ImageLoaderParams params) {
         switch (params.getPlan()) {
             case ImageLoader.Plan.NORMAL:
-                request.centerCrop();
-                request.crossFade();
-                request.placeholder(R.drawable.no_picture);
+                options.centerInside();
                 break;
             case ImageLoader.Plan.CIRCLE:
-                request.bitmapTransform(new GlideCircleTransform(params.getContext()));
-                request.crossFade();
+                options.circleCrop();
                 break;
         }
     }
@@ -98,22 +106,21 @@ public class GlideImageLoaderExecutor implements IImageLoaderExecutor {
     /**
      * 设置回调监听
      */
-    private void setListener(DrawableTypeRequest<String> request, final ImageLoaderParams params) {
+    private void setListener(RequestBuilder<Drawable> builder, final ImageLoaderParams params) {
         if (params.getImageLoaderListener() == null) {
             return;
         }
 
-        request.listener(new RequestListener<String, GlideDrawable>() {
-
+        builder.listener(new RequestListener<Drawable>() {
             @Override
-            public boolean onException(Exception e, String s, Target<GlideDrawable> target, boolean b) {
+            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                 params.getImageLoaderListener().onFailed();
                 return false;
             }
 
             @Override
-            public boolean onResourceReady(GlideDrawable glideDrawable, String s, Target<GlideDrawable> target, boolean b, boolean b1) {
-                params.getImageLoaderListener().onSuccess(glideDrawable);
+            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                params.getImageLoaderListener().onSuccess(resource);
                 return false;
             }
         });

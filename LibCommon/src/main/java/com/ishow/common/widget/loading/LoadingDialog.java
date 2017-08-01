@@ -24,13 +24,9 @@ import android.support.annotation.NonNull;
 import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
 
 import com.ishow.common.R;
 import com.ishow.common.utils.DeviceUtils;
-import com.ishow.common.utils.ScreenUtils;
-import com.bumptech.glide.Glide;
-import com.ishow.common.widget.spinkit.SpinKitView;
 
 
 public class LoadingDialog extends Dialog {

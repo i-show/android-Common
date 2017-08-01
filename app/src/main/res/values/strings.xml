@@ -51,6 +51,9 @@
 
     <string name="settings">设置</string>
     <string name="settings_link_now_version">当前版本:</string>
+    <string name="not_notify">不再提醒</string>
+    <string name="version_update_title">版本升级</string>
+    <string name="update">升级</string>
 
 
 </resources>

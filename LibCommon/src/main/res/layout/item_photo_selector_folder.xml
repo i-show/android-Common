@@ -15,14 +15,14 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="?selectableItemBackground"
-    android:descendantFocusability="blocksDescendants"
-    android:gravity="center"
-    android:orientation="horizontal"
-    android:padding="@dimen/dp_10">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="?selectableItemBackground"
+              android:descendantFocusability="blocksDescendants"
+              android:gravity="center"
+              android:orientation="horizontal"
+              android:padding="@dimen/dp_10">
 
     <ImageView
         android:id="@+id/cover"
@@ -31,7 +31,7 @@
         android:layout_gravity="center_vertical"
         android:contentDescription="@null"
         android:scaleType="center"
-        android:src="@drawable/no_picture" />
+        android:src="@drawable/no_picture"/>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/text_grey_dark_normal"
             android:textSize="@dimen/H_title"
-            tools:text="img" />
+            tools:text="img"/>
 
         <TextView
             android:id="@+id/size"
@@ -55,19 +55,19 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/gap_grade_2"
             android:ellipsize="end"
-            android:singleLine="true"
+            android:lines="1"
             android:textColor="@color/text_grey_light_normal"
             android:textSize="@dimen/J_title"
-            tools:text="1张" />
+            tools:text="1张"/>
 
     </LinearLayout>
 
     <RadioButton
         android:id="@+id/state"
-        android:layout_width="@dimen/dp_25"
-        android:layout_height="@dimen/dp_25"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30"
         android:layout_margin="@dimen/gap_grade_3"
         android:clickable="false"
-        android:text="@null" />
+        android:text="@null"/>
 
 </LinearLayout>

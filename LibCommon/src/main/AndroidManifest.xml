@@ -45,9 +45,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.NoActionBar.Fullscreen"/>
 
-        <meta-data
-            android:name="com.ishow.common.utils.glide.GlideConfiguration"
-            android:value="GlideModule"/>
     </application>
 
 </manifest>

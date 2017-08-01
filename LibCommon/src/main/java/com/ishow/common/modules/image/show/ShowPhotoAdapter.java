@@ -16,9 +16,8 @@
 
 package com.ishow.common.modules.image.show;
 
-import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v4.view.PagerAdapter;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -30,14 +29,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.ishow.common.R;
-import com.ishow.common.utils.ScreenUtils;
-import com.bumptech.glide.DrawableRequestBuilder;
-import com.bumptech.glide.DrawableTypeRequest;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.animation.ViewPropertyAnimation;
-import com.bumptech.glide.request.target.Target;
+import com.ishow.common.utils.DeviceUtils;
+import com.ishow.common.utils.image.loader.IImageLoaderListerner;
+import com.ishow.common.utils.image.loader.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +62,7 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
     /**
      * 加载动画
      */
-    private GlideAnimation mLoadAnimation;
+    //private GlideAnimation mLoadAnimation;
     /**
      * 当前的Dialog
      */
@@ -109,8 +103,8 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
         if (mBeforeView != null) {
             int width = mBeforeView.getWidth();
             int height = mBeforeView.getHeight();
-            final int[] screen = ScreenUtils.getScreenSize(mContext);
-            mLoadAnimation = new GlideAnimation(width, height);
+            final int[] screen = DeviceUtils.getScreenSize();
+            //mLoadAnimation = new GlideAnimation(width, height);
             mThumbLayoutParams.width = width;
             mThumbLayoutParams.height = height;
 
@@ -135,7 +129,7 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         final String url = mUrls.get(position);
-        View root = mLayoutInflater.inflate(R.layout.item_show_photo, null);
+        View root = mLayoutInflater.inflate(R.layout.item_show_photo, container, false);
         final PhotoView imageHD = (PhotoView) root.findViewById(R.id.image);
         imageHD.setOnViewTapListener(this);
 
@@ -154,7 +148,7 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
         if (isShowThumb) {
             progress.setVisibility(View.VISIBLE);
             imageThumb.setVisibility(View.VISIBLE);
-            Glide.with(mContext)
+            ImageLoader.with(mContext)
                     .load(url)
                     .into(imageThumb);
         } else {
@@ -162,33 +156,23 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
             imageThumb.setVisibility(View.GONE);
         }
 
-        DrawableTypeRequest<String> request = Glide.with(mContext)
-                .load(url);
 
-        DrawableRequestBuilder<String> bulider;
+        ImageLoader.with(mContext)
+                .load(url)
+                .listener(new IImageLoaderListerner() {
+                    @Override
+                    public void onFailed() {
+                        imageThumb.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+                        imageThumb.setEnabled(true);
+                        progress.setVisibility(View.GONE);
+                    }
 
-        if (mLoadAnimation == null) {
-            bulider = request.crossFade();
-        } else {
-            bulider = request.animate(mLoadAnimation);
-        }
-
-        bulider.listener(new RequestListener<String, GlideDrawable>() {
-            @Override
-            public boolean onException(Exception e, String s, Target<GlideDrawable> target, boolean b) {
-                imageThumb.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-                imageThumb.setEnabled(true);
-                progress.setVisibility(View.GONE);
-                return false;
-            }
-
-            @Override
-            public boolean onResourceReady(GlideDrawable glideDrawable, String s, Target<GlideDrawable> target, boolean b, boolean b1) {
-                imageThumb.setVisibility(View.GONE);
-                progress.setVisibility(View.GONE);
-                return false;
-            }
-        })
+                    @Override
+                    public void onSuccess(Drawable drawable) {
+                        imageThumb.setVisibility(View.GONE);
+                        progress.setVisibility(View.GONE);
+                    }
+                })
                 .into(imageHD);
 
         container.addView(root);
@@ -209,24 +193,24 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
     }
 
 
-    private class GlideAnimation implements ViewPropertyAnimation.Animator {
-        private int mWidth;
-        private int mHeight;
-
-        public GlideAnimation(int width, int height) {
-            mWidth = width;
-            mHeight = height;
-        }
-
-        @Override
-        public void animate(View view) {
-            float width = view.getWidth();
-            float height = view.getHeight();
-            float startX = Math.min(mWidth / width + 0.2f, 1f);
-            float startY = Math.min(mHeight / height + 0.2f, 1f);
-            PropertyValuesHolder pvh1 = PropertyValuesHolder.ofFloat("scaleX", startX, 1f);
-            PropertyValuesHolder pvh2 = PropertyValuesHolder.ofFloat("scaleY", startY, 1f);
-            ObjectAnimator.ofPropertyValuesHolder(view, pvh1, pvh2).setDuration(500).start();
-        }
-    }
+//    private class GlideAnimation implements ViewPropertyAnimation.Animator {
+//        private int mWidth;
+//        private int mHeight;
+//
+//        public GlideAnimation(int width, int height) {
+//            mWidth = width;
+//            mHeight = height;
+//        }
+//
+//        @Override
+//        public void animate(View view) {
+//            float width = view.getWidth();
+//            float height = view.getHeight();
+//            float startX = Math.min(mWidth / width + 0.2f, 1f);
+//            float startY = Math.min(mHeight / height + 0.2f, 1f);
+//            PropertyValuesHolder pvh1 = PropertyValuesHolder.ofFloat("scaleX", startX, 1f);
+//            PropertyValuesHolder pvh2 = PropertyValuesHolder.ofFloat("scaleY", startY, 1f);
+//            ObjectAnimator.ofPropertyValuesHolder(view, pvh1, pvh2).setDuration(500).start();
+//        }
+//    }
 }

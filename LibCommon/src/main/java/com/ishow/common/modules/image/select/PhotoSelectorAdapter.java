@@ -26,9 +26,9 @@ import android.widget.ImageView;
 import com.ishow.common.R;
 import com.ishow.common.adapter.RecyclerAdapter;
 import com.ishow.common.entries.Photo;
-import com.ishow.common.widget.YToast;
 import com.ishow.common.modules.image.show.ShowPhotoDialog;
-import com.bumptech.glide.Glide;
+import com.ishow.common.utils.image.loader.ImageLoader;
+import com.ishow.common.widget.YToast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,10 +70,9 @@ class PhotoSelectorAdapter extends RecyclerAdapter<Photo, PhotoSelectorAdapter.V
     public void onBindViewHolder(ViewHolder holder, int position, int type) {
         Photo entry = getItem(position);
 
-        Glide.with(mContext)
-                .load(entry.getPath())
-                .crossFade()
-                .centerCrop()
+        ImageLoader.with(mContext)
+                .load(entry.path)
+                .mode(ImageLoader.LoaderMode.CENTER_CROP)
                 .into(holder.photo);
 
         holder.getItemView().setTag(entry);

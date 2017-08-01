@@ -26,8 +26,7 @@ import android.widget.TextView;
 import com.ishow.common.R;
 import com.ishow.common.adapter.ListAdapter;
 import com.ishow.common.entries.Folder;
-import com.bumptech.glide.Glide;
-
+import com.ishow.common.utils.image.loader.ImageLoader;
 
 /**
  * 文件夹Adapter
@@ -35,14 +34,14 @@ import com.bumptech.glide.Glide;
  */
 class FolderSelectorAdapter extends ListAdapter<Folder, FolderSelectorAdapter.ViewHolder> {
 
-    public FolderSelectorAdapter(Context context) {
+    FolderSelectorAdapter(Context context) {
         super(context);
     }
 
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
-        View view = mLayoutInflater.inflate(R.layout.item_photo_selector_folder, null);
+        View view = mLayoutInflater.inflate(R.layout.item_photo_selector_folder, parent, false);
         return new ViewHolder(view, type);
     }
 
@@ -52,12 +51,12 @@ class FolderSelectorAdapter extends ListAdapter<Folder, FolderSelectorAdapter.Vi
         Folder entry = getItem(position);
         holder.name.setText(entry.name);
         holder.size.setText(mContext.getString(R.string.link_sheet, entry.photoList.size()));
-        // 显示图片
-        Glide.with(mContext)
+
+
+        ImageLoader.with(mContext)
                 .load(entry.cover.path)
                 .placeholder(R.drawable.no_picture)
-                .centerCrop()
-                .crossFade()
+                .mode(ImageLoader.LoaderMode.CENTER_CROP)
                 .into(holder.cover);
 
         holder.state.setChecked(entry.isSelected);

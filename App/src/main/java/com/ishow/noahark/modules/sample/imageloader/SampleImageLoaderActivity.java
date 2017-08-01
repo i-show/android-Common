@@ -22,8 +22,9 @@ public class SampleImageLoaderActivity extends AppBaseActivity {
     protected void initViews() {
         super.initViews();
         ImageView imageView = (ImageView) findViewById(R.id.test1);
+        
         ImageLoader.with(this)
-                .url(Test.HEADER_LIST[1])
+                .load(Test.HEADER_LIST[1])
                 .into(imageView);
     }
 }

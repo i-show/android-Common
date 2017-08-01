@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 The yuhaiyang Android Source Project
+ * Copyright (C) 2017. The yuhaiyang Android Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,28 +18,37 @@ package com.ishow.common.utils.glide;
 
 import android.content.Context;
 
-import com.ishow.common.R;
-import com.ishow.common.utils.glide.okhttp.OkHttpUrlLoader;
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
+import com.bumptech.glide.Registry;
+import com.bumptech.glide.annotation.GlideModule;
+import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader;
+import com.bumptech.glide.load.engine.cache.ExternalCacheDiskCacheFactory;
 import com.bumptech.glide.load.model.GlideUrl;
-import com.bumptech.glide.module.GlideModule;
+import com.bumptech.glide.module.AppGlideModule;
 import com.bumptech.glide.request.target.ViewTarget;
+import com.ishow.common.R;
 
 import java.io.InputStream;
 
 /**
  * Glide 加载配置文件
  */
-public class GlideConfiguration implements GlideModule {
+@GlideModule
+@SuppressWarnings("unused")
+public class GlideConfiguration extends AppGlideModule {
     @Override
     public void applyOptions(Context context, GlideBuilder builder) {
         ViewTarget.setTagId(R.id.tag_glide);
+        builder.setDiskCache(new ExternalCacheDiskCacheFactory(context));
     }
 
     @Override
-    public void registerComponents(Context context, Glide glide) {
-        // 设置OKHttp为默认引擎
-        glide.register(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory());
+    public void registerComponents(Context context, Registry registry) {
+        registry.replace(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory());
+    }
+
+    @Override
+    public boolean isManifestParsingEnabled() {
+        return false;
     }
 }

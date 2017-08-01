@@ -20,8 +20,11 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
 import com.ishow.common.utils.AppUtils;
 import com.ishow.common.utils.SharedPreferencesUtils;
+import com.ishow.common.utils.log.L;
+import com.ishow.noahark.entries.Version;
 
 import java.lang.ref.WeakReference;
 
@@ -34,21 +37,25 @@ public class VersionManager {
     /**
      * 这个东西使用后可以被回收
      */
-    private static WeakReference<VersionManager> sIntance;
-
-    private Context mContext;
+    private volatile static WeakReference<VersionManager> sIntance;
+    /**
+     * 是否是第一次进入当前版本
+     */
     private static boolean isFirstEnterThisVerison;
+    /**
+     * 从服务器中获取到的版本信息
+     */
+    private Version mVersion;
 
-    private VersionManager(Context context) {
-        mContext = context;
+    private VersionManager() {
     }
 
-    public static VersionManager getInstance(Context context) {
+    public static VersionManager getInstance() {
 
         if (sIntance == null || sIntance.get() == null) {
             synchronized (VersionManager.class) {
                 if (sIntance == null || sIntance.get() == null) {
-                    VersionManager manager = new VersionManager(context.getApplicationContext());
+                    VersionManager manager = new VersionManager();
                     sIntance = new WeakReference<>(manager);
                 }
             }
@@ -58,6 +65,7 @@ public class VersionManager {
     }
 
     public static void init(Context context) {
+        clear(context.getApplicationContext());
         isFirstEnterThisVerison = checkIsFirstEnterThisVerison(context.getApplicationContext());
     }
 
@@ -85,5 +93,73 @@ public class VersionManager {
         // 如果当前版本比保存的版本大，说明APP更新了
         // 版本名称不相等且版本code比上一个版本大 才进行走ViewPager
         return (!TextUtils.equals(versionName, _versionName) && _versionCode > versionCode);
+    }
+
+
+    public boolean hasNewVersion(Context context) {
+        boolean ignore = SharedPreferencesUtils.get(context, Version.Key.IGNORE_NOW, false);
+        if (ignore) {
+            Log.i(TAG, "hasNewVersion: already ignore");
+            return false;
+        }
+
+        // 获取当前版本号
+        Version version = getVersion(context);
+        if (version == null) {
+            Log.i(TAG, "hasNewVersion: version is null");
+            return false;
+        }
+
+        // 如果当前要升级的版本 比忽略的版本还要低就不进行升级
+        Version ignoreVersion = getIgnoreVersion(context);
+        if (ignoreVersion != null && ignoreVersion.versionCode >= version.versionCode) {
+            Log.i(TAG, "hasNewVersion: ignore this verison");
+            return false;
+        }
+
+        final int _versionCode = AppUtils.getVersionCode(context);
+        return version.versionCode > _versionCode;
+    }
+
+    public Version getVersion(Context context) {
+        if (mVersion == null) {
+            String cache = SharedPreferencesUtils.get(context, Version.Key.CACHE, null);
+            makeVersion(cache);
+        }
+        return mVersion;
+    }
+
+
+    private Version getIgnoreVersion(Context context) {
+        String cache = SharedPreferencesUtils.get(context, Version.Key.IGNORE_VERSION, null);
+        if (TextUtils.isEmpty(cache)) {
+            return null;
+        } else {
+            return JSON.parseObject(cache, Version.class);
+        }
+    }
+
+    private void makeVersion(String versionJson) {
+        if (TextUtils.isEmpty(versionJson)) {
+            L.i(TAG, "makeVersion: version is empty");
+            return;
+        }
+        mVersion = JSON.parseObject(versionJson, Version.class);
+    }
+
+    /**
+     * 清除缓存
+     */
+    private static void clear(Context context) {
+        SharedPreferencesUtils.remove(context, Version.Key.CACHE);
+        SharedPreferencesUtils.remove(context, Version.Key.IGNORE_NOW);
+    }
+
+    /**
+     * 获取版本信息
+     */
+    private void getVersionFromServer(Context context){
+
+
     }
 }

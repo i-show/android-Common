@@ -32,7 +32,6 @@ import android.widget.TextView;
 
 import com.ishow.common.R;
 import com.ishow.common.utils.AnimatorUtils;
-import com.bumptech.glide.Glide;
 import com.ishow.common.widget.spinkit.SpinKitView;
 
 /**

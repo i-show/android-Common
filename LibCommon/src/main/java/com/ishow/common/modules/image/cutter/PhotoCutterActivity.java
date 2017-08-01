@@ -24,11 +24,11 @@ import android.view.View;
 import com.ishow.common.R;
 import com.ishow.common.app.activity.BaseActivity;
 import com.ishow.common.utils.image.ImageUtils;
+import com.ishow.common.utils.image.loader.ImageLoader;
 import com.ishow.common.utils.image.select.SelectPhotoUtils;
-import com.ishow.common.widget.imageview.CropImageView;
 import com.ishow.common.widget.TopBar;
+import com.ishow.common.widget.imageview.CropImageView;
 import com.ishow.common.widget.loading.LoadingDialog;
-import com.bumptech.glide.Glide;
 
 /**
  * 图片剪切界面
@@ -60,10 +60,11 @@ public class PhotoCutterActivity extends BaseActivity {
         setContentView(R.layout.activity_crop_image);
         Intent intent = getIntent();
         String path = intent.getStringExtra(KEY_PATH);
-        Glide.with(this)
+
+        ImageLoader.with(this)
                 .load(path)
-                .asBitmap()
                 .into(mCropView);
+
 
         int x = intent.getIntExtra(KEY_RATIO_X, 1);
         int y = intent.getIntExtra(KEY_RATIO_Y, 1);

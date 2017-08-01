@@ -34,7 +34,7 @@ public class ImageLoader {
 
 
     @SuppressWarnings("WeakerAccess")
-    @IntDef({LoaderMode.NONE, LoaderMode.FIT_CENTER, LoaderMode.CENTER_CROP})
+    @IntDef({LoaderMode.NONE, LoaderMode.FIT_CENTER, LoaderMode.CENTER_CROP, LoaderMode.CENTER_INSIDE})
     @Retention(RetentionPolicy.SOURCE)
     public @interface LoaderMode {
         /**
@@ -49,6 +49,10 @@ public class ImageLoader {
          * 剪切
          */
         int CENTER_CROP = 2;
+        /**
+         * CENTER
+         */
+        int CENTER_INSIDE = 3;
     }
 
     @SuppressWarnings("WeakerAccess")

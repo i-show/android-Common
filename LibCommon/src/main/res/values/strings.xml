@@ -20,7 +20,7 @@
     <string name="back">返回</string>
     <string name="complete">完成</string>
     <string name="link_complete" formatted="false">完成(%d/%d)</string>
-    <string name="link_sheet">%s张</string>
+    <string name="link_sheet">%d张</string>
     <string name="go_settings">好,去设置</string>
     <string name="re_obtain">重新获取</string>
 

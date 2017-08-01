@@ -23,8 +23,8 @@ import android.widget.ImageView;
 
 import com.ishow.common.adapter.RecyclerAdapter;
 import com.ishow.common.modules.image.show.ShowPhotoDialog;
+import com.ishow.common.utils.image.loader.ImageLoader;
 import com.ishow.noahark.R;
-import com.bumptech.glide.Glide;
 
 /**
  * Created by Bright.Yu on 2017/1/16.
@@ -47,11 +47,13 @@ class SampleSelectPhotoAdapter extends RecyclerAdapter<String, SampleSelectPhoto
     public void onBindViewHolder(ViewHolder holder, int position, int type) {
         String path = getItem(position);
         holder.photo.setTag(path);
-        Glide.with(mContext)
+       
+        ImageLoader.with(mContext)
                 .load(path)
                 .placeholder(R.drawable.no_picture)
-                .centerCrop()
+                .mode(ImageLoader.LoaderMode.CENTER_CROP)
                 .into(holder.photo);
+
     }
 
     class ViewHolder extends RecyclerAdapter.Holder implements View.OnClickListener {

@@ -108,6 +108,9 @@
         <item name="dialogButtonStyle">@style/BaseDialog.Button</item>
         <!--Button 背景图片-->
         <item name="dialogButtonBackgrounds">@style/BaseDialog.Button.Backgrounds</item>
+
+        <item name="colorControlNormal">@color/color_accent</item>
+        <item name="colorControlActivated">@color/color_accent</item>
     </style>
 
     <!-- 透明Dialog -->

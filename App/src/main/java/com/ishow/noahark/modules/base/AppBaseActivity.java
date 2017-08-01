@@ -1,10 +1,13 @@
 package com.ishow.noahark.modules.base;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
 
 import com.ishow.common.app.activity.BaseActivity;
 import com.ishow.noahark.AppApplication;
+import com.ishow.noahark.manager.VersionManager;
+import com.ishow.noahark.ui.widget.dialog.VersionDialog;
 
 import butterknife.ButterKnife;
 
@@ -14,7 +17,11 @@ import butterknife.ButterKnife;
  */
 public abstract class AppBaseActivity extends BaseActivity {
     private static final String TAG = "AppBaseActivity";
-    protected Handler mHandler;
+
+    /**
+     * 检测升级的Dialog
+     */
+    private Dialog mVersionDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +44,21 @@ public abstract class AppBaseActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
+        if (needShowUpdateVersionDialog() && VersionManager.getInstance().hasNewVersion(this)) {
+            showVersionDialog();
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+    }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dismissVersionDialog();
     }
 
     /**
@@ -50,6 +66,29 @@ public abstract class AppBaseActivity extends BaseActivity {
      */
     protected boolean needShowUpdateVersionDialog() {
         return true;
+    }
+
+    /**
+     * 显示升级Dialog
+     */
+    private void showVersionDialog() {
+        if (mVersionDialog == null) {
+            mVersionDialog = new VersionDialog(this);
+        }
+
+        if (!mVersionDialog.isShowing()) {
+            mVersionDialog.show();
+        }
+    }
+
+    /**
+     * 隐藏升级的Dialog
+     */
+    private void dismissVersionDialog() {
+        if (mVersionDialog != null && mVersionDialog.isShowing()) {
+            mVersionDialog.dismiss();
+        }
+        mVersionDialog = null;
     }
 
 
