@@ -25,7 +25,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
@@ -44,7 +43,6 @@ public class GlideImageLoaderExecutor implements IImageLoaderExecutor {
         // 请求
         RequestBuilder<Drawable> builder = Glide.with(params.getContext())
                 .load(params.getUrl());
-
 
         // 参数配置
         RequestOptions options = new RequestOptions();
@@ -78,6 +76,9 @@ public class GlideImageLoaderExecutor implements IImageLoaderExecutor {
                 break;
             case ImageLoader.LoaderMode.CENTER_INSIDE:
                 options.centerInside();
+                break;
+            case ImageLoader.LoaderMode.CIRCLE_CROP:
+                options.circleCrop();
                 break;
             case ImageLoader.LoaderMode.NONE:
                 break;

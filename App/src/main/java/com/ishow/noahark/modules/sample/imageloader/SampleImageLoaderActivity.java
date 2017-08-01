@@ -22,9 +22,16 @@ public class SampleImageLoaderActivity extends AppBaseActivity {
     protected void initViews() {
         super.initViews();
         ImageView imageView = (ImageView) findViewById(R.id.test1);
-        
+
         ImageLoader.with(this)
-                .load(Test.HEADER_LIST[1])
+                .load("http://www.yuhaiyang.net/picture/1.webp")
+                .into(imageView);
+
+        imageView = (ImageView) findViewById(R.id.test2);
+
+        ImageLoader.with(this)
+                .load("http://www.yuhaiyang.net/picture/1.webp")
+                .mode(ImageLoader.LoaderMode.CIRCLE_CROP)
                 .into(imageView);
     }
 }
