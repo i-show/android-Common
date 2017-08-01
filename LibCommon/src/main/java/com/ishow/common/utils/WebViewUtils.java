@@ -25,26 +25,30 @@ public class WebViewUtils {
     private static final String DB_CACHE_PATH = "webview";
 
     public static void init(Context context, WebView webview) {
+        init(context, webview, true);
+    }
+
+    public static void init(Context context, WebView webview, boolean fitWindow) {
         final String databasePath = context.getDatabasePath(DB_CACHE_PATH).getPath();
         final String cachePath = context.getExternalCacheDir().getPath();
 
         WebSettings settings = webview.getSettings();
         // 自适应屏幕大小
-        settings.setUseWideViewPort(true);
-        settings.setLoadWithOverviewMode(true);
+        settings.setUseWideViewPort(fitWindow);
+        settings.setLoadWithOverviewMode(fitWindow);
 
         // WebView 可以加载JavaScript
         settings.setJavaScriptEnabled(true);
         //支持js
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         //设置编码
-        //mWebView.getSettings().setDefaultTextEncodingName("utf-8");
+        settings.setDefaultTextEncodingName("utf-8");
 
         // 提高加载WebView的优先级
         settings.setRenderPriority(WebSettings.RenderPriority.HIGH);
 
         // 放大缩小
-        settings.setDomStorageEnabled(true);
+        settings.setDomStorageEnabled(fitWindow);
 
         // WebView 可以使用数据库
         settings.setDatabaseEnabled(true);
@@ -55,11 +59,11 @@ public class WebViewUtils {
         //settings.setAppCachePath(cachePath);
 
         // 设置可以支持缩放
-        settings.setSupportZoom(true);
+        settings.setSupportZoom(fitWindow);
         // 设置出现缩放工具
-        settings.setBuiltInZoomControls(true);
+        settings.setBuiltInZoomControls(fitWindow);
         // 为图片添加放大缩小功能
-        settings.setUseWideViewPort(true);
+        settings.setUseWideViewPort(fitWindow);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
