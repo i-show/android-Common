@@ -95,7 +95,7 @@ public class GlideImageLoaderExecutor implements IImageLoaderExecutor {
     private void setPlan(RequestOptions options, final ImageLoaderParams params) {
         switch (params.getPlan()) {
             case ImageLoader.Plan.NORMAL:
-                options.centerInside();
+                // TODO
                 break;
             case ImageLoader.Plan.CIRCLE:
                 options.circleCrop();
