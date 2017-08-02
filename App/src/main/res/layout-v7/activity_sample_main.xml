@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <com.ishow.common.widget.TopBar
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftImage="@drawable/ic_back_white"
+        app:text="@string/sample_main"/>
+
+
+    <com.ishow.common.widget.flowlayout.FlowLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:flowMode="wrap">
+
+        <!--Prompt 提示-->
+        <TextView
+            android:id="@+id/sample_prompt"
+            style="@style/AppTextView.Sample"
+            android:text="@string/sample_prompt"/>
+
+        <!--PickerView选择器-->
+        <TextView
+            android:id="@+id/sample_pick_view"
+            style="@style/AppTextView.Sample"
+            android:text="@string/sample_pick_view"/>
+
+        <!--图片选择-->
+        <TextView
+            android:id="@+id/sample_select_photo"
+            style="@style/AppTextView.Sample"
+            android:text="@string/sample_select_photo"/>
+
+        <!--权限获取-->
+        <TextView
+            android:id="@+id/sample_select_permission"
+            style="@style/AppTextView.Sample"
+            android:text="@string/sample_permission"/>
+
+        <!--EditTextPro-->
+        <TextView
+            android:id="@+id/sample_select_edittextpro"
+            style="@style/AppTextView.Sample"
+            android:text="@string/sample_edittextpro"/>
+
+        <!--Http-->
+        <TextView
+            android:id="@+id/sample_select_http"
+            style="@style/AppTextView.Sample"
+            android:text="@string/sample_http"/>
+
+        <!--Imageloader-->
+        <TextView
+            android:id="@+id/sample_select_imageloader"
+            style="@style/AppTextView.Sample"
+            android:text="@string/sample_imageloader"/>
+
+        <!--Imageloader-->
+        <TextView
+            android:id="@+id/sample_ani_recycle"
+            style="@style/AppTextView.Sample"
+            android:text="@string/sample_ani_recycle"/>
+
+        <!--Dialog选择弹框和滚动弹框-->
+        <TextView
+            android:id="@+id/sample_picker_and_select"
+            style="@style/AppTextView.Sample"
+            android:text="@string/sample_picker_and_select"/>
+
+        <!--Dialog选择弹框和滚动弹框-->
+        <TextView
+            android:id="@+id/sample_loading_webview"
+            style="@style/AppTextView.Sample"
+            android:text="@string/sample_loading_webview"/>
+
+    </com.ishow.common.widget.flowlayout.FlowLayout>
+
+</LinearLayout>
