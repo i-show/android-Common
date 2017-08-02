@@ -17,16 +17,23 @@
 package com.ishow.noahark.manager;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.ishow.common.utils.AppUtils;
 import com.ishow.common.utils.SharedPreferencesUtils;
+import com.ishow.common.utils.http.rest.Http;
+import com.ishow.common.utils.http.rest.HttpError;
 import com.ishow.common.utils.log.L;
+import com.ishow.noahark.BuildConfig;
 import com.ishow.noahark.entries.Version;
+import com.ishow.noahark.utils.http.AppHttpCallBack;
 
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 版本管理器
@@ -64,9 +71,10 @@ public class VersionManager {
         return sIntance.get();
     }
 
-    public static void init(Context context) {
+    public void init(Context context) {
         clear(context.getApplicationContext());
         isFirstEnterThisVerison = checkIsFirstEnterThisVerison(context.getApplicationContext());
+        getVersionFromServer(context.getApplicationContext());
     }
 
     public static boolean isFirstEnterThisVerison() {
@@ -158,8 +166,25 @@ public class VersionManager {
     /**
      * 获取版本信息
      */
-    private void getVersionFromServer(Context context){
+    private void getVersionFromServer(final Context context) {
+        Version version = new Version();
+        version.versionCode = BuildConfig.VERSION_CODE;
+        version.versionName = BuildConfig.VERSION_NAME;
 
+        Http.post()
+                .url("http://10.0.2.55:8080/version/getVersion")
+                .params(JSON.toJSONString(version))
+                .execute(new AppHttpCallBack<String>() {
+                    @Override
+                    protected void onFailed(@NonNull HttpError error) {
 
+                    }
+
+                    @Override
+                    protected void onSuccess(String result) {
+                        SharedPreferencesUtils.save(context, Version.Key.CACHE, result);
+                        makeVersion(result);
+                    }
+                });
     }
 }

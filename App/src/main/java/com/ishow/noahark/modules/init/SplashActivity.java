@@ -50,7 +50,7 @@ public class SplashActivity extends AppBaseActivity {
      */
     private void init() {
         // 更新版本信息
-        VersionManager.init(this);
+        VersionManager.getInstance().init(this);
     }
 
     /**

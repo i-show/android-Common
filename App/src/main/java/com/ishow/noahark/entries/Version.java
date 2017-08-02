@@ -26,11 +26,16 @@ import com.alibaba.fastjson.annotation.JSONField;
  */
 @SuppressWarnings("WeakerAccess,unused")
 public class Version {
+
+    public Version() {
+        deviceType = Key.DEVICE_TYPE_ANDROID;
+    }
+
     public String id;
+    public int deviceType;
     /**
      * 状态
      */
-
     public int status;
     /**
      * 版本编号
@@ -78,6 +83,8 @@ public class Version {
     }
 
     public static final class Key {
+
+        public static final int DEVICE_TYPE_ANDROID = 101;
         /**
          * 已经是最新版本
          */

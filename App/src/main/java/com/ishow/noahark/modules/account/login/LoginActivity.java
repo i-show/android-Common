@@ -31,13 +31,14 @@ import com.ishow.noahark.R;
 import com.ishow.noahark.entries.User;
 import com.ishow.noahark.modules.account.password.forgot.ForgotPasswordActivity;
 import com.ishow.noahark.modules.account.register.RegisterActivity;
+import com.ishow.noahark.modules.base.AppBaseActivity;
 import com.ishow.noahark.modules.main.MainActivity;
 
 
 /**
  * 登录界面
  */
-public class LoginActivity extends BaseActivity implements LoginContract.View, View.OnClickListener {
+public class LoginActivity extends AppBaseActivity implements LoginContract.View, View.OnClickListener {
     /**
      * 是不是只关闭
      */

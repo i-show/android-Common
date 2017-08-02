@@ -50,6 +50,7 @@ public class VersionDialog extends Dialog implements View.OnClickListener {
 
     public VersionDialog(@NonNull Context context) {
         super(context, R.style.AppDialog_Transparent);
+        setCancelable(false);
     }
 
     @Override
@@ -82,10 +83,14 @@ public class VersionDialog extends Dialog implements View.OnClickListener {
 
         if (version.isForceUpdate()) {
             mCancelView.setVisibility(View.GONE);
+            mIgnore.setVisibility(View.GONE);
             mSubmitView.setBackgroundResource(R.drawable.white_alpha_0_9_5_corner_bottom_16dp_bg);
         } else {
+            mIgnore.setVisibility(View.VISIBLE);
+            mCancelView.setVisibility(View.VISIBLE);
             mCancelView.setBackgroundResource(R.drawable.white_alpha_0_9_5_corner_bottom_left_16dp_bg);
             mSubmitView.setBackgroundResource(R.drawable.white_alpha_0_9_5_corner_bottom_right_16dp_bg);
+
         }
 
     }
@@ -123,6 +128,8 @@ public class VersionDialog extends Dialog implements View.OnClickListener {
      * 忽略当前版本
      */
     private void ignoreVersion() {
+        SharedPreferencesUtils.save(getContext(), Version.Key.IGNORE_NOW, true);
+
         if (!mIgnore.isChecked()) {
             return;
         }
