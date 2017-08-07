@@ -64,6 +64,10 @@ public class SelectDialog<T extends IUnitSelect> extends Dialog implements
         mAdapter.setData(data);
     }
 
+    public List<T> getData() {
+        return mAdapter.getData();
+    }
+
     @Override
     public void show() {
         super.show();
