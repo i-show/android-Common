@@ -40,7 +40,7 @@ public abstract class FlowAdapter<DATA, HOLDER extends FlowAdapter.Holder> {
 
     private List<DATA> mData;
     private Context mContext;
-    private LayoutInflater mLayoutInflater;
+    protected LayoutInflater mLayoutInflater;
 
     public FlowAdapter(Context context) {
         mData = new ArrayList<>();
@@ -74,6 +74,10 @@ public abstract class FlowAdapter<DATA, HOLDER extends FlowAdapter.Holder> {
      */
     public List<DATA> getData() {
         return mData;
+    }
+
+    public Context getContext() {
+        return mContext;
     }
 
     /**

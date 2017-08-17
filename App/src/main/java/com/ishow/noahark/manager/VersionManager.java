@@ -182,6 +182,11 @@ public class VersionManager {
 
                     @Override
                     protected void onSuccess(String result) {
+                        String cache = SharedPreferencesUtils.get(context, Version.Key.CACHE, null);
+                        if (!TextUtils.equals(cache, result)) {
+                            SharedPreferencesUtils.remove(context, Version.Key.IGNORE_VERSION);
+                        }
+
                         SharedPreferencesUtils.save(context, Version.Key.CACHE, result);
                         makeVersion(result);
                     }

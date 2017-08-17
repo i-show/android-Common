@@ -16,9 +16,12 @@
 
 package com.ishow.common.utils.image.loader.glide;
 
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -37,11 +40,23 @@ import com.ishow.common.utils.image.loader.ImageLoaderParams;
  * Glide 加载图片
  */
 public class GlideImageLoaderExecutor implements IImageLoaderExecutor {
+    private static final String TAG = "GlideImageLoaderExecuto";
+
     @Override
     public void display(@NonNull ImageLoaderParams params, @NonNull ImageView view) {
+        Context context = params.getContext();
+        if (context == null) {
+            Log.i(TAG, "display: context is null");
+            return;
+        }
+        if (context instanceof Activity && ((Activity) context).isFinishing()) {
+            Log.i(TAG, "display: activity is");
+            return;
+        }
+
         params.checkValid();
         // 请求
-        RequestBuilder<Drawable> builder = Glide.with(params.getContext())
+        RequestBuilder<Drawable> builder = Glide.with(context)
                 .load(params.getUrl());
 
         // 参数配置

@@ -21,6 +21,7 @@ import android.content.res.TypedArray;
 import android.database.DataSetObserver;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -308,6 +309,7 @@ public class FlowLayout extends ViewGroup {
         @Override
         public void onChanged() {
             super.onChanged();
+            Log.i(TAG, "onChanged: onchanged");
         }
     }
 }

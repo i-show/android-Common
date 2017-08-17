@@ -24,6 +24,7 @@ import com.ishow.noahark.R;
 import com.ishow.noahark.modules.base.AppBaseActivity;
 import com.ishow.noahark.modules.sample.dialog.select.SampleSelectDialogAndPickerDialog;
 import com.ishow.noahark.modules.sample.edittextpro.SampleEditTextProActivity;
+import com.ishow.noahark.modules.sample.flowlayout.SampleFlowLayoutActivity;
 import com.ishow.noahark.modules.sample.http.SampleHttpActivity;
 import com.ishow.noahark.modules.sample.imageloader.SampleImageLoaderActivity;
 import com.ishow.noahark.modules.sample.permission.SamplePermissionActivity;
@@ -74,6 +75,9 @@ public class SampleMainActivity extends AppBaseActivity implements View.OnClickL
         // 顶部有加载的webview
         view = findViewById(R.id.sample_loading_webview);
         view.setOnClickListener(this);
+        // flow_layout
+        view = findViewById(R.id.sample_flow_layout);
+        view.setOnClickListener(this);
     }
 
     @Override
@@ -114,6 +118,10 @@ public class SampleMainActivity extends AppBaseActivity implements View.OnClickL
                 break;
             case R.id.sample_loading_webview:
                 intent = new Intent(this, SampleLoadingWebViewActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.sample_flow_layout:
+                intent = new Intent(this, SampleFlowLayoutActivity.class);
                 startActivity(intent);
                 break;
         }
