@@ -191,6 +191,9 @@
 -keep class okio.**{*;}
 -keep interface okio.**{*;}
 
+-dontwarn okio.**
+-dontwarn javax.annotation.Nullable
+-dontwarn javax.annotation.ParametersAreNonnullByDefault
 # # -------------------------------------------
 # #  ######## FastJson ##########
 # # -------------------------------------------

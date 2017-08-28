@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ishow.common.widget.recycle;
+package com.ishow.common.widget.recyclerview;
 
 import android.content.Context;
 import android.content.res.TypedArray;

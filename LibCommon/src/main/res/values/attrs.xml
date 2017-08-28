@@ -468,8 +468,9 @@
     </attr>
 
     <attr name="promptMode">
-        <enum name="text" value="0"/>
-        <enum name="graph" value="1"/>
+        <enum name="none" value="0"/>
+        <enum name="text" value="1"/>
+        <enum name="graph" value="2"/>
     </attr>
 
     <attr name="promptBackground" format="color|reference"/>
@@ -766,7 +767,6 @@
 
         <attr name="widthPaddingScale"/>
         <attr name="heightPaddingScale"/>
-
     </declare-styleable>
 
     <declare-styleable name="PromptImageView">

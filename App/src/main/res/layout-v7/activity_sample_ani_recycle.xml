@@ -27,7 +27,7 @@
         app:leftImage="@drawable/ic_back_white"
         app:text="@string/sample_ani_recycle"/>
 
-    <com.ishow.common.widget.recycle.AnimationRecyclerView
+    <com.ishow.common.widget.recyclerview.AnimationRecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
