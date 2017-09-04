@@ -31,12 +31,12 @@ import android.view.View;
 /**
  * @author zhy
  */
-public class DividerGridItemDecoration extends RecyclerView.ItemDecoration {
+public class GridDividerItemDecoration extends RecyclerView.ItemDecoration {
 
     private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
     private Drawable mDivider;
 
-    public DividerGridItemDecoration(Context context) {
+    public GridDividerItemDecoration(Context context) {
         final TypedArray a = context.obtainStyledAttributes(ATTRS);
         mDivider = a.getDrawable(0);
         a.recycle();
@@ -61,7 +61,7 @@ public class DividerGridItemDecoration extends RecyclerView.ItemDecoration {
         return spanCount;
     }
 
-    public void drawHorizontal(Canvas c, RecyclerView parent) {
+    private void drawHorizontal(Canvas c, RecyclerView parent) {
         int childCount = parent.getChildCount();
         for (int i = 0; i < childCount; i++) {
             final View child = parent.getChildAt(i);
@@ -75,7 +75,7 @@ public class DividerGridItemDecoration extends RecyclerView.ItemDecoration {
         }
     }
 
-    public void drawVertical(Canvas c, RecyclerView parent) {
+    private void drawVertical(Canvas c, RecyclerView parent) {
         final int childCount = parent.getChildCount();
         for (int i = 0; i < childCount; i++) {
             final View child = parent.getChildAt(i);

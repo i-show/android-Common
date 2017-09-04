@@ -14,41 +14,41 @@
  * limitations under the License.
  */
 
-package com.ishow.noahark.modules.sample.recycle;
+package com.ishow.noahark.modules.sample.recycle.decoration;
 
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.Button;
 
+import com.ishow.common.widget.recyclerview.itemdecoration.LinearSpacingItemDecoration;
 import com.ishow.noahark.R;
 import com.ishow.noahark.modules.base.AppBaseActivity;
 import com.ishow.noahark.modules.sample.Test;
 
 /**
  * Created by yuhaiyang on 2017/6/2.
- * Sample 进入的带动画
+ * Sample ItemDecoration
  */
 
-public class SampleAnimationRecycleViewActivity extends AppBaseActivity {
-    private AnimationRecycleAdapter mAdapter;
+public class SampleRecycleItemDecorationActivity extends AppBaseActivity {
+    private ItemDecorationAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sample_ani_recycle);
+        setContentView(R.layout.activity_sample_recycle_item_decoration);
         mAdapter.setData(Test.getPhotosList(50));
     }
 
     @Override
     protected void initViews() {
         super.initViews();
-        mAdapter = new AnimationRecycleAdapter(this);
+        mAdapter = new ItemDecorationAdapter(this);
 
         RecyclerView list = (RecyclerView) findViewById(R.id.list);
-        list.setLayoutManager(new GridLayoutManager(this, 2));
+        list.setLayoutManager(new LinearLayoutManager(this));
+        list.addItemDecoration(new LinearSpacingItemDecoration(this, R.dimen.gap_grade_2));
         list.setAdapter(mAdapter);
     }
 }

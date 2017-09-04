@@ -30,7 +30,8 @@ import com.ishow.noahark.modules.sample.imageloader.SampleImageLoaderActivity;
 import com.ishow.noahark.modules.sample.permission.SamplePermissionActivity;
 import com.ishow.noahark.modules.sample.photo.select.SampleSelectPhotoActivity;
 import com.ishow.noahark.modules.sample.pickview.SamplePickerActivity;
-import com.ishow.noahark.modules.sample.recycle.SampleAnimationRecycleViewActivity;
+import com.ishow.noahark.modules.sample.recycle.animation.SampleAnimationRecycleViewActivity;
+import com.ishow.noahark.modules.sample.recycle.decoration.SampleRecycleItemDecorationActivity;
 import com.ishow.noahark.modules.sample.webview.loading.SampleLoadingWebViewActivity;
 
 /**
@@ -69,6 +70,9 @@ public class SampleMainActivity extends AppBaseActivity implements View.OnClickL
         // 动画RecycleView
         view = findViewById(R.id.sample_ani_recycle);
         view.setOnClickListener(this);
+        view = findViewById(R.id.sample_recycle_item_decoration);
+        view.setOnClickListener(this);
+
         // 选择弹框和滚动弹框
         view = findViewById(R.id.sample_picker_and_select);
         view.setOnClickListener(this);
@@ -110,6 +114,10 @@ public class SampleMainActivity extends AppBaseActivity implements View.OnClickL
                 break;
             case R.id.sample_ani_recycle:
                 intent = new Intent(this, SampleAnimationRecycleViewActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.sample_recycle_item_decoration:
+                intent = new Intent(this, SampleRecycleItemDecorationActivity.class);
                 startActivity(intent);
                 break;
             case R.id.sample_picker_and_select:

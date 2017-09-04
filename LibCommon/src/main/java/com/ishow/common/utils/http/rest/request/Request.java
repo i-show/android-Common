@@ -29,7 +29,6 @@ import com.ishow.common.utils.http.rest.RequestParams;
 import com.ishow.common.utils.http.rest.callback.CallBack;
 import com.ishow.common.utils.http.rest.config.HttpConfig;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -317,11 +316,17 @@ public abstract class Request<T extends Request> {
         this.finalUrl = finalUrl;
     }
 
+    /**
+     * 是否重新设置超时
+     */
     public boolean isChangedTimeOut() {
         return (readTimeOut > 0 || writeTimeOut > 0 || connTimeOut > 0);
     }
 
-    public final void execute(CallBack callBack) {
+    /**
+     * 执行
+     */
+    public final <RESULT> void execute(CallBack<RESULT> callBack) {
         Http.getExecutor().execute(this, callBack);
     }
 }

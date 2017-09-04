@@ -108,7 +108,11 @@
             android:screenOrientation="portrait"/>
         <!--动画Recycle-->
         <activity
-            android:name=".modules.sample.recycle.SampleAnimationRecycleViewActivity"
+            android:name=".modules.sample.recycle.animation.SampleAnimationRecycleViewActivity"
+            android:screenOrientation="portrait"/>
+        <!--RecycleView 的itemDecoration-->
+        <activity
+            android:name=".modules.sample.recycle.decoration.SampleRecycleItemDecorationActivity"
             android:screenOrientation="portrait"/>
         <!--一个选择框-->
         <activity
@@ -122,7 +126,7 @@
         <activity
             android:name=".modules.sample.flowlayout.SampleFlowLayoutActivity"
             android:screenOrientation="portrait"/>
-        
+
         <!--++++++++++++++++++++控件或者工具的测试区域（end）++++++++++++++++++++++++++-->
 
 

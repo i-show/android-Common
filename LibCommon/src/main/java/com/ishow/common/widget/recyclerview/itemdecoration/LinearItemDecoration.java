@@ -48,7 +48,7 @@ public class LinearItemDecoration extends RecyclerView.ItemDecoration {
 
     public LinearItemDecoration(Context context, @DrawableRes int divider, int orientation) {
         mDivider = context.getResources().getDrawable(divider);
-        mDividerSize = UnitUtils.dip2px(context, 1);
+        mDividerSize = NOT_SET;
         repairDividerSize();
 
         setOrientation(orientation);

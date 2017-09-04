@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ishow.noahark.modules.sample.recycle;
+package com.ishow.noahark.modules.sample.recycle.decoration;
 
 import android.content.Context;
 import android.view.View;
@@ -30,9 +30,9 @@ import com.ishow.noahark.R;
  * 进入的时候带动画
  */
 
-class AnimationRecycleAdapter extends RecyclerAdapter<String, AnimationRecycleAdapter.ViewHolder> {
+class ItemDecorationAdapter extends RecyclerAdapter<String, ItemDecorationAdapter.ViewHolder> {
 
-    AnimationRecycleAdapter(Context context) {
+    ItemDecorationAdapter(Context context) {
         super(context);
     }
 
@@ -46,7 +46,8 @@ class AnimationRecycleAdapter extends RecyclerAdapter<String, AnimationRecycleAd
     public void onBindViewHolder(ViewHolder holder, int position, int type) {
         String path = getItem(position);
         ImageLoader.with(mContext)
-                .url(path)
+                .load(path)
+                .mode(ImageLoader.LoaderMode.CENTER_CROP)
                 .into(holder.photo);
     }
 

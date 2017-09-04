@@ -14,46 +14,38 @@
  * limitations under the License.
  */
 
-package com.ishow.noahark.modules.sample.flowlayout;
+package com.ishow.noahark.modules.sample.recycle.animation;
 
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
-import com.ishow.common.widget.flowlayout.FlowLayout;
 import com.ishow.noahark.R;
 import com.ishow.noahark.modules.base.AppBaseActivity;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.ishow.noahark.modules.sample.Test;
 
 /**
- * 测试Demo
+ * Created by yuhaiyang on 2017/6/2.
+ * Sample 进入的带动画
  */
-public class SampleFlowLayoutActivity extends AppBaseActivity {
 
-
-    private SampleFlowAdapter mAdapter;
+public class SampleAnimationRecycleViewActivity extends AppBaseActivity {
+    private AnimationRecycleAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sample_flow_layout);
+        setContentView(R.layout.activity_sample_ani_recycle);
+        mAdapter.setData(Test.getPhotosList(50));
     }
 
     @Override
     protected void initViews() {
         super.initViews();
-        mAdapter = new SampleFlowAdapter(this);
-        FlowLayout flowLayout = (FlowLayout) findViewById(R.id.flow);
-        flowLayout.setAdapter(mAdapter);
-        mAdapter.setData(getData());
+        mAdapter = new AnimationRecycleAdapter(this);
+
+        RecyclerView list = (RecyclerView) findViewById(R.id.list);
+        list.setLayoutManager(new GridLayoutManager(this, 2));
+        list.setAdapter(mAdapter);
     }
-
-    private List<String> getData() {
-        List<String> data = new ArrayList<>();
-        data.add("HELLO");
-        data.add("WORLD");
-        return data;
-    }
-
-
 }

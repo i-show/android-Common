@@ -17,15 +17,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:background="@drawable/no_line_bg"
+              android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <com.ishow.common.widget.imageview.ScaleImageView
-        android:id="@+id/photo"
+    <com.ishow.common.widget.TopBar
+        android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleType="center"
-        app:heightScale="9"
-        app:widthScale="16"/>
+        app:leftImage="@drawable/ic_back_white"
+        app:text="@string/sample_recycle_item_decoration"/>
+
+    <com.ishow.common.widget.recyclerview.AnimationRecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 </LinearLayout>
