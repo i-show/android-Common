@@ -18,7 +18,6 @@ package com.ishow.common.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * 封装后的RecycleAdapter
  */
 public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holder> extends RecyclerView.Adapter<HOLDER> {
     private static final String TAG = "RecyclerAdapter";

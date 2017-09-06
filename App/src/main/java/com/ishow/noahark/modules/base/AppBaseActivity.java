@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.baidu.mobstat.StatService;
 import com.ishow.common.app.activity.BaseActivity;
 import com.ishow.noahark.AppApplication;
 import com.ishow.noahark.manager.VersionManager;
@@ -43,6 +44,8 @@ public abstract class AppBaseActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        // 百度统计
+        StatService.onResume(this);
 
         if (needShowUpdateVersionDialog() && VersionManager.getInstance().hasNewVersion(this)) {
             showVersionDialog();
@@ -52,6 +55,8 @@ public abstract class AppBaseActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        // 百度统计
+        StatService.onPause(this);
     }
 
 

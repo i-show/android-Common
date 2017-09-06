@@ -180,6 +180,7 @@
 -keep class com.baidu.mobstat.** { *; }
 -keep class com.baidu.bottom.** { *; }
 
+
 # # -------------------------------------------
 # #  ######## OK Http ##########
 # # -------------------------------------------
@@ -243,3 +244,5 @@ public static java.lang.String TABLENAME;
 -dontwarn com.mob.**
 -dontwarn cn.sharesdk.**
 -dontwarn **.R$*
+
+-keep class com.ishow.noahark.entries.**{*;}

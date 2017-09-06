@@ -24,6 +24,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 
+import com.baidu.mobstat.StatService;
 import com.ishow.noahark.manager.UserManager;
 import com.ishow.noahark.modules.account.login.LoginActivity;
 import com.ishow.common.constant.Shift;
@@ -49,6 +50,8 @@ public class SplashActivity extends AppBaseActivity {
      * 初始化操作
      */
     private void init() {
+        // 百度统计
+        StatService.start(this);
         // 更新版本信息
         VersionManager.getInstance().init(this);
     }

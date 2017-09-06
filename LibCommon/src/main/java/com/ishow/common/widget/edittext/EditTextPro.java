@@ -753,7 +753,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         setInputText(text);
     }
 
-    public void setInputText(String text) {
+    public void setInputText(CharSequence text) {
         mInputView.setText(text);
         if (!TextUtils.isEmpty(text)) {
             mInputView.setSelection(text.length());

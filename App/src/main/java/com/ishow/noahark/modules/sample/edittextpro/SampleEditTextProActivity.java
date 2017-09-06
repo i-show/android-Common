@@ -16,8 +16,13 @@
 
 package com.ishow.noahark.modules.sample.edittextpro;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 
+import com.ishow.common.widget.edittext.EditTextPro;
 import com.ishow.noahark.R;
 import com.ishow.noahark.modules.base.AppBaseActivity;
 
@@ -31,5 +36,12 @@ public class SampleEditTextProActivity extends AppBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample_edittextpro);
+
+        String text = "HelloWorld";
+        SpannableString spannableString = new SpannableString(text);
+        spannableString.setSpan(new ForegroundColorSpan(Color.RED), 5, 8, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        EditTextPro pro = (EditTextPro) findViewById(R.id.text);
+        pro.setInputText(spannableString);
     }
 }
