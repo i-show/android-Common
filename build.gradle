@@ -33,7 +33,7 @@ static def releaseTime() {
  * 生成VersionCode
  */
 static def generateVersionCode() {
-    return new Date().format("yyyyMMddHH")
+    return new Date().format("yyyyMMdd")
 }
 
 /**

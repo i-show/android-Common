@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.ishow.common.utils.http.rest.Headers;
 import com.ishow.common.utils.http.rest.HttpError;
 import com.ishow.common.utils.http.rest.callback.CallBack;
@@ -58,20 +59,11 @@ public abstract class AppHttpCallBack<T> extends CallBack<T> {
         Headers headers = response.getHeaders();
         HttpConfig.setHeader(Configure.HTTP_TOKEN, headers.get(Configure.HTTP_TOKEN));
 
-        Type genType = getClass().getGenericSuperclass();
-        Type type;
-        if (genType instanceof ParameterizedType) {
-            Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
-            type = params[0];
-        } else {
-            type = String.class;
-        }
-
         String body = new String(response.getBody());
-        AppHttpResult result = JSON.parseObject(body, AppHttpResult.class);
+        AppHttpResult<T> result = JSON.parseObject(body, getTypeReference());
         if (result.isSuccess()) {
-            response.setDebugString(result.getValue());
-            return JSON.parseObject(result.getValue(), type);
+            response.setDebugString(body);
+            return result.getValue();
         } else {
             HttpError error = HttpError.makeError(request);
             error.setCode(result.getCode());
@@ -80,5 +72,13 @@ public abstract class AppHttpCallBack<T> extends CallBack<T> {
             e.setHttpError(error);
             throw e;
         }
+    }
+
+    /**
+     * 获取Type
+     */
+    private TypeReference<AppHttpResult<T>> getTypeReference() {
+        return new TypeReference<AppHttpResult<T>>() {
+        };
     }
 }

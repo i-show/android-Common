@@ -20,10 +20,10 @@ package com.ishow.noahark.entries.http;
  * Created by yuhaiyang on 2017/8/2.
  * Http请求结果
  */
-public class AppHttpResult {
+public class AppHttpResult<T> {
     public int code;
     public String message;
-    public String value;
+    public T value;
 
 
     public int getCode() {
@@ -42,11 +42,12 @@ public class AppHttpResult {
         this.message = message;
     }
 
-    public String getValue() {
+
+    public T getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(T value) {
         this.value = value;
     }
 
