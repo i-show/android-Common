@@ -45,14 +45,9 @@ import java.lang.reflect.Type;
 
 public abstract class AppHttpCallBack<T> extends CallBack<T> {
 
-    protected AppHttpCallBack() {
-        super();
-    }
-
     protected AppHttpCallBack(Context context) {
         super(context);
     }
-
 
     @Override
     public T parseResponse(@NonNull Request request, @NonNull Response response) throws HttpErrorException {
