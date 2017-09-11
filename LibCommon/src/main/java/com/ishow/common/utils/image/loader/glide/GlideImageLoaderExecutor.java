@@ -19,6 +19,7 @@ package com.ishow.common.utils.image.loader.glide;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -31,6 +32,8 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.signature.MediaStoreSignature;
+import com.bumptech.glide.signature.ObjectKey;
 import com.ishow.common.utils.image.loader.IImageLoaderExecutor;
 import com.ishow.common.utils.image.loader.ImageLoader;
 import com.ishow.common.utils.image.loader.ImageLoaderParams;
@@ -112,8 +115,8 @@ public class GlideImageLoaderExecutor implements IImageLoaderExecutor {
             case ImageLoader.Plan.NORMAL:
                 // TODO
                 break;
-            case ImageLoader.Plan.CIRCLE:
-                options.circleCrop();
+            case ImageLoader.Plan.NEW_LOAD:
+                options.signature(new ObjectKey(System.currentTimeMillis()));
                 break;
         }
     }

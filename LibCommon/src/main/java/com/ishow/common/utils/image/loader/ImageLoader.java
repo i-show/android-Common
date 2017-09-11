@@ -61,7 +61,7 @@ public class ImageLoader {
     }
 
     @SuppressWarnings("WeakerAccess")
-    @IntDef({Plan.NORMAL, Plan.CIRCLE})
+    @IntDef({Plan.NORMAL, Plan.NEW_LOAD})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Plan {
         /**
@@ -70,9 +70,9 @@ public class ImageLoader {
          */
         int NORMAL = 1;
         /**
-         * 方案- 圆形头像
+         * 方案- 每次都是重新哪最新的
          */
-        int CIRCLE = 2;
+        int NEW_LOAD = 2;
     }
 
     private static ImageLoader sInstance;
