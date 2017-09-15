@@ -350,7 +350,7 @@ public abstract class BaseFragment extends Fragment implements
     }
 
     @Override
-    public void onReload() {
+    public void onReload(View v) {
 
     }
 }

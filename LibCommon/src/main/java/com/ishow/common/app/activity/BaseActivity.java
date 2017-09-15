@@ -406,7 +406,7 @@ public abstract class BaseActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onReload() {
+    public void onReload(View v) {
 
     }
 }

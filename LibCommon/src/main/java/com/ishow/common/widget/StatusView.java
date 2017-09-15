@@ -237,7 +237,7 @@ public class StatusView extends FrameLayout implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (mCallBack != null) {
-            mCallBack.onReload();
+            mCallBack.onReload(this);
         }
     }
 
@@ -246,6 +246,6 @@ public class StatusView extends FrameLayout implements View.OnClickListener {
     }
 
     public interface CallBack {
-        void onReload();
+        void onReload(View v);
     }
 }

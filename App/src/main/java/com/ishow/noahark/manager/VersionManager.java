@@ -174,7 +174,7 @@ public class VersionManager {
         Http.post()
                 .url("http://10.0.2.55:8080/version/getVersion")
                 .params(JSON.toJSONString(version))
-                .execute(new AppHttpCallBack<String>() {
+                .execute(new AppHttpCallBack<String>(context) {
                     @Override
                     protected void onFailed(@NonNull HttpError error) {
 

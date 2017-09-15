@@ -551,7 +551,7 @@ public class XListView extends ListView implements IPullToRefresh, OnScrollListe
 
     private StatusView.CallBack mStatusCallBack = new StatusView.CallBack() {
         @Override
-        public void onReload() {
+        public void onReload(View v) {
             if (mListener != null) {
                 mListener.onRefresh(XListView.this);
             }
