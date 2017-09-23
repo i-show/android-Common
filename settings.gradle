@@ -1,2 +1,2 @@
-include ':App'
-include ':LibCommon'
+include ':app'
+include ':common'

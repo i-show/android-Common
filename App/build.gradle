@@ -228,7 +228,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     // 基础库
-    compile project(':LibCommon')
+    compile project(':common')
     // 注解库
     compile 'com.jakewharton:butterknife:8.6.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
