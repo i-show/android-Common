@@ -199,10 +199,6 @@ public class VersionManager {
         if (!isFirstEnterThisVerison) {
             return;
         }
-        switch (BuildConfig.VERSION_CODE) {
-            case 2017092114:
-                SharedPreferencesUtils.cleanCache(context);
-                break;
-        }
+        SharedPreferencesUtils.cleanCache(context);
     }
 }
