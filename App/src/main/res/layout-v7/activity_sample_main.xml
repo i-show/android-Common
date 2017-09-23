@@ -84,12 +84,18 @@
             style="@style/AppTextView.Sample"
             android:text="@string/sample_loading_webview"/>
 
-        <!--Dialog选择弹框和滚动弹框-->
+        <!--FlowLayout-->
         <TextView
             android:id="@+id/sample_flow_layout"
             style="@style/AppTextView.Sample"
             android:text="@string/sample_flow_layout"/>
 
+
+        <!--PullToRefresh-->
+        <TextView
+            android:id="@+id/sample_pull_to_refresh"
+            style="@style/AppTextView.Sample"
+            android:text="@string/sample_pull_to_refresh"/>
     </com.ishow.common.widget.flowlayout.FlowLayout>
 
 </LinearLayout>

@@ -19,8 +19,9 @@ package com.ishow.noahark.modules.base;
 import android.util.Log;
 import android.view.View;
 
-import com.ishow.common.widget.pulltorefresh.IPullToRefreshUtils;
-import com.ishow.common.widget.pulltorefresh.OnPullToRefreshListener;
+import com.ishow.pulltorefresh.IPullToRefreshUtils;
+import com.ishow.pulltorefresh.OnPullToRefreshListener;
+import com.ishow.pulltorefresh.PullToRefreshView;
 
 
 /**
@@ -31,26 +32,27 @@ public abstract class PullToRefreshActivity extends AppBaseActivity implements O
     private static final String TAG = "PullToRefreshFragment";
 
     @Override
-    public void onRefresh(View v) {
-        IPullToRefreshUtils pullToRefreshUtils = getPullToRefreshUtils(v);
+    public void onRefresh(PullToRefreshView view) {
+        IPullToRefreshUtils pullToRefreshUtils = getPullToRefreshUtils(view);
         if (pullToRefreshUtils == null) {
             Log.i(TAG, "onRefresh: pullToRefreshUtils is null");
             return;
         }
         pullToRefreshUtils.setLoadingMoreState(false);
         pullToRefreshUtils.resetPagerNumber();
-        loadData(v, pullToRefreshUtils.getPagerNumber(), pullToRefreshUtils.getPagerSize());
+        view.setLoadMoreNormal();
+        loadData(view, pullToRefreshUtils.getPagerNumber(), pullToRefreshUtils.getPagerSize());
     }
 
     @Override
-    public void onLoadMore(View v) {
-        IPullToRefreshUtils pullToRefreshUtils = getPullToRefreshUtils(v);
+    public void onLoadMore(PullToRefreshView view) {
+        IPullToRefreshUtils pullToRefreshUtils = getPullToRefreshUtils(view);
         if (pullToRefreshUtils == null) {
             Log.i(TAG, "onLoadMore: pullToRefreshUtils is null");
             return;
         }
         pullToRefreshUtils.setLoadingMoreState(true);
-        loadData(v, pullToRefreshUtils.getPagerNumber(), pullToRefreshUtils.getPagerSize());
+        loadData(view, pullToRefreshUtils.getPagerNumber(), pullToRefreshUtils.getPagerSize());
     }
 
     /**

@@ -20,17 +20,16 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.ishow.common.R;
-import com.ishow.common.widget.StatusView;
-import com.ishow.common.widget.pulltorefresh.IPullToRefresh;
-import com.ishow.common.widget.pulltorefresh.IPullToRefreshUtils;
+import com.ishow.pulltorefresh.IPullToRefreshUtils;
+import com.ishow.pulltorefresh.PullToRefreshView;
 
 import java.util.List;
 
 /**
  * 上拉刷新下拉加载更多的Adapter
  */
-public abstract class ListPullToRefreshAdapter<DATA, HOLDER extends ListAdapter.Holder> extends ListAdapter<DATA, HOLDER> implements IPullToRefreshUtils<DATA> {
-    private static final String TAG = "ListPullToRefreshAdapte";
+public abstract class RecyclerPullToRefreshAdapter<DATA, HOLDER extends RecyclerAdapter.Holder> extends RecyclerAdapter<DATA, HOLDER> implements IPullToRefreshUtils<DATA> {
+    private static final String TAG = "RecyclerPullToRefreshAdapter";
     /**
      * 默认一页显示的数量
      */
@@ -39,7 +38,7 @@ public abstract class ListPullToRefreshAdapter<DATA, HOLDER extends ListAdapter.
     /**
      * 当前页数
      */
-    private int mPagerNumber = 1;
+    private int mPagerNumber = 0;
     /**
      * 第一页
      */
@@ -49,7 +48,7 @@ public abstract class ListPullToRefreshAdapter<DATA, HOLDER extends ListAdapter.
      */
     private boolean isLoadingMoreState = false;
 
-    public ListPullToRefreshAdapter(Context context) {
+    public RecyclerPullToRefreshAdapter(Context context) {
         super(context);
         initPagerNumber();
     }
@@ -140,45 +139,43 @@ public abstract class ListPullToRefreshAdapter<DATA, HOLDER extends ListAdapter.
         isLoadingMoreState = state;
     }
 
-    public void resetPullTorefresh(IPullToRefresh pullToRefresh) {
-        resetPullTorefresh(pullToRefresh, true);
+    public void resetPullToRefresh(PullToRefreshView pullToRefresh) {
+        resetPullToRefresh(pullToRefresh, true);
     }
 
-    public void resetPullTorefresh(IPullToRefresh pullToRefresh, boolean isError) {
-        pullToRefresh.setPullRefreshEnable(true);
-        pullToRefresh.setPullLoadEnable(true);
-        pullToRefresh.setEmptyState(isError ? StatusView.STATUS_ERROR : StatusView.STATUS_EMPTY);
+    public void resetPullToRefresh(PullToRefreshView pullToRefresh, boolean isError) {
+        pullToRefresh.setRefreshEnable(true);
+        pullToRefresh.setLoadMoreEnable(true);
         if (isLoadingMoreState()) {
-            pullToRefresh.stopLoadMore();
+            pullToRefresh.setLoadMoreNormal();
         } else {
-            pullToRefresh.setRefreshFail();
+            pullToRefresh.setRefreshNormal();
         }
     }
 
     @Override
-    public void resolveData(IPullToRefresh pullToRefresh, @NonNull List<DATA> datas, int totalcount) {
+    public void resolveData(PullToRefreshView pullToRefresh, @NonNull List<DATA> datas, int totalcount) {
         if (isLoadingMoreState()) {
-            pullToRefresh.stopLoadMore();
+            pullToRefresh.setLoadMoreSuccess();
             plusData(datas);
         } else {
-            setData(datas);
             pullToRefresh.setRefreshSuccess();
+            setData(datas);
         }
         // 修复pagernumber
         repairPagerNumber(datas.size());
 
         final int realCount = getRealCount();
 
-        pullToRefresh.setPullRefreshEnable(true);
-        pullToRefresh.setEmptyState(StatusView.STATUS_EMPTY);
+        pullToRefresh.setRefreshEnable(true);
 
         if (realCount == 0) {
-            pullToRefresh.setPullLoadEnable(false);
+            pullToRefresh.setLoadMoreEnable(false);
         } else if (realCount >= totalcount) {
-            pullToRefresh.setPullLoadEnable(true);
-            pullToRefresh.setLoadEnd();
+            pullToRefresh.setLoadMoreEnable(true);
+            pullToRefresh.setLoadMoreEnd();
         } else {
-            pullToRefresh.setPullLoadEnable(true);
+            pullToRefresh.setLoadMoreEnable(true);
         }
     }
 }

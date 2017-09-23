@@ -114,4 +114,6 @@ dependencies {
     compile "com.squareup.okhttp3:okhttp:${OKHTTP_VERSION}"
     // JSON 解析工具
     compile "com.alibaba:fastjson:${FAST_JSON_VERSION}"
+    // 上拉刷新下拉加载更多
+    compile 'com.ishow:pulltorefresh:1.0.1'
 }

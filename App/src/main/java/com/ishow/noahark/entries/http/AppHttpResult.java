@@ -16,14 +16,17 @@
 
 package com.ishow.noahark.entries.http;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 /**
  * Created by yuhaiyang on 2017/8/2.
  * Http请求结果
  */
 public class AppHttpResult<T> {
+    @JSONField(name = "status")
     public int code;
     public String message;
-    public T value;
+    public Object value;
 
 
     public int getCode() {
@@ -42,12 +45,11 @@ public class AppHttpResult<T> {
         this.message = message;
     }
 
-
-    public T getValue() {
+    public Object getValue() {
         return value;
     }
 
-    public void setValue(T value) {
+    public void setValue(Object value) {
         this.value = value;
     }
 
@@ -59,4 +61,6 @@ public class AppHttpResult<T> {
         public static final int CODE_FAILED = 0;
         public static final int CODE_SUCCESS = 1;
     }
+
+
 }

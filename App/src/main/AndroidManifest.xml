@@ -132,13 +132,17 @@
         <activity
             android:name=".modules.sample.dialog.select.SampleSelectDialogAndPickerDialog"
             android:screenOrientation="portrait"/>
-        <!--LoaidngViewView-->
+        <!--LoadingViewView-->
         <activity
             android:name=".modules.sample.webview.loading.SampleLoadingWebViewActivity"
             android:screenOrientation="portrait"/>
         <!--FlowLayout-->
         <activity
             android:name=".modules.sample.flowlayout.SampleFlowLayoutActivity"
+            android:screenOrientation="portrait"/>
+        <!--PullToRefresh-->
+        <activity
+            android:name=".modules.sample.pulltorefresh.SamplePullToRefreshActivity"
             android:screenOrientation="portrait"/>
 
         <!--++++++++++++++++++++控件或者工具的测试区域（end）++++++++++++++++++++++++++-->

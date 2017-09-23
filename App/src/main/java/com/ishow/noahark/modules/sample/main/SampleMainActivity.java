@@ -30,6 +30,7 @@ import com.ishow.noahark.modules.sample.imageloader.SampleImageLoaderActivity;
 import com.ishow.noahark.modules.sample.permission.SamplePermissionActivity;
 import com.ishow.noahark.modules.sample.photo.select.SampleSelectPhotoActivity;
 import com.ishow.noahark.modules.sample.pickview.SamplePickerActivity;
+import com.ishow.noahark.modules.sample.pulltorefresh.SamplePullToRefreshActivity;
 import com.ishow.noahark.modules.sample.recycle.animation.SampleAnimationRecycleViewActivity;
 import com.ishow.noahark.modules.sample.recycle.decoration.SampleRecycleItemDecorationActivity;
 import com.ishow.noahark.modules.sample.webview.loading.SampleLoadingWebViewActivity;
@@ -82,6 +83,9 @@ public class SampleMainActivity extends AppBaseActivity implements View.OnClickL
         // flow_layout
         view = findViewById(R.id.sample_flow_layout);
         view.setOnClickListener(this);
+
+        view = findViewById(R.id.sample_pull_to_refresh);
+        view.setOnClickListener(this);
     }
 
     @Override
@@ -130,6 +134,10 @@ public class SampleMainActivity extends AppBaseActivity implements View.OnClickL
                 break;
             case R.id.sample_flow_layout:
                 intent = new Intent(this, SampleFlowLayoutActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.sample_pull_to_refresh:
+                intent = new Intent(this, SamplePullToRefreshActivity.class);
                 startActivity(intent);
                 break;
         }
