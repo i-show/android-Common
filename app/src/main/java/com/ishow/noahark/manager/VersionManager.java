@@ -29,6 +29,7 @@ import com.ishow.common.utils.http.rest.HttpError;
 import com.ishow.common.utils.log.L;
 import com.ishow.noahark.BuildConfig;
 import com.ishow.noahark.entries.Version;
+import com.ishow.noahark.modules.init.SplashActivity;
 import com.ishow.noahark.utils.http.AppHttpCallBack;
 
 import java.lang.ref.WeakReference;
@@ -71,10 +72,11 @@ public class VersionManager {
         return sIntance.get();
     }
 
-    public void init(Context context) {
+    public void init(SplashActivity context) {
         clear(context.getApplicationContext());
         isFirstEnterThisVerison = checkIsFirstEnterThisVerison(context.getApplicationContext());
         getVersionFromServer(context.getApplicationContext());
+        cleanCache(context);
     }
 
     public static boolean isFirstEnterThisVerison() {
@@ -191,5 +193,16 @@ public class VersionManager {
                         makeVersion(result);
                     }
                 });
+    }
+
+    private void cleanCache(Context context) {
+        if (!isFirstEnterThisVerison) {
+            return;
+        }
+        switch (BuildConfig.VERSION_CODE) {
+            case 2017092114:
+                SharedPreferencesUtils.cleanCache(context);
+                break;
+        }
     }
 }

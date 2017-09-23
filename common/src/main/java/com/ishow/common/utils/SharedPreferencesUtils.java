@@ -78,6 +78,13 @@ public class SharedPreferencesUtils {
         save(context, key, value, false);
     }
 
+    /**
+     * 保存为缓存
+     */
+    public static void saveCache(Context context, String key, Object value) {
+        save(context, key, value, true);
+    }
+
     public static void save(Context context, String key, Object value, boolean isCache) {
 
         SharedPreferences.Editor editor = getSharedPreferences(context, isCache).edit();
@@ -109,6 +116,12 @@ public class SharedPreferencesUtils {
         return get(context, key, defaultValue, false);
     }
 
+    /**
+     * 得到保存数据的方法，我们根据默认值得到保存的数据的具体类型，然后调用相对于的方法获取值
+     */
+    public static <T> T getCache(Context context, String key, T defaultValue) {
+        return get(context, key, defaultValue, true);
+    }
 
     /**
      * 得到保存数据的方法，我们根据默认值得到保存的数据的具体类型，然后调用相对于的方法获取值
