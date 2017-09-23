@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  Copyright (C) 2016 The yuhaiyang Android Source Project
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.ishow.common.widget.TopBar
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftImage="@drawable/ic_back_white"
+        app:text="@string/sample_select_photo" />
+
+    <com.ishow.common.widget.flowlayout.FlowLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:flowMode="wrap">
+
+        <!--单选图片-->
+        <TextView
+            android:id="@+id/sample_select_photo_single_compress"
+            style="@style/AppTextView.Sample"
+            android:text="@string/sample_select_photo_single_compress" />
+
+
+        <!--单选图片-->
+        <TextView
+            android:id="@+id/sample_select_photo_single_crop"
+            style="@style/AppTextView.Sample"
+            android:text="@string/sample_select_photo_single_crop" />
+
+        <!--多选图片-->
+        <TextView
+            android:id="@+id/sample_select_photo_mult"
+            style="@style/AppTextView.Sample"
+            android:text="@string/sample_select_photo_mult" />
+
+    </com.ishow.common.widget.flowlayout.FlowLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/photo_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

@@ -1,0 +1,59 @@
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">AndroidCommon</string>
+    <string name="app_name_dev">AndroidCommon(DEV)</string>
+    <string name="app_name_sit">AndroidCommon(SIT)</string>
+    <string name="app_name_uat">AndroidCommon(UAT)</string>
+    <string name="app_name_prod">AndroidCommon</string>
+
+    <string name="tab_1">TAB1</string>
+    <string name="tab_2">TAB2</string>
+    <string name="tab_3">TAB3</string>
+    <string name="tab_4">TAB4</string>
+
+    <string name="login">登录</string>
+    <string name="logout">登出</string>
+    <string name="register">注册</string>
+    <string name="reset">重置</string>
+
+    <string name="guide_coming">立即进入</string>
+    <string name="submit">提交</string>
+
+
+    <string name="login_regist">注册账号</string>
+    <string name="login_hint_passwrod">密码</string>
+    <string name="login_hint_account">手机号</string>
+    <string name="login_forget_password">忘记密码？</string>
+    <string name="login_please_input_account">请输入手机号码</string>
+    <string name="login_please_input_correct_account">请输入正确的手机号码</string>
+    <string name="login_please_input_password">请输入密码</string>
+    <string name="login_please_input_correct_password">请输入<xliff:g id="min">%1$s</xliff:g>-<xliff:g id="max">%2$s</xliff:g>位密码</string>
+
+    <string name="register_tip_phone">手机号：</string>
+    <string name="register_hint_phone">请输入手机号码</string>
+    <string name="register_tip_verify_code">验证码：</string>
+    <string name="register_hint_verify_code">请输入验证码</string>
+    <string name="register_tip_password">密&#160;&#160;&#160;&#160;码：</string>
+    <string name="register_hint_password">请输入密码</string>
+    <string name="register_tip_ensure_password">确认密码：</string>
+    <string name="register_hint_ensure_password">请再次输入密码</string>
+    <string name="register_title">注册账号</string>
+    <string name="register_please_input_verify_code">请输入验证码</string>
+    <string name="register_agreement_to">我同意</string>
+    <string name="register_agreement">《xxx注册协议》</string>
+    <string name="please_input_right_ensure_password">两次输入密码不一致</string>
+    <string name="please_input_ensure_password">请输入确认密码</string>
+
+    <string name="forgot_password_title">忘记密码</string>
+    <string name="forgot_password_tip_password">新密码：</string>
+
+    <string name="click_again_to_exit">再次点击退出程序</string>
+
+    <string name="settings">设置</string>
+    <string name="settings_link_now_version">当前版本:</string>
+    <string name="not_notify">不再提醒</string>
+    <string name="version_update_title">版本升级</string>
+    <string name="update">升级</string>
+
+
+</resources>
