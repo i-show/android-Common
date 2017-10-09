@@ -1,14 +1,24 @@
-English | [中文](https://github.com/BrightYu/AndroidCommon/wiki/首页)
+# 简介
 
-AndroidCommon is the basic framework of a project, which contains Utils, Widget and Modules, etc.
+AndroidCommon是一个项目的基础框架，里面包含了常用的工具类、自定义的控件以及项目的基本功能等
 
-- 1. [Utils](https://github.com/BrightYu/AndroidCommon/wiki/Utils)
-- 2. [Widgets](https://github.com/BrightYu/AndroidCommon/wiki/Widgets)
-- 3. [Modules](https://github.com/BrightYu/AndroidCommon/wiki/Modules)
+- 1. [工具类](https://github.com/BrightYu/AndroidCommon/wiki/Utils)
+- 2. [自定义控件](https://github.com/BrightYu/AndroidCommon/wiki/Widgets)
+- 3. [基本功能](https://github.com/BrightYu/AndroidCommon/wiki/Modules)
 
 
-License
-=======
+# JCenter
+```
+compile 'com.ishow:common:1.1.1'
+```
+
+# 更新记录
+####  1.1.1
+- ImageUtils 工具类重新配置以及整理
+- SharedPreferencesUtils 增加缓存方法
+- VersionManager 增加清除缓存机制
+
+# License
 
     Copyright 2015 Haiyang Yu
     
@@ -24,6 +34,6 @@ License
     See the License for the specific language governing permissions and
     limitations under the License.
 
-Remark
-=======
-v7 test package, the official version can be directly deleted
+
+# 备注
+正式版本使用的时候请把 文件名为 test 和后缀名字为v7 的文件直接删除
