@@ -17,6 +17,7 @@
 package com.ishow.noahark.modules.sample.photo.select;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -81,15 +82,15 @@ public class SampleSelectPhotoActivity extends AppBaseActivity implements
         switch (v.getId()) {
             case R.id.sample_select_photo_single_compress:
                 mSelectPhotoUtils.setSelectMode(SelectPhotoUtils.SelectMode.SINGLE);
-                mSelectPhotoUtils.select();
+                mSelectPhotoUtils.select(Bitmap.CompressFormat.PNG);
                 break;
             case R.id.sample_select_photo_single_crop:
                 mSelectPhotoUtils.setSelectMode(SelectPhotoUtils.SelectMode.SINGLE);
-                mSelectPhotoUtils.select(1, 1);
+                mSelectPhotoUtils.select(1, 1, Bitmap.CompressFormat.JPEG);
                 break;
             case R.id.sample_select_photo_mult:
                 mSelectPhotoUtils.setSelectMode(SelectPhotoUtils.SelectMode.MULTIPLE);
-                mSelectPhotoUtils.select(5);
+                mSelectPhotoUtils.select(5, Bitmap.CompressFormat.WEBP);
                 break;
         }
     }

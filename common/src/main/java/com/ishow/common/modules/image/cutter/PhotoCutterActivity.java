@@ -52,7 +52,14 @@ public class PhotoCutterActivity extends BaseActivity {
      * y 轴比例
      */
     public static final String KEY_RATIO_Y = "result_croped_image_ratio_y";
+    /**
+     * format
+     */
+    public static final String KEY_FOTMAT = "result_croped_image_formater";
+
     private CropImageView mCropView;
+
+    private Bitmap.CompressFormat mCompressFormat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +72,16 @@ public class PhotoCutterActivity extends BaseActivity {
                 .load(path)
                 .into(mCropView);
 
+        Object format = intent.getSerializableExtra(KEY_FOTMAT);
+        if (format == null || !(format instanceof Bitmap.CompressFormat)) {
+            mCompressFormat = Bitmap.CompressFormat.WEBP;
+        } else {
+            mCompressFormat = (Bitmap.CompressFormat) format;
+        }
 
         int x = intent.getIntExtra(KEY_RATIO_X, 1);
         int y = intent.getIntExtra(KEY_RATIO_Y, 1);
+
         mCropView.setCustomRatio(x, y);
     }
 
@@ -85,7 +99,7 @@ public class PhotoCutterActivity extends BaseActivity {
         super.onRightClick(v);
         LoadingDialog dialog = LoadingDialog.show(this, null);
         Bitmap bitmap = mCropView.getCroppedBitmap();
-        String cachePath = ImageUtils.compressBitmap(this, bitmap, 300);
+        String cachePath = ImageUtils.compressBitmap(this, bitmap, mCompressFormat);
         Intent intent = new Intent();
         intent.putExtra(KEY_RESULT_PATH, cachePath);
         setResult(SelectPhotoUtils.Request.REQUEST_CROP_IMAGE, intent);

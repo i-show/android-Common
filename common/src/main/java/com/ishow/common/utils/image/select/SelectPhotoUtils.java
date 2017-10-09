@@ -21,6 +21,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
@@ -28,7 +29,7 @@ import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.IntDef;
 import android.support.annotation.IntRange;
-import android.support.annotation.Keep;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -136,6 +137,10 @@ public class SelectPhotoUtils implements
      * 压缩图片的线程池
      */
     private ExecutorService mExecutorService;
+    /**
+     * Format
+     */
+    private Bitmap.CompressFormat mCompressFormat;
 
     public SelectPhotoUtils(Activity context, @SelectMode int selectMode) {
         mActivity = context;
@@ -153,6 +158,12 @@ public class SelectPhotoUtils implements
      * 默认选择图片
      */
     public void select() {
+        select(Bitmap.CompressFormat.WEBP);
+    }
+
+    public void select(@NonNull Bitmap.CompressFormat format) {
+        mCompressFormat = format;
+
         if (!hasPermission()) {
             Log.i(TAG, "select: no premission");
             return;
@@ -172,6 +183,15 @@ public class SelectPhotoUtils implements
      * 选择图片
      */
     public void select(@IntRange(from = 1) int maxCount) {
+        select(maxCount, Bitmap.CompressFormat.WEBP);
+    }
+
+    /**
+     * 选择图片
+     */
+    public void select(@IntRange(from = 1) int maxCount, @NonNull Bitmap.CompressFormat format) {
+        mCompressFormat = format;
+
         if (!hasPermission()) {
             Log.i(TAG, "select: no premission");
             return;
@@ -182,7 +202,6 @@ public class SelectPhotoUtils implements
         }
         mMaxSelectCount = maxCount;
         mResultMode = ResultMode.COMPRESS;
-        mMaxSelectCount = MAX_SELECT_COUNT;
 
         showSelectDialog();
     }
@@ -195,6 +214,18 @@ public class SelectPhotoUtils implements
      * @param scaleY 单选图片-Y轴的比例
      */
     public void select(@IntRange(from = 1) int scaleX, @IntRange(from = 1) int scaleY) {
+        select(scaleX, scaleY, Bitmap.CompressFormat.WEBP);
+    }
+
+    /**
+     * 选择图片模式为剪切模式
+     *
+     * @param scaleX 单选图片-X轴的比例
+     * @param scaleY 单选图片-Y轴的比例
+     */
+    public void select(@IntRange(from = 1) int scaleX, @IntRange(from = 1) int scaleY, @NonNull Bitmap.CompressFormat format) {
+        mCompressFormat = format;
+
         if (!hasPermission()) {
             Log.i(TAG, "select: no premission");
             return;
@@ -209,6 +240,7 @@ public class SelectPhotoUtils implements
 
         showSelectDialog();
     }
+
 
     /**
      * 显示选择框
@@ -403,6 +435,7 @@ public class SelectPhotoUtils implements
         intent.putExtra(PhotoCutterActivity.KEY_PATH, path);
         intent.putExtra(PhotoCutterActivity.KEY_RATIO_X, mScaleX);
         intent.putExtra(PhotoCutterActivity.KEY_RATIO_Y, mScaleY);
+        intent.putExtra(PhotoCutterActivity.KEY_FOTMAT, mCompressFormat);
         mActivity.startActivityForResult(intent, Request.REQUEST_CROP_IMAGE);
     }
 
@@ -417,7 +450,7 @@ public class SelectPhotoUtils implements
 
         @Override
         public void run() {
-            String resultPath = ImageUtils.compressImage(mActivity, path);
+            String resultPath = ImageUtils.compressImage(mActivity, mCompressFormat, path);
             mPhotos.set(key, resultPath);
             mHandler.sendEmptyMessageDelayed(0, 100);
         }
@@ -562,10 +595,12 @@ public class SelectPhotoUtils implements
         /**
          * 请求处理 权限
          */
+        @SuppressWarnings("WeakerAccess")
         public static final int REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION = REQUEST_SINGLE_CAMERA + 5;
         /**
          * 请求处理 权限
          */
+        @SuppressWarnings("WeakerAccess")
         public static final int REQUEST_READ_EXTERNAL_STORAGE_PERMISSION = REQUEST_SINGLE_CAMERA + 6;
     }
 }

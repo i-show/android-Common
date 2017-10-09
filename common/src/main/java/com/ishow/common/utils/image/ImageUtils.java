@@ -247,7 +247,7 @@ public final class ImageUtils {
             image.compress(format, quality, baos);
             quality -= 10;// 每次都减少10
         }
-        return saveBitmap(context, image, quality);
+        return saveBitmap(context, image, format, quality);
     }
 
     /**
@@ -261,9 +261,25 @@ public final class ImageUtils {
      * 压缩图片
      */
     @SuppressWarnings("WeakerAccess")
+    public static String compressImage(Context context, Bitmap.CompressFormat format, String photoPath) {
+        return compressImage(context, format, photoPath, DEFAULT_COMPRESS_QUALITY);
+    }
+
+    /**
+     * 压缩图片
+     */
+    @SuppressWarnings("WeakerAccess")
     public static String compressImage(Context context, String photoPath, int quality) {
+        return compressImage(context, Bitmap.CompressFormat.WEBP, photoPath, quality);
+    }
+
+    /**
+     * 压缩图片
+     */
+    @SuppressWarnings("WeakerAccess")
+    public static String compressImage(Context context, Bitmap.CompressFormat format, String photoPath, int quality) {
         Bitmap bitmap = null;
-        String resultPath = generateRandomPhotoName(context);
+        String resultPath = generateRandomPhotoName(context, format);
         try {
             BitmapFactory.Options opts = new BitmapFactory.Options();
             opts.inJustDecodeBounds = true;
@@ -274,7 +290,7 @@ public final class ImageUtils {
             int angle = ImageUtils.getExifOrientation(photoPath);
             bitmap = BitmapFactory.decodeFile(photoPath, opts);
             bitmap = rotateBitmap(angle, bitmap);
-            saveBitmap(bitmap, resultPath, quality);
+            saveBitmap(bitmap, format, resultPath, quality);
         } catch (Exception e) {
             return null;
         } finally {
@@ -285,7 +301,6 @@ public final class ImageUtils {
 
         return resultPath;
     }
-
 
     /**
      * 计算压缩比例值
@@ -326,7 +341,7 @@ public final class ImageUtils {
      */
     @SuppressWarnings("WeakerAccess")
     public static String saveBitmap(Context context, Bitmap bitmap) {
-        String fileName = generateRandomPhotoName(context);
+        String fileName = generateRandomPhotoName(context, Bitmap.CompressFormat.WEBP);
         return saveBitmap(bitmap, Bitmap.CompressFormat.WEBP, fileName, DEFAULT_COMPRESS_QUALITY);
     }
 
@@ -336,7 +351,7 @@ public final class ImageUtils {
      */
     @SuppressWarnings("WeakerAccess")
     public static String saveBitmap(Context context, Bitmap bitmap, int quality) {
-        String fileName = generateRandomPhotoName(context);
+        String fileName = generateRandomPhotoName(context, Bitmap.CompressFormat.WEBP);
         return saveBitmap(bitmap, Bitmap.CompressFormat.WEBP, fileName, quality);
     }
 
@@ -344,8 +359,8 @@ public final class ImageUtils {
      * 把Bitmap输出到本地
      */
     @SuppressWarnings("WeakerAccess")
-    public static String saveBitmap(Context context, Bitmap.CompressFormat format, Bitmap bitmap) {
-        String fileName = generateRandomPhotoName(context);
+    public static String saveBitmap(Context context, Bitmap bitmap, Bitmap.CompressFormat format) {
+        String fileName = generateRandomPhotoName(context, format);
         return saveBitmap(bitmap, format, fileName, DEFAULT_COMPRESS_QUALITY);
     }
 
@@ -353,8 +368,8 @@ public final class ImageUtils {
      * 把Bitmap输出到本地
      */
     @SuppressWarnings("WeakerAccess")
-    public static String saveBitmap(Context context, Bitmap.CompressFormat format, Bitmap bitmap, int quality) {
-        String fileName = generateRandomPhotoName(context);
+    public static String saveBitmap(Context context, Bitmap bitmap, Bitmap.CompressFormat format, int quality) {
+        String fileName = generateRandomPhotoName(context, format);
         return saveBitmap(bitmap, format, fileName, quality);
     }
 
@@ -411,7 +426,15 @@ public final class ImageUtils {
      * 生成图片名称
      */
     public static File generateRandomPhotoFile(Context context) {
-        return new File(generateRandomPhotoName(context));
+        return generateRandomPhotoFile(context, Bitmap.CompressFormat.WEBP);
+    }
+
+    /**
+     * 生成图片名称
+     */
+    @SuppressWarnings("WeakerAccess")
+    public static File generateRandomPhotoFile(Context context, Bitmap.CompressFormat format) {
+        return new File(generateRandomPhotoName(context, format));
     }
 
     /**
@@ -419,6 +442,14 @@ public final class ImageUtils {
      */
     @SuppressWarnings("WeakerAccess")
     public static String generateRandomPhotoName(Context context) {
+        return generateRandomPhotoName(context, Bitmap.CompressFormat.WEBP);
+    }
+
+    /**
+     * 生成随机的名字
+     */
+    @SuppressWarnings("WeakerAccess")
+    public static String generateRandomPhotoName(Context context, Bitmap.CompressFormat format) {
         File cacheFolder = context.getExternalCacheDir();
         if (null == cacheFolder) {
             File target = Environment.getExternalStorageDirectory();
@@ -434,7 +465,18 @@ public final class ImageUtils {
                 Log.e(TAG, "generateUri failed: " + e.toString());
             }
         }
-        String name = StringUtils.plusString(UUID.randomUUID().toString().toUpperCase(), ".jpg");
+        String suffix;
+        if (format == null || format == Bitmap.CompressFormat.JPEG) {
+            suffix = ".jpg";
+        } else if (format == Bitmap.CompressFormat.PNG) {
+            suffix = ".png";
+        } else if (format == Bitmap.CompressFormat.WEBP) {
+            suffix = ".webp";
+        } else {
+            suffix = ".jpg";
+        }
+
+        String name = StringUtils.plusString(UUID.randomUUID().toString().toUpperCase(), suffix);
         return StringUtils.plusString(cacheFolder.getAbsolutePath(), File.separator, name);
     }
 }
