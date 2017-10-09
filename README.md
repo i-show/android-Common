@@ -2,9 +2,9 @@
 
 AndroidCommon是一个项目的基础框架，里面包含了常用的工具类、自定义的控件以及项目的基本功能等
 
-- 1. [工具类](https://github.com/BrightYu/AndroidCommon/wiki/Utils)
-- 2. [自定义控件](https://github.com/BrightYu/AndroidCommon/wiki/Widgets)
-- 3. [基本功能](https://github.com/BrightYu/AndroidCommon/wiki/Modules)
+- [工具类](https://github.com/BrightYu/AndroidCommon/wiki/Utils)
+- [自定义控件](https://github.com/BrightYu/AndroidCommon/wiki/Widgets)
+- [基本功能](https://github.com/BrightYu/AndroidCommon/wiki/Modules)
 
 
 # JCenter
@@ -13,7 +13,9 @@ compile 'com.ishow:common:1.1.1'
 ```
 
 # 更新记录
-####  1.1.1
+### 1.1.2
+- SelectPhotoUtils 增加 Bitmap.CompressFormat 选择
+### 1.1.1
 - ImageUtils 工具类重新配置以及整理
 - SharedPreferencesUtils 增加缓存方法
 - VersionManager 增加清除缓存机制
