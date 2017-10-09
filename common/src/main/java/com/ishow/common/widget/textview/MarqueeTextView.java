@@ -21,7 +21,6 @@ import android.graphics.Rect;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
 public class MarqueeTextView extends AppCompatTextView {
 
@@ -54,17 +53,16 @@ public class MarqueeTextView extends AppCompatTextView {
     }
 
     @Override
-    protected void onFocusChanged(boolean focused, int direction,
-                                  Rect previouslyFocusedRect) {
+    protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect) {
         if (focused) {
-            super.onFocusChanged(focused, direction, previouslyFocusedRect);
+            super.onFocusChanged(true, direction, previouslyFocusedRect);
         }
     }
 
     @Override
     public void onWindowFocusChanged(boolean focused) {
         if (focused) {
-            super.onWindowFocusChanged(focused);
+            super.onWindowFocusChanged(true);
         }
     }
 
