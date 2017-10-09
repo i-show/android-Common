@@ -9,7 +9,7 @@ AndroidCommon是一个项目的基础框架，里面包含了常用的工具类�
 
 # JCenter
 ```
-compile 'com.ishow:common:1.1.1'
+compile 'com.ishow:common:1.1.2'
 ```
 
 # 更新记录
