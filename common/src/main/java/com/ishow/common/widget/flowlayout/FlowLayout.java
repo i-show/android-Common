@@ -17,11 +17,7 @@
 package com.ishow.common.widget.flowlayout;
 
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.database.DataSetObserver;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -29,31 +25,13 @@ import com.ishow.common.R;
 
 public class FlowLayout extends ViewGroup {
     @SuppressWarnings("unused")
-    private static final String TAG = "Flowlayout";
+    private static final String TAG = "FlowLayout";
 
-    /**
-     * 直接包裹形式
-     */
-    @SuppressWarnings("unused")
-    private static final int MODE_WRAP = 1;
-    /**
-     * Adapter形式
-     */
-    private static final int MODE_ADAPTER = 2;
     /**
      * Default Gap
      */
     private int mGap;
 
-    private int mMode;
-    /**
-     * FlowAdapter
-     */
-    private FlowAdapter mAdapter;
-    /**
-     * Observer
-     */
-    private DefaultDataSetObserver mDataSetObserver;
 
     public FlowLayout(Context context) {
         this(context, null);
@@ -65,9 +43,6 @@ public class FlowLayout extends ViewGroup {
 
     public FlowLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FlowLayout);
-        mMode = a.getInt(R.styleable.FlowLayout_flowMode, MODE_ADAPTER);
-        a.recycle();
         init();
     }
 
@@ -175,141 +150,8 @@ public class FlowLayout extends ViewGroup {
         return new MarginLayoutParams(getContext(), attrs);
     }
 
-    /**
-     * set adapter
-     */
-    public void setAdapter(@NonNull FlowAdapter adapter) {
-        if (mAdapter != null && mDataSetObserver != null) {
-            mAdapter.unregisterDataSetObserver(mDataSetObserver);
-        }
-
-        mAdapter = adapter;
-        mDataSetObserver = new DefaultDataSetObserver();
-        mAdapter.registerDataSetObserver(mDataSetObserver);
-    }
-
     protected int getDefaultGap() {
         return getContext().getResources().getDimensionPixelSize(R.dimen.gap_grade_2);
     }
 
-
-    /**
-     * This method is not supported and throws an UnsupportedOperationException when called.
-     *
-     * @param child Ignored.
-     * @throws UnsupportedOperationException Every time this method is invoked.
-     */
-    @Override
-    public void addView(View child) {
-        if (mMode == MODE_ADAPTER) {
-            throw new UnsupportedOperationException("addView(View) is not supported in AdapterView");
-        } else {
-            super.addView(child);
-        }
-    }
-
-    /**
-     * This method is not supported and throws an UnsupportedOperationException when called.
-     *
-     * @param child Ignored.
-     * @param index Ignored.
-     * @throws UnsupportedOperationException Every time this method is invoked.
-     */
-    @Override
-    public void addView(View child, int index) {
-        if (mMode == MODE_ADAPTER) {
-            throw new UnsupportedOperationException("addView(View, int) is not supported in AdapterView");
-        } else {
-            super.addView(child, index);
-        }
-    }
-
-    /**
-     * This method is not supported and throws an UnsupportedOperationException when called.
-     *
-     * @param child  Ignored.
-     * @param params Ignored.
-     * @throws UnsupportedOperationException Every time this method is invoked.
-     */
-    @Override
-    public void addView(View child, LayoutParams params) {
-        if (mMode == MODE_ADAPTER) {
-            throw new UnsupportedOperationException("addView(View, LayoutParams) "
-                    + "is not supported in AdapterView");
-        } else {
-            super.addView(child, params);
-        }
-    }
-
-    /**
-     * This method is not supported and throws an UnsupportedOperationException when called.
-     *
-     * @param child  Ignored.
-     * @param index  Ignored.
-     * @param params Ignored.
-     * @throws UnsupportedOperationException Every time this method is invoked.
-     */
-    @Override
-    public void addView(View child, int index, LayoutParams params) {
-        if (mMode == MODE_ADAPTER) {
-            throw new UnsupportedOperationException("addView(View, int, LayoutParams) "
-                    + "is not supported in AdapterView");
-        } else {
-            super.addView(child, index, params);
-        }
-    }
-
-    /**
-     * This method is not supported and throws an UnsupportedOperationException when called.
-     *
-     * @param child Ignored.
-     * @throws UnsupportedOperationException Every time this method is invoked.
-     */
-    @Override
-    public void removeView(View child) {
-        if (mMode == MODE_ADAPTER) {
-            throw new UnsupportedOperationException("removeView(View) is not supported in AdapterView");
-        } else {
-            super.removeView(child);
-        }
-    }
-
-    /**
-     * This method is not supported and throws an UnsupportedOperationException when called.
-     *
-     * @param index Ignored.
-     * @throws UnsupportedOperationException Every time this method is invoked.
-     */
-    @Override
-    public void removeViewAt(int index) {
-        if (mMode == MODE_ADAPTER) {
-            throw new UnsupportedOperationException("removeViewAt(int) is not supported in AdapterView");
-        } else {
-            super.removeViewAt(index);
-        }
-    }
-
-    /**
-     * This method is not supported and throws an UnsupportedOperationException when called.
-     *
-     * @throws UnsupportedOperationException Every time this method is invoked.
-     */
-    @Override
-    public void removeAllViews() {
-        if (mMode == MODE_ADAPTER) {
-            throw new UnsupportedOperationException("removeAllViews() is not supported in AdapterView");
-        } else {
-            super.removeAllViews();
-        }
-    }
-
-
-    private class DefaultDataSetObserver extends DataSetObserver {
-
-        @Override
-        public void onChanged() {
-            super.onChanged();
-            Log.i(TAG, "onChanged: onchanged");
-        }
-    }
 }

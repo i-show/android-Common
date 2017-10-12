@@ -22,7 +22,7 @@ import android.util.AttributeSet;
 import android.widget.ListView;
 
 import com.ishow.common.R;
-import com.ishow.common.utils.ScreenUtils;
+import com.ishow.common.utils.DeviceUtils;
 
 
 public class MaxHeightListView extends ListView {
@@ -52,7 +52,7 @@ public class MaxHeightListView extends ListView {
     }
 
     private int getDefaultHeight() {
-        int screen[] = ScreenUtils.getScreenSize();
+        int screen[] = DeviceUtils.getScreenSize();
         if (screen[0] > screen[1]) {
             return screen[1] / 2;
         } else {

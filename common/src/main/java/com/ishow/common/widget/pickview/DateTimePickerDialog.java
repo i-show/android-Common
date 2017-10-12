@@ -58,7 +58,7 @@ public class DateTimePickerDialog extends Dialog implements TopBar.OnTopBarListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_date_time_picker);
-        TopBar topBar = (TopBar) findViewById(R.id.topbar);
+        TopBar topBar = (TopBar) findViewById(R.id.top_bar);
         topBar.setOnTopBarListener(this);
 
         mPicker = (DateTimePicker) findViewById(R.id.picker);

@@ -19,7 +19,6 @@ package com.ishow.common.widget;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -140,7 +139,6 @@ public class VerifyCodeButton extends FrameLayout {
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.VerifyCodeButton);
         int padding = a.getDimensionPixelSize(R.styleable.VerifyCodeButton_android_padding, getDefaultPadding());
-        //mTextColor = a.getColor(R.styleable.VerifyCodeButton_textColor, getDefaultTextColor());
         mTextColor = a.getColorStateList(R.styleable.VerifyCodeButton_textColor);
         mTextSize = a.getDimensionPixelSize(R.styleable.VerifyCodeButton_textSize, getDefaultTextSize());
         a.recycle();
@@ -262,6 +260,7 @@ public class VerifyCodeButton extends FrameLayout {
     /**
      * 时间监听
      */
+    @SuppressWarnings("WeakerAccess")
     public interface OnTimingListener {
         /**
          * 正在发送验证码

@@ -16,29 +16,17 @@
 
 package com.ishow.noahark.modules.sample.main;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.support.v7.widget.RecyclerView;
 
+import com.ishow.common.widget.recyclerview.layoutmanager.FlowLayoutManager;
 import com.ishow.noahark.R;
 import com.ishow.noahark.modules.base.AppBaseActivity;
-import com.ishow.noahark.modules.sample.dialog.select.SampleSelectDialogAndPickerDialog;
-import com.ishow.noahark.modules.sample.edittextpro.SampleEditTextProActivity;
-import com.ishow.noahark.modules.sample.flowlayout.SampleFlowLayoutActivity;
-import com.ishow.noahark.modules.sample.http.SampleHttpActivity;
-import com.ishow.noahark.modules.sample.imageloader.SampleImageLoaderActivity;
-import com.ishow.noahark.modules.sample.permission.SamplePermissionActivity;
-import com.ishow.noahark.modules.sample.photo.select.SampleSelectPhotoActivity;
-import com.ishow.noahark.modules.sample.pickview.SamplePickerActivity;
-import com.ishow.noahark.modules.sample.pulltorefresh.SamplePullToRefreshActivity;
-import com.ishow.noahark.modules.sample.recycle.animation.SampleAnimationRecycleViewActivity;
-import com.ishow.noahark.modules.sample.recycle.decoration.SampleRecycleItemDecorationActivity;
-import com.ishow.noahark.modules.sample.webview.loading.SampleLoadingWebViewActivity;
 
 /**
  * 测试Demo
  */
-public class SampleMainActivity extends AppBaseActivity implements View.OnClickListener {
+public class SampleMainActivity extends AppBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,99 +36,11 @@ public class SampleMainActivity extends AppBaseActivity implements View.OnClickL
     @Override
     protected void initViews() {
         super.initViews();
-        // 滚轮选择器
-        View view = findViewById(R.id.sample_pick_view);
-        view.setOnClickListener(this);
-        // 图片选择器
-        view = findViewById(R.id.sample_select_photo);
-        view.setOnClickListener(this);
-        // 权限设置
-        view = findViewById(R.id.sample_select_permission);
-        view.setOnClickListener(this);
-        // EditTextPro
-        view = findViewById(R.id.sample_select_edittextpro);
-        view.setOnClickListener(this);
-        // Http
-        view = findViewById(R.id.sample_select_http);
-        view.setOnClickListener(this);
+        SampleMainAdapter adapter = new SampleMainAdapter(this);
+        adapter.setData(SampleManager.getSamples());
 
-        // ImageLoader
-        view = findViewById(R.id.sample_select_imageloader);
-        view.setOnClickListener(this);
-
-        // 动画RecycleView
-        view = findViewById(R.id.sample_ani_recycle);
-        view.setOnClickListener(this);
-        view = findViewById(R.id.sample_recycle_item_decoration);
-        view.setOnClickListener(this);
-
-        // 选择弹框和滚动弹框
-        view = findViewById(R.id.sample_picker_and_select);
-        view.setOnClickListener(this);
-        // 顶部有加载的webview
-        view = findViewById(R.id.sample_loading_webview);
-        view.setOnClickListener(this);
-        // flow_layout
-        view = findViewById(R.id.sample_flow_layout);
-        view.setOnClickListener(this);
-
-        view = findViewById(R.id.sample_pull_to_refresh);
-        view.setOnClickListener(this);
+        RecyclerView list = (RecyclerView) findViewById(R.id.list);
+        list.setLayoutManager(new FlowLayoutManager());
+        list.setAdapter(adapter);
     }
-
-    @Override
-    public void onClick(View view) {
-        Intent intent;
-        switch (view.getId()) {
-            case R.id.sample_pick_view:
-                intent = new Intent(this, SamplePickerActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.sample_select_photo:
-                intent = new Intent(this, SampleSelectPhotoActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.sample_select_permission:
-                intent = new Intent(this, SamplePermissionActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.sample_select_edittextpro:
-                intent = new Intent(this, SampleEditTextProActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.sample_select_http:
-                intent = new Intent(this, SampleHttpActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.sample_select_imageloader:
-                intent = new Intent(this, SampleImageLoaderActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.sample_ani_recycle:
-                intent = new Intent(this, SampleAnimationRecycleViewActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.sample_recycle_item_decoration:
-                intent = new Intent(this, SampleRecycleItemDecorationActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.sample_picker_and_select:
-                intent = new Intent(this, SampleSelectDialogAndPickerDialog.class);
-                startActivity(intent);
-                break;
-            case R.id.sample_loading_webview:
-                intent = new Intent(this, SampleLoadingWebViewActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.sample_flow_layout:
-                intent = new Intent(this, SampleFlowLayoutActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.sample_pull_to_refresh:
-                intent = new Intent(this, SamplePullToRefreshActivity.class);
-                startActivity(intent);
-                break;
-        }
-    }
-
 }

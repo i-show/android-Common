@@ -16,6 +16,7 @@
 
 package com.ishow.common.widget.dialog;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,6 +24,7 @@ import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
@@ -36,7 +38,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.ishow.common.R;
-import com.ishow.common.utils.ScreenUtils;
+import com.ishow.common.utils.DeviceUtils;
 
 
 /**
@@ -66,7 +68,7 @@ import com.ishow.common.utils.ScreenUtils;
  */
 
 public class BaseDialog extends Dialog implements DialogInterface {
-
+    private static final String TAG = "BaseDialog";
     private static final int PADDING_W = 10;
     private static boolean isShowFromBottom;
     private BaseController mAlert;
@@ -220,19 +222,33 @@ public class BaseDialog extends Dialog implements DialogInterface {
     // Just Set with is screen - PADDING_W , no full screen
     @Override
     public void show() {
+        Context context = getContext();
+        if (context instanceof Activity && ((Activity) context).isFinishing()) {
+            Log.i(TAG, "show:  activity is null or finishing");
+            return;
+        }
+
         super.show();
+
         Window window = getWindow();
+        if (window == null) {
+            Log.i(TAG, "show: window is null");
+            return;
+        }
+
         LayoutParams lp = window.getAttributes();
-        int width = ScreenUtils.getScreenSize()[0];
-        int height = ScreenUtils.getScreenSize()[1];
+        int width = DeviceUtils.getScreenSize()[0];
+        int height = DeviceUtils.getScreenSize()[1];
         if (isShowFromBottom) {
             if (width > height) {
+                //noinspection SuspiciousNameCombination
                 lp.width = height;
             } else {
                 lp.width = width;
             }
         } else {
             if (width > height) {
+                //noinspection SuspiciousNameCombination
                 lp.width = height;
             } else {
                 lp.width = (int) (width * 0.8);

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="sample_widget_list">Widget</string>
     <string name="sample_main">Samples</string>
     <string name="sample_prompt">Prompt Sample</string>
     <string name="sample_pick_view">PickView</string>
@@ -18,10 +19,11 @@
     <string name="sample_imageloader">ImageLoader</string>
     <string name="sample_get_time">当前时间</string>
 
-    <string name="sample_ani_recycle">AniRecycle</string>
+    <string name="sample_ani_recycle">AnimationRecycleView</string>
     <string name="sample_recycle_item_decoration">RecycleItemDecoration</string>
     <string name="sample_picker_and_select">选择、滚动弹框</string>
     <string name="sample_loading_webview">LoadingWebView</string>
     <string name="sample_flow_layout">FlowLayout</string>
     <string name="sample_pull_to_refresh">PullToRefresh</string>
+
 </resources>
