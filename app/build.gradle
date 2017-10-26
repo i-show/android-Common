@@ -113,6 +113,8 @@ android {
             // 设置那个版本
             buildConfigField "int", "VERSION_TYPE", VERSION_SIT
             buildConfigField "String", "VERSION_DESCRIPTION", "\"测试版本\""
+            
+            matchingFallbacks = ['debug', 'release']
         }
 
 
@@ -139,6 +141,9 @@ android {
             // 设置那个版本
             buildConfigField "int", "VERSION_TYPE", VERSION_UAT
             buildConfigField "String", "VERSION_DESCRIPTION", "\"UAT版本\""
+
+            // matchingFallbacks = ['debug', 'release']
+            matchingFallbacks = ['debug', 'release']
         }
 
         release {
@@ -206,39 +211,23 @@ android {
     }
 
     // 包名重命名，加上版本及日期
-    applicationVariants.all { variant ->
-        variant.outputs.each { output ->
+    android.applicationVariants.all { variant ->
+        variant.outputs.all { output ->
             renameAPK(android, variant, output);
         }
     }
 
-    // delete unaligned files
-    android.applicationVariants.all { variant ->
-        variant.assemble.doLast {
-            variant.outputs.each { output ->
-                deleteUnaligned(output);
-            }
-        }
-    }
 }
 
 
 
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     // 基础库
     compile project(':common')
-    // 注解库
-    compile 'com.jakewharton:butterknife:8.6.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
-    //  百度统计
-    compile 'com.baidu.mobstat:mtj-sdk:3.8.0.6'
 
-    //RX
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    // Because RxAndroid releases are few and far between, it is recommended you also
-    // explicitly depend on RxJava's latest version for bug fixes and new features.
-    compile 'io.reactivex.rxjava2:rxjava:2.1.0'
+    //  百度统计
+    implementation 'com.baidu.mobstat:mtj-sdk:3.8.0.6'
 }
 

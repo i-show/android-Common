@@ -13,6 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+repositories {
+    mavenCentral()
+    maven { url 'https://maven.google.com' }
+}
 
 apply plugin: 'com.android.library'
 
@@ -25,13 +29,7 @@ android {
         targetSdkVersion TARGET_SDK_VERSION as int
     }
 
-    buildTypes {
-        release {
-            debuggable false
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
+
 
     sourceSets {
         main {
@@ -106,8 +104,8 @@ dependencies {
     compile "com.android.support:cardview-v7:${ANDROID_SUPPORT_VERSION}"
 
     // Glide 图片加载框架
-    compile "com.github.bumptech.glide:glide:${GLIDE_VERSION}"
-    compile "com.github.bumptech.glide:okhttp3-integration:${GLIDE_VERSION}"
+    compile  "com.github.bumptech.glide:glide:${GLIDE_VERSION}"
+    compile  "com.github.bumptech.glide:okhttp3-integration:${GLIDE_VERSION}"
     annotationProcessor "com.github.bumptech.glide:compiler:${GLIDE_VERSION}"
 
     // okhttp 网络请求框架
@@ -116,4 +114,8 @@ dependencies {
     compile "com.alibaba:fastjson:${FAST_JSON_VERSION}"
     // 上拉刷新下拉加载更多
     compile 'com.ishow:pulltorefresh:1.0.1'
+
+    // 注解库
+    compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 }

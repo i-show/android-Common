@@ -1,18 +1,19 @@
 buildscript {
     repositories {
         jcenter()
+        google()
     }
 
     dependencies {
         //  Android 默认的编译工具库插件
-        classpath 'com.android.tools.build:gradle:2.3.3'
-
+        classpath 'com.android.tools.build:gradle:3.0.0'
     }
 }
 
 allprojects {
     repositories {
         jcenter()
+        google()
     }
 
     // Javadoc设定为UTF-8了
@@ -77,24 +78,10 @@ def renameAPK(android, variant, output) {
     def outputFile = output.outputFile
 
     if (outputFile != null) {
-        def newName;
         if (flavorName.equals("") || flavorName.equals("null")) {
-            newName = "${APK_PREFIX}_${buildTypeName}_v${versionName}${versionNameSuffix}_${releaseTime()}.apk"
+            output.outputFileName = "${APK_PREFIX}_${buildTypeName}_v${versionName}${versionNameSuffix}_${releaseTime()}.apk"
         } else {
-            newName = "${APK_PREFIX}_${buildTypeName}_${flavorName}_v${versionName}${versionNameSuffix}_${releaseTime()}.apk"
+            output.outputFileName = "${APK_PREFIX}_${buildTypeName}_${flavorName}_v${versionName}${versionNameSuffix}_${releaseTime()}.apk"
         }
-        output.outputFile = new File(outputFile.parent, newName)
-    }
-}
-
-/**
- * 移除掉未签名APK的方法
- */
-def deleteUnaligned(output) {
-    File unaligned = output.packageApplication.outputFile;
-    File aligned = output.outputFile
-    if (!unaligned.getName().equalsIgnoreCase(aligned.getName())) {
-        println "deleting " + unaligned.getName()
-        unaligned.delete()
     }
 }
