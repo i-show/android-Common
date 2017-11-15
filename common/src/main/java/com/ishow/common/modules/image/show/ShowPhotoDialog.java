@@ -44,7 +44,7 @@ public class ShowPhotoDialog extends Dialog {
     private boolean isShowThumb = true;
 
     public ShowPhotoDialog(Context context) {
-        super(context, R.style.AppDialog_Black);
+        super(context, R.style.Theme_Dialog_Black);
     }
 
     @Override

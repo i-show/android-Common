@@ -32,7 +32,7 @@ import com.ishow.common.utils.DeviceUtils;
 public class LoadingDialog extends Dialog {
 
     private LoadingDialog(Context context) {
-        this(context, R.style.AppDialog_Semipermeable);
+        this(context, R.style.Theme_Dialog_Semipermeable);
     }
 
     private LoadingDialog(Context context, int themeResId) {

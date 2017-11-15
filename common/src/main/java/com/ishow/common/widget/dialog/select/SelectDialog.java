@@ -45,7 +45,7 @@ public class SelectDialog<T extends IUnitSelect> extends Dialog implements
 
     @SuppressWarnings("unused")
     public SelectDialog(Context context) {
-        super(context, R.style.AppDialog_Bottom_Transparent);
+        super(context, R.style.Theme_Dialog_Bottom_Transparent);
         mAdapter = new SelectAdapter<>(getContext());
         setCancelable(false);
     }

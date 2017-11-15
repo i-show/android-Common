@@ -23,15 +23,11 @@
         <!-- Activity 进出动画 -->
         <item name="android:windowAnimationStyle">@style/Animation.Activity</item>
         <item name="android:windowContentOverlay">@null</item>
+        <!-- 设置默认的高度-->
+        <item name="android:actionBarSize">@dimen/top_bar_height</item>
 
         <!-- 默认 Button的Style -->
         <item name="buttonStyle">@style/AppButton</item>
-        <!-- 默认 TextView的Style -->
-        <item name="android:textViewStyle">@style/AppTextView</item>
-
-        <!-- v7 包 需要把android 去掉 -->
-        <item name="editTextBackground">@android:color/transparent</item>
-        <item name="editTextStyle">@style/AppEditText</item>
 
         <!-- 标题栏颜色 -->
         <item name="colorPrimary">@color/color_primary</item>
@@ -39,15 +35,10 @@
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <!--常用的颜色例如 光标颜色-->
         <item name="colorAccent">@color/color_accent</item>
-        <!--  TopBar 的style -->
-        <item name="topbarStyle">@style/TopBar</item>
-        <!-- 间隔线，暂时不进行设置 -->
-        <!--<item name="android:divider">@color/line</item>-->
-        <!-- 设置默认的高度-->
-        <item name="android:actionBarSize">@dimen/top_bar_height</item>
-
         <item name="colorControlNormal">@color/grey_deep_10</item>
         <item name="colorControlActivated">@color/color_accent</item>
+        <!--  TopBar 的style -->
+        <item name="topbarStyle">@style/TopBar</item>
     </style>
 
     <!-- 移除状态栏和标题栏 -->
@@ -89,7 +80,7 @@
     </style>
 
     <!-- ################ Dialog ################ -->
-    <style name="AppDialog" parent="@style/Theme.AppCompat.Dialog">
+    <style name="Theme.Dialog" parent="@style/Theme.AppCompat.Dialog">
         <!-- 标题栏颜色 -->
         <item name="colorPrimary">@color/color_primary</item>
         <!--常用的颜色例如 光标颜色-->
@@ -114,7 +105,7 @@
     </style>
 
     <!-- 透明Dialog -->
-    <style name="AppDialog.Transparent">
+    <style name="Theme.Dialog.Transparent">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -123,7 +114,7 @@
     </style>
 
     <!-- 透明Dialog -->
-    <style name="AppDialog.Semipermeable">
+    <style name="Theme.Dialog.Semipermeable">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@color/semipermeable</item>
@@ -132,7 +123,7 @@
     </style>
 
     <!-- 背景是纯黑色的的dialog -->
-    <style name="AppDialog.Black">
+    <style name="Theme.Dialog.Black">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/black</item>
@@ -142,7 +133,7 @@
     </style>
 
     <!-- 从底部弹出的Dialog -->
-    <style name="AppDialog.Bottom">
+    <style name="Theme.Dialog.Bottom">
         <item name="android:windowBackground">@drawable/top_line_white_bg</item>
         <item name="android:listDivider">@color/line</item>
         <!--Settings the Dialog Title-->
@@ -153,7 +144,7 @@
     </style>
 
     <!-- 从底部弹出的Dialog -->
-    <style name="AppDialog.Bottom.Transparent">
+    <style name="Theme.Dialog.Bottom.Transparent">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -168,7 +159,7 @@
     </style>
 
     <!-- 从底部弹出的仿IOS风格的Dialog -->
-    <style name="AppDialog.Bottom.IOS">
+    <style name="Theme.Dialog.Bottom.IOS">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:listDivider">@color/line</item>
         <item name="dialogLayouts">@style/BaseDialog.Bottom.IOS.Layout</item>
@@ -179,7 +170,7 @@
     </style>
 
     <!-- 从底部弹出的仿IOS风格的Dialog -->
-    <style name="AppDialog.Bottom.IOS.NoTitle">
+    <style name="Theme.Dialog.Bottom.IOS.NoTitle">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:listDivider">@color/line</item>
         <item name="dialogLayouts">@style/BaseDialog.Bottom.IOS.Layout.NoTitle</item>

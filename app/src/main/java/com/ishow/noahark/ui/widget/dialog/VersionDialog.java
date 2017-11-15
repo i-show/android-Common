@@ -49,7 +49,7 @@ public class VersionDialog extends Dialog implements View.OnClickListener {
     private View mSubmitView;
 
     public VersionDialog(@NonNull Context context) {
-        super(context, R.style.AppDialog_Transparent);
+        super(context, R.style.Theme_Dialog_Transparent);
         setCancelable(false);
     }
 
@@ -58,8 +58,8 @@ public class VersionDialog extends Dialog implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_version);
 
-        mMessage = (TextView) findViewById(R.id.message);
-        mIgnore = (CheckBox) findViewById(R.id.ignore);
+        mMessage = findViewById(R.id.message);
+        mIgnore = findViewById(R.id.ignore);
 
         mCancelView = findViewById(R.id.cancel);
         mCancelView.setOnClickListener(this);

@@ -20,6 +20,8 @@
     <item name="tag_glide" type="id" />
     <!-- 封装后 ListAdapter 中使用 -->
     <item name="tag_view_holder" type="id" />
+    <!-- Recycle 的onClick中使用-->
+    <item name="tag_view_holder_recycle_item_click" type="id" />
     <!-- Loading Dialogtag -->
     <item name="tag_loading_dialog" type="id" />
     <!-- widget -->
@@ -37,7 +39,7 @@
     <item name="rightImage2" type="id" />
 
     <item name="cancel" type="id" />
-    
+
     <item name="tag_01" type="id" />
     <item name="tag_02" type="id" />
     <item name="tag_03" type="id" />

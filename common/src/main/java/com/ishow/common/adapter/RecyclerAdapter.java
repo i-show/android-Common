@@ -22,6 +22,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ishow.common.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,12 +48,15 @@ public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holde
     @SuppressWarnings("unused")
     public static final int TYPE_FOOTER = 2;
 
-
     private List<DATA> mData = new ArrayList<>();
     protected Context mContext;
     protected LayoutInflater mLayoutInflater;
 
-    //  RecyclerView 注意可能为空
+    /**
+     * 当前绑定的RecycleView
+     * {@link #onAttachedToRecyclerView(RecyclerView)} 中进行赋值操作
+     * {@link #onDetachedFromRecyclerView(RecyclerView)} 会进行值空
+     */
     private RecyclerView mRecyclerView;
 
     public RecyclerAdapter(Context context) {
@@ -87,7 +92,7 @@ public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holde
     /**
      * 增加数据
      */
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "WeakerAccess"})
     public void plusData(List<DATA> data) {
         if (data != null) {
             int lastIndex = mData.size();
@@ -120,7 +125,7 @@ public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holde
     /**
      * 获取移除Header的Count
      */
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "WeakerAccess"})
     public int getRealCount() {
         return mData.size();
     }
@@ -173,6 +178,7 @@ public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holde
 
     @Override
     public void onBindViewHolder(HOLDER holder, int position) {
+        holder.getItemView().setTag(R.id.tag_view_holder_recycle_item_click, position);
         onBindViewHolder(holder, position, holder.getItemViewType());
     }
 

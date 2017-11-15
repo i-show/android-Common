@@ -45,7 +45,7 @@ public class PickerDialog<T extends IUnitPicker> extends Dialog implements TopBa
     private int mCurrentPosition;
 
     public PickerDialog(Context context) {
-        super(context, R.style.AppDialog_Bottom_Transparent);
+        super(context, R.style.Theme_Dialog_Bottom_Transparent);
         mAdapter = new PickerDialogAdapter<>(getContext());
         setCancelable(true);
     }

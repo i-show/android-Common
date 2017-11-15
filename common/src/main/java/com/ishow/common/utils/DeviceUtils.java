@@ -45,12 +45,23 @@ public class DeviceUtils {
     /**
      * 获取手机的deviceId
      */
-    @SuppressLint("HardwareIds")
+    @SuppressLint({"HardwareIds", "MissingPermission"})
     public static String deviceId(Context context) {
         TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        String id = manager.getDeviceId();
-        if (TextUtils.isEmpty(id)) {
+        String id = StringUtils.EMPTY;
+        try {
+            id = manager.getDeviceId();
+        } catch (Exception e) {
+            Log.i(TAG, "deviceId: e = " + e.toString());
+        }
+        if (!TextUtils.isEmpty(id)) {
+            return id;
+        }
+        
+        try {
             id = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+        } catch (Exception e) {
+            Log.i(TAG, "deviceId: e =" + e.toString());
         }
         return id;
     }

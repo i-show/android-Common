@@ -247,7 +247,7 @@ public class SelectPhotoUtils implements
      */
     private void showSelectDialog() {
         if (mSelectDialog == null) {
-            mSelectDialog = new BaseDialog.Builder(mActivity, R.style.AppDialog_Bottom_IOS_NoTitle)
+            mSelectDialog = new BaseDialog.Builder(mActivity, R.style.Theme_Dialog_Bottom_IOS_NoTitle)
                     .setTitle(R.string.select_photo_title)
                     .setNegativeButton(R.string.cancel, null)
                     .isShowFromBottom(true)
