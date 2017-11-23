@@ -90,6 +90,10 @@ public class OkFileCookieStore implements IOkCookieStore {
             }
         }
 
+        if (mCookies.get(url.host()) == null) {
+            return;
+        }
+
         //讲cookies持久化到本地
         SharedPreferences.Editor prefsWriter = mCookieSharedPreferences.edit();
         prefsWriter.putString(url.host(), TextUtils.join(",", mCookies.get(url.host()).keySet()));
