@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 repositories {
-    mavenCentral()
-    maven { url 'https://maven.google.com' }
+    google()
 }
+
 
 apply plugin: 'com.android.library'
 
@@ -92,30 +93,36 @@ ext {
     } catch (Exception e) {
         FAST_JSON_VERSION = FAST_JSON_VERSION_COMMON
     }
+
+    //noinspection GroovyUnusedCatchParameter
+    try {
+        ANDROID_SUPPORT_VERSION = ANDROID_SUPPORT_VERSION
+    } catch (Exception e) {
+        ANDROID_SUPPORT_VERSION = ANDROID_SUPPORT_VERSION_COMMON
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    api fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile "com.android.support:support-v4:${SUPPORT_V4_VERSION}"
-    compile "com.android.support:appcompat-v7:${SUPPORT_V7_VERSION}"
-    compile "com.android.support:recyclerview-v7:${ANDROID_SUPPORT_VERSION}"
-    compile "com.android.support:design:${ANDROID_SUPPORT_VERSION}"
-    compile "com.android.support:cardview-v7:${ANDROID_SUPPORT_VERSION}"
+    api "com.android.support:support-v4:${ANDROID_SUPPORT_VERSION}"
+    api "com.android.support:appcompat-v7:${ANDROID_SUPPORT_VERSION}"
+    api "com.android.support:recyclerview-v7:${ANDROID_SUPPORT_VERSION}"
+    api "com.android.support:design:${ANDROID_SUPPORT_VERSION}"
+    api "com.android.support:cardview-v7:${ANDROID_SUPPORT_VERSION}"
 
     // Glide 图片加载框架
-    compile  "com.github.bumptech.glide:glide:${GLIDE_VERSION}"
-    compile  "com.github.bumptech.glide:okhttp3-integration:${GLIDE_VERSION}"
+    api  "com.github.bumptech.glide:glide:${GLIDE_VERSION}"
+    api  "com.github.bumptech.glide:okhttp3-integration:${GLIDE_VERSION}"
     annotationProcessor "com.github.bumptech.glide:compiler:${GLIDE_VERSION}"
 
     // okhttp 网络请求框架
-    compile "com.squareup.okhttp3:okhttp:${OKHTTP_VERSION}"
+    api "com.squareup.okhttp3:okhttp:${OKHTTP_VERSION}"
     // JSON 解析工具
-    compile "com.alibaba:fastjson:${FAST_JSON_VERSION}"
+    api "com.alibaba:fastjson:${FAST_JSON_VERSION}"
     // 上拉刷新下拉加载更多
-    compile 'com.ishow:pulltorefresh:1.0.1'
-
+    api 'com.ishow:pulltorefresh:1.0.1'
     // 注解库
-    compile 'com.jakewharton:butterknife:8.8.1'
+    api 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 }
