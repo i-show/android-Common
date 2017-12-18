@@ -29,7 +29,6 @@ import com.ishow.common.R;
 import com.ishow.common.utils.IntentUtils;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -205,7 +204,7 @@ public class PermissionManager {
      * @param grantResults results.
      */
     public static void onRequestPermissionsResult(@NonNull Activity activity, int requestCode, @NonNull String[] permissions, int[] grantResults) {
-        onRequestPermissionsResult(activity, activity.getClass(), requestCode, permissions, grantResults);
+        onRequestPermissionsResult(activity, activity, requestCode, permissions, grantResults);
     }
 
 
@@ -231,7 +230,7 @@ public class PermissionManager {
      * @param grantResults results.
      */
     public static void onRequestPermissionsResult(@NonNull android.support.v4.app.Fragment fragment, int requestCode, @NonNull String[] permissions, int[] grantResults) {
-        onRequestPermissionsResult(fragment, fragment.getClass(), requestCode, permissions, grantResults);
+        onRequestPermissionsResult(fragment, fragment, requestCode, permissions, grantResults);
     }
 
     /**
@@ -285,7 +284,7 @@ public class PermissionManager {
         boolean isAllGrant = deniedList.isEmpty();
 
         Class<? extends Annotation> clazz = isAllGrant ? PermissionGranted.class : PermissionDenied.class;
-        List<Method> methods = findMethodForRequestCode(realizeClass.getClass(), clazz, requestCode);
+        List<Method> methods = findMethodForRequestCode(realizeClass == null ? context.getClass() : realizeClass.getClass(), clazz, requestCode);
         if (methods.size() == 0) {
             Log.e(TAG, "Not found the callback method, do you forget @PermissionGranted or @permissionNo" +
                     " for callback method ? Or you can use PermissionListener.");
@@ -319,10 +318,9 @@ public class PermissionManager {
                 }
                 method.invoke(receiver, args);
             }
+            return true;
         } catch (Exception e) {
             return false;
-        } finally {
-            return true;
         }
     }
 
@@ -346,7 +344,7 @@ public class PermissionManager {
                 }
             });
         } else {
-            builder.setPositiveButton(R.string.yes, null);
+            builder.setPositiveButton(android.R.string.yes, null);
         }
 
         builder.create().show();
