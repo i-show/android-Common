@@ -78,7 +78,6 @@ public class LoadingDialog extends Dialog {
         super.onCreate(savedInstanceState);
         setTitle("dialog_loading");// for ddms show
         setContentView(R.layout.dialog_loading);
-
     }
 
     @Override

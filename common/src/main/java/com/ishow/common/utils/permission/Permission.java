@@ -15,10 +15,13 @@
  */
 package com.ishow.common.utils.permission;
 
+import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 
 @SuppressWarnings("all")
 public interface Permission {
+
 
     /**
      * Here to fill in all of this to apply for permission, can be a, can be more.
@@ -38,6 +41,30 @@ public interface Permission {
      */
     @NonNull
     Permission requestCode(int requestCode);
+
+    /**
+     * 注解回调的设置
+     *
+     * @param obj 设置注解的对象
+     */
+    Permission annotationClass(@NonNull Object obj);
+
+    /**
+     * 提示消息
+     */
+    Permission message(String message);
+
+    /**
+     * 提示消息
+     *
+     * @return
+     */
+    Permission message(@StringRes int message);
+
+    /**
+     * 提示方式 默认为Toast
+     */
+    Permission promptType(@PermissionPromptType int type);
 
     /**
      * Request permission.

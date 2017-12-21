@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
@@ -33,14 +34,38 @@ class DefaultPermission implements Permission {
     private static final String TAG = "PermissionManager";
 
     private String[] permissions;
+    /**
+     * 没有权限的 权限
+     */
+    @SuppressWarnings("FieldCanBeLocal")
     private String[] deniedPermissions;
-    private int requestCode;
+    /**
+     * 回调的code
+     */
+    int requestCode;
+    /**
+     * 提示方式
+     */
+    int promptType;
+    /**
+     * 提示信息
+     */
+    String message;
+    /**
+     * 使用注解的类
+     * 默认是当前的activity，如果是Dialog 那就在Dialog中添加
+     */
+    Object annotationClass;
+
     private Object object;
 
     DefaultPermission(Object o) {
-        if (o == null)
+        if (o == null) {
             throw new IllegalArgumentException("The object can not be null.");
+        }
         this.object = o;
+        this.annotationClass = object;
+        this.promptType = PermissionPromptType.Null;
     }
 
     @NonNull
@@ -60,8 +85,43 @@ class DefaultPermission implements Permission {
     }
 
     @Override
+    public Permission annotationClass(@NonNull Object obj) {
+        this.annotationClass = obj;
+        return this;
+    }
+
+    @Override
+    public Permission message(String message) {
+        this.message = message;
+        if (promptType == PermissionPromptType.Null) {
+            promptType = PermissionPromptType.Toast;
+        }
+        return this;
+    }
+
+    @Override
+    public Permission message(@StringRes int message) {
+        Context context = PermissionUtils.getContext(object);
+        this.message = context.getString(message);
+        if (promptType == PermissionPromptType.Null) {
+            promptType = PermissionPromptType.Toast;
+        }
+        return this;
+    }
+
+    @Override
+    public Permission promptType(@PermissionPromptType int type) {
+        this.promptType = type;
+        return this;
+    }
+
+    @Override
     @SuppressWarnings("unused")
     public void send() {
+
+        // 添加到信息中去
+        PermissionManager.addRequestPermission(this);
+
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             Context context = PermissionUtils.getContext(object);
 
@@ -81,14 +141,6 @@ class DefaultPermission implements Permission {
                 requestPermissions(object, requestCode, deniedPermissions);
             } else { // All permission granted.
                 final int[] grantResults = new int[permissions.length];
-
-                for (int result : grantResults) {
-                    result = PackageManager.PERMISSION_GRANTED;
-                }
-//                final int permissionCount = permissions.length;
-//                for (int i = 0; i < permissionCount; i++) {
-//                    grantResults[i] = PackageManager.PERMISSION_GRANTED;
-//                }
                 onRequestPermissionsResult(object, requestCode, permissions, grantResults);
             }
         }
@@ -132,5 +184,9 @@ class DefaultPermission implements Permission {
         } else if (o instanceof android.app.Fragment) {
             ((android.app.Fragment) o).onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+    }
+
+    int getContextHashCode() {
+        return object.hashCode();
     }
 }

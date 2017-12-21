@@ -17,6 +17,7 @@
 package com.ishow.common.widget.indicator;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -24,31 +25,45 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
+import com.ishow.common.R;
 import com.ishow.common.utils.UnitUtils;
 
-import static android.widget.LinearLayout.HORIZONTAL;
-import static android.widget.LinearLayout.VERTICAL;
-
 public class ColorIndicator extends View implements ViewPager.OnPageChangeListener {
-    private static final String TAG = ColorIndicator.class.getSimpleName();
-    private static final int THUMB_COLOR = Color.BLUE;
-    private static final int BAR_COLOR = 0xFFFFFFFF;
-    private static final int BAR_BORDER_COLOR = 0xFF999999;
-    private static final int RADIUS = 4; // This is dp
+    /**
+     * 默认进度颜色
+     */
+    private static final int DEFAULT_THUMB_COLOR = Color.BLUE;
+    /**
+     * 默认进度条的颜色
+     */
+    private static final int DEFAULT_BAR_COLOR = 0xFFFFFFFF;
+    /**
+     * 默认Bar边框的颜色
+     */
+    private static final int DEFAULT_BAR_BORDER_COLOR = 0xFF999999;
+    /**
+     * 默认半径大小
+     */
+    private static final int DEFAULT_RADIUS = 4; // This is dp
+
+    private Paint mThumbPaint;
+    private Paint mBarPaint;
+    private Paint mBarBorderPaint;
+
     private int mRadius;
     private int mItemWidth;
     private int mItemHeight;
     private int mCurrentPage;
 
-    //横向还是竖向
-    private int mOrientation;
+    private int mThumbColor;
+    private int mBarColor;
+    private int mBarBorderColor;
+
     private float mPageOffset;
 
     private ViewPager mViewPager;
-    private ViewPager.OnPageChangeListener mListener;
 
     public ColorIndicator(Context context) {
         this(context, null);
@@ -64,146 +79,31 @@ public class ColorIndicator extends View implements ViewPager.OnPageChangeListen
         if (isInEditMode()) {
             return;
         }
-        mRadius = UnitUtils.dip2px(context, RADIUS);
-        mOrientation = HORIZONTAL;
-        mItemWidth = 4 * mRadius;
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ColorIndicator);
+        mThumbColor = a.getColor(R.styleable.ColorIndicator_thumbColor, DEFAULT_THUMB_COLOR);
+        mBarColor = a.getColor(R.styleable.ColorIndicator_barColor, DEFAULT_BAR_COLOR);
+        mBarBorderColor = a.getColor(R.styleable.ColorIndicator_barBorderColor, DEFAULT_BAR_BORDER_COLOR);
+        mRadius = a.getDimensionPixelOffset(R.styleable.ColorIndicator_radius, UnitUtils.dip2px(context, DEFAULT_RADIUS));
+        final int itemPadding = a.getDimensionPixelOffset(R.styleable.ColorIndicator_itemPadding, 0);
+        a.recycle();
+
+        mItemWidth = 4 * mRadius + itemPadding;
         mItemHeight = 3 * mRadius;
-    }
 
-    public void setOrientation(int orientation) {
-        switch (orientation) {
-            case HORIZONTAL:
-            case VERTICAL:
-                mOrientation = orientation;
-                requestLayout();
-                break;
-            default:
-                throw new IllegalArgumentException(
-                        "Orientation must be either HORIZONTAL or VERTICAL.");
-        }
-    }
+        mBarPaint = new Paint();
+        mBarPaint.setColor(mBarColor);
+        mBarPaint.setAntiAlias(true);
+        mBarPaint.setDither(true);
 
-    public int getOrientation() {
-        return mOrientation;
-    }
+        mBarBorderPaint = new Paint();
+        mBarBorderPaint.setColor(mBarBorderColor);
+        mBarBorderPaint.setAntiAlias(true);
+        mBarBorderPaint.setDither(true);
 
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-
-        if (mViewPager == null) {
-            return;
-        }
-
-        final int count = mViewPager.getAdapter().getCount();
-        if (count == 0 || count == 1) {
-            return;
-        }
-
-        if (mCurrentPage >= count) {
-            setCurrentItem(count - 1);
-            return;
-        }
-
-        final int realWidth = mItemWidth * count;
-        final int startX = getWidth() / 2 - realWidth / 2;
-        final int startY = getPaddingTop();
-
-        drawBars(canvas, count, startX, startY);
-        drawThumb(canvas, startX, startY);
-    }
-
-    private void drawBars(Canvas canvas, int count, int startX, int startY) {
-        Paint paintBar = new Paint();
-        paintBar.setColor(BAR_COLOR);
-        paintBar.setAntiAlias(true);
-        Paint paintBarBorder = new Paint();
-        paintBarBorder.setColor(BAR_BORDER_COLOR);
-        paintBarBorder.setAntiAlias(true);
-        for (int i = 0; i < count; i++) {
-            // 求圆圈的圆心坐标
-            int x = startX + i * mItemWidth + (mItemWidth - mRadius) / 2;
-            int y = mItemHeight / 2;
-            canvas.drawCircle(x, y, mRadius, paintBarBorder);
-            canvas.drawCircle(x, y, mRadius - 1, paintBar);
-        }
-    }
-
-    private void drawThumb(Canvas canvas, int startX, int startY) {
-        int cx = (int) (mPageOffset * mItemWidth);
-
-        int x = startX + mCurrentPage * mItemWidth + cx + (mItemWidth - mRadius) / 2;
-        ;
-        int y = mItemHeight / 2;
-        Paint paint = new Paint();
-        paint.setColor(THUMB_COLOR);
-        paint.setAntiAlias(true);
-        canvas.drawCircle(x, y, mRadius, paint);
-    }
-
-    public void setViewPager(ViewPager view) {
-        if (mViewPager == view) {
-            return;
-        }
-        if (mViewPager != null) {
-            mViewPager.addOnPageChangeListener(null);
-        }
-        if (view.getAdapter() == null) {
-            throw new IllegalStateException(
-                    "ViewPager does not have adapter instance.");
-        }
-        mViewPager = view;
-        mViewPager.addOnPageChangeListener(this);
-        invalidate();
-    }
-
-    public void setViewPager(ViewPager view, int initialPosition) {
-        setViewPager(view);
-        setCurrentItem(initialPosition);
-    }
-
-    public void setOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
-        mListener = listener;
-    }
-
-    public void setCurrentItem(int item) {
-        if (mViewPager == null) {
-            throw new IllegalStateException("ViewPager has not been bound.");
-        }
-        mViewPager.setCurrentItem(item);
-        mCurrentPage = item;
-        invalidate();
-    }
-
-    public void notifyDataSetChanged() {
-        invalidate();
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-        if (mListener != null) {
-            mListener.onPageScrollStateChanged(state);
-        }
-    }
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        mCurrentPage = position;
-        mPageOffset = positionOffset;
-        Log.v(TAG, mPageOffset + ":" + positionOffsetPixels);
-        invalidate();
-        if (mListener != null) {
-            mListener.onPageScrolled(position, positionOffset, positionOffsetPixels);
-        }
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-        mCurrentPage = position;
-        invalidate();
-        if (mListener != null) {
-            mListener.onPageSelected(position);
-        }
+        mThumbPaint = new Paint();
+        mThumbPaint.setColor(mThumbColor);
+        mThumbPaint.setAntiAlias(true);
+        mThumbPaint.setDither(true);
     }
 
     /**
@@ -211,7 +111,7 @@ public class ColorIndicator extends View implements ViewPager.OnPageChangeListen
      */
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        setMeasuredDimension(measureLong(widthMeasureSpec), measureShort(heightMeasureSpec));
+        setMeasuredDimension(measureWidth(widthMeasureSpec), measureHeight(heightMeasureSpec));
     }
 
     /**
@@ -220,7 +120,14 @@ public class ColorIndicator extends View implements ViewPager.OnPageChangeListen
      * @param measureSpec A measureSpec packed into an int
      * @return The with of the view, honoring constraints from measureSpec
      */
-    private int measureLong(int measureSpec) {
+    private int measureWidth(int measureSpec) {
+        if (mViewPager == null) {
+            return 0;
+        }
+
+        if (mViewPager.getAdapter() == null) {
+            return 0;
+        }
         int result;
         int specMode = MeasureSpec.getMode(measureSpec);
         int specSize = MeasureSpec.getSize(measureSpec);
@@ -247,7 +154,7 @@ public class ColorIndicator extends View implements ViewPager.OnPageChangeListen
      * @param measureSpec A measureSpec packed into an int
      * @return The height of the view, honoring constraints from measureSpec
      */
-    private int measureShort(int measureSpec) {
+    private int measureHeight(int measureSpec) {
         int result;
         int specMode = MeasureSpec.getMode(measureSpec);
         int specSize = MeasureSpec.getSize(measureSpec);
@@ -268,6 +175,85 @@ public class ColorIndicator extends View implements ViewPager.OnPageChangeListen
     }
 
     @Override
+    protected void onDraw(Canvas canvas) {
+        if (mViewPager == null) {
+            return;
+        }
+
+        if (mViewPager.getAdapter() == null) {
+            return;
+        }
+
+        final int count = mViewPager.getAdapter().getCount();
+        if (count == 0 || count == 1) {
+            return;
+        }
+
+
+        final int realWidth = mItemWidth * count;
+        final int startX = getWidth() / 2 - realWidth / 2;
+
+        drawBars(canvas, count, startX);
+        drawThumb(canvas, startX);
+    }
+
+    private void drawBars(Canvas canvas, int count, int startX) {
+
+        for (int i = 0; i < count; i++) {
+            // 求圆圈的圆心坐标
+            int x = startX + i * mItemWidth + (mItemWidth - mRadius) / 2;
+            int y = mItemHeight / 2;
+            canvas.drawCircle(x, y, mRadius, mBarBorderPaint);
+            canvas.drawCircle(x, y, mRadius - 1, mBarPaint);
+        }
+    }
+
+    private void drawThumb(Canvas canvas, int startX) {
+        int cx = (int) (mPageOffset * mItemWidth);
+        int x = startX + mCurrentPage * mItemWidth + cx + (mItemWidth - mRadius) / 2;
+        int y = mItemHeight / 2;
+
+        canvas.drawCircle(x, y, mRadius, mThumbPaint);
+    }
+
+    public void setViewPager(ViewPager view) {
+        if (mViewPager == view) {
+            return;
+        }
+        if (mViewPager != null) {
+            mViewPager.removeOnPageChangeListener(this);
+        }
+        if (view.getAdapter() == null) {
+            throw new IllegalStateException(
+                    "ViewPager does not have adapter instance.");
+        }
+        mViewPager = view;
+        mViewPager.addOnPageChangeListener(this);
+        invalidate();
+    }
+
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        mCurrentPage = position;
+        mPageOffset = positionOffset;
+        invalidate();
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        //mCurrentPage = position;
+        //invalidate();
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
+
+    @Override
     public void onRestoreInstanceState(Parcelable state) {
         SavedState savedState = (SavedState) state;
         super.onRestoreInstanceState(savedState.getSuperState());
@@ -283,10 +269,26 @@ public class ColorIndicator extends View implements ViewPager.OnPageChangeListen
         return savedState;
     }
 
+    @SuppressWarnings("unused")
+    public int getThumbColor() {
+        return mThumbColor;
+    }
+
+    @SuppressWarnings("unused")
+    public int getBarColor() {
+        return mBarColor;
+    }
+
+    @SuppressWarnings("unused")
+    public int getBarBorderColor() {
+        return mBarBorderColor;
+    }
+
+
     static class SavedState extends BaseSavedState {
         int currentPage;
 
-        public SavedState(Parcelable superState) {
+        SavedState(Parcelable superState) {
             super(superState);
         }
 
