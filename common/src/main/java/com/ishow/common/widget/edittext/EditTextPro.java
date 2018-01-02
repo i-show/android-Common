@@ -191,7 +191,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         mInputTextColor = a.getColor(R.styleable.EditTextPro_inputTextColor, getDefaultInputTextColor());
         mInputHintTextColor = a.getColor(R.styleable.EditTextPro_inputHintTextColor, getDefaultInputHintTextColor());
         mInputLines = a.getInt(R.styleable.EditTextPro_inputLines, 0);
-        mInputMaxLength = a.getInt(R.styleable.EditTextPro_inputTextMaxLenght, 0);
+        mInputMaxLength = a.getInt(R.styleable.EditTextPro_inputTextMaxLength, 0);
         mInputTextString = a.getString(R.styleable.EditTextPro_inputText);
         mInputHintString = a.getString(R.styleable.EditTextPro_inputHint);
         mInputEditable = a.getBoolean(R.styleable.EditTextPro_editable, true);
@@ -215,7 +215,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
 
         mNormalColor = a.getColor(R.styleable.EditTextPro_normalColor, getDefaultNormalColor());
         mFocusColor = a.getColor(R.styleable.EditTextPro_focusColor, getDefaultFocusColor());
-        mBottomLineHegiht = a.getDimensionPixelSize(R.styleable.EditTextPro_bottomLineHegiht, getDefaultBottomLineHeight());
+        mBottomLineHegiht = a.getDimensionPixelSize(R.styleable.EditTextPro_bottomLineHeight, getDefaultBottomLineHeight());
         mBottomLineVisibility = a.getInt(R.styleable.EditTextPro_bottomLineVisibility, View.VISIBLE);
 
         mMinHegiht = a.getDimensionPixelSize(R.styleable.EditTextPro_android_minHeight, getDefaultMinHeight());

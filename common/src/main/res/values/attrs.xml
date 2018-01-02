@@ -285,7 +285,7 @@
     </attr>
 
     <attr name="lineHegiht" format="dimension" />
-    <attr name="bottomLineHegiht" format="dimension" />
+    <attr name="bottomLineHeight" format="dimension" />
 
     <attr name="hasEmptyView" format="boolean" />
     <attr name="normalColor" format="color" />
@@ -299,7 +299,7 @@
     <attr name="inputTextColor" format="color" />
     <attr name="inputHintTextColor" format="color" />
     <attr name="inputLines" format="integer" />
-    <attr name="inputTextMaxLenght" format="integer" />
+    <attr name="inputTextMaxLength" format="integer" />
     <attr name="inputGravity">
         <!-- Push object to the top of its container, not changing its size. -->
         <flag name="top" value="0x30" />
@@ -312,7 +312,7 @@
         <!-- Push object to the right of its container, not changing its size. -->
         <flag name="right" value="0x05" />
         <!-- Push object to the left of its container, not changing its size. -->
-        <flag name="end" value="0x03" />
+        <flag name="end" value="0x05" />
         <!-- Place object in the vertical center of its container, not changing its size. -->
         <flag name="center_vertical" value="0x10" />
         <!-- Place object in the horizontal center of its container, not changing its size. -->
@@ -847,7 +847,7 @@
         <attr name="inputRightMargin" />
         <attr name="inputTextSize" />
         <attr name="inputTextColor" />
-        <attr name="inputTextMaxLenght" />
+        <attr name="inputTextMaxLength" />
         <attr name="inputHintTextColor" />
         <attr name="inputLines" />
         <attr name="inputType" />
@@ -873,7 +873,7 @@
         <attr name="focusColor" />
 
         <attr name="cancelVisibility" />
-        <attr name="bottomLineHegiht" />
+        <attr name="bottomLineHeight" />
         <attr name="bottomLineVisibility" />
 
         <attr name="android:minHeight" />
