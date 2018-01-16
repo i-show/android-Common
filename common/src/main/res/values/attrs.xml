@@ -66,11 +66,38 @@
     <attr name="textColor" format="color" />
     <attr name="textBackground" format="reference|color" />
     <attr name="textAppearance" format="reference" />
+    <attr name="textRightMargin" format="dimension" />
+    <attr name="textLines" format="integer" />
     <attr name="textStyle" format="enum">
         <enum name="NORMAL" value="0" />
         <enum name="BOLD" value="1" />
         <enum name="ITALIC" value="2" />
         <enum name="BOLD_ITALIC" value="3" />
+    </attr>
+
+    <attr name="textEllipsize">
+        <flag name="start" value="1" />
+        <flag name="middle" value="2" />
+        <flag name="end" value="3" />
+    </attr>
+
+    <attr name="textGravity">
+        <!-- Push object to the top of its container, not changing its size. -->
+        <flag name="top" value="0x30" />
+        <!-- Push object to the bottom of its container, not changing its size. -->
+        <flag name="bottom" value="0x50" />
+        <!-- Push object to the left of its container, not changing its size. -->
+        <flag name="left" value="0x03" />
+        <flag name="start" value="0x03" />
+        <!-- Push object to the right of its container, not changing its size. -->
+        <flag name="right" value="0x05" />
+        <flag name="end" value="0x05" />
+        <!-- Place object in the vertical center of its container, not changing its size. -->
+        <flag name="center_vertical" value="0x10" />
+        <!-- Place object in the horizontal center of its container, not changing its size. -->
+        <flag name="center_horizontal" value="0x01" />
+        <!-- Place the object in the center of its container in both the vertical and horizontal axis, not changing its size. -->
+        <flag name="center" value="0x11" />
     </attr>
 
     <attr name="selectedTextColor" format="reference|color" />
@@ -123,6 +150,7 @@
     <attr name="leftImage" format="reference" />
     <attr name="leftImageBackground" format="reference|color" />
     <attr name="leftImageRightMargin" format="dimension" />
+    <attr name="leftImageMinWidth" format="dimension" />
     <attr name="leftImageVisibility">
         <enum name="visible" value="0" />
         <enum name="invisible" value="4" />
@@ -173,6 +201,7 @@
     <attr name="rightImage" format="reference" />
     <attr name="rightImageBackground" format="reference|color" />
     <attr name="rightImageRightMargin" format="dimension" />
+    <attr name="rightImageMinWidth" format="dimension" />
     <attr name="rightImageVisibility">
         <enum name="visible" value="0" />
         <enum name="invisible" value="4" />
@@ -623,6 +652,7 @@
 
         <attr name="leftImage" />
         <attr name="leftImageBackground" />
+        <attr name="leftImageMinWidth" />
         <attr name="leftImageVisibility" />
 
         <attr name="leftImage2" />
@@ -637,6 +667,7 @@
 
         <attr name="rightImage" />
         <attr name="rightImageBackground" />
+        <attr name="rightImageMinWidth" />
         <attr name="rightImageVisibility" />
 
         <attr name="rightImage2" />
@@ -842,7 +873,6 @@
         <attr name="inputText" />
         <attr name="inputBackground" />
         <attr name="inputGravity" />
-        <attr name="inputEllipsize" />
         <attr name="inputHint" />
         <attr name="inputRightMargin" />
         <attr name="inputTextSize" />
@@ -851,7 +881,6 @@
         <attr name="inputHintTextColor" />
         <attr name="inputLines" />
         <attr name="inputType" />
-        <attr name="editable" />
 
         <attr name="rightText" />
         <attr name="rightTextSize" />
@@ -879,6 +908,52 @@
         <attr name="android:minHeight" />
     </declare-styleable>
 
+
+    <declare-styleable name="TextViewPro">
+        <attr name="tintColor" />
+
+        <attr name="leftImage" />
+        <attr name="leftImageBackground" />
+        <attr name="leftImageRightMargin" />
+        <attr name="leftImageVisibility" />
+
+        <attr name="leftText" />
+        <attr name="leftTextSize" />
+        <attr name="leftTextColor" />
+        <attr name="leftTextVisibility" />
+        <attr name="leftTextRightMargin" />
+        <attr name="leftTextMinWidth" />
+        <attr name="leftTextMaxWidth" />
+        <attr name="leftTextBackground" />
+        <attr name="leftTextGravity" />
+
+        <attr name="text" />
+        <attr name="textSize" />
+        <attr name="textColor" />
+        <attr name="textBackground" />
+        <attr name="textGravity" />
+        <attr name="textEllipsize" />
+        <attr name="textRightMargin" />
+        <attr name="textLines" />
+
+        <attr name="rightText" />
+        <attr name="rightTextSize" />
+        <attr name="rightTextColor" />
+        <attr name="rightTextBackground" />
+        <attr name="rightTextRightDrawable" />
+        <attr name="rightTextRightMargin" />
+        <attr name="rightTextMinWidth" />
+        <attr name="rightTextMaxWidth" />
+        <attr name="rightTextVisibility" />
+        <attr name="rightTextGravity" />
+        <attr name="rightTextPadding" />
+
+        <attr name="rightImage" />
+        <attr name="rightImageBackground" />
+        <attr name="rightImageVisibility" />
+
+        <attr name="android:minHeight" />
+    </declare-styleable>
 
     <declare-styleable name="FlowLayout">
         <attr name="flowMode" />

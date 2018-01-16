@@ -31,11 +31,11 @@ import android.view.ViewGroup;
 import com.ishow.common.R;
 import com.ishow.common.mvp.base.IViewStatus;
 import com.ishow.common.utils.SharedPreferencesUtils;
+import com.ishow.common.utils.ToastUtils;
 import com.ishow.common.utils.http.rest.Http;
 import com.ishow.common.utils.permission.PermissionManager;
 import com.ishow.common.widget.StatusView;
 import com.ishow.common.widget.TopBar;
-import com.ishow.common.widget.YToast;
 import com.ishow.common.widget.dialog.BaseDialog;
 import com.ishow.common.widget.loading.LoadingDialog;
 
@@ -207,7 +207,7 @@ public abstract class BaseActivity extends AppCompatActivity implements
      * 提示 Toast简易封装操作
      */
     public void toast(String toast) {
-        YToast.show(this, toast);
+        ToastUtils.show(this, toast);
     }
 
     /**
@@ -215,7 +215,7 @@ public abstract class BaseActivity extends AppCompatActivity implements
      */
     @SuppressWarnings("unused")
     public void toast(int toast) {
-        YToast.show(this, toast);
+        ToastUtils.show(this, toast);
     }
 
     /**

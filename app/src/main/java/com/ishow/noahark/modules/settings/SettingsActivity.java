@@ -21,12 +21,14 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.ishow.common.widget.TopBar;
+import com.ishow.common.widget.textview.TextViewPro;
 import com.ishow.noahark.R;
 import com.ishow.noahark.modules.account.login.LoginActivity;
 import com.ishow.noahark.modules.base.AppBaseActivity;
 import com.ishow.common.utils.AppUtils;
 import com.ishow.common.widget.edittext.EditTextPro;
 import com.ishow.noahark.modules.egg.EggActivity;
+import com.ishow.noahark.utils.router.AppRouter;
 
 /**
  * Created by yuhaiyang on 2017/4/24.
@@ -47,25 +49,25 @@ public class SettingsActivity extends AppBaseActivity implements
     protected void initViews() {
         super.initViews();
 
-        TopBar topBar = (TopBar) findViewById(R.id.top_bar);
+        TopBar topBar = findViewById(R.id.top_bar);
         topBar.setOnSecretListener(this);
 
         View logout = findViewById(R.id.logout);
         logout.setOnClickListener(this);
 
-        EditTextPro version = (EditTextPro) findViewById(R.id.now_version);
-        version.setInputText(AppUtils.getVersionName(this));
+        TextViewPro version = findViewById(R.id.now_version);
+        version.setText(AppUtils.getVersionName(this));
     }
 
     @Override
     public void onClick(View v) {
-        Intent intent;
         switch (v.getId()) {
             case R.id.logout:
-                intent = new Intent(this, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                this.finish();
+                AppRouter.with(this)
+                        .target(LoginActivity.class)
+                        .flag(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
+                        .finishSelf()
+                        .start();
                 break;
         }
     }

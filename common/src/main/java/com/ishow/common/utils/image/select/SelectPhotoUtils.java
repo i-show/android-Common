@@ -43,9 +43,9 @@ import com.ishow.common.entries.Photo;
 import com.ishow.common.modules.image.cutter.PhotoCutterActivity;
 import com.ishow.common.modules.image.select.PhotoSelectorActivity;
 import com.ishow.common.utils.StringUtils;
+import com.ishow.common.utils.ToastUtils;
 import com.ishow.common.utils.image.ImageUtils;
 import com.ishow.common.utils.log.L;
-import com.ishow.common.widget.YToast;
 import com.ishow.common.widget.dialog.BaseDialog;
 import com.ishow.common.widget.loading.LoadingDialog;
 
@@ -363,7 +363,7 @@ public class SelectPhotoUtils implements
             case Request.REQUEST_MULTI_PICK:
             case Request.REQUEST_MULTI_CAMERA:
             case Request.REQUEST_CROP_IMAGE:
-                YToast.show(mActivity, R.string.cancle_photo);
+                ToastUtils.show(mActivity, R.string.cancle_photo);
                 break;
         }
     }

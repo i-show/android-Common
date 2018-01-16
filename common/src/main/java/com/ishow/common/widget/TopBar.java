@@ -39,8 +39,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ishow.common.R;
-import com.ishow.common.widget.prompt.IPrompt;
 import com.ishow.common.widget.imageview.PromptImageView;
+import com.ishow.common.widget.prompt.IPrompt;
 import com.ishow.common.widget.textview.MarqueeTextView;
 import com.ishow.common.widget.textview.PromptTextView;
 
@@ -146,10 +146,12 @@ public class TopBar extends ViewGroup implements OnClickListener {
     private int mUnitWidth;
 
     private int mLeftImageWidth;
+    private int mLeftImageMinWidth;
     private int mLeftImage2Width;
     private int mLeftTextViewWidth;
 
     private int mRightImageWidth;
+    private int mRightImageMinWidth;
     private int mRightImage2Width;
     private int mRightTextViewWidth;
 
@@ -197,6 +199,8 @@ public class TopBar extends ViewGroup implements OnClickListener {
      */
     private int mExactlyHeightSpec;
     private int mExactlyWidthSpec;
+    private int mLeftImageWidthSpec;
+    private int mRightImageWidthSpec;
     private int mAtmostHeightSpec;
     private int mGapSize;
     private int mSmallGapSize;
@@ -219,6 +223,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
         mLeftBackground = a.getResourceId(R.styleable.TopBar_leftImageBackground, 0);
 
         mLeftImageResId = a.getResourceId(R.styleable.TopBar_leftImage, 0);
+        mLeftImageMinWidth = a.getDimensionPixelSize(R.styleable.TopBar_leftImageMinWidth, 0);
         mLeftImageVisibility = a.getInt(R.styleable.TopBar_leftImageVisibility, View.VISIBLE);
         mLeftImage2ResId = a.getResourceId(R.styleable.TopBar_leftImage2, 0);
         mLeftImage2Visibility = a.getInt(R.styleable.TopBar_leftImageVisibility2, View.VISIBLE);
@@ -233,6 +238,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
 
         mRightImageResId = a.getResourceId(R.styleable.TopBar_rightImage, 0);
         mRightImageVisibility = a.getInt(R.styleable.TopBar_rightImageVisibility, View.VISIBLE);
+        mRightImageMinWidth = a.getDimensionPixelSize(R.styleable.TopBar_rightImageMinWidth, 0);
         mRightImage2ResId = a.getResourceId(R.styleable.TopBar_rightImage2, 0);
         mRightImage2Visibility = a.getInt(R.styleable.TopBar_rightImageVisibility2, View.VISIBLE);
 
@@ -268,7 +274,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
         int width = getMeasuredWidth();
 
         if (mLeftImageVisibility != GONE) {
-            mLeftImageView.measure(mExactlyWidthSpec, mExactlyHeightSpec);
+            mLeftImageView.measure(mLeftImageWidthSpec, mExactlyHeightSpec);
             mLeftImageWidth = mLeftImageView.getMeasuredWidth();
         }
 
@@ -287,7 +293,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
         }
 
         if (mRightImageVisibility != GONE) {
-            mRightImageView.measure(mExactlyWidthSpec, mExactlyHeightSpec);
+            mRightImageView.measure(mRightImageWidthSpec, mExactlyHeightSpec);
             mRightImageWidth = mRightImageView.getMeasuredWidth();
         }
 
@@ -418,6 +424,8 @@ public class TopBar extends ViewGroup implements OnClickListener {
         mUnitWidth = (int) (mTopBarHeight * UNIT_WIDTH_RADIO);
         mExactlyHeightSpec = MeasureSpec.makeMeasureSpec(mTopBarHeight, MeasureSpec.EXACTLY);
         mExactlyWidthSpec = MeasureSpec.makeMeasureSpec(mUnitWidth, MeasureSpec.EXACTLY);
+        mLeftImageWidthSpec = MeasureSpec.makeMeasureSpec(Math.max(mLeftImageMinWidth, mUnitWidth), MeasureSpec.EXACTLY);
+        mRightImageWidthSpec = MeasureSpec.makeMeasureSpec(Math.max(mRightImageMinWidth, mUnitWidth), MeasureSpec.EXACTLY);
         mAtmostHeightSpec = MeasureSpec.makeMeasureSpec(mTopBarHeight, MeasureSpec.AT_MOST);
         mGapSize = getResources().getDimensionPixelSize(R.dimen.gap_grade_1);
         mSmallGapSize = getResources().getDimensionPixelSize(R.dimen.gap_grade_0);

@@ -29,7 +29,7 @@ import android.util.SparseArray;
 
 import com.ishow.common.R;
 import com.ishow.common.utils.IntentUtils;
-import com.ishow.common.widget.YToast;
+import com.ishow.common.utils.ToastUtils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -348,7 +348,7 @@ public class PermissionManager {
         if (hasAlwaysDeniedPermission(o, deniedList)) {
             showAlwaysDeniedPermissionDialog(context, permission);
         } else {
-            YToast.show(context, permission.message);
+            ToastUtils.show(context, permission.message);
         }
     }
 

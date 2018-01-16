@@ -25,7 +25,6 @@ import android.webkit.WebViewClient;
 import com.ishow.common.utils.WebViewUtils;
 import com.ishow.common.utils.log.L;
 import com.ishow.common.widget.TopBar;
-import com.ishow.common.widget.YToast;
 import com.ishow.noahark.BuildConfig;
 import com.ishow.noahark.R;
 

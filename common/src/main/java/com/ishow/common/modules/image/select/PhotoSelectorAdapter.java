@@ -27,8 +27,8 @@ import com.ishow.common.R;
 import com.ishow.common.adapter.RecyclerAdapter;
 import com.ishow.common.entries.Photo;
 import com.ishow.common.modules.image.show.ShowPhotoDialog;
+import com.ishow.common.utils.ToastUtils;
 import com.ishow.common.utils.image.loader.ImageLoader;
-import com.ishow.common.widget.YToast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,7 +128,7 @@ class PhotoSelectorAdapter extends RecyclerAdapter<Photo, PhotoSelectorAdapter.V
             // 如果当前数量已经是最大数量，当前图片还没有选中
             if (alreadyCount >= mMaxCount && !entry.isSelected) {
                 String tip = mContext.getString(R.string.already_select_max, mMaxCount);
-                YToast.show(mContext, tip);
+                ToastUtils.show(mContext, tip);
                 return;
             }
 

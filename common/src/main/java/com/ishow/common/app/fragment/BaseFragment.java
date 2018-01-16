@@ -33,11 +33,11 @@ import android.view.ViewGroup;
 import com.ishow.common.R;
 import com.ishow.common.mvp.base.IViewStatus;
 import com.ishow.common.utils.SharedPreferencesUtils;
+import com.ishow.common.utils.ToastUtils;
 import com.ishow.common.utils.http.rest.Http;
 import com.ishow.common.utils.permission.PermissionManager;
 import com.ishow.common.widget.StatusView;
 import com.ishow.common.widget.TopBar;
-import com.ishow.common.widget.YToast;
 import com.ishow.common.widget.dialog.BaseDialog;
 import com.ishow.common.widget.loading.LoadingDialog;
 
@@ -138,7 +138,7 @@ public abstract class BaseFragment extends Fragment implements
     @SuppressWarnings("unused")
     public void toast(String toast) {
         if (isAdded()) {
-            YToast.show(getActivity(), toast);
+            ToastUtils.show(getActivity(), toast);
         }
     }
 
@@ -148,7 +148,7 @@ public abstract class BaseFragment extends Fragment implements
     @SuppressWarnings("unused")
     public void toast(int toast) {
         if (isAdded()) {
-            YToast.show(getActivity(), toast);
+            ToastUtils.show(getActivity(), toast);
         }
     }
 

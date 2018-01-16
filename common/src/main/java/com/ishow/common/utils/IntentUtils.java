@@ -16,6 +16,7 @@
 
 package com.ishow.common.utils;
 
+import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -25,7 +26,6 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.ishow.common.R;
-import com.ishow.common.widget.YToast;
 
 /**
  * Intent 跳转工具类
@@ -42,9 +42,20 @@ public class IntentUtils {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } catch (ActivityNotFoundException e) {
-            YToast.makeText(context, R.string.exception_intent_open, Toast.LENGTH_SHORT).show();
+            ToastUtils.show(context, R.string.exception_intent_open);
         }
 
+    }
+
+    @SuppressLint("MissingPermission")
+    public static void call(Context context, String number){
+        try {
+            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + number.trim()));
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            ToastUtils.show(context, R.string.exception_intent_open);
+        }
     }
 
     /**
@@ -70,7 +81,7 @@ public class IntentUtils {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } catch (ActivityNotFoundException e) {
-            YToast.makeText(context, R.string.exception_intent_open, Toast.LENGTH_SHORT).show();
+            ToastUtils.show(context, R.string.exception_intent_open);
         }
     }
 
@@ -85,7 +96,7 @@ public class IntentUtils {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url.trim()));
             context.startActivity(intent);
         } catch (ActivityNotFoundException e) {
-            YToast.makeText(context, R.string.exception_intent_open, Toast.LENGTH_SHORT).show();
+            ToastUtils.show(context, R.string.exception_intent_open);
         }
     }
 
@@ -97,7 +108,7 @@ public class IntentUtils {
             Intent intent = context.getPackageManager().getLaunchIntentForPackage(appPackageName.trim());
             context.startActivity(intent);
         } catch (Exception e) {
-            YToast.makeText(context, R.string.exception_intent_open, Toast.LENGTH_SHORT).show();
+            ToastUtils.show(context, R.string.exception_intent_open, Toast.LENGTH_SHORT);
         }
     }
 
@@ -108,7 +119,7 @@ public class IntentUtils {
             intent.setData(uri);
             context.startActivity(intent);
         } catch (Exception e) {
-            YToast.makeText(context, R.string.exception_intent_open, Toast.LENGTH_SHORT).show();
+            ToastUtils.show(context, R.string.exception_intent_open, Toast.LENGTH_SHORT);
         }
     }
 }

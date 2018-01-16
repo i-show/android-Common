@@ -49,6 +49,10 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
      * 不能进行点选的ID 一般只有一个
      */
     private int mCanNotSelectedId;
+    /**
+     * 上次选中时间
+     */
+    private long mLastSelectedTime;
 
     public BottomBar(Context context) {
         this(context, null);
@@ -102,10 +106,17 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
     }
 
 
+
     /**
      * 设置当前选中的ID
      */
     public void setSelectedId(@IdRes int id, boolean force) {
+        final long nowTime = System.currentTimeMillis();
+        if (nowTime - mLastSelectedTime < 300) {
+            return;
+        }
+        mLastSelectedTime = nowTime;
+
         if (id == mCanNotSelectedId) {
             Log.i(TAG, "setSelectedId: id is can not selected id");
             return;

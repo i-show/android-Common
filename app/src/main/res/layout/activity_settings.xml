@@ -34,12 +34,12 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <com.ishow.common.widget.edittext.EditTextPro
+        <com.ishow.common.widget.textview.TextViewPro
             android:id="@+id/now_version"
-            style="@style/EditTextPro.Item"
+            style="@style/TextViewPro.Item"
             android:paddingEnd="@dimen/gap_grade_8"
             android:paddingStart="@dimen/gap_grade_1"
-            app:inputTextSize="@dimen/I_title"
+            app:textSize="@dimen/I_title"
             app:leftImage="@drawable/ic_version"
             app:leftImageVisibility="visible"
             app:leftText="@string/settings_link_now_version"/>

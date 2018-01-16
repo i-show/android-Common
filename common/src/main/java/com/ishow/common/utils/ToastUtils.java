@@ -14,39 +14,33 @@
  * limitations under the License.
  */
 
-package com.ishow.common.widget;
+package com.ishow.common.utils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
 import android.support.annotation.StringRes;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ishow.common.R;
-import com.ishow.common.utils.ScreenUtils;
-
 import java.lang.ref.WeakReference;
 
 /**
- * 自定义的Toast
+ * Created by yuhaiyang on 2017/5/25.
+ * Toast 显示工具类
  * <p>
- * YToast 集成为单例Toast 预防多次提示
+ * ToastUtils 集成为单例Toast 预防多次提示
+ *
+ * @author yuhaiyang
  */
 @SuppressWarnings("unused")
-public class YToast extends Toast {
-    private static final String TAG = "YToast";
+public class ToastUtils {
+    private static final String TAG = "ToastUtils";
 
-    private static WeakReference<YToast> mToast;
-    private static int mScreenHeight;
+    private static WeakReference<Toast> mToast;
 
-    private YToast(Context context) {
-        super(context);
-        mScreenHeight = ScreenUtils.getScreenSize()[1];
-    }
 
     public static void show(Context context, @StringRes int text) {
         show(context, text, Toast.LENGTH_SHORT);
@@ -61,58 +55,29 @@ public class YToast extends Toast {
         show(context, content, duration);
     }
 
+    @SuppressLint("ShowToast")
     public static void show(Context context, CharSequence text, int duration) {
-        Toast toast = YToast.makeText(context.getApplicationContext(), text, duration);
-        if (toast != null) {
-            toast.show();
-        }
-    }
-
-    public static Toast makeText(Context context, CharSequence text, int duration) {
         if (context == null) {
             Log.i(TAG, "makeText: context is null");
-            return null;
+            return;
         }
 
         if (context instanceof Activity) {
             Activity activity = (Activity) context;
             if (activity.isFinishing()) {
                 Log.i(TAG, "makeText: activity is alreay finish");
-                return null;
+                return;
             }
         }
-
-        YToast toast;
+        Toast toast;
         if (mToast == null || mToast.get() == null) {
-            toast = new YToast(context);
+            toast = Toast.makeText(context.getApplicationContext(), text, duration);
             mToast = new WeakReference<>(toast);
         } else {
             toast = mToast.get();
+            toast.setText(text);
         }
-
-        LayoutInflater inflate = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflate.inflate(R.layout.widget_ytoast, null);
-        TextView tv = (TextView) v.findViewById(R.id.message);
-        tv.setText(text);
-
-        toast.setView(v);
-        toast.setDuration(duration);
-        toast.setGravity(toast.getGravity(), toast.getXOffset(), mScreenHeight / 6);
-        return toast;
-    }
-
-    /**
-     * Make a standard toast that just contains a text view with the text from a resource.
-     *
-     * @param context  The context to use.  Usually your {@link android.app.Application}
-     *                 or {@link Activity} object.
-     * @param resId    The resource id of the string resource to use.  Can be formatted text.
-     * @param duration How long to display the message.  Either {@link #LENGTH_SHORT} or
-     *                 {@link #LENGTH_LONG}
-     * @throws Resources.NotFoundException if the resource can't be found.
-     */
-    public static Toast makeText(Context context, @StringRes int resId, int duration) throws Resources.NotFoundException {
-        return makeText(context, context.getResources().getText(resId), duration);
+        toast.show();
     }
 
     /**

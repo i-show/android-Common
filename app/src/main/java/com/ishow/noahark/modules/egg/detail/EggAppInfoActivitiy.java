@@ -30,6 +30,7 @@ import com.ishow.common.utils.DateUtils;
 import com.ishow.common.utils.DeviceUtils;
 import com.ishow.common.utils.StringUtils;
 import com.ishow.common.widget.edittext.EditTextPro;
+import com.ishow.common.widget.textview.TextViewPro;
 import com.ishow.noahark.BuildConfig;
 import com.ishow.noahark.R;
 import com.ishow.noahark.modules.base.AppBaseActivity;
@@ -136,19 +137,17 @@ public class EggAppInfoActivitiy extends AppBaseActivity {
     }
 
     private void addItem(String name, String value) {
-        EditTextPro editTextPro = new EditTextPro(this);
-        editTextPro.setMinimumHeight(mItemMinHeight);
-        editTextPro.setBackgroundResource(android.R.color.white);
-        editTextPro.setLeftText(name);
-        editTextPro.setLeftTextMinWidth(mTipMinWidth);
-        editTextPro.setLeftTextGravity(Gravity.END | Gravity.CENTER_VERTICAL);
-        editTextPro.setInputText(value);
-        editTextPro.setInputEditable(false);
-        editTextPro.setInputTextColor(mCateTextColor);
-        editTextPro.setLeftImageVisibility(View.GONE);
-        editTextPro.setRightImageVisibility(View.GONE);
-        editTextPro.setBottomLineVisibility(View.GONE);
-        mRootView.addView(editTextPro);
+        TextViewPro textview = new TextViewPro(this);
+        textview.setMinimumHeight(mItemMinHeight);
+        textview.setBackgroundResource(android.R.color.white);
+        textview.setLeftText(name);
+        textview.setLeftTextMinWidth(mTipMinWidth);
+        textview.setLeftTextGravity(Gravity.END | Gravity.CENTER_VERTICAL);
+        textview.setText(value);
+        textview.setTextColor(mCateTextColor);
+        textview.setLeftImageVisibility(View.GONE);
+        textview.setRightImageVisibility(View.GONE);
+        mRootView.addView(textview);
     }
 
 

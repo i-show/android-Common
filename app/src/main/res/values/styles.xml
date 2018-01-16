@@ -44,6 +44,18 @@
         <item name="android:minHeight">@dimen/girdle_min_h</item>
     </style>
 
+    <style name="TextViewPro"/>
+    <style name="TextViewPro.Item">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/item_height</item>
+        <item name="android:background">@drawable/bottom_line_bg</item>
+        <item name="android:paddingStart">@dimen/gap_grade_2</item>
+        <item name="android:paddingEnd">@dimen/gap_grade_2</item>
+        <item name="android:gravity">center</item>
+        <item name="leftImageVisibility">gone</item>
+        <item name="rightImageVisibility">gone</item>
+        <item name="textGravity">right|center_vertical</item>
+    </style>
     <style name="EditTextPro"/>
 
     <style name="EditTextPro.Login">
@@ -72,23 +84,18 @@
         <item name="android:paddingEnd">@dimen/gap_grade_2</item>
     </style>
 
-
     <style name="EditTextPro.Item">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/item_height</item>
         <item name="android:background">@drawable/bottom_line_bg</item>
-        <item name="android:gravity">center</item>
-        <item name="editable">false</item>
-        <item name="leftImageVisibility">gone</item>
-        <item name="rightImageVisibility">gone</item>
         <item name="android:paddingStart">@dimen/gap_grade_2</item>
         <item name="android:paddingEnd">@dimen/gap_grade_2</item>
+        <item name="android:gravity">center</item>
+        <item name="leftImageVisibility">gone</item>
+        <item name="rightImageVisibility">gone</item>
         <item name="inputGravity">right|center_vertical</item>
     </style>
 
-    <style name="EditTextPro.Item.Editable">
-        <item name="editable">true</item>
-    </style>
 
     <style name="ImageTextView"/>
 

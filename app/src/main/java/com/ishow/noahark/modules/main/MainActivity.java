@@ -19,11 +19,12 @@ package com.ishow.noahark.modules.main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ishow.common.utils.log.L;
+import com.ishow.common.utils.ToastUtils;
 import com.ishow.common.widget.TopBar;
 import com.ishow.noahark.R;
 import com.ishow.noahark.modules.base.AppBaseActivity;
@@ -32,8 +33,8 @@ import com.ishow.noahark.modules.main.tab4.Tab4Fragment;
 import com.ishow.noahark.modules.main.tab2.Tab2Fragment;
 import com.ishow.noahark.modules.main.tab3.Tab3Fragment;
 import com.ishow.common.widget.BottomBar;
-import com.ishow.common.widget.YToast;
 import com.ishow.noahark.modules.settings.SettingsActivity;
+import com.ishow.noahark.utils.router.AppRouter;
 
 public class MainActivity extends AppBaseActivity implements BottomBar.OnBottomBarListener {
     private static final String TAG = "MainActivity";
@@ -43,6 +44,7 @@ public class MainActivity extends AppBaseActivity implements BottomBar.OnBottomB
     public static final int TAB_THIRD = R.id.tab_3;
     public static final int TAB_FOURTH = R.id.tab_4;
 
+    private Fragment mBeforeFragment;
     private Tab1Fragment mTab1Fragment;
     private Tab2Fragment mTab2Fragment;
     private Tab3Fragment mTab3Fragment;
@@ -71,9 +73,9 @@ public class MainActivity extends AppBaseActivity implements BottomBar.OnBottomB
     @Override
     protected void initViews() {
         super.initViews();
-        mTopBar = (TopBar) findViewById(R.id.top_bar);
+        mTopBar = findViewById(R.id.top_bar);
 
-        mBottomBar = (BottomBar) findViewById(R.id.bottom_bar);
+        mBottomBar = findViewById(R.id.bottom_bar);
         mBottomBar.setOnSelectedChangedListener(this);
     }
 
@@ -85,7 +87,7 @@ public class MainActivity extends AppBaseActivity implements BottomBar.OnBottomB
             super.onBackPressed();
         } else {
             mLastTime = nowTime;
-            YToast.show(this, R.string.click_again_to_exit);
+            ToastUtils.show(this, R.string.click_again_to_exit);
         }
     }
 
@@ -127,37 +129,62 @@ public class MainActivity extends AppBaseActivity implements BottomBar.OnBottomB
     public void selectFragment(int selectId) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        if (mBeforeFragment != null) {
+            transaction.hide(mBeforeFragment);
+        }
         switch (selectId) {
             case R.id.tab_1:
                 if (mTab1Fragment == null) {
                     mTab1Fragment = Tab1Fragment.newInstance();
                 }
+                if (mTab1Fragment.isAdded()) {
+                    transaction.show(mTab1Fragment);
+                } else {
+                    transaction.add(R.id.content, mTab1Fragment);
+                }
+                transaction.commit();
 
-                transaction.replace(R.id.content, mTab1Fragment);
-                transaction.commitAllowingStateLoss();
-
+                mBeforeFragment = mTab1Fragment;
                 break;
             case R.id.tab_2:
                 if (mTab2Fragment == null) {
                     mTab2Fragment = Tab2Fragment.newInstance();
                 }
 
-                transaction.replace(R.id.content, mTab2Fragment);
-                transaction.commitAllowingStateLoss();
+                if (mTab2Fragment.isAdded()) {
+                    transaction.show(mTab2Fragment);
+                } else {
+                    transaction.add(R.id.content, mTab2Fragment);
+                }
+                transaction.commit();
+
+                mBeforeFragment = mTab2Fragment;
                 break;
             case R.id.tab_3:
                 if (mTab3Fragment == null) {
                     mTab3Fragment = Tab3Fragment.newInstance();
                 }
-                transaction.replace(R.id.content, mTab3Fragment);
-                transaction.commitAllowingStateLoss();
+                if (mTab3Fragment.isAdded()) {
+                    transaction.show(mTab3Fragment);
+                } else {
+                    transaction.add(R.id.content, mTab3Fragment);
+                }
+                transaction.commit();
+
+                mBeforeFragment = mTab3Fragment;
                 break;
             case R.id.tab_4:
                 if (mTab4Fragment == null) {
                     mTab4Fragment = Tab4Fragment.newInstance();
                 }
-                transaction.replace(R.id.content, mTab4Fragment);
-                transaction.commitAllowingStateLoss();
+                if (mTab4Fragment.isAdded()) {
+                    transaction.show(mTab4Fragment);
+                } else {
+                    transaction.add(R.id.content, mTab4Fragment);
+                }
+                transaction.commit();
+
+                mBeforeFragment = mTab4Fragment;
                 break;
         }
     }
@@ -177,17 +204,16 @@ public class MainActivity extends AppBaseActivity implements BottomBar.OnBottomB
     }
 
     private void onRightClickForTab1() {
-        try {
-            Intent intent = new Intent("com.yuhaiyang.androidcommon.Test");
-            startActivity(intent);
-        } catch (Exception e) {
-            L.i(TAG, "Exception = " + e);
-        }
+        AppRouter.with(this)
+                .action("com.yuhaiyang.androidcommon.Test")
+                .start();
+
     }
 
     private void onRightClickForTab4() {
-        Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
+        AppRouter.with(this)
+                .target(SettingsActivity.class)
+                .start();
     }
 }
 
