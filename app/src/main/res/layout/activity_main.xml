@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:gravity="center_horizontal"
-              android:orientation="vertical"
-              tools:context=".modules.main.MainActivity">
+<com.ishow.common.widget.watermark.WaterMarkLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".modules.main.MainActivity">
 
     <com.ishow.common.widget.TopBar
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <FrameLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 
     <com.ishow.common.widget.BottomBar
         android:id="@+id/bottom_bar"
@@ -31,28 +31,28 @@
             style="@style/ImageTextView.BottomBar"
             app:image="@drawable/footer_tab_1"
             app:text="@string/tab_1"
-            app:tint="@color/bottom_bar_tint"/>
+            app:tint="@color/bottom_bar_tint" />
 
         <com.ishow.common.widget.ImageTextView
             android:id="@+id/tab_2"
             style="@style/ImageTextView.BottomBar"
             app:image="@drawable/footer_tab_2"
             app:text="@string/tab_2"
-            app:tint="@color/bottom_bar_tint"/>
+            app:tint="@color/bottom_bar_tint" />
 
         <com.ishow.common.widget.ImageTextView
             android:id="@+id/tab_3"
             style="@style/ImageTextView.BottomBar"
             app:image="@drawable/footer_tab_3"
             app:text="@string/tab_3"
-            app:tint="@color/bottom_bar_tint"/>
+            app:tint="@color/bottom_bar_tint" />
 
         <com.ishow.common.widget.ImageTextView
             android:id="@+id/tab_4"
             style="@style/ImageTextView.BottomBar"
             app:image="@drawable/footer_tab_4"
             app:text="@string/tab_4"
-            app:tint="@color/bottom_bar_tint"/>
+            app:tint="@color/bottom_bar_tint" />
 
     </com.ishow.common.widget.BottomBar>
-</LinearLayout>
+</com.ishow.common.widget.watermark.WaterMarkLinearLayout>

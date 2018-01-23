@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<com.ishow.common.widget.watermark.WaterMarkLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <com.ishow.common.widget.TopBar
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftImage="@drawable/ic_back_white"
-        app:text="@string/register_title"/>
+        app:text="@string/register_title" />
 
     <com.ishow.common.widget.edittext.EditTextPro
         android:id="@+id/phone"
         style="@style/EditTextPro.Register"
         android:inputType="phone"
         app:inputHint="@string/register_hint_phone"
-        app:leftText="@string/register_tip_phone"/>
+        app:leftText="@string/register_tip_phone" />
 
 
     <LinearLayout
@@ -35,7 +35,7 @@
             android:layout_weight="1"
             app:bottomLineVisibility="gone"
             app:inputHint="@string/register_hint_verify_code"
-            app:leftText="@string/register_tip_verify_code"/>
+            app:leftText="@string/register_tip_verify_code" />
 
         <com.ishow.common.widget.VerifyCodeButton
             android:id="@+id/send_verify_code"
@@ -46,7 +46,7 @@
             android:background="@drawable/round_normal_stroke_pressed_solid_bg"
             android:minWidth="@dimen/dp_90"
             app:textColor="@color/normal_coloraccent_pressed_white"
-            app:textSize="@dimen/I_title"/>
+            app:textSize="@dimen/I_title" />
     </LinearLayout>
 
     <com.ishow.common.widget.edittext.EditTextPro
@@ -54,14 +54,14 @@
         style="@style/EditTextPro.Register"
         app:inputHint="@string/register_hint_password"
         app:inputType="textPassword"
-        app:leftText="@string/register_tip_password"/>
+        app:leftText="@string/register_tip_password" />
 
     <com.ishow.common.widget.edittext.EditTextPro
         android:id="@+id/ensure_password"
         style="@style/EditTextPro.Register"
         app:inputHint="@string/register_hint_ensure_password"
         app:inputType="textPassword"
-        app:leftText="@string/register_tip_ensure_password"/>
+        app:leftText="@string/register_tip_ensure_password" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -77,7 +77,7 @@
             android:layout_marginStart="@dimen/gap_grade_2"
             android:text="@string/register_agreement_to"
             android:textColor="@color/text_grey_light_normal"
-            android:textSize="@dimen/H_title"/>
+            android:textSize="@dimen/H_title" />
 
         <TextView
             android:id="@+id/agreement"
@@ -85,12 +85,12 @@
             android:layout_height="wrap_content"
             android:text="@string/register_agreement"
             android:textColor="@color/color_accent"
-            android:textSize="@dimen/H_title"/>
+            android:textSize="@dimen/H_title" />
 
     </LinearLayout>
 
     <Button
         android:id="@+id/submit"
         style="@style/AppButton.Submit"
-        android:text="@string/register"/>
-</LinearLayout>
+        android:text="@string/register" />
+</com.ishow.common.widget.watermark.WaterMarkLinearLayout>

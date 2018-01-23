@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2016 The yuhaiyang Android Source Project
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,11 +14,11 @@
   ~ limitations under the License.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<com.ishow.common.widget.watermark.WaterMarkLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <com.ishow.common.widget.TopBar
         android:id="@+id/top_bar"
@@ -27,7 +26,7 @@
         android:layout_height="wrap_content"
         app:leftImage="@drawable/ic_back_white"
         app:secretable="true"
-        app:text="@string/settings"/>
+        app:text="@string/settings" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,16 +38,16 @@
             style="@style/TextViewPro.Item"
             android:paddingEnd="@dimen/gap_grade_8"
             android:paddingStart="@dimen/gap_grade_1"
-            app:textSize="@dimen/I_title"
             app:leftImage="@drawable/ic_version"
             app:leftImageVisibility="visible"
-            app:leftText="@string/settings_link_now_version"/>
+            app:leftText="@string/settings_link_now_version"
+            app:textSize="@dimen/I_title" />
     </LinearLayout>
 
     <Button
         android:id="@+id/logout"
         style="@style/AppButton.Submit"
         android:layout_marginBottom="@dimen/dp_50"
-        android:text="@string/logout"/>
+        android:text="@string/logout" />
 
-</LinearLayout>
+</com.ishow.common.widget.watermark.WaterMarkLinearLayout>

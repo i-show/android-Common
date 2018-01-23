@@ -14,38 +14,38 @@
   limitations under the License.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:focusable="true"
-              android:focusableInTouchMode="true"
-              android:orientation="vertical">
+<com.ishow.common.widget.watermark.WaterMarkLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
 
     <!--如果有必要用来填充icon-->
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.5"/>
+        android:layout_weight="1.5" />
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:contentDescription="@string/logo"
         android:scaleType="center"
-        android:src="@drawable/logo"/>
+        android:src="@drawable/logo" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3.5"/>
+        android:layout_weight="3.5" />
 
 
     <com.ishow.common.widget.edittext.EditTextPro
         android:id="@+id/account"
         style="@style/EditTextPro.Login"
         app:inputHint="@string/login_hint_account"
-        app:leftImage="@drawable/ic_account"/>
+        app:leftImage="@drawable/ic_account" />
 
 
     <com.ishow.common.widget.edittext.EditTextPro
@@ -53,7 +53,7 @@
         style="@style/EditTextPro.Login"
         app:inputHint="@string/login_hint_passwrod"
         app:inputType="textPassword"
-        app:leftImage="@drawable/ic_password"/>
+        app:leftImage="@drawable/ic_password" />
 
     <TextView
         android:id="@+id/forget_password"
@@ -62,7 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:layout_marginEnd="@dimen/dp_20"
-        android:text="@string/login_forget_password"/>
+        android:text="@string/login_forget_password" />
 
     <Button
         android:id="@+id/login"
@@ -70,7 +70,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/gap_grade_5"
-        android:text="@string/login"/>
+        android:text="@string/login" />
 
     <Button
         android:id="@+id/regist"
@@ -80,12 +80,12 @@
         android:layout_marginTop="@dimen/gap_grade_5"
         android:background="@drawable/round_color_accent_stroke_bg"
         android:text="@string/register"
-        android:textColor="@color/normal_coloraccent_pressed_coloraccentpressed"/>
+        android:textColor="@color/normal_coloraccent_pressed_coloraccentpressed" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3"/>
+        android:layout_weight="3" />
 
 
-</LinearLayout>
+</com.ishow.common.widget.watermark.WaterMarkLinearLayout>
