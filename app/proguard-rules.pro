@@ -246,3 +246,11 @@ public static java.lang.String TABLENAME;
 -dontwarn **.R$*
 
 -keep class com.ishow.noahark.entries.**{*;}
+-keep class com.ishow.common.entries.**{*;}
+
+-keepclassmembers class ** {
+    @com.ishow.common.utils.permission.PermissionGranted <methods>;
+}
+-keepclassmembers class ** {
+    @com.ishow.common.utils.permission.PermissionDenied <methods>;
+}
