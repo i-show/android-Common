@@ -80,7 +80,7 @@
     </style>
 
     <!-- ################ Dialog ################ -->
-    <style name="Theme.Dialog" parent="@style/Theme.AppCompat.Dialog">
+    <style name="Theme.Dialog" parent="@style/Theme.AppCompat.Light.Dialog">
         <!-- 标题栏颜色 -->
         <item name="colorPrimary">@color/color_primary</item>
         <!--常用的颜色例如 光标颜色-->
