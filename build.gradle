@@ -13,7 +13,12 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+
         google()
+
+        maven {
+            url 'https://dl.bintray.com/brightyu/ishow'
+        }
     }
 
     // Javadoc设定为UTF-8了
