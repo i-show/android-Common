@@ -27,7 +27,7 @@
         <item name="android:actionBarSize">@dimen/top_bar_height</item>
 
         <!-- 默认 Button的Style -->
-        <item name="buttonStyle">@style/AppButton</item>
+        <item name="buttonStyle">@style/CommonButton</item>
 
         <!-- 标题栏颜色 -->
         <item name="colorPrimary">@color/color_primary</item>

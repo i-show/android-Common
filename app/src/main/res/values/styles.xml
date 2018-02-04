@@ -1,5 +1,7 @@
 <resources>
 
+    <style name="AppEditText" parent="CommonEditText"/>
+
     <style name="AppEditText.Login">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/girdle_min_h</item>
@@ -13,6 +15,8 @@
         <item name="android:background">@drawable/bottom_line_normal_bg</item>
     </style>
 
+
+    <style name="AppButton" parent="CommonButton"/>
     <style name="AppButton.Login">
         <item name="android:textColor">@color/text_white_normal</item>
         <item name="android:textSize">@dimen/H_title</item>
@@ -34,6 +38,8 @@
         <item name="android:minHeight">@dimen/dp_45</item>
     </style>
 
+    <style name="AppTextView" parent="CommonTextView"/>
+    
     <style name="AppTextView.Login">
         <item name="android:textSize">@dimen/I_title</item>
         <item name="android:textColor">@color/text_grey_light_normal</item>

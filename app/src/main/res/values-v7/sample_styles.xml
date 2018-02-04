@@ -1,12 +1,12 @@
 <resources>
 
-    <style name="AppTextView.Sample">
+    <style name="CommonTextView.Sample">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/text_grey</item>
         <item name="android:textSize">@dimen/I_title</item>
-        <item name="android:background">@drawable/grey_corner_max_line_bg_white_bg</item>
+        <item name="android:background">@drawable/corner_max_grey_line_white_bg</item>
         <item name="android:clickable">true</item>
         <item name="android:paddingTop">@dimen/gap_grade_2</item>
         <item name="android:paddingBottom">@dimen/gap_grade_2</item>

@@ -40,7 +40,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/gap_grade_4"
-            android:background="@drawable/green_corner_5dp_bg"
+            android:background="@drawable/corner_5dp_green_bg"
             android:paddingBottom="@dimen/gap_grade_1"
             android:paddingLeft="@dimen/gap_grade_3"
             android:paddingRight="@dimen/gap_grade_3"

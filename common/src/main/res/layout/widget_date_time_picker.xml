@@ -30,28 +30,28 @@
 
         <com.ishow.common.widget.pickview.PickerView
             android:id="@+id/year"
-            style="@style/PickerView.DateTimePicker"
+            style="@style/CommonPickerView.DateTimePicker"
             android:layout_weight="1.3"
             app:unit="@string/year"/>
 
         <com.ishow.common.widget.pickview.PickerView
             android:id="@+id/month"
-            style="@style/PickerView.DateTimePicker"
+            style="@style/CommonPickerView.DateTimePicker"
             app:unit="@string/month"/>
 
         <com.ishow.common.widget.pickview.PickerView
             android:id="@+id/date"
-            style="@style/PickerView.DateTimePicker"
+            style="@style/CommonPickerView.DateTimePicker"
             app:unit="@string/date"/>
 
         <com.ishow.common.widget.pickview.PickerView
             android:id="@+id/hour"
-            style="@style/PickerView.DateTimePicker"
+            style="@style/CommonPickerView.DateTimePicker"
             app:unit="@string/hour"/>
 
         <com.ishow.common.widget.pickview.PickerView
             android:id="@+id/min"
-            style="@style/PickerView.DateTimePicker"
+            style="@style/CommonPickerView.DateTimePicker"
             app:unit="@string/min"/>
     </LinearLayout>
 </merge>

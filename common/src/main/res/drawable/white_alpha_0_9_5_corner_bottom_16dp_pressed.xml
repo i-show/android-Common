@@ -18,7 +18,7 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <corners
         android:bottomLeftRadius="@dimen/dp_16"
-        android:bottomRightRadius="@dimen/dp_16"/>
+        android:bottomRightRadius="@dimen/dp_16" />
 
-    <solid android:color="@color/grey_deep_14"/>
+    <solid android:color="@color/grey_deep_14" />
 </shape>

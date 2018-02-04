@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2016 The yuhaiyang Android Source Project
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,8 +15,8 @@
   -->
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:color="@color/color_primary" android:state_checked="true"/>
-    <item android:color="@color/color_primary" android:state_pressed="true"/>
-    <item android:color="@color/color_primary" android:state_selected="true"/>
-    <item android:color="@color/grey_deep_8"/>
+    <item android:color="@color/color_primary" android:state_checked="true" />
+    <item android:color="@color/color_primary" android:state_pressed="true" />
+    <item android:color="@color/color_primary" android:state_selected="true" />
+    <item android:color="@color/grey_deep_8" />
 </selector>

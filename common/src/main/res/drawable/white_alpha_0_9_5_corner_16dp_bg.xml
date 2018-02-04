@@ -15,7 +15,7 @@
   -->
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/white_alpha_0_9_5_corner_16dp_pressed" android:state_pressed="true"/>
-    <item android:drawable="@drawable/white_alpha_0_9_5_corner_16dp_pressed" android:state_checked="true"/>
-    <item android:drawable="@drawable/white_alpha_0_9_5_corner_16dp_normal"/>
+    <item android:drawable="@drawable/white_alpha_0_9_5_corner_16dp_pressed" android:state_pressed="true" />
+    <item android:drawable="@drawable/white_alpha_0_9_5_corner_16dp_pressed" android:state_checked="true" />
+    <item android:drawable="@drawable/white_alpha_0_9_5_corner_16dp_normal" />
 </selector>

@@ -15,6 +15,6 @@
   -->
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/two_line_pressed_bg" android:state_pressed="true"/>
-    <item android:drawable="@drawable/two_line_normal_bg"/>
+    <item android:drawable="@drawable/two_line_pressed_bg" android:state_pressed="true" />
+    <item android:drawable="@drawable/two_line_normal_bg" />
 </selector>

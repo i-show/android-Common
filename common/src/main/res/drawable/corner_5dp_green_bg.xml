@@ -15,9 +15,7 @@
   -->
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item android:drawable="@drawable/grey_corner_max_line_pressed" android:state_pressed="true" />
-
-    <item android:drawable="@drawable/grey_corner_max_line_normal" />
-
+    <item android:drawable="@drawable/corner_5dp_green_pressed" android:state_pressed="true" />
+    <item android:drawable="@drawable/corner_5dp_green_pressed" android:state_enabled="false" />
+    <item android:drawable="@drawable/corner_5dp_green_normal" />
 </selector>

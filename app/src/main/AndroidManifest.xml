@@ -124,10 +124,6 @@
         <activity
             android:name=".modules.sample.recycle.animation.SampleAnimationRecycleViewActivity"
             android:screenOrientation="portrait"/>
-        <!--RecycleView 的itemDecoration-->
-        <activity
-            android:name=".modules.sample.recycle.decoration.SampleRecycleItemDecorationActivity"
-            android:screenOrientation="portrait"/>
         <!--一个选择框-->
         <activity
             android:name=".modules.sample.dialog.select.SampleSelectDialogAndPickerDialog"

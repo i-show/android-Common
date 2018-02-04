@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2016 The yuhaiyang Android Source Project
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,11 +20,11 @@
         android:left="-2dp"
         android:right="-2dp">
         <shape>
-            <solid android:color="@color/white_alpha_1"/>
+            <solid android:color="@color/white_alpha_1" />
 
             <stroke
                 android:width="1px"
-                android:color="@color/line"/>
+                android:color="@color/line" />
         </shape>
     </item>
 
