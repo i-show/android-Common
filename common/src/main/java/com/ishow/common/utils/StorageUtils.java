@@ -23,7 +23,7 @@ public class StorageUtils {
     }
 
 
-    private static class Executor {
+    public static class Executor {
         private Context context;
         /**
          * 区块
