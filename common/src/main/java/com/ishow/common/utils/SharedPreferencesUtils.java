@@ -22,6 +22,7 @@ import android.content.SharedPreferences;
 import java.lang.ref.WeakReference;
 import java.util.Set;
 
+@Deprecated
 public class SharedPreferencesUtils {
 
     private static final String TAG = "SharedPreferencesUtils";
@@ -69,7 +70,6 @@ public class SharedPreferencesUtils {
                 sharedPreferences = mSharedPreferences.get();
             }
         }
-
 
         return sharedPreferences;
     }
