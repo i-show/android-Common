@@ -220,6 +220,8 @@
     <attr name="tintColor" format="color|reference" />
 
     <attr name="image" format="reference|color" />
+    <attr name="imageWidth" format="dimension" />
+    <attr name="imageHeight" format="dimension" />
 
     <attr name="padding" format="dimension" />
     <attr name="promptPadding" format="dimension" />
@@ -609,6 +611,9 @@
         <attr name="tint" />
 
         <attr name="image" />
+        <attr name="imageWidth" />
+        <attr name="imageHeight" />
+
         <attr name="position" />
         <attr name="padding" />
 

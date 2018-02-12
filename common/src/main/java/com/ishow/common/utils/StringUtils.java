@@ -77,6 +77,18 @@ public class StringUtils {
     }
 
     /**
+     * 字符传Float
+     */
+    public static float format2Float(String value) {
+        try {
+            return Float.valueOf(value);
+        } catch (Exception e) {
+            L.d(TAG, "format2int e = " + e.toString());
+            return 0F;
+        }
+    }
+
+    /**
      * byte[]数组转换为16进制的字符串。
      *
      * @param data 要转换的字节数组。

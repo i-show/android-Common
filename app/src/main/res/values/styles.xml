@@ -39,7 +39,7 @@
     </style>
 
     <style name="AppTextView" parent="CommonTextView"/>
-    
+
     <style name="AppTextView.Login">
         <item name="android:textSize">@dimen/I_title</item>
         <item name="android:textColor">@color/text_grey_light_normal</item>

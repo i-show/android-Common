@@ -87,8 +87,6 @@ public class OkhttpExecutor extends Executor {
                 .url(url)
                 .headers(headers);
 
-        Log.i("nian", "execute: headers = " + headers.toString());
-
         switch (request.getMethod()) {
             case POST:
                 RequestBody body = makeBody(request);

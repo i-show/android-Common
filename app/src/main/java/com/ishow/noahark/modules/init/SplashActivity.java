@@ -16,6 +16,7 @@
 
 package com.ishow.noahark.modules.init;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
@@ -25,12 +26,15 @@ import android.os.Message;
 import android.view.View;
 
 import com.baidu.mobstat.StatService;
+import com.ishow.common.constant.Shift;
+import com.ishow.common.utils.permission.PermissionDenied;
+import com.ishow.common.utils.permission.PermissionGranted;
+import com.ishow.common.utils.permission.PermissionManager;
+import com.ishow.noahark.constant.Configure;
 import com.ishow.noahark.manager.ConfigureManager;
 import com.ishow.noahark.manager.UserManager;
-import com.ishow.noahark.modules.account.login.LoginActivity;
-import com.ishow.common.constant.Shift;
-import com.ishow.noahark.constant.Configure;
 import com.ishow.noahark.manager.VersionManager;
+import com.ishow.noahark.modules.account.login.LoginActivity;
 import com.ishow.noahark.modules.base.AppBaseActivity;
 import com.ishow.noahark.modules.main.MainActivity;
 
@@ -38,25 +42,68 @@ import com.ishow.noahark.modules.main.MainActivity;
  * 引导界面
  */
 public class SplashActivity extends AppBaseActivity {
+    /**
+     * 进行下一步
+     */
     private static final int HANDLE_GO_NEXT = 1 << Shift.ACTIVITY;
+    /**
+     * 请求权限的Code
+     */
+    private static final int REQUEST_PERMISSION_CODE = 1001;
+    /**
+     * 必要的权限
+     */
+    private static final String[] NECESSARY_PERMISSIONS = new String[]{
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+
+    };
+
+    /**
+     * 请求的权限
+     */
+    private static final String[] PERMISSIONS = new String[]{
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+    };
+
+    private boolean isRemovedMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mHandler = new RecycleHandler();
-        init();
+        // 百度统计 - 进入就开始初始化
+        StatService.start(this);
+        // 检测权限获取
+        checkPermission();
+    }
+
+
+    /**
+     * 权限检测
+     */
+    private void checkPermission() {
+        if (PermissionManager.hasPermission(this, NECESSARY_PERMISSIONS)) {
+            init();
+        } else {
+            PermissionManager.with(this)
+                    .permission(PERMISSIONS)
+                    .requestCode(REQUEST_PERMISSION_CODE)
+                    .send();
+        }
     }
 
     /**
      * 初始化操作
      */
     private void init() {
-        // 百度统计
-        StatService.start(this);
         // 配置管理
         ConfigureManager.getInstance().init(this);
         // 更新版本信息
         VersionManager.getInstance().init(this);
+        // 1秒后进入下一个界面
+        mHandler.sendEmptyMessageDelayed(HANDLE_GO_NEXT, Configure.SPLASH_TIME);
     }
 
     /**
@@ -66,17 +113,33 @@ public class SplashActivity extends AppBaseActivity {
         return false;
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
-        mHandler.sendEmptyMessageDelayed(HANDLE_GO_NEXT, Configure.SPLASH_TIME);
+        /*
+         * 如果是已经移除了 跳转下一个 那么久重新进行检测
+         */
+        if(isRemovedMessage) checkPermission();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         mHandler.removeMessages(HANDLE_GO_NEXT);
+        isRemovedMessage = true;
+    }
+
+
+    @SuppressWarnings("unused")
+    @PermissionGranted(REQUEST_PERMISSION_CODE)
+    private void permissionGranted() {
+        init();
+    }
+
+    @SuppressWarnings("unused")
+    @PermissionDenied(REQUEST_PERMISSION_CODE)
+    private void permissionDenied() {
+        finish();
     }
 
     @Override

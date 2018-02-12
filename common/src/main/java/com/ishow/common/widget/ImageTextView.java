@@ -97,7 +97,9 @@ public class ImageTextView extends View implements IPrompt {
     /**
      * 图标的Drawable
      */
-    private Drawable mIconDrawable;
+    private Drawable mImageDrawable;
+    private int mImageWidth;
+    private int mImageHeight;
 
     /**
      * 画图标的区域
@@ -177,7 +179,9 @@ public class ImageTextView extends View implements IPrompt {
         super(context, attrs);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ImageTextView);
-        mIconDrawable = a.getDrawable(R.styleable.ImageTextView_image);
+        mImageDrawable = a.getDrawable(R.styleable.ImageTextView_image);
+        mImageWidth = a.getDimensionPixelSize(R.styleable.ImageTextView_imageWidth, 0);
+        mImageHeight = a.getDimensionPixelSize(R.styleable.ImageTextView_imageHeight, 0);
 
         mText = a.getString(R.styleable.ImageTextView_text);
         mTextStateColor = a.getColorStateList(R.styleable.ImageTextView_textColor);
@@ -208,7 +212,7 @@ public class ImageTextView extends View implements IPrompt {
             mTextColor = mTextStateColor.getDefaultColor();
         }
 
-        if (mIconDrawable == null) {
+        if (mImageDrawable == null) {
             throw new IllegalStateException(" need a image !");
         }
 
@@ -217,8 +221,8 @@ public class ImageTextView extends View implements IPrompt {
 
     private void init() {
         if (mTintColor != null) {
-            mIconDrawable = DrawableCompat.wrap(mIconDrawable);
-            DrawableCompat.setTintList(mIconDrawable, mTintColor);
+            mImageDrawable = DrawableCompat.wrap(mImageDrawable);
+            DrawableCompat.setTintList(mImageDrawable, mTintColor);
         }
 
         // 取值范围为0 -1
@@ -260,10 +264,9 @@ public class ImageTextView extends View implements IPrompt {
     protected void drawableStateChanged() {
         super.drawableStateChanged();
         boolean needInvalidate = false;
-
-        if (mIconDrawable instanceof StateListDrawable) {
-            StateListDrawable drawable = (StateListDrawable) mIconDrawable;
-            if (mIconDrawable.isStateful()) {
+        if (mImageDrawable instanceof StateListDrawable) {
+            StateListDrawable drawable = (StateListDrawable) mImageDrawable;
+            if (mImageDrawable.isStateful()) {
                 int[] states = getDrawableState();
                 drawable.setState(states);
                 needInvalidate = true;
@@ -309,12 +312,12 @@ public class ImageTextView extends View implements IPrompt {
         switch (mImageOrientation) {
             case Orientation.TOP:
             case Orientation.BOTTOM:
-                width = DEFAULT_PADDING + Math.max(mLayout.getWidth(), mIconDrawable.getIntrinsicWidth()) + DEFAULT_PADDING;
+                width = DEFAULT_PADDING + Math.max(mLayout.getWidth(), getImageWidth()) + DEFAULT_PADDING;
                 break;
 
             case Orientation.LEFT:
             case Orientation.RIGHT:
-                width = DEFAULT_PADDING + mLayout.getWidth() + mPadding + mIconDrawable.getIntrinsicWidth() + DEFAULT_PADDING;
+                width = DEFAULT_PADDING + mLayout.getWidth() + mPadding + getImageWidth() + DEFAULT_PADDING;
                 break;
         }
         return width;
@@ -332,7 +335,7 @@ public class ImageTextView extends View implements IPrompt {
 
             case Orientation.LEFT:
             case Orientation.RIGHT:
-                maxSize = size - mIconDrawable.getIntrinsicWidth() - 2 * DEFAULT_PADDING - mPadding;
+                maxSize = size - getImageWidth() - 2 * DEFAULT_PADDING - mPadding;
                 mLayout = new StaticLayout(mText, mTextPaint, maxSize, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
                 break;
         }
@@ -347,7 +350,7 @@ public class ImageTextView extends View implements IPrompt {
             case Orientation.BOTTOM:
                 if (mDesireWidth < size) {
                     mLayout = new StaticLayout(mText, mTextPaint, mTextDesireWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
-                    width = DEFAULT_PADDING + Math.max(mLayout.getWidth(), mIconDrawable.getIntrinsicWidth()) + DEFAULT_PADDING;
+                    width = DEFAULT_PADDING + Math.max(mLayout.getWidth(), getImageWidth()) + DEFAULT_PADDING;
                 } else {
                     maxSize = size - 2 * DEFAULT_PADDING;
                     mLayout = new StaticLayout(mText, mTextPaint, maxSize, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
@@ -359,9 +362,9 @@ public class ImageTextView extends View implements IPrompt {
             case Orientation.RIGHT:
                 if (mDesireWidth < size) {
                     mLayout = new StaticLayout(mText, mTextPaint, mTextDesireWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
-                    width = DEFAULT_PADDING + mLayout.getWidth() + mPadding + mIconDrawable.getIntrinsicWidth() + DEFAULT_PADDING;
+                    width = DEFAULT_PADDING + mLayout.getWidth() + mPadding + getImageWidth() + DEFAULT_PADDING;
                 } else {
-                    maxSize = size - mIconDrawable.getIntrinsicWidth() - 2 * DEFAULT_PADDING - mPadding;
+                    maxSize = size - getImageWidth() - 2 * DEFAULT_PADDING - mPadding;
                     mLayout = new StaticLayout(mText, mTextPaint, maxSize, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
                     width = size;
                 }
@@ -392,12 +395,12 @@ public class ImageTextView extends View implements IPrompt {
         switch (mImageOrientation) {
             case Orientation.TOP:
             case Orientation.BOTTOM:
-                height = DEFAULT_PADDING + mLayout.getHeight() + mPadding + mIconDrawable.getIntrinsicHeight() + DEFAULT_PADDING;
+                height = DEFAULT_PADDING + mLayout.getHeight() + mPadding + getImageHeight() + DEFAULT_PADDING;
                 break;
 
             case Orientation.LEFT:
             case Orientation.RIGHT:
-                height = DEFAULT_PADDING + Math.max(mLayout.getHeight(), mIconDrawable.getIntrinsicHeight()) + DEFAULT_PADDING;
+                height = DEFAULT_PADDING + Math.max(mLayout.getHeight(), getImageHeight()) + DEFAULT_PADDING;
                 break;
         }
         return height;
@@ -408,12 +411,12 @@ public class ImageTextView extends View implements IPrompt {
         switch (mImageOrientation) {
             case Orientation.TOP:
             case Orientation.BOTTOM:
-                desireHeight = DEFAULT_PADDING + mLayout.getHeight() + mPadding + mIconDrawable.getIntrinsicHeight() + DEFAULT_PADDING;
+                desireHeight = DEFAULT_PADDING + mLayout.getHeight() + mPadding + getImageHeight() + DEFAULT_PADDING;
                 break;
 
             case Orientation.LEFT:
             case Orientation.RIGHT:
-                desireHeight = DEFAULT_PADDING + Math.max(mLayout.getHeight(), mIconDrawable.getIntrinsicHeight()) + DEFAULT_PADDING;
+                desireHeight = DEFAULT_PADDING + Math.max(mLayout.getHeight(), getImageHeight()) + DEFAULT_PADDING;
                 break;
         }
         return Math.min(size, desireHeight);
@@ -450,8 +453,8 @@ public class ImageTextView extends View implements IPrompt {
         final int width = getMeasuredWidth();
         final int height = getMeasuredHeight();
 
-        final int iconWidth = mIconDrawable.getIntrinsicWidth();
-        final int iconHeight = mIconDrawable.getIntrinsicHeight();
+        final int iconWidth = getImageWidth();
+        final int iconHeight = getImageHeight();
 
         final int textWidth = mLayout.getWidth();
         final int textHeight = mLayout.getHeight();
@@ -523,7 +526,7 @@ public class ImageTextView extends View implements IPrompt {
 
 
     private void drawIcon(Canvas canvas) {
-        Drawable drawable = mIconDrawable;
+        Drawable drawable = mImageDrawable;
         drawable.setBounds(mIconRect);
         drawable.draw(canvas);
     }
@@ -559,7 +562,7 @@ public class ImageTextView extends View implements IPrompt {
     private void computeDesireWidth() {
         mTextDesireWidth = (int) Layout.getDesiredWidth(mText, mTextPaint);
 
-        final int iconWidth = mIconDrawable.getIntrinsicWidth();
+        final int iconWidth = getImageWidth();
 
         switch (mImageOrientation) {
             case Orientation.LEFT:
@@ -699,10 +702,10 @@ public class ImageTextView extends View implements IPrompt {
      */
     public void setIcon(@DrawableRes int resId) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mIconDrawable = getContext().getResources().getDrawable(resId, getContext().getTheme());
+            mImageDrawable = getContext().getResources().getDrawable(resId, getContext().getTheme());
         } else {
             //noinspection deprecation
-            mIconDrawable = getContext().getResources().getDrawable(resId);
+            mImageDrawable = getContext().getResources().getDrawable(resId);
         }
         postInvalidate();
     }
@@ -863,5 +866,22 @@ public class ImageTextView extends View implements IPrompt {
      */
     protected int getDefaultPromptRadius(Context context) {
         return context.getResources().getDimensionPixelOffset(R.dimen.dp_7);
+    }
+
+
+    private int getImageWidth() {
+        if (mImageWidth > 0) {
+            return mImageWidth;
+        }
+
+        return mImageDrawable == null ? 0 : mImageDrawable.getIntrinsicWidth();
+    }
+
+    private int getImageHeight(){
+        if(mImageHeight >0 ){
+            return mImageHeight;
+        }
+
+        return mImageDrawable == null ?0 :mImageDrawable.getIntrinsicHeight();
     }
 }

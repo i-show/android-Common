@@ -40,6 +40,25 @@ public class AppUtils {
     public final static String VERSION_NAME = "cache_saved_version_name";
 
     /**
+     * 上一次点击按钮的时间
+     */
+    private static long sLastClickTime;
+
+    /**
+     * 根据两次的点击时间防止重复提交
+     */
+    public static boolean isFastDoubleClick() {
+        long currentTime = System.currentTimeMillis();
+        long timeDiffer = currentTime - sLastClickTime;
+        if (timeDiffer > 0 && timeDiffer < 500) {
+            return true;
+        }
+        sLastClickTime = currentTime;
+        return false;
+    }
+
+
+    /**
      * 获取版本code
      */
     public static int getVersionCode(Context context) {
