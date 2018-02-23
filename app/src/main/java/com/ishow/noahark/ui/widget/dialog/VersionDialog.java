@@ -31,7 +31,7 @@ import com.alibaba.fastjson.JSON;
 import com.ishow.common.utils.DeviceUtils;
 import com.ishow.common.utils.IntentUtils;
 import com.ishow.common.utils.SharedPreferencesUtils;
-import com.ishow.common.utils.log.L;
+import com.ishow.common.utils.log.LogManager;
 import com.ishow.noahark.R;
 import com.ishow.noahark.entries.Version;
 import com.ishow.noahark.manager.VersionManager;
@@ -100,7 +100,7 @@ public class VersionDialog extends Dialog implements View.OnClickListener {
         super.show();
         Window window = getWindow();
         if (window == null) {
-            L.i(TAG, "window is null");
+            LogManager.i(TAG, "window is null");
             return;
         }
         WindowManager.LayoutParams lp = window.getAttributes();

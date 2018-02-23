@@ -45,7 +45,7 @@ import com.ishow.common.modules.image.select.PhotoSelectorActivity;
 import com.ishow.common.utils.StringUtils;
 import com.ishow.common.utils.ToastUtils;
 import com.ishow.common.utils.image.ImageUtils;
-import com.ishow.common.utils.log.L;
+import com.ishow.common.utils.log.LogManager;
 import com.ishow.common.widget.dialog.BaseDialog;
 import com.ishow.common.widget.loading.LoadingDialog;
 
@@ -347,7 +347,7 @@ public class SelectPhotoUtils implements
                 notifySelectPhoto(picPath);
                 break;
             default:
-                L.i(TAG, "requestCode = " + requestCode);
+                LogManager.i(TAG, "requestCode = " + requestCode);
                 break;
         }
     }

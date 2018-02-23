@@ -19,28 +19,39 @@ package com.ishow.noahark.modules.sample.main;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
+import com.ishow.common.widget.recyclerview.AnimationRecyclerView;
 import com.ishow.common.widget.recyclerview.layoutmanager.FlowLayoutManager;
 import com.ishow.noahark.R;
 import com.ishow.noahark.modules.base.AppBaseActivity;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * 测试Demo
  */
 public class SampleMainActivity extends AppBaseActivity {
+    @BindView(R.id.list)
+    AnimationRecyclerView mList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample_main);
+        ButterKnife.bind(this);
+
+        SampleMainAdapter adapter = new SampleMainAdapter(this);
+        adapter.setData(SampleManager.getSamples());
+
+        mList.setLayoutManager(new FlowLayoutManager());
+        mList.setAdapter(adapter);
     }
 
     @Override
     protected void initViews() {
         super.initViews();
-        SampleMainAdapter adapter = new SampleMainAdapter(this);
-        adapter.setData(SampleManager.getSamples());
 
-        RecyclerView list = (RecyclerView) findViewById(R.id.list);
-        list.setLayoutManager(new FlowLayoutManager());
-        list.setAdapter(adapter);
+
+
     }
 }

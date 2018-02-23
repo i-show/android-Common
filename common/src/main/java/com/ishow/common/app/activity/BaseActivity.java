@@ -152,24 +152,6 @@ public abstract class BaseActivity extends AppCompatActivity implements
     protected void initNecessaryData() {
     }
 
-    //************************ 数据保存区域*********************** //
-    protected void save(String key, Object value) {
-        save(key, value, false);
-    }
-
-    protected void save(String key, Object value, boolean isCache) {
-        SharedPreferencesUtils.save(this, key, value, isCache);
-    }
-
-    protected <T> T get(String key, T defaultValue) {
-        return get(key, defaultValue, false);
-    }
-
-    protected <T> T get(String key, T defaultValue, boolean isCache) {
-        return SharedPreferencesUtils.get(this, key, defaultValue, isCache);
-    }
-    //************************ 重写 各种事件区域*********************** //
-
     /**
      * TopBar的左侧点击事件
      */

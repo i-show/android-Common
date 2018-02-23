@@ -1,6 +1,5 @@
 package com.ishow.noahark.modules.main.tab1;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -9,8 +8,6 @@ import android.view.ViewGroup;
 
 import com.ishow.noahark.R;
 import com.ishow.noahark.modules.base.AppBaseFragment;
-import com.ishow.common.utils.log.L;
-import com.ishow.common.widget.TopBar;
 
 /**
  * Created by yuhaiyang on 2017/4/21.

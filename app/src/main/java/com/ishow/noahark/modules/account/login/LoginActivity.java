@@ -22,11 +22,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 
-import com.ishow.common.app.activity.BaseActivity;
 import com.ishow.common.utils.SharedPreferencesUtils;
 import com.ishow.common.utils.StringUtils;
 import com.ishow.common.widget.edittext.EditTextPro;
-import com.ishow.common.widget.loading.LoadingDialog;
 import com.ishow.noahark.R;
 import com.ishow.noahark.entries.User;
 import com.ishow.noahark.modules.account.password.forgot.ForgotPasswordActivity;
@@ -82,9 +80,9 @@ public class LoginActivity extends AppBaseActivity implements LoginContract.View
     protected void initViews() {
         super.initViews();
 
-        mEditAccount = (EditTextPro) findViewById(R.id.account);
+        mEditAccount = findViewById(R.id.account);
         mEditAccount.addInputWatcher(mTextWatcher);
-        mEditPassword = (EditTextPro) findViewById(R.id.password);
+        mEditPassword = findViewById(R.id.password);
 
         View login = findViewById(R.id.login);
         login.setOnClickListener(this);

@@ -23,7 +23,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.ishow.common.utils.WebViewUtils;
-import com.ishow.common.utils.log.L;
+import com.ishow.common.utils.log.LogManager;
 import com.ishow.common.widget.TopBar;
 import com.ishow.noahark.BuildConfig;
 import com.ishow.noahark.R;
@@ -53,7 +53,7 @@ public class OnlyWebActivity extends AppBaseActivity {
         Intent intent = getIntent();
         mTitleString = intent.getStringExtra(KEY_TITLE);
         mUrl = intent.getStringExtra(KEY_CONTENT);
-        if (BuildConfig.DEBUG) L.i(TAG, "initNecessaryData: mUrl = " + mUrl);
+        if (BuildConfig.DEBUG) LogManager.i(TAG, "initNecessaryData: mUrl = " + mUrl);
     }
 
     @Override

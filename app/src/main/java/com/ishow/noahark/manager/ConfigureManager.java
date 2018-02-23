@@ -16,22 +16,9 @@
 
 package com.ishow.noahark.manager;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
-import android.text.TextUtils;
-import android.util.Log;
-
-import com.alibaba.fastjson.JSON;
-import com.ishow.common.utils.AppUtils;
-import com.ishow.common.utils.SharedPreferencesUtils;
-import com.ishow.common.utils.http.rest.Http;
-import com.ishow.common.utils.http.rest.HttpError;
-import com.ishow.common.utils.log.L;
 import com.ishow.common.widget.watermark.WaterMarkHelp;
 import com.ishow.noahark.BuildConfig;
-import com.ishow.noahark.entries.Version;
 import com.ishow.noahark.modules.init.SplashActivity;
-import com.ishow.noahark.utils.http.AppHttpCallBack;
 
 import java.lang.ref.WeakReference;
 

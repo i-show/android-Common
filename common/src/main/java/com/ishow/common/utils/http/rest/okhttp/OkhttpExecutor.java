@@ -18,7 +18,6 @@ package com.ishow.common.utils.http.rest.okhttp;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.ishow.common.entries.KeyValue;
 import com.ishow.common.utils.http.rest.Headers;
@@ -33,12 +32,11 @@ import com.ishow.common.utils.http.rest.okhttp.cookie.OkCookiesManager;
 import com.ishow.common.utils.http.rest.request.Request;
 import com.ishow.common.utils.http.rest.MultiBody;
 import com.ishow.common.utils.http.rest.response.Response;
-import com.ishow.common.utils.log.L;
+import com.ishow.common.utils.log.LogManager;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
@@ -119,7 +117,7 @@ public class OkhttpExecutor extends Executor {
                 }
             }
         } catch (Exception e) {
-            L.i(TAG, "cancle " + e.toString());
+            LogManager.i(TAG, "cancle " + e.toString());
         }
     }
 

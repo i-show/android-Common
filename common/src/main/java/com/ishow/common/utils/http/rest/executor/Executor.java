@@ -20,7 +20,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.ishow.common.utils.http.rest.Cookie;
 import com.ishow.common.utils.http.rest.Headers;
 import com.ishow.common.utils.http.rest.HttpError;
 import com.ishow.common.entries.KeyValue;
@@ -31,10 +30,9 @@ import com.ishow.common.utils.http.rest.config.HttpConfig;
 import com.ishow.common.utils.http.rest.exception.CanceledException;
 import com.ishow.common.utils.http.rest.request.Request;
 import com.ishow.common.utils.http.rest.response.Response;
-import com.ishow.common.utils.log.L;
+import com.ishow.common.utils.log.LogManager;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Bright.Yu on 2017/2/20.
@@ -126,31 +124,31 @@ public abstract class Executor {
      */
     @SuppressWarnings("WeakerAccess")
     protected void debugRequest(@NonNull final Request request) {
-        L.d(request.getLogTag(), StringUtils.plusString("=================== ", request.getMethod(), ":", request.getId(), " ==================="));
-        L.d(request.getLogTag(), StringUtils.plusString(request.getId(), " URL     = ", request.getFinalUrl()));
+        LogManager.d(request.getLogTag(), StringUtils.plusString("=================== ", request.getMethod(), ":", request.getId(), " ==================="));
+        LogManager.d(request.getLogTag(), StringUtils.plusString(request.getId(), " URL     = ", request.getFinalUrl()));
 
         Headers headers = HttpConfig.getHeaders();
         if (headers.size() > 0) {
-            L.d(request.getLogTag(), StringUtils.plusString(request.getId(), " HEADERS_DEFAULT = ", headers.toString()));
+            LogManager.d(request.getLogTag(), StringUtils.plusString(request.getId(), " HEADERS_DEFAULT = ", headers.toString()));
         }
 
         headers = request.getHeaders();
         if (headers != null && headers.size() > 0) {
-            L.d(request.getLogTag(), StringUtils.plusString(request.getId(), " HEADERS = ", headers.toString()));
+            LogManager.d(request.getLogTag(), StringUtils.plusString(request.getId(), " HEADERS = ", headers.toString()));
         }
 
-        L.d(request.getLogTag(), StringUtils.plusString(request.getId(), " TIMEOUT = ", request.getConnTimeOut(true)));
+        LogManager.d(request.getLogTag(), StringUtils.plusString(request.getId(), " TIMEOUT = ", request.getConnTimeOut(true)));
 
         RequestParams params = request.getParams();
 
         String normalParsms = buildParams(params.getNormalParams());
         if (!TextUtils.isEmpty(normalParsms)) {
-            L.d(request.getLogTag(), StringUtils.plusString(request.getId(), " PARAMS = ", normalParsms));
+            LogManager.d(request.getLogTag(), StringUtils.plusString(request.getId(), " PARAMS = ", normalParsms));
         }
 
         Object body = params.getBody();
         if (body != null && body instanceof String) {
-            L.d(request.getLogTag(), StringUtils.plusString(request.getId(), " PARAMS = ", body.toString()));
+            LogManager.d(request.getLogTag(), StringUtils.plusString(request.getId(), " PARAMS = ", body.toString()));
         }
     }
 

@@ -26,15 +26,13 @@ import com.ishow.common.utils.AppUtils;
 import com.ishow.common.utils.SharedPreferencesUtils;
 import com.ishow.common.utils.http.rest.Http;
 import com.ishow.common.utils.http.rest.HttpError;
-import com.ishow.common.utils.log.L;
+import com.ishow.common.utils.log.LogManager;
 import com.ishow.noahark.BuildConfig;
 import com.ishow.noahark.entries.Version;
 import com.ishow.noahark.modules.init.SplashActivity;
 import com.ishow.noahark.utils.http.AppHttpCallBack;
 
 import java.lang.ref.WeakReference;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 版本管理器
@@ -151,7 +149,7 @@ public class VersionManager {
 
     private void makeVersion(String versionJson) {
         if (TextUtils.isEmpty(versionJson)) {
-            L.i(TAG, "makeVersion: version is empty");
+            LogManager.i(TAG, "makeVersion: version is empty");
             return;
         }
         mVersion = JSON.parseObject(versionJson, Version.class);

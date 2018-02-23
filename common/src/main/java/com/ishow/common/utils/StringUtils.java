@@ -18,7 +18,7 @@ package com.ishow.common.utils;
 
 import android.text.TextUtils;
 
-import com.ishow.common.utils.log.L;
+import com.ishow.common.utils.log.LogManager;
 
 import java.util.Locale;
 
@@ -71,7 +71,7 @@ public class StringUtils {
         try {
             return Integer.valueOf(value);
         } catch (Exception e) {
-            L.d(TAG, "format2int e = " + e.toString());
+            LogManager.d(TAG, "format2int e = " + e.toString());
             return 0;
         }
     }
@@ -83,7 +83,7 @@ public class StringUtils {
         try {
             return Float.valueOf(value);
         } catch (Exception e) {
-            L.d(TAG, "format2int e = " + e.toString());
+            LogManager.d(TAG, "format2int e = " + e.toString());
             return 0F;
         }
     }

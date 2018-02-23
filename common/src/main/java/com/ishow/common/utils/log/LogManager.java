@@ -23,7 +23,7 @@ import android.util.Log;
  * log的封装
  */
 
-public class L {
+public class LogManager {
 
     public static void v(String tag, String message) {
         Log.v(tag, message);
