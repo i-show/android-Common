@@ -1,17 +1,16 @@
 package com.ishow.noahark.utils.router;
 
+import com.ishow.common.utils.router.AbsRouterConfigure;
+import com.ishow.common.utils.router.AppRouter;
+import com.ishow.noahark.R;
+
 /**
- * Created by yuhaiyang on 2017/12/12.
- * 配置文件
+ * Created by yuhaiyang on 2018/2/24.
+ * APP 定制router
  */
 
-class AppRouterConfigure {
-
-    /**
-     * 自定义处理区域
-     */
-    static void config(AppRouter router) {
-
+public class AppRouterConfigure extends AbsRouterConfigure {
+    @Override
+    protected void config(AppRouter router) {
     }
-
 }

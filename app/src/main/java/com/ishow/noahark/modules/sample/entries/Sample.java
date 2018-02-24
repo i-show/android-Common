@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.support.annotation.IntDef;
 import android.support.annotation.StringRes;
 
+import com.ishow.common.utils.router.AppRouter;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -31,8 +33,9 @@ public class Sample {
     }
 
     public void startAction(Context context) {
-        Intent intent = new Intent(context, action);
-        context.startActivity(intent);
+        AppRouter.with(context)
+                .target(action)
+                .start();
     }
 
     /**

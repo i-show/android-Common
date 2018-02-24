@@ -17,7 +17,6 @@
 package com.ishow.noahark.modules.sample.main;
 
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 
 import com.ishow.common.widget.recyclerview.AnimationRecyclerView;
 import com.ishow.common.widget.recyclerview.layoutmanager.FlowLayoutManager;

@@ -34,7 +34,7 @@ import com.ishow.noahark.modules.main.tab2.Tab2Fragment;
 import com.ishow.noahark.modules.main.tab3.Tab3Fragment;
 import com.ishow.common.widget.BottomBar;
 import com.ishow.noahark.modules.settings.SettingsActivity;
-import com.ishow.noahark.utils.router.AppRouter;
+import com.ishow.common.utils.router.AppRouter;
 
 public class MainActivity extends AppBaseActivity implements BottomBar.OnBottomBarListener {
     private static final String TAG = "MainActivity";

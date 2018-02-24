@@ -26,9 +26,8 @@ import com.ishow.noahark.R;
 import com.ishow.noahark.modules.account.login.LoginActivity;
 import com.ishow.noahark.modules.base.AppBaseActivity;
 import com.ishow.common.utils.AppUtils;
-import com.ishow.common.widget.edittext.EditTextPro;
 import com.ishow.noahark.modules.egg.EggActivity;
-import com.ishow.noahark.utils.router.AppRouter;
+import com.ishow.common.utils.router.AppRouter;
 
 /**
  * Created by yuhaiyang on 2017/4/24.

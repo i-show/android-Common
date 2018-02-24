@@ -1,13 +1,17 @@
-package com.ishow.noahark.utils.router;
+package com.ishow.common.utils.router;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.AnimRes;
 import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.util.Log;
+
+
+import com.ishow.common.R;
 
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
@@ -38,13 +42,23 @@ public class AppRouter {
     private Bundle mParams;
     private int mRequestCode;
     private int mFlag;
+    private int mAnimation[];
     private boolean isFinish;
 
+    private static AbsRouterConfigure config;
     private static WeakReference<AppRouter> mRouter;
 
     private AppRouter() {
         mFlag = INVALID_FLAGS;
         mRequestCode = INVALID_FLAGS;
+        mAnimation = new int[2];
+        mAnimation[0] = R.anim.activity_right_in;
+        mAnimation[1] = R.anim.activity_left_out;
+    }
+
+
+    public static void setConfigure(AbsRouterConfigure custom){
+        config = custom;
     }
 
     public static AppRouter with(Context context) {
@@ -84,6 +98,7 @@ public class AppRouter {
         return router;
     }
 
+    @SuppressWarnings("unused")
     public AppRouter scheme(String scheme) {
         AppRouter router = getRouter();
         if (router == null) {
@@ -93,6 +108,7 @@ public class AppRouter {
         return router;
     }
 
+    @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
     public AppRouter scheme(@StringRes int scheme) {
         AppRouter router = getRouter();
         if (router == null) {
@@ -223,6 +239,20 @@ public class AppRouter {
     }
 
     /**
+     * 补间动画
+     */
+    @SuppressWarnings("unused")
+    public AppRouter overridePendingTransition(@AnimRes int enterAnim, @AnimRes int exitAnim) {
+        AppRouter router = getRouter();
+        if (router == null) {
+            return null;
+        }
+        router.mAnimation[0] = enterAnim;
+        router.mAnimation[1] = exitAnim;
+        return router;
+    }
+
+    /**
      * 是否关闭上一个应用
      */
     public AppRouter finishSelf() {
@@ -246,7 +276,7 @@ public class AppRouter {
         }
         mLastRouteTime = nowTime;
 
-        AppRouter router = getRouter();
+        final AppRouter router = getRouter();
         if (router == null || router.mContext == null) {
             return false;
         }
@@ -256,7 +286,9 @@ public class AppRouter {
             return false;
         }
 
-        AppRouterConfigure.config(router);
+        if(config != null){
+            config.config(router);
+        }
 
         Intent intent;
         if (router.mClass != null) {
@@ -280,13 +312,16 @@ public class AppRouter {
             intent.putExtras(router.mParams);
         }
 
-
         try {
             if (router.mRequestCode != INVALID_FLAGS && router.mContext instanceof Activity) {
                 Activity activity = (Activity) router.mContext;
                 activity.startActivityForResult(intent, router.mRequestCode);
             } else {
                 router.mContext.startActivity(intent);
+            }
+
+            if (router.mContext instanceof Activity) {
+                ((Activity) router.mContext).overridePendingTransition(mAnimation[0], mAnimation[1]);
             }
 
             if (router.isFinish && router.mContext instanceof Activity) {
