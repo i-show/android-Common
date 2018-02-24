@@ -52,8 +52,6 @@ public class AppRouter {
         mFlag = INVALID_FLAGS;
         mRequestCode = INVALID_FLAGS;
         mAnimation = new int[2];
-        mAnimation[0] = R.anim.activity_right_in;
-        mAnimation[1] = R.anim.activity_left_out;
     }
 
 
@@ -320,7 +318,7 @@ public class AppRouter {
                 router.mContext.startActivity(intent);
             }
 
-            if (router.mContext instanceof Activity) {
+            if (router.mContext instanceof Activity && (mAnimation[0] > 0 || mAnimation[1] > 0)) {
                 ((Activity) router.mContext).overridePendingTransition(mAnimation[0], mAnimation[1]);
             }
 
