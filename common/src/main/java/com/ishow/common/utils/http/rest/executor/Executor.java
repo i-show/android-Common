@@ -20,10 +20,10 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.ishow.common.utils.http.rest.Headers;
-import com.ishow.common.utils.http.rest.HttpError;
 import com.ishow.common.entries.KeyValue;
 import com.ishow.common.utils.StringUtils;
+import com.ishow.common.utils.http.rest.Headers;
+import com.ishow.common.utils.http.rest.HttpError;
 import com.ishow.common.utils.http.rest.RequestParams;
 import com.ishow.common.utils.http.rest.callback.CallBack;
 import com.ishow.common.utils.http.rest.config.HttpConfig;
@@ -166,11 +166,23 @@ public abstract class Executor {
     }
 
     @SuppressWarnings("WeakerAccess")
-    protected void sendCanceledReuslt(@NonNull Request request, @NonNull CallBack callBack) {
+    protected void sendCanceledReuslt(@NonNull Request request, CallBack callBack) {
+        if (callBack == null) {
+            return;
+        }
         HttpError error = HttpError.makeError(request);
         error.setCode(HttpError.ERROR_CANCELED);
         error.setMessage("call is canceled");
         error.setException(new CanceledException());
+        callBack.runOnUiThreadFailed(error);
+    }
+
+
+    protected void sendFailed(CallBack callBack, HttpError error) {
+        if (callBack == null) {
+            return;
+        }
+
         callBack.runOnUiThreadFailed(error);
     }
 
@@ -188,7 +200,10 @@ public abstract class Executor {
     }
 
     @SuppressWarnings("WeakerAccess")
-    protected void sendResponseCodeErrorResult(@NonNull Request request, @NonNull Response response, @NonNull CallBack callBack) {
+    protected void sendResponseCodeErrorResult(@NonNull Request request, @NonNull Response response, CallBack callBack) {
+        if (callBack == null) {
+            return;
+        }
         HttpError error = HttpError.makeError(request);
         error.setCode(response.getCode());
         error.setMessage("request failed , reponse's code is :" + response.getCode());

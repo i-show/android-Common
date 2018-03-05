@@ -145,8 +145,8 @@ public class DateUtils {
      * @param time     输入的时间
      * @param nowModel 时间模型 例如 yyyy-MM-dd
      */
-    public static long formatTolong(String time, String nowModel) {
-        return formatTolong(time, nowModel, Locale.getDefault());
+    public static long formatToLong(String time, String nowModel) {
+        return formatToLong(time, nowModel, Locale.getDefault());
     }
 
     /**
@@ -156,7 +156,7 @@ public class DateUtils {
      * @param nowModel 时间模型 例如 yyyy-MM-dd
      * @param locale   区域
      */
-    public static long formatTolong(String time, String nowModel, Locale locale) {
+    public static long formatToLong(String time, String nowModel, Locale locale) {
 
         try {
             SimpleDateFormat formatter = new SimpleDateFormat(nowModel, locale);

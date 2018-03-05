@@ -20,6 +20,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.ishow.common.entries.KeyValue;
+import com.ishow.common.utils.StringUtils;
 import com.ishow.common.utils.http.rest.Headers;
 import com.ishow.common.utils.http.rest.Http;
 import com.ishow.common.utils.http.rest.HttpError;
@@ -123,7 +124,7 @@ public class OkhttpExecutor extends Executor {
 
     private <T> void executeOkHttp(@NonNull final Request request,
                                    @NonNull final okhttp3.Request okHttpRequest,
-                                   @NonNull final CallBack<T> callBack) {
+                                   final CallBack<T> callBack) {
         Call call;
 
         if (request.isChangedTimeOut()) {
@@ -140,6 +141,11 @@ public class OkhttpExecutor extends Executor {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+                if (callBack == null){
+                    LogManager.d(request.getLogTag(), "request failed");
+                    return;
+                }
+
                 if (call.isCanceled()) {
                     sendCanceledReuslt(request, callBack);
                 } else {
@@ -147,12 +153,17 @@ public class OkhttpExecutor extends Executor {
                     error.setCode(HttpError.ERROR_IO);
                     error.setMessage("io exception");
                     error.setException(e);
-                    callBack.runOnUiThreadFailed(error);
+                    sendFailed(callBack, error);
                 }
             }
 
             @Override
             public void onResponse(Call call, okhttp3.Response okhttp3Response) throws IOException {
+                if (callBack == null){
+                    LogManager.d(request.getLogTag(), "request success");
+                    return;
+                }
+
                 Response response = Response.makeResponse(request);
                 response.setCanceled(call.isCanceled());
                 response.setSuccessful(okhttp3Response.isSuccessful());
@@ -166,13 +177,13 @@ public class OkhttpExecutor extends Executor {
                         callBack.runOnUiThreadSuccessful(response, t);
                     } catch (HttpErrorException e) {
                         HttpError error = e.getHttpError();
-                        callBack.runOnUiThreadFailed(error);
+                        sendFailed(callBack, error);
                     } catch (Exception e) {
                         HttpError error = HttpError.makeError(request);
                         error.setCode(HttpError.ERROR_TYPE);
                         error.setMessage(e.getMessage());
                         error.setException(e);
-                        callBack.runOnUiThreadFailed(error);
+                        sendFailed(callBack, error);
                     }
                 }
             }
