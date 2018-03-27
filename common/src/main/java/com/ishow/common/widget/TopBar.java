@@ -16,6 +16,7 @@
 
 package com.ishow.common.widget;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
@@ -110,7 +111,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
      */
     private int mLeftBackground, mRightBackground;
     private Drawable mLeftTextBackgound, mRightTextBackground;
-    private Drawable mLeftTextDrawable;
+    private Drawable mLeftTextDrawable, mRightTextDrawable;
     /**
      * 左边是否可见
      */
@@ -127,7 +128,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
      */
     private int mLeftTextSize, mRightTextSize;
     private int mLeftTextMinWidth, mRightTextMinWidth;
-    private int mLeftTextDrawablePadding;
+    private int mLeftTextDrawablePadding, mRightTextDrawablePadding;
     /**
      * 左边和右边字体颜色
      */
@@ -232,6 +233,8 @@ public class TopBar extends ViewGroup implements OnClickListener {
         mRightTextSize = a.getDimensionPixelSize(R.styleable.TopBar_rightTextSize, 0);
         mRightTextColor = a.getColorStateList(R.styleable.TopBar_rightTextColor);
         mRightTextBackground = a.getDrawable(R.styleable.TopBar_rightTextBackground);
+        mRightTextDrawable = a.getDrawable(R.styleable.TopBar_rightTextDrawable);
+        mRightTextDrawablePadding = a.getDimensionPixelSize(R.styleable.TopBar_rightTextDrawablePadding, 0);
         mRightTextMinWidth = a.getDimensionPixelSize(R.styleable.TopBar_rightTextMinWidth, 0);
 
         mRightBackground = a.getResourceId(R.styleable.TopBar_rightImageBackground, 0);
@@ -273,17 +276,17 @@ public class TopBar extends ViewGroup implements OnClickListener {
         super.onMeasure(widthMeasureSpec, mExactlyHeightSpec);
         int width = getMeasuredWidth();
 
-        if (mLeftImageVisibility != GONE) {
+        if (mLeftImageVisibility != GONE && mLeftImageView != null) {
             mLeftImageView.measure(mLeftImageWidthSpec, mExactlyHeightSpec);
             mLeftImageWidth = mLeftImageView.getMeasuredWidth();
         }
 
-        if (mLeftImage2Visibility != GONE) {
+        if (mLeftImage2Visibility != GONE && mLeftImageView2 != null) {
             mLeftImageView2.measure(mExactlyWidthSpec, mExactlyHeightSpec);
             mLeftImage2Width = mLeftImageView2.getMeasuredWidth();
         }
 
-        if (mLeftTextVisibility != GONE) {
+        if (mLeftTextVisibility != GONE && mLeftTextView != null) {
             if (mLeftTextBackgound != null) {
                 mLeftTextView.measure(MeasureSpec.makeMeasureSpec(width / 3, MeasureSpec.AT_MOST), mAtmostHeightSpec);
             } else {
@@ -292,17 +295,17 @@ public class TopBar extends ViewGroup implements OnClickListener {
             mLeftTextViewWidth = mLeftTextView.getMeasuredWidth();
         }
 
-        if (mRightImageVisibility != GONE) {
+        if (mRightImageVisibility != GONE && mRightImageView != null) {
             mRightImageView.measure(mRightImageWidthSpec, mExactlyHeightSpec);
             mRightImageWidth = mRightImageView.getMeasuredWidth();
         }
 
-        if (mRightImage2Visibility != GONE) {
+        if (mRightImage2Visibility != GONE && mRightImageView2 != null) {
             mRightImageView2.measure(mExactlyWidthSpec, mExactlyHeightSpec);
             mRightImage2Width = mRightImageView2.getMeasuredWidth();
         }
 
-        if (mRightTextVisibility != GONE) {
+        if (mRightTextVisibility != GONE && mRightTextView != null) {
             if (mRightTextBackground != null) {
                 mRightTextView.measure(MeasureSpec.makeMeasureSpec(width / 3, MeasureSpec.AT_MOST), mAtmostHeightSpec);
             } else {
@@ -312,11 +315,11 @@ public class TopBar extends ViewGroup implements OnClickListener {
         }
 
 
-        if (mTitleVisibility != GONE) {
+        if (mTitleVisibility != GONE && mTitleView != null) {
             mTitleView.measure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY), mAtmostHeightSpec);
         }
 
-        if (mSubTitleVisibility != GONE) {
+        if (mSubTitleVisibility != GONE && mSubTitleView != null) {
             mSubTitleView.measure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY), mAtmostHeightSpec);
         }
 
@@ -326,17 +329,17 @@ public class TopBar extends ViewGroup implements OnClickListener {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         int width = right - left;
-        if (mLeftImageVisibility != GONE) {
+        if (mLeftImageVisibility != GONE && mLeftImageView != null) {
             mLeftImageView.layout(left, 0, left + mLeftImageWidth, mTopBarHeight);
             left += mLeftImageWidth;
         }
 
-        if (mLeftImage2Visibility != GONE) {
+        if (mLeftImage2Visibility != GONE && mLeftImageView2 != null) {
             mLeftImageView2.layout(left, 0, left + mLeftImage2Width, mTopBarHeight);
             left += mLeftImage2Width;
         }
 
-        if (mLeftTextVisibility != GONE) {
+        if (mLeftTextVisibility != GONE && mLeftTextView != null) {
             if (mLeftTextBackgound == null) {
                 mLeftTextView.layout(left, 0, left + mLeftTextViewWidth, mTopBarHeight);
             } else {
@@ -349,7 +352,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
             }
         }
 
-        if (mRightTextVisibility != GONE) {
+        if (mRightTextVisibility != GONE && mRightTextView != null) {
             if (mRightTextBackground == null) {
                 mRightTextView.layout(right - mRightTextViewWidth, 0, right, mTopBarHeight);
             } else {
@@ -362,12 +365,12 @@ public class TopBar extends ViewGroup implements OnClickListener {
             }
             right -= mRightTextViewWidth;
         }
-        if (mRightImageVisibility != GONE) {
+        if (mRightImageVisibility != GONE && mRightImageView != null) {
             mRightImageView.layout(right - mRightImageWidth, 0, right, mTopBarHeight);
             right -= mRightImageWidth;
         }
 
-        if (mRightImage2Visibility != GONE) {
+        if (mRightImage2Visibility != GONE && mRightImageView2 != null) {
             mRightImageView2.layout(right - mRightImage2Width, 0, right, mTopBarHeight);
         }
 
@@ -377,13 +380,13 @@ public class TopBar extends ViewGroup implements OnClickListener {
         final int leftTotal = mLeftImageWidth + mLeftImage2Width + mLeftTextViewWidth;
 
         top = (mTopBarHeight - titleHeight - subTitleHeight) / 2;
-        if (mTitleVisibility != GONE) {
+        if (mTitleVisibility != GONE && mTitleView != null) {
             mTitleView.layout(0, top, width, top + titleHeight);
             top += titleHeight;
             resetTitlePadding(width, leftTotal, rightTotal);
         }
 
-        if (mSubTitleVisibility != GONE) {
+        if (mSubTitleVisibility != GONE && mSubTitleView != null) {
             mSubTitleView.layout(0, top, width, top + subTitleHeight);
             resetSubTitlePadding(width, leftTotal, rightTotal);
         }
@@ -572,6 +575,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
     }
 
 
+    @SuppressWarnings("UnusedReturnValue")
     public PromptImageView getLeftImageView() {
 
         if (mLeftImageVisibility == View.GONE) {
@@ -595,6 +599,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
         return mLeftImageView;
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public PromptImageView getLeftImageView2() {
         if (mLeftImage2Visibility == View.GONE) {
             Log.i(TAG, "getLeftImageView2: is visiable gone just not add");
@@ -617,6 +622,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
         return mLeftImageView;
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public PromptTextView getLeftTextView() {
         if (mLeftTextVisibility == View.GONE) {
             Log.i(TAG, "getLeftTextView: is visiable gone just not add");
@@ -653,6 +659,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
         return mLeftTextView;
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public PromptImageView getRightImageView() {
 
         if (mRightImageVisibility == View.GONE) {
@@ -674,6 +681,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
         return mRightImageView;
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public PromptImageView getRightImageView2() {
         if (mRightImage2Visibility == View.GONE) {
             Log.i(TAG, "getRightImageView2: is visiable gone just not add");
@@ -717,6 +725,11 @@ public class TopBar extends ViewGroup implements OnClickListener {
                 mRightTextView.setBackground(mRightTextBackground);
             } else {
                 mRightTextView.setBackgroundResource(mRightBackground);
+            }
+
+            if (mRightTextDrawable != null) {
+                mRightTextView.setCompoundDrawablesWithIntrinsicBounds(mRightTextDrawable, null, null, null);
+                mRightTextView.setCompoundDrawablePadding(mRightTextDrawablePadding);
             }
 
             setDefaultPromptState(mRightTextView);
@@ -852,15 +865,13 @@ public class TopBar extends ViewGroup implements OnClickListener {
      * 设置Title
      */
     public void setText(String title) {
-        if (TextUtils.isEmpty(title)) {
-            Log.i(TAG, "setText: title is empty");
-            return;
-        }
+        mTitleVisibility = VISIBLE;
         if (mTitleView == null) {
-            mTitleVisibility = VISIBLE;
             getTitle();
         }
         mTitleView.setText(title);
+        computeTitleDesireWidth();
+        requestLayout();
     }
 
 
@@ -880,14 +891,14 @@ public class TopBar extends ViewGroup implements OnClickListener {
      * 设置subTitle
      */
     public void setSubText(String title) {
-        if (TextUtils.isEmpty(title)) {
-            return;
-        }
+
+        mSubTitleVisibility = VISIBLE;
         if (mSubTitleView == null) {
-            mSubTitleVisibility = VISIBLE;
             getSubTitle();
         }
         mSubTitleView.setText(title);
+        computeSubTitleDesireWidth();
+        requestLayout();
     }
 
     /**
@@ -902,39 +913,78 @@ public class TopBar extends ViewGroup implements OnClickListener {
      * 设置左边字体显示
      */
     public void setLeftText(String text) {
-        if (TextUtils.isEmpty(text)) {
-            return;
-        }
+        mLeftTextVisibility = VISIBLE;
         if (mLeftTextView == null) {
-            mLeftTextVisibility = VISIBLE;
             getLeftTextView();
         }
         mLeftTextView.setText(text);
+        requestLayout();
     }
 
+    /**
+     * 右边文本的左侧小图
+     */
+    public void setLeftTextLeftDrawable(@DrawableRes int resId) {
+        Drawable drawable = getResources().getDrawable(resId);
+        setLeftTextLeftDrawable(drawable);
+    }
+
+    /**
+     * 右边文本的左侧小图
+     */
+    public void setLeftTextLeftDrawable(Drawable drawable) {
+        if (drawable == null) {
+            Log.i(TAG, "setRightTextLeftDrawable: drawable is null");
+            return;
+        }
+        mLeftTextVisibility = VISIBLE;
+        if (mLeftTextView == null) {
+            getLeftTextView();
+        }
+        mLeftTextView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+        mLeftTextView.setCompoundDrawablePadding(mLeftTextDrawablePadding);
+    }
+
+
+    /**
+     * 左侧边文本和图片的padding
+     */
+    public void setLeftTextLeftDrawablePadding(int padding) {
+        mLeftTextVisibility = VISIBLE;
+        if (mLeftTextView == null) {
+            getLeftTextView();
+        }
+        mLeftTextView.setCompoundDrawablePadding(padding);
+        mLeftTextDrawablePadding = padding;
+    }
+
+
     public void setLeftImageResource(@DrawableRes int resId) {
+        mLeftImageVisibility = VISIBLE;
         if (mLeftImageView == null) {
-            mLeftImageVisibility = VISIBLE;
             getLeftImageView();
         }
         mLeftImageView.setImageResource(resId);
+        requestLayout();
     }
 
     public void setLeftImageDrawable(@NonNull Drawable drawable) {
+        mLeftImageVisibility = VISIBLE;
         if (mLeftImageView == null) {
-            mLeftImageVisibility = VISIBLE;
             getLeftImageView();
         }
         mLeftImageView.setImageDrawable(drawable);
+        requestLayout();
     }
 
 
     public void setLeft2ImageResource(@DrawableRes int resId) {
+        mLeftImage2Visibility = VISIBLE;
         if (mLeftImageView2 == null) {
-            mLeftImage2Visibility = VISIBLE;
             getLeftImageView2();
         }
         mLeftImageView2.setImageResource(resId);
+        requestLayout();
     }
 
     /**
@@ -949,30 +999,73 @@ public class TopBar extends ViewGroup implements OnClickListener {
      * 设置右边字体显示
      */
     public void setRightText(String text) {
-        if (TextUtils.isEmpty(text)) {
-            return;
-        }
+        mRightTextVisibility = VISIBLE;
         if (mRightTextView == null) {
-            mRightTextVisibility = VISIBLE;
             getRightTextView();
         }
         mRightTextView.setText(text);
+        requestLayout();
     }
 
+    /**
+     * 右边文本的左侧小图
+     */
+    public void setRightTextLeftDrawable(@DrawableRes int resId) {
+        Drawable drawable = getResources().getDrawable(resId);
+        setRightTextLeftDrawable(drawable);
+    }
+
+    /**
+     * 右边文本的左侧小图
+     */
+    public void setRightTextLeftDrawable(Drawable drawable) {
+        if (drawable == null) {
+            Log.i(TAG, "setRightTextLeftDrawable: drawable is null");
+            return;
+        }
+        mRightTextVisibility = VISIBLE;
+        if (mRightTextView == null) {
+            getRightTextView();
+        }
+        mRightTextView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+        mRightTextView.setCompoundDrawablePadding(mRightTextDrawablePadding);
+    }
+
+
+    /**
+     * 右边文本的左侧小图
+     */
+    public void setRightTextLeftDrawablePadding(int padding) {
+        mRightTextVisibility = VISIBLE;
+        if (mRightTextView == null) {
+            getRightTextView();
+        }
+        mRightTextView.setCompoundDrawablePadding(padding);
+        mRightTextDrawablePadding = padding;
+    }
+
+    /**
+     * 右侧第一个图
+     */
     public void setRightImageResource(@DrawableRes int resId) {
+        mRightImageVisibility = VISIBLE;
         if (mRightImageView == null) {
-            mRightImageVisibility = VISIBLE;
             getRightImageView();
         }
         mRightImageView.setImageResource(resId);
+        requestLayout();
     }
 
+    /**
+     * 右侧第二个图
+     */
     public void setRight2ImageResource(@DrawableRes int resId) {
+        mRightImage2Visibility = VISIBLE;
         if (mRightImageView2 == null) {
-            mRightImage2Visibility = VISIBLE;
             getRightImageView2();
         }
         mRightImageView2.setImageResource(resId);
+        requestLayout();
     }
 
 
@@ -989,18 +1082,21 @@ public class TopBar extends ViewGroup implements OnClickListener {
         if (mLeftTextView != null) {
             mLeftTextView.setVisibility(visibility);
         }
+        mLeftTextVisibility = visibility;
     }
 
     public void setLeftImageVisibility(int visibility) {
         if (mLeftImageView != null) {
             mLeftImageView.setVisibility(visibility);
         }
+        mLeftImageVisibility = visibility;
     }
 
     public void setLeftImage2Visibility(int visibility) {
         if (mLeftImageView2 != null) {
             mLeftImageView2.setVisibility(visibility);
         }
+        mLeftImage2Visibility = visibility;
     }
 
     /**
@@ -1016,18 +1112,21 @@ public class TopBar extends ViewGroup implements OnClickListener {
         if (mRightTextView != null) {
             mRightTextView.setVisibility(visibility);
         }
+        mRightTextVisibility = visibility;
     }
 
     public void setRightImageVisibility(int visibility) {
         if (mRightImageView != null) {
             mRightImageView.setVisibility(visibility);
         }
+        mRightImageVisibility = visibility;
     }
 
     public void setRightImage2Visibility(int visibility) {
         if (mRightImageView2 != null) {
             mRightImageView2.setVisibility(visibility);
         }
+        mRightImage2Visibility = visibility;
     }
 
     /**
@@ -1140,6 +1239,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
     /**
      * 用来添加和回收的Handler
      */
+    @SuppressLint("HandlerLeak")
     private class RecycleHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {

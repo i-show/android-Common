@@ -17,24 +17,29 @@
 package com.ishow.noahark.modules.main;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.ishow.common.utils.ToastUtils;
+import com.ishow.common.utils.router.AppRouter;
+import com.ishow.common.widget.BottomBar;
 import com.ishow.common.widget.TopBar;
 import com.ishow.noahark.R;
 import com.ishow.noahark.modules.base.AppBaseActivity;
 import com.ishow.noahark.modules.main.tab1.Tab1Fragment;
-import com.ishow.noahark.modules.main.tab4.Tab4Fragment;
 import com.ishow.noahark.modules.main.tab2.Tab2Fragment;
 import com.ishow.noahark.modules.main.tab3.Tab3Fragment;
-import com.ishow.common.widget.BottomBar;
+import com.ishow.noahark.modules.main.tab4.Tab4Fragment;
 import com.ishow.noahark.modules.settings.SettingsActivity;
-import com.ishow.common.utils.router.AppRouter;
+
+import java.util.List;
 
 public class MainActivity extends AppBaseActivity implements BottomBar.OnBottomBarListener {
     private static final String TAG = "MainActivity";
@@ -61,6 +66,37 @@ public class MainActivity extends AppBaseActivity implements BottomBar.OnBottomB
         Intent intent = getIntent();
         int type = intent.getIntExtra(KEY_TYPE, TAB_FIRST);
         mBottomBar.setSelectedId(type, true);
+
+        PackageManager pm = getPackageManager();
+        /*List<ApplicationInfo> listAppcations = pm.getInstalledApplications(PackageManager.MATCH_UNINSTALLED_PACKAGES);
+        for (ApplicationInfo app : listAppcations) {
+            Log.i(TAG, "onCreate: ============================");
+
+            String title = (String) app.loadLabel(pm);
+            Drawable icon= app.loadIcon(pm);
+            app.
+            Log.i(TAG, "onCreate: title = " + title);
+            Log.i(TAG, "onCreate: icon = " + icon);
+        }*/
+
+        final Intent intent2 = new Intent(Intent.ACTION_MAIN);
+        intent2.addCategory(Intent.CATEGORY_LAUNCHER);
+//        final ResolveInfo res = context.getPackageManager().resolveActivity(intent, 0);
+        List<ResolveInfo> resolveInfos = pm.queryIntentActivities(intent2, 0);
+        Log.i(TAG, "onCreate: size = " + resolveInfos.size());
+        for (ResolveInfo resolveInfo : resolveInfos) {
+            Log.i(TAG, "onCreate3: ============================");
+
+            String title = (String) resolveInfo.loadLabel(pm);
+
+            Log.i(TAG, "onCreate3: title = " + title);
+            if (resolveInfo.activityInfo == null) {
+                Log.i(TAG, "onCreate: info is null");
+            } else {
+                Log.i(TAG, "onCreate3: pkg = " + resolveInfo.activityInfo.packageName);
+            }
+        }
+
     }
 
     @Override

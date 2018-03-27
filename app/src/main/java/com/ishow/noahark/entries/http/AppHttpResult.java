@@ -16,23 +16,26 @@
 
 package com.ishow.noahark.entries.http;
 
-import com.alibaba.fastjson.annotation.JSONField;
-
 /**
  * Created by yuhaiyang on 2017/8/2.
  * Http请求结果
  */
-public class AppHttpResult<T> {
-    @JSONField(name = "status")
-    public int code;
-    public String message;
-    public Object value;
+public class AppHttpResult {
 
+    private int code;
+    private String message;
+    private Object value;
+
+
+    public boolean isSuccess() {
+        return code == Key.CODE_SUCCESS;
+    }
 
     public int getCode() {
         return code;
     }
 
+    @SuppressWarnings("unused")
     public void setCode(int code) {
         this.code = code;
     }
@@ -49,17 +52,22 @@ public class AppHttpResult<T> {
         return value;
     }
 
+    @SuppressWarnings("unused")
     public void setValue(Object value) {
         this.value = value;
     }
 
-    public boolean isSuccess() {
-        return code == Key.CODE_SUCCESS;
-    }
-
     public static final class Key {
-        public static final int CODE_FAILED = 0;
-        public static final int CODE_SUCCESS = 1;
+        /**
+         * 返回成功
+         */
+        @SuppressWarnings("WeakerAccess")
+        public static final int CODE_SUCCESS = 0;
+        /**
+         * 返回失败
+         */
+        @SuppressWarnings("unused")
+        public static final int CODE_FAILED = 1;
     }
 
 

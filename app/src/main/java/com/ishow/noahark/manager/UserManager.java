@@ -20,6 +20,7 @@ package com.ishow.noahark.manager;
 import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -27,8 +28,12 @@ import com.alibaba.fastjson.JSON;
 import com.ishow.common.utils.RegexValidateUtils;
 import com.ishow.common.utils.SharedPreferencesUtils;
 import com.ishow.common.utils.StringUtils;
+import com.ishow.common.utils.http.rest.Http;
+import com.ishow.common.utils.http.rest.HttpError;
 import com.ishow.noahark.R;
+import com.ishow.noahark.constant.Url;
 import com.ishow.noahark.entries.User;
+import com.ishow.noahark.utils.http.AppHttpCallBack;
 
 import java.lang.ref.WeakReference;
 import java.util.Random;
@@ -91,21 +96,23 @@ public class UserManager {
      * @param autoLogin 是否是自动登录
      */
     public void login(final Context context, String account, String password, boolean autoLogin, final LoginCallBack callBack) {
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (callBack == null) {
-                    Log.i(TAG, "run: call back is null");
-                    return;
-                }
-                int result = new Random().nextInt() % 5;
-                if (result == 1) {
-                    callBack.onError(new NetworkErrorException("Net"), "用户名或密码不对（模拟）", 1);
-                } else {
-                    callBack.onSuccess();
-                }
-            }
-        }, 1000);
+
+        Http.post()
+                .url(Url.login())
+                .addParams("phone", account)
+                .addParams("password", password)
+                .execute(new AppHttpCallBack<String>(context) {
+                    @Override
+                    protected void onFailed(@NonNull HttpError error) {
+                        callBack.onError(error.getException(), error.getMessage(), error.getCode());
+                    }
+
+                    @Override
+                    protected void onSuccess(String result) {
+                        callBack.onSuccess();
+                    }
+                });
+
     }
 
     /**

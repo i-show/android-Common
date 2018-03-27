@@ -59,6 +59,22 @@ public class RequestParams {
         normalParams.add(new KeyValue(key, String.valueOf(value)));
     }
 
+    public void addParams(@NonNull String key, File value) {
+        if (value == null) {
+            return;
+        }
+        MultiBody body = new MultiBody();
+        body.setKey(key);
+        body.setName(value.getName());
+        body.setBody(value);
+
+        if (bodyList == null) {
+            bodyList = new ArrayList<>();
+        }
+
+        bodyList.add(body);
+    }
+
     public void params(@NonNull List<KeyValue> params) {
         normalParams.addAll(params);
     }

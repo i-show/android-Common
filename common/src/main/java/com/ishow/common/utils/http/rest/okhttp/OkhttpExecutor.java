@@ -20,10 +20,10 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.ishow.common.entries.KeyValue;
-import com.ishow.common.utils.StringUtils;
 import com.ishow.common.utils.http.rest.Headers;
 import com.ishow.common.utils.http.rest.Http;
 import com.ishow.common.utils.http.rest.HttpError;
+import com.ishow.common.utils.http.rest.MultiBody;
 import com.ishow.common.utils.http.rest.RequestParams;
 import com.ishow.common.utils.http.rest.callback.CallBack;
 import com.ishow.common.utils.http.rest.config.HttpConfig;
@@ -31,7 +31,6 @@ import com.ishow.common.utils.http.rest.exception.HttpErrorException;
 import com.ishow.common.utils.http.rest.executor.Executor;
 import com.ishow.common.utils.http.rest.okhttp.cookie.OkCookiesManager;
 import com.ishow.common.utils.http.rest.request.Request;
-import com.ishow.common.utils.http.rest.MultiBody;
 import com.ishow.common.utils.http.rest.response.Response;
 import com.ishow.common.utils.log.LogManager;
 
@@ -53,7 +52,7 @@ import okhttp3.RequestBody;
  * Okhttp的请求
  */
 public class OkhttpExecutor extends Executor {
-    private static final String TAG = "OkhttpExecutor";
+    private static final String TAG = "OkhttpExecutor" ;
     private OkHttpClient mOkHttpClient;
     private OkCookiesManager mCookiesManager;
 
@@ -141,7 +140,7 @@ public class OkhttpExecutor extends Executor {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                if (callBack == null){
+                if (callBack == null) {
                     LogManager.d(request.getLogTag(), "request failed");
                     return;
                 }
@@ -159,7 +158,7 @@ public class OkhttpExecutor extends Executor {
 
             @Override
             public void onResponse(Call call, okhttp3.Response okhttp3Response) throws IOException {
-                if (callBack == null){
+                if (callBack == null) {
                     LogManager.d(request.getLogTag(), "request success");
                     return;
                 }
@@ -241,6 +240,7 @@ public class OkhttpExecutor extends Executor {
         } else {
             // 混合的样式的
             MultipartBody.Builder builder = new MultipartBody.Builder();
+            //builder.setType(MultipartBody.FORM);
             // 1. Normal
             if (!normalParams.isEmpty()) {
                 for (KeyValue keyValue : normalParams) {
@@ -264,16 +264,16 @@ public class OkhttpExecutor extends Executor {
                 MediaType mediaType = MediaType.parse(multiBody.getMediaType().getBody());
                 Object _body = multiBody.getBody();
                 if (_body == null) {
-                    builder.addFormDataPart(multiBody.getType(), multiBody.getName());
+                    builder.addFormDataPart(multiBody.getKey(), multiBody.getName());
                 } else if (_body instanceof String) {
                     RequestBody requestBody = RequestBody.create(mediaType, (String) _body);
-                    builder.addFormDataPart(multiBody.getType(), multiBody.getName(), requestBody);
+                    builder.addFormDataPart(multiBody.getKey(), multiBody.getName(), requestBody);
                 } else if (_body instanceof File) {
                     RequestBody requestBody = RequestBody.create(mediaType, (File) _body);
-                    builder.addFormDataPart(multiBody.getType(), multiBody.getName(), requestBody);
+                    builder.addFormDataPart(multiBody.getKey(), multiBody.getName(), requestBody);
                 } else if (_body instanceof byte[]) {
                     RequestBody requestBody = RequestBody.create(mediaType, (byte[]) _body);
-                    builder.addFormDataPart(multiBody.getType(), multiBody.getName(), requestBody);
+                    builder.addFormDataPart(multiBody.getKey(), multiBody.getName(), requestBody);
                 }
             }
             return builder.build();

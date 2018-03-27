@@ -19,8 +19,6 @@ package com.ishow.common.utils.http.rest;
 import android.support.annotation.Keep;
 import android.support.annotation.NonNull;
 
-import com.ishow.common.utils.http.rest.MediaType;
-
 import java.io.File;
 
 /**
@@ -30,9 +28,10 @@ import java.io.File;
 @Keep
 public class MultiBody {
     /**
-     * Like image， file
+     * Key值
      */
-    private String type;
+    private String key;
+
     /**
      * Like hello.jpe
      */
@@ -47,13 +46,12 @@ public class MultiBody {
      */
     private MediaType mediaType;
 
-
-    public String getType() {
-        return type;
+    public String getKey() {
+        return key;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getName() {
@@ -69,14 +67,13 @@ public class MultiBody {
     }
 
     @SuppressWarnings("unused")
-    public void setBody(@NonNull String body) {
-        setBody(body, MediaType.JSON);
+    public void setBody(@NonNull byte[] body) {
+        this.body = body;
     }
 
-    @SuppressWarnings("WeakerAccess")
-    public void setBody(@NonNull String body, @NonNull MediaType mediaType) {
-        this.body = body;
-        this.mediaType = mediaType;
+    @SuppressWarnings("unused")
+    public void setBody(@NonNull String body) {
+        setBody(body, MediaType.JSON);
     }
 
     @SuppressWarnings("unused")
@@ -85,14 +82,15 @@ public class MultiBody {
     }
 
     @SuppressWarnings("WeakerAccess")
-    public void setBody(@NonNull File body, @NonNull MediaType mediaType) {
+    public void setBody(@NonNull String body, @NonNull MediaType mediaType) {
         this.body = body;
         this.mediaType = mediaType;
     }
 
-    @SuppressWarnings("unused")
-    public void setBody(@NonNull byte[] body) {
+    @SuppressWarnings("WeakerAccess")
+    public void setBody(@NonNull File body, @NonNull MediaType mediaType) {
         this.body = body;
+        this.mediaType = mediaType;
     }
 
     public MediaType getMediaType() {

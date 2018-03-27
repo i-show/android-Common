@@ -23,14 +23,13 @@ import android.text.TextUtils;
 import com.ishow.common.entries.KeyValue;
 import com.ishow.common.utils.http.rest.Headers;
 import com.ishow.common.utils.http.rest.Http;
-import com.ishow.common.utils.http.rest.HttpError;
 import com.ishow.common.utils.http.rest.MediaType;
 import com.ishow.common.utils.http.rest.Method;
 import com.ishow.common.utils.http.rest.RequestParams;
 import com.ishow.common.utils.http.rest.callback.CallBack;
-import com.ishow.common.utils.http.rest.callback.StringCallBack;
 import com.ishow.common.utils.http.rest.config.HttpConfig;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -45,7 +44,7 @@ public abstract class Request<T extends Request> {
     /**
      * Debug tag
      */
-    private static final String DEFAULT_DEBUG_TAG = "HTTP";
+    private static final String DEFAULT_DEBUG_TAG = "HTTP" ;
     /**
      * Id
      */
@@ -197,6 +196,12 @@ public abstract class Request<T extends Request> {
 
     @SuppressWarnings("unchecked")
     public T addParams(@NonNull String key, double value) {
+        params.addParams(key, value);
+        return (T) this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public T addParams(@NonNull String key, File value) {
         params.addParams(key, value);
         return (T) this;
     }

@@ -118,7 +118,7 @@
     <attr name="leftTextSize" format="reference" />
     <attr name="leftTextColor" format="reference" />
     <attr name="leftTextDrawable" format="reference" />
-    <attr name="leftTextDrawablePadding" format="reference" />
+    <attr name="leftTextDrawablePadding" format="dimension" />
     <attr name="leftTextRightMargin" format="dimension" />
     <attr name="leftTextMinWidth" format="dimension" />
     <attr name="leftTextMaxWidth" format="dimension" />
@@ -169,6 +169,8 @@
     <attr name="rightText" format="string" />
     <attr name="rightTextSize" format="reference" />
     <attr name="rightTextColor" format="reference" />
+    <attr name="rightTextDrawable" format="reference" />
+    <attr name="rightTextDrawablePadding" format="dimension" />
     <attr name="rightTextRightMargin" format="dimension" />
     <attr name="rightTextRightDrawable" format="reference" />
     <attr name="rightTextMinWidth" format="dimension" />
@@ -675,6 +677,8 @@
         <attr name="rightText" />
         <attr name="rightTextSize" />
         <attr name="rightTextColor" />
+        <attr name="rightTextDrawable" />
+        <attr name="rightTextDrawablePadding" />
         <attr name="rightTextBackground" />
         <attr name="rightTextMinWidth" />
 

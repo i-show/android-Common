@@ -19,16 +19,22 @@ package com.ishow.noahark.modules.sample.photo.select;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.ishow.common.utils.http.rest.Http;
+import com.ishow.common.utils.http.rest.HttpError;
+import com.ishow.common.utils.http.rest.callback.StringCallBack;
 import com.ishow.common.utils.image.select.OnSelectPhotoListener;
 import com.ishow.common.utils.image.select.SelectPhotoUtils;
 import com.ishow.common.widget.recyclerview.itemdecoration.GridSpacingItemDecoration;
 import com.ishow.noahark.R;
+import com.ishow.noahark.constant.Url;
 import com.ishow.noahark.modules.base.AppBaseActivity;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -99,4 +105,5 @@ public class SampleSelectPhotoActivity extends AppBaseActivity implements
     public void onSelectedPhoto(List<String> multiPath, String singlePath) {
         mAdapter.setData(multiPath);
     }
+
 }

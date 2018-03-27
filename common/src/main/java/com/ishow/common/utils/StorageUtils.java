@@ -12,7 +12,7 @@ import java.util.Set;
  */
 
 public class StorageUtils {
-    private static final String TAG = "AppRouter";
+    private static final String TAG = "StorageUtils";
     /**
      * 保存在手机里面的文件名
      */
