@@ -13,4 +13,9 @@ public class Configure {
      * HTTP的token
      */
     public static final String HTTP_TOKEN = "token";
+
+    /**
+     * 设备类型：100 Android； 101 IOS
+     */
+    public static final int DEVICE = 100;
 }

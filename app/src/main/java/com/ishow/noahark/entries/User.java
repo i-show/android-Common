@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2016 The yuhaiyang Android Source Project
  * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,22 +21,58 @@ package com.ishow.noahark.entries;
  */
 public class User {
 
-    public static final class Key {
-        /**
-         * 保存User
-         */
-        public static final String KEY_CACHE_USER = "key_cache_user";
-        /**
-         * 保存账户的Key
-         */
-        public static final String ACCOUNT = "key_login_account";
-        /**
-         * 保存密码的key
-         */
-        public static final String PASSWORD = "key_login_password";
-        /**
-         * 自动登录
-         */
-        public static final String AUTO_LOGIN = "key_auto_login";
+    private String id;
+    private String account;
+    private String phone;
+    private String nickName;
+    private String realName;
+    private String avatar;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

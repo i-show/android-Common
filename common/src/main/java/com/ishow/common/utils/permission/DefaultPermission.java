@@ -84,6 +84,9 @@ class DefaultPermission implements Permission {
         return this;
     }
 
+    /**
+     * @param obj  必须是已经实现了的对象,不能输入 A.class 这种类型
+     */
     @Override
     public Permission annotationClass(@NonNull Object obj) {
         this.annotationClass = obj;

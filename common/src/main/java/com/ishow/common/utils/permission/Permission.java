@@ -45,7 +45,7 @@ public interface Permission {
     /**
      * 注解回调的设置
      *
-     * @param obj 设置注解的对象
+     * @param obj @param obj  必须是已经实现了的对象,不能输入 A.class 这种类型,否则方法不可执行
      */
     Permission annotationClass(@NonNull Object obj);
 

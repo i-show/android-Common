@@ -30,7 +30,6 @@ import android.view.ViewGroup;
 
 import com.ishow.common.R;
 import com.ishow.common.mvp.base.IViewStatus;
-import com.ishow.common.utils.SharedPreferencesUtils;
 import com.ishow.common.utils.ToastUtils;
 import com.ishow.common.utils.http.rest.Http;
 import com.ishow.common.utils.permission.PermissionManager;
@@ -61,6 +60,9 @@ public abstract class BaseActivity extends AppCompatActivity implements
      */
     protected Handler mHandler;
 
+    private boolean isPaused;
+    private boolean isResumed;
+
     //************************ 生命周期 区域*********************** //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,11 +74,15 @@ public abstract class BaseActivity extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
+        isResumed = true;
+        isPaused = false;
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        isResumed = false;
+        isPaused = true;
     }
 
 
@@ -181,6 +187,19 @@ public abstract class BaseActivity extends AppCompatActivity implements
      */
     protected void resetStatusBar() {
     }
+
+    /**
+     * Activity
+     * isResumed 已经被占用..
+     */
+    public boolean isActivityResumed() {
+        return isResumed;
+    }
+
+    protected boolean isActivityPaused() {
+        return isPaused;
+    }
+
 
 
     // ******************** 提示区域 ***************************//

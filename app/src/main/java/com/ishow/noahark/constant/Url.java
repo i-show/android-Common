@@ -9,7 +9,7 @@ import com.ishow.common.utils.StringUtils;
 
 public class Url {
     private static String getBaseUrl() {
-        return "http://api.yuhaiyang.net/common";
+        return "https://api.yuhaiyang.net/common";
     }
 
     /**
@@ -17,6 +17,13 @@ public class Url {
      */
     public static String login() {
         return StringUtils.plusString(getBaseUrl(), "/account/login");
+    }
+
+    /**
+     * 登录
+     */
+    public static String loginByToken() {
+        return StringUtils.plusString(getBaseUrl(), "/account/loginByToken");
     }
 
     /**

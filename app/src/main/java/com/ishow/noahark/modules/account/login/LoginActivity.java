@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2016 The yuhaiyang Android Source Project
  * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,11 +22,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 
-import com.ishow.common.utils.SharedPreferencesUtils;
 import com.ishow.common.utils.StringUtils;
+import com.ishow.common.utils.router.AppRouter;
 import com.ishow.common.widget.edittext.EditTextPro;
 import com.ishow.noahark.R;
-import com.ishow.noahark.entries.User;
 import com.ishow.noahark.modules.account.password.forgot.ForgotPasswordActivity;
 import com.ishow.noahark.modules.account.register.RegisterActivity;
 import com.ishow.noahark.modules.base.AppBaseActivity;
@@ -105,21 +104,22 @@ public class LoginActivity extends AppBaseActivity implements LoginContract.View
                 mPresenter.login(this, account, name);
                 break;
             case R.id.regist:
-                intent = new Intent(this, RegisterActivity.class);
-                startActivity(intent);
+                AppRouter.with(this)
+                        .target(RegisterActivity.class)
+                        .start();
                 break;
             case R.id.forget_password:
-                intent = new Intent(this, ForgotPasswordActivity.class);
-                startActivity(intent);
+                AppRouter.with(this)
+                        .target(ForgotPasswordActivity.class)
+                        .start();
                 break;
         }
     }
 
 
     @Override
-    public void updateUI(boolean rememberPassword, String account, String password) {
+    public void updateUI(String account) {
         mEditAccount.setInputText(account);
-        mEditPassword.setInputText(password);
     }
 
 
@@ -131,7 +131,6 @@ public class LoginActivity extends AppBaseActivity implements LoginContract.View
             startActivity(intent);
         }
         finish();
-        SharedPreferencesUtils.save(this, User.Key.AUTO_LOGIN, true);
     }
 
 

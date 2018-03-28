@@ -31,7 +31,7 @@ public class DeviceUtils {
     /**
      * 获取手机型号
      */
-    public static String modom() {
+    public static String model() {
         return android.os.Build.MODEL;
     }
 
@@ -93,7 +93,7 @@ public class DeviceUtils {
     /**
      * 如果 当前activity 是非sensor默认则进行横屏
      */
-    @SuppressWarnings("WeakerAccess")
+    @SuppressWarnings({"WeakerAccess", "SameParameterValue"})
     public static void setLandscape(Context context, boolean force) {
         if (context == null || !(context instanceof Activity)) {
             Log.i(TAG, "setLandscape: context is null or context is not activity");
@@ -117,7 +117,7 @@ public class DeviceUtils {
     /**
      * 如果 当前activity 是非sensor默认则进行竖屏
      */
-    @SuppressWarnings("WeakerAccess")
+    @SuppressWarnings({"WeakerAccess", "SameParameterValue"})
     public static void setPortrait(Context context, boolean force) {
         if (context == null || !(context instanceof Activity)) {
             Log.i(TAG, "setPortrait: context is null or context is not activity");

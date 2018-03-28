@@ -1,11 +1,7 @@
 package com.ishow.noahark.utils.http;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.ishow.common.utils.http.rest.Headers;
@@ -15,11 +11,8 @@ import com.ishow.common.utils.http.rest.config.HttpConfig;
 import com.ishow.common.utils.http.rest.exception.HttpErrorException;
 import com.ishow.common.utils.http.rest.request.Request;
 import com.ishow.common.utils.http.rest.response.Response;
-import com.ishow.common.widget.dialog.BaseDialog;
-import com.ishow.noahark.R;
 import com.ishow.noahark.constant.Configure;
 import com.ishow.noahark.entries.http.AppHttpResult;
-import com.ishow.noahark.modules.account.login.LoginActivity;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -52,6 +45,8 @@ public abstract class AppHttpCallBack<T> extends CallBack<T> {
 
 
         String body = new String(response.getBody());
+        response.setDebugString(body);
+
         AppHttpResult result = JSON.parseObject(body, AppHttpResult.class);
         if (result.isSuccess()) {
             Object value = result.getValue();

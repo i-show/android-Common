@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2016 The yuhaiyang Android Source Project
  * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,11 +30,10 @@ interface LoginContract {
 
     interface View extends BaseView, IViewStatus {
 
-
         /**
-         * password 暂时占位，预防有记住密码功能
+         * 更新UI
          */
-        void updateUI(boolean rememberPassword, String account, String password);
+        void updateUI(String account);
     }
 
     interface Presenter extends BasePresenter {
@@ -43,6 +42,9 @@ interface LoginContract {
          */
         void start(Context context);
 
+        /**
+         * 登录
+         */
         void login(Context context, String name, String password);
     }
 }

@@ -29,7 +29,6 @@ import com.ishow.common.utils.AppUtils;
 import com.ishow.common.utils.DateUtils;
 import com.ishow.common.utils.DeviceUtils;
 import com.ishow.common.utils.StringUtils;
-import com.ishow.common.widget.edittext.EditTextPro;
 import com.ishow.common.widget.textview.TextViewPro;
 import com.ishow.noahark.BuildConfig;
 import com.ishow.noahark.R;
@@ -66,7 +65,7 @@ public class EggAppInfoActivitiy extends AppBaseActivity {
     @Override
     protected void initViews() {
         super.initViews();
-        mRootView = (LinearLayout) findViewById(R.id.root);
+        mRootView = findViewById(R.id.root);
     }
 
 
@@ -74,7 +73,7 @@ public class EggAppInfoActivitiy extends AppBaseActivity {
         int[] screen = DeviceUtils.getScreenSize();
         addCate("Android");
         addItem("分辨率：", StringUtils.plusString(screen[1], "*", screen[0]));
-        addItem("手机型号：", DeviceUtils.modom());
+        addItem("手机型号：", DeviceUtils.model());
         addItem("手机版本：", DeviceUtils.version());
         addItem("最小宽度：", getResources().getConfiguration().smallestScreenWidthDp);
 

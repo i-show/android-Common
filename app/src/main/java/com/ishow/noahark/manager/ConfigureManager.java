@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2016 The yuhaiyang Android Source Project
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,7 +18,7 @@ package com.ishow.noahark.manager;
 
 import com.ishow.common.widget.watermark.WaterMarkHelp;
 import com.ishow.noahark.BuildConfig;
-import com.ishow.noahark.modules.init.SplashActivity;
+import com.ishow.noahark.modules.init.splash.SplashActivity;
 
 import java.lang.ref.WeakReference;
 
@@ -32,6 +32,7 @@ public class ConfigureManager {
      * 这个东西使用后可以被回收
      */
     private volatile static WeakReference<ConfigureManager> sIntance;
+
 
 
     private ConfigureManager() {
@@ -52,6 +53,7 @@ public class ConfigureManager {
     }
 
     public void init(SplashActivity context) {
+        //noinspection ConstantConditions
         WaterMarkHelp.show(BuildConfig.VERSION_TYPE != BuildConfig.VERSION_PROD);
         WaterMarkHelp.defaultText(BuildConfig.VERSION_DESCRIPTION);
     }

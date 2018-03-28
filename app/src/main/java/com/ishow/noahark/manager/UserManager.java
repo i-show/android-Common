@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2016 The yuhaiyang Android Source Project
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,16 +23,20 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.ishow.common.utils.RegexValidateUtils;
 import com.ishow.common.utils.SharedPreferencesUtils;
+import com.ishow.common.utils.StorageUtils;
 import com.ishow.common.utils.StringUtils;
 import com.ishow.common.utils.http.rest.Http;
 import com.ishow.common.utils.http.rest.HttpError;
 import com.ishow.noahark.R;
 import com.ishow.noahark.constant.Url;
+import com.ishow.noahark.entries.Token;
 import com.ishow.noahark.entries.User;
+import com.ishow.noahark.entries.UserContainer;
 import com.ishow.noahark.utils.http.AppHttpCallBack;
 
 import java.lang.ref.WeakReference;
@@ -43,7 +47,7 @@ public class UserManager {
 
     private static UserManager sInstance;
 
-    private WeakReference<User> mUser;
+    private UserContainer mUserContainer;
 
     // 暂时用来模拟登录
     private Handler mHandler = new Handler();
@@ -63,57 +67,36 @@ public class UserManager {
         return sInstance;
     }
 
-    public User getUser(Context context) {
-        if (mUser == null || mUser.get() == null) {
-            String jsonString = SharedPreferencesUtils.get(context, User.Key.KEY_CACHE_USER, null, true);
-            if (TextUtils.isEmpty(jsonString)) {
+
+    /**
+     * 设置UserContainer
+     */
+    public void setUserContainer(Context context, UserContainer container){
+        mUserContainer = container;
+        StorageUtils.with(context)
+                .param(UserContainer.Key.CACHE, JSON.toJSONString(container))
+                .save();
+    }
+
+    /**
+     * 获取用户信息
+     */
+    @SuppressWarnings("WeakerAccess")
+    public UserContainer getUserContainer(Context context){
+        if(mUserContainer == null){
+            String cache = StorageUtils.with(context)
+                    .key(UserContainer.Key.CACHE)
+                    .get(null);
+
+            if (TextUtils.isEmpty(cache)) {
                 Log.i(TAG, "getUser: no user");
                 return null;
             }
-            User user = JSON.parseObject(jsonString, User.class);
-            mUser = new WeakReference<>(user);
+            mUserContainer = JSON.parseObject(cache, UserContainer.class);
         }
-
-        return mUser.get();
+        return mUserContainer;
     }
 
-
-    /**
-     * 登录
-     *
-     * @param account  用户名
-     * @param password 密码
-     */
-    public void login(Context context, String account, String password, final LoginCallBack callBack) {
-        login(context, account, password, false, callBack);
-    }
-
-    /**
-     * 登录
-     *
-     * @param account   用户名
-     * @param password  密码
-     * @param autoLogin 是否是自动登录
-     */
-    public void login(final Context context, String account, String password, boolean autoLogin, final LoginCallBack callBack) {
-
-        Http.post()
-                .url(Url.login())
-                .addParams("phone", account)
-                .addParams("password", password)
-                .execute(new AppHttpCallBack<String>(context) {
-                    @Override
-                    protected void onFailed(@NonNull HttpError error) {
-                        callBack.onError(error.getException(), error.getMessage(), error.getCode());
-                    }
-
-                    @Override
-                    protected void onSuccess(String result) {
-                        callBack.onSuccess();
-                    }
-                });
-
-    }
 
     /**
      * 检测账户是否有效
@@ -161,21 +144,18 @@ public class UserManager {
         return StringUtils.EMPTY;
     }
 
-    public boolean isAutoLogin(Context context) {
-        return SharedPreferencesUtils.get(context, User.Key.AUTO_LOGIN, false);
-    }
-
-    public interface LoginCallBack {
-        /**
-         * 登录成功
-         */
-        void onSuccess();
-
-        /**
-         * @param e       失败信息
-         * @param message 失败信息
-         * @param type    失败类型（看后台有没有这个东西了）
-         */
-        void onError(Exception e, String message, int type);
+    /**
+     * 获取Accessoken
+     */
+    public String getAccessToken(Context context){
+        UserContainer userContainer = getUserContainer(context);
+        if(userContainer == null){
+            return StringUtils.EMPTY;
+        }
+        Token token = userContainer.getToken();
+        if(token == null){
+            return StringUtils.EMPTY;
+        }
+        return token.getAccessToken();
     }
 }

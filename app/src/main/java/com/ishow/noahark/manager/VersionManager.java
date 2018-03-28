@@ -29,7 +29,7 @@ import com.ishow.common.utils.http.rest.HttpError;
 import com.ishow.common.utils.log.LogManager;
 import com.ishow.noahark.BuildConfig;
 import com.ishow.noahark.entries.Version;
-import com.ishow.noahark.modules.init.SplashActivity;
+import com.ishow.noahark.modules.init.splash.SplashActivity;
 import com.ishow.noahark.utils.http.AppHttpCallBack;
 
 import java.lang.ref.WeakReference;
