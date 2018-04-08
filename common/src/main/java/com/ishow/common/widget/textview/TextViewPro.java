@@ -37,7 +37,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ishow.common.R;
-import com.ishow.common.widget.edittext.EnableEditText;
+import com.ishow.common.utils.image.loader.ImageLoader;
 import com.ishow.common.widget.imageview.PromptImageView;
 import com.ishow.common.widget.prompt.IPrompt;
 
@@ -62,6 +62,7 @@ public class TextViewPro extends ViewGroup {
      * 右边的View
      */
     private PromptImageView mRightImageView;
+    private PromptImageView mRightImageView2;
     private PromptTextView mRightTextView;
 
     /**
@@ -117,7 +118,15 @@ public class TextViewPro extends ViewGroup {
      */
     private Drawable mRightImageDrawable;
     private Drawable mRightImageBackgroundDrawable;
+    private int mRightImageWidth;
+    private int mRightImageHeight;
     private int mRightImageVisibility;
+
+    private Drawable mRightImageDrawable2;
+    private Drawable mRightImageBackgroundDrawable2;
+    private int mRightImageWidth2;
+    private int mRightImageHeight2;
+    private int mRightImageVisibility2;
     /**
      * 图片的建议宽度
      */
@@ -182,6 +191,14 @@ public class TextViewPro extends ViewGroup {
         mRightImageDrawable = a.getDrawable(R.styleable.TextViewPro_rightImage);
         mRightImageBackgroundDrawable = a.getDrawable(R.styleable.TextViewPro_rightImageBackground);
         mRightImageVisibility = a.getInt(R.styleable.TextViewPro_rightImageVisibility, View.VISIBLE);
+        mRightImageWidth = a.getDimensionPixelSize(R.styleable.TextViewPro_rightImageWidth, 0);
+        mRightImageHeight = a.getDimensionPixelSize(R.styleable.TextViewPro_rightImageHeight, 0);
+
+        mRightImageDrawable2 = a.getDrawable(R.styleable.TextViewPro_rightImage2);
+        mRightImageBackgroundDrawable2 = a.getDrawable(R.styleable.TextViewPro_rightImageBackground2);
+        mRightImageVisibility2 = a.getInt(R.styleable.TextViewPro_rightImageVisibility2, View.VISIBLE);
+        mRightImageWidth2 = a.getDimensionPixelSize(R.styleable.TextViewPro_rightImageWidth2, 0);
+        mRightImageHeight2 = a.getDimensionPixelSize(R.styleable.TextViewPro_rightImageHeight2, 0);
 
         mMinHegiht = a.getDimensionPixelSize(R.styleable.TextViewPro_android_minHeight, getDefaultMinHeight());
         a.recycle();
@@ -200,6 +217,7 @@ public class TextViewPro extends ViewGroup {
         getTextView();
         getRightTextView();
         getRightImageView();
+        getRightImageView2();
     }
 
 
@@ -226,9 +244,29 @@ public class TextViewPro extends ViewGroup {
         }
 
         if (mRightImageView != null && mRightImageView.getVisibility() != View.GONE) {
-            mRightImageView.measure(imageWidthSpec, heightSpec);
+            if (mRightImageWidth > 0 && mRightImageHeight > 0) {
+                mRightImageView.measure(
+                        MeasureSpec.makeMeasureSpec(mRightImageWidth, MeasureSpec.EXACTLY),
+                        MeasureSpec.makeMeasureSpec(mRightImageHeight, MeasureSpec.EXACTLY));
+            } else {
+                mRightImageView.measure(imageWidthSpec, heightSpec);
+            }
+
             inputWidth = inputWidth - mRightImageView.getMeasuredWidth();
         }
+
+        if (mRightImageView2 != null && mRightImageView2.getVisibility() != View.GONE) {
+            if (mRightImageWidth2 > 0 && mRightImageHeight2 > 0) {
+                mRightImageView2.measure(
+                        MeasureSpec.makeMeasureSpec(mRightImageWidth2, MeasureSpec.EXACTLY),
+                        MeasureSpec.makeMeasureSpec(mRightImageHeight2, MeasureSpec.EXACTLY));
+            } else {
+                mRightImageView2.measure(imageWidthSpec, heightSpec);
+            }
+
+            inputWidth = inputWidth - mRightImageView2.getMeasuredWidth();
+        }
+
 
         if (mRightTextView != null && mRightTextView.getVisibility() != View.GONE) {
             mRightTextView.measure(unspecified, unspecified);
@@ -294,6 +332,10 @@ public class TextViewPro extends ViewGroup {
                     inputWidth = inputWidth - mSuggestIconWidth;
                 }
 
+                if (mRightImageView2 != null && mRightImageView2.getVisibility() != View.GONE) {
+                    inputWidth = inputWidth - mSuggestIconWidth;
+                }
+
                 inputWidth = inputWidth - mTextRightMargin;
 
                 final int widthSpec = MeasureSpec.makeMeasureSpec(inputWidth, MeasureSpec.EXACTLY);
@@ -343,12 +385,23 @@ public class TextViewPro extends ViewGroup {
             left = left + width + mRightTextRightMargin;
         }
 
+        if (mRightImageView2 != null && mRightImageView2.getVisibility() != View.GONE) {
+            int width = mRightImageView2.getMeasuredWidth();
+            int height = mRightImageView2.getMeasuredHeight();
+            int _top = (getMeasuredHeight() - height) / 2;
+            mRightImageView2.layout(left, _top, left + width, _top + height);
+            left = left + width;
+        }
+
+
         if (mRightImageView != null && mRightImageView.getVisibility() != View.GONE) {
-            mRightImageView.layout(left, top, right, bottom);
+            int width = mRightImageView.getMeasuredWidth();
+            int height = mRightImageView.getMeasuredHeight();
+            int _top = (getMeasuredHeight() - height) / 2;
+            mRightImageView.layout(left, _top, left + width, _top + height);
         }
 
     }
-
 
 
     @SuppressWarnings("UnusedReturnValue")
@@ -487,6 +540,35 @@ public class TextViewPro extends ViewGroup {
         return mRightImageView;
     }
 
+
+    @SuppressWarnings("UnusedReturnValue")
+    public PromptImageView getRightImageView2() {
+        if (mRightImageVisibility2 == View.GONE) {
+            Log.i(TAG, "getLeftImageView: is visiable gone just not add");
+            return null;
+        }
+
+        if (mRightImageView2 == null) {
+
+            if (mTintColor != null && mRightImageDrawable2 != null) {
+                mRightImageDrawable2 = DrawableCompat.wrap(mRightImageDrawable2);
+                DrawableCompat.setTintList(mRightImageDrawable2, mTintColor);
+            }
+
+            mRightImageView2 = new PromptImageView(getContext());
+            mRightImageView2.setId(R.id.rightImage2);
+            mRightImageView2.setVisibility(mRightImageVisibility2);
+            if (mRightImageDrawable2 != null) {
+                mRightImageView2.setImageDrawable(mRightImageDrawable);
+            }
+            mRightImageView2.setBackground(mRightImageBackgroundDrawable2);
+            mRightImageView2.setScaleType(ImageView.ScaleType.CENTER);
+            setDefaultPromptState(mRightImageView2);
+            addView(mRightImageView2);
+        }
+        return mRightImageView2;
+    }
+
     private void setDefaultPromptState(IPrompt prompt) {
         if (prompt == null) {
             Log.i(TAG, "setDefaultPromptState: ");
@@ -575,11 +657,13 @@ public class TextViewPro extends ViewGroup {
 
     public void setText(CharSequence text) {
         mTextView.setText(text);
+        requestLayout();
     }
 
     public void setTextSize(@DimenRes int resId) {
         float size = getResources().getDimensionPixelSize(resId);
         mTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
+        requestLayout();
     }
 
     public void setTextColor(@ColorInt int colorInt) {
@@ -597,13 +681,43 @@ public class TextViewPro extends ViewGroup {
         if (mRightTextView != null) {
             mRightTextView.setText(text);
         }
+        mRightTextVisibility = View.VISIBLE;
+        requestLayout();
     }
 
+
+    public void setRightImageResource2(@DrawableRes int resid) {
+        if (mRightImageView2 != null) {
+            mRightImageView2.setImageResource(resid);
+        }
+        mRightImageVisibility2 = View.VISIBLE;
+        requestLayout();
+    }
+
+    public void setRightImageUrl2(String url) {
+        setRightImageUrl2(url, ImageLoader.LoaderMode.CENTER_CROP);
+    }
+
+    public void setRightImageUrl2(String url, @ImageLoader.LoaderMode int loaderMode) {
+        if (mRightImageView2 == null) {
+            getRightImageView2();
+        }
+
+        ImageLoader.with(getContext())
+                .load(url)
+                .mode(loaderMode)
+                .into(mRightImageView2);
+
+        mRightImageVisibility2 = View.VISIBLE;
+        requestLayout();
+    }
 
     public void setRightImageResource(@DrawableRes int resid) {
         if (mRightImageView != null) {
             mRightImageView.setImageResource(resid);
         }
+        mRightImageVisibility = View.VISIBLE;
+        requestLayout();
     }
 
     public void setRightImageVisibility(int visibility) {
@@ -614,10 +728,10 @@ public class TextViewPro extends ViewGroup {
     }
 
     public void setRightImageClickListener(OnClickListener listener) {
-
         if (mRightImageView != null) {
             mRightImageView.setOnClickListener(listener);
         }
+        requestLayout();
     }
 
     public void setRightTextClickListener(OnClickListener listener) {
@@ -626,7 +740,6 @@ public class TextViewPro extends ViewGroup {
             mRightTextView.setOnClickListener(listener);
         }
     }
-
 
 
     private void setInputEllipsize() {

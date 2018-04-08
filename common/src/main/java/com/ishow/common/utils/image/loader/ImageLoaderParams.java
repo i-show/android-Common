@@ -158,9 +158,5 @@ public class ImageLoaderParams {
         if (getContext() == null) {
             throw new IllegalArgumentException(" need a context");
         }
-
-        if (getUrl() == null) {
-            throw new IllegalArgumentException(" need a url");
-        }
     }
 }

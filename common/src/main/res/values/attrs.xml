@@ -203,6 +203,8 @@
     <attr name="rightImageBackground" format="reference|color" />
     <attr name="rightImageRightMargin" format="dimension" />
     <attr name="rightImageMinWidth" format="dimension" />
+    <attr name="rightImageWidth" format="dimension" />
+    <attr name="rightImageHeight" format="dimension" />
     <attr name="rightImageVisibility">
         <enum name="visible" value="0" />
         <enum name="invisible" value="4" />
@@ -211,6 +213,8 @@
 
     <attr name="rightImage2" format="reference" />
     <attr name="rightImageBackground2" format="reference|color" />
+    <attr name="rightImageWidth2" format="dimension" />
+    <attr name="rightImageHeight2" format="dimension" />
     <attr name="rightImageVisibility2">
         <enum name="visible" value="0" />
         <enum name="invisible" value="4" />
@@ -974,8 +978,16 @@
         <attr name="rightTextPadding" />
 
         <attr name="rightImage" />
+        <attr name="rightImageWidth" />
+        <attr name="rightImageHeight" />
         <attr name="rightImageBackground" />
         <attr name="rightImageVisibility" />
+
+        <attr name="rightImage2" />
+        <attr name="rightImageWidth2" />
+        <attr name="rightImageHeight2" />
+        <attr name="rightImageBackground2" />
+        <attr name="rightImageVisibility2" />
 
         <attr name="android:minHeight" />
     </declare-styleable>

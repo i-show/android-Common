@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ishow.noahark">
+    package="com.ishow.noah">
 
     <!-- 百度统计权限-->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
 
     <application
-        android:name="com.ishow.noahark.AppApplication"
+        android:name="com.ishow.noah.AppApplication"
         android:allowBackup="true"
         android:icon="${APP_ICON}"
         android:label="${APP_NAME}"
@@ -21,7 +21,7 @@
 
         <!--引导界面-->
         <activity
-            android:name="com.ishow.noahark.modules.init.splash.SplashActivity"
+            android:name="com.ishow.noah.modules.init.splash.SplashActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Splash">
@@ -32,51 +32,56 @@
         </activity>
         <!-- 引导页-->
         <activity
-            android:name="com.ishow.noahark.modules.init.GuideActivity"
+            android:name="com.ishow.noah.modules.init.GuideActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Guide" />
         <!--主界面-->
         <activity
-            android:name="com.ishow.noahark.modules.main.MainActivity"
+            android:name="com.ishow.noah.modules.main.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <!--登录界面-->
         <activity
-            android:name="com.ishow.noahark.modules.account.login.LoginActivity"
+            android:name="com.ishow.noah.modules.account.login.LoginActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Login"
             android:windowSoftInputMode="adjustResize" />
         <!--注册界面-->
         <activity
-            android:name="com.ishow.noahark.modules.account.register.RegisterActivity"
+            android:name="com.ishow.noah.modules.account.register.RegisterActivity"
             android:screenOrientation="portrait" />
         <!--修改密码重置密码-->
         <activity
-            android:name="com.ishow.noahark.modules.account.password.forgot.ForgotPasswordActivity"
+            android:name="com.ishow.noah.modules.account.password.forgot.ForgotPasswordActivity"
             android:screenOrientation="portrait" />
+
+
+        <activity android:name="com.ishow.noah.modules.account.modify.ModifyUserInfoActivity"
+            android:screenOrientation="portrait"/>
+
         <!--只有一个测试图片的类-->
         <activity
-            android:name="com.ishow.noahark.modules.base.OnlyWebActivity"
+            android:name="com.ishow.noah.modules.base.OnlyWebActivity"
             android:screenOrientation="portrait" />
         <!--设置界面-->
         <activity
-            android:name="com.ishow.noahark.modules.settings.SettingsActivity"
+            android:name="com.ishow.noah.modules.settings.SettingsActivity"
             android:screenOrientation="portrait" />
         <!--菜单界面-->
         <activity
-            android:name=".modules.egg.EggActivity"
+            android:name="com.ishow.noah.modules.egg.EggActivity"
             android:screenOrientation="portrait" />
         <!--菜单界面-->
         <activity
-            android:name=".modules.egg.detail.EggAppInfoActivitiy"
+            android:name="com.ishow.noah.modules.egg.detail.EggAppInfoActivitiy"
             android:screenOrientation="portrait" />
 
         <!--++++++++++++++++++++控件或者工具的Demo区域（start）++++++++++++++++++++++++++-->
         <!--Demo的主类-->
         <activity
-            android:name="com.ishow.noahark.modules.sample.main.SampleMainActivity"
+            android:name="com.ishow.noah.modules.sample.main.SampleMainActivity"
             android:exported="false"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -86,50 +91,50 @@
         </activity>
         <!--Prompt 左上角或者右上角的提示的测试类-->
         <activity
-            android:name="com.ishow.noahark.modules.sample.prompt.SamplePromptActivity"
+            android:name="com.ishow.noah.modules.sample.prompt.SamplePromptActivity"
             android:screenOrientation="portrait" />
         <!--滚轮样式的选择-->
         <activity
-            android:name="com.ishow.noahark.modules.sample.pickview.SamplePickerActivity"
+            android:name="com.ishow.noah.modules.sample.pickview.SamplePickerActivity"
             android:screenOrientation="portrait" />
         <!--选择图片-->
         <activity
-            android:name="com.ishow.noahark.modules.sample.photo.select.SampleSelectPhotoActivity"
+            android:name="com.ishow.noah.modules.sample.photo.select.SampleSelectPhotoActivity"
             android:screenOrientation="portrait" />
 
         <!--权限获取-->
         <activity
-            android:name="com.ishow.noahark.modules.sample.permission.SamplePermissionActivity"
+            android:name="com.ishow.noah.modules.sample.permission.SamplePermissionActivity"
             android:screenOrientation="portrait" />
         <!--EditTextPro-->
         <activity
-            android:name="com.ishow.noahark.modules.sample.edittextpro.SampleEditTextProActivity"
+            android:name="com.ishow.noah.modules.sample.edittextpro.SampleEditTextProActivity"
             android:screenOrientation="portrait" />
 
         <!--Http-->
         <activity
-            android:name="com.ishow.noahark.modules.sample.http.SampleHttpActivity"
+            android:name="com.ishow.noah.modules.sample.http.SampleHttpActivity"
             android:screenOrientation="portrait" />
 
         <!--ImageLoader-->
         <activity
-            android:name="com.ishow.noahark.modules.sample.imageloader.SampleImageLoaderActivity"
+            android:name="com.ishow.noah.modules.sample.imageloader.SampleImageLoaderActivity"
             android:screenOrientation="portrait" />
         <!--动画Recycle-->
         <activity
-            android:name=".modules.sample.recycle.animation.SampleAnimationRecycleViewActivity"
+            android:name="com.ishow.noah.modules.sample.recycle.animation.SampleAnimationRecycleViewActivity"
             android:screenOrientation="portrait" />
         <!--一个选择框-->
         <activity
-            android:name=".modules.sample.dialog.select.SampleSelectDialogAndPickerDialog"
+            android:name="com.ishow.noah.modules.sample.dialog.select.SampleSelectDialogAndPickerDialog"
             android:screenOrientation="portrait" />
         <!--LoadingViewView-->
         <activity
-            android:name=".modules.sample.webview.loading.SampleLoadingWebViewActivity"
+            android:name="com.ishow.noah.modules.sample.webview.loading.SampleLoadingWebViewActivity"
             android:screenOrientation="portrait" />
         <!--PullToRefresh-->
         <activity
-            android:name=".modules.sample.pulltorefresh.SamplePullToRefreshActivity"
+            android:name="com.ishow.noah.modules.sample.pulltorefresh.SamplePullToRefreshActivity"
             android:screenOrientation="portrait" />
 
         <!--++++++++++++++++++++控件或者工具的测试区域（end）++++++++++++++++++++++++++-->

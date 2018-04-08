@@ -3,10 +3,10 @@
 
     <external-cache-path
         name="cache_photo_into_app_cache"
-        path=""/>
+        path="./"/>
 
     <external-path
         name="cache_photo_into_sdcard"
-        path=""/>
+        path="./"/>
 
 </paths>

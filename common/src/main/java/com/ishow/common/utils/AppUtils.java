@@ -18,9 +18,11 @@ package com.ishow.common.utils;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -128,6 +130,26 @@ public class AppUtils {
                 apps.put(packageInfo.packageName, packageInfo.versionName);
                 Log.i(TAG, "appName = " + packageInfo.applicationInfo.loadLabel(packageManager).toString());
             }
+        }
+        return apps;
+    }
+
+
+    /**
+     * 获取有icon的app
+     */
+
+    @SuppressWarnings("unused")
+    public static Map<String, String> getLauncherApp(Context context){
+        PackageManager packageManager = context.getPackageManager();
+        final Intent intent2 = new Intent(Intent.ACTION_MAIN);
+        intent2.addCategory(Intent.CATEGORY_LAUNCHER);
+        List<ResolveInfo> resolveInfos = packageManager.queryIntentActivities(intent2, 0);
+
+        Map<String, String> apps = new HashMap<>();
+        for (ResolveInfo resolveInfo : resolveInfos){
+            String title = (String) resolveInfo.loadLabel(packageManager);
+            apps.put(resolveInfo.activityInfo.packageName, title);
         }
         return apps;
     }
