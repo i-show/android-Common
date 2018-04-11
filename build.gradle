@@ -6,14 +6,13 @@ buildscript {
 
     dependencies {
         //  Android 默认的编译工具库插件
-        classpath 'com.android.tools.build:gradle:3.1.0'
+        classpath 'com.android.tools.build:gradle:3.1.1'
     }
 }
 
 allprojects {
     repositories {
         jcenter()
-
         google()
     }
 

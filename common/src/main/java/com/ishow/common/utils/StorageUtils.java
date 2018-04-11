@@ -2,9 +2,12 @@ package com.ishow.common.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by yuhaiyang on 2017/12/12.
@@ -17,12 +20,19 @@ public class StorageUtils {
      * 保存在手机里面的文件名
      */
     private static final String GROUP_MAIN = "share_main_date";
+    /**
+     * 时间超时保存的db
+     * 这里故意多加了2个e
+     */
+    @SuppressWarnings("SpellCheckingInspection")
+    private static final String EXPIRE_SUFFIX = "enter_port_expireee";
 
     public static Executor with(Context context) {
         return new Executor(context);
     }
 
 
+    @SuppressWarnings("unused")
     public static class Executor {
         private Context context;
         /**
@@ -38,11 +48,19 @@ public class StorageUtils {
          */
         private Object value;
 
+        /**
+         * 过期时间
+         */
+        private long expireTime;
+
         private Executor(Context context) {
             this.context = context;
             this.group = GROUP_MAIN;
         }
 
+        /**
+         * 分组信息
+         */
         public Executor group(@NonNull String group) {
             this.group = group;
             return this;
@@ -122,6 +140,17 @@ public class StorageUtils {
             return this;
         }
 
+        /**
+         * 过期时间
+         *
+         * @param time 多久过期
+         * @param unit 时间单位
+         */
+        public Executor expire(@IntRange(from = 1) int time, @NonNull TimeUnit unit) {
+            expireTime = TimeUnit.MILLISECONDS.convert(time, unit);
+            return this;
+        }
+
         public void save() {
             SharedPreferences sharedPreferences = context.getSharedPreferences(group, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -146,10 +175,25 @@ public class StorageUtils {
                 editor.putStringSet(key, (Set<String>) value);
                 editor.apply();
             }
+
+            if (expireTime > 0) {
+                SharedPreferences expireSp = context.getSharedPreferences(group + EXPIRE_SUFFIX, Context.MODE_PRIVATE);
+                SharedPreferences.Editor expireEditor = expireSp.edit();
+                expireEditor.putLong(key, System.currentTimeMillis() + expireTime);
+                expireEditor.apply();
+            }
+
         }
 
 
         public <T> T get(T defaultValue) {
+            SharedPreferences expireSp = context.getSharedPreferences(group + EXPIRE_SUFFIX, Context.MODE_PRIVATE);
+            long expireTime = expireSp.getLong(key, 0);
+            if (expireTime > 0 && expireTime < System.currentTimeMillis()) {
+                remove();
+                return defaultValue;
+            }
+
             SharedPreferences sharedPreferences = context.getSharedPreferences(group, Context.MODE_PRIVATE);
             Object result;
             if (defaultValue == null || defaultValue instanceof String) {
@@ -179,12 +223,20 @@ public class StorageUtils {
             SharedPreferences sharedPreferences = context.getSharedPreferences(group, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.remove(key).apply();
+
+            SharedPreferences expireSp = context.getSharedPreferences(group + EXPIRE_SUFFIX, Context.MODE_PRIVATE);
+            SharedPreferences.Editor expireEditor = expireSp.edit();
+            expireEditor.remove(key).apply();
         }
 
-        public void clear(){
+        public void clear() {
             SharedPreferences sharedPreferences = context.getSharedPreferences(group, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.clear().apply();
+
+            SharedPreferences expireSp = context.getSharedPreferences(group + EXPIRE_SUFFIX, Context.MODE_PRIVATE);
+            SharedPreferences.Editor expireEditor = expireSp.edit();
+            expireEditor.clear().apply();
         }
     }
 
