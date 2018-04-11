@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.ishow.common.widget.watermark.WaterMarkLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.ishow.common.widget.TopBar
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftImage="@drawable/ic_back_white"
+        app:text="@string/modify_user_info" />
+
+
+    <com.ishow.common.widget.textview.TextViewPro
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_80"
+        android:background="@drawable/bottom_line_normal_bg"
+        app:leftImageVisibility="gone"
+        app:leftText="@string/modify_user_info_header"
+        app:leftTextSize="@dimen/G_title"
+        app:rightImageHeight2="@dimen/dp_56"
+        app:rightImageWidth2="@dimen/dp_56" />
+
+</com.ishow.common.widget.watermark.WaterMarkLinearLayout>
