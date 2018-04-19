@@ -104,6 +104,15 @@ public class ImageLoaderParams {
     }
 
     public ImageLoaderParams into(@NonNull ImageView view) {
+        if (mContext == null) {
+            throw new IllegalArgumentException("need a context");
+        }
+
+        IImageLoaderExecutor executor = ImageLoader.getExecutor();
+        if (executor == null) {
+            ImageLoader.init(mContext);
+        }
+
         ImageLoader.getExecutor().display(this, view);
         return this;
     }

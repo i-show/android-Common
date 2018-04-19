@@ -873,6 +873,11 @@
         <attr name="heightScale" />
     </declare-styleable>
 
+    <declare-styleable name="ScaleRelativeLayout">
+        <attr name="widthScale" />
+        <attr name="heightScale" />
+    </declare-styleable>
+
     <declare-styleable name="MaxHeightListView">
         <attr name="maxHeight" />
     </declare-styleable>

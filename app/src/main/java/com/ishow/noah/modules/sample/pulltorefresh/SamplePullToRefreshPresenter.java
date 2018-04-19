@@ -20,7 +20,7 @@ class SamplePullToRefreshPresenter implements SamplePullToRefreshContract.Presen
     @Override
     public void getList(Context context, final int pageNumber, final boolean loadingView) {
         if (loadingView) mView.showLoading(null, false);
-        String url = "http://xiaomidagong.com/Home/SelectFactoryInfoType?title=&page=" + String.valueOf(pageNumber) + "&pagesize=10&type=1";
+        String url = "http://xiaomidagong.com/Home/SelectFactoryInfoType?title=&page=" + String.valueOf(pageNumber) + "&pagesize=10";
         Http.post()
                 .url(url)
                 .execute(new AppHttpCallBack<PageJob>(context) {

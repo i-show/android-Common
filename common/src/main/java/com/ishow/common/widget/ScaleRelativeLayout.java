@@ -25,7 +25,7 @@ import com.ishow.common.R;
 
 /**
  * Created by Bright.Yu on 2016/11/4.
- * 比例的ImageView
+ * 比例的RelativeLayout
  */
 
 public class ScaleRelativeLayout extends RelativeLayout {
@@ -42,22 +42,29 @@ public class ScaleRelativeLayout extends RelativeLayout {
 
     public ScaleRelativeLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ScaleFrameLayout);
-        mWidthRatio = a.getInt(R.styleable.ScaleFrameLayout_widthScale, 1);
-        mHeightRatio = a.getInt(R.styleable.ScaleFrameLayout_heightScale, 1);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ScaleRelativeLayout);
+        mWidthRatio = a.getInt(R.styleable.ScaleRelativeLayout_widthScale, 1);
+        mHeightRatio = a.getInt(R.styleable.ScaleRelativeLayout_heightScale, 1);
         a.recycle();
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         if (widthMode == MeasureSpec.EXACTLY) {
             int widthSize = MeasureSpec.getSize(widthMeasureSpec);
             heightMeasureSpec = MeasureSpec.makeMeasureSpec(widthSize * mHeightRatio / mWidthRatio, MeasureSpec.EXACTLY);
+        } else if (heightMode == MeasureSpec.EXACTLY) {
+            int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+            widthMeasureSpec = MeasureSpec.makeMeasureSpec(heightSize * mWidthRatio / mHeightRatio, MeasureSpec.EXACTLY);
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
+    /**
+     * JAVA 代码中设置比例
+     */
     public void setRatio(int widthRatio, int heightRatio) {
         mWidthRatio = widthRatio;
         mHeightRatio = heightRatio;

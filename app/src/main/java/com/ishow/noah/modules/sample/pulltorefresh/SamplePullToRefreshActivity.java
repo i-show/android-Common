@@ -41,13 +41,13 @@ public class SamplePullToRefreshActivity extends PullToRefreshActivity implement
         mAdapter = new SamplePullToRefreshAdapter(this);
         LoadMoreAdapter footer = new LoadMoreAdapter(this, mAdapter);
 
-        RecyclerView list = (RecyclerView) findViewById(R.id.list);
+        RecyclerView list = findViewById(R.id.list);
         list.setLayoutManager(new LinearLayoutManager(this));
         list.addItemDecoration(new LinearSpacingItemDecoration(this, R.dimen.gap_grade_1));
         list.setAdapter(footer);
 
         ClassicHeader header = new ClassicHeader(this);
-        mPullToRefreshView = (PullToRefreshView) findViewById(R.id.pulltorefresh);
+        mPullToRefreshView = findViewById(R.id.pulltorefresh);
         mPullToRefreshView.setHeader(header);
         mPullToRefreshView.setFooter(footer);
         mPullToRefreshView.setOnPullToRefreshListener(this);

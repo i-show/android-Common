@@ -48,25 +48,13 @@ public class Tab1Fragment extends AppBaseFragment {
         return mRootView;
     }
 
-    @Override
-    public void onLeftClick(View v) {
-        super.onLeftClick(v);
-        StorageUtils.with(getContext())
-                .expire(20, TimeUnit.SECONDS)
-                .param("hello", "world")
-                .save();
-    }
 
     @Override
     public void onRightClick(View v) {
         super.onRightClick(v);
 
-        String result = StorageUtils.with(getContext())
-                .key("hello")
-                .get("defult");
-        Log.i(TAG, "onRightClick: result = " + result);
-        //AppRouter.with(getContext())
-        //        .target(SampleMainActivity.class)
-        //        .start();
+        AppRouter.with(getContext())
+                .target(SampleMainActivity.class)
+                .start();
     }
 }

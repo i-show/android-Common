@@ -11,7 +11,6 @@
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:leftImage="@drawable/ic_list"
         app:rightImage="@drawable/ic_list"
         app:text="@string/tab_1" />
 

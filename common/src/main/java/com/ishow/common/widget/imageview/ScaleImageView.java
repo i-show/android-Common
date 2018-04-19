@@ -52,9 +52,13 @@ public class ScaleImageView extends AppCompatImageView {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         if (widthMode == MeasureSpec.EXACTLY) {
             int widthSize = MeasureSpec.getSize(widthMeasureSpec);
             heightMeasureSpec = MeasureSpec.makeMeasureSpec(widthSize * mHeightRatio / mWidthRatio, MeasureSpec.EXACTLY);
+        }else if(heightMode == MeasureSpec.EXACTLY){
+            int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+            widthMeasureSpec = MeasureSpec.makeMeasureSpec(heightSize * mWidthRatio / mHeightRatio, MeasureSpec.EXACTLY);
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
