@@ -19,6 +19,7 @@ package com.ishow.common.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.ishow.common.R;
@@ -50,6 +51,35 @@ public class ScaleFrameLayout extends FrameLayout {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        ViewGroup.LayoutParams layoutParams = getLayoutParams();
+        int[] measureSpecs;
+        if (layoutParams != null && (layoutParams.width > 0 || layoutParams.height > 0)) {
+            measureSpecs = measureByLayoutParams(layoutParams, widthMeasureSpec, heightMeasureSpec);
+        } else {
+            measureSpecs = measureByMeasureSpec(widthMeasureSpec, heightMeasureSpec);
+        }
+        super.onMeasure(measureSpecs[0], measureSpecs[1]);
+    }
+
+    /**
+     * 通过LayoutParams 来获取值 进行计算
+     * 目的:父类为RelativeLayout 时候MeasureSpec 会错乱
+     */
+    private int[] measureByLayoutParams(ViewGroup.LayoutParams layoutParams, int widthMeasureSpec, int heightMeasureSpec) {
+        if (layoutParams.width > 0) {
+            widthMeasureSpec = MeasureSpec.makeMeasureSpec(layoutParams.width, MeasureSpec.EXACTLY);
+            heightMeasureSpec = MeasureSpec.makeMeasureSpec(layoutParams.width * mHeightRatio / mWidthRatio, MeasureSpec.EXACTLY);
+        } else if (layoutParams.height > 0) {
+            widthMeasureSpec = MeasureSpec.makeMeasureSpec(layoutParams.height * mWidthRatio / mHeightRatio, MeasureSpec.EXACTLY);
+            heightMeasureSpec = MeasureSpec.makeMeasureSpec(layoutParams.height, MeasureSpec.EXACTLY);
+        }
+        return new int[]{widthMeasureSpec, heightMeasureSpec};
+    }
+
+    /**
+     * 最原始的measure方法
+     */
+    private int[] measureByMeasureSpec(int widthMeasureSpec, int heightMeasureSpec) {
         int widthMode = MeasureSpec.getMode(widthMeasureSpec);
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         if (widthMode == MeasureSpec.EXACTLY) {
@@ -59,13 +89,9 @@ public class ScaleFrameLayout extends FrameLayout {
             int heightSize = MeasureSpec.getSize(heightMeasureSpec);
             widthMeasureSpec = MeasureSpec.makeMeasureSpec(heightSize * mWidthRatio / mHeightRatio, MeasureSpec.EXACTLY);
         }
-
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        return new int[]{widthMeasureSpec, heightMeasureSpec};
     }
 
-    /**
-     * 设置比例
-     */
     public void setRatio(int widthRatio, int heightRatio) {
         mWidthRatio = widthRatio;
         mHeightRatio = heightRatio;
