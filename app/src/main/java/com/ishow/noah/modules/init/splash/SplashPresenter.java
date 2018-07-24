@@ -33,7 +33,6 @@ import java.lang.annotation.RetentionPolicy;
 
 class SplashPresenter implements SplashContract.Presenter {
 
-    private Handler mHandler;
     /**
      * 请求权限的Code
      */
@@ -60,7 +59,6 @@ class SplashPresenter implements SplashContract.Presenter {
 
     SplashPresenter(SplashContract.View view) {
         mView = view;
-        mHandler = new Handler();
     }
 
     @Override

@@ -42,7 +42,6 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
     private SparseArray<Rect> mItemRects;
 
     public FlowLayoutManager() {
-        setAutoMeasureEnabled(true);
         mItemRects = new SparseArray<>();
     }
 
@@ -68,6 +67,14 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
         mLastVisiblePosition = getItemCount();
 
         fill(recycler);
+    }
+
+    /**
+     * 是否自动计算
+     */
+    @Override
+    public boolean isAutoMeasureEnabled() {
+        return true;
     }
 
     /**
