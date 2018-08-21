@@ -1010,6 +1010,15 @@
         <attr name="datePickerStyle" />
     </declare-styleable>
 
+    <declare-styleable name="LinearLayoutPro">
+        <attr name="maxHeight" />
+        <attr name="maxWidth" />
+    </declare-styleable>
+
+    <declare-styleable name="RecycleViewPro">
+        <attr name="maxHeight" />
+        <attr name="maxWidth" />
+    </declare-styleable>
 
     <declare-styleable name="LabelView">
         <attr name="text" />

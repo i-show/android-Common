@@ -17,6 +17,7 @@
 <resources>
     <color name="windows_background">@android:color/white</color>
     <color name="windows_background_light">@android:color/white</color>
+    <color name="white">#FFFFFFFF</color>
     <!--灰色-->
     <color name="grey_deep_1">#FF000000</color>
     <color name="grey_deep_2">#FF151515</color>

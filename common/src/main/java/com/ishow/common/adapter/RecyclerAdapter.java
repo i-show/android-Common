@@ -88,6 +88,12 @@ public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holde
         }
     }
 
+    /**
+     * 是否为空
+     */
+    public boolean isEmpty() {
+        return mData == null || mData.isEmpty();
+    }
 
     /**
      * 增加数据
