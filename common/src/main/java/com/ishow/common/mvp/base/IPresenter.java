@@ -16,9 +16,7 @@
 
 package com.ishow.common.mvp.base;
 
-/**
- * 自己修改过的
- */
-public interface BaseView {
+public interface IPresenter {
+
 
 }

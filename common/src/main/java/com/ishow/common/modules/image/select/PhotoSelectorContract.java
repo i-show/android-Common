@@ -20,8 +20,8 @@ import android.content.Context;
 
 import com.ishow.common.entries.Folder;
 import com.ishow.common.entries.Photo;
-import com.ishow.common.mvp.base.BasePresenter;
-import com.ishow.common.mvp.base.BaseView;
+import com.ishow.common.mvp.base.IPresenter;
+import com.ishow.common.mvp.base.IView;
 import com.ishow.common.mvp.base.IViewStatus;
 
 import java.util.List;
@@ -35,7 +35,7 @@ class PhotoSelectorContract {
     /**
      * View
      */
-    interface View extends BaseView, IViewStatus {
+    interface View extends IView, IViewStatus {
         /**
          * 数据都加载出来了 进行显示
          */
@@ -45,7 +45,7 @@ class PhotoSelectorContract {
     /**
      * Presenter
      */
-    interface Presenter extends BasePresenter {
+    interface Presenter extends IPresenter {
         void start(Context context);
     }
 }

@@ -2,14 +2,14 @@ package com.ishow.noah.modules.account.modify;
 
 import android.content.Context;
 
-import com.ishow.common.mvp.base.BasePresenter;
-import com.ishow.common.mvp.base.BaseView;
+import com.ishow.common.mvp.base.IPresenter;
+import com.ishow.common.mvp.base.IView;
 import com.ishow.common.mvp.base.IViewStatus;
 import com.ishow.noah.entries.User;
 
 interface ModifyUserInfoContract{
 
-    interface View extends BaseView, IViewStatus {
+    interface View extends IView, IViewStatus {
 
         /**
          * 更新成功
@@ -17,7 +17,7 @@ interface ModifyUserInfoContract{
         void updateAvatar(String avatar);
     }
 
-    interface Presenter extends BasePresenter {
+    interface Presenter extends IPresenter {
         /**
          * 修改头像
          */

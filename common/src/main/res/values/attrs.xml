@@ -140,6 +140,13 @@
         <flag name="center" value="0x11" />
     </attr>
 
+    <attr name="leftTextStyle" format="enum">
+        <enum name="NORMAL" value="0" />
+        <enum name="BOLD" value="1" />
+        <enum name="ITALIC" value="2" />
+        <enum name="BOLD_ITALIC" value="3" />
+    </attr>
+
     <attr name="leftTextVisibility">
         <enum name="visible" value="0" />
         <enum name="invisible" value="4" />
@@ -326,6 +333,7 @@
 
     <attr name="lineHegiht" format="dimension" />
     <attr name="bottomLineHeight" format="dimension" />
+    <attr name="bottomLineWithPadding" format="boolean" />
 
     <attr name="hasEmptyView" format="boolean" />
     <attr name="normalColor" format="color" />
@@ -655,6 +663,7 @@
 
         <attr name="text" />
         <attr name="textColor" />
+        <attr name="textStyle" />
         <attr name="textSize" />
 
         <attr name="subText" />
@@ -783,18 +792,6 @@
         <attr name="cropEnabled" />
     </declare-styleable>
 
-    <declare-styleable name="XScrollView">
-        <attr name="headerLineVisibility" />
-        <attr name="footerLineVisibility" />
-        <attr name="hasEmptyView" />
-    </declare-styleable>
-
-    <declare-styleable name="XListView">
-        <attr name="headerLineVisibility" />
-        <attr name="footerLineVisibility" />
-        <attr name="hasEmptyView" />
-    </declare-styleable>
-
     <declare-styleable name="SizeIndicator">
         <attr name="android:paddingLeft" />
         <attr name="android:paddingStart" />
@@ -903,6 +900,7 @@
         <attr name="leftTextMaxWidth" />
         <attr name="leftTextBackground" />
         <attr name="leftTextGravity" />
+        <attr name="leftTextStyle" />
 
         <attr name="inputText" />
         <attr name="inputBackground" />
@@ -938,6 +936,7 @@
         <attr name="cancelVisibility" />
         <attr name="bottomLineHeight" />
         <attr name="bottomLineVisibility" />
+        <attr name="bottomLineWithPadding" />
 
         <attr name="android:minHeight" />
     </declare-styleable>

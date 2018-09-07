@@ -2,8 +2,8 @@ package com.ishow.noah.modules.init.splash;
 
 import android.content.Context;
 
-import com.ishow.common.mvp.base.BasePresenter;
-import com.ishow.common.mvp.base.BaseView;
+import com.ishow.common.mvp.base.IPresenter;
+import com.ishow.common.mvp.base.IView;
 import com.ishow.common.mvp.base.IViewStatus;
 import com.ishow.noah.modules.base.AppBaseActivity;
 
@@ -14,7 +14,7 @@ import com.ishow.noah.modules.base.AppBaseActivity;
 
 interface SplashContract {
 
-    interface View extends BaseView, IViewStatus {
+    interface View extends IView, IViewStatus {
 
         /**
          * 权限已经获取成功
@@ -27,7 +27,7 @@ interface SplashContract {
         void next();
     }
 
-    interface Presenter extends BasePresenter {
+    interface Presenter extends IPresenter {
 
         /**
          * 预先加载

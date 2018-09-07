@@ -2,8 +2,8 @@ package com.ishow.noah.modules.main.mine;
 
 import android.content.Context;
 
-import com.ishow.common.mvp.base.BasePresenter;
-import com.ishow.common.mvp.base.BaseView;
+import com.ishow.common.mvp.base.IPresenter;
+import com.ishow.common.mvp.base.IView;
 import com.ishow.common.mvp.base.IViewStatus;
 import com.ishow.noah.entries.UserContainer;
 
@@ -13,7 +13,7 @@ import com.ishow.noah.entries.UserContainer;
  */
 
 interface MineContract {
-    interface View extends BaseView, IViewStatus {
+    interface View extends IView, IViewStatus {
         /**
          * 更新信息
          */
@@ -21,7 +21,7 @@ interface MineContract {
 
     }
 
-    interface Presenter extends BasePresenter {
+    interface Presenter extends IPresenter {
 
         void onResume(Context context);
     }

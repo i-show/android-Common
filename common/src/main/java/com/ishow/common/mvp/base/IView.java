@@ -16,7 +16,9 @@
 
 package com.ishow.common.mvp.base;
 
-public interface BasePresenter {
-
+/**
+ * 自己修改过的
+ */
+public interface IView {
 
 }

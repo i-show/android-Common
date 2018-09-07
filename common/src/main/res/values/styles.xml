@@ -238,6 +238,7 @@
         <item name="subTextSize">@dimen/top_bar_sub_title_text_size</item>
         <item name="subTextColor">@color/top_bar_text_color</item>
         <item name="android:background">@color/color_primary</item>
+        <item name="textStyle">NORMAL</item>
     </style>
 
     <!-- Button 默认样式统一样式 -->

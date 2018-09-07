@@ -19,8 +19,8 @@ package com.ishow.noah.modules.account.register;
 
 import android.content.Context;
 
-import com.ishow.common.mvp.base.BasePresenter;
-import com.ishow.common.mvp.base.BaseView;
+import com.ishow.common.mvp.base.IPresenter;
+import com.ishow.common.mvp.base.IView;
 import com.ishow.common.mvp.base.IViewStatus;
 
 
@@ -29,7 +29,7 @@ import com.ishow.common.mvp.base.IViewStatus;
  */
 interface RegisterContract {
 
-    interface View extends BaseView, IViewStatus {
+    interface View extends IView, IViewStatus {
 
         void showSendVerifySuccess();
 
@@ -37,7 +37,7 @@ interface RegisterContract {
 
     }
 
-    interface Presenter extends BasePresenter {
+    interface Presenter extends IPresenter {
 
         /**
          * 注册动作

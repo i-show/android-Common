@@ -19,8 +19,8 @@ package com.ishow.noah.modules.account.login;
 
 import android.content.Context;
 
-import com.ishow.common.mvp.base.BasePresenter;
-import com.ishow.common.mvp.base.BaseView;
+import com.ishow.common.mvp.base.IPresenter;
+import com.ishow.common.mvp.base.IView;
 import com.ishow.common.mvp.base.IViewStatus;
 
 /**
@@ -28,7 +28,7 @@ import com.ishow.common.mvp.base.IViewStatus;
  */
 interface LoginContract {
 
-    interface View extends BaseView, IViewStatus {
+    interface View extends IView, IViewStatus {
 
         /**
          * 更新UI
@@ -36,7 +36,7 @@ interface LoginContract {
         void updateUI(String account);
     }
 
-    interface Presenter extends BasePresenter {
+    interface Presenter extends IPresenter {
         /**
          * start
          */

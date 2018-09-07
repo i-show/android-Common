@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
@@ -83,7 +84,10 @@ public class TopBar extends ViewGroup implements OnClickListener {
     private PromptImageView mRightImageView2;
     private PromptTextView mRightTextView;
 
-
+    /**
+     * 标题样式
+     */
+    private int mTextStyle;
     /**
      * title的字体颜色
      */
@@ -248,6 +252,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
         mTitleStr = a.getString(R.styleable.TopBar_text);
         mTitleSize = a.getDimensionPixelSize(R.styleable.TopBar_textSize, getDefaultTextSize(context));
         mTitleColor = a.getColorStateList(R.styleable.TopBar_textColor);
+        mTextStyle = a.getInt(R.styleable.TopBar_textStyle, 0);
 
         mSubTitleStr = a.getString(R.styleable.TopBar_subText);
         mSubTitleSize = a.getDimensionPixelSize(R.styleable.TopBar_subTextSize, getDefaultSubTitleSize(context));
@@ -542,6 +547,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
             mTitleView.setOnClickListener(this);
             mTitleView.setGravity(Gravity.CENTER);
             mTitleView.setClickable(isClickable);
+            mTitleView.setTypeface(Typeface.defaultFromStyle(mTextStyle));
             addView(mTitleView, 0);
 
             computeTitleDesireWidth();

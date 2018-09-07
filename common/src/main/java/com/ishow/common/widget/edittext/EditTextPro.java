@@ -21,6 +21,7 @@ import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DimenRes;
@@ -93,6 +94,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     private int mLeftTextMaxWidth;
     private int mLeftTextRightMargin;
     private int mLeftTextGravity;
+    private int mLeftTextStyle;
     private Drawable mLeftTextBackgroundDrawable;
 
     /**
@@ -147,7 +149,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
 
     private int mMinHegiht;
     private int mBottomLineHegiht;
-
+    private boolean isBottomLineWithPadding;
     private ColorStateList mTintColor;
 
     private Paint mBottomLinePaint;
@@ -181,6 +183,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         mLeftTextVisibility = a.getInt(R.styleable.EditTextPro_leftTextVisibility, View.VISIBLE);
         mLeftTextGravity = a.getInt(R.styleable.EditTextPro_leftTextGravity, Gravity.CENTER);
         mLeftTextBackgroundDrawable = a.getDrawable(R.styleable.EditTextPro_leftTextBackground);
+        mLeftTextStyle = a.getInt(R.styleable.EditTextPro_leftTextStyle, 0);
 
         mInputBackgroundDrawable = a.getDrawable(R.styleable.EditTextPro_inputBackground);
         mInputGravity = a.getInt(R.styleable.EditTextPro_inputGravity, Gravity.CENTER_VERTICAL);
@@ -214,6 +217,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         mFocusColor = a.getColor(R.styleable.EditTextPro_focusColor, getDefaultFocusColor());
         mBottomLineHegiht = a.getDimensionPixelSize(R.styleable.EditTextPro_bottomLineHeight, getDefaultBottomLineHeight());
         mBottomLineVisibility = a.getInt(R.styleable.EditTextPro_bottomLineVisibility, View.VISIBLE);
+        isBottomLineWithPadding = a.getBoolean(R.styleable.EditTextPro_bottomLineWithPadding, true);
 
         mMinHegiht = a.getDimensionPixelSize(R.styleable.EditTextPro_android_minHeight, getDefaultMinHeight());
         a.recycle();
@@ -434,7 +438,11 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         int height = getMeasuredHeight();
 
         if (mBottomLineVisibility == VISIBLE) {
-            canvas.drawLine(0, height - mBottomLineHegiht, width, height, mBottomLinePaint);
+            if (isBottomLineWithPadding) {
+                canvas.drawLine(getPaddingStart(), height - mBottomLineHegiht, width - getPaddingEnd(), height, mBottomLinePaint);
+            } else {
+                canvas.drawLine(0, height - mBottomLineHegiht, width, height, mBottomLinePaint);
+            }
         }
     }
 
@@ -480,6 +488,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
             mLeftTextView.setMaxWidth(mLeftTextMaxWidth);
             mLeftTextView.setBackground(mLeftTextBackgroundDrawable);
             mLeftTextView.setGravity(mLeftTextGravity);
+            mLeftTextView.setTypeface(Typeface.defaultFromStyle(mLeftTextStyle));
             setDefaultPromptState(mLeftTextView);
             addView(mLeftTextView);
         }
@@ -794,7 +803,8 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
             @Override
             public void run() {
                 InputMethodManager manager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (manager != null) manager.hideSoftInputFromWindow(mInputView.getWindowToken(), 0);
+                if (manager != null)
+                    manager.hideSoftInputFromWindow(mInputView.getWindowToken(), 0);
             }
         });
     }
