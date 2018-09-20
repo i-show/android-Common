@@ -16,6 +16,7 @@
 
 package com.ishow.common.modules.image.select;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -275,4 +276,8 @@ public class PhotoSelectorActivity extends BaseActivity implements
         }
     }
 
+    @Override
+    public Context getContext() {
+        return this;
+    }
 }

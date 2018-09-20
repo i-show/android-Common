@@ -15,6 +15,7 @@
   -->
 
 <resources>
+    <dimen name="AA_title">@dimen/dp_29</dimen>
     <dimen name="A_title">@dimen/dp_26</dimen>
     <dimen name="B_title">@dimen/dp_24</dimen>
     <dimen name="C_title">@dimen/dp_22</dimen>

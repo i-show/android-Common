@@ -17,6 +17,7 @@
 package com.ishow.common.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +32,6 @@ import java.util.List;
  * 封装后的RecycleAdapter
  */
 public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holder> extends RecyclerView.Adapter<HOLDER> {
-    private static final String TAG = "RecyclerAdapter";
     /**
      * 类型 是头部
      */
@@ -177,25 +177,26 @@ public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holde
         return 0;
     }
 
+    @NonNull
     @Override
-    public abstract HOLDER onCreateViewHolder(ViewGroup parent, int type);
+    public abstract HOLDER onCreateViewHolder(@NonNull ViewGroup parent, int type);
 
     public abstract void onBindViewHolder(HOLDER holder, int position, int type);
 
     @Override
-    public void onBindViewHolder(HOLDER holder, int position) {
+    public void onBindViewHolder(@NonNull HOLDER holder, int position) {
         holder.getItemView().setTag(R.id.tag_view_holder_recycle_item_click, position);
         onBindViewHolder(holder, position, holder.getItemViewType());
     }
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         mRecyclerView = recyclerView;
     }
 
     @Override
-    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
         mRecyclerView = null;
     }

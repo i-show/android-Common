@@ -18,6 +18,7 @@ package com.ishow.common.modules.image.show;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -43,7 +44,6 @@ import uk.co.senab.photoview.PhotoViewAttacher;
  * 查看大图
  */
 public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.OnViewTapListener {
-    private static final String TAG = "ShowPhotoAdapter";
     private LayoutInflater mLayoutInflater;
     private List<String> mUrls;
     private Context mContext;
@@ -60,17 +60,13 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
      */
     private FrameLayout.LayoutParams mProgressParams;
     /**
-     * 加载动画
-     */
-    //private GlideAnimation mLoadAnimation;
-    /**
      * 当前的Dialog
      */
     private ShowPhotoDialog mDialog;
 
     private boolean isShowThumb = true;
 
-    public ShowPhotoAdapter(Context context) {
+    ShowPhotoAdapter(Context context) {
         mContext = context;
         mUrls = new ArrayList<>();
         mLayoutInflater = LayoutInflater.from(context);
@@ -122,18 +118,19 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
     }
 
     @Override
-    public boolean isViewFromObject(View view, Object object) {
+    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
         return view == object;
     }
 
+    @NonNull
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(@NonNull ViewGroup container, int position) {
         final String url = mUrls.get(position);
         View root = mLayoutInflater.inflate(R.layout.item_show_photo, container, false);
-        final PhotoView imageHD = (PhotoView) root.findViewById(R.id.image);
+        final PhotoView imageHD = root.findViewById(R.id.image);
         imageHD.setOnViewTapListener(this);
 
-        final PhotoView imageThumb = (PhotoView) root.findViewById(R.id.thumbnails);
+        final PhotoView imageThumb = root.findViewById(R.id.thumbnails);
         imageThumb.setEnabled(false);
         imageThumb.setOnViewTapListener(this);
         imageThumb.setLayoutParams(mThumbLayoutParams);
@@ -142,7 +139,7 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
             imageThumb.setScaleType(image.getScaleType());
         }
 
-        final ProgressBar progress = (ProgressBar) root.findViewById(R.id.progress);
+        final ProgressBar progress = root.findViewById(R.id.progress);
         progress.setLayoutParams(mProgressParams);
 
         if (isShowThumb) {
@@ -180,7 +177,7 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
     }
 
     @Override
-    public void destroyItem(ViewGroup container, int position, Object child) {
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object child) {
         container.removeView((View) child);
     }
 
@@ -191,26 +188,4 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
             mDialog = null;
         }
     }
-
-
-//    private class GlideAnimation implements ViewPropertyAnimation.Animator {
-//        private int mWidth;
-//        private int mHeight;
-//
-//        public GlideAnimation(int width, int height) {
-//            mWidth = width;
-//            mHeight = height;
-//        }
-//
-//        @Override
-//        public void animate(View view) {
-//            float width = view.getWidth();
-//            float height = view.getHeight();
-//            float startX = Math.min(mWidth / width + 0.2f, 1f);
-//            float startY = Math.min(mHeight / height + 0.2f, 1f);
-//            PropertyValuesHolder pvh1 = PropertyValuesHolder.ofFloat("scaleX", startX, 1f);
-//            PropertyValuesHolder pvh2 = PropertyValuesHolder.ofFloat("scaleY", startY, 1f);
-//            ObjectAnimator.ofPropertyValuesHolder(view, pvh1, pvh2).setDuration(500).start();
-//        }
-//    }
 }

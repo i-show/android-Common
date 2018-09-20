@@ -21,8 +21,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.StringRes;
 import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;

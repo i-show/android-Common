@@ -16,9 +16,12 @@
 
 package com.ishow.common.mvp.base;
 
+import android.content.Context;
+
 /**
  * 自己修改过的
  */
 public interface IView {
 
+    Context getContext();
 }

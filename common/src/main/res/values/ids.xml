@@ -24,6 +24,7 @@
     <item name="tag_view_holder_recycle_item_click" type="id" />
     <!-- Loading Dialogtag -->
     <item name="tag_loading_dialog" type="id" />
+    <item name="tag_looping_viewpager_holder" type="id" />
     <!-- widget -->
     <item name="widget" type="id" />
     <!-- 左中右 -->

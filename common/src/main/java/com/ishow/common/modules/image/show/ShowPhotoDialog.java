@@ -28,6 +28,7 @@ import android.view.WindowManager;
 
 import com.ishow.common.R;
 import com.ishow.common.modules.image.show.ShowPhotoAdapter;
+import com.ishow.common.utils.DeviceUtils;
 import com.ishow.common.utils.ScreenUtils;
 import com.ishow.common.widget.indicator.SizeIndicator;
 
@@ -58,11 +59,11 @@ public class ShowPhotoDialog extends Dialog {
         adapter.setDialog(this);
         adapter.setShowThumb(isShowThumb);
 
-        ViewPager pager = (ViewPager) findViewById(R.id.content);
+        ViewPager pager = findViewById(R.id.content);
         pager.setAdapter(adapter);
         pager.setCurrentItem(mCurrentPosition);
 
-        SizeIndicator indicator = (SizeIndicator) findViewById(R.id.state);
+        SizeIndicator indicator = findViewById(R.id.state);
         indicator.setViewPager(pager);
 
         // 只有一张图片的时候不需要显示指示器
@@ -110,7 +111,7 @@ public class ShowPhotoDialog extends Dialog {
     @Override
     public void show() {
         super.show();
-        int screen[] = ScreenUtils.getScreenSize();
+        int screen[] = DeviceUtils.getScreenSize();
         Window window = getWindow();
         WindowManager.LayoutParams lp = window.getAttributes();
         lp.width = screen[0];

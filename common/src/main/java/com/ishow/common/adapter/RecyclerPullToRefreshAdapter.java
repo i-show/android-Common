@@ -33,7 +33,7 @@ public abstract class RecyclerPullToRefreshAdapter<DATA, HOLDER extends Recycler
     /**
      * 默认一页显示的数量
      */
-    private static final int DEFAULT_PAGER_SIZE = 10;
+    private static final int DEFAULT_PAGER_SIZE = 20;
 
     /**
      * 当前页数
@@ -60,6 +60,13 @@ public abstract class RecyclerPullToRefreshAdapter<DATA, HOLDER extends Recycler
     public void initPagerNumber() {
         mFirstPager = mContext.getResources().getInteger(R.integer.default_pager_number);
         mPagerNumber = mFirstPager;
+    }
+
+    /**
+     * 获取第一页
+     */
+    public int getFirstPager(){
+        return mFirstPager;
     }
 
     /**

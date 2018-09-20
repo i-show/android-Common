@@ -183,6 +183,8 @@
     <attr name="rightTextMinWidth" format="dimension" />
     <attr name="rightTextMaxWidth" format="dimension" />
     <attr name="rightTextPadding" format="dimension" />
+    <attr name="rightTextPaddingHorizontal" format="dimension" />
+    <attr name="rightTextPaddingVertical" format="dimension" />
     <attr name="rightTextBackground" format="reference|color" />
     <attr name="rightTextGravity">
         <!-- Push object to the top of its container, not changing its size. -->
@@ -331,7 +333,15 @@
         <enum name="gone" value="8" />
     </attr>
 
-    <attr name="lineHegiht" format="dimension" />
+    <attr name="lineHeight" format="dimension" />
+    <attr name="linePaddingStart" format="dimension" />
+    <attr name="linePaddingEnd" format="dimension" />
+    <attr name="lineVisibility">
+        <enum name="visible" value="0" />
+        <enum name="invisible" value="4" />
+        <enum name="gone" value="8" />
+    </attr>
+
     <attr name="bottomLineHeight" format="dimension" />
     <attr name="bottomLineWithPadding" format="boolean" />
 
@@ -510,10 +520,8 @@
         <flag name="time" value="0x00000024" />
     </attr>
 
-    <attr name="photomode">
-        <enum name="compress" value="0" />
-        <enum name="crop" value="1" />
-    </attr>
+
+    <attr name="cancelEnable" format="boolean" />
 
     <attr name="promptMode">
         <enum name="none" value="0" />
@@ -617,6 +625,17 @@
     <attr name="barBorderColor" format="color" />
     <attr name="itemPadding" format="dimension" />
 
+    <attr name="customizeViewId" format="reference" />
+    <attr name="customizeViewIndex" format="integer" />
+    <attr name="customizeMarginStart" format="dimension" />
+    <attr name="customizeMarginEnd" format="dimension" />
+
+    <attr name="widthRatio" format="integer"/>
+    <attr name="heightRatio" format="integer"/>
+    <attr name="indicatorRadius" format="dimension"/>
+    <attr name="indicatorColor" format="color"/>
+
+    <!--==========分割线==========-->
     <declare-styleable name="ImageTextView">
         <attr name="text" />
         <attr name="textSize" />
@@ -913,6 +932,8 @@
         <attr name="inputHintTextColor" />
         <attr name="inputLines" />
         <attr name="inputType" />
+        <attr name="cancelEnable" />
+        <attr name="cancelVisibility" />
 
         <attr name="rightText" />
         <attr name="rightTextSize" />
@@ -932,11 +953,15 @@
 
         <attr name="normalColor" />
         <attr name="focusColor" />
+        <attr name="lineHeight" />
+        <attr name="linePaddingStart" />
+        <attr name="linePaddingEnd" />
+        <attr name="lineVisibility" />
 
-        <attr name="cancelVisibility" />
-        <attr name="bottomLineHeight" />
-        <attr name="bottomLineVisibility" />
-        <attr name="bottomLineWithPadding" />
+        <attr name="customizeViewId" />
+        <attr name="customizeViewIndex" />
+        <attr name="customizeMarginStart" />
+        <attr name="customizeMarginEnd" />
 
         <attr name="android:minHeight" />
     </declare-styleable>
@@ -959,6 +984,7 @@
         <attr name="leftTextMaxWidth" />
         <attr name="leftTextBackground" />
         <attr name="leftTextGravity" />
+        <attr name="leftTextStyle" />
 
         <attr name="text" />
         <attr name="textSize" />
@@ -980,6 +1006,8 @@
         <attr name="rightTextVisibility" />
         <attr name="rightTextGravity" />
         <attr name="rightTextPadding" />
+        <attr name="rightTextPaddingHorizontal" />
+        <attr name="rightTextPaddingVertical" />
 
         <attr name="rightImage" />
         <attr name="rightImageWidth" />
@@ -992,6 +1020,17 @@
         <attr name="rightImageHeight2" />
         <attr name="rightImageBackground2" />
         <attr name="rightImageVisibility2" />
+
+        <attr name="lineColor" />
+        <attr name="lineHeight" />
+        <attr name="linePaddingStart" />
+        <attr name="linePaddingEnd" />
+        <attr name="lineVisibility" />
+
+        <attr name="customizeViewId" />
+        <attr name="customizeViewIndex" />
+        <attr name="customizeMarginStart" />
+        <attr name="customizeMarginEnd" />
 
         <attr name="android:minHeight" />
     </declare-styleable>
@@ -1042,6 +1081,11 @@
         <attr name="strokeColor" />
     </declare-styleable>
 
+    <declare-styleable name="LoopingViewPager">
+        <attr name="widthRatio"/>
+        <attr name="heightRatio"/>
+    </declare-styleable>
+
     <declare-styleable name="WaterMarkLinearLayout">
         <attr name="text" />
         <attr name="textSize" />
@@ -1056,5 +1100,6 @@
         <attr name="waterMarkAlpha" />
         <attr name="waterMarkAngle" />
     </declare-styleable>
+
 
 </resources>

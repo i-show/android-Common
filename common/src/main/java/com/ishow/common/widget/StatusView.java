@@ -201,17 +201,7 @@ public class StatusView extends FrameLayout implements View.OnClickListener {
     }
 
     public void dismiss() {
-        dismiss(true);
-    }
-
-    public void dismiss(boolean animation) {
-        if (animation) {
-            if (getAlpha() == 1F) {
-                AnimatorUtils.alpha(mRoot, 1.0F, 0.0F, 800);
-            }
-        } else {
-            setAlpha(0f);
-        }
+        setAlpha(0f);
     }
 
     public void cancelDismiss() {

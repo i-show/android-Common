@@ -20,6 +20,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -101,6 +102,7 @@ class PhotoSelectorPresenter implements PhotoSelectorContract.Presenter, LoaderM
     }
 
 
+    @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         return new CursorLoader(mActivity,
@@ -111,7 +113,7 @@ class PhotoSelectorPresenter implements PhotoSelectorContract.Presenter, LoaderM
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
         if (data == null || data.isClosed()) {
             Log.i(TAG, "onLoadFinished:  data is null or have alread closed");
             mView.showEmpty(null);
@@ -145,7 +147,7 @@ class PhotoSelectorPresenter implements PhotoSelectorContract.Presenter, LoaderM
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
 
     }
 

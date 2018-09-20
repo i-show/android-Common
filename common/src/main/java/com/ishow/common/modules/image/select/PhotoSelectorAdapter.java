@@ -18,6 +18,7 @@ package com.ishow.common.modules.image.select;
 
 import android.content.Context;
 import android.support.annotation.IntRange;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -60,8 +61,9 @@ class PhotoSelectorAdapter extends RecyclerAdapter<Photo, PhotoSelectorAdapter.V
         mMaxCount = maxCount;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int type) {
         View item = mLayoutInflater.inflate(R.layout.item_photo_selector, parent, false);
         return new ViewHolder(item, type);
     }

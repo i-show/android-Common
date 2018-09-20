@@ -74,7 +74,10 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
      */
     private PromptImageView mRightImageView;
     private PromptTextView mRightTextView;
-
+    /**
+     * 自定义插入的view
+     */
+    private View mCustomizeView;
     /**
      * 左侧图片信息
      */
@@ -82,7 +85,6 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     private Drawable mLeftImageBackgroundDrawable;
     private int mLeftImageVisibility;
     private int mLeftImageRightMargin;
-
     /**
      * 左侧文本信息
      */
@@ -111,6 +113,8 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     private int mInputType;
     private String mInputTextString;
     private String mInputHintString;
+    private int mCancelVisibility;
+    private boolean isCancelEnable;
 
     /**
      * 右侧文本信息
@@ -126,7 +130,6 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     private int mRightTextPadding;
     private Drawable mRightTextBackgroundDrawable;
     private Drawable mRightTextRightDrawable;
-
     /**
      * 右侧图片信息
      */
@@ -134,25 +137,35 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     private Drawable mRightImageBackgroundDrawable;
     private int mRightImageVisibility;
     /**
+     * 最底部的线
+     */
+    private Paint mBottomLinePaint;
+    private int mNormalColor;
+    private int mFocusColor;
+    private int mLineHeight;
+    private int mLineColor;
+    private int mLineVisibility;
+    private int mLinePaddingStart;
+    private int mLinePaddingEnd;
+    /**
+     * 自定义插入View
+     */
+    private int mCustomizeViewId;
+    /**
+     * 自定义View的位置， -1 为最后
+     */
+    private int mCustomizeViewIndex;
+    private int mCustomizeMarginStart;
+    private int mCustomizeMarginEnd;
+    /**
      * 图片的建议宽度
      */
     private int mSuggestIconWidth;
     private int mSuggestCancelWidth;
     private int mDesireInputWidth;
-    /**
-     * 最底部的线
-     */
-    private int mNormalColor;
-    private int mFocusColor;
-    private int mBottomLineVisibility;
-    private int mCancelVisibility;
-
     private int mMinHegiht;
-    private int mBottomLineHegiht;
-    private boolean isBottomLineWithPadding;
     private ColorStateList mTintColor;
 
-    private Paint mBottomLinePaint;
     private OnEditTextListener mEditTextListener;
 
     public EditTextPro(Context context) {
@@ -196,6 +209,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         mInputTextString = a.getString(R.styleable.EditTextPro_inputText);
         mInputHintString = a.getString(R.styleable.EditTextPro_inputHint);
         mInputType = a.getInt(R.styleable.EditTextPro_inputType, InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        isCancelEnable = a.getBoolean(R.styleable.EditTextPro_cancelEnable, true);
 
         mRightTextString = a.getString(R.styleable.EditTextPro_rightText);
         mRightTextSize = a.getDimensionPixelSize(R.styleable.EditTextPro_rightTextSize, getDefaultTipTextSize());
@@ -215,9 +229,15 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
 
         mNormalColor = a.getColor(R.styleable.EditTextPro_normalColor, getDefaultNormalColor());
         mFocusColor = a.getColor(R.styleable.EditTextPro_focusColor, getDefaultFocusColor());
-        mBottomLineHegiht = a.getDimensionPixelSize(R.styleable.EditTextPro_bottomLineHeight, getDefaultBottomLineHeight());
-        mBottomLineVisibility = a.getInt(R.styleable.EditTextPro_bottomLineVisibility, View.VISIBLE);
-        isBottomLineWithPadding = a.getBoolean(R.styleable.EditTextPro_bottomLineWithPadding, true);
+        mLineHeight = a.getDimensionPixelSize(R.styleable.EditTextPro_lineHeight, 0);
+        mLineVisibility = a.getInt(R.styleable.EditTextPro_lineVisibility, View.VISIBLE);
+        mLinePaddingStart = a.getDimensionPixelSize(R.styleable.EditTextPro_linePaddingStart, 0);
+        mLinePaddingEnd = a.getDimensionPixelSize(R.styleable.EditTextPro_linePaddingEnd, 0);
+
+        mCustomizeViewId = a.getResourceId(R.styleable.EditTextPro_customizeViewId, 0);
+        mCustomizeViewIndex = a.getInt(R.styleable.EditTextPro_customizeViewIndex, -1);
+        mCustomizeMarginStart = a.getDimensionPixelSize(R.styleable.EditTextPro_customizeMarginStart, 0);
+        mCustomizeMarginEnd = a.getDimensionPixelSize(R.styleable.EditTextPro_customizeMarginEnd, 0);
 
         mMinHegiht = a.getDimensionPixelSize(R.styleable.EditTextPro_android_minHeight, getDefaultMinHeight());
         a.recycle();
@@ -229,7 +249,9 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     private void initNecessaryData() {
         fixInputType();
 
-        if (TextUtils.isEmpty(mInputTextString)) {
+        if (!isCancelEnable) {
+            mCancelVisibility = GONE;
+        } else if (TextUtils.isEmpty(mInputTextString)) {
             mCancelVisibility = INVISIBLE;
         } else {
             mCancelVisibility = VISIBLE;
@@ -252,6 +274,13 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         getRightImageView();
     }
 
+    @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
+        if (mCustomizeViewId > 0) {
+            mCustomizeView = findViewById(mCustomizeViewId);
+        }
+    }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -259,6 +288,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         final int width = measureWidth(widthMeasureSpec);
         int height = measureHeight(width, heightMeasureSpec);
 
+        final int widthSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY);
         final int heightSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
         final int imageWidthSpec = MeasureSpec.makeMeasureSpec(mSuggestIconWidth, MeasureSpec.EXACTLY);
         final int unspecified = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
@@ -283,6 +313,11 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         if (mRightTextView != null && mRightTextView.getVisibility() != View.GONE) {
             mRightTextView.measure(unspecified, unspecified);
             inputWidth = inputWidth - mRightTextView.getMeasuredWidth() - mRightTextRightMargin;
+        }
+
+        if (mCustomizeView != null && mCustomizeView.getVisibility() != View.GONE) {
+            measureChild(mCustomizeView, widthSpec, heightSpec);
+            inputWidth = inputWidth - mCustomizeView.getMeasuredWidth() - mCustomizeMarginStart - mCustomizeMarginEnd;
         }
 
         if (mCancelView != null && mCancelView.getVisibility() != View.GONE) {
@@ -368,24 +403,27 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         int top = getPaddingTop();
         int right = r - l - getPaddingEnd();
         int bottom = b - t - getPaddingBottom();
-
+        int index = 0;
+        left = layoutCustomize(left, index);
         if (mLeftImageView != null && mLeftImageView.getVisibility() != View.GONE) {
             int height = mLeftImageView.getMeasuredHeight();
             int height2 = getMeasuredHeight();
 
             mLeftImageView.layout(left, top, left + mSuggestIconWidth, bottom);
             left = left + mSuggestIconWidth + mLeftImageRightMargin;
+            index++;
         }
-
+        left = layoutCustomize(left, index);
         if (mLeftTextView != null && mLeftTextView.getVisibility() != View.GONE) {
             int width = mLeftTextView.getMeasuredWidth();
             mLeftTextView.layout(left, top, left + width, bottom);
             left = left + width + mLeftTextRightMargin;
+            index++;
         }
+        left = layoutCustomize(left, index);
 
         int inputWidth = mInputView.getMeasuredWidth();
         int inputHeight = mInputView.getMeasuredHeight();
-        int g = mInputView.getGravity();
         mInputView.layout(left, top, left + inputWidth, bottom);
         left = left + inputWidth;
 
@@ -394,6 +432,8 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
             left = left + mSuggestCancelWidth;
         }
         left = left + mInputRightMargin;
+        index++;
+        left = layoutCustomize(left, index);
 
         if (mRightTextView != null && mRightTextView.getVisibility() != View.GONE) {
             int width = mRightTextView.getMeasuredWidth();
@@ -401,12 +441,30 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
             int _top = (getMeasuredHeight() - height) / 2;
             mRightTextView.layout(left, _top, left + width, _top + height);
             left = left + width + mRightTextRightMargin;
+            index++;
         }
-
+        left = layoutCustomize(left, index);
         if (mRightImageView != null && mRightImageView.getVisibility() != View.GONE) {
             mRightImageView.layout(left, top, right, bottom);
         }
+        index = -1;
+        layoutCustomize(left, index);
+    }
 
+    /**
+     * 设置自定义View的位置
+     */
+    private int layoutCustomize(int left, int index) {
+        if (index != mCustomizeViewIndex || mCustomizeView == null || mCustomizeView.getVisibility() == View.GONE) {
+            return left;
+        }
+        left = left + mCustomizeMarginStart;
+        int width = mCustomizeView.getMeasuredWidth();
+        int height = mCustomizeView.getMeasuredHeight();
+        int _top = (getMeasuredHeight() - height) / 2;
+        mCustomizeView.layout(left, _top, left + width, _top + height);
+        left = left + width + mCustomizeMarginEnd;
+        return left;
     }
 
     @Override
@@ -437,19 +495,14 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         int width = getMeasuredWidth();
         int height = getMeasuredHeight();
 
-        if (mBottomLineVisibility == VISIBLE) {
-            if (isBottomLineWithPadding) {
-                canvas.drawLine(getPaddingStart(), height - mBottomLineHegiht, width - getPaddingEnd(), height, mBottomLinePaint);
-            } else {
-                canvas.drawLine(0, height - mBottomLineHegiht, width, height, mBottomLinePaint);
-            }
+        if (mLineVisibility == VISIBLE) {
+            canvas.drawLine(mLinePaddingStart, height - mLineHeight, width - mLinePaddingEnd, height, mBottomLinePaint);
         }
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public PromptImageView getLeftImageView() {
         if (mLeftImageVisibility == View.GONE) {
-            Log.i(TAG, "getLeftImageView: is visiable gone just not add");
             return null;
         }
 
@@ -474,7 +527,6 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     @SuppressWarnings("UnusedReturnValue")
     public PromptTextView getLeftTextView() {
         if (mLeftTextVisibility == View.GONE) {
-            Log.i(TAG, "getLeftTextView: is visiable gone just not add");
             return null;
         }
 
@@ -489,6 +541,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
             mLeftTextView.setBackground(mLeftTextBackgroundDrawable);
             mLeftTextView.setGravity(mLeftTextGravity);
             mLeftTextView.setTypeface(Typeface.defaultFromStyle(mLeftTextStyle));
+            mLeftTextView.setIncludeFontPadding(false);
             setDefaultPromptState(mLeftTextView);
             addView(mLeftTextView);
         }
@@ -530,7 +583,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     @SuppressWarnings("UnusedReturnValue")
     private ImageView getCancelButton() {
 
-        if (mCancelView == null) {
+        if (mCancelView == null && isCancelEnable) {
             mCancelView = new ImageView(getContext());
             mCancelView.setId(R.id.cancel);
             mCancelView.setImageResource(R.drawable.ic_cancel);
@@ -545,7 +598,6 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     @SuppressWarnings("UnusedReturnValue")
     public PromptTextView getRightTextView() {
         if (mRightTextVisibility == View.GONE) {
-            Log.i(TAG, "getLeftTextView: is visiable gone just not add");
             return null;
         }
 
@@ -560,6 +612,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
             mRightTextView.setMaxWidth(mRightTextMaxWidth);
             mRightTextView.setBackground(mRightTextBackgroundDrawable);
             mRightTextView.setGravity(mRightTextGravity);
+            mRightTextView.setIncludeFontPadding(false);
             if (mRightTextPadding > 0) {
                 //noinspection SuspiciousNameCombination
                 mRightTextView.setPadding(mRightTextPadding, mRightTextPadding, mRightTextPadding, mRightTextPadding);
@@ -581,7 +634,6 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     @SuppressWarnings("UnusedReturnValue")
     public PromptImageView getRightImageView() {
         if (mRightImageVisibility == View.GONE) {
-            Log.i(TAG, "getLeftImageView: is visiable gone just not add");
             return null;
         }
 
@@ -794,7 +846,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     }
 
     public void setBottomLineVisibility(int visibility) {
-        mBottomLineVisibility = visibility;
+        mLineVisibility = visibility;
         postInvalidate();
     }
 
@@ -864,6 +916,9 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
 
         @Override
         public void afterTextChanged(Editable s) {
+            if (!isCancelEnable) {
+                return;
+            }
             // 如果是相等 那么和事佬会判读是第一次来 不准通过
             if (TextUtils.equals(mMediator, s.toString())) {
                 return;
