@@ -41,7 +41,7 @@
         android:layout_marginTop="@dimen/dp_10"
         app:itemMinHeight="@dimen/dp_50"
         app:textSize="@dimen/D_title"
-        app:visiableCount="3"/>
+        app:visibleCount="3"/>
 </LinearLayout>
 
 

@@ -274,10 +274,10 @@ public class MathUtils {
      */
     @SuppressWarnings("WeakerAccess")
     public static String generateString(int count, String child) {
-        String pattern = StringUtils.EMPTY;
+        StringBuilder builder = new StringBuilder();
         for (int i = 0; i < count; i++) {
-            pattern = StringUtils.plusString(pattern, child);
+            builder.append(child);
         }
-        return pattern;
+        return builder.toString();
     }
 }

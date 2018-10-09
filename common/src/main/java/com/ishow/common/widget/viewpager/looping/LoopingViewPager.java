@@ -23,12 +23,9 @@ import android.database.DataSetObserver;
 import android.graphics.Canvas;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import com.ishow.common.R;
@@ -209,7 +206,7 @@ public class LoopingViewPager extends ViewPager {
             }
 
             mRealCurrentPosition = mAdapter.getRealPosition(position);
-            if (positionOffset == 0 && mPositionOffset == 0 && (position < mAdapter.getRealCount() || position > mAdapter.getRealCount() * 2)) {
+            if (positionOffset == 0 && mPositionOffset == 0 && (position < mAdapter.getRealCount() || position >= mAdapter.getRealCount() * 2)) {
                 setCurrentItem(mRealCurrentPosition, false);
             }
             mPositionOffset = positionOffset;
@@ -219,12 +216,12 @@ public class LoopingViewPager extends ViewPager {
         @Override
         public void onPageScrollStateChanged(int state) {
             if (mAdapter == null) {
-                LogManager.i(TAG, "onPageScrollStateChanged: adapter is null");
                 return;
             }
+
             int position = LoopingViewPager.super.getCurrentItem();
             int realPosition = mAdapter.getRealPosition(position);
-            if (state == ViewPager.SCROLL_STATE_IDLE && (position < mAdapter.getRealCount() || position > mAdapter.getRealCount() * 2)) {
+            if (state == ViewPager.SCROLL_STATE_IDLE && (position < mAdapter.getRealCount() || position >= mAdapter.getRealCount() * 2)) {
                 setCurrentItem(realPosition, false);
             }
         }

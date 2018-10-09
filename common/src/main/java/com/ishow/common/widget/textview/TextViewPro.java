@@ -132,11 +132,11 @@ public class TextViewPro extends ViewGroup {
     private int mRightImageHeight;
     private int mRightImageVisibility;
 
-    private Drawable mRightImageDrawable2;
-    private Drawable mRightImageBackgroundDrawable2;
-    private int mRightImageWidth2;
-    private int mRightImageHeight2;
-    private int mRightImageVisibility2;
+    private Drawable mRightImage2Drawable;
+    private Drawable mRightImage2BackgroundDrawable;
+    private int mRightImage2Width;
+    private int mRightImage2Height;
+    private int mRightImage2Visibility;
 
     private Paint mLinePaint;
     private int mLineHeight;
@@ -226,11 +226,11 @@ public class TextViewPro extends ViewGroup {
         mRightImageWidth = a.getDimensionPixelSize(R.styleable.TextViewPro_rightImageWidth, 0);
         mRightImageHeight = a.getDimensionPixelSize(R.styleable.TextViewPro_rightImageHeight, 0);
 
-        mRightImageDrawable2 = a.getDrawable(R.styleable.TextViewPro_rightImage2);
-        mRightImageBackgroundDrawable2 = a.getDrawable(R.styleable.TextViewPro_rightImageBackground2);
-        mRightImageVisibility2 = a.getInt(R.styleable.TextViewPro_rightImageVisibility2, View.VISIBLE);
-        mRightImageWidth2 = a.getDimensionPixelSize(R.styleable.TextViewPro_rightImageWidth2, 0);
-        mRightImageHeight2 = a.getDimensionPixelSize(R.styleable.TextViewPro_rightImageHeight2, 0);
+        mRightImage2Drawable = a.getDrawable(R.styleable.TextViewPro_rightImage2);
+        mRightImage2BackgroundDrawable = a.getDrawable(R.styleable.TextViewPro_rightImage2Background);
+        mRightImage2Visibility = a.getInt(R.styleable.TextViewPro_rightImage2Visibility, View.GONE);
+        mRightImage2Width = a.getDimensionPixelSize(R.styleable.TextViewPro_rightImage2Width, 0);
+        mRightImage2Height = a.getDimensionPixelSize(R.styleable.TextViewPro_rightImage2Height, 0);
 
         mLineHeight = a.getDimensionPixelSize(R.styleable.TextViewPro_lineHeight, 0);
         mLineColor = a.getColor(R.styleable.TextViewPro_lineColor, getDefaultLineColor());
@@ -311,10 +311,10 @@ public class TextViewPro extends ViewGroup {
         }
 
         if (mRightImageView2 != null && mRightImageView2.getVisibility() != View.GONE) {
-            if (mRightImageWidth2 > 0 && mRightImageHeight2 > 0) {
+            if (mRightImage2Width > 0 && mRightImage2Height > 0) {
                 mRightImageView2.measure(
-                        MeasureSpec.makeMeasureSpec(mRightImageWidth2, MeasureSpec.EXACTLY),
-                        MeasureSpec.makeMeasureSpec(mRightImageHeight2, MeasureSpec.EXACTLY));
+                        MeasureSpec.makeMeasureSpec(mRightImage2Width, MeasureSpec.EXACTLY),
+                        MeasureSpec.makeMeasureSpec(mRightImage2Height, MeasureSpec.EXACTLY));
             } else {
                 mRightImageView2.measure(imageWidthSpec, heightSpec);
             }
@@ -507,7 +507,6 @@ public class TextViewPro extends ViewGroup {
     @SuppressWarnings("UnusedReturnValue")
     public PromptImageView getLeftImageView() {
         if (mLeftImageVisibility == View.GONE) {
-            Log.i(TAG, "getLeftImageView: is visiable gone just not add");
             return null;
         }
 
@@ -532,7 +531,6 @@ public class TextViewPro extends ViewGroup {
     @SuppressWarnings("UnusedReturnValue")
     public PromptTextView getLeftTextView() {
         if (mLeftTextVisibility == View.GONE) {
-            Log.i(TAG, "getLeftTextView: is visiable gone just not add");
             return null;
         }
 
@@ -578,7 +576,6 @@ public class TextViewPro extends ViewGroup {
     @SuppressWarnings("UnusedReturnValue")
     public PromptTextView getRightTextView() {
         if (mRightTextVisibility == View.GONE) {
-            Log.i(TAG, "getLeftTextView: is visiable gone just not add");
             return null;
         }
 
@@ -619,7 +616,6 @@ public class TextViewPro extends ViewGroup {
     @SuppressWarnings("UnusedReturnValue")
     public PromptImageView getRightImageView() {
         if (mRightImageVisibility == View.GONE) {
-            Log.i(TAG, "getLeftImageView: is visiable gone just not add");
             return null;
         }
 
@@ -650,25 +646,24 @@ public class TextViewPro extends ViewGroup {
 
     @SuppressWarnings("UnusedReturnValue")
     public PromptImageView getRightImageView2() {
-        if (mRightImageVisibility2 == View.GONE) {
-            Log.i(TAG, "getLeftImageView: is visiable gone just not add");
+        if (mRightImage2Visibility == View.GONE) {
             return null;
         }
 
         if (mRightImageView2 == null) {
 
-            if (mTintColor != null && mRightImageDrawable2 != null) {
-                mRightImageDrawable2 = DrawableCompat.wrap(mRightImageDrawable2);
-                DrawableCompat.setTintList(mRightImageDrawable2, mTintColor);
+            if (mTintColor != null && mRightImage2Drawable != null) {
+                mRightImage2Drawable = DrawableCompat.wrap(mRightImage2Drawable);
+                DrawableCompat.setTintList(mRightImage2Drawable, mTintColor);
             }
 
             mRightImageView2 = new PromptImageView(getContext());
             mRightImageView2.setId(R.id.rightImage2);
-            mRightImageView2.setVisibility(mRightImageVisibility2);
-            if (mRightImageDrawable2 != null) {
+            mRightImageView2.setVisibility(mRightImage2Visibility);
+            if (mRightImage2Drawable != null) {
                 mRightImageView2.setImageDrawable(mRightImageDrawable);
             }
-            mRightImageView2.setBackground(mRightImageBackgroundDrawable2);
+            mRightImageView2.setBackground(mRightImage2BackgroundDrawable);
             mRightImageView2.setScaleType(ImageView.ScaleType.CENTER);
             setDefaultPromptState(mRightImageView2);
             addView(mRightImageView2);
@@ -678,7 +673,6 @@ public class TextViewPro extends ViewGroup {
 
     private void setDefaultPromptState(IPrompt prompt) {
         if (prompt == null) {
-            Log.i(TAG, "setDefaultPromptState: ");
             return;
         }
 
@@ -801,7 +795,7 @@ public class TextViewPro extends ViewGroup {
         if (mRightImageView2 != null) {
             mRightImageView2.setImageResource(resid);
         }
-        mRightImageVisibility2 = View.VISIBLE;
+        mRightImage2Visibility = View.VISIBLE;
         requestLayout();
     }
 
@@ -819,7 +813,7 @@ public class TextViewPro extends ViewGroup {
                 .mode(loaderMode)
                 .into(mRightImageView2);
 
-        mRightImageVisibility2 = View.VISIBLE;
+        mRightImage2Visibility = View.VISIBLE;
         requestLayout();
     }
 

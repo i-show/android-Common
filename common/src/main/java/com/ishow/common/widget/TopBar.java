@@ -63,105 +63,100 @@ public class TopBar extends ViewGroup implements OnClickListener {
      */
     private static final float DEFAULT_IMAGE_WIDTH_PROMPT_SCALE = 0.17f;
     private static final float DEFAULT_IMAGE_HEIGHT_PROMPT_SCALE = 0.19f;
-
     private static final float DEFAULT_TEXT_WIDTH_PROMPT_SCALE = 0.14f;
     private static final float DEFAULT_TEXT_HEIGHT_PROMPT_SCALE = 0.25f;
+
     /**
-     * 中间的view
-     */
-    private MarqueeTextView mTitleView;
-    private MarqueeTextView mSubTitleView;
-    /**
-     * 左边的View
+     * 左侧第一个图片
      */
     private PromptImageView mLeftImageView;
-    private PromptImageView mLeftImageView2;
-    private PromptTextView mLeftTextView;
-    /**
-     * 右边的View
-     */
-    private PromptImageView mRightImageView;
-    private PromptImageView mRightImageView2;
-    private PromptTextView mRightTextView;
-
-    /**
-     * 标题样式
-     */
-    private int mTextStyle;
-    /**
-     * title的字体颜色
-     */
-    private ColorStateList mTitleColor;
-    /**
-     * sub title 的字体颜色
-     */
-    private ColorStateList mSubTitleColor;
-
-    /**
-     * mBackGround 背景 的resid ， 整个TopBar的背景
-     */
-    private int mBackGround;
-    /**
-     * 左边图片信息
-     */
-    private int mLeftImageResId, mLeftImage2ResId;
-
-    /**
-     * 右边边图片信息
-     */
-    private int mRightImageResId, mRightImage2ResId;
-    /**
-     * 左边和右边的 背景 id
-     */
-    private int mLeftBackground, mRightBackground;
-    private Drawable mLeftTextBackgound, mRightTextBackground;
-    private Drawable mLeftTextDrawable, mRightTextDrawable;
-    /**
-     * 左边是否可见
-     */
-    private int mLeftImageVisibility, mLeftImage2Visibility, mLeftTextVisibility;
-    /**
-     * 右边是否可见
-     */
-    private int mRightImageVisibility, mRightImage2Visibility, mRightTextVisibility;
-
-    private int mTitleVisibility, mSubTitleVisibility;
-
-    /**
-     * 左边和右边字体大小
-     */
-    private int mLeftTextSize, mRightTextSize;
-    private int mLeftTextMinWidth, mRightTextMinWidth;
-    private int mLeftTextDrawablePadding, mRightTextDrawablePadding;
-    /**
-     * 左边和右边字体颜色
-     */
-    private ColorStateList mLeftTextColor, mRightTextColor;
-
-    // 默认的背景
-    private int mItemBackgound;
-    // Title字体大小
-    private int mTitleSize;
-    // SubTitle字体大小
-    private int mSubTitleSize;
-
-    // TopBar的高度
-    private int mTopBarHeight;
-    // 图片或者文字的最小宽度
-    private int mUnitWidth;
-
     private int mLeftImageWidth;
     private int mLeftImageMinWidth;
+    private int mLeftImageResId;
+    private int mLeftImageVisibility;
+    private int mLeftImageWidthSpec;
+    /**
+     * 左侧第二个图片
+     */
+    private PromptImageView mLeftImageView2;
     private int mLeftImage2Width;
+    private int mLeftImage2ResId;
+    private int mLeftImage2Visibility;
+    /**
+     * 左侧文本
+     */
+    private PromptTextView mLeftTextView;
+    private Drawable mLeftTextDrawable;
+    private Drawable mLeftTextBackground;
+    private ColorStateList mLeftTextColor;
+    private String mLeftStr;
+    private int mLeftTextSize;
     private int mLeftTextViewWidth;
-
+    private int mLeftTextMinWidth;
+    private int mLeftTextVisibility;
+    private int mLeftTextDrawablePadding;
+    /**
+     * 主标题
+     */
+    private MarqueeTextView mTitleView;
+    private ColorStateList mTitleColor;
+    private String mTitleStr;
+    private int mTitleSize;
+    private int mTitleDesireWidth;
+    private int mTextStyle;
+    private int mTitleVisibility;
+    /**
+     * 副标题
+     */
+    private MarqueeTextView mSubTitleView;
+    private ColorStateList mSubTitleColor;
+    private String mSubTitleStr;
+    private int mSubTitleDesireWidth;
+    private int mSubTitleSize;
+    private int mSubTitleVisibility;
+    /**
+     * 右侧第一个图片
+     */
+    private PromptImageView mRightImageView;
     private int mRightImageWidth;
     private int mRightImageMinWidth;
+    private int mRightImageResId;
+    private int mRightImageVisibility;
+    private int mRightImageWidthSpec;
+    /**
+     * 右侧第二个图片
+     */
+    private PromptImageView mRightImageView2;
     private int mRightImage2Width;
-    private int mRightTextViewWidth;
+    private int mRightImage2ResId;
+    private int mRightImage2Visibility;
+    /**
+     * 右侧文本
+     */
+    private PromptTextView mRightTextView;
+    private ColorStateList mRightTextColor;
+    private Drawable mRightTextBackground;
+    private Drawable mRightTextDrawable;
+    private String mRightStr;
+    private int mRightTextWidth;
+    private int mRightTextMinWidth;
+    private int mRightTextSize;
+    private int mRightTextDrawablePadding;
+    private int mRightTextVisibility;
 
-    private int mTitleDesireWidth;
-    private int mSubTitleDesireWidth;
+    private int mBackGround;
+    private int mLeftBackground;
+    private int mRightBackground;
+    private int mItemBackground;
+
+    /**
+     * TopBar的高度
+     */
+    private int mTopBarHeight;
+    /**
+     *  图片或者文字的最小宽度
+     */
+    private int mUnitWidth;
     /**
      * Title 点击的次数
      */
@@ -170,26 +165,16 @@ public class TopBar extends ViewGroup implements OnClickListener {
      * Title 第一次点击的时间， 多次点击的标记位
      */
     private long mFirstTime;
-    /**
-     * 上次左边点击时间
-     */
     private long mLastLeftClickTime;
-    /**
-     * 上次右边点击时间
-     */
     private long mLastRightClickTime;
-
-    private String mTitleStr;
-    private String mSubTitleStr;
-
-    private String mLeftStr;
-    private String mRightStr;
-
-    // Title 是否可以点击
+    /**
+     * Title 是否可以点击
+     */
     private boolean isClickable;
-    // 是否启用密码格式 连续点击进入
+    /**
+     * 是否启用密码格式 连续点击进入
+     */
     private boolean isSecretCode;
-
     /**
      * 相关监听（左右点击事件）
      */
@@ -202,14 +187,12 @@ public class TopBar extends ViewGroup implements OnClickListener {
     /**
      * 高度的Spec
      */
-    private int mExactlyHeightSpec;
     private int mExactlyWidthSpec;
-    private int mLeftImageWidthSpec;
-    private int mRightImageWidthSpec;
-    private int mAtmostHeightSpec;
+    private int mExactlyHeightSpec;
+    private int mAtMostHeightSpec;
+
     private int mGapSize;
     private int mSmallGapSize;
-
     private Handler mHandler;
 
     public TopBar(Context context, AttributeSet attrs) {
@@ -220,7 +203,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
         mLeftStr = a.getString(R.styleable.TopBar_leftText);
         mLeftTextSize = a.getDimensionPixelSize(R.styleable.TopBar_leftTextSize, 0);
         mLeftTextColor = a.getColorStateList(R.styleable.TopBar_leftTextColor);
-        mLeftTextBackgound = a.getDrawable(R.styleable.TopBar_leftTextBackground);
+        mLeftTextBackground = a.getDrawable(R.styleable.TopBar_leftTextBackground);
         mLeftTextDrawable = a.getDrawable(R.styleable.TopBar_leftTextDrawable);
         mLeftTextDrawablePadding = a.getDimensionPixelSize(R.styleable.TopBar_leftTextDrawablePadding, 0);
         mLeftTextMinWidth = a.getDimensionPixelSize(R.styleable.TopBar_leftTextMinWidth, 0);
@@ -230,8 +213,9 @@ public class TopBar extends ViewGroup implements OnClickListener {
         mLeftImageResId = a.getResourceId(R.styleable.TopBar_leftImage, 0);
         mLeftImageMinWidth = a.getDimensionPixelSize(R.styleable.TopBar_leftImageMinWidth, 0);
         mLeftImageVisibility = a.getInt(R.styleable.TopBar_leftImageVisibility, View.VISIBLE);
+
         mLeftImage2ResId = a.getResourceId(R.styleable.TopBar_leftImage2, 0);
-        mLeftImage2Visibility = a.getInt(R.styleable.TopBar_leftImageVisibility2, View.VISIBLE);
+        mLeftImage2Visibility = a.getInt(R.styleable.TopBar_leftImage2Visibility, View.VISIBLE);
 
         mRightStr = a.getString(R.styleable.TopBar_rightText);
         mRightTextSize = a.getDimensionPixelSize(R.styleable.TopBar_rightTextSize, 0);
@@ -247,7 +231,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
         mRightImageVisibility = a.getInt(R.styleable.TopBar_rightImageVisibility, View.VISIBLE);
         mRightImageMinWidth = a.getDimensionPixelSize(R.styleable.TopBar_rightImageMinWidth, 0);
         mRightImage2ResId = a.getResourceId(R.styleable.TopBar_rightImage2, 0);
-        mRightImage2Visibility = a.getInt(R.styleable.TopBar_rightImageVisibility2, View.VISIBLE);
+        mRightImage2Visibility = a.getInt(R.styleable.TopBar_rightImage2Visibility, View.VISIBLE);
 
         mTitleStr = a.getString(R.styleable.TopBar_text);
         mTitleSize = a.getDimensionPixelSize(R.styleable.TopBar_textSize, getDefaultTextSize(context));
@@ -260,7 +244,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
 
         mTopBarHeight = a.getDimensionPixelOffset(R.styleable.TopBar_android_actionBarSize, getDefaultHeight());
         mBackGround = a.getResourceId(R.styleable.TopBar_android_background, android.R.color.transparent);
-        mItemBackgound = a.getResourceId(R.styleable.TopBar_android_selectableItemBackground, android.R.color.transparent);
+        mItemBackground = a.getResourceId(R.styleable.TopBar_android_selectableItemBackground, android.R.color.transparent);
 
         isClickable = a.getBoolean(R.styleable.TopBar_clickable, false);
         isSecretCode = a.getBoolean(R.styleable.TopBar_secretable, false);
@@ -292,8 +276,8 @@ public class TopBar extends ViewGroup implements OnClickListener {
         }
 
         if (mLeftTextVisibility != GONE && mLeftTextView != null) {
-            if (mLeftTextBackgound != null) {
-                mLeftTextView.measure(MeasureSpec.makeMeasureSpec(width / 3, MeasureSpec.AT_MOST), mAtmostHeightSpec);
+            if (mLeftTextBackground != null) {
+                mLeftTextView.measure(MeasureSpec.makeMeasureSpec(width / 3, MeasureSpec.AT_MOST), mAtMostHeightSpec);
             } else {
                 mLeftTextView.measure(MeasureSpec.makeMeasureSpec(width / 3, MeasureSpec.AT_MOST), mExactlyHeightSpec);
             }
@@ -312,20 +296,20 @@ public class TopBar extends ViewGroup implements OnClickListener {
 
         if (mRightTextVisibility != GONE && mRightTextView != null) {
             if (mRightTextBackground != null) {
-                mRightTextView.measure(MeasureSpec.makeMeasureSpec(width / 3, MeasureSpec.AT_MOST), mAtmostHeightSpec);
+                mRightTextView.measure(MeasureSpec.makeMeasureSpec(width / 3, MeasureSpec.AT_MOST), mAtMostHeightSpec);
             } else {
                 mRightTextView.measure(MeasureSpec.makeMeasureSpec(width / 3, MeasureSpec.AT_MOST), mExactlyHeightSpec);
             }
-            mRightTextViewWidth = mRightTextView.getMeasuredWidth();
+            mRightTextWidth = mRightTextView.getMeasuredWidth();
         }
 
 
         if (mTitleVisibility != GONE && mTitleView != null) {
-            mTitleView.measure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY), mAtmostHeightSpec);
+            mTitleView.measure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY), mAtMostHeightSpec);
         }
 
         if (mSubTitleVisibility != GONE && mSubTitleView != null) {
-            mSubTitleView.measure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY), mAtmostHeightSpec);
+            mSubTitleView.measure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY), mAtMostHeightSpec);
         }
 
     }
@@ -345,7 +329,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
         }
 
         if (mLeftTextVisibility != GONE && mLeftTextView != null) {
-            if (mLeftTextBackgound == null) {
+            if (mLeftTextBackground == null) {
                 mLeftTextView.layout(left, 0, left + mLeftTextViewWidth, mTopBarHeight);
             } else {
                 int _height = mLeftTextView.getMeasuredHeight();
@@ -359,16 +343,16 @@ public class TopBar extends ViewGroup implements OnClickListener {
 
         if (mRightTextVisibility != GONE && mRightTextView != null) {
             if (mRightTextBackground == null) {
-                mRightTextView.layout(right - mRightTextViewWidth, 0, right, mTopBarHeight);
+                mRightTextView.layout(right - mRightTextWidth, 0, right, mTopBarHeight);
             } else {
                 int _height = mRightTextView.getMeasuredHeight();
                 int _top = (mTopBarHeight - _height) / 2;
                 if (right == width) {
                     right -= mGapSize;
                 }
-                mRightTextView.layout(right - mRightTextViewWidth, _top, right, _top + _height);
+                mRightTextView.layout(right - mRightTextWidth, _top, right, _top + _height);
             }
-            right -= mRightTextViewWidth;
+            right -= mRightTextWidth;
         }
         if (mRightImageVisibility != GONE && mRightImageView != null) {
             mRightImageView.layout(right - mRightImageWidth, 0, right, mTopBarHeight);
@@ -381,7 +365,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
 
         final int titleHeight = mTitleVisibility == GONE ? 0 : mTitleView.getMeasuredHeight();
         final int subTitleHeight = mSubTitleVisibility == GONE ? 0 : mSubTitleView.getMeasuredHeight();
-        final int rightTotal = mRightImageWidth + mRightImage2Width + mRightTextViewWidth;
+        final int rightTotal = mRightImageWidth + mRightImage2Width + mRightTextWidth;
         final int leftTotal = mLeftImageWidth + mLeftImage2Width + mLeftTextViewWidth;
 
         top = (mTopBarHeight - titleHeight - subTitleHeight) / 2;
@@ -434,7 +418,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
         mExactlyWidthSpec = MeasureSpec.makeMeasureSpec(mUnitWidth, MeasureSpec.EXACTLY);
         mLeftImageWidthSpec = MeasureSpec.makeMeasureSpec(Math.max(mLeftImageMinWidth, mUnitWidth), MeasureSpec.EXACTLY);
         mRightImageWidthSpec = MeasureSpec.makeMeasureSpec(Math.max(mRightImageMinWidth, mUnitWidth), MeasureSpec.EXACTLY);
-        mAtmostHeightSpec = MeasureSpec.makeMeasureSpec(mTopBarHeight, MeasureSpec.AT_MOST);
+        mAtMostHeightSpec = MeasureSpec.makeMeasureSpec(mTopBarHeight, MeasureSpec.AT_MOST);
         mGapSize = getResources().getDimensionPixelSize(R.dimen.gap_grade_1);
         mSmallGapSize = getResources().getDimensionPixelSize(R.dimen.gap_grade_0);
     }
@@ -480,7 +464,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
         }
 
         if (mLeftBackground == 0) {
-            mLeftBackground = mItemBackgound;
+            mLeftBackground = mItemBackground;
         }
 
 
@@ -493,7 +477,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
         }
 
         if (mRightBackground == 0) {
-            mRightBackground = mItemBackgound;
+            mRightBackground = mItemBackground;
         }
 
 
@@ -648,8 +632,8 @@ public class TopBar extends ViewGroup implements OnClickListener {
             // 至少要这么宽 位了美观
             mLeftTextView.setMinWidth(Math.max(mLeftTextMinWidth, mUnitWidth));
             mLeftTextView.setEllipsize(TextUtils.TruncateAt.END);
-            if (mLeftTextBackgound != null) {
-                mLeftTextView.setBackground(mLeftTextBackgound);
+            if (mLeftTextBackground != null) {
+                mLeftTextView.setBackground(mLeftTextBackground);
             } else {
                 mLeftTextView.setBackgroundResource(mLeftBackground);
             }
@@ -690,7 +674,6 @@ public class TopBar extends ViewGroup implements OnClickListener {
     @SuppressWarnings("UnusedReturnValue")
     public PromptImageView getRightImageView2() {
         if (mRightImage2Visibility == View.GONE) {
-            Log.i(TAG, "getRightImageView2: is visiable gone just not add");
             return null;
         }
 
@@ -756,20 +739,20 @@ public class TopBar extends ViewGroup implements OnClickListener {
         } else if (mTitleDesireWidth >= maxWidth) {
             mTitleView.setPadding(leftTotal + mGapSize, mSmallGapSize, rightTotal + mGapSize, mSmallGapSize);
         } else if (leftTotal > rightTotal) {
-            if (leftTotal == mLeftTextViewWidth && mLeftTextBackgound != null) {
+            if (leftTotal == mLeftTextViewWidth && mLeftTextBackground != null) {
                 leftTotal += mGapSize;
             }
 
-            if (rightTotal == mRightTextViewWidth && mRightTextBackground != null) {
+            if (rightTotal == mRightTextWidth && mRightTextBackground != null) {
                 rightTotal += mGapSize;
             }
             mTitleView.setPadding(leftTotal + mGapSize, mSmallGapSize, rightTotal + difference + mGapSize, mSmallGapSize);
         } else {
-            if (leftTotal == mLeftTextViewWidth && mLeftTextBackgound != null) {
+            if (leftTotal == mLeftTextViewWidth && mLeftTextBackground != null) {
                 leftTotal += mGapSize;
             }
 
-            if (rightTotal == mRightTextViewWidth && mRightTextBackground != null) {
+            if (rightTotal == mRightTextWidth && mRightTextBackground != null) {
                 rightTotal += mGapSize;
             }
             mTitleView.setPadding(leftTotal + mGapSize + difference, mSmallGapSize, rightTotal + mGapSize, mSmallGapSize);

@@ -130,7 +130,7 @@ public class PickerView extends View {
         mUnitTextSize = a.getDimensionPixelSize(R.styleable.PickerView_unitTextSize, getDefaultUnitTextSize());
         mUnselectedTextSize = mSelectedTextSize * UNSELECTED_TEXT_SIZE_RATIO;
 
-        mVisibleCount = a.getInteger(R.styleable.PickerView_visiableCount, DEFAULT_VISIABLE_COUNT);
+        mVisibleCount = a.getInteger(R.styleable.PickerView_visibleCount, DEFAULT_VISIABLE_COUNT);
         a.recycle();
 
         init(context);
