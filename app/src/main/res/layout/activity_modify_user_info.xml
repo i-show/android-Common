@@ -21,7 +21,7 @@
         app:leftImageVisibility="gone"
         app:leftText="@string/modify_user_info_header"
         app:leftTextSize="@dimen/G_title"
-        app:rightImageHeight2="@dimen/dp_56"
-        app:rightImageWidth2="@dimen/dp_56" />
+        app:rightImage2Height="@dimen/dp_56"
+        app:rightImage2Width="@dimen/dp_56" />
 
 </com.ishow.common.widget.watermark.WaterMarkLinearLayout>
