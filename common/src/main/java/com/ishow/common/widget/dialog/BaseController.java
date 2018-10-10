@@ -340,8 +340,8 @@ public class BaseController {
 
         FrameLayout customPanel = null;
         if (mView != null) {
-            customPanel = (FrameLayout) mWindow.findViewById(R.id.customPanel);
-            FrameLayout custom = (FrameLayout) mWindow.findViewById(R.id.custom);
+            customPanel = mWindow.findViewById(R.id.customPanel);
+            FrameLayout custom = mWindow.findViewById(R.id.custom);
             custom.addView(mView, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
             if (mViewSpacingSpecified) {
                 custom.setPadding(mViewSpacingLeft, mViewSpacingTop, mViewSpacingRight,

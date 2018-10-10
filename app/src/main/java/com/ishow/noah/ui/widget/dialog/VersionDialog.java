@@ -30,7 +30,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.ishow.common.utils.DeviceUtils;
 import com.ishow.common.utils.IntentUtils;
-import com.ishow.common.utils.SharedPreferencesUtils;
+import com.ishow.common.utils.StorageUtils;
 import com.ishow.common.utils.log.LogManager;
 import com.ishow.noah.R;
 import com.ishow.noah.entries.Version;
@@ -128,7 +128,9 @@ public class VersionDialog extends Dialog implements View.OnClickListener {
      * 忽略当前版本
      */
     private void ignoreVersion() {
-        SharedPreferencesUtils.save(getContext(), Version.Key.IGNORE_NOW, true);
+        StorageUtils.with(getContext())
+                .param(Version.Key.IGNORE_NOW, true)
+                .save();
 
         if (!mIgnore.isChecked()) {
             return;
@@ -136,10 +138,12 @@ public class VersionDialog extends Dialog implements View.OnClickListener {
 
         Version version = VersionManager.getInstance().getVersion(getContext());
         if (version == null) {
-            Log.i(TAG, "init: verison is null");
+            Log.i(TAG, "init: version is null");
             return;
         }
 
-        SharedPreferencesUtils.save(getContext(), Version.Key.IGNORE_VERSION, JSON.toJSONString(version));
+        StorageUtils.with(getContext())
+                .param(Version.Key.IGNORE_VERSION, JSON.toJSONString(version))
+                .save();
     }
 }

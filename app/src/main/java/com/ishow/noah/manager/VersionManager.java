@@ -23,7 +23,6 @@ import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.ishow.common.utils.AppUtils;
-import com.ishow.common.utils.SharedPreferencesUtils;
 import com.ishow.common.utils.StorageUtils;
 import com.ishow.common.utils.http.rest.Http;
 import com.ishow.common.utils.http.rest.HttpError;
@@ -226,6 +225,6 @@ public class VersionManager {
         if (!isFirstEnterThisVersion) {
             return;
         }
-        SharedPreferencesUtils.cleanCache(context);
+        CacheManager.getInstance().clearCache(context);
     }
 }

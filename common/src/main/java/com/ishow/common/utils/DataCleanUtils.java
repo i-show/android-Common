@@ -42,14 +42,6 @@ public class DataCleanUtils {
         deleteFilesByDirectory(file);
     }
 
-    /**
-     * 清除本应用SharedPreference(/data/data/com.xxx.xxx/shared_prefs)
-     */
-    @SuppressWarnings("WeakerAccess")
-    public static void cleanSharedPreference(Context context) {
-        // 只能清除 保存在cache里面的
-        SharedPreferencesUtils.cleanCache(context);
-    }
 
     /**
      * 按名字清除本应用数据库
@@ -91,7 +83,6 @@ public class DataCleanUtils {
         cleanInternalCache(context);
         cleanExternalCache(context);
         cleanDatabases(context);
-        cleanSharedPreference(context);
         cleanFiles(context);
         for (String filePath : filepath) {
             cleanCustomCache(filePath);

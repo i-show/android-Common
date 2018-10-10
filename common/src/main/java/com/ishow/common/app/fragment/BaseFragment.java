@@ -22,17 +22,13 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.ishow.common.R;
 import com.ishow.common.mvp.base.IViewStatus;
-import com.ishow.common.utils.SharedPreferencesUtils;
 import com.ishow.common.utils.ToastUtils;
 import com.ishow.common.utils.http.rest.Http;
 import com.ishow.common.utils.permission.PermissionManager;
@@ -64,17 +60,6 @@ public abstract class BaseFragment extends Fragment implements
         super.onCreate(savedInstanceState);
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -87,25 +72,6 @@ public abstract class BaseFragment extends Fragment implements
         PermissionManager.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
     }
 
-    //************************ 数据保存区域*********************** //
-
-
-    //************************ 数据保存区域*********************** //
-    protected void save(String key, Object value) {
-        save(key, value, false);
-    }
-
-    protected void save(String key, Object value, boolean isCache) {
-        SharedPreferencesUtils.save(getActivity(), key, value, isCache);
-    }
-
-    protected <T> T get(String key, T defaultValue) {
-        return get(key, defaultValue, false);
-    }
-
-    protected <T> T get(String key, T defaultValue, boolean isCache) {
-        return SharedPreferencesUtils.get(getActivity(), key, defaultValue, isCache);
-    }
     //************************ 重写 各种事件区域*********************** //
 
     /**
@@ -287,7 +253,7 @@ public abstract class BaseFragment extends Fragment implements
         bulider.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (finishSelf) {
+                if (finishSelf && getActivity() != null) {
                     getActivity().finish();
                 }
             }

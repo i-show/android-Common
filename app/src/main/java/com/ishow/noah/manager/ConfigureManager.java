@@ -28,7 +28,7 @@ import java.lang.ref.WeakReference;
 
 public class ConfigureManager {
     private static final String TAG = "ConfigureManager";
-    /**s
+    /**
      * 这个东西使用后可以被回收
      */
     private volatile static WeakReference<ConfigureManager> sInstance;
