@@ -2,7 +2,6 @@ package com.ishow.noah.modules.init.splash;
 
 import android.Manifest;
 import android.content.Context;
-import android.os.Handler;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -108,7 +107,7 @@ class SplashPresenter implements SplashContract.Presenter {
 
     @Override
     public int getTarget() {
-        if (VersionManager.isFirstEnterThisVerison()) {
+        if (VersionManager.isFirstEnterThisVersion()) {
             return Target.GUIDE;
         }
         return mLoginSuccess ? Target.MAIN : Target.LOGIN;

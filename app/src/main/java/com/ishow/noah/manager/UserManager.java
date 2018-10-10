@@ -37,9 +37,6 @@ public class UserManager {
 
     private UserContainer mUserContainer;
 
-    // 暂时用来模拟登录
-    private Handler mHandler = new Handler();
-
     private UserManager() {
     }
 

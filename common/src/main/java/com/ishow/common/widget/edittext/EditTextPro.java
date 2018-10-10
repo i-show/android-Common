@@ -58,7 +58,10 @@ import com.ishow.common.widget.textview.PromptTextView;
 @SuppressWarnings("unused")
 public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener, View.OnClickListener {
     private static final String TAG = "EditTextPro";
-
+    /**
+     * 默认线的高度
+     */
+    private static final int DEFAULT_LINE_HEIGHT = 2;
     /**
      * 左边的View
      */
@@ -137,16 +140,26 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     private Drawable mRightImageBackgroundDrawable;
     private int mRightImageVisibility;
     /**
-     * 最底部的线
+     * 顶部的线
+     */
+    private Paint mTopLinePaint;
+    private int mTopLineHeight;
+    private int mTopLineNormalColor;
+    private int mTopLineFocusColor;
+    private int mTopLineVisibility;
+    private int mTopLinePaddingStart;
+    private int mTopLinePaddingEnd;
+    /**
+     * 底部的线
      */
     private Paint mBottomLinePaint;
-    private int mNormalColor;
-    private int mFocusColor;
-    private int mLineHeight;
-    private int mLineColor;
-    private int mLineVisibility;
-    private int mLinePaddingStart;
-    private int mLinePaddingEnd;
+    private int mBottomLineHeight;
+    private int mBottomLineNormalColor;
+    private int mBottomLineFocusColor;
+    private int mBottomLineVisibility;
+    private int mBottomLinePaddingStart;
+    private int mBottomLinePaddingEnd;
+
     /**
      * 自定义插入View
      */
@@ -227,12 +240,19 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         mRightImageBackgroundDrawable = a.getDrawable(R.styleable.EditTextPro_rightImageBackground);
         mRightImageVisibility = a.getInt(R.styleable.EditTextPro_rightImageVisibility, View.VISIBLE);
 
-        mNormalColor = a.getColor(R.styleable.EditTextPro_normalColor, getDefaultNormalColor());
-        mFocusColor = a.getColor(R.styleable.EditTextPro_focusColor, getDefaultFocusColor());
-        mLineHeight = a.getDimensionPixelSize(R.styleable.EditTextPro_lineHeight, 0);
-        mLineVisibility = a.getInt(R.styleable.EditTextPro_lineVisibility, View.VISIBLE);
-        mLinePaddingStart = a.getDimensionPixelSize(R.styleable.EditTextPro_linePaddingStart, 0);
-        mLinePaddingEnd = a.getDimensionPixelSize(R.styleable.EditTextPro_linePaddingEnd, 0);
+        mTopLineHeight = a.getDimensionPixelSize(R.styleable.EditTextPro_topLineHeight, DEFAULT_LINE_HEIGHT);
+        mTopLineNormalColor = a.getColor(R.styleable.EditTextPro_topLineNormalColor, getDefaultNormalColor());
+        mTopLineFocusColor = a.getColor(R.styleable.EditTextPro_topLineFocusColor, getDefaultFocusColor());
+        mTopLineVisibility = a.getInt(R.styleable.EditTextPro_topLineVisibility, View.GONE);
+        mTopLinePaddingStart = a.getDimensionPixelSize(R.styleable.EditTextPro_topLinePaddingStart, 0);
+        mTopLinePaddingEnd = a.getDimensionPixelSize(R.styleable.EditTextPro_topLinePaddingEnd, 0);
+
+        mBottomLineHeight = a.getDimensionPixelSize(R.styleable.EditTextPro_bottomLineHeight, DEFAULT_LINE_HEIGHT);
+        mBottomLineNormalColor = a.getColor(R.styleable.EditTextPro_bottomLineNormalColor, getDefaultNormalColor());
+        mBottomLineFocusColor = a.getColor(R.styleable.EditTextPro_bottomLineFocusColor, getDefaultFocusColor());
+        mBottomLineVisibility = a.getInt(R.styleable.EditTextPro_bottomLineVisibility, View.VISIBLE);
+        mBottomLinePaddingStart = a.getDimensionPixelSize(R.styleable.EditTextPro_bottomLinePaddingStart, 0);
+        mBottomLinePaddingEnd = a.getDimensionPixelSize(R.styleable.EditTextPro_bottomLinePaddingEnd, 0);
 
         mCustomizeViewId = a.getResourceId(R.styleable.EditTextPro_customizeViewId, 0);
         mCustomizeViewIndex = a.getInt(R.styleable.EditTextPro_customizeViewIndex, -1);
@@ -259,10 +279,20 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
 
         mSuggestIconWidth = getContext().getResources().getDimensionPixelSize(R.dimen.dp_40);
         mSuggestCancelWidth = getContext().getResources().getDimensionPixelSize(R.dimen.dp_30);
+
+        mTopLinePaint = new Paint();
+        mTopLinePaint.setDither(true);
+        mTopLinePaint.setAntiAlias(true);
+        mTopLinePaint.setColor(mTopLineNormalColor);
+        //noinspection SuspiciousNameCombination
+        mTopLinePaint.setStrokeWidth(mTopLineHeight);
+
         mBottomLinePaint = new Paint();
         mBottomLinePaint.setDither(true);
         mBottomLinePaint.setAntiAlias(true);
-        mBottomLinePaint.setColor(mNormalColor);
+        mBottomLinePaint.setColor(mBottomLineNormalColor);
+        //noinspection SuspiciousNameCombination
+        mBottomLinePaint.setStrokeWidth(mBottomLineHeight);
     }
 
     private void initView() {
@@ -469,7 +499,8 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        mBottomLinePaint.setColor(hasFocus ? mFocusColor : mNormalColor);
+        mTopLinePaint.setColor(hasFocus ? mTopLineFocusColor : mTopLineNormalColor);
+        mBottomLinePaint.setColor(hasFocus ? mBottomLineFocusColor : mBottomLineNormalColor);
         invalidate();
     }
 
@@ -495,8 +526,14 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         int width = getMeasuredWidth();
         int height = getMeasuredHeight();
 
-        if (mLineVisibility == VISIBLE) {
-            canvas.drawLine(mLinePaddingStart, height - mLineHeight, width - mLinePaddingEnd, height, mBottomLinePaint);
+        if (mTopLineVisibility == VISIBLE) {
+            //noinspection SuspiciousNameCombination
+            canvas.drawLine(mTopLinePaddingStart, mTopLineHeight, width - mTopLinePaddingEnd, mTopLineHeight, mTopLinePaint);
+        }
+
+        if (mBottomLineVisibility == VISIBLE) {
+            //noinspection SuspiciousNameCombination
+            canvas.drawLine(mBottomLinePaddingStart, height - mBottomLineHeight, width - mBottomLinePaddingEnd, height - mBottomLineHeight, mBottomLinePaint);
         }
     }
 
@@ -846,7 +883,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     }
 
     public void setBottomLineVisibility(int visibility) {
-        mLineVisibility = visibility;
+        mBottomLineVisibility = visibility;
         postInvalidate();
     }
 

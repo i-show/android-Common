@@ -14,6 +14,7 @@ import com.ishow.noah.R;
 import com.ishow.noah.entries.UserContainer;
 import com.ishow.noah.modules.account.modify.ModifyUserInfoActivity;
 import com.ishow.noah.modules.base.AppBaseFragment;
+import com.ishow.noah.modules.settings.SettingsActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -83,12 +84,17 @@ public class MineFragment extends AppBaseFragment implements MineContract.View {
         mNameView.setText(userContainer.getUser().getNickName());
     }
 
-    @OnClick(R.id.modify_user_info)
+    @OnClick({R.id.modify_user_info, R.id.settings})
     public void onViewClicked(View view) {
         switch (view.getId()){
             case R.id.modify_user_info:
                 AppRouter.with(getContext())
                         .target(ModifyUserInfoActivity.class)
+                        .start();
+                break;
+            case R.id.settings:
+                AppRouter.with(getContext())
+                        .target(SettingsActivity.class)
                         .start();
                 break;
         }

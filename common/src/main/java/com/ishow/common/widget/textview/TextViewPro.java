@@ -31,7 +31,6 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -51,6 +50,10 @@ import com.ishow.common.widget.prompt.IPrompt;
 @SuppressWarnings("unused")
 public class TextViewPro extends ViewGroup {
     private static final String TAG = "TextViewPro";
+    /**
+     * 默认线的高度
+     */
+    private static final int DEFAULT_LINE_HEIGHT = 2;
 
     /**
      * 左边的View
@@ -138,12 +141,19 @@ public class TextViewPro extends ViewGroup {
     private int mRightImage2Height;
     private int mRightImage2Visibility;
 
-    private Paint mLinePaint;
-    private int mLineHeight;
-    private int mLineColor;
-    private int mLineVisibility;
-    private int mLinePaddingStart;
-    private int mLinePaddingEnd;
+    private Paint mTopLinePaint;
+    private int mTopLineHeight;
+    private int mTopLineColor;
+    private int mTopLineVisibility;
+    private int mTopLinePaddingStart;
+    private int mTopLinePaddingEnd;
+
+    private Paint mBottomLinePaint;
+    private int mBottomLineHeight;
+    private int mBottomLineColor;
+    private int mBottomLineVisibility;
+    private int mBottomLinePaddingStart;
+    private int mBottomLinePaddingEnd;
 
     /**
      * 自定义插入View
@@ -232,11 +242,17 @@ public class TextViewPro extends ViewGroup {
         mRightImage2Width = a.getDimensionPixelSize(R.styleable.TextViewPro_rightImage2Width, 0);
         mRightImage2Height = a.getDimensionPixelSize(R.styleable.TextViewPro_rightImage2Height, 0);
 
-        mLineHeight = a.getDimensionPixelSize(R.styleable.TextViewPro_lineHeight, 0);
-        mLineColor = a.getColor(R.styleable.TextViewPro_lineColor, getDefaultLineColor());
-        mLineVisibility = a.getInt(R.styleable.TextViewPro_lineVisibility, View.VISIBLE);
-        mLinePaddingStart = a.getDimensionPixelSize(R.styleable.TextViewPro_linePaddingStart, 0);
-        mLinePaddingEnd = a.getDimensionPixelSize(R.styleable.TextViewPro_linePaddingEnd, 0);
+        mTopLineHeight = a.getDimensionPixelSize(R.styleable.TextViewPro_topLineHeight, DEFAULT_LINE_HEIGHT);
+        mTopLineColor = a.getColor(R.styleable.TextViewPro_topLineColor, getDefaultLineColor());
+        mTopLineVisibility = a.getInt(R.styleable.TextViewPro_topLineVisibility, View.GONE);
+        mTopLinePaddingStart = a.getDimensionPixelSize(R.styleable.TextViewPro_topLinePaddingStart, 0);
+        mTopLinePaddingEnd = a.getDimensionPixelSize(R.styleable.TextViewPro_topLinePaddingEnd, 0);
+
+        mBottomLineHeight = a.getDimensionPixelSize(R.styleable.TextViewPro_bottomLineHeight, DEFAULT_LINE_HEIGHT);
+        mBottomLineColor = a.getColor(R.styleable.TextViewPro_bottomLineColor, getDefaultLineColor());
+        mBottomLineVisibility = a.getInt(R.styleable.TextViewPro_bottomLineVisibility, View.VISIBLE);
+        mBottomLinePaddingStart = a.getDimensionPixelSize(R.styleable.TextViewPro_bottomLinePaddingStart, 0);
+        mBottomLinePaddingEnd = a.getDimensionPixelSize(R.styleable.TextViewPro_bottomLinePaddingEnd, 0);
 
         mCustomizeViewId = a.getResourceId(R.styleable.TextViewPro_customizeViewId, 0);
         mCustomizeViewIndex = a.getInt(R.styleable.TextViewPro_customizeViewIndex, -1);
@@ -252,10 +268,17 @@ public class TextViewPro extends ViewGroup {
 
     private void initNecessaryData() {
         mSuggestIconWidth = getContext().getResources().getDimensionPixelSize(R.dimen.dp_40);
-        mLinePaint = new Paint();
-        mLinePaint.setDither(true);
-        mLinePaint.setAntiAlias(true);
-        mLinePaint.setColor(mLineColor);
+        mTopLinePaint = new Paint();
+        mTopLinePaint.setDither(true);
+        mTopLinePaint.setAntiAlias(true);
+        mTopLinePaint.setColor(mTopLineColor);
+        mTopLinePaint.setStrokeWidth(mTopLineHeight);
+
+        mBottomLinePaint = new Paint();
+        mBottomLinePaint.setDither(true);
+        mBottomLinePaint.setAntiAlias(true);
+        mBottomLinePaint.setColor(mBottomLineColor);
+        mBottomLinePaint.setStrokeWidth(mBottomLineHeight);
     }
 
     private void initView() {
@@ -430,7 +453,7 @@ public class TextViewPro extends ViewGroup {
             int width = mLeftTextView.getMeasuredWidth();
             mLeftTextView.layout(left, top, left + width, bottom);
             left = left + width + mLeftTextRightMargin;
-            index ++;
+            index++;
         }
         left = layoutCustomize(left, index);
 
@@ -439,7 +462,7 @@ public class TextViewPro extends ViewGroup {
         int g = mTextView.getGravity();
         mTextView.layout(left, top, left + inputWidth, bottom);
         left = left + inputWidth + mTextRightMargin;
-        index ++;
+        index++;
         left = layoutCustomize(left, index);
 
         if (mRightTextView != null && mRightTextView.getVisibility() != View.GONE) {
@@ -448,7 +471,7 @@ public class TextViewPro extends ViewGroup {
             int _top = (getMeasuredHeight() - height) / 2;
             mRightTextView.layout(left, _top, left + width, _top + height);
             left = left + width + mRightTextRightMargin;
-            index ++;
+            index++;
         }
 
         left = layoutCustomize(left, index);
@@ -459,7 +482,7 @@ public class TextViewPro extends ViewGroup {
             int _top = (getMeasuredHeight() - height) / 2;
             mRightImageView2.layout(left, _top, left + width, _top + height);
             left = left + width;
-            index ++;
+            index++;
         }
         left = layoutCustomize(left, index);
 
@@ -471,8 +494,7 @@ public class TextViewPro extends ViewGroup {
         }
 
         index = -1;
-        left = layoutCustomize(left, index);
-
+        layoutCustomize(left, index);
     }
 
     /**
@@ -498,8 +520,14 @@ public class TextViewPro extends ViewGroup {
         int width = getMeasuredWidth();
         int height = getMeasuredHeight();
 
-        if (mLineVisibility == VISIBLE) {
-            canvas.drawLine(mLinePaddingStart, height - mLineHeight, width - mLinePaddingEnd, height, mLinePaint);
+        if (mTopLineVisibility == VISIBLE) {
+            //noinspection SuspiciousNameCombination
+            canvas.drawLine(mTopLinePaddingStart, mTopLineHeight, width - mTopLinePaddingEnd, mTopLineHeight, mTopLinePaint);
+        }
+
+        if (mBottomLineVisibility == VISIBLE) {
+            //noinspection SuspiciousNameCombination
+            canvas.drawLine(mBottomLinePaddingStart, height - mBottomLineHeight, width - mBottomLinePaddingEnd, height - mBottomLineHeight, mBottomLinePaint);
         }
     }
 
@@ -594,7 +622,7 @@ public class TextViewPro extends ViewGroup {
             if (mRightTextPadding > 0) {
                 //noinspection SuspiciousNameCombination
                 mRightTextView.setPadding(mRightTextPadding, mRightTextPadding, mRightTextPadding, mRightTextPadding);
-            }else if(mRightTextPaddingVertical > 0 || mRightTextPaddingHorizontal > 0){
+            } else if (mRightTextPaddingVertical > 0 || mRightTextPaddingHorizontal > 0) {
                 //noinspection SuspiciousNameCombination
                 mRightTextView.setPadding(mRightTextPaddingHorizontal, mRightTextPaddingVertical, mRightTextPaddingHorizontal, mRightTextPaddingVertical);
             }

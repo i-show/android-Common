@@ -312,12 +312,6 @@
         <enum name="gone" value="8" />
     </attr>
 
-    <attr name="bottomLineVisibility">
-        <enum name="visible" value="0" />
-        <enum name="invisible" value="4" />
-        <enum name="gone" value="8" />
-    </attr>
-
     <attr name="cancelVisibility">
         <enum name="visible" value="0" />
         <enum name="invisible" value="4" />
@@ -335,8 +329,33 @@
         <enum name="gone" value="8" />
     </attr>
 
+    <attr name="topLineColor" format="color" />
+    <attr name="topLineNormalColor" format="color" />
+    <attr name="topLineFocusColor" format="color" />
+    <attr name="topLinePaddingRatio" format="float" />
+    <attr name="topLineHeight" format="dimension" />
+    <attr name="topLinePaddingStart" format="dimension" />
+    <attr name="topLinePaddingEnd" format="dimension" />
+    <attr name="topLineVisibility">
+        <enum name="visible" value="0" />
+        <enum name="invisible" value="4" />
+        <enum name="gone" value="8" />
+    </attr>
+
+    <attr name="bottomLineColor" format="color" />
+    <attr name="bottomLineNormalColor" format="color" />
+    <attr name="bottomLineFocusColor" format="color" />
+    <attr name="bottomLinePaddingRatio" format="float" />
     <attr name="bottomLineHeight" format="dimension" />
+    <attr name="bottomLinePaddingStart" format="dimension" />
+    <attr name="bottomLinePaddingEnd" format="dimension" />
     <attr name="bottomLineWithPadding" format="boolean" />
+    <attr name="bottomLineVisibility">
+        <enum name="visible" value="0" />
+        <enum name="invisible" value="4" />
+        <enum name="gone" value="8" />
+    </attr>
+
 
     <attr name="hasEmptyView" format="boolean" />
     <attr name="normalColor" format="color" />
@@ -620,10 +639,10 @@
     <attr name="customizeMarginStart" format="dimension" />
     <attr name="customizeMarginEnd" format="dimension" />
 
-    <attr name="widthRatio" format="integer"/>
-    <attr name="heightRatio" format="integer"/>
-    <attr name="indicatorRadius" format="dimension"/>
-    <attr name="indicatorColor" format="color"/>
+    <attr name="widthRatio" format="integer" />
+    <attr name="heightRatio" format="integer" />
+    <attr name="indicatorRadius" format="dimension" />
+    <attr name="indicatorColor" format="color" />
 
     <attr name="dashColor" format="color" />
     <attr name="dashGap" format="dimension" />
@@ -944,12 +963,20 @@
         <attr name="rightImageBackground" />
         <attr name="rightImageVisibility" />
 
-        <attr name="normalColor" />
-        <attr name="focusColor" />
-        <attr name="lineHeight" />
-        <attr name="linePaddingStart" />
-        <attr name="linePaddingEnd" />
-        <attr name="lineVisibility" />
+        <attr name="topLineNormalColor" />
+        <attr name="topLineFocusColor" />
+        <attr name="topLineHeight" />
+        <attr name="topLinePaddingStart" />
+        <attr name="topLinePaddingEnd" />
+        <attr name="topLineVisibility" />
+
+        <attr name="bottomLineNormalColor" />
+        <attr name="bottomLineFocusColor" />
+        <attr name="bottomLineHeight" />
+        <attr name="bottomLinePaddingStart" />
+        <attr name="bottomLinePaddingEnd" />
+        <attr name="bottomLineVisibility" />
+
 
         <attr name="customizeViewId" />
         <attr name="customizeViewIndex" />
@@ -1014,11 +1041,17 @@
         <attr name="rightImage2Background" />
         <attr name="rightImage2Visibility" />
 
-        <attr name="lineColor" />
-        <attr name="lineHeight" />
-        <attr name="linePaddingStart" />
-        <attr name="linePaddingEnd" />
-        <attr name="lineVisibility" />
+        <attr name="topLineColor" />
+        <attr name="topLineHeight" />
+        <attr name="topLinePaddingStart" />
+        <attr name="topLinePaddingEnd" />
+        <attr name="topLineVisibility" />
+
+        <attr name="bottomLineColor" />
+        <attr name="bottomLineHeight" />
+        <attr name="bottomLinePaddingStart" />
+        <attr name="bottomLinePaddingEnd" />
+        <attr name="bottomLineVisibility" />
 
         <attr name="customizeViewId" />
         <attr name="customizeViewIndex" />
@@ -1075,8 +1108,8 @@
     </declare-styleable>
 
     <declare-styleable name="LoopingViewPager">
-        <attr name="widthRatio"/>
-        <attr name="heightRatio"/>
+        <attr name="widthRatio" />
+        <attr name="heightRatio" />
     </declare-styleable>
 
     <declare-styleable name="WaterMarkLinearLayout">

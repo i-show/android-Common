@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2016 The yuhaiyang Android Source Project
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,6 +24,7 @@ import android.util.Log;
 import com.alibaba.fastjson.JSON;
 import com.ishow.common.utils.AppUtils;
 import com.ishow.common.utils.SharedPreferencesUtils;
+import com.ishow.common.utils.StorageUtils;
 import com.ishow.common.utils.http.rest.Http;
 import com.ishow.common.utils.http.rest.HttpError;
 import com.ishow.common.utils.log.LogManager;
@@ -37,17 +38,16 @@ import java.lang.ref.WeakReference;
 /**
  * 版本管理器
  */
-
 public class VersionManager {
     private static final String TAG = "VersionManager";
     /**
      * 这个东西使用后可以被回收
      */
-    private volatile static WeakReference<VersionManager> sIntance;
+    private volatile static WeakReference<VersionManager> sInstance;
     /**
      * 是否是第一次进入当前版本
      */
-    private static boolean isFirstEnterThisVerison;
+    private static boolean isFirstEnterThisVersion;
     /**
      * 从服务器中获取到的版本信息
      */
@@ -58,27 +58,27 @@ public class VersionManager {
 
     public static VersionManager getInstance() {
 
-        if (sIntance == null || sIntance.get() == null) {
+        if (sInstance == null || sInstance.get() == null) {
             synchronized (VersionManager.class) {
-                if (sIntance == null || sIntance.get() == null) {
+                if (sInstance == null || sInstance.get() == null) {
                     VersionManager manager = new VersionManager();
-                    sIntance = new WeakReference<>(manager);
+                    sInstance = new WeakReference<>(manager);
                 }
             }
         }
 
-        return sIntance.get();
+        return sInstance.get();
     }
 
     public void init(SplashActivity context) {
         clear(context.getApplicationContext());
-        isFirstEnterThisVerison = checkIsFirstEnterThisVerison(context.getApplicationContext());
+        isFirstEnterThisVersion = checkIsFirstEnterThisVerison(context.getApplicationContext());
         getVersionFromServer(context.getApplicationContext());
         cleanCache(context);
     }
 
-    public static boolean isFirstEnterThisVerison() {
-        return isFirstEnterThisVerison;
+    public static boolean isFirstEnterThisVersion() {
+        return isFirstEnterThisVersion;
     }
 
     /**
@@ -86,8 +86,14 @@ public class VersionManager {
      */
     private static boolean checkIsFirstEnterThisVerison(Context context) {
         // 获取之前保存的版本信息
-        final int versionCode = SharedPreferencesUtils.get(context, AppUtils.VERSION_CODE, 0);
-        final String versionName = SharedPreferencesUtils.get(context, AppUtils.VERSION_NAME, null);
+        final int versionCode = StorageUtils.with(context)
+                .key(AppUtils.VERSION_CODE)
+                .get(0);
+
+        final String versionName = StorageUtils.with(context)
+                .key(AppUtils.VERSION_NAME)
+                .get(null);
+
         // 获取当前版本号
         final int _versionCode = AppUtils.getVersionCode(context);
         final String _versionName = AppUtils.getVersionName(context);
@@ -95,8 +101,13 @@ public class VersionManager {
         Log.d(TAG, "originVersionName = " + versionName + " ,localVersionName = " + _versionName);
 
         // 保存现在的版本号
-        SharedPreferencesUtils.save(context, AppUtils.VERSION_CODE, _versionCode);
-        SharedPreferencesUtils.save(context, AppUtils.VERSION_NAME, _versionName);
+        StorageUtils.with(context)
+                .param(AppUtils.VERSION_CODE, _versionCode)
+                .save();
+
+        StorageUtils.with(context)
+                .param(AppUtils.VERSION_NAME, _versionName)
+                .save();
 
         // 如果当前版本比保存的版本大，说明APP更新了
         // 版本名称不相等且版本code比上一个版本大 才进行走ViewPager
@@ -105,7 +116,10 @@ public class VersionManager {
 
 
     public boolean hasNewVersion(Context context) {
-        boolean ignore = SharedPreferencesUtils.get(context, Version.Key.IGNORE_NOW, false);
+        boolean ignore = StorageUtils.with(context)
+                .key(Version.Key.IGNORE_NOW)
+                .get(false);
+
         if (ignore) {
             Log.i(TAG, "hasNewVersion: already ignore");
             return false;
@@ -121,7 +135,7 @@ public class VersionManager {
         // 如果当前要升级的版本 比忽略的版本还要低就不进行升级
         Version ignoreVersion = getIgnoreVersion(context);
         if (ignoreVersion != null && ignoreVersion.versionCode >= version.versionCode) {
-            Log.i(TAG, "hasNewVersion: ignore this verison");
+            Log.i(TAG, "hasNewVersion: ignore this version");
             return false;
         }
 
@@ -131,7 +145,9 @@ public class VersionManager {
 
     public Version getVersion(Context context) {
         if (mVersion == null) {
-            String cache = SharedPreferencesUtils.get(context, Version.Key.CACHE, null);
+            String cache = StorageUtils.with(context)
+                    .key(Version.Key.CACHE)
+                    .get(null);
             makeVersion(cache);
         }
         return mVersion;
@@ -139,7 +155,9 @@ public class VersionManager {
 
 
     private Version getIgnoreVersion(Context context) {
-        String cache = SharedPreferencesUtils.get(context, Version.Key.IGNORE_VERSION, null);
+        String cache = StorageUtils.with(context)
+                .key(Version.Key.IGNORE_VERSION)
+                .get(null);
         if (TextUtils.isEmpty(cache)) {
             return null;
         } else {
@@ -159,8 +177,12 @@ public class VersionManager {
      * 清除缓存
      */
     private static void clear(Context context) {
-        SharedPreferencesUtils.remove(context, Version.Key.CACHE);
-        SharedPreferencesUtils.remove(context, Version.Key.IGNORE_NOW);
+        StorageUtils.with(context)
+                .key(Version.Key.CACHE)
+                .remove();
+        StorageUtils.with(context)
+                .key(Version.Key.IGNORE_NOW)
+                .remove();
     }
 
     /**
@@ -182,19 +204,26 @@ public class VersionManager {
 
                     @Override
                     protected void onSuccess(String result) {
-                        String cache = SharedPreferencesUtils.get(context, Version.Key.CACHE, null);
+                        String cache = StorageUtils.with(context)
+                                .key(Version.Key.CACHE)
+                                .get(null);
+
                         if (!TextUtils.equals(cache, result)) {
-                            SharedPreferencesUtils.remove(context, Version.Key.IGNORE_VERSION);
+                            StorageUtils.with(context)
+                                    .key(Version.Key.IGNORE_VERSION)
+                                    .remove();
                         }
 
-                        SharedPreferencesUtils.save(context, Version.Key.CACHE, result);
+                        StorageUtils.with(context)
+                                .param(Version.Key.CACHE, result)
+                                .save();
                         makeVersion(result);
                     }
                 });
     }
 
     private void cleanCache(Context context) {
-        if (!isFirstEnterThisVerison) {
+        if (!isFirstEnterThisVersion) {
             return;
         }
         SharedPreferencesUtils.cleanCache(context);

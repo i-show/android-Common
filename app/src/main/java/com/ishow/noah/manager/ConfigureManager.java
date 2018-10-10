@@ -28,10 +28,10 @@ import java.lang.ref.WeakReference;
 
 public class ConfigureManager {
     private static final String TAG = "ConfigureManager";
-    /**
+    /**s
      * 这个东西使用后可以被回收
      */
-    private volatile static WeakReference<ConfigureManager> sIntance;
+    private volatile static WeakReference<ConfigureManager> sInstance;
 
 
 
@@ -40,18 +40,22 @@ public class ConfigureManager {
 
     public static ConfigureManager getInstance() {
 
-        if (sIntance == null || sIntance.get() == null) {
+        if (sInstance == null || sInstance.get() == null) {
             synchronized (ConfigureManager.class) {
-                if (sIntance == null || sIntance.get() == null) {
+                if (sInstance == null || sInstance.get() == null) {
                     ConfigureManager manager = new ConfigureManager();
-                    sIntance = new WeakReference<>(manager);
+                    sInstance = new WeakReference<>(manager);
                 }
             }
         }
 
-        return sIntance.get();
+        return sInstance.get();
     }
 
+    /**
+     * 配置文件初始化
+     */
+    @SuppressWarnings("unused")
     public void init(SplashActivity context) {
         //noinspection ConstantConditions
         WaterMarkHelp.show(BuildConfig.VERSION_TYPE != BuildConfig.VERSION_PROD);
