@@ -513,7 +513,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     }
 
     private void cancel() {
-        String text = mInputView.getText().toString().trim();
+        String text = getInputText();
         if (!TextUtils.isEmpty(text)) {
             notifyCancel();
         }
@@ -829,7 +829,12 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     }
 
     public String getInputText() {
-        return mInputView.getText().toString().trim();
+        Editable inputText = mInputView.getText();
+        if(inputText == null){
+            return StringUtils.EMPTY;
+        }else{
+            return inputText.toString().trim();
+        }
     }
 
     public void setInputText(@StringRes int textRes) {
