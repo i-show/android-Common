@@ -16,13 +16,13 @@
 
 <resources>
     <!-- 默认的取值分页从第几页开始  可能在主project 进行修改-->
-    <integer name="default_pager_number">0</integer>
+    <integer name="default_pager_number">1</integer>
 
     <!-- topBar的默认值 -->
-    <dimen name="top_bar_height">@dimen/dp_50</dimen>
     <dimen name="dialog_top_bar_height">@dimen/dp_46</dimen>
+    <dimen name="top_bar_height">@dimen/dp_50</dimen>
     <dimen name="top_bar_title_text_size">@dimen/G_title</dimen>
     <dimen name="top_bar_sub_title_text_size">@dimen/K_title</dimen>
 
-    <dimen name="item_height">@dimen/dp_50</dimen>
+    <dimen name="item_height">@dimen/dp_48</dimen>
 </resources>

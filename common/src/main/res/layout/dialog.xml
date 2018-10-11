@@ -90,19 +90,13 @@
             android:showDividers="middle">
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/negative"
                 style="?attr/dialogButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <Button
-                android:id="@+id/button3"
-                style="?attr/dialogButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <Button
-                android:id="@+id/button1"
+                android:id="@+id/positive"
                 style="?attr/dialogButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

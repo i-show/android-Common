@@ -1,6 +1,7 @@
 package com.ishow.noah.modules.sample.main;
 
 import com.ishow.noah.R;
+import com.ishow.noah.modules.sample.dialog.normal.SampleBaseDialogActivity;
 import com.ishow.noah.modules.sample.dialog.select.SampleSelectDialogAndPickerDialog;
 import com.ishow.noah.modules.sample.edittextpro.SampleEditTextProActivity;
 import com.ishow.noah.modules.sample.entries.Sample;
@@ -57,6 +58,7 @@ public class SampleManager {
         list.add(Sample.newInstance(R.string.sample_picker_and_select, SampleSelectDialogAndPickerDialog.class));
         list.add(Sample.newInstance(R.string.sample_loading_webview, SampleLoadingWebViewActivity.class));
         list.add(Sample.newInstance(R.string.sample_pull_to_refresh, SamplePullToRefreshActivity.class));
+        list.add(Sample.newInstance(R.string.sample_base_dialog, SampleBaseDialogActivity.class));
         return list;
     }
 }

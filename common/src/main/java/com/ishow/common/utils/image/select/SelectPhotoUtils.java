@@ -250,7 +250,7 @@ public class SelectPhotoUtils implements
             mSelectDialog = new BaseDialog.Builder(mActivity, R.style.Theme_Dialog_Bottom_IOS_NoTitle)
                     .setTitle(R.string.select_photo_title)
                     .setNegativeButton(R.string.cancel, null)
-                    .isShowFromBottom(true)
+                    .fromBottom(true)
                     .setItems(R.array.select_photos, this)
                     .setOnDismissListener(this)
                     .create();

@@ -162,7 +162,7 @@
         <!--Settings the Dialog Title-->
         <item name="android:listPreferredItemHeightSmall">@dimen/item_height</item>
         <item name="dialogTitleStyle">@style/BaseDialog.Title.SelectPhoto</item>
-        <item name="dialogButtonBackgrounds">@style/BaseDialog.Button.Backgrounds.SelecPhoto</item>
+        <item name="dialogButtonBackgrounds">@style/BaseDialog.Button.Backgrounds.SelectPhoto</item>
     </style>
 
     <!-- 从底部弹出的仿IOS风格的Dialog -->
@@ -173,7 +173,7 @@
         <!--Settings the Dialog Title-->
         <item name="android:listPreferredItemHeightSmall">@dimen/item_height</item>
         <item name="dialogTitleStyle">@style/BaseDialog.Title.SelectPhoto</item>
-        <item name="dialogButtonBackgrounds">@style/BaseDialog.Button.Backgrounds.SelecPhoto</item>
+        <item name="dialogButtonBackgrounds">@style/BaseDialog.Button.Backgrounds.SelectPhoto</item>
     </style>
 
     <style name="AppDialog.DateTimePicker" parent="@style/Theme.AppCompat.Dialog">

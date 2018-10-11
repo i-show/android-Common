@@ -13,8 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+repositories {
+    jcenter()
+    google()
+}
 
 android {
     compileSdkVersion COMPILE_SDK_VERSION as int
@@ -206,6 +212,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     // 基础库
     implementation project(':common')
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$KOTLIN_VERSION"
 
     // 注解库
     implementation 'com.jakewharton:butterknife:8.8.1'

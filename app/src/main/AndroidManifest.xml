@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.ishow.noah">
 
     <!-- 百度统计权限-->
@@ -16,7 +17,8 @@
         android:allowBackup="true"
         android:icon="${APP_ICON}"
         android:label="${APP_NAME}"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
 
         <!--引导界面-->
         <activity
@@ -57,8 +59,9 @@
             android:screenOrientation="portrait" />
 
 
-        <activity android:name=".modules.account.modify.ModifyUserInfoActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".modules.account.modify.ModifyUserInfoActivity"
+            android:screenOrientation="portrait" />
 
         <!--只有一个测试图片的类-->
         <activity
@@ -135,7 +138,10 @@
         <activity
             android:name=".modules.sample.pulltorefresh.SamplePullToRefreshActivity"
             android:screenOrientation="portrait" />
-
+        <!--BaseDialog-->
+        <activity
+            android:name=".modules.sample.dialog.normal.SampleBaseDialogActivity"
+            android:screenOrientation="portrait" />
         <!--++++++++++++++++++++控件或者工具的测试区域（end）++++++++++++++++++++++++++-->
 
 

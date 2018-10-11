@@ -207,7 +207,7 @@ public class PhotoSelectorActivity extends BaseActivity implements
      */
     private void selectPhotoFolder() {
         BaseDialog dialog = new BaseDialog.Builder(this, R.style.Theme_Dialog_Bottom)
-                .isShowFromBottom(true)
+                .fromBottom(true)
                 .setAdapter(mFolderAdapter, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, final int which) {

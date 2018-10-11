@@ -20,12 +20,12 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.database.Cursor;
-import android.graphics.drawable.Drawable;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.os.Message;
+import android.support.annotation.ArrayRes;
+import android.support.annotation.ColorInt;
+import android.support.annotation.NonNull;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -69,35 +69,24 @@ import com.ishow.common.utils.DeviceUtils;
 
 public class BaseDialog extends Dialog implements DialogInterface {
     private static final String TAG = "BaseDialog";
-    private static final int PADDING_W = 10;
     private static boolean isShowFromBottom;
-    private BaseController mAlert;
+    private BaseController mController;
 
     protected BaseDialog(Context context) {
-        this(context, R.style.Theme_Dialog, true);
+        this(context, R.style.Theme_Dialog);
     }
 
     /**
-     * Construct an HaiyangDialog that uses an explicit theme.  The actual Style
+     * Construct an BaseDialog that uses an explicit theme.  The actual Style
      * that an HaiyangDialog uses is a private implementation, however you can
      * here supply either the name of an attribute in the theme from which
      * to get the dialog's Style (such as {@link android.R.attr#alertDialogTheme}
      */
     protected BaseDialog(Context context, int theme) {
-        this(context, theme, true);
-    }
-
-    BaseDialog(Context context, int theme, boolean createThemeContextWrapper) {
         super(context, theme);
-        mAlert = new BaseController(getContext(), this, getWindow());
+        mController = new BaseController(getContext(), this, getWindow());
     }
 
-    protected BaseDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
-        super(context, R.style.Theme_Dialog);
-        setCancelable(cancelable);
-        setOnCancelListener(cancelListener);
-        mAlert = new BaseController(context, this, getWindow());
-    }
 
     /**
      * @return Whether the dialog is currently showing.
@@ -117,8 +106,9 @@ public class BaseDialog extends Dialog implements DialogInterface {
      *                    {@link DialogInterface#BUTTON_POSITIVE}.
      * @return The button from the dialog, or null if a button does not exist.
      */
+    @SuppressWarnings("unused")
     public Button getButton(int whichButton) {
-        return mAlert.getButton(whichButton);
+        return mController.getButton(whichButton);
     }
 
     /**
@@ -126,96 +116,26 @@ public class BaseDialog extends Dialog implements DialogInterface {
      *
      * @return The {@link ListView} from the dialog.
      */
+    @SuppressWarnings("unused")
     public ListView getListView() {
-        return mAlert.getListView();
-    }
-
-    @Override
-    public void setTitle(CharSequence title) {
-        super.setTitle(title);
-        mAlert.setTitle(title);
-    }
-
-    /**
-     * @see Builder#setCustomTitle(View)
-     */
-    public void setCustomTitle(View customTitleView) {
-        mAlert.setCustomTitle(customTitleView);
-    }
-
-    public void setMessage(CharSequence message) {
-        mAlert.setMessage(message);
-    }
-
-    /**
-     * Set the view to display in that dialog.
-     */
-    public void setView(View view) {
-        mAlert.setView(view);
-    }
-
-    /**
-     * Set the view to display in that dialog, specifying the spacing to appear around that
-     * view.
-     *
-     * @param view              The view to show in the content area of the dialog
-     * @param viewSpacingLeft   Extra space to appear to the left of {@code view}
-     * @param viewSpacingTop    Extra space to appear above {@code view}
-     * @param viewSpacingRight  Extra space to appear to the right of {@code view}
-     * @param viewSpacingBottom Extra space to appear below {@code view}
-     */
-    public void setView(View view, int viewSpacingLeft, int viewSpacingTop, int viewSpacingRight,
-                        int viewSpacingBottom) {
-        mAlert.setView(view, viewSpacingLeft, viewSpacingTop, viewSpacingRight, viewSpacingBottom);
-    }
-
-    /**
-     * Set a message to be sent when a button is pressed.
-     *
-     * @param whichButton Which button to set the message for, can be one of
-     *                    {@link DialogInterface#BUTTON_POSITIVE},
-     *                    {@link DialogInterface#BUTTON_NEGATIVE}, or
-     *                    {@link DialogInterface#BUTTON_NEUTRAL}
-     * @param text        The text to display in positive button.
-     * @param msg         The {@link Message} to be sent when clicked.
-     */
-    public void setButton(int whichButton, CharSequence text, Message msg) {
-        mAlert.setButton(whichButton, text, null, msg);
-    }
-
-    /**
-     * Set a listener to be invoked when the positive button of the dialog is pressed.
-     *
-     * @param whichButton Which button to set the listener on, can be one of
-     *                    {@link DialogInterface#BUTTON_POSITIVE},
-     *                    {@link DialogInterface#BUTTON_NEGATIVE}, or
-     *                    {@link DialogInterface#BUTTON_NEUTRAL}
-     * @param text        The text to display in positive button.
-     * @param listener    The {@link OnClickListener} to use.
-     */
-    public void setButton(int whichButton, CharSequence text, OnClickListener listener) {
-        mAlert.setButton(whichButton, text, listener, null);
-    }
-
-    public void setInverseBackgroundForced(boolean forceInverseBackground) {
-        mAlert.setInverseBackgroundForced(forceInverseBackground);
+        return mController.getListView();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAlert.installContent();
+        mController.installContent();
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (mAlert.onKeyDown(keyCode, event)) return true;
+    public boolean onKeyDown(int keyCode, @NonNull KeyEvent event) {
+        if (mController.onKeyDown(keyCode, event)) return true;
         return super.onKeyDown(keyCode, event);
     }
 
     @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (mAlert.onKeyUp(keyCode, event)) return true;
+    public boolean onKeyUp(int keyCode, @NonNull KeyEvent event) {
+        if (mController.onKeyUp(keyCode, event)) return true;
         return super.onKeyUp(keyCode, event);
     }
 
@@ -264,7 +184,7 @@ public class BaseDialog extends Dialog implements DialogInterface {
     }
 
     public static class Builder {
-        private final BaseController.Params P;
+        private final BaseController.Params mParams;
         private int mTheme;
 
         /**
@@ -283,8 +203,7 @@ public class BaseDialog extends Dialog implements DialogInterface {
          * or one of the constants
          */
         public Builder(Context context, int theme) {
-            P = new BaseController.Params(new ContextThemeWrapper(
-                    context, theme));
+            mParams = new BaseController.Params(new ContextThemeWrapper(context, theme));
             mTheme = theme;
             isShowFromBottom = false;
         }
@@ -298,7 +217,7 @@ public class BaseDialog extends Dialog implements DialogInterface {
          * @return A Context for built Dialogs.
          */
         public Context getContext() {
-            return P.mContext;
+            return mParams.mContext;
         }
 
         /**
@@ -307,7 +226,7 @@ public class BaseDialog extends Dialog implements DialogInterface {
          * @return This Builder object to allow for chaining of calls to set methods
          */
         public Builder setTitle(int titleId) {
-            P.mTitle = P.mContext.getText(titleId);
+            mParams.mTitle = mParams.mContext.getText(titleId);
             return this;
         }
 
@@ -317,22 +236,7 @@ public class BaseDialog extends Dialog implements DialogInterface {
          * @return This Builder object to allow for chaining of calls to set methods
          */
         public Builder setTitle(CharSequence title) {
-            P.mTitle = title;
-            return this;
-        }
-
-        /**
-         * Set the title using the custom view {@code customTitleView}. The
-         * methods {@link #setTitle(int)} and {@link #setIcon(int)} should be
-         * sufficient for most titles, but this is provided if the title needs
-         * more customization. Using this will replace the title and icon set
-         * via the other methods.
-         *
-         * @param customTitleView The custom view to use as the title.
-         * @return This Builder object to allow for chaining of calls to set methods
-         */
-        public Builder setCustomTitle(View customTitleView) {
-            P.mCustomTitleView = customTitleView;
+            mParams.mTitle = title;
             return this;
         }
 
@@ -342,7 +246,7 @@ public class BaseDialog extends Dialog implements DialogInterface {
          * @return This Builder object to allow for chaining of calls to set methods
          */
         public Builder setMessage(int messageId) {
-            P.mMessage = P.mContext.getText(messageId);
+            mParams.mMessage = mParams.mContext.getText(messageId);
             return this;
         }
 
@@ -352,39 +256,18 @@ public class BaseDialog extends Dialog implements DialogInterface {
          * @return This Builder object to allow for chaining of calls to set methods
          */
         public Builder setMessage(CharSequence message) {
-            P.mMessage = message;
+            mParams.mMessage = message;
             return this;
         }
 
         /**
-         * Set the resource id of the {@link Drawable} to be used in the title.
+         * 设置MessageGravity
          *
-         * @return This Builder object to allow for chaining of calls to set methods
+         * @param gravity {@link Gravity#CENTER 等}
          */
-        public Builder setIcon(int iconId) {
-            P.mIconId = iconId;
-            return this;
-        }
-
-        /**
-         * Set the {@link Drawable} to be used in the title.
-         *
-         * @return This Builder object to allow for chaining of calls to set methods
-         */
-        public Builder setIcon(Drawable icon) {
-            P.mIcon = icon;
-            return this;
-        }
-
-        /**
-         * Set an icon as supplied by a theme attribute. e.g. android.R.attr.alertDialogIcon
-         *
-         * @param attrId ID of a theme attribute that points to a drawable resource.
-         */
-        public Builder setIconAttribute(int attrId) {
-            TypedValue out = new TypedValue();
-            P.mContext.getTheme().resolveAttribute(attrId, out, true);
-            P.mIconId = out.resourceId;
+        @SuppressWarnings("unused")
+        public Builder setMessageGravity(int gravity) {
+            mParams.mMessageGravity = gravity;
             return this;
         }
 
@@ -396,8 +279,8 @@ public class BaseDialog extends Dialog implements DialogInterface {
          * @return This Builder object to allow for chaining of calls to set methods
          */
         public Builder setPositiveButton(int textId, final OnClickListener listener) {
-            P.mPositiveButtonText = P.mContext.getText(textId);
-            P.mPositiveButtonListener = listener;
+            mParams.mPositiveButtonText = mParams.mContext.getText(textId);
+            mParams.mPositiveButtonListener = listener;
             return this;
         }
 
@@ -408,9 +291,31 @@ public class BaseDialog extends Dialog implements DialogInterface {
          * @param listener The {@link OnClickListener} to use.
          * @return This Builder object to allow for chaining of calls to set methods
          */
+        @SuppressWarnings("unused")
         public Builder setPositiveButton(CharSequence text, final OnClickListener listener) {
-            P.mPositiveButtonText = text;
-            P.mPositiveButtonListener = listener;
+            mParams.mPositiveButtonText = text;
+            mParams.mPositiveButtonListener = listener;
+            return this;
+        }
+
+        /**
+         * 设置字体颜色
+         */
+        @SuppressWarnings("unused")
+        public Builder setPositiveButtonTextColor(@ColorInt int color) {
+            mParams.mPositiveButtonTextColor = ColorStateList.valueOf(color);
+            return this;
+        }
+
+        /**
+         * 设置字体颜色
+         */
+        @SuppressWarnings("unused")
+        public Builder setPositiveButtonTextColor(ColorStateList colors) {
+            if (colors == null) {
+                throw new NullPointerException();
+            }
+            mParams.mPositiveButtonTextColor = colors;
             return this;
         }
 
@@ -422,8 +327,8 @@ public class BaseDialog extends Dialog implements DialogInterface {
          * @return This Builder object to allow for chaining of calls to set methods
          */
         public Builder setNegativeButton(int textId, final OnClickListener listener) {
-            P.mNegativeButtonText = P.mContext.getText(textId);
-            P.mNegativeButtonListener = listener;
+            mParams.mNegativeButtonText = mParams.mContext.getText(textId);
+            mParams.mNegativeButtonListener = listener;
             return this;
         }
 
@@ -434,35 +339,31 @@ public class BaseDialog extends Dialog implements DialogInterface {
          * @param listener The {@link OnClickListener} to use.
          * @return This Builder object to allow for chaining of calls to set methods
          */
+        @SuppressWarnings("unused")
         public Builder setNegativeButton(CharSequence text, final OnClickListener listener) {
-            P.mNegativeButtonText = text;
-            P.mNegativeButtonListener = listener;
+            mParams.mNegativeButtonText = text;
+            mParams.mNegativeButtonListener = listener;
             return this;
         }
 
         /**
-         * Set a listener to be invoked when the neutral button of the dialog is pressed.
-         *
-         * @param textId   The resource id of the text to display in the neutral button
-         * @param listener The {@link OnClickListener} to use.
-         * @return This Builder object to allow for chaining of calls to set methods
+         * 设置字体颜色
          */
-        public Builder setNeutralButton(int textId, final OnClickListener listener) {
-            P.mNeutralButtonText = P.mContext.getText(textId);
-            P.mNeutralButtonListener = listener;
+        @SuppressWarnings("unused")
+        public Builder setNegativeButtonTextColor(@ColorInt int color) {
+            mParams.mNegativeButtonTextColor = ColorStateList.valueOf(color);
             return this;
         }
 
         /**
-         * Set a listener to be invoked when the neutral button of the dialog is pressed.
-         *
-         * @param text     The text to display in the neutral button
-         * @param listener The {@link OnClickListener} to use.
-         * @return This Builder object to allow for chaining of calls to set methods
+         * 设置字体颜色
          */
-        public Builder setNeutralButton(CharSequence text, final OnClickListener listener) {
-            P.mNeutralButtonText = text;
-            P.mNeutralButtonListener = listener;
+        @SuppressWarnings("unused")
+        public Builder setNegativeButtonTextColor(ColorStateList colors) {
+            if (colors == null) {
+                throw new NullPointerException();
+            }
+            mParams.mNegativeButtonTextColor = colors;
             return this;
         }
 
@@ -472,7 +373,7 @@ public class BaseDialog extends Dialog implements DialogInterface {
          * @return This Builder object to allow for chaining of calls to set methods
          */
         public Builder setCancelable(boolean cancelable) {
-            P.mCancelable = cancelable;
+            mParams.mCancelable = cancelable;
             return this;
         }
 
@@ -489,8 +390,9 @@ public class BaseDialog extends Dialog implements DialogInterface {
          * @see #setCancelable(boolean)
          * @see #setOnDismissListener(OnDismissListener)
          */
+        @SuppressWarnings("unused")
         public Builder setOnCancelListener(OnCancelListener onCancelListener) {
-            P.mOnCancelListener = onCancelListener;
+            mParams.mOnCancelListener = onCancelListener;
             return this;
         }
 
@@ -500,7 +402,7 @@ public class BaseDialog extends Dialog implements DialogInterface {
          * @return This Builder object to allow for chaining of calls to set methods
          */
         public Builder setOnDismissListener(OnDismissListener onDismissListener) {
-            P.mOnDismissListener = onDismissListener;
+            mParams.mOnDismissListener = onDismissListener;
             return this;
         }
 
@@ -509,8 +411,9 @@ public class BaseDialog extends Dialog implements DialogInterface {
          *
          * @return This Builder object to allow for chaining of calls to set methods
          */
+        @SuppressWarnings("unused")
         public Builder setOnKeyListener(OnKeyListener onKeyListener) {
-            P.mOnKeyListener = onKeyListener;
+            mParams.mOnKeyListener = onKeyListener;
             return this;
         }
 
@@ -520,9 +423,9 @@ public class BaseDialog extends Dialog implements DialogInterface {
          *
          * @return This Builder object to allow for chaining of calls to set methods
          */
-        public Builder setItems(int itemsId, final OnClickListener listener) {
-            P.mItems = P.mContext.getResources().getTextArray(itemsId);
-            P.mOnClickListener = listener;
+        public Builder setItems(@ArrayRes int itemsId, final OnClickListener listener) {
+            mParams.mItems = mParams.mContext.getResources().getTextArray(itemsId);
+            mParams.mOnClickListener = listener;
             return this;
         }
 
@@ -532,9 +435,10 @@ public class BaseDialog extends Dialog implements DialogInterface {
          *
          * @return This Builder object to allow for chaining of calls to set methods
          */
+        @SuppressWarnings("unused")
         public Builder setItems(CharSequence[] items, final OnClickListener listener) {
-            P.mItems = items;
-            P.mOnClickListener = listener;
+            mParams.mItems = items;
+            mParams.mOnClickListener = listener;
             return this;
         }
 
@@ -548,27 +452,8 @@ public class BaseDialog extends Dialog implements DialogInterface {
          * @return This Builder object to allow for chaining of calls to set methods
          */
         public Builder setAdapter(final ListAdapter adapter, final OnClickListener listener) {
-            P.mAdapter = adapter;
-            P.mOnClickListener = listener;
-            return this;
-        }
-
-        /**
-         * Set a list of items, which are supplied by the given {@link Cursor}, to be
-         * displayed in the dialog as the content, you will be notified of the
-         * selected item via the supplied listener.
-         *
-         * @param cursor      The {@link Cursor} to supply the list of items
-         * @param listener    The listener that will be called when an item is clicked.
-         * @param labelColumn The column name on the cursor containing the string to display
-         *                    in the label.
-         * @return This Builder object to allow for chaining of calls to set methods
-         */
-        public Builder setCursor(final Cursor cursor, final OnClickListener listener,
-                                 String labelColumn) {
-            P.mCursor = cursor;
-            P.mLabelColumn = labelColumn;
-            P.mOnClickListener = listener;
+            mParams.mAdapter = adapter;
+            mParams.mOnClickListener = listener;
             return this;
         }
 
@@ -589,12 +474,12 @@ public class BaseDialog extends Dialog implements DialogInterface {
          *                     button, if no buttons are supplied it's up to the user to dismiss the dialog.
          * @return This Builder object to allow for chaining of calls to set methods
          */
-        public Builder setMultiChoiceItems(int itemsId, boolean[] checkedItems,
-                                           final OnMultiChoiceClickListener listener) {
-            P.mItems = P.mContext.getResources().getTextArray(itemsId);
-            P.mOnCheckboxClickListener = listener;
-            P.mCheckedItems = checkedItems;
-            P.mIsMultiChoice = true;
+        @SuppressWarnings("unused")
+        public Builder setMultiChoiceItems(int itemsId, boolean[] checkedItems, final OnMultiChoiceClickListener listener) {
+            mParams.mItems = mParams.mContext.getResources().getTextArray(itemsId);
+            mParams.mOnCheckboxClickListener = listener;
+            mParams.mCheckedItems = checkedItems;
+            mParams.mIsMultiChoice = true;
             return this;
         }
 
@@ -614,42 +499,15 @@ public class BaseDialog extends Dialog implements DialogInterface {
          *                     button, if no buttons are supplied it's up to the user to dismiss the dialog.
          * @return This Builder object to allow for chaining of calls to set methods
          */
-        public Builder setMultiChoiceItems(CharSequence[] items, boolean[] checkedItems,
-                                           final OnMultiChoiceClickListener listener) {
-            P.mItems = items;
-            P.mOnCheckboxClickListener = listener;
-            P.mCheckedItems = checkedItems;
-            P.mIsMultiChoice = true;
+        @SuppressWarnings("unused")
+        public Builder setMultiChoiceItems(CharSequence[] items, boolean[] checkedItems, final OnMultiChoiceClickListener listener) {
+            mParams.mItems = items;
+            mParams.mOnCheckboxClickListener = listener;
+            mParams.mCheckedItems = checkedItems;
+            mParams.mIsMultiChoice = true;
             return this;
         }
 
-        /**
-         * Set a list of items to be displayed in the dialog as the content,
-         * you will be notified of the selected item via the supplied listener.
-         * The list will have a check mark displayed to the right of the text
-         * for each checked item. Clicking on an item in the list will not
-         * dismiss the dialog. Clicking on a button will dismiss the dialog.
-         *
-         * @param cursor          the cursor used to provide the items.
-         * @param isCheckedColumn specifies the column name on the cursor to use to determine
-         *                        whether a checkbox is checked or not. It must return an integer value where 1
-         *                        means checked and 0 means unchecked.
-         * @param labelColumn     The column name on the cursor containing the string to display in the
-         *                        label.
-         * @param listener        notified when an item on the list is clicked. The dialog will not be
-         *                        dismissed when an item is clicked. It will only be dismissed if clicked on a
-         *                        button, if no buttons are supplied it's up to the user to dismiss the dialog.
-         * @return This Builder object to allow for chaining of calls to set methods
-         */
-        public Builder setMultiChoiceItems(Cursor cursor, String isCheckedColumn, String labelColumn,
-                                           final OnMultiChoiceClickListener listener) {
-            P.mCursor = cursor;
-            P.mOnCheckboxClickListener = listener;
-            P.mIsCheckedColumn = isCheckedColumn;
-            P.mLabelColumn = labelColumn;
-            P.mIsMultiChoice = true;
-            return this;
-        }
 
         /**
          * Set a list of items to be displayed in the dialog as the content, you will be notified of
@@ -665,39 +523,15 @@ public class BaseDialog extends Dialog implements DialogInterface {
          *                    button, if no buttons are supplied it's up to the user to dismiss the dialog.
          * @return This Builder object to allow for chaining of calls to set methods
          */
-        public Builder setSingleChoiceItems(int itemsId, int checkedItem,
-                                            final OnClickListener listener) {
-            P.mItems = P.mContext.getResources().getTextArray(itemsId);
-            P.mOnClickListener = listener;
-            P.mCheckedItem = checkedItem;
-            P.mIsSingleChoice = true;
+        @SuppressWarnings("unused")
+        public Builder setSingleChoiceItems(int itemsId, int checkedItem, final OnClickListener listener) {
+            mParams.mItems = mParams.mContext.getResources().getTextArray(itemsId);
+            mParams.mOnClickListener = listener;
+            mParams.mCheckedItem = checkedItem;
+            mParams.mIsSingleChoice = true;
             return this;
         }
 
-        /**
-         * Set a list of items to be displayed in the dialog as the content, you will be notified of
-         * the selected item via the supplied listener. The list will have a check mark displayed to
-         * the right of the text for the checked item. Clicking on an item in the list will not
-         * dismiss the dialog. Clicking on a button will dismiss the dialog.
-         *
-         * @param cursor      the cursor to retrieve the items from.
-         * @param checkedItem specifies which item is checked. If -1 no items are checked.
-         * @param labelColumn The column name on the cursor containing the string to display in the
-         *                    label.
-         * @param listener    notified when an item on the list is clicked. The dialog will not be
-         *                    dismissed when an item is clicked. It will only be dismissed if clicked on a
-         *                    button, if no buttons are supplied it's up to the user to dismiss the dialog.
-         * @return This Builder object to allow for chaining of calls to set methods
-         */
-        public Builder setSingleChoiceItems(Cursor cursor, int checkedItem, String labelColumn,
-                                            final OnClickListener listener) {
-            P.mCursor = cursor;
-            P.mOnClickListener = listener;
-            P.mCheckedItem = checkedItem;
-            P.mLabelColumn = labelColumn;
-            P.mIsSingleChoice = true;
-            return this;
-        }
 
         /**
          * Set a list of items to be displayed in the dialog as the content, you will be notified of
@@ -712,11 +546,12 @@ public class BaseDialog extends Dialog implements DialogInterface {
          *                    button, if no buttons are supplied it's up to the user to dismiss the dialog.
          * @return This Builder object to allow for chaining of calls to set methods
          */
+        @SuppressWarnings("unused")
         public Builder setSingleChoiceItems(CharSequence[] items, int checkedItem, final OnClickListener listener) {
-            P.mItems = items;
-            P.mOnClickListener = listener;
-            P.mCheckedItem = checkedItem;
-            P.mIsSingleChoice = true;
+            mParams.mItems = items;
+            mParams.mOnClickListener = listener;
+            mParams.mCheckedItem = checkedItem;
+            mParams.mIsSingleChoice = true;
             return this;
         }
 
@@ -733,11 +568,12 @@ public class BaseDialog extends Dialog implements DialogInterface {
          *                    button, if no buttons are supplied it's up to the user to dismiss the dialog.
          * @return This Builder object to allow for chaining of calls to set methods
          */
+        @SuppressWarnings("unused")
         public Builder setSingleChoiceItems(ListAdapter adapter, int checkedItem, final OnClickListener listener) {
-            P.mAdapter = adapter;
-            P.mOnClickListener = listener;
-            P.mCheckedItem = checkedItem;
-            P.mIsSingleChoice = true;
+            mParams.mAdapter = adapter;
+            mParams.mOnClickListener = listener;
+            mParams.mCheckedItem = checkedItem;
+            mParams.mIsSingleChoice = true;
             return this;
         }
 
@@ -748,8 +584,9 @@ public class BaseDialog extends Dialog implements DialogInterface {
          * @return This Builder object to allow for chaining of calls to set methods
          * @see AdapterView#setOnItemSelectedListener(AdapterView.OnItemSelectedListener)
          */
+        @SuppressWarnings("unused")
         public Builder setOnItemSelectedListener(final AdapterView.OnItemSelectedListener listener) {
-            P.mOnItemSelectedListener = listener;
+            mParams.mOnItemSelectedListener = listener;
             return this;
         }
 
@@ -761,8 +598,8 @@ public class BaseDialog extends Dialog implements DialogInterface {
          * @return This Builder object to allow for chaining of calls to set methods
          */
         public Builder setView(View view) {
-            P.mView = view;
-            P.mViewSpacingSpecified = false;
+            mParams.mView = view;
+            mParams.mViewSpacingSpecified = false;
             return this;
         }
 
@@ -786,36 +623,24 @@ public class BaseDialog extends Dialog implements DialogInterface {
          * <p/>
          * This is currently hidden because it seems like people should just
          * be able to put padding around the view.
-         * @hide
          */
-        public Builder setView(View view, int viewSpacingLeft, int viewSpacingTop,
-                               int viewSpacingRight, int viewSpacingBottom) {
-            P.mView = view;
-            P.mViewSpacingSpecified = true;
-            P.mViewSpacingLeft = viewSpacingLeft;
-            P.mViewSpacingTop = viewSpacingTop;
-            P.mViewSpacingRight = viewSpacingRight;
-            P.mViewSpacingBottom = viewSpacingBottom;
+        @SuppressWarnings("unused")
+        public Builder setView(View view, int viewSpacingLeft, int viewSpacingTop, int viewSpacingRight, int viewSpacingBottom) {
+            mParams.mView = view;
+            mParams.mViewSpacingSpecified = true;
+            mParams.mViewSpacingLeft = viewSpacingLeft;
+            mParams.mViewSpacingTop = viewSpacingTop;
+            mParams.mViewSpacingRight = viewSpacingRight;
+            mParams.mViewSpacingBottom = viewSpacingBottom;
             return this;
         }
 
         /**
-         * Sets the Dialog to use the inverse background, regardless of what the
-         * contents is.
-         *
-         * @param useInverseBackground Whether to use the inverse background
-         * @return This Builder object to allow for chaining of calls to set methods
+         * 是否是从底部弹出
          */
-        public Builder setInverseBackgroundForced(boolean useInverseBackground) {
-            P.mForceInverseBackground = useInverseBackground;
-            return this;
-        }
-
-        /**
-         * @hide
-         */
-        public Builder setRecycleOnMeasureEnabled(boolean enabled) {
-            P.mRecycleOnMeasure = enabled;
+        public Builder fromBottom(boolean bottom) {
+            mParams.isShowFromBottom = bottom;
+            isShowFromBottom = bottom;
             return this;
         }
 
@@ -827,17 +652,13 @@ public class BaseDialog extends Dialog implements DialogInterface {
          * to do and want this to be created and displayed.
          */
         public BaseDialog create() {
-            final BaseDialog dialog = new BaseDialog(P.mContext, mTheme, false);
-            P.apply(dialog.mAlert);
-            dialog.setCancelable(P.mCancelable);
-            if (P.mCancelable) {
-                dialog.setCanceledOnTouchOutside(true);
-            }
-            dialog.setOnCancelListener(P.mOnCancelListener);
-            dialog.setOnDismissListener(P.mOnDismissListener);
-            if (P.mOnKeyListener != null) {
-                dialog.setOnKeyListener(P.mOnKeyListener);
-            }
+            final BaseDialog dialog = new BaseDialog(mParams.mContext, mTheme);
+            dialog.setCancelable(mParams.mCancelable);
+            dialog.setCanceledOnTouchOutside(mParams.mCancelable);
+            dialog.setOnCancelListener(mParams.mOnCancelListener);
+            dialog.setOnDismissListener(mParams.mOnDismissListener);
+            dialog.setOnKeyListener(mParams.mOnKeyListener);
+            mParams.apply(dialog.mController);
             return dialog;
         }
 
@@ -872,10 +693,6 @@ public class BaseDialog extends Dialog implements DialogInterface {
             return super.hashCode();
         }
 
-        public Builder isShowFromBottom(boolean bootom) {
-            P.isShowFromBottom = bootom;
-            isShowFromBottom = bootom;
-            return this;
-        }
+
     }
 }

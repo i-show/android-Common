@@ -129,29 +129,19 @@
     <style name="BaseDialog.Button.Backgrounds">
         <item name="leftBackground">@drawable/white_alpha_0_9_5_corner_bottom_left_16dp_bg</item>
         <item name="rightBackground">@drawable/white_alpha_0_9_5_corner_bottom_right_16dp_bg</item>
-        <item name="middleBackground">@drawable/white_alpha_0_9_5_whole_bg</item>
         <item name="wholeBackground">@drawable/white_alpha_0_9_5_corner_bottom_16dp_bg</item>
     </style>
 
     <style name="BaseDialog.Button.Backgrounds.Bottom">
         <item name="leftBackground">?android:selectableItemBackground</item>
         <item name="rightBackground">?android:selectableItemBackground</item>
-        <item name="middleBackground">?android:selectableItemBackground</item>
         <item name="wholeBackground">?android:selectableItemBackground</item>
     </style>
 
-    <style name="BaseDialog.Button.Backgrounds.SelecPhoto">
+    <style name="BaseDialog.Button.Backgrounds.SelectPhoto">
         <item name="leftBackground">@drawable/white_alpha_0_9_5_corner_16dp_bg</item>
         <item name="rightBackground">@drawable/white_alpha_0_9_5_corner_16dp_bg</item>
-        <item name="middleBackground">@drawable/white_alpha_0_9_5_corner_16dp_bg</item>
         <item name="wholeBackground">@drawable/white_alpha_0_9_5_corner_16dp_bg</item>
-    </style>
-
-    <style name="BaseDialog.Button.Backgrounds.VerticalButton">
-        <item name="leftBackground">@drawable/top_line_white_bg</item>
-        <item name="rightBackground">@drawable/top_line_white_bg</item>
-        <item name="middleBackground">@drawable/top_line_white_bg</item>
-        <item name="wholeBackground">@drawable/top_line_white_bg</item>
     </style>
 
 

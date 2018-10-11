@@ -754,7 +754,6 @@
     <declare-styleable name="DialogButtonBackground">
         <attr name="leftBackground" />
         <attr name="rightBackground" />
-        <attr name="middleBackground" />
         <attr name="wholeBackground" />
     </declare-styleable>
 
