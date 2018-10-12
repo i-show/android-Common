@@ -62,35 +62,22 @@
         <item name="fromBottom">false</item>
         <item name="widthProportion">0.8</item>
     </style>
-    <!-- 从底部弹出的-->
-    <style name="BaseDialog.Bottom" />
 
-    <!-- 从底部弹出的 SelectPhoto-->
-    <style name="BaseDialog.Bottom.SelectPhoto">
-        <item name="dialogMainLayout">@layout/dialog_select_photo</item>
-        <item name="dialogListLayout">@layout/dialog_select_photo_listview</item>
-        <item name="dialogListItem">@layout/dialog_select_photo_item</item>
+    <!-- 从底部弹出的-->
+    <style name="BaseDialog.Bottom">
+        <item name="dialogMainLayout">@layout/dialog_bottom</item>
         <item name="fromBottom">true</item>
         <item name="widthProportion">1.0</item>
     </style>
 
     <style name="BaseDialogTitle">
         <item name="android:scrollHorizontally">true</item>
-        <item name="android:layout_marginTop">@dimen/dp_8</item>
         <item name="android:gravity">center</item>
         <item name="android:maxLines">1</item>
-        <item name="android:minHeight">@dimen/dp_40</item>
-        <item name="android:textSize">@dimen/G_title</item>
+        <item name="android:minHeight">@dimen/dp_48</item>
+        <item name="android:textSize">@dimen/H_title</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/text_grey</item>
-    </style>
-
-    <style name="BaseDialogTitle.SelectPhoto">
-        <item name="android:gravity">center</item>
-        <item name="android:minHeight">@dimen/girdle_min_h</item>
-        <item name="android:textSize">@dimen/I_title</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:textColor">@color/text_grey_light_normal</item>
     </style>
 
     <style name="BaseDialogMessage">
@@ -117,7 +104,7 @@
         <item name="lineColor">@color/line</item>
     </style>
 
-    <style name="BaseDialogButton.SelectPhoto">
+    <style name="BaseDialogButton.Bottom">
         <item name="leftBackground">@drawable/white_alpha_0_9_5_corner_16dp_bg</item>
         <item name="rightBackground">@drawable/white_alpha_0_9_5_corner_16dp_bg</item>
         <item name="wholeBackground">@drawable/white_alpha_0_9_5_corner_16dp_bg</item>

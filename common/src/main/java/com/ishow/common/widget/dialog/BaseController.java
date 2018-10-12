@@ -26,6 +26,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -183,13 +184,17 @@ public class BaseController {
 
     private boolean setupTitle(LinearLayout topPanel) {
         if (TextUtils.isEmpty(mTitle)) {
-            View title = mWindow.findViewById(R.id.alertTitle);
-            title.setVisibility(View.GONE);
             topPanel.setVisibility(View.GONE);
             return false;
         } else {
             mTitleView = mWindow.findViewById(R.id.alertTitle);
             mTitleView.setText(mTitle);
+            if(mListView == null){
+                // 这个地方偏下一点，视觉上美观
+                final int top = mContext.getResources().getDimensionPixelSize(R.dimen.dp_8);
+                mTitleView.setPadding(0, top, 0, 0);
+            }
+
             return true;
         }
     }
@@ -199,7 +204,6 @@ public class BaseController {
         mScrollView = mWindow.findViewById(R.id.scrollView);
         mScrollView.setFocusable(false);
 
-        // Special case for users that only want to display a String
         mMessageView = mWindow.findViewById(R.id.message);
 
         if (mMessage != null && mMessageView != null) {
@@ -208,7 +212,7 @@ public class BaseController {
                 mMessageView.setGravity(mMessageGravity);
             }
             if (!hasTitle) {
-                final int paddingTop = Math.max(mMessageView.getPaddingStart(), mMessageView.getPaddingEnd());
+                final int paddingTop = (int) (Math.max(mMessageView.getPaddingStart(), mMessageView.getPaddingEnd()) * 0.8F);
                 mMessageView.setPadding(mMessageView.getPaddingStart(), paddingTop, mMessageView.getPaddingEnd(), mMessageView.getPaddingBottom());
             }
         } else {
@@ -218,8 +222,6 @@ public class BaseController {
             }
 
             if (mListView != null) {
-                /// M: If the count of mAdapter is equal to one, make sure the
-                /// divider will not be drawn. @{
                 if (mAdapter != null && mAdapter.getCount() == 1) {
                     mListView.setDividerHeight(0);
                 }
@@ -305,7 +307,7 @@ public class BaseController {
             mPositiveButton.setBackgroundResource(wholeBg);
         }
 
-        if(mButtonLineColor == null){
+        if (mButtonLineColor == null) {
             mButtonLineColor = lineColor;
         }
 

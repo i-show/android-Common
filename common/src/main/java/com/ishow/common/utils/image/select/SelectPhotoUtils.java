@@ -247,8 +247,7 @@ public class SelectPhotoUtils implements
      */
     private void showSelectDialog() {
         if (mSelectDialog == null) {
-            mSelectDialog = new BaseDialog.Builder(mActivity, R.style.Theme_Dialog_SelectPhoto)
-                    .setTitle(R.string.select_photo_title)
+            mSelectDialog = new BaseDialog.Builder(mActivity, R.style.Theme_Dialog_Bottom)
                     .setNegativeButton(R.string.cancel, null)
                     .fromBottom(true)
                     .setItems(R.array.select_photos, this)

@@ -25,12 +25,15 @@ class SampleBaseDialogActivity : AppBaseActivity(), View.OnClickListener {
         singleChoiceDialog.setOnClickListener(this)
         multiChoiceDialog.setOnClickListener(this)
         bottomDialog.setOnClickListener(this)
+        bottomDialogNoTitle.setOnClickListener(this)
+        singleChoiceBottomDialog.setOnClickListener(this)
+        singleChoiceBottomDialog2.setOnClickListener(this)
     }
 
     override fun onClick(v: View) {
         when (v.id) {
             R.id.normal -> {
-                val dialog = BaseDialog.Builder(this)
+                BaseDialog.Builder(this)
                         .setTitle("提示")
                         .setMessage("前面的例子非常简单，但没有任何实际使用意义")
                         .setMessageGravity(Gravity.START or Gravity.TOP)
@@ -38,19 +41,15 @@ class SampleBaseDialogActivity : AppBaseActivity(), View.OnClickListener {
                         .setNegativeButton(R.string.cancel, null)
                         .setButtonLineColor(Color.LTGRAY)
                         .setNegativeButtonTextColor(Color.GRAY)
-                        .create()
-
-                dialog.show()
+                        .show()
             }
 
             R.id.noTitleDialog -> {
-                val dialog = BaseDialog.Builder(this)
+                BaseDialog.Builder(this)
                         .setMessage("前面的例子非常简单，但没有任何实际使用意义")
                         .setPositiveButton(R.string.yes, null)
                         .setWidthProportion(0.78F)
-                        .create()
-
-                dialog.show()
+                        .show()
             }
 
             R.id.listDialog -> {
@@ -76,14 +75,37 @@ class SampleBaseDialogActivity : AppBaseActivity(), View.OnClickListener {
             }
 
             R.id.bottomDialog -> {
-                val dialog = BaseDialog.Builder(this, R.style.Theme_Dialog_SelectPhoto)
-                        .setTitle("Title")
+                BaseDialog.Builder(this, R.style.Theme_Dialog_Bottom)
+                        .setTitle("提示")
                         .setMessage("前面的例子非常简单，但没有任何实际使用意义")
                         .setNegativeButton(R.string.cancel, null)
                         .setMessageGravity(Gravity.START)
-                        .create()
+                        .show()
+            }
 
-                dialog.show()
+            R.id.bottomDialogNoTitle -> {
+                BaseDialog.Builder(this, R.style.Theme_Dialog_Bottom)
+                        .setMessage("前面的例子非常简单，但没有任何实际使用意义")
+                        .setNegativeButton(R.string.cancel, null)
+                        .setPositiveButton(R.string.yes, null)
+                        .setMessageGravity(Gravity.START)
+                        .show()
+            }
+
+            R.id.singleChoiceBottomDialog -> {
+                BaseDialog.Builder(this, R.style.Theme_Dialog_Bottom)
+                        .setTitle("选择方式")
+                        .setSingleChoiceItems(R.array.test_array, 0, null)
+                        .setPositiveButton(R.string.yes, null)
+                        .setNegativeButton(R.string.cancel, null)
+                        .show()
+            }
+
+            R.id.singleChoiceBottomDialog2 -> {
+                BaseDialog.Builder(this, R.style.Theme_Dialog_Bottom)
+                        .setSingleChoiceItems(R.array.test_array, 0, null)
+                        .setNegativeButton(R.string.cancel, null)
+                        .show()
             }
         }
     }

@@ -47,10 +47,30 @@
         android:text="multiChoiceDialog"
         style="@style/AppTextView.Sample"/>
 
+
+
     <TextView
         android:layout_marginTop="@dimen/gap_grade_3"
         android:id="@+id/bottomDialog"
         android:text="底部弹出"
         style="@style/AppTextView.Sample"/>
+
+    <TextView
+        android:layout_marginTop="@dimen/gap_grade_3"
+        android:id="@+id/bottomDialogNoTitle"
+        android:text="底部弹出没有标题"
+        style="@style/AppTextView.Sample"/>
+
+    <TextView
+        android:layout_marginTop="@dimen/gap_grade_3"
+        android:id="@+id/singleChoiceBottomDialog"
+        android:text="底部弹出单选"
+        style="@style/AppTextView.Sample" />
+
+    <TextView
+        android:layout_marginTop="@dimen/gap_grade_3"
+        android:id="@+id/singleChoiceBottomDialog2"
+        android:text="底部弹出单选2按钮"
+        style="@style/AppTextView.Sample" />
 
 </LinearLayout>
