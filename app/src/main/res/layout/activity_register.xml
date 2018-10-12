@@ -65,7 +65,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/item_height"
+        android:layout_height="@dimen/default_item_height"
         android:background="@drawable/bottom_line_normal_bg"
         android:gravity="center_vertical"
         android:orientation="horizontal">

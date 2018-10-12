@@ -59,10 +59,6 @@ import com.ishow.common.widget.textview.PromptTextView;
 public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener, View.OnClickListener {
     private static final String TAG = "EditTextPro";
     /**
-     * 默认线的高度
-     */
-    private static final int DEFAULT_LINE_HEIGHT = 2;
-    /**
      * 左边的View
      */
     private PromptImageView mLeftImageView;
@@ -240,14 +236,14 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         mRightImageBackgroundDrawable = a.getDrawable(R.styleable.EditTextPro_rightImageBackground);
         mRightImageVisibility = a.getInt(R.styleable.EditTextPro_rightImageVisibility, View.VISIBLE);
 
-        mTopLineHeight = a.getDimensionPixelSize(R.styleable.EditTextPro_topLineHeight, DEFAULT_LINE_HEIGHT);
+        mTopLineHeight = a.getDimensionPixelSize(R.styleable.EditTextPro_topLineHeight, getDefaultLineHeight());
         mTopLineNormalColor = a.getColor(R.styleable.EditTextPro_topLineNormalColor, getDefaultNormalColor());
         mTopLineFocusColor = a.getColor(R.styleable.EditTextPro_topLineFocusColor, getDefaultFocusColor());
         mTopLineVisibility = a.getInt(R.styleable.EditTextPro_topLineVisibility, View.GONE);
         mTopLinePaddingStart = a.getDimensionPixelSize(R.styleable.EditTextPro_topLinePaddingStart, 0);
         mTopLinePaddingEnd = a.getDimensionPixelSize(R.styleable.EditTextPro_topLinePaddingEnd, 0);
 
-        mBottomLineHeight = a.getDimensionPixelSize(R.styleable.EditTextPro_bottomLineHeight, DEFAULT_LINE_HEIGHT);
+        mBottomLineHeight = a.getDimensionPixelSize(R.styleable.EditTextPro_bottomLineHeight, getDefaultLineHeight());
         mBottomLineNormalColor = a.getColor(R.styleable.EditTextPro_bottomLineNormalColor, getDefaultNormalColor());
         mBottomLineFocusColor = a.getColor(R.styleable.EditTextPro_bottomLineFocusColor, getDefaultFocusColor());
         mBottomLineVisibility = a.getInt(R.styleable.EditTextPro_bottomLineVisibility, View.VISIBLE);
@@ -743,7 +739,6 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     /**
      * 获取默认的颜色值
      */
-    @SuppressWarnings("deprecation")
     private int getDefaultNormalColor() {
         return getContext().getResources().getColor(R.color.grey_deep_10);
     }
@@ -751,25 +746,21 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     /**
      * 获取默认的颜色值
      */
-    @SuppressWarnings("deprecation")
     private int getDefaultFocusColor() {
         return getContext().getResources().getColor(R.color.color_accent);
     }
-
+    /**
+     * 线的高度
+     */
+    private int getDefaultLineHeight() {
+        return getContext().getResources().getDimensionPixelSize(R.dimen.default_line_height);
+    }
     /**
      * 获取默认的最小高度
      */
     private int getDefaultMinHeight() {
-        return getResources().getDimensionPixelSize(R.dimen.girdle_min_h);
+        return getResources().getDimensionPixelSize(R.dimen.default_pro_height);
     }
-
-    /**
-     * 获取默认的最小高度
-     */
-    private int getDefaultBottomLineHeight() {
-        return 1;
-    }
-
 
     private void notifyCancel() {
         if (mEditTextListener != null) {

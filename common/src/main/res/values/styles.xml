@@ -75,10 +75,11 @@
     </style>
 
     <style name="BaseDialogTitle">
-        <item name="android:maxLines">1</item>
         <item name="android:scrollHorizontally">true</item>
-        <item name="android:gravity">center_horizontal|bottom</item>
-        <item name="android:minHeight">@dimen/dp_30</item>
+        <item name="android:layout_marginTop">@dimen/dp_8</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:minHeight">@dimen/dp_40</item>
         <item name="android:textSize">@dimen/G_title</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/text_grey</item>
@@ -95,10 +96,9 @@
     <style name="BaseDialogMessage">
         <item name="android:paddingLeft">@dimen/dp_20</item>
         <item name="android:paddingRight">@dimen/dp_20</item>
-        <item name="android:paddingBottom">@dimen/dp_22</item>
-        <item name="android:paddingTop">@dimen/dp_15</item>
-        <item name="android:minHeight">@dimen/dp_80</item>
-        <item name="android:gravity">center</item>
+        <item name="android:paddingBottom">@dimen/dp_20</item>
+        <item name="android:minHeight">@dimen/dp_60</item>
+        <item name="android:gravity">start</item>
         <item name="android:textSize">@dimen/H_title</item>
         <item name="android:textColor">@color/text_grey</item>
     </style>
@@ -108,13 +108,13 @@
         <item name="android:layout_weight">1</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:singleLine">true</item>
-        <item name="android:minHeight">@dimen/item_height</item>
+        <item name="android:minHeight">@dimen/default_button_height</item>
         <item name="android:textSize">@dimen/H_title</item>
         <item name="android:textColor">@color/blue_400</item>
         <item name="leftBackground">@drawable/white_alpha_0_9_5_corner_bottom_left_16dp_bg</item>
         <item name="rightBackground">@drawable/white_alpha_0_9_5_corner_bottom_right_16dp_bg</item>
         <item name="wholeBackground">@drawable/white_alpha_0_9_5_corner_bottom_16dp_bg</item>
-        <item name="lineColor">@color/green_400</item>
+        <item name="lineColor">@color/line</item>
     </style>
 
     <style name="BaseDialogButton.SelectPhoto">

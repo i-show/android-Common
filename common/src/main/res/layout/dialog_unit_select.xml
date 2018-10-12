@@ -14,11 +14,11 @@
   limitations under the License.
   -->
 
-<com.ishow.common.widget.MaxHeightListView xmlns:android="http://schemas.android.com/apk/res/android"
-                                           xmlns:app="http://schemas.android.com/apk/res-auto"
-                                           android:id="@+id/list"
-                                           android:layout_width="match_parent"
-                                           android:layout_height="wrap_content"
-                                           android:background="@drawable/top_line_white_normal_bg"
-                                           app:maxHeight="@dimen/dp_300"/>
+<com.ishow.common.widget.ListViewPro xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/list"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/top_line_white_normal_bg"
+    app:maxHeight="@dimen/dp_300" />
 

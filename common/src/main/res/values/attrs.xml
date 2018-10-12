@@ -910,8 +910,13 @@
         <attr name="heightScale" />
     </declare-styleable>
 
-    <declare-styleable name="MaxHeightListView">
+    <declare-styleable name="ListViewPro">
         <attr name="maxHeight" />
+        <attr name="topLineColor" />
+        <attr name="topLineHeight" />
+        <attr name="topLinePaddingStart" />
+        <attr name="topLinePaddingEnd" />
+        <attr name="topLineVisibility" />
     </declare-styleable>
 
     <declare-styleable name="MaxHeightScrollView">

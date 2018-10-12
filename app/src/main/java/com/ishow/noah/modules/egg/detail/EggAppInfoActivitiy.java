@@ -56,7 +56,7 @@ public class EggAppInfoActivitiy extends AppBaseActivity {
     @Override
     protected void initNecessaryData() {
         super.initNecessaryData();
-        mItemMinHeight = getResources().getDimensionPixelSize(R.dimen.item_height);
+        mItemMinHeight = getResources().getDimensionPixelSize(R.dimen.default_item_height);
         mCateTextSize = getResources().getDimensionPixelSize(R.dimen.I_title);
         mCateTextColor = getResources().getColor(R.color.text_grey_light_normal);
         mTipMinWidth = getResources().getDimensionPixelSize(R.dimen.dp_100);

@@ -21,6 +21,9 @@ class SampleBaseDialogActivity : AppBaseActivity(), View.OnClickListener {
         super.initViews()
         normal.setOnClickListener(this)
         noTitleDialog.setOnClickListener(this)
+        listDialog.setOnClickListener(this)
+        singleChoiceDialog.setOnClickListener(this)
+        multiChoiceDialog.setOnClickListener(this)
         bottomDialog.setOnClickListener(this)
     }
 
@@ -28,7 +31,7 @@ class SampleBaseDialogActivity : AppBaseActivity(), View.OnClickListener {
         when (v.id) {
             R.id.normal -> {
                 val dialog = BaseDialog.Builder(this)
-                        .setTitle("Title")
+                        .setTitle("提示")
                         .setMessage("前面的例子非常简单，但没有任何实际使用意义")
                         .setMessageGravity(Gravity.START or Gravity.TOP)
                         .setPositiveButton(R.string.yes, null)
@@ -44,10 +47,32 @@ class SampleBaseDialogActivity : AppBaseActivity(), View.OnClickListener {
                 val dialog = BaseDialog.Builder(this)
                         .setMessage("前面的例子非常简单，但没有任何实际使用意义")
                         .setPositiveButton(R.string.yes, null)
-                        .setWidthProportion(0.7F)
+                        .setWidthProportion(0.78F)
                         .create()
 
                 dialog.show()
+            }
+
+            R.id.listDialog -> {
+                BaseDialog.Builder(this)
+                        .setItems(R.array.test_array, null)
+                        .show()
+            }
+
+            R.id.singleChoiceDialog -> {
+                BaseDialog.Builder(this)
+                        .setTitle("选择方式")
+                        .setSingleChoiceItems(R.array.test_array, 0, null)
+                        .setPositiveButton(R.string.yes, null)
+                        .setNegativeButton(R.string.cancel, null)
+                        .show()
+            }
+
+            R.id.multiChoiceDialog -> {
+                BaseDialog.Builder(this)
+                        .setMultiChoiceItems(R.array.test_array, null, null)
+                        .setPositiveButton(R.string.yes, null)
+                        .show()
             }
 
             R.id.bottomDialog -> {

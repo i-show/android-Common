@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center_horizontal">
+    android:gravity="center_horizontal"
+    tools:ignore="HardcodedText">
 
     <com.ishow.common.widget.TopBar
         android:id="@+id/top_bar"
@@ -24,6 +26,25 @@
         android:layout_marginTop="@dimen/gap_grade_3"
         android:id="@+id/noTitleDialog"
         android:text="没有Title的"
+        style="@style/AppTextView.Sample"/>
+
+    <TextView
+        android:layout_marginTop="@dimen/gap_grade_3"
+        android:id="@+id/listDialog"
+        android:text="listDialog"
+        style="@style/AppTextView.Sample"/>
+
+    <TextView
+        android:layout_marginTop="@dimen/gap_grade_3"
+        android:id="@+id/singleChoiceDialog"
+        android:text="singleChoiceDialog"
+        style="@style/AppTextView.Sample"
+        />
+
+    <TextView
+        android:layout_marginTop="@dimen/gap_grade_3"
+        android:id="@+id/multiChoiceDialog"
+        android:text="multiChoiceDialog"
         style="@style/AppTextView.Sample"/>
 
     <TextView

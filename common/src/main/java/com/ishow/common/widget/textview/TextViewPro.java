@@ -51,11 +51,6 @@ import com.ishow.common.widget.prompt.IPrompt;
 public class TextViewPro extends ViewGroup {
     private static final String TAG = "TextViewPro";
     /**
-     * 默认线的高度
-     */
-    private static final int DEFAULT_LINE_HEIGHT = 2;
-
-    /**
      * 左边的View
      */
     private PromptImageView mLeftImageView;
@@ -242,13 +237,13 @@ public class TextViewPro extends ViewGroup {
         mRightImage2Width = a.getDimensionPixelSize(R.styleable.TextViewPro_rightImage2Width, 0);
         mRightImage2Height = a.getDimensionPixelSize(R.styleable.TextViewPro_rightImage2Height, 0);
 
-        mTopLineHeight = a.getDimensionPixelSize(R.styleable.TextViewPro_topLineHeight, DEFAULT_LINE_HEIGHT);
+        mTopLineHeight = a.getDimensionPixelSize(R.styleable.TextViewPro_topLineHeight, getDefaultLineHeight());
         mTopLineColor = a.getColor(R.styleable.TextViewPro_topLineColor, getDefaultLineColor());
         mTopLineVisibility = a.getInt(R.styleable.TextViewPro_topLineVisibility, View.GONE);
         mTopLinePaddingStart = a.getDimensionPixelSize(R.styleable.TextViewPro_topLinePaddingStart, 0);
         mTopLinePaddingEnd = a.getDimensionPixelSize(R.styleable.TextViewPro_topLinePaddingEnd, 0);
 
-        mBottomLineHeight = a.getDimensionPixelSize(R.styleable.TextViewPro_bottomLineHeight, DEFAULT_LINE_HEIGHT);
+        mBottomLineHeight = a.getDimensionPixelSize(R.styleable.TextViewPro_bottomLineHeight, getDefaultLineHeight());
         mBottomLineColor = a.getColor(R.styleable.TextViewPro_bottomLineColor, getDefaultLineColor());
         mBottomLineVisibility = a.getInt(R.styleable.TextViewPro_bottomLineVisibility, View.VISIBLE);
         mBottomLinePaddingStart = a.getDimensionPixelSize(R.styleable.TextViewPro_bottomLinePaddingStart, 0);
@@ -272,12 +267,14 @@ public class TextViewPro extends ViewGroup {
         mTopLinePaint.setDither(true);
         mTopLinePaint.setAntiAlias(true);
         mTopLinePaint.setColor(mTopLineColor);
+        //noinspection SuspiciousNameCombination
         mTopLinePaint.setStrokeWidth(mTopLineHeight);
 
         mBottomLinePaint = new Paint();
         mBottomLinePaint.setDither(true);
         mBottomLinePaint.setAntiAlias(true);
         mBottomLinePaint.setColor(mBottomLineColor);
+        //noinspection SuspiciousNameCombination
         mBottomLinePaint.setStrokeWidth(mBottomLineHeight);
     }
 
@@ -721,7 +718,6 @@ public class TextViewPro extends ViewGroup {
         return getContext().getResources().getDimensionPixelSize(R.dimen.dp_120);
     }
 
-    @SuppressWarnings("deprecation")
     private int getDefaultTipTextColor() {
         return getContext().getResources().getColor(R.color.text_grey_light_normal);
     }
@@ -730,21 +726,26 @@ public class TextViewPro extends ViewGroup {
         return getContext().getResources().getDimensionPixelSize(R.dimen.H_title);
     }
 
-    @SuppressWarnings("deprecation")
     private int getDefaultInputTextColor() {
         return getContext().getResources().getColor(R.color.text_grey_normal);
     }
-
 
     private int getDefaultLineColor() {
         return getContext().getResources().getColor(R.color.line);
     }
 
     /**
+     * 线的高度
+     */
+    private int getDefaultLineHeight() {
+        return getContext().getResources().getDimensionPixelSize(R.dimen.default_line_height);
+    }
+
+    /**
      * 获取默认的最小高度
      */
     private int getDefaultMinHeight() {
-        return getResources().getDimensionPixelSize(R.dimen.girdle_min_h);
+        return getResources().getDimensionPixelSize(R.dimen.default_pro_height);
     }
 
     public void setLeftImageVisibility(int visibility) {

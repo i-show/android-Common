@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2016 The yuhaiyang Android Source Project
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,14 +14,17 @@
   ~ limitations under the License.
   -->
 
-<com.ishow.common.widget.ListViewPro xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:cacheColorHint="@null"
-    android:divider="@color/line"
-    android:dividerHeight="1px"
-    android:listSelector="@android:color/transparent"
-    android:overScrollMode="ifContentScrolls"
-    android:scrollbars="vertical"
-    app:maxHeight="@dimen/default_dialog_list_height" />
+<resources>
+    <string-array name="test_array">
+        <item>养兵千日，用兵一时</item>
+        <item>说到曹操，曹操就到</item>
+        <item>失之东隅，收之桑榆</item>
+        <item>十家锅灶九不同</item>
+        <item>钉是钉，铆是铆</item>
+        <item>化腐朽为神奇</item>
+        <item>严师出高徒</item>
+        <item>坐井观天</item>
+        <item>霸王之资</item>
+        <item>蠢若木鸡</item>
+    </string-array>
+</resources>

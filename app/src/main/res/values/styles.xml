@@ -53,7 +53,7 @@
     <style name="TextViewPro"/>
     <style name="TextViewPro.Item">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/item_height</item>
+        <item name="android:layout_height">@dimen/default_item_height</item>
         <item name="android:background">@drawable/bottom_line_bg</item>
         <item name="android:paddingStart">@dimen/gap_grade_2</item>
         <item name="android:paddingEnd">@dimen/gap_grade_2</item>
@@ -66,7 +66,7 @@
 
     <style name="EditTextPro.Login">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/item_height</item>
+        <item name="android:layout_height">@dimen/default_item_height</item>
         <item name="android:textColor">@color/text_grey_normal</item>
         <item name="android:textSize">@dimen/H_title</item>
         <item name="android:textColorHint">@color/text_grey_hint</item>
@@ -80,7 +80,7 @@
 
     <style name="EditTextPro.Register">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/item_height</item>
+        <item name="android:layout_height">@dimen/default_item_height</item>
         <item name="android:background">@android:color/white</item>
         <item name="android:gravity">center</item>
         <item name="focusColor">?colorAccent</item>
@@ -92,7 +92,7 @@
 
     <style name="EditTextPro.Item">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/item_height</item>
+        <item name="android:layout_height">@dimen/default_item_height</item>
         <item name="android:background">@drawable/bottom_line_bg</item>
         <item name="android:paddingStart">@dimen/gap_grade_2</item>
         <item name="android:paddingEnd">@dimen/gap_grade_2</item>

@@ -24,7 +24,7 @@
     android:ellipsize="marquee"
     android:gravity="center"
     android:minHeight="?android:attr/listPreferredItemHeightSmall"
-    android:paddingLeft="16dip"
-    android:paddingRight="16dip"
-    android:textColor="@color/text_grey_light"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:textColor="@color/text_grey_normal"
     android:textSize="@dimen/H_title" />

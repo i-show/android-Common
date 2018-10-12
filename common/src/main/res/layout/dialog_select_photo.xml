@@ -15,11 +15,11 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/parentPanel"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical"
-              android:paddingTop="@dimen/dp_10">
+    android:id="@+id/parentPanel"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/dp_10">
 
     <LinearLayout
         android:id="@+id/topPanel"
@@ -31,7 +31,7 @@
             android:id="@+id/alertTitle"
             style="?attr/dialogTitleStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <!-- If the client uses a customTitle, it will be added here. -->
     </LinearLayout>
@@ -56,7 +56,7 @@
                 android:id="@+id/message"
                 style="?attr/dialogMessageStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
         </com.ishow.common.widget.MaxHeightScrollView>
     </LinearLayout>
 
@@ -71,7 +71,7 @@
         <FrameLayout
             android:id="@+id/custom"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
     </FrameLayout>
 
     <LinearLayout
@@ -92,13 +92,13 @@
                 android:id="@+id/negative"
                 style="?attr/dialogButtonStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/positive"
                 style="?attr/dialogButtonStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

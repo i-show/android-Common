@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -45,6 +46,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.ishow.common.R;
+import com.ishow.common.widget.ListViewPro;
 
 import java.lang.ref.WeakReference;
 
@@ -76,9 +78,9 @@ public class BaseController {
     private ScrollView mScrollView;
     private TextView mMessageView;
     private CharSequence mMessage;
-    private int mMessageGravity;
+    private Integer mMessageGravity;
 
-    private ListView mListView;
+    private ListViewPro mListView;
     private ListAdapter mAdapter;
     private int mListLayout;
     private int mListItemLayout;
@@ -140,15 +142,6 @@ public class BaseController {
         mWidthProportion = a.getFloat(R.styleable.BaseDialog_widthProportion, DEFAULT_WIDTH_PRO_PORTION);
 
         a.recycle();
-
-        init();
-    }
-
-    /**
-     * 初始化部分信息
-     */
-    private void init() {
-        mMessageGravity = Gravity.CENTER;
     }
 
 
@@ -175,61 +168,54 @@ public class BaseController {
         }
 
         LinearLayout topPanel = mWindow.findViewById(R.id.topPanel);
-        setupTitle(topPanel);
+        boolean hasTitle = setupTitle(topPanel);
 
         LinearLayout contentPanel = mWindow.findViewById(R.id.contentPanel);
-        setupContent(contentPanel);
+        setupContent(contentPanel, hasTitle);
 
         View buttonPanel = mWindow.findViewById(R.id.buttonPanel);
-        boolean hasButtons = setupButtons();
-        if (!hasButtons) {
-            buttonPanel.setVisibility(View.GONE);
-        }
+        setupButtons(buttonPanel);
 
-        if (mView != null) {
-            FrameLayout customPanel = mWindow.findViewById(R.id.customPanel);
-            FrameLayout custom = mWindow.findViewById(R.id.custom);
-            custom.addView(mView, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
-            if (mViewSpacingSpecified) {
-                custom.setPadding(mViewSpacingLeft, mViewSpacingTop, mViewSpacingRight, mViewSpacingBottom);
-            }
-            if (mListView != null) {
-                ((LinearLayout.LayoutParams) customPanel.getLayoutParams()).weight = 0;
-            }
-        } else {
-            mWindow.findViewById(R.id.customPanel).setVisibility(View.GONE);
-        }
+        setupCustom();
 
-        setupList();
+        setupList(hasTitle);
     }
 
-    private void setupTitle(LinearLayout topPanel) {
+    private boolean setupTitle(LinearLayout topPanel) {
         if (TextUtils.isEmpty(mTitle)) {
             View title = mWindow.findViewById(R.id.alertTitle);
             title.setVisibility(View.GONE);
             topPanel.setVisibility(View.GONE);
+            return false;
         } else {
             mTitleView = mWindow.findViewById(R.id.alertTitle);
             mTitleView.setText(mTitle);
+            return true;
         }
     }
 
-    private void setupContent(LinearLayout contentPanel) {
+
+    private void setupContent(LinearLayout contentPanel, boolean hasTitle) {
         mScrollView = mWindow.findViewById(R.id.scrollView);
         mScrollView.setFocusable(false);
 
         // Special case for users that only want to display a String
         mMessageView = mWindow.findViewById(R.id.message);
-        if (mMessageView == null) {
-            return;
-        }
 
-        if (mMessage != null) {
+        if (mMessage != null && mMessageView != null) {
             mMessageView.setText(mMessage);
-            mMessageView.setGravity(mMessageGravity);
+            if (mMessageGravity != null) {
+                mMessageView.setGravity(mMessageGravity);
+            }
+            if (!hasTitle) {
+                final int paddingTop = Math.max(mMessageView.getPaddingStart(), mMessageView.getPaddingEnd());
+                mMessageView.setPadding(mMessageView.getPaddingStart(), paddingTop, mMessageView.getPaddingEnd(), mMessageView.getPaddingBottom());
+            }
         } else {
-            mMessageView.setVisibility(View.GONE);
-            mScrollView.removeView(mMessageView);
+            if (mMessageView != null) {
+                mMessageView.setVisibility(View.GONE);
+                mScrollView.removeView(mMessageView);
+            }
 
             if (mListView != null) {
                 /// M: If the count of mAdapter is equal to one, make sure the
@@ -245,7 +231,23 @@ public class BaseController {
         }
     }
 
-    private boolean setupButtons() {
+    private void setupCustom() {
+        if (mView != null) {
+            FrameLayout customPanel = mWindow.findViewById(R.id.customPanel);
+            FrameLayout custom = mWindow.findViewById(R.id.custom);
+            custom.addView(mView, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
+            if (mViewSpacingSpecified) {
+                custom.setPadding(mViewSpacingLeft, mViewSpacingTop, mViewSpacingRight, mViewSpacingBottom);
+            }
+            if (mListView != null) {
+                ((LinearLayout.LayoutParams) customPanel.getLayoutParams()).weight = 0;
+            }
+        } else {
+            mWindow.findViewById(R.id.customPanel).setVisibility(View.GONE);
+        }
+    }
+
+    private void setupButtons(View buttonPanel) {
         int BIT_BUTTON_POSITIVE = 1;
         int BIT_BUTTON_NEGATIVE = 2;
         int whichButtons = 0;
@@ -303,20 +305,28 @@ public class BaseController {
             mPositiveButton.setBackgroundResource(wholeBg);
         }
 
+        if(mButtonLineColor == null){
+            mButtonLineColor = lineColor;
+        }
+
         if (topLine != null) {
-            topLine.setBackgroundColor(mButtonLineColor == null ? lineColor : mButtonLineColor);
+            topLine.setBackgroundColor(mButtonLineColor);
             topLine.setVisibility(whichButtons == 0 ? View.GONE : View.VISIBLE);
         }
         if (middleLine != null) {
-            middleLine.setBackgroundColor(mButtonLineColor == null ? lineColor : mButtonLineColor);
+            middleLine.setBackgroundColor(mButtonLineColor);
             middleLine.setVisibility(whichButtons == 3 ? View.VISIBLE : View.GONE);
         }
-        return whichButtons != 0;
+
+        buttonPanel.setVisibility(whichButtons == 0 ? View.GONE : View.VISIBLE);
     }
 
-    private void setupList() {
+    private void setupList(boolean hasTitle) {
         if ((mListView != null) && (mAdapter != null)) {
             mListView.setAdapter(mAdapter);
+            mListView.setTopLineVisibility(hasTitle ? View.VISIBLE : View.GONE);
+            mListView.setDivider(new ColorDrawable(mButtonLineColor));
+            mListView.setDividerHeight(getDefaultLineHeight());
             if (mCheckedItem > -1) {
                 mListView.setItemChecked(mCheckedItem, true);
                 mListView.setSelection(mCheckedItem);
@@ -369,7 +379,7 @@ public class BaseController {
      *
      * @param gravity {@link Gravity#CENTER 等}
      */
-    private void setMessageGravity(int gravity) {
+    private void setMessageGravity(Integer gravity) {
         mMessageGravity = gravity;
         if (mMessageView != null) {
             mMessageView.setGravity(mMessageGravity);
@@ -387,26 +397,13 @@ public class BaseController {
     /**
      * Set the view to display in the dialog along with the spacing around that view
      */
-    @SuppressWarnings("WeakerAccess")
-    public void setView(View view, int viewSpacingLeft, int viewSpacingTop, int viewSpacingRight, int viewSpacingBottom) {
+    private void setView(View view, int viewSpacingLeft, int viewSpacingTop, int viewSpacingRight, int viewSpacingBottom) {
         mView = view;
         mViewSpacingSpecified = true;
         mViewSpacingLeft = viewSpacingLeft;
         mViewSpacingTop = viewSpacingTop;
         mViewSpacingRight = viewSpacingRight;
         mViewSpacingBottom = viewSpacingBottom;
-    }
-
-    @SuppressWarnings("WeakerAccess")
-    public Button getButton(int whichButton) {
-        switch (whichButton) {
-            case DialogInterface.BUTTON_POSITIVE:
-                return mPositiveButton;
-            case DialogInterface.BUTTON_NEGATIVE:
-                return mNegativeButton;
-            default:
-                return null;
-        }
     }
 
     /**
@@ -509,6 +506,13 @@ public class BaseController {
         return mContext.getResources().getColor(R.color.line);
     }
 
+    /**
+     * 获取默认线的高度
+     */
+    private int getDefaultLineHeight() {
+        return mContext.getResources().getDimensionPixelSize(R.dimen.default_line_height);
+    }
+
     private static final class ButtonHandler extends Handler {
         // Button clicks have Message.what as the BUTTON{1,2,3} constant
         private static final int MSG_DISMISS_DIALOG = 1;
@@ -551,7 +555,7 @@ public class BaseController {
 
         CharSequence mTitle;
         CharSequence mMessage;
-        int mMessageGravity;
+        Integer mMessageGravity;
 
         DialogInterface.OnClickListener mPositiveButtonListener;
         CharSequence mPositiveButtonText;
@@ -577,7 +581,6 @@ public class BaseController {
             mContext = context;
             mCancelable = true;
             mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            mMessageGravity = Gravity.CENTER;
         }
 
         void apply(BaseController controller) {
@@ -607,7 +610,7 @@ public class BaseController {
         }
 
         private void createListView(final BaseController dialog) {
-            final ListView listView = (ListView) mInflater.inflate(dialog.mListLayout, null);
+            final ListViewPro listView = (ListViewPro) mInflater.inflate(dialog.mListLayout, null);
             ListAdapter adapter;
 
             if (mIsMultiChoice) {
