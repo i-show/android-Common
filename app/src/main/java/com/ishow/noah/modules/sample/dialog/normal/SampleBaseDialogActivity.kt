@@ -33,6 +33,7 @@ class SampleBaseDialogActivity : AppBaseActivity(), View.OnClickListener {
                         .setMessageGravity(Gravity.START or Gravity.TOP)
                         .setPositiveButton(R.string.yes, null)
                         .setNegativeButton(R.string.cancel, null)
+                        .setButtonLineColor(Color.LTGRAY)
                         .setNegativeButtonTextColor(Color.GRAY)
                         .create()
 
@@ -43,17 +44,18 @@ class SampleBaseDialogActivity : AppBaseActivity(), View.OnClickListener {
                 val dialog = BaseDialog.Builder(this)
                         .setMessage("前面的例子非常简单，但没有任何实际使用意义")
                         .setPositiveButton(R.string.yes, null)
+                        .setWidthProportion(0.7F)
                         .create()
 
                 dialog.show()
             }
 
             R.id.bottomDialog -> {
-                val dialog = BaseDialog.Builder(this, R.style.Theme_Dialog_Bottom_IOS_NoTitle)
+                val dialog = BaseDialog.Builder(this, R.style.Theme_Dialog_SelectPhoto)
                         .setTitle("Title")
                         .setMessage("前面的例子非常简单，但没有任何实际使用意义")
                         .setNegativeButton(R.string.cancel, null)
-                        .fromBottom(true)
+                        .setMessageGravity(Gravity.START)
                         .create()
 
                 dialog.show()

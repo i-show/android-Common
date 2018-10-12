@@ -67,9 +67,9 @@ class SelectAdapter<T extends IUnitSelect> extends ListAdapter<T, SelectAdapter.
 
         ViewHolder(View item, int type) {
             super(item, type);
-            title = (TextView) item.findViewById(R.id.title);
+            title = item.findViewById(R.id.title);
             title.setGravity(mGravity);
-            subTitle = (TextView) item.findViewById(R.id.sub_title);
+            subTitle = item.findViewById(R.id.sub_title);
             subTitle.setGravity(mGravity);
         }
     }

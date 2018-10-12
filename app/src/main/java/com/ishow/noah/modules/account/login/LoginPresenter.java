@@ -84,7 +84,7 @@ class LoginPresenter implements LoginContract.Presenter {
                 .execute(new AppHttpCallBack<UserContainer>(context) {
                     @Override
                     protected void onFailed(@NonNull HttpError error) {
-                        mView.dismissLoading(true);
+                        //mView.dismissLoading(true);
                         mView.showError(error.getMessage(), true, 0);
                     }
 
@@ -92,8 +92,8 @@ class LoginPresenter implements LoginContract.Presenter {
                     protected void onSuccess(UserContainer result) {
                         UserManager userManager = UserManager.getInstance();
                         userManager.setUserContainer(context, result);
-                        mView.dismissLoading(true);
-                        mView.showSuccess(null);
+                        //mView.dismissLoading(true);
+                        //mView.showSuccess(null);
                     }
                 });
 

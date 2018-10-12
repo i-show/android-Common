@@ -24,7 +24,9 @@ import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.ColorInt;
+import android.support.annotation.FloatRange;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
@@ -33,7 +35,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager.LayoutParams;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -52,7 +53,7 @@ import com.ishow.common.utils.DeviceUtils;
  * fl.addView(myView, new LayoutParams(MATCH_PARENT, WRAP_CONTENT));
  * </pre>
  * <p/>
- * <p>The HaiyangDialog class takes care of automatically setting
+ * <p>The BaseDialog class takes care of automatically setting
  * WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM} for you based on whether
  * any views in the dialog return true from {@link View#onCheckIsTextEditor()
  * View.onCheckIsTextEditor()}.  Generally you want this set for a Dialog
@@ -69,56 +70,17 @@ import com.ishow.common.utils.DeviceUtils;
 
 public class BaseDialog extends Dialog implements DialogInterface {
     private static final String TAG = "BaseDialog";
-    private static boolean isShowFromBottom;
     private BaseController mController;
 
     protected BaseDialog(Context context) {
         this(context, R.style.Theme_Dialog);
+        setActivity(context);
     }
 
-    /**
-     * Construct an BaseDialog that uses an explicit theme.  The actual Style
-     * that an HaiyangDialog uses is a private implementation, however you can
-     * here supply either the name of an attribute in the theme from which
-     * to get the dialog's Style (such as {@link android.R.attr#alertDialogTheme}
-     */
     protected BaseDialog(Context context, int theme) {
         super(context, theme);
+        setActivity(context);
         mController = new BaseController(getContext(), this, getWindow());
-    }
-
-
-    /**
-     * @return Whether the dialog is currently showing.
-     */
-    @Override
-    public boolean isShowing() {
-        return super.isShowing();
-    }
-
-    /**
-     * Gets one of the buttons used in the dialog.
-     * <p/>
-     * If a button does not exist in the dialog, null will be returned.
-     *
-     * @param whichButton The identifier of the button that should be returned.
-     *                    For example, this can be
-     *                    {@link DialogInterface#BUTTON_POSITIVE}.
-     * @return The button from the dialog, or null if a button does not exist.
-     */
-    @SuppressWarnings("unused")
-    public Button getButton(int whichButton) {
-        return mController.getButton(whichButton);
-    }
-
-    /**
-     * Gets the list view used in the dialog.
-     *
-     * @return The {@link ListView} from the dialog.
-     */
-    @SuppressWarnings("unused")
-    public ListView getListView() {
-        return mController.getListView();
     }
 
     @Override
@@ -139,7 +101,6 @@ public class BaseDialog extends Dialog implements DialogInterface {
         return super.onKeyUp(keyCode, event);
     }
 
-    // Just Set with is screen - PADDING_W , no full screen
     @Override
     public void show() {
         Context context = getContext();
@@ -159,30 +120,39 @@ public class BaseDialog extends Dialog implements DialogInterface {
         LayoutParams lp = window.getAttributes();
         int width = DeviceUtils.getScreenSize()[0];
         int height = DeviceUtils.getScreenSize()[1];
-        if (isShowFromBottom) {
-            if (width > height) {
-                //noinspection SuspiciousNameCombination
-                lp.width = height;
-            } else {
-                lp.width = width;
-            }
+        if (mController.isFromBottom()) {
+            lp.width = (int) (width * mController.getWidthProportion());
+            lp.gravity = Gravity.BOTTOM;
+            window.setWindowAnimations(R.style.Animation_Windows_Bottom);
         } else {
             if (width > height) {
                 //noinspection SuspiciousNameCombination
                 lp.width = height;
             } else {
-                lp.width = (int) (width * 0.8);
+                lp.width = (int) (width * mController.getWidthProportion());
             }
         }
 
-        if (isShowFromBottom) {
-            lp.gravity = Gravity.BOTTOM;
-            window.setWindowAnimations(R.style.Animation_Windows_Bottom);
-        }
         window.setAttributes(lp);
-
     }
 
+    /**
+     * 设置当前Activity
+     */
+    private void setActivity(Context context) {
+        if (context == null) {
+            Log.i(TAG, "setActivity: context is null");
+            return;
+        }
+
+        if (!(context instanceof Activity)) {
+            Log.i(TAG, "setActivity: context is not activity");
+            return;
+        }
+        setOwnerActivity((Activity) context);
+    }
+
+    @SuppressWarnings("unused")
     public static class Builder {
         private final BaseController.Params mParams;
         private int mTheme;
@@ -197,7 +167,7 @@ public class BaseDialog extends Dialog implements DialogInterface {
         /**
          * Constructor using a context and theme for this builder and
          * the {@link BaseDialog} it creates.  The actual theme
-         * that an HaiyangDialog uses is a private implementation, however you can
+         * that an BaseDialog uses is a private implementation, however you can
          * here supply either the name of an attribute in the theme from which
          * to get the dialog's Style (such as {@link android.R.attr#alertDialogTheme}
          * or one of the constants
@@ -205,7 +175,6 @@ public class BaseDialog extends Dialog implements DialogInterface {
         public Builder(Context context, int theme) {
             mParams = new BaseController.Params(new ContextThemeWrapper(context, theme));
             mTheme = theme;
-            isShowFromBottom = false;
         }
 
         /**
@@ -265,7 +234,6 @@ public class BaseDialog extends Dialog implements DialogInterface {
          *
          * @param gravity {@link Gravity#CENTER 等}
          */
-        @SuppressWarnings("unused")
         public Builder setMessageGravity(int gravity) {
             mParams.mMessageGravity = gravity;
             return this;
@@ -278,7 +246,7 @@ public class BaseDialog extends Dialog implements DialogInterface {
          * @param listener The {@link OnClickListener} to use.
          * @return This Builder object to allow for chaining of calls to set methods
          */
-        public Builder setPositiveButton(int textId, final OnClickListener listener) {
+        public Builder setPositiveButton(@StringRes int textId, final OnClickListener listener) {
             mParams.mPositiveButtonText = mParams.mContext.getText(textId);
             mParams.mPositiveButtonListener = listener;
             return this;
@@ -291,7 +259,6 @@ public class BaseDialog extends Dialog implements DialogInterface {
          * @param listener The {@link OnClickListener} to use.
          * @return This Builder object to allow for chaining of calls to set methods
          */
-        @SuppressWarnings("unused")
         public Builder setPositiveButton(CharSequence text, final OnClickListener listener) {
             mParams.mPositiveButtonText = text;
             mParams.mPositiveButtonListener = listener;
@@ -301,7 +268,6 @@ public class BaseDialog extends Dialog implements DialogInterface {
         /**
          * 设置字体颜色
          */
-        @SuppressWarnings("unused")
         public Builder setPositiveButtonTextColor(@ColorInt int color) {
             mParams.mPositiveButtonTextColor = ColorStateList.valueOf(color);
             return this;
@@ -310,7 +276,6 @@ public class BaseDialog extends Dialog implements DialogInterface {
         /**
          * 设置字体颜色
          */
-        @SuppressWarnings("unused")
         public Builder setPositiveButtonTextColor(ColorStateList colors) {
             if (colors == null) {
                 throw new NullPointerException();
@@ -326,7 +291,7 @@ public class BaseDialog extends Dialog implements DialogInterface {
          * @param listener The {@link OnClickListener} to use.
          * @return This Builder object to allow for chaining of calls to set methods
          */
-        public Builder setNegativeButton(int textId, final OnClickListener listener) {
+        public Builder setNegativeButton(@StringRes int textId, final OnClickListener listener) {
             mParams.mNegativeButtonText = mParams.mContext.getText(textId);
             mParams.mNegativeButtonListener = listener;
             return this;
@@ -339,7 +304,6 @@ public class BaseDialog extends Dialog implements DialogInterface {
          * @param listener The {@link OnClickListener} to use.
          * @return This Builder object to allow for chaining of calls to set methods
          */
-        @SuppressWarnings("unused")
         public Builder setNegativeButton(CharSequence text, final OnClickListener listener) {
             mParams.mNegativeButtonText = text;
             mParams.mNegativeButtonListener = listener;
@@ -349,7 +313,6 @@ public class BaseDialog extends Dialog implements DialogInterface {
         /**
          * 设置字体颜色
          */
-        @SuppressWarnings("unused")
         public Builder setNegativeButtonTextColor(@ColorInt int color) {
             mParams.mNegativeButtonTextColor = ColorStateList.valueOf(color);
             return this;
@@ -358,12 +321,19 @@ public class BaseDialog extends Dialog implements DialogInterface {
         /**
          * 设置字体颜色
          */
-        @SuppressWarnings("unused")
         public Builder setNegativeButtonTextColor(ColorStateList colors) {
             if (colors == null) {
                 throw new NullPointerException();
             }
             mParams.mNegativeButtonTextColor = colors;
+            return this;
+        }
+
+        /**
+         * 设置线的颜色
+         */
+        public Builder setButtonLineColor(@ColorInt int color) {
+            mParams.mButtonLineColor = color;
             return this;
         }
 
@@ -390,7 +360,6 @@ public class BaseDialog extends Dialog implements DialogInterface {
          * @see #setCancelable(boolean)
          * @see #setOnDismissListener(OnDismissListener)
          */
-        @SuppressWarnings("unused")
         public Builder setOnCancelListener(OnCancelListener onCancelListener) {
             mParams.mOnCancelListener = onCancelListener;
             return this;
@@ -411,7 +380,6 @@ public class BaseDialog extends Dialog implements DialogInterface {
          *
          * @return This Builder object to allow for chaining of calls to set methods
          */
-        @SuppressWarnings("unused")
         public Builder setOnKeyListener(OnKeyListener onKeyListener) {
             mParams.mOnKeyListener = onKeyListener;
             return this;
@@ -435,7 +403,6 @@ public class BaseDialog extends Dialog implements DialogInterface {
          *
          * @return This Builder object to allow for chaining of calls to set methods
          */
-        @SuppressWarnings("unused")
         public Builder setItems(CharSequence[] items, final OnClickListener listener) {
             mParams.mItems = items;
             mParams.mOnClickListener = listener;
@@ -474,7 +441,6 @@ public class BaseDialog extends Dialog implements DialogInterface {
          *                     button, if no buttons are supplied it's up to the user to dismiss the dialog.
          * @return This Builder object to allow for chaining of calls to set methods
          */
-        @SuppressWarnings("unused")
         public Builder setMultiChoiceItems(int itemsId, boolean[] checkedItems, final OnMultiChoiceClickListener listener) {
             mParams.mItems = mParams.mContext.getResources().getTextArray(itemsId);
             mParams.mOnCheckboxClickListener = listener;
@@ -499,7 +465,6 @@ public class BaseDialog extends Dialog implements DialogInterface {
          *                     button, if no buttons are supplied it's up to the user to dismiss the dialog.
          * @return This Builder object to allow for chaining of calls to set methods
          */
-        @SuppressWarnings("unused")
         public Builder setMultiChoiceItems(CharSequence[] items, boolean[] checkedItems, final OnMultiChoiceClickListener listener) {
             mParams.mItems = items;
             mParams.mOnCheckboxClickListener = listener;
@@ -523,7 +488,6 @@ public class BaseDialog extends Dialog implements DialogInterface {
          *                    button, if no buttons are supplied it's up to the user to dismiss the dialog.
          * @return This Builder object to allow for chaining of calls to set methods
          */
-        @SuppressWarnings("unused")
         public Builder setSingleChoiceItems(int itemsId, int checkedItem, final OnClickListener listener) {
             mParams.mItems = mParams.mContext.getResources().getTextArray(itemsId);
             mParams.mOnClickListener = listener;
@@ -546,7 +510,6 @@ public class BaseDialog extends Dialog implements DialogInterface {
          *                    button, if no buttons are supplied it's up to the user to dismiss the dialog.
          * @return This Builder object to allow for chaining of calls to set methods
          */
-        @SuppressWarnings("unused")
         public Builder setSingleChoiceItems(CharSequence[] items, int checkedItem, final OnClickListener listener) {
             mParams.mItems = items;
             mParams.mOnClickListener = listener;
@@ -568,7 +531,6 @@ public class BaseDialog extends Dialog implements DialogInterface {
          *                    button, if no buttons are supplied it's up to the user to dismiss the dialog.
          * @return This Builder object to allow for chaining of calls to set methods
          */
-        @SuppressWarnings("unused")
         public Builder setSingleChoiceItems(ListAdapter adapter, int checkedItem, final OnClickListener listener) {
             mParams.mAdapter = adapter;
             mParams.mOnClickListener = listener;
@@ -584,7 +546,6 @@ public class BaseDialog extends Dialog implements DialogInterface {
          * @return This Builder object to allow for chaining of calls to set methods
          * @see AdapterView#setOnItemSelectedListener(AdapterView.OnItemSelectedListener)
          */
-        @SuppressWarnings("unused")
         public Builder setOnItemSelectedListener(final AdapterView.OnItemSelectedListener listener) {
             mParams.mOnItemSelectedListener = listener;
             return this;
@@ -624,7 +585,6 @@ public class BaseDialog extends Dialog implements DialogInterface {
          * This is currently hidden because it seems like people should just
          * be able to put padding around the view.
          */
-        @SuppressWarnings("unused")
         public Builder setView(View view, int viewSpacingLeft, int viewSpacingTop, int viewSpacingRight, int viewSpacingBottom) {
             mParams.mView = view;
             mParams.mViewSpacingSpecified = true;
@@ -639,11 +599,17 @@ public class BaseDialog extends Dialog implements DialogInterface {
          * 是否是从底部弹出
          */
         public Builder fromBottom(boolean bottom) {
-            mParams.isShowFromBottom = bottom;
-            isShowFromBottom = bottom;
+            mParams.isFromBottom = bottom;
             return this;
         }
 
+        /**
+         * 设置Dialog的占屏幕宽度的比例
+         */
+        public Builder setWidthProportion(@FloatRange(from = 0.1F, to = 1.0F) float proportion) {
+            mParams.mWidthProportion = proportion;
+            return this;
+        }
 
         /**
          * Creates a {@link BaseDialog} with the arguments supplied to this builder. It does not
@@ -692,7 +658,5 @@ public class BaseDialog extends Dialog implements DialogInterface {
         public int hashCode() {
             return super.hashCode();
         }
-
-
     }
 }

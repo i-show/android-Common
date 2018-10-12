@@ -55,7 +55,7 @@ public class SelectDialog<T extends IUnitSelect> extends Dialog implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_unit_select);
 
-        ListView list = (ListView) findViewById(R.id.list);
+        ListView list = findViewById(R.id.list);
         list.setAdapter(mAdapter);
         list.setOnItemClickListener(this);
     }

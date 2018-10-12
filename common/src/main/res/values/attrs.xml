@@ -14,22 +14,22 @@
   ~ limitations under the License.
   -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
+    <attr name="dialogStyle" format="reference" />
     <attr name="dialogTitleStyle" format="reference" />
     <attr name="dialogMessageStyle" format="reference" />
     <attr name="dialogButtonStyle" format="reference" />
 
-    <attr name="dialogLayouts" format="reference" />
     <attr name="dialogMainLayout" format="reference" />
     <attr name="dialogListLayout" format="reference" />
     <attr name="dialogMultiChoiceItem" format="reference" />
     <attr name="dialogSingleChoiceItem" format="reference" />
     <attr name="dialogListItem" format="reference" />
 
-    <attr name="dialogButtonBackgrounds" format="reference" />
-    <attr name="middleBackground" format="reference|color" />
     <attr name="wholeBackground" format="reference|color" />
+    <attr name="fromBottom" format="boolean" />
+
     <!-- TopBar的样式 -->
     <attr name="topbarStyle" format="reference" />
     <attr name="actionMinWidth" format="dimension" />
@@ -615,9 +615,9 @@
         <enum name="time" value="3" />
     </attr>
 
-    <attr name="strokeWidth" format="dimension" />
+    <attr name="strokeWidth" format="dimension" tools:ignore="PrivateResource" />
     <attr name="strokeHeight" format="dimension" />
-    <attr name="strokeColor" format="color" />
+    <attr name="strokeColor" format="color" tools:ignore="PrivateResource" />
 
     <attr name="labelDistance" format="dimension" />
     <attr name="labelHeight" format="dimension" />
@@ -639,6 +639,8 @@
     <attr name="customizeMarginStart" format="dimension" />
     <attr name="customizeMarginEnd" format="dimension" />
 
+    <attr name="widthProportion" format="float" />
+    <attr name="heightProportion" format="float" />
     <attr name="widthRatio" format="integer" />
     <attr name="heightRatio" format="integer" />
     <attr name="indicatorRadius" format="dimension" />
@@ -743,18 +745,21 @@
         <attr name="cannotSelectedChild" />
     </declare-styleable>
 
-    <declare-styleable name="DialogLayouts">
+    <declare-styleable name="BaseDialog">
         <attr name="dialogMainLayout" />
         <attr name="dialogListLayout" />
         <attr name="dialogMultiChoiceItem" />
         <attr name="dialogSingleChoiceItem" />
         <attr name="dialogListItem" />
+        <attr name="fromBottom" />
+        <attr name="widthProportion" />
     </declare-styleable>
 
-    <declare-styleable name="DialogButtonBackground">
+    <declare-styleable name="BaseDialogButtons">
         <attr name="leftBackground" />
         <attr name="rightBackground" />
         <attr name="wholeBackground" />
+        <attr name="lineColor" />
     </declare-styleable>
 
     <!--状态的View转换-->

@@ -23,7 +23,6 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -53,7 +52,10 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 
 public class BaseController {
-
+    /**
+     * 没有设置颜色
+     */
+    private static final float DEFAULT_WIDTH_PRO_PORTION = 0.8F;
     private final Context mContext;
     private final DialogInterface mDialogInterface;
     private final Window mWindow;
@@ -65,7 +67,8 @@ public class BaseController {
     private int mViewSpacingRight;
     private int mViewSpacingBottom;
     private boolean mViewSpacingSpecified = false;
-    private boolean isShowFromBottom = false;
+    private boolean isFromBottom;
+    private float mWidthProportion;
 
     private TextView mTitleView;
     private CharSequence mTitle;
@@ -97,6 +100,8 @@ public class BaseController {
     private Message mNegativeButtonMessage;
     private ColorStateList mNegativeButtonTextColor;
 
+    private Integer mButtonLineColor;
+
     private Handler mHandler;
 
     private View.OnClickListener mButtonHandler = new View.OnClickListener() {
@@ -125,12 +130,15 @@ public class BaseController {
         mWindow = window;
         mHandler = new ButtonHandler(dialogInterface);
 
-        TypedArray a = context.obtainStyledAttributes(null, R.styleable.DialogLayouts, R.attr.dialogLayouts, 0);
-        mDialogLayout = a.getResourceId(R.styleable.DialogLayouts_dialogMainLayout, R.layout.dialog);
-        mListLayout = a.getResourceId(R.styleable.DialogLayouts_dialogListLayout, R.layout.dialog_select);
-        mListItemLayout = a.getResourceId(R.styleable.DialogLayouts_dialogListItem, R.layout.dialog_select_item);
-        mSingleChoiceItemLayout = a.getResourceId(R.styleable.DialogLayouts_dialogSingleChoiceItem, R.layout.dialog_select_singlechoice);
-        mMultiChoiceItemLayout = a.getResourceId(R.styleable.DialogLayouts_dialogMultiChoiceItem, R.layout.dialog_select_multichoice);
+        TypedArray a = context.obtainStyledAttributes(null, R.styleable.BaseDialog, R.attr.dialogStyle, 0);
+        mDialogLayout = a.getResourceId(R.styleable.BaseDialog_dialogMainLayout, R.layout.dialog);
+        mListLayout = a.getResourceId(R.styleable.BaseDialog_dialogListLayout, R.layout.dialog_select);
+        mListItemLayout = a.getResourceId(R.styleable.BaseDialog_dialogListItem, R.layout.dialog_select_item);
+        mSingleChoiceItemLayout = a.getResourceId(R.styleable.BaseDialog_dialogSingleChoiceItem, R.layout.dialog_select_singlechoice);
+        mMultiChoiceItemLayout = a.getResourceId(R.styleable.BaseDialog_dialogMultiChoiceItem, R.layout.dialog_select_multichoice);
+        isFromBottom = a.getBoolean(R.styleable.BaseDialog_fromBottom, false);
+        mWidthProportion = a.getFloat(R.styleable.BaseDialog_widthProportion, DEFAULT_WIDTH_PRO_PORTION);
+
         a.recycle();
 
         init();
@@ -160,8 +168,8 @@ public class BaseController {
 
 
     private void setupView() {
-        //  如果从底部弹出那么不需要设置padding
-        if (isShowFromBottom) {
+        if (isFromBottom) {
+            //  如果从底部弹出那么不需要设置padding
             View parent = mWindow.findViewById(R.id.parentPanel);
             parent.setPadding(0, 0, 0, 0);
         }
@@ -171,7 +179,6 @@ public class BaseController {
 
         LinearLayout contentPanel = mWindow.findViewById(R.id.contentPanel);
         setupContent(contentPanel);
-
 
         View buttonPanel = mWindow.findViewById(R.id.buttonPanel);
         boolean hasButtons = setupButtons();
@@ -242,6 +249,8 @@ public class BaseController {
         int BIT_BUTTON_POSITIVE = 1;
         int BIT_BUTTON_NEGATIVE = 2;
         int whichButtons = 0;
+        final View middleLine = mWindow.findViewById(R.id.button_middle_line);
+        final View topLine = mWindow.findViewById(R.id.button_top_line);
 
         mPositiveButton = mWindow.findViewById(R.id.positive);
         mPositiveButton.setOnClickListener(mButtonHandler);
@@ -272,10 +281,11 @@ public class BaseController {
         }
 
         // get Res ID
-        TypedArray a = mContext.obtainStyledAttributes(null, R.styleable.DialogButtonBackground, R.attr.dialogButtonBackgrounds, 0);
-        int leftBg = a.getResourceId(R.styleable.DialogButtonBackground_leftBackground, 0);
-        int rightBg = a.getResourceId(R.styleable.DialogButtonBackground_rightBackground, 0);
-        int wholeBg = a.getResourceId(R.styleable.DialogButtonBackground_wholeBackground, 0);
+        TypedArray a = mContext.obtainStyledAttributes(null, R.styleable.BaseDialogButtons, R.attr.dialogButtonStyle, 0);
+        int leftBg = a.getResourceId(R.styleable.BaseDialogButtons_leftBackground, 0);
+        int rightBg = a.getResourceId(R.styleable.BaseDialogButtons_rightBackground, 0);
+        int wholeBg = a.getResourceId(R.styleable.BaseDialogButtons_wholeBackground, 0);
+        int lineColor = a.getColor(R.styleable.BaseDialogButtons_lineColor, getDefaultLineColor());
         a.recycle();
         /*
          * NEGATIVE    POSITIVE
@@ -285,14 +295,21 @@ public class BaseController {
          */
         //  3 = 011 7 = 111
         if (whichButtons == 3) {
-            // right
             mPositiveButton.setBackgroundResource(rightBg);
-            // left
             mNegativeButton.setBackgroundResource(leftBg);
         } else if (whichButtons == 2) {
             mNegativeButton.setBackgroundResource(wholeBg);
         } else if (whichButtons == 1) {
             mPositiveButton.setBackgroundResource(wholeBg);
+        }
+
+        if (topLine != null) {
+            topLine.setBackgroundColor(mButtonLineColor == null ? lineColor : mButtonLineColor);
+            topLine.setVisibility(whichButtons == 0 ? View.GONE : View.VISIBLE);
+        }
+        if (middleLine != null) {
+            middleLine.setBackgroundColor(mButtonLineColor == null ? lineColor : mButtonLineColor);
+            middleLine.setVisibility(whichButtons == 3 ? View.VISIBLE : View.GONE);
         }
         return whichButtons != 0;
     }
@@ -310,8 +327,27 @@ public class BaseController {
     /**
      * 设置Dialog从底部弹出
      */
-    private void setShowFromBottom(boolean bottom) {
-        isShowFromBottom = bottom;
+    private void setFromBottom(Boolean bottom) {
+        if (bottom != null) {
+            isFromBottom = bottom;
+        }
+    }
+
+    /**
+     * 是否是从底部弹出
+     */
+    boolean isFromBottom() {
+        return isFromBottom;
+    }
+
+    private void setWidthProportion(Float widthProportion) {
+        if (widthProportion != null) {
+            mWidthProportion = widthProportion;
+        }
+    }
+
+    float getWidthProportion() {
+        return mWidthProportion;
     }
 
     public void setTitle(CharSequence title) {
@@ -333,7 +369,7 @@ public class BaseController {
      *
      * @param gravity {@link Gravity#CENTER 等}
      */
-    public void setMessageGravity(int gravity) {
+    private void setMessageGravity(int gravity) {
         mMessageGravity = gravity;
         if (mMessageView != null) {
             mMessageView.setGravity(mMessageGravity);
@@ -407,18 +443,7 @@ public class BaseController {
     /**
      * 设置右侧字体颜色
      */
-    @SuppressWarnings("unused")
-    public void setPositiveButtonTextColor(@ColorInt int color) {
-        mPositiveButtonTextColor = ColorStateList.valueOf(color);
-        setPositiveButtonTextColor(mNegativeButtonTextColor);
-    }
-
-
-    /**
-     * 设置右侧字体颜色
-     */
-    @SuppressWarnings("WeakerAccess")
-    public void setPositiveButtonTextColor(ColorStateList colors) {
+    private void setPositiveButtonTextColor(ColorStateList colors) {
         mPositiveButtonTextColor = colors;
         if (mPositiveButton != null && mPositiveButtonTextColor != null) {
             mPositiveButton.setTextColor(mPositiveButtonTextColor);
@@ -428,37 +453,27 @@ public class BaseController {
     /**
      * 设置左侧字体颜色
      */
-    @SuppressWarnings("unused")
-    public void setNegativeButtonTextColor(@ColorInt int color) {
-        mNegativeButtonTextColor = ColorStateList.valueOf(color);
-        setNegativeButtonTextColor(mNegativeButtonTextColor);
-    }
-
-
-    /**
-     * 设置左侧字体颜色
-     */
-    @SuppressWarnings("WeakerAccess")
-    public void setNegativeButtonTextColor(ColorStateList colors) {
+    private void setNegativeButtonTextColor(ColorStateList colors) {
         mNegativeButtonTextColor = colors;
         if (mNegativeButton != null && mNegativeButtonTextColor != null) {
             mNegativeButton.setTextColor(mNegativeButtonTextColor);
         }
     }
 
-    @SuppressWarnings("WeakerAccess")
-    public ListView getListView() {
-        return mListView;
+    /**
+     * 设置ButtonLine的颜色
+     */
+    private void setButtonLineColor(Integer color) {
+        mButtonLineColor = color;
     }
 
-
-    @SuppressWarnings({"WeakerAccess", "unused"})
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    @SuppressWarnings({"unused"})
+    boolean onKeyDown(int keyCode, KeyEvent event) {
         return mScrollView != null && mScrollView.executeKeyEvent(event);
     }
 
-    @SuppressWarnings({"WeakerAccess", "unused"})
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
+    @SuppressWarnings({"unused"})
+    boolean onKeyUp(int keyCode, KeyEvent event) {
         return mScrollView != null && mScrollView.executeKeyEvent(event);
     }
 
@@ -487,6 +502,12 @@ public class BaseController {
         return false;
     }
 
+    /**
+     * 获取默认线的颜色
+     */
+    private int getDefaultLineColor() {
+        return mContext.getResources().getColor(R.color.line);
+    }
 
     private static final class ButtonHandler extends Handler {
         // Button clicks have Message.what as the BUTTON{1,2,3} constant
@@ -525,7 +546,8 @@ public class BaseController {
         int mViewSpacingRight;
         int mViewSpacingBottom;
         boolean mViewSpacingSpecified = false;
-        boolean isShowFromBottom = false;
+        Boolean isFromBottom;
+        Float mWidthProportion;
 
         CharSequence mTitle;
         CharSequence mMessage;
@@ -538,6 +560,7 @@ public class BaseController {
         DialogInterface.OnClickListener mNegativeButtonListener;
         CharSequence mNegativeButtonText;
         ColorStateList mNegativeButtonTextColor;
+        Integer mButtonLineColor;
 
         ListAdapter mAdapter;
         DialogInterface.OnClickListener mOnClickListener;
@@ -558,7 +581,8 @@ public class BaseController {
         }
 
         void apply(BaseController controller) {
-            controller.setShowFromBottom(isShowFromBottom);
+            controller.setFromBottom(isFromBottom);
+            controller.setWidthProportion(mWidthProportion);
             controller.setTitle(mTitle);
             controller.setMessage(mMessage);
             controller.setMessageGravity(mMessageGravity);
@@ -567,7 +591,7 @@ public class BaseController {
             controller.setButton(DialogInterface.BUTTON_POSITIVE, mPositiveButtonText, mPositiveButtonListener);
             controller.setNegativeButtonTextColor(mNegativeButtonTextColor);
             controller.setButton(DialogInterface.BUTTON_NEGATIVE, mNegativeButtonText, mNegativeButtonListener);
-
+            controller.setButtonLineColor(mButtonLineColor);
             // For a list, the client can either supply an array of items or an
             // adapter or a cursor
             if ((mItems != null) || (mAdapter != null)) {

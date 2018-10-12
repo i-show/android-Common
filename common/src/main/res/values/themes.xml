@@ -22,7 +22,6 @@
         <item name="android:windowBackground">@drawable/window_background</item>
         <!-- Activity 进出动画 -->
         <item name="android:windowAnimationStyle">@style/Animation.Activity</item>
-        <item name="android:windowContentOverlay">@null</item>
         <!-- 设置默认的高度-->
         <item name="android:actionBarSize">@dimen/top_bar_height</item>
         <!-- 标题栏颜色 -->
@@ -48,12 +47,6 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
-    <!-- 全屏 -->
-    <style name="Theme.NoActionBar.Fullscreen.Dark">
-        <!--背景颜色-->
-        <item name="android:windowBackground">@android:color/transparent</item>
-    </style>
-
     <!-- 透明主题 -->
     <style name="Theme.NoActionBar.Transparent">
         <item name="android:windowIsTranslucent">true</item>
@@ -66,7 +59,6 @@
         <item name="android:windowBackground">@color/semipermeable</item>
     </style>
 
-
     <!-- 多选照片的主题如果要更新其中的东西请在App里面复写此主题 -->
     <style name="Theme.PhotoSelector">
         <item name="windowActionBar">false</item>
@@ -77,27 +69,24 @@
 
     <!-- ################ Dialog ################ -->
     <style name="Theme.Dialog" parent="@style/Theme.AppCompat.Light.Dialog">
-        <!-- 标题栏颜色 -->
-        <item name="colorPrimary">@color/color_primary</item>
-        <!--常用的颜色例如 光标颜色-->
-        <item name="colorAccent">@color/color_accent</item>
+        <item name="android:listPreferredItemHeightSmall">@dimen/item_height</item>
         <!--Dialog的背景图片-->
         <item name="android:windowBackground">@drawable/white_alpha_0_9_5_corner_16dp_normal</item>
         <!--Dialog中List的线-->
         <item name="android:listDivider">@drawable/line_blue</item>
-        <!--基础布局文件-->
-        <item name="dialogLayouts">@style/BaseDialog.Layout</item>
-        <!--标题样式-->
-        <item name="dialogTitleStyle">@style/BaseDialog.Title</item>
-        <!--Message 样式-->
-        <item name="dialogMessageStyle">@style/BaseDialog.Message</item>
-        <!--Button 样式-->
-        <item name="dialogButtonStyle">@style/BaseDialog.Button</item>
-        <!--Button 背景图片-->
-        <item name="dialogButtonBackgrounds">@style/BaseDialog.Button.Backgrounds</item>
-
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorAccent">@color/color_accent</item>
         <item name="colorControlNormal">@color/color_accent</item>
         <item name="colorControlActivated">@color/color_accent</item>
+
+        <!--基础布局文件-->
+        <item name="dialogStyle">@style/BaseDialog</item>
+        <!--标题样式-->
+        <item name="dialogTitleStyle">@style/BaseDialogTitle</item>
+        <!--Message 样式-->
+        <item name="dialogMessageStyle">@style/BaseDialogMessage</item>
+        <!--Button 样式-->
+        <item name="dialogButtonStyle">@style/BaseDialogButton</item>
     </style>
 
     <!-- 透明Dialog -->
@@ -109,7 +98,7 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
-    <!-- 透明Dialog -->
+    <!--半透明Dialog -->
     <style name="Theme.Dialog.Semipermeable">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>
@@ -131,12 +120,8 @@
     <!-- 从底部弹出的Dialog -->
     <style name="Theme.Dialog.Bottom">
         <item name="android:windowBackground">@drawable/top_line_white_bg</item>
-        <item name="android:listDivider">@color/line</item>
-        <!--Settings the Dialog Title-->
-        <item name="android:listPreferredItemHeightSmall">@dimen/item_height</item>
-        <item name="dialogTitleStyle">@style/BaseDialog.Title.Bottom</item>
         <item name="android:windowAnimationStyle">@style/Animation.Windows.Bottom</item>
-        <item name="dialogButtonBackgrounds">@style/BaseDialog.Button.Backgrounds.Bottom</item>
+        <item name="dialogButtonStyle">@style/BaseDialogButton.SelectPhoto</item>
     </style>
 
     <!-- 从底部弹出的Dialog -->
@@ -146,37 +131,18 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowAnimationStyle">@style/Animation.Windows.Bottom</item>
-        <item name="android:listDivider">@color/line</item>
-        <!--Settings the Dialog Title-->
-        <item name="android:listPreferredItemHeightSmall">@dimen/item_height</item>
-        <item name="dialogTitleStyle">@style/BaseDialog.Title.Bottom</item>
-        <item name="dialogButtonBackgrounds">@style/BaseDialog.Button.Backgrounds.Bottom</item>
     </style>
 
-    <!-- 从底部弹出的仿IOS风格的Dialog -->
-    <style name="Theme.Dialog.Bottom.IOS">
+    <!-- 选择图片 -->
+    <style name="Theme.Dialog.SelectPhoto">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:listDivider">@color/line</item>
-        <item name="dialogLayouts">@style/BaseDialog.Bottom.IOS.Layout</item>
-        <!--Settings the Dialog Title-->
-        <item name="android:listPreferredItemHeightSmall">@dimen/item_height</item>
-        <item name="dialogTitleStyle">@style/BaseDialog.Title.SelectPhoto</item>
-        <item name="dialogButtonBackgrounds">@style/BaseDialog.Button.Backgrounds.SelectPhoto</item>
+        <item name="dialogStyle">@style/BaseDialog.Bottom.SelectPhoto</item>
+        <item name="dialogTitleStyle">@style/BaseDialogTitle.SelectPhoto</item>
+        <item name="dialogButtonStyle">@style/BaseDialogButton.SelectPhoto</item>
     </style>
 
-    <!-- 从底部弹出的仿IOS风格的Dialog -->
-    <style name="Theme.Dialog.Bottom.IOS.NoTitle">
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:listDivider">@color/line</item>
-        <item name="dialogLayouts">@style/BaseDialog.Bottom.IOS.Layout.NoTitle</item>
-        <!--Settings the Dialog Title-->
-        <item name="android:listPreferredItemHeightSmall">@dimen/item_height</item>
-        <item name="dialogTitleStyle">@style/BaseDialog.Title.SelectPhoto</item>
-        <item name="dialogButtonBackgrounds">@style/BaseDialog.Button.Backgrounds.SelectPhoto</item>
-    </style>
-
-    <style name="AppDialog.DateTimePicker" parent="@style/Theme.AppCompat.Dialog">
+    <style name="Theme.Dialog.DateTimePicker" parent="@style/Theme.AppCompat.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowIsTranslucent">false</item>

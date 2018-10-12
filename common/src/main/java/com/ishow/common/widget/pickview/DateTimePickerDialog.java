@@ -29,6 +29,7 @@ import android.view.WindowManager;
 
 
 import com.ishow.common.R;
+import com.ishow.common.utils.DeviceUtils;
 import com.ishow.common.utils.ScreenUtils;
 import com.ishow.common.widget.TopBar;
 
@@ -50,7 +51,7 @@ public class DateTimePickerDialog extends Dialog implements TopBar.OnTopBarListe
 
     @SuppressWarnings("WeakerAccess")
     public DateTimePickerDialog(Context context, int type) {
-        super(context, R.style.AppDialog_DateTimePicker);
+        super(context, R.style.Theme_Dialog_DateTimePicker);
         mStyle = type;
     }
 
@@ -58,10 +59,10 @@ public class DateTimePickerDialog extends Dialog implements TopBar.OnTopBarListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_date_time_picker);
-        TopBar topBar = (TopBar) findViewById(R.id.top_bar);
+        TopBar topBar = findViewById(R.id.top_bar);
         topBar.setOnTopBarListener(this);
 
-        mPicker = (DateTimePicker) findViewById(R.id.picker);
+        mPicker = findViewById(R.id.picker);
         mPicker.setStyle(mStyle);
         if (mTime != 0) {
             mPicker.setCurrentDate(mTime);
@@ -92,8 +93,8 @@ public class DateTimePickerDialog extends Dialog implements TopBar.OnTopBarListe
             return;
         }
         WindowManager.LayoutParams lp = window.getAttributes();
-        int width = ScreenUtils.getScreenSize()[0];
-        int height = ScreenUtils.getScreenSize()[1];
+        int width = DeviceUtils.getScreenSize()[0];
+        int height = DeviceUtils.getScreenSize()[1];
         if (width > height) {
             //noinspection SuspiciousNameCombination
             lp.width = height;
