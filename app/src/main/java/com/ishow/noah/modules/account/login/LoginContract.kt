@@ -14,37 +14,36 @@
  * limitations under the License.
  */
 
-package com.ishow.noah.modules.account.login;
+package com.ishow.noah.modules.account.login
 
 
-import android.content.Context;
+import android.content.Context
 
-import com.ishow.common.mvp.base.IPresenter;
-import com.ishow.common.mvp.base.IView;
-import com.ishow.common.mvp.base.IViewStatus;
+import com.ishow.common.mvp.base.IPresenter
+import com.ishow.common.mvp.base.IView
+import com.ishow.common.mvp.base.IViewStatus
 
 /**
  * This specifies the contract between the view and the presenter.
  */
-interface LoginContract {
+internal interface LoginContract {
 
-    interface View extends IView, IViewStatus {
+    interface View : IView, IViewStatus {
 
         /**
          * 更新UI
          */
-        void updateUI(String account);
+        fun updateUI(account: String)
     }
 
-    interface Presenter extends IPresenter {
+    interface Presenter : IPresenter {
         /**
-         * start
+         * init
          */
-        void start(Context context);
-
+        fun init()
         /**
          * 登录
          */
-        void login(Context context, String name, String password);
+        fun login(account: String, password: String)
     }
 }

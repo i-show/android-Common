@@ -21,7 +21,7 @@
     android:orientation="vertical">
 
     <com.ishow.common.widget.TopBar
-        android:id="@+id/top_bar"
+        android:id="@+id/mTopBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftImage="@drawable/ic_back_white"
@@ -34,7 +34,7 @@
         android:layout_weight="1">
 
         <com.ishow.common.widget.textview.TextViewPro
-            android:id="@+id/now_version"
+            android:id="@+id/version"
             style="@style/TextViewPro.Item"
             android:paddingEnd="@dimen/gap_grade_8"
             android:paddingStart="@dimen/gap_grade_1"

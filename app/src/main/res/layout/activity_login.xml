@@ -22,11 +22,10 @@
     android:focusableInTouchMode="true"
     android:orientation="vertical">
 
-    <!--如果有必要用来填充icon-->
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.5" />
+        android:layout_weight="1" />
 
     <ImageView
         android:layout_width="match_parent"
@@ -42,27 +41,19 @@
 
 
     <com.ishow.common.widget.edittext.EditTextPro
-        android:id="@+id/account"
+        android:id="@+id/mEditAccountView"
         style="@style/EditTextPro.Login"
         app:inputHint="@string/login_hint_account"
         app:leftImage="@drawable/ic_account" />
 
 
     <com.ishow.common.widget.edittext.EditTextPro
-        android:id="@+id/password"
+        android:id="@+id/mEditPasswordView"
         style="@style/EditTextPro.Login"
         app:inputHint="@string/login_hint_passwrod"
         app:inputType="textPassword"
         app:leftImage="@drawable/ic_password" />
 
-    <TextView
-        android:id="@+id/forget_password"
-        style="@style/AppTextView.Login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginEnd="@dimen/dp_20"
-        android:text="@string/login_forget_password" />
 
     <Button
         android:id="@+id/login"
@@ -72,15 +63,36 @@
         android:layout_marginTop="@dimen/gap_grade_5"
         android:text="@string/login" />
 
-    <Button
-        android:id="@+id/regist"
-        style="@style/AppButton.Login"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/gap_grade_5"
-        android:background="@drawable/round_color_accent_stroke_bg"
-        android:text="@string/register"
-        android:textColor="@color/normal_coloraccent_pressed_coloraccentpressed" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/register"
+            style="@style/AppTextView.Login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginStart="@dimen/dp_20"
+            android:text="@string/register_account" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/forgotPassword"
+            style="@style/AppTextView.Login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/dp_30"
+            android:text="@string/login_forget_password" />
+
+
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"

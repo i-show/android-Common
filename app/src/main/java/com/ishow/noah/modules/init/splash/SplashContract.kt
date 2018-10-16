@@ -50,7 +50,7 @@ internal interface SplashContract {
         fun preInit(context: Context)
 
         /**
-         * start
+         * init
          */
         fun checkPermission(activity: AppBaseActivity)
 

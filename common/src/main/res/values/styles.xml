@@ -84,8 +84,8 @@
         <item name="android:paddingLeft">@dimen/dp_20</item>
         <item name="android:paddingRight">@dimen/dp_20</item>
         <item name="android:paddingBottom">@dimen/dp_20</item>
-        <item name="android:minHeight">@dimen/dp_60</item>
-        <item name="android:gravity">start</item>
+        <item name="android:minHeight">@dimen/dp_80</item>
+        <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/H_title</item>
         <item name="android:textColor">@color/text_grey</item>
     </style>

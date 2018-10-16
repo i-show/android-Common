@@ -237,15 +237,15 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         mRightImageVisibility = a.getInt(R.styleable.EditTextPro_rightImageVisibility, View.VISIBLE);
 
         mTopLineHeight = a.getDimensionPixelSize(R.styleable.EditTextPro_topLineHeight, getDefaultLineHeight());
-        mTopLineNormalColor = a.getColor(R.styleable.EditTextPro_topLineNormalColor, getDefaultNormalColor());
-        mTopLineFocusColor = a.getColor(R.styleable.EditTextPro_topLineFocusColor, getDefaultFocusColor());
+        mTopLineNormalColor = a.getColor(R.styleable.EditTextPro_topLineNormalColor, getDefaultNormalLineColor());
+        mTopLineFocusColor = a.getColor(R.styleable.EditTextPro_topLineFocusColor, getDefaultFocusLineColor());
         mTopLineVisibility = a.getInt(R.styleable.EditTextPro_topLineVisibility, View.GONE);
         mTopLinePaddingStart = a.getDimensionPixelSize(R.styleable.EditTextPro_topLinePaddingStart, 0);
         mTopLinePaddingEnd = a.getDimensionPixelSize(R.styleable.EditTextPro_topLinePaddingEnd, 0);
 
         mBottomLineHeight = a.getDimensionPixelSize(R.styleable.EditTextPro_bottomLineHeight, getDefaultLineHeight());
-        mBottomLineNormalColor = a.getColor(R.styleable.EditTextPro_bottomLineNormalColor, getDefaultNormalColor());
-        mBottomLineFocusColor = a.getColor(R.styleable.EditTextPro_bottomLineFocusColor, getDefaultFocusColor());
+        mBottomLineNormalColor = a.getColor(R.styleable.EditTextPro_bottomLineNormalColor, getDefaultNormalLineColor());
+        mBottomLineFocusColor = a.getColor(R.styleable.EditTextPro_bottomLineFocusColor, getDefaultFocusLineColor());
         mBottomLineVisibility = a.getInt(R.styleable.EditTextPro_bottomLineVisibility, View.VISIBLE);
         mBottomLinePaddingStart = a.getDimensionPixelSize(R.styleable.EditTextPro_bottomLinePaddingStart, 0);
         mBottomLinePaddingEnd = a.getDimensionPixelSize(R.styleable.EditTextPro_bottomLinePaddingEnd, 0);
@@ -739,14 +739,14 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     /**
      * 获取默认的颜色值
      */
-    private int getDefaultNormalColor() {
-        return getContext().getResources().getColor(R.color.grey_deep_10);
+    private int getDefaultNormalLineColor() {
+        return getContext().getResources().getColor(R.color.line);
     }
 
     /**
      * 获取默认的颜色值
      */
-    private int getDefaultFocusColor() {
+    private int getDefaultFocusLineColor() {
         return getContext().getResources().getColor(R.color.color_accent);
     }
     /**

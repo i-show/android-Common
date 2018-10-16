@@ -80,7 +80,7 @@
             android:name=".modules.egg.detail.EggAppInfoActivitiy"
             android:screenOrientation="portrait" />
 
-        <!--++++++++++++++++++++控件或者工具的Demo区域（start）++++++++++++++++++++++++++-->
+        <!--++++++++++++++++++++控件或者工具的Demo区域（init）++++++++++++++++++++++++++-->
         <!--Demo的主类-->
         <activity
             android:name=".modules.sample.main.SampleMainActivity"

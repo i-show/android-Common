@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="AppEditText" parent="CommonEditText"/>
+    <style name="AppEditText" parent="CommonEditText" />
 
     <style name="AppEditText.Login">
         <item name="android:layout_width">match_parent</item>
@@ -16,14 +16,15 @@
     </style>
 
 
-    <style name="AppButton" parent="CommonButton"/>
+    <style name="AppButton" parent="CommonButton" />
+
     <style name="AppButton.Login">
         <item name="android:textColor">@color/text_white_normal</item>
         <item name="android:textSize">@dimen/H_title</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_marginStart">@dimen/dp_30</item>
         <item name="android:layout_marginEnd">@dimen/dp_30</item>
-        <item name="android:background">@drawable/round_accent_color_button_bg</item>
+        <item name="android:background">@drawable/corner_5dp_accent_color_bg</item>
     </style>
 
 
@@ -38,7 +39,7 @@
         <item name="android:minHeight">@dimen/dp_45</item>
     </style>
 
-    <style name="AppTextView" parent="CommonTextView"/>
+    <style name="AppTextView" parent="CommonTextView" />
 
     <style name="AppTextView.Login">
         <item name="android:textSize">@dimen/I_title</item>
@@ -47,26 +48,27 @@
         <item name="android:clickable">true</item>
         <item name="android:gravity">center</item>
         <item name="android:drawablePadding">@dimen/gap_grade_0</item>
-        <item name="android:minHeight">@dimen/girdle_min_h</item>
+        <item name="android:minHeight">@dimen/dp_40</item>
     </style>
 
-    <style name="TextViewPro"/>
+    <style name="TextViewPro" />
+
     <style name="TextViewPro.Item">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/default_item_height</item>
-        <item name="android:background">@drawable/bottom_line_bg</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingStart">@dimen/gap_grade_2</item>
         <item name="android:paddingEnd">@dimen/gap_grade_2</item>
-        <item name="android:gravity">center</item>
         <item name="leftImageVisibility">gone</item>
         <item name="rightImageVisibility">gone</item>
         <item name="textGravity">right|center_vertical</item>
     </style>
-    <style name="EditTextPro"/>
+
+
+    <style name="EditTextPro" />
 
     <style name="EditTextPro.Login">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/default_item_height</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/text_grey_normal</item>
         <item name="android:textSize">@dimen/H_title</item>
         <item name="android:textColorHint">@color/text_grey_hint</item>
@@ -80,14 +82,23 @@
 
     <style name="EditTextPro.Register">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/default_item_height</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@android:color/white</item>
         <item name="android:gravity">center</item>
-        <item name="focusColor">?colorAccent</item>
         <item name="leftImageVisibility">gone</item>
         <item name="rightImageVisibility">gone</item>
         <item name="android:paddingStart">@dimen/gap_grade_2</item>
         <item name="android:paddingEnd">@dimen/gap_grade_2</item>
+    </style>
+
+    <style name="EditTextPro.ForgotPassword">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@android:color/white</item>
+        <item name="android:paddingStart">@dimen/gap_grade_2</item>
+        <item name="android:paddingEnd">@dimen/gap_grade_2</item>
+        <item name="leftImageVisibility">gone</item>
+        <item name="rightImageVisibility">gone</item>
     </style>
 
     <style name="EditTextPro.Item">
@@ -103,7 +114,7 @@
     </style>
 
 
-    <style name="ImageTextView"/>
+    <style name="ImageTextView" />
 
     <style name="ImageTextView.BottomBar">
         <item name="android:layout_width">0dp</item>
