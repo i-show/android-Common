@@ -17,6 +17,7 @@
 package com.ishow.noah.modules.egg;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -32,12 +33,13 @@ import com.ishow.noah.entries.egg.Egg;
 
 class EggAdapter extends RecyclerAdapter<Egg, EggAdapter.ViewHolder> {
 
-    public EggAdapter(Context context) {
+    EggAdapter(Context context) {
         super(context);
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int type) {
         View item = mLayoutInflater.inflate(R.layout.item_egg_list, parent, false);
         return new ViewHolder(item, type);
     }
@@ -54,7 +56,7 @@ class EggAdapter extends RecyclerAdapter<Egg, EggAdapter.ViewHolder> {
 
         ViewHolder(View item, int type) {
             super(item, type);
-            title = (TextView) item.findViewById(R.id.title);
+            title = item.findViewById(R.id.title);
             title.setOnClickListener(this);
         }
 

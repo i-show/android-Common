@@ -44,7 +44,7 @@ public class EggActivity extends AppBaseActivity {
         super.initViews();
 
         mAdapter = new EggAdapter(this);
-        RecyclerView list = (RecyclerView) findViewById(R.id.list);
+        RecyclerView list = findViewById(R.id.list);
         list.setLayoutManager(new GridLayoutManager(this, 2));
         list.setAdapter(mAdapter);
     }
