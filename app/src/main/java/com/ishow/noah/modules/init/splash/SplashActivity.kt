@@ -11,7 +11,7 @@ import com.ishow.common.utils.router.AppRouter
 import com.ishow.noah.constant.Configure
 import com.ishow.noah.modules.account.login.LoginActivity
 import com.ishow.noah.modules.base.AppBaseActivity
-import com.ishow.noah.modules.init.GuideActivity
+import com.ishow.noah.modules.init.guide.GuideActivity
 import com.ishow.noah.modules.main.MainActivity
 
 /**
