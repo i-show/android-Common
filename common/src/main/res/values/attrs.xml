@@ -60,10 +60,10 @@
     <attr name="textRightMargin" format="dimension" />
     <attr name="textLines" format="integer" />
     <attr name="textStyle" format="enum">
-        <enum name="NORMAL" value="0" />
-        <enum name="BOLD" value="1" />
-        <enum name="ITALIC" value="2" />
-        <enum name="BOLD_ITALIC" value="3" />
+        <enum name="normal" value="0" />
+        <enum name="bold" value="1" />
+        <enum name="italic" value="2" />
+        <enum name="bold_italic" value="3" />
     </attr>
 
     <attr name="textEllipsize">
@@ -107,8 +107,8 @@
     <attr name="leftBackground" format="reference|color" />
 
     <attr name="leftText" format="string" />
-    <attr name="leftTextSize" format="reference" />
-    <attr name="leftTextColor" format="reference" />
+    <attr name="leftTextSize" format="dimension" />
+    <attr name="leftTextColor" format="reference|color" />
     <attr name="leftTextDrawable" format="reference" />
     <attr name="leftTextDrawablePadding" format="dimension" />
     <attr name="leftTextRightMargin" format="dimension" />
@@ -122,8 +122,12 @@
         <flag name="bottom" value="0x50" />
         <!-- Push object to the left of its container, not changing its size. -->
         <flag name="left" value="0x03" />
+        <!-- Push object to the start of its container, not changing its size. -->
+        <flag name="start" value="0x03" />
         <!-- Push object to the right of its container, not changing its size. -->
         <flag name="right" value="0x05" />
+        <!-- Push object to the end of its container, not changing its size. -->
+        <flag name="end" value="0x05" />
         <!-- Place object in the vertical center of its container, not changing its size. -->
         <flag name="center_vertical" value="0x10" />
         <!-- Place object in the horizontal center of its container, not changing its size. -->
@@ -133,10 +137,10 @@
     </attr>
 
     <attr name="leftTextStyle" format="enum">
-        <enum name="NORMAL" value="0" />
-        <enum name="BOLD" value="1" />
-        <enum name="ITALIC" value="2" />
-        <enum name="BOLD_ITALIC" value="3" />
+        <enum name="normal" value="0" />
+        <enum name="bold" value="1" />
+        <enum name="italic" value="2" />
+        <enum name="bold_italic" value="3" />
     </attr>
 
     <attr name="leftTextVisibility">
@@ -157,7 +161,7 @@
 
     <attr name="leftImage2" format="reference" />
     <attr name="leftImage2Background" format="reference|color" />
-    <attr name="leftImageRightMargin2" format="dimension" />
+    <attr name="leftImage2RightMargin" format="dimension" />
     <attr name="leftImage2Visibility">
         <enum name="visible" value="0" />
         <enum name="invisible" value="4" />
@@ -166,8 +170,8 @@
 
     <attr name="rightBackground" format="reference|color" />
     <attr name="rightText" format="string" />
-    <attr name="rightTextSize" format="reference" />
-    <attr name="rightTextColor" format="reference" />
+    <attr name="rightTextSize" format="dimension" />
+    <attr name="rightTextColor" format="reference|color" />
     <attr name="rightTextDrawable" format="reference" />
     <attr name="rightTextDrawablePadding" format="dimension" />
     <attr name="rightTextRightMargin" format="dimension" />
@@ -185,8 +189,12 @@
         <flag name="bottom" value="0x50" />
         <!-- Push object to the left of its container, not changing its size. -->
         <flag name="left" value="0x03" />
+        <!-- Push object to the start of its container, not changing its size. -->
+        <flag name="start" value="0x03" />
         <!-- Push object to the right of its container, not changing its size. -->
         <flag name="right" value="0x05" />
+        <!-- Push object to the end of its container, not changing its size. -->
+        <flag name="end" value="0x05" />
         <!-- Place object in the vertical center of its container, not changing its size. -->
         <flag name="center_vertical" value="0x10" />
         <!-- Place object in the horizontal center of its container, not changing its size. -->
@@ -361,7 +369,7 @@
     <attr name="normalColor" format="color" />
     <attr name="focusColor" format="color" />
 
-    <attr name="inputBackground" format="reference" />
+    <attr name="inputBackground" format="reference|color" />
     <attr name="inputHint" format="string" />
     <attr name="inputRightMargin" format="dimension" />
     <attr name="inputText" format="string" />
