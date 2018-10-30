@@ -34,4 +34,11 @@
     <!--默认Dialog 的Item高度-->
     <dimen name="default_dialog_list_height">@dimen/dp_305</dimen>
     <dimen name="default_dialog_item_height">@dimen/dp_50</dimen>
+
+    <dimen name="status_view_title_size">@dimen/I_title</dimen>
+    <color name="status_view_title_color">@color/text_grey_normal</color>
+    <dimen name="status_view_sub_title_size">@dimen/K_title</dimen>
+    <color name="status_view_sub_title_color">@color/text_grey_light_more_normal</color>
+    <dimen name="status_view_reload_size">@dimen/J_title</dimen>
+    <color name="status_view_reload_color">@color/text_grey_normal</color>
 </resources>

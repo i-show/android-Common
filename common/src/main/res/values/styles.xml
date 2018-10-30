@@ -162,7 +162,7 @@
         <item name="subTextSize">@dimen/top_bar_sub_title_text_size</item>
         <item name="subTextColor">@color/top_bar_text_color</item>
         <item name="android:background">@color/color_primary</item>
-        <item name="textStyle">NORMAL</item>
+        <item name="textStyle">normal</item>
     </style>
 
     <!-- Button 默认样式统一样式 -->
@@ -213,6 +213,38 @@
         <item name="android:layout_weight">1</item>
         <item name="android:background">@android:color/white</item>
         <item name="android:alpha">0</item>
+    </style>
+
+    <style name="Default" />
+
+    <style name="Default.StatusView">
+        <item name="loadingImage"/>
+        <item name="loadingText" />
+        <item name="loadingTextSize">@dimen/status_view_title_size</item>
+        <item name="loadingTextColor">@color/status_view_title_color</item>
+
+        <item name="errorText">@string/load_data_failed</item>
+        <item name="errorTextSize">@dimen/status_view_title_size</item>
+        <item name="errorTextColor">@color/status_view_title_color</item>
+
+        <item name="errorSubText">@string/load_data_failed_tip</item>
+        <item name="errorSubTextSize">@dimen/status_view_sub_title_size</item>
+        <item name="errorSubTextColor">@color/status_view_sub_title_color</item>
+        <item name="errorImage">@drawable/icon_no_server</item>
+
+        <item name="emptyText">@string/nothing</item>
+        <item name="emptyTextSize">@dimen/status_view_title_size</item>
+        <item name="emptyTextColor">@color/status_view_title_color</item>
+        <item name="emptySubText"/>
+        <item name="emptySubTextSize">@dimen/status_view_sub_title_size</item>
+        <item name="emptySubTextColor">@color/status_view_sub_title_color</item>
+        <item name="emptyImage">@drawable/icon_no_data</item>
+
+        <item name="reloadText">@string/reload_data</item>
+        <item name="reloadTextSize">@dimen/status_view_reload_size</item>
+        <item name="reloadTextColor">@color/status_view_reload_color</item>
+        <item name="reloadBackground">@drawable/corner_max_grey_line_white_bg</item>
+        <item name="interruptTouchEvent">true</item>
     </style>
 
 </resources>

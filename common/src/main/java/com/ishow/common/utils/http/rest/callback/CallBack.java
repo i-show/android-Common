@@ -57,7 +57,7 @@ public abstract class CallBack<T> {
     }
 
     /**
-     * CallBack onFailed
+     * OnStatusViewListener onFailed
      *
      * @param error 错误信息的的组合对象
      */
@@ -65,7 +65,7 @@ public abstract class CallBack<T> {
     protected abstract void onFailed(@NonNull HttpError error);
 
     /**
-     * CallBack onFailed runOnUiThread
+     * OnStatusViewListener onFailed runOnUiThread
      */
     public final void runOnUiThreadFailed(@NonNull final HttpError error) {
         // 输出Debug信息
@@ -99,7 +99,7 @@ public abstract class CallBack<T> {
     }
 
     /**
-     * CallBack onSuccess
+     * OnStatusViewListener onSuccess
      *
      * @param result 返回成功的组合对象
      */
@@ -107,7 +107,7 @@ public abstract class CallBack<T> {
     protected abstract void onSuccess(T result);
 
     /**
-     * CallBack onFailed runOnUiThread
+     * OnStatusViewListener onFailed runOnUiThread
      */
     public final void runOnUiThreadSuccessful(@NonNull final Response response, @NonNull final T result) {
         debugForSuccess(response, result);
@@ -129,7 +129,7 @@ public abstract class CallBack<T> {
     }
 
     /**
-     * CallBack parseResponse
+     * OnStatusViewListener parseResponse
      */
     public abstract T parseResponse(@NonNull final Request request, @NonNull final Response response) throws HttpErrorException;
 

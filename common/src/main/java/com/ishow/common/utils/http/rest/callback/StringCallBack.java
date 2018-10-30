@@ -25,7 +25,7 @@ import com.ishow.common.utils.http.rest.response.Response;
 
 /**
  * Created by bright.yu on 2017/2/28.
- * String CallBack
+ * String OnStatusViewListener
  */
 public abstract class StringCallBack extends CallBack<String> {
     @SuppressWarnings("WeakerAccess")

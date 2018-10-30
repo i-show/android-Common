@@ -38,7 +38,7 @@ import com.ishow.common.widget.dialog.BaseDialog;
 import com.ishow.common.widget.loading.LoadingDialog;
 
 public abstract class BaseFragment extends Fragment implements
-        StatusView.CallBack,
+        StatusView.OnStatusViewListener,
         IViewStatus,
         TopBar.OnTopBarListener {
 
@@ -316,7 +316,7 @@ public abstract class BaseFragment extends Fragment implements
     }
 
     @Override
-    public void onReload(View v) {
+    public void onStatusClick(View v, StatusView.Which which) {
 
     }
 }

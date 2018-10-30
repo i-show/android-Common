@@ -160,17 +160,24 @@ public abstract class RecyclerPullToRefreshAdapter<DATA, HOLDER extends Recycler
         }
     }
 
+
     @Override
-    public void resolveData(PullToRefreshView pullToRefresh, @NonNull List<DATA> datas, int totalcount) {
+    public void resolveData(PullToRefreshView pullToRefresh, @NonNull List<DATA> data, int totalCount) {
+        final int realCount = getRealCount();
+        resolveData(pullToRefresh, data, realCount >= totalCount);
+    }
+
+    @Override
+    public void resolveData(PullToRefreshView pullToRefresh, List<DATA> data, boolean isLastPage) {
         if (isLoadingMoreState()) {
             pullToRefresh.setLoadMoreSuccess();
-            plusData(datas);
+            plusData(data);
         } else {
             pullToRefresh.setRefreshSuccess();
-            setData(datas);
+            setData(data);
         }
-        // 修复pagernumber
-        repairPagerNumber(datas.size());
+        // 修复pagerNumber
+        repairPagerNumber(data.size());
 
         final int realCount = getRealCount();
 
@@ -178,7 +185,7 @@ public abstract class RecyclerPullToRefreshAdapter<DATA, HOLDER extends Recycler
 
         if (realCount == 0) {
             pullToRefresh.setLoadMoreEnable(false);
-        } else if (realCount >= totalcount) {
+        } else if (isLastPage) {
             pullToRefresh.setLoadMoreEnable(true);
             pullToRefresh.setLoadMoreEnd();
         } else {

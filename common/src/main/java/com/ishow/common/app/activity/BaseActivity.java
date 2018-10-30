@@ -48,7 +48,7 @@ import java.lang.reflect.Method;
 
 
 public abstract class BaseActivity extends AppCompatActivity implements
-        StatusView.CallBack,
+        StatusView.OnStatusViewListener,
         IViewStatus,
         TopBar.OnTopBarListener {
     private static final String TAG = "BaseActivity";
@@ -138,16 +138,16 @@ public abstract class BaseActivity extends AppCompatActivity implements
     protected void initViews() {
         // 主动设置TopBar
         View topBarView = findViewById(R.id.top_bar);
-        if (topBarView != null && topBarView instanceof TopBar) {
+        if (topBarView instanceof TopBar) {
             TopBar topBar = (TopBar) topBarView;
             topBar.setOnTopBarListener(this);
         }
 
         // 主动设置statusView
         View statusView = findViewById(R.id.status_view);
-        if (statusView != null && statusView instanceof StatusView) {
+        if (statusView instanceof StatusView) {
             mStatusView = (StatusView) statusView;
-            mStatusView.setCallBack(this);
+            mStatusView.setOnStatusViewListener(this);
         }
     }
 
@@ -416,11 +416,6 @@ public abstract class BaseActivity extends AppCompatActivity implements
         }
     }
 
-    @Override
-    public void onReload(View v) {
-
-    }
-
 
     /**
      * 在不知道手机系统的情况下尝试设置状态栏字体模式为深色
@@ -429,7 +424,7 @@ public abstract class BaseActivity extends AppCompatActivity implements
      *
      * @return 1:MIUUI 2:Flyme 3:android6.0 0:设置失败
      */
-    @SuppressWarnings({"UnusedReturnValue", "SameParameterValue", "SimplifiableIfStatement"})
+    @SuppressWarnings({"UnusedReturnValue", "SameParameterValue", "SimplifiableIfStatement", "unused"})
     protected int setSystemUiVisibility(int visibility, boolean forceLightBar) {
         int result = 0;
         boolean isLightBar;
@@ -522,5 +517,10 @@ public abstract class BaseActivity extends AppCompatActivity implements
 
     public Context getContext() {
         return this;
+    }
+
+    @Override
+    public void onStatusClick(View v, StatusView.Which which) {
+
     }
 }

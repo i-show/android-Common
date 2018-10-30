@@ -34,14 +34,38 @@
     <attr name="topbarStyle" format="reference" />
     <attr name="actionMinWidth" format="dimension" />
 
+    <attr name="statusStyle" format="reference" />
     <attr name="loadingText" format="string" />
+    <attr name="loadingTextSize" format="dimension" />
+    <attr name="loadingTextColor" format="color" />
+    <attr name="loadingImage" format="reference" />
     <attr name="errorText" format="string" />
+    <attr name="errorTextSize" format="dimension" />
+    <attr name="errorTextColor" format="color" />
+    <attr name="errorSubText" format="string" />
+    <attr name="errorSubTextSize" format="dimension" />
+    <attr name="errorSubTextColor" format="color" />
     <attr name="errorImage" format="reference" />
+    <attr name="emptyText" format="string" />
+    <attr name="emptyTextColor" format="color" />
+    <attr name="emptyTextSize" format="dimension" />
+    <attr name="emptySubText" format="string" />
+    <attr name="emptySubTextColor" format="color" />
+    <attr name="emptySubTextSize" format="dimension" />
+    <attr name="emptyImage" format="reference" />
+    <attr name="reloadText" format="string" />
+    <attr name="reloadTextColor" format="color" />
+    <attr name="reloadTextSize" format="dimension" />
+    <attr name="reloadBackground" format="reference|color" />
 
     <attr name="itemMinHeight" format="dimension" />
 
     <!-- 是否可以点击 -->
     <attr name="clickable" format="boolean" />
+    <attr name="titleClickable" format="boolean" />
+    <attr name="subTitleClickable" format="boolean" />
+    <attr name="interruptTouchEvent" format="boolean" />
+
     <!-- 是否开启密码格式 -->
     <attr name="secretable" format="boolean" />
     <!-- 是否可以编辑 -->
@@ -773,10 +797,31 @@
     <!--状态的View转换-->
     <declare-styleable name="StatusView">
         <attr name="loadingText" />
+        <attr name="loadingTextSize" />
+        <attr name="loadingTextColor" />
+        <attr name="loadingImage" />
         <attr name="errorText" />
+        <attr name="errorTextSize" />
+        <attr name="errorTextColor" />
+        <attr name="errorSubText" />
+        <attr name="errorSubTextSize" />
+        <attr name="errorSubTextColor" />
         <attr name="errorImage" />
-        <attr name="textColor" />
-        <attr name="textSize" />
+        <attr name="emptyText" />
+        <attr name="emptyTextColor" />
+        <attr name="emptyTextSize" />
+        <attr name="emptySubText" />
+        <attr name="emptySubTextColor" />
+        <attr name="emptySubTextSize" />
+        <attr name="emptyImage" />
+        <attr name="reloadText" />
+        <attr name="reloadTextColor" />
+        <attr name="reloadTextSize" />
+        <attr name="reloadBackground" />
+
+        <attr name="interruptTouchEvent" />
+        <attr name="titleClickable" />
+        <attr name="subTitleClickable" />
     </declare-styleable>
 
 

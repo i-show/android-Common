@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.ishow.common.widget.TopBar
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftImage="@drawable/ic_back_white"
+        app:text="@string/sample_status_view" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/gap_grade_2"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/empty"
+            style="@style/AppTextView.Sample"
+            android:layout_marginStart="@dimen/gap_grade_2"
+            android:text="Empty" />
+
+        <TextView
+            android:id="@+id/error"
+            style="@style/AppTextView.Sample"
+            android:layout_marginStart="@dimen/gap_grade_2"
+            android:text="Error" />
+
+
+        <TextView
+            android:id="@+id/loading"
+            style="@style/AppTextView.Sample"
+            android:layout_marginStart="@dimen/gap_grade_2"
+            android:text="Loading" />
+    </LinearLayout>
+
+    <com.ishow.common.widget.StatusView
+        android:id="@+id/statusView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

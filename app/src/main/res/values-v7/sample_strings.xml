@@ -26,5 +26,6 @@
     <string name="sample_flow_layout">FlowLayout</string>
     <string name="sample_pull_to_refresh">PullToRefresh</string>
     <string name="sample_base_dialog">BaseDialog</string>
+    <string name="sample_status_view">StatusView</string>
 
 </resources>

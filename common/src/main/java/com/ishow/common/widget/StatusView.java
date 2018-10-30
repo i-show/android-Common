@@ -17,12 +17,18 @@
 package com.ishow.common.widget;
 
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -31,7 +37,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ishow.common.R;
-import com.ishow.common.utils.AnimatorUtils;
+import com.ishow.common.utils.log.LogManager;
 import com.ishow.common.widget.spinkit.SpinKitView;
 
 /**
@@ -39,6 +45,7 @@ import com.ishow.common.widget.spinkit.SpinKitView;
  */
 @SuppressWarnings("unused")
 public class StatusView extends FrameLayout implements View.OnClickListener {
+    private static final String TAG = "StatusView";
     /**
      * 正在加载
      */
@@ -52,31 +59,50 @@ public class StatusView extends FrameLayout implements View.OnClickListener {
      */
     public final static int STATUS_EMPTY = STATUS_LOADING + 2;
 
-    /**
-     * 动画时长
-     */
-    private static final long ANIT_DURATION = 500;
+    public enum Which {
+        Title, SubTitle, Reload
+    }
 
-
-    private static final int HANDLER_DISMISS = 1000;
-    private static final int DISMISS_DELAY = 500;
-
-    private View mRoot;
     private ImageView mIconView;
     private SpinKitView mLoadingView;
-    private TextView mTitle;
-    private TextView mSubTitle;
-    private TextView mReload;
+    private TextView mTitleView;
+    private TextView mSubTitleView;
+    private TextView mReloadView;
 
     private ObjectAnimator mDismissAni;
 
+    private int mLoadingDrawableId;
     private String mLoadingText;
-    private String mErrorText;
-    private int mErrorImageRes;
-    private int mTextColor;
-    private int mTextSize;
+    private ColorStateList mLoadingTextColor;
+    private int mLoadingTextSize;
 
-    private CallBack mCallBack;
+    private int mEmptyDrawableId;
+    private String mEmptyText;
+    private ColorStateList mEmptyTextColor;
+    private int mEmptyTextSize;
+    private String mEmptySubText;
+    private ColorStateList mEmptySubTextColor;
+    private int mEmptySubTextSize;
+
+    private int mErrorDrawableId;
+    private String mErrorText;
+    private ColorStateList mErrorTextColor;
+    private int mErrorTextSize;
+
+    private String mErrorSubText;
+    private ColorStateList mErrorSubTextColor;
+    private int mErrorSubTextSize;
+
+    private Drawable mReloadTextBackground;
+    private String mReloadText;
+    private ColorStateList mReloadTextColor;
+    private int mReloadTextSize;
+
+    private boolean isInterruptTouchEvent;
+    private boolean isTitleClickable;
+    private boolean isSubTitleClickable;
+
+    private OnStatusViewListener mOnStatusViewListener;
 
     public StatusView(Context context) {
         this(context, null);
@@ -88,50 +114,83 @@ public class StatusView extends FrameLayout implements View.OnClickListener {
 
     public StatusView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.StatusView);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.StatusView, R.attr.statusStyle, R.style.Default_StatusView);
+        mLoadingDrawableId = a.getResourceId(R.styleable.StatusView_loadingImage, -1);
         mLoadingText = a.getString(R.styleable.StatusView_loadingText);
-        mErrorText = a.getString(R.styleable.StatusView_errorText);
-        mErrorImageRes = a.getResourceId(R.styleable.StatusView_errorImage, R.drawable.no_picture);
-        mTextColor = a.getColor(R.styleable.StatusView_textColor, 0);
-        mTextSize = a.getColor(R.styleable.StatusView_textSize, 0);
-        a.recycle();
+        mLoadingTextColor = a.getColorStateList(R.styleable.StatusView_loadingTextColor);
+        mLoadingTextSize = a.getDimensionPixelSize(R.styleable.StatusView_loadingTextSize, getDefaultTextSize());
 
+        mEmptyDrawableId = a.getResourceId(R.styleable.StatusView_emptyImage, -1);
+        mEmptyText = a.getString(R.styleable.StatusView_emptyText);
+        mEmptyTextColor = a.getColorStateList(R.styleable.StatusView_emptyTextColor);
+        mEmptyTextSize = a.getDimensionPixelSize(R.styleable.StatusView_emptyTextSize, getDefaultTextSize());
+        mEmptySubText = a.getString(R.styleable.StatusView_emptySubText);
+        mEmptySubTextColor = a.getColorStateList(R.styleable.StatusView_emptySubTextColor);
+        mEmptySubTextSize = a.getDimensionPixelSize(R.styleable.StatusView_emptySubTextSize, getDefaultSubTextSize());
+
+        mErrorDrawableId = a.getResourceId(R.styleable.StatusView_errorImage, -1);
+        mErrorText = a.getString(R.styleable.StatusView_errorText);
+        mErrorTextColor = a.getColorStateList(R.styleable.StatusView_errorTextColor);
+        mErrorTextSize = a.getDimensionPixelSize(R.styleable.StatusView_errorTextSize, getDefaultTextSize());
+        mErrorSubText = a.getString(R.styleable.StatusView_errorSubText);
+        mErrorSubTextColor = a.getColorStateList(R.styleable.StatusView_errorSubTextColor);
+        mErrorSubTextSize = a.getDimensionPixelSize(R.styleable.StatusView_errorSubTextSize, getDefaultSubTextSize());
+
+        mReloadText = a.getString(R.styleable.StatusView_reloadText);
+        mReloadTextColor = a.getColorStateList(R.styleable.StatusView_reloadTextColor);
+        mReloadTextSize = a.getDimensionPixelSize(R.styleable.StatusView_reloadTextSize, getDefaultReloadTextSize());
+        mReloadTextBackground = a.getDrawable(R.styleable.StatusView_reloadBackground);
+        isInterruptTouchEvent = a.getBoolean(R.styleable.StatusView_interruptTouchEvent, true);
+        isTitleClickable = a.getBoolean(R.styleable.StatusView_titleClickable, false);
+        isSubTitleClickable = a.getBoolean(R.styleable.StatusView_subTitleClickable, false);
+        a.recycle();
+        checkParams();
         initView();
     }
 
 
     private void initView() {
         LayoutInflater inflater = LayoutInflater.from(getContext());
-        mRoot = inflater.inflate(R.layout.widget_status_view, this, true);
-        mIconView = (ImageView) findViewById(R.id.icon);
-        mLoadingView = (SpinKitView) findViewById(R.id.status_loading);
-        mTitle = (TextView) findViewById(R.id.title);
-        mSubTitle = (TextView) findViewById(R.id.subTitle);
+        inflater.inflate(R.layout.widget_status_view, this, true);
+        mIconView = findViewById(R.id.icon);
+        mLoadingView = findViewById(R.id.status_loading);
+        mTitleView = findViewById(R.id.title);
+        if (isTitleClickable) mTitleView.setOnClickListener(this);
 
-        mReload = (TextView) findViewById(R.id.reload);
-        mReload.setOnClickListener(this);
+        mSubTitleView = findViewById(R.id.subTitle);
+        if (isSubTitleClickable) mSubTitleView.setOnClickListener(this);
+        mReloadView = findViewById(R.id.reload);
+        mReloadView.setOnClickListener(this);
+    }
+
+    private void checkParams() {
+        final ColorStateList defaultTextColor = getDefaultTextColor();
+        final ColorStateList defaultSubTextColor = getDefaultSubTextColor();
+
+        if (mLoadingTextColor == null) mLoadingTextColor = defaultSubTextColor;
+        if (mErrorTextColor == null) mErrorTextColor = defaultTextColor;
+        if (mErrorSubTextColor == null) mErrorSubTextColor = defaultSubTextColor;
+        if (mEmptyTextColor == null) mEmptyTextColor = defaultTextColor;
+        if (mEmptySubTextColor == null) mEmptySubTextColor = defaultSubTextColor;
+        if (mReloadTextColor == null) mReloadTextColor = getDefaultReloadTextColor();
     }
 
 
     public void showError() {
-        Context context = getContext();
-        String reload = context.getString(R.string.reload_data);
-        String title = context.getString(R.string.load_data_failed);
-        String subTitle = context.getString(R.string.load_data_failed_tip);
-        showError(reload, title, subTitle, R.drawable.icon_no_server);
+        showError(mReloadText, mErrorText, mErrorSubText, mErrorDrawableId);
     }
 
     public void showError(@StringRes int title, int icon) {
         Context context = getContext();
         String titleString = context.getString(title);
-        showError(null, titleString, null, icon);
+        showError(mReloadText, titleString, mErrorSubText, icon);
     }
 
     public void showError(@StringRes int title, @StringRes int subTitle, int icon) {
         Context context = getContext();
         String titleString = context.getString(title);
         String subTitleString = context.getString(subTitle);
-        showError(null, titleString, subTitleString, icon);
+        showError(mReloadText, titleString, subTitleString, icon);
     }
 
     public void showError(@StringRes int reload, @StringRes int title, @StringRes int subTitle, int icon) {
@@ -143,69 +202,94 @@ public class StatusView extends FrameLayout implements View.OnClickListener {
     }
 
     public void showError(String reload, String title, String subTitle, int icon) {
-        setAlpha(1F);
-        mTitle.setTextColor(getResources().getColor(R.color.text_grey_normal));
-        setText(mReload, reload);
-        setText(mTitle, title);
-        setText(mSubTitle, subTitle);
+        setVisibility(VISIBLE);
         mIconView.setImageResource(icon);
-        mIconView.setVisibility(VISIBLE);
+		mIconView.setVisibility(VISIBLE);
+        stopLoadingAnimation();
         mLoadingView.setVisibility(GONE);
+	   
+        mTitleView.setTextColor(mErrorTextColor);
+        mTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mErrorTextSize);
+        setText(mTitleView, title);
+        mSubTitleView.setTextColor(mErrorSubTextColor);
+        mSubTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mErrorSubTextSize);
+        setText(mSubTitleView, subTitle);
+        mReloadView.setTextColor(mReloadTextColor);
+        mReloadView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mReloadTextSize);
+        mReloadView.setBackground(mReloadTextBackground);
+        setText(mReloadView, reload);
+        
     }
 
     public void showLoading() {
-        showLoading(R.string.loading);
+        showLoading(mLoadingText, mLoadingDrawableId);
     }
 
     public void showLoading(@StringRes int text) {
         String subTitle = getContext().getString(text);
-        showLoading(subTitle);
+        showLoading(subTitle, mLoadingDrawableId);
     }
 
-    public void showLoading(String title) {
-        setAlpha(1F);
-        setText(mTitle, title);
-        mTitle.setTextColor(mSubTitle.getTextColors());
-        mSubTitle.setVisibility(GONE);
-        mReload.setVisibility(GONE);
-
+    public void showLoading(String title, @DrawableRes int drawable) {
+       setVisibility(VISIBLE);
         mIconView.setVisibility(GONE);
         mLoadingView.setVisibility(VISIBLE);
+        mTitleView.setTextColor(mLoadingTextColor);
+        mTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mLoadingTextSize);
+        setText(mTitleView, title);
+        mSubTitleView.setVisibility(GONE);
+        mReloadView.setVisibility(GONE);
     }
 
 
     public void showEmpty() {
-        showEmpty(R.string.nothing);
+        showEmpty(mEmptyText, mEmptySubText, mEmptyDrawableId);
     }
 
     public void showEmpty(@StringRes int text) {
         String title = getContext().getString(text);
-        showEmpty(title, R.drawable.icon_no_data);
+        showEmpty(title, mEmptySubText, mEmptyDrawableId);
     }
 
     public void showEmpty(@StringRes int text, @DrawableRes int icon) {
         String title = getContext().getString(text);
-        showEmpty(title, icon);
+        showEmpty(title, mEmptySubText, icon);
+    }
+
+    public void showEmpty(@StringRes int text, @StringRes int subText, @DrawableRes int icon) {
+        String title = getContext().getString(text);
+        String subTitle = getContext().getString(text);
+        showEmpty(title, subTitle, icon);
     }
 
     public void showEmpty(String title, @DrawableRes int icon) {
-        setAlpha(1F);
-        setText(mTitle, title);
-        mTitle.setTextColor(mSubTitle.getTextColors());
-        mSubTitle.setVisibility(GONE);
-        mReload.setVisibility(GONE);
+        showEmpty(title, mEmptySubText, icon);
+    }
 
+    public void showEmpty(String title, String subTitle, @DrawableRes int icon) {
+        setVisibility(VISIBLE);
         mIconView.setImageResource(icon);
         mIconView.setVisibility(VISIBLE);
+		stopLoadingAnimation();
         mLoadingView.setVisibility(GONE);
+
+        mTitleView.setTextColor(mEmptyTextColor);
+        mTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mEmptyTextSize);
+        setText(mTitleView, title);
+
+        mSubTitleView.setTextColor(mEmptySubTextColor);
+        mSubTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mEmptySubTextSize);
+        setText(mSubTitleView, subTitle);
+
+        mReloadView.setVisibility(GONE);
     }
 
     public void dismiss() {
-        setAlpha(0f);
+        setVisibility(View.GONE);
     }
 
     public void cancelDismiss() {
-        setAlpha(1F);
+        setVisibility(View.VISIBLE);
     }
 
 
@@ -219,23 +303,123 @@ public class StatusView extends FrameLayout implements View.OnClickListener {
     }
 
     @Override
+    @SuppressLint("ClickableViewAccessibility")
     public boolean onTouchEvent(MotionEvent event) {
-        float alpha = getAlpha();
-        return alpha != 0;
+        if (isInterruptTouchEvent) {
+            return true;
+        } else {
+            return super.onTouchEvent(event);
+        }
     }
 
     @Override
     public void onClick(View v) {
-        if (mCallBack != null) {
-            mCallBack.onReload(this);
+        if (v == mTitleView) {
+            notifyClickTitle();
+        } else if (v == mSubTitleView) {
+            notifyClickSubTitle();
+        } else if (v == mReloadView) {
+            notifyReload();
         }
     }
 
-    public void setCallBack(CallBack callBack) {
-        mCallBack = callBack;
+    private void startLoadingAnimation() {
+        Drawable drawable = mIconView.getDrawable();
+        if (!(drawable instanceof AnimationDrawable)) {
+            LogManager.e(TAG, "drawable is not AnimationDrawable");
+            return;
+        }
+
+        ((AnimationDrawable) drawable).start();
     }
 
-    public interface CallBack {
-        void onReload(View v);
+    private void stopLoadingAnimation() {
+        mIconView.clearAnimation();
+        Drawable drawable = mIconView.getDrawable();
+        if (!(drawable instanceof AnimationDrawable)) {
+            LogManager.e(TAG, "drawable is not AnimationDrawable");
+            return;
+        }
+
+        ((AnimationDrawable) drawable).stop();
+    }
+
+    public void setOnStatusViewListener(OnStatusViewListener callBack) {
+        mOnStatusViewListener = callBack;
+    }
+
+    private void notifyClickTitle() {
+        if (mOnStatusViewListener != null) {
+            mOnStatusViewListener.onStatusClick(this, Which.Title);
+        }
+    }
+
+    private void notifyClickSubTitle() {
+        if (mOnStatusViewListener != null) {
+            mOnStatusViewListener.onStatusClick(this, Which.SubTitle);
+        }
+    }
+
+    private void notifyReload(){
+        if (mOnStatusViewListener != null) {
+            mOnStatusViewListener.onStatusClick(this, Which.Reload);
+        }
+    }
+
+    public void setTitleClickable(boolean clickable) {
+        mTitleView.setOnClickListener(clickable ? this : null);
+    }
+
+    public void setSubTitleClickable(boolean clickable) {
+        mSubTitleView.setOnClickListener(clickable ? this : null);
+    }
+
+    public interface OnStatusViewListener {
+        /**
+         * 点击了副标题标题
+         */
+        void onStatusClick(View v, Which which);
+    }
+
+    /**
+     * 默认字体大小
+     */
+    private int getDefaultTextSize() {
+        return getContext().getResources().getDimensionPixelSize(R.dimen.H_title);
+    }
+
+    /**
+     * 默认字体颜色
+     */
+    private ColorStateList getDefaultTextColor() {
+        return ContextCompat.getColorStateList(getContext(), R.color.text_grey_normal);
+    }
+
+    /**
+     * 默认副标题字体大小
+     */
+    private int getDefaultSubTextSize() {
+        return getContext().getResources().getDimensionPixelSize(R.dimen.J_title);
+    }
+
+    /**
+     * 默认副标题字体颜色
+     */
+    private ColorStateList getDefaultSubTextColor() {
+        return ContextCompat.getColorStateList(getContext(), R.color.text_grey_light_more_normal);
+    }
+
+    /**
+     * 默认重新加载字体大小
+     */
+    private int getDefaultReloadTextSize() {
+        return getContext().getResources().getDimensionPixelSize(R.dimen.H_title);
+    }
+
+    /**
+     * 默认重新加载字体颜色
+     */
+    private ColorStateList getDefaultReloadTextColor() {
+        return ContextCompat.getColorStateList(getContext(), R.color.text_grey_normal);
     }
 }
