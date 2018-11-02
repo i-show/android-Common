@@ -17,6 +17,7 @@
 package com.ishow.noah.modules.sample.recycle.animation;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -36,8 +37,9 @@ class AnimationRecycleAdapter extends RecyclerAdapter<String, AnimationRecycleAd
         super(context);
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int type) {
         View item = mLayoutInflater.inflate(R.layout.item_sample_only_photo, parent, false);
         return new ViewHolder(item, type);
     }

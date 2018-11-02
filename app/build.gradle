@@ -27,7 +27,7 @@ android {
     buildToolsVersion BUILD_TOOLS_VERSION
 
     defaultConfig {
-        // 注意这里只是设置了appid的前缀 在buildTypes里面有设置后缀
+        // 注意这里只是设置了appId的前缀 在buildTypes里面有设置后缀
         applicationId APPLICATION_ID
         minSdkVersion MIN_SDK_VERSION as int
         targetSdkVersion TARGET_SDK_VERSION as int
@@ -92,7 +92,7 @@ android {
 
             // 设置那个版本
             buildConfigField "int", "VERSION_TYPE", VERSION_DEV
-            buildConfigField "String", "VERSION_DESCRIPTION", "\"开发版本\""
+            buildConfigField "String", "VERSION_DESCRIPTION", "\"${VERSION_DESCRIPTION_DEV}\""
         }
 
 
@@ -118,9 +118,9 @@ android {
 
             // 设置那个版本
             buildConfigField "int", "VERSION_TYPE", VERSION_SIT
-            buildConfigField "String", "VERSION_DESCRIPTION", "\"测试版本\""
-            
-            matchingFallbacks = ['debug', 'release']
+            buildConfigField "String", "VERSION_DESCRIPTION", "\"${VERSION_DESCRIPTION_SIT}\""
+
+            matchingFallbacks = ['debug']
         }
 
 
@@ -146,10 +146,9 @@ android {
 
             // 设置那个版本
             buildConfigField "int", "VERSION_TYPE", VERSION_UAT
-            buildConfigField "String", "VERSION_DESCRIPTION", "\"UAT版本\""
+            buildConfigField "String", "VERSION_DESCRIPTION", "\"${VERSION_DESCRIPTION_UAT}\""
 
-            // matchingFallbacks = ['debug', 'release']
-            matchingFallbacks = ['debug', 'release']
+            matchingFallbacks = ['release']
         }
 
         release {
@@ -175,7 +174,7 @@ android {
 
             // 设置那个版本
             buildConfigField "int", "VERSION_TYPE", VERSION_PROD
-            buildConfigField "String", "VERSION_DESCRIPTION", "\"正式版本\""
+            buildConfigField "String", "VERSION_DESCRIPTION", "\"${VERSION_DESCRIPTION_PROD}\""
         }
     }
 
@@ -206,13 +205,10 @@ android {
 }
 
 
-
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     // 基础库
     implementation project(':common')
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$KOTLIN_VERSION"
 
     // 注解库
     implementation 'com.jakewharton:butterknife:8.8.1'
