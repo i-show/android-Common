@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.LinearLayout;
 
 import com.ishow.common.R;
@@ -58,11 +59,12 @@ public class WaterMarkLinearLayout extends LinearLayout implements IWaterMark {
         a.recycle();
         mWaterMarkHelp = new WaterMarkHelp();
         mWaterMarkHelp.init(this, params);
+        Log.i("yhy", "init: -----" );
     }
 
     @Override
-    public void draw(Canvas canvas) {
-        super.draw(canvas);
+    protected void dispatchDraw(Canvas canvas) {
+        super.dispatchDraw(canvas);
         mWaterMarkHelp.draw(canvas, getMeasuredWidth(), getMeasuredHeight());
     }
 

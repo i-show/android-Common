@@ -62,8 +62,8 @@ public class WaterMarkFrameLayout extends FrameLayout implements IWaterMark {
     }
 
     @Override
-    public void draw(Canvas canvas) {
-        super.draw(canvas);
+    protected void dispatchDraw(Canvas canvas) {
+        super.dispatchDraw(canvas);
         mWaterMarkHelp.draw(canvas, getMeasuredWidth(), getMeasuredHeight());
     }
 

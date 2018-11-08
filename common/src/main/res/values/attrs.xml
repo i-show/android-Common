@@ -1204,6 +1204,23 @@
         <attr name="waterMarkAngle" />
     </declare-styleable>
 
+    <declare-styleable name="WaterMarkRelativeLayout">
+        <attr name="text" />
+        <attr name="textSize" />
+        <attr name="textColor" />
+
+        <attr name="topPadding" />
+        <attr name="bottomPadding" />
+        <attr name="startPadding" />
+        <attr name="endPadding" />
+
+        <attr name="waterMarkEnable" />
+        <attr name="waterMarkAlpha" />
+        <attr name="waterMarkAngle" />
+    </declare-styleable>
+
+
+
     <declare-styleable name="DashLineView">
         <attr name="dashColor" />
         <attr name="dashGap" />
