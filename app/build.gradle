@@ -92,7 +92,7 @@ android {
 
             // 设置那个版本
             buildConfigField "int", "VERSION_TYPE", VERSION_DEV
-            buildConfigField "String", "VERSION_DESCRIPTION", "\"${VERSION_DESCRIPTION_DEV}\""
+            buildConfigField "String", "VERSION_DESCRIPTION", "\"开发版本\""
         }
 
 
@@ -118,7 +118,7 @@ android {
 
             // 设置那个版本
             buildConfigField "int", "VERSION_TYPE", VERSION_SIT
-            buildConfigField "String", "VERSION_DESCRIPTION", "\"${VERSION_DESCRIPTION_SIT}\""
+            buildConfigField "String", "VERSION_DESCRIPTION", "\"测试版本\""
 
             matchingFallbacks = ['debug']
         }
@@ -146,7 +146,7 @@ android {
 
             // 设置那个版本
             buildConfigField "int", "VERSION_TYPE", VERSION_UAT
-            buildConfigField "String", "VERSION_DESCRIPTION", "\"${VERSION_DESCRIPTION_UAT}\""
+            buildConfigField "String", "VERSION_DESCRIPTION", "\"UAT版本\""
 
             matchingFallbacks = ['release']
         }
@@ -174,7 +174,7 @@ android {
 
             // 设置那个版本
             buildConfigField "int", "VERSION_TYPE", VERSION_PROD
-            buildConfigField "String", "VERSION_DESCRIPTION", "\"${VERSION_DESCRIPTION_PROD}\""
+            buildConfigField "String", "VERSION_DESCRIPTION", "\"生产版本\""
         }
     }
 
