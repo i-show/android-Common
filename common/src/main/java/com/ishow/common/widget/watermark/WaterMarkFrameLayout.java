@@ -45,17 +45,17 @@ public class WaterMarkFrameLayout extends FrameLayout implements IWaterMark {
 
     private void init(Context context, AttributeSet attrs) {
         WaterMarkHelp.Params params = new WaterMarkHelp.Params();
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.WaterMarkLinearLayout);
-        params.text = a.getString(R.styleable.WaterMarkLinearLayout_text);
-        params.textSize = a.getDimensionPixelSize(R.styleable.WaterMarkLinearLayout_textSize, WaterMarkHelp.getDefaultTextSize(context));
-        params.textColor = a.getColor(R.styleable.WaterMarkLinearLayout_textColor, WaterMarkHelp.getDefaultTextColor(context));
-        params.alpha = a.getFloat(R.styleable.WaterMarkLinearLayout_waterMarkAlpha, WaterMarkHelp.getDefaultAlpha());
-        params.enable = a.getBoolean(R.styleable.WaterMarkLinearLayout_waterMarkEnable, true);
-        params.angle = a.getInt(R.styleable.WaterMarkLinearLayout_waterMarkAngle, WaterMarkHelp.getDefaultAngle());
-        params.topPadding = a.getDimensionPixelSize(R.styleable.WaterMarkLinearLayout_topPadding, WaterMarkHelp.getDefaultPadding(context));
-        params.bottomPadding = a.getDimensionPixelSize(R.styleable.WaterMarkLinearLayout_bottomPadding, WaterMarkHelp.getDefaultPadding(context));
-        params.startPadding = a.getDimensionPixelSize(R.styleable.WaterMarkLinearLayout_startPadding, WaterMarkHelp.getDefaultPadding(context));
-        params.endPadding = a.getDimensionPixelSize(R.styleable.WaterMarkLinearLayout_endPadding, WaterMarkHelp.getDefaultPadding(context));
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.WaterMarkFrameLayout);
+        params.text = a.getString(R.styleable.WaterMarkFrameLayout_text);
+        params.textSize = a.getDimensionPixelSize(R.styleable.WaterMarkFrameLayout_textSize, WaterMarkHelp.getDefaultTextSize(context));
+        params.textColor = a.getColor(R.styleable.WaterMarkFrameLayout_textColor, WaterMarkHelp.getDefaultTextColor(context));
+        params.alpha = a.getFloat(R.styleable.WaterMarkFrameLayout_waterMarkAlpha, WaterMarkHelp.getDefaultAlpha());
+        params.enable = a.getBoolean(R.styleable.WaterMarkFrameLayout_waterMarkEnable, true);
+        params.angle = a.getInt(R.styleable.WaterMarkFrameLayout_waterMarkAngle, WaterMarkHelp.getDefaultAngle());
+        params.topPadding = a.getDimensionPixelSize(R.styleable.WaterMarkFrameLayout_topPadding, WaterMarkHelp.getDefaultPadding(context));
+        params.bottomPadding = a.getDimensionPixelSize(R.styleable.WaterMarkFrameLayout_bottomPadding, WaterMarkHelp.getDefaultPadding(context));
+        params.startPadding = a.getDimensionPixelSize(R.styleable.WaterMarkFrameLayout_startPadding, WaterMarkHelp.getDefaultPadding(context));
+        params.endPadding = a.getDimensionPixelSize(R.styleable.WaterMarkFrameLayout_endPadding, WaterMarkHelp.getDefaultPadding(context));
         a.recycle();
         mWaterMarkHelp = new WaterMarkHelp();
         mWaterMarkHelp.init(this, params);
