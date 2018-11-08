@@ -101,7 +101,7 @@ public class WaterMarkHelp {
 
     @SuppressWarnings("WeakerAccess")
     public static float getDefaultAlpha() {
-        return 0.5F;
+        return 0.3F;
     }
 
     public static int getDefaultAngle() {

@@ -2,6 +2,7 @@ package com.ishow.noah.modules.main.mine;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

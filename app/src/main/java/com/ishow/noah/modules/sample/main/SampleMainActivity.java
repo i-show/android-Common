@@ -45,8 +45,6 @@ public class SampleMainActivity extends AppBaseActivity {
 
         mList.setLayoutManager(new FlowLayoutManager());
         mList.setAdapter(adapter);
-
-        WaterMarkView.attachToActivity(this);
     }
 
     @Override

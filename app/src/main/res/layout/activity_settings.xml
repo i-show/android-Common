@@ -14,7 +14,7 @@
   ~ limitations under the License.
   -->
 
-<com.ishow.common.widget.watermark.WaterMarkLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -50,4 +50,4 @@
         android:layout_marginBottom="@dimen/dp_50"
         android:text="@string/logout" />
 
-</com.ishow.common.widget.watermark.WaterMarkLinearLayout>
+</LinearLayout>

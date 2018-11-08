@@ -2,9 +2,12 @@ package com.ishow.noah.modules.base;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.baidu.mobstat.StatService;
 import com.ishow.common.app.activity.BaseActivity;
+import com.ishow.common.widget.watermark.WaterMarkView;
 import com.ishow.noah.AppApplication;
 import com.ishow.noah.manager.VersionManager;
 import com.ishow.noah.ui.widget.dialog.VersionDialog;
@@ -34,6 +37,23 @@ public abstract class AppBaseActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
+    @Override
+    protected void initViews() {
+        super.initViews();
+        WaterMarkView.attachToActivity(this);
+    }
+
+    @Override
+    protected void initViews(View view) {
+        super.initViews(view);
+        WaterMarkView.attachToActivity(this);
+    }
+
+    @Override
+    protected void initViews(View view, ViewGroup.LayoutParams params) {
+        super.initViews(view, params);
+        WaterMarkView.attachToActivity(this);
+    }
 
     protected AppApplication getAppApplication() {
         return (AppApplication) getApplication();
