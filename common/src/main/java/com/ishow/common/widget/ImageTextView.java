@@ -425,12 +425,10 @@ public class ImageTextView extends View implements IPrompt {
 
     private void measurePrompt(int width, int height) {
         if (mMode == PromptMode.NONE) {
-            Log.i(TAG, "onMeasure: LoaderMode = NONE");
             return;
         }
 
         if (mMode == PromptMode.TEXT && TextUtils.isEmpty(mPromptTextString)) {
-            Log.i(TAG, "onMeasure: mPromptTextString is empty");
             return;
         }
 

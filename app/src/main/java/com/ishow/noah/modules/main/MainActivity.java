@@ -29,7 +29,7 @@ import com.ishow.common.utils.router.AppRouter;
 import com.ishow.common.widget.BottomBar;
 import com.ishow.noah.R;
 import com.ishow.noah.modules.base.AppBaseActivity;
-import com.ishow.noah.modules.main.tab1.Tab1Fragment;
+import com.ishow.noah.modules.main.home.HomeFragment;
 import com.ishow.noah.modules.main.tab2.Tab2Fragment;
 import com.ishow.noah.modules.main.tab3.Tab3Fragment;
 import com.ishow.noah.modules.main.mine.MineFragment;
@@ -44,7 +44,7 @@ public class MainActivity extends AppBaseActivity implements BottomBar.OnBottomB
     public static final int TAB_FOURTH = R.id.tab_4;
 
     private Fragment mBeforeFragment;
-    private Tab1Fragment mTab1Fragment;
+    private HomeFragment mTab1Fragment;
     private Tab2Fragment mTab2Fragment;
     private Tab3Fragment mTab3Fragment;
     private MineFragment mTab4Fragment;
@@ -107,7 +107,7 @@ public class MainActivity extends AppBaseActivity implements BottomBar.OnBottomB
         switch (selectId) {
             case R.id.tab_1:
                 if (mTab1Fragment == null) {
-                    mTab1Fragment = Tab1Fragment.newInstance();
+                    mTab1Fragment = HomeFragment.newInstance();
                 }
                 if (mTab1Fragment.isAdded()) {
                     transaction.show(mTab1Fragment);

@@ -124,12 +124,10 @@ public class PromptTextView extends AppCompatTextView implements IPrompt {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         if (mMode == PromptMode.NONE) {
-            Log.i(TAG, "onMeasure: LoaderMode = NONE");
             return;
         }
 
         if (mMode == PromptMode.TEXT && TextUtils.isEmpty(mPromptTextString)) {
-            Log.i(TAG, "onMeasure: mPromptTextString is empty");
             return;
         }
 

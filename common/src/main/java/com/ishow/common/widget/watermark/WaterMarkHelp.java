@@ -48,7 +48,7 @@ public class WaterMarkHelp {
     }
 
     public void draw(Canvas canvas, final int width, final int height) {
-        if(!sShowWaterMark){
+        if (!sShowWaterMark) {
             return;
         }
 
@@ -61,15 +61,14 @@ public class WaterMarkHelp {
         }
 
         int count = canvas.saveLayer(0, 0, width, height, mPaint, Canvas.ALL_SAVE_FLAG);
-        canvas.rotate(mParams.angle);
+        canvas.rotate(mParams.angle, width / 2, height / 2);
 
         final int startY = -height;
-        final int endY = height + height ;
-        final int startX = -width ;
+        final int endY = height + height;
+        final int startX = -width;
         final int endX = width + width;
 
         for (int y = startY; y <= endY; y += mTextHeight) {
-
             for (int x = startX; x <= endX; x += mTextWidth) {
                 canvas.drawText(mParams.text, x + mParams.startPadding, y + mParams.topPadding, mPaint);
             }
@@ -102,23 +101,24 @@ public class WaterMarkHelp {
 
     @SuppressWarnings("WeakerAccess")
     public static float getDefaultAlpha() {
-        return 0.28F;
+        return 0.5F;
     }
 
     public static int getDefaultAngle() {
         return 315;
     }
 
-    public static void show(boolean show){
+    public static void show(boolean show) {
         sShowWaterMark = show;
     }
 
-    public static void defaultText(String text){
-        if(TextUtils.isEmpty(text)){
+    public static void defaultText(String text) {
+        if (TextUtils.isEmpty(text)) {
             return;
         }
         sDefaultText = text;
     }
+
     public static class Params {
         public String text;
         public int textSize;

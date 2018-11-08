@@ -59,7 +59,6 @@ public class WaterMarkLinearLayout extends LinearLayout implements IWaterMark {
         a.recycle();
         mWaterMarkHelp = new WaterMarkHelp();
         mWaterMarkHelp.init(this, params);
-        Log.i("yhy", "init: -----" );
     }
 
     @Override

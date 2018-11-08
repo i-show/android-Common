@@ -1174,6 +1174,21 @@
         <attr name="heightRatio" />
     </declare-styleable>
 
+    <declare-styleable name="WaterMarkView">
+        <attr name="text" />
+        <attr name="textSize" />
+        <attr name="textColor" />
+
+        <attr name="topPadding" />
+        <attr name="bottomPadding" />
+        <attr name="startPadding" />
+        <attr name="endPadding" />
+
+        <attr name="waterMarkEnable" />
+        <attr name="waterMarkAlpha" />
+        <attr name="waterMarkAngle" />
+    </declare-styleable>
+
     <declare-styleable name="WaterMarkLinearLayout">
         <attr name="text" />
         <attr name="textSize" />

@@ -20,6 +20,7 @@ import android.os.Bundle;
 
 import com.ishow.common.widget.recyclerview.AnimationRecyclerView;
 import com.ishow.common.widget.recyclerview.layoutmanager.FlowLayoutManager;
+import com.ishow.common.widget.watermark.WaterMarkView;
 import com.ishow.noah.R;
 import com.ishow.noah.modules.base.AppBaseActivity;
 
@@ -44,6 +45,8 @@ public class SampleMainActivity extends AppBaseActivity {
 
         mList.setLayoutManager(new FlowLayoutManager());
         mList.setAdapter(adapter);
+
+        WaterMarkView.attachToActivity(this);
     }
 
     @Override
