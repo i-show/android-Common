@@ -223,7 +223,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         mRightTextString = a.getString(R.styleable.EditTextPro_rightText);
         mRightTextSize = a.getDimensionPixelSize(R.styleable.EditTextPro_rightTextSize, getDefaultTipTextSize());
         mRightTextColor = a.getColor(R.styleable.EditTextPro_rightTextColor, getDefaultTipTextColor());
-        mRightTextVisibility = a.getColor(R.styleable.EditTextPro_rightTextVisibility, View.GONE);
+        mRightTextVisibility = a.getInt(R.styleable.EditTextPro_rightTextVisibility, View.GONE);
         mRightTextRightMargin = a.getDimensionPixelSize(R.styleable.EditTextPro_rightTextRightMargin, 0);
         mRightTextPadding = a.getDimensionPixelSize(R.styleable.EditTextPro_rightTextPadding, 0);
         mRightTextMinWidth = a.getDimensionPixelSize(R.styleable.EditTextPro_rightTextMinWidth, getDefaultTipMinWidth());
@@ -586,6 +586,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     private EditText getInputView() {
         if (mInputView == null) {
             mInputView = new AppCompatEditText(getContext());
+            mInputView.setPadding(0, 0, 0, 0);
             mInputView.setBackground(mInputBackgroundDrawable);
             mInputView.setGravity(mInputGravity);
             mInputView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mInputTextSize);
