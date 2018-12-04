@@ -47,8 +47,8 @@ public class SampleSelectPhotoActivity extends AppBaseActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample_select_photo);
-        mSelectPhotoUtils = new SelectPhotoUtils(this, SelectPhotoUtils.SelectMode.SINGLE);
-        mSelectPhotoUtils.setOnSelectPhotoListener(this);
+    mSelectPhotoUtils = new SelectPhotoUtils(this, SelectPhotoUtils.SelectMode.SINGLE);
+    mSelectPhotoUtils.setOnSelectPhotoListener(this);
     }
 
     @Override

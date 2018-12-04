@@ -21,9 +21,11 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ishow.common.utils.MathUtils;
 import com.ishow.common.utils.ToastUtils;
 import com.ishow.common.utils.router.AppRouter;
 import com.ishow.common.widget.BottomBar;
@@ -59,6 +61,11 @@ public class MainActivity extends AppBaseActivity implements BottomBar.OnBottomB
         Intent intent = getIntent();
         int type = intent.getIntExtra(KEY_TYPE, TAB_FIRST);
         mBottomBar.setSelectedId(type, true);
+
+        //String a = "0.255";
+        Double a = 0.255D;
+        String b = MathUtils.rounding(a, 2);
+        Log.i("yhy", "onCreate: b = " + b);
     }
 
     @Override
@@ -107,7 +114,7 @@ public class MainActivity extends AppBaseActivity implements BottomBar.OnBottomB
         switch (selectId) {
             case R.id.tab_1:
                 if (mTab1Fragment == null) {
-                    mTab1Fragment = HomeFragment.newInstance();
+                    mTab1Fragment = HomeFragment.Companion.newInstance();
                 }
                 if (mTab1Fragment.isAdded()) {
                     transaction.show(mTab1Fragment);

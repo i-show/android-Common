@@ -212,6 +212,21 @@ public class MathUtils {
     }
 
 
+
+    /**
+     * 提供精确的小数位四舍五入处理
+     */
+    public static String rounding(float value, int scale) {
+        return rounding(value, scale, true);
+    }
+
+    /**
+     * 提供精确的小数位四舍五入处理
+     */
+    @SuppressWarnings("WeakerAccess")
+    public static String rounding(float value, int scale, boolean force) {
+        return rounding(String.valueOf(value), scale, false);
+    }
     /**
      * 提供精确的小数位四舍五入处理
      */
@@ -224,18 +239,7 @@ public class MathUtils {
      */
     @SuppressWarnings("WeakerAccess")
     public static String rounding(String value, int scale, boolean force) {
-        if (TextUtils.isEmpty(value)) {
-            value = "0";
-        }
-
-        double _value = 0;
-        try {
-            _value = Double.valueOf(value);
-        } catch (NumberFormatException e) {
-            Log.i(TAG, "rounding: format exception = " + e.toString());
-        }
-
-        return rounding(_value, scale, force);
+        return rounding(new BigDecimal(value), scale, force);
     }
 
     /**
@@ -249,7 +253,15 @@ public class MathUtils {
      * 提供精确的小数位四舍五入处理
      */
     @SuppressWarnings("WeakerAccess")
-    public static String rounding(double vlaue, int scale, boolean force) {
+    public static String rounding(double value, int scale, boolean force) {
+        return rounding(new BigDecimal(value), scale, false);
+    }
+
+    /**
+     * 提供精确的小数位四舍五入处理
+     */
+    @SuppressWarnings("WeakerAccess")
+    public static String rounding(BigDecimal value, int scale, boolean force) {
         if (scale < 0) {
             throw new IllegalArgumentException("The scale must be a positive integer or zero");
         }
@@ -261,9 +273,10 @@ public class MathUtils {
         } else {
             pattern = StringUtils.plusString(FORMAT_HEADER, FORMAT_POINT, generateString(scale, "#"));
         }
+
         DecimalFormat format = new DecimalFormat(pattern);
         format.setRoundingMode(RoundingMode.HALF_UP);
-        return format.format(vlaue);
+        return format.format(value);
     }
 
     /**

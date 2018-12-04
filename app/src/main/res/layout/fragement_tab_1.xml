@@ -8,10 +8,15 @@
 
 
     <com.ishow.common.widget.TopBar
-        android:id="@+id/top_bar"
+        android:id="@+id/topBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:rightImage="@drawable/ic_list"
         app:text="@string/tab_1" />
+
+    <com.ishow.noah.ui.widget.announcement.AnnouncementView
+        android:id="@+id/testSwitcher"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>
