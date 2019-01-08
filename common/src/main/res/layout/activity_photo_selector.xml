@@ -27,7 +27,8 @@
         app:leftImage="@drawable/ic_back_white"
         app:rightText="@string/complete"
         app:rightTextBackground="@drawable/corner_5dp_accent_color_bg"
-        app:text="@string/select_photo_title" />
+        app:text="@string/select_photo_title"
+        app:textColor="@color/white" />
 
 
     <android.support.v7.widget.RecyclerView

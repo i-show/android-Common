@@ -101,6 +101,19 @@ public class BaseDialog extends Dialog implements DialogInterface {
         return super.onKeyUp(keyCode, event);
     }
 
+    /**
+     * 是否是从底部弹出
+     */
+    public void fromBottom(boolean bottom) {
+        mController.setFromBottom(bottom);
+    }
+
+    /**
+     * 比例
+     */
+    public void setWidthProportion(float widthPro){
+        mController.setWidthProportion(widthPro);
+    }
     @Override
     public void show() {
         Context context = getContext();

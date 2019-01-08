@@ -20,6 +20,11 @@ import android.text.TextUtils;
 
 import com.ishow.common.utils.log.LogManager;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 
 public class StringUtils {
@@ -48,7 +53,10 @@ public class StringUtils {
      */
     @SuppressWarnings("unused")
     public static final String ZERO = "0";
-
+    /**
+     * IP 正则表达式
+     */
+    public final static String REG_IP = "((?:(?:25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d)))\\.){3}(?:25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d))))";
     /**
      * 字符串累加
      */
@@ -89,6 +97,22 @@ public class StringUtils {
     }
 
     /**
+     * 添加人民币符号
+     */
+    public static String format2Money(String money) {
+        return StringUtils.plusString(MONEY, money);
+    }
+
+    /**
+     * 2位小数计算
+     */
+    public static String format2Money(String money, int scale) {
+        money = MathUtils.rounding(money, scale);
+        return StringUtils.plusString(MONEY, money);
+    }
+
+
+    /**
      * byte[]数组转换为16进制的字符串。
      *
      * @param data 要转换的字节数组。
@@ -124,4 +148,29 @@ public class StringUtils {
         }
         return d;
     }
+
+    public static String read(InputStream stream) {
+        return read(stream, "utf-8");
+    }
+
+    public static String read(InputStream is, String encode) {
+        if (is != null) {
+            try {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is, encode));
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+                is.close();
+                return sb.toString();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return "";
+    }
+
 }

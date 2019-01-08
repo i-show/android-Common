@@ -16,6 +16,8 @@
 
 package com.ishow.common.entries;
 
+import com.ishow.common.utils.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,6 +86,14 @@ public class Folder {
 
     public String getName() {
         return name;
+    }
+
+    public String getCoverImage() {
+        if (cover == null) {
+            return StringUtils.EMPTY;
+        } else {
+            return cover.path;
+        }
     }
 
     @Override

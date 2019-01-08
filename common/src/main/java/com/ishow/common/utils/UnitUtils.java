@@ -46,6 +46,14 @@ public class UnitUtils {
     }
 
     /**
+     * 将dip或dp值转换为px值，保证尺寸大小不变
+     */
+    public static int dip2px(int dipValue) {
+        final float scale = Resources.getSystem().getDisplayMetrics().density;
+        return (int) (dipValue * scale + 0.5f);
+    }
+
+    /**
      * 将px值转换为sp值，保证文字大小不变
      */
     public static int px2sp(Context context, float pxValue) {

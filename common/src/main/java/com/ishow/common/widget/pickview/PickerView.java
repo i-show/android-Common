@@ -46,7 +46,7 @@ public class PickerView extends View {
     /**
      * 默认可以看到的几个Item
      */
-    private static final int DEFAULT_VISIABLE_COUNT = 5;
+    private static final int DEFAULT_VISIBLE_COUNT = 5;
     /**
      * ITEM间距倍数
      */
@@ -130,7 +130,7 @@ public class PickerView extends View {
         mUnitTextSize = a.getDimensionPixelSize(R.styleable.PickerView_unitTextSize, getDefaultUnitTextSize());
         mUnselectedTextSize = mSelectedTextSize * UNSELECTED_TEXT_SIZE_RATIO;
 
-        mVisibleCount = a.getInteger(R.styleable.PickerView_visibleCount, DEFAULT_VISIABLE_COUNT);
+        mVisibleCount = a.getInteger(R.styleable.PickerView_visibleCount, DEFAULT_VISIBLE_COUNT);
         a.recycle();
 
         init(context);

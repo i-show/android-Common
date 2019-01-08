@@ -269,7 +269,7 @@ public class AppRouter {
      */
     public boolean start() {
         final long nowTime = System.currentTimeMillis();
-        if (nowTime - mLastRouteTime < 800) {
+        if (nowTime - mLastRouteTime < 300) {
             return false;
         }
         mLastRouteTime = nowTime;

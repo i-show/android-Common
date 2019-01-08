@@ -75,6 +75,22 @@ public class RequestParams {
         bodyList.add(body);
     }
 
+    public void addParams(@NonNull String key, byte[] value) {
+        if (value == null) {
+            return;
+        }
+        MultiBody body = new MultiBody();
+        body.setKey(key);
+        body.setName(key);
+        body.setBody(value);
+
+        if (bodyList == null) {
+            bodyList = new ArrayList<>();
+        }
+
+        bodyList.add(body);
+    }
+
     public void params(@NonNull List<KeyValue> params) {
         normalParams.addAll(params);
     }

@@ -54,7 +54,7 @@ class FolderSelectorAdapter extends ListAdapter<Folder, FolderSelectorAdapter.Vi
 
 
         ImageLoader.with(mContext)
-                .load(entry.cover.path)
+                .load(entry.getCoverImage())
                 .placeholder(R.drawable.no_picture)
                 .mode(ImageLoader.LoaderMode.CENTER_CROP)
                 .into(holder.cover);
@@ -71,10 +71,10 @@ class FolderSelectorAdapter extends ListAdapter<Folder, FolderSelectorAdapter.Vi
 
         ViewHolder(View item, int type) {
             super(item, type);
-            cover = (ImageView) item.findViewById(R.id.cover);
-            name = (TextView) item.findViewById(R.id.name);
-            size = (TextView) item.findViewById(R.id.size);
-            state = (RadioButton) item.findViewById(R.id.state);
+            cover = item.findViewById(R.id.cover);
+            name = item.findViewById(R.id.name);
+            size = item.findViewById(R.id.size);
+            state = item.findViewById(R.id.state);
         }
     }
 

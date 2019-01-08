@@ -57,6 +57,10 @@ public class HttpError {
      */
     private String message;
     /**
+     * ErrorBody
+     */
+    private String body;
+    /**
      * Error Message
      */
     private Exception exception;
@@ -87,6 +91,14 @@ public class HttpError {
 
     public void setCode(int code) {
         this.code = code;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
     }
 
     public String getMessage() {

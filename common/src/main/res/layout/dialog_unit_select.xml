@@ -19,6 +19,7 @@
     android:id="@+id/list"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:divider="@drawable/line"
     android:background="@drawable/top_line_white_normal_bg"
     app:maxHeight="@dimen/dp_300" />
 

@@ -38,16 +38,16 @@ import java.util.List;
  * 一个统一的从底下弹出的Dialog选择
  */
 
-public class SelectDialog<T extends IUnitSelect> extends Dialog implements
-        AdapterView.OnItemClickListener {
+public class SelectDialog<T extends IUnitSelect> extends Dialog implements AdapterView.OnItemClickListener {
     private SelectAdapter<T> mAdapter;
     private OnSelectedListener mSelectedListener;
+    private View mBindView;
 
     @SuppressWarnings("unused")
     public SelectDialog(Context context) {
         super(context, R.style.Theme_Dialog_Bottom_Transparent);
         mAdapter = new SelectAdapter<>(getContext());
-        setCancelable(false);
+        setCancelable(true);
     }
 
     @Override
@@ -66,6 +66,14 @@ public class SelectDialog<T extends IUnitSelect> extends Dialog implements
 
     public List<T> getData() {
         return mAdapter.getData();
+    }
+
+    public View getBindView() {
+        return mBindView;
+    }
+
+    public void setBindView(View view) {
+        mBindView = view;
     }
 
     @Override

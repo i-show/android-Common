@@ -174,6 +174,8 @@
     </attr>
 
     <attr name="leftImage" format="reference" />
+    <attr name="leftImageWidth" format="dimension" />
+    <attr name="leftImageHeight" format="dimension" />
     <attr name="leftImageBackground" format="reference|color" />
     <attr name="leftImageRightMargin" format="dimension" />
     <attr name="leftImageMinWidth" format="dimension" />
@@ -200,6 +202,7 @@
     <attr name="rightTextDrawablePadding" format="dimension" />
     <attr name="rightTextRightMargin" format="dimension" />
     <attr name="rightTextRightDrawable" format="reference" />
+    <attr name="rightTextLeftDrawable" format="reference" />
     <attr name="rightTextMinWidth" format="dimension" />
     <attr name="rightTextMaxWidth" format="dimension" />
     <attr name="rightTextPadding" format="dimension" />
@@ -402,6 +405,7 @@
     <attr name="inputHintTextColor" format="color" />
     <attr name="inputLines" format="integer" />
     <attr name="inputTextMaxLength" format="integer" />
+    <attr name="inputDigits" format="string"/>
     <attr name="inputGravity">
         <!-- Push object to the top of its container, not changing its size. -->
         <flag name="top" value="0x30" />
@@ -681,6 +685,8 @@
     <attr name="dashColor" format="color" />
     <attr name="dashGap" format="dimension" />
     <attr name="dashWidth" format="dimension" />
+    <attr name="topWeight" format="float" />
+    <attr name="BottomWeight" format="float" />
 
     <!--==========分割线==========-->
     <declare-styleable name="ImageTextView">
@@ -822,12 +828,16 @@
         <attr name="interruptTouchEvent" />
         <attr name="titleClickable" />
         <attr name="subTitleClickable" />
+
+        <attr name="topWeight" />
+        <attr name="BottomWeight" />
     </declare-styleable>
 
 
     <!-- 发送验证码的Button -->
     <declare-styleable name="VerifyCodeButton">
         <attr name="android:padding" />
+        <attr name="text" />
         <attr name="textSize" />
         <attr name="textColor" />
     </declare-styleable>
@@ -958,6 +968,11 @@
         <attr name="heightScale" />
     </declare-styleable>
 
+    <declare-styleable name="ScaleLinearLayout">
+        <attr name="widthScale" />
+        <attr name="heightScale" />
+    </declare-styleable>
+
     <declare-styleable name="ScaleRelativeLayout">
         <attr name="widthScale" />
         <attr name="heightScale" />
@@ -998,6 +1013,7 @@
         <attr name="inputText" />
         <attr name="inputBackground" />
         <attr name="inputGravity" />
+        <attr name="inputDigits" />
         <attr name="inputHint" />
         <attr name="inputRightMargin" />
         <attr name="inputTextSize" />
@@ -1053,6 +1069,8 @@
         <attr name="tintColor" />
 
         <attr name="leftImage" />
+        <attr name="leftImageWidth" />
+        <attr name="leftImageHeight" />
         <attr name="leftImageBackground" />
         <attr name="leftImageRightMargin" />
         <attr name="leftImageVisibility" />
@@ -1081,7 +1099,9 @@
         <attr name="rightTextSize" />
         <attr name="rightTextColor" />
         <attr name="rightTextBackground" />
+        <attr name="rightTextDrawablePadding" />
         <attr name="rightTextRightDrawable" />
+        <attr name="rightTextLeftDrawable" />
         <attr name="rightTextRightMargin" />
         <attr name="rightTextMinWidth" />
         <attr name="rightTextMaxWidth" />
@@ -1235,11 +1255,14 @@
     </declare-styleable>
 
 
-
     <declare-styleable name="DashLineView">
         <attr name="dashColor" />
         <attr name="dashGap" />
         <attr name="dashWidth" />
     </declare-styleable>
 
+    <declare-styleable name="AnnouncementView">
+        <attr name="textSize" />
+        <attr name="textColor" />
+    </declare-styleable>
 </resources>

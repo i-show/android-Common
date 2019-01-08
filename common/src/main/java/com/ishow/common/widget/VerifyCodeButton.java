@@ -16,11 +16,13 @@
 
 package com.ishow.common.widget;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -73,6 +75,7 @@ public class VerifyCodeButton extends FrameLayout {
      * 时间监听
      */
     private OnTimingListener mTimingListener;
+    private String mTextStr;
 
     /**
      * 字体的颜色
@@ -91,6 +94,7 @@ public class VerifyCodeButton extends FrameLayout {
      */
     private int mStatus = STATE_IDLE;
 
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -112,7 +116,7 @@ public class VerifyCodeButton extends FrameLayout {
                 case HANDLER_RESET_TIME:
                     mStatus = STATE_IDLE;
                     mHandler.removeMessages(HANDLER_TIME);
-                    mDiaplayView.setText(R.string.get_verify_code);
+                    mDiaplayView.setText(mTextStr);
                     mDiaplayView.setVisibility(VISIBLE);
                     mProgressBar.setVisibility(INVISIBLE);
                     mCurrentTime = VERIFY_MAX_TIME;
@@ -139,12 +143,17 @@ public class VerifyCodeButton extends FrameLayout {
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.VerifyCodeButton);
         int padding = a.getDimensionPixelSize(R.styleable.VerifyCodeButton_android_padding, getDefaultPadding());
+        mTextStr = a.getString(R.styleable.VerifyCodeButton_text);
         mTextColor = a.getColorStateList(R.styleable.VerifyCodeButton_textColor);
         mTextSize = a.getDimensionPixelSize(R.styleable.VerifyCodeButton_textSize, getDefaultTextSize());
         a.recycle();
 
         if (mTextColor == null) {
             mTextColor = getDefaultTextColor();
+        }
+
+        if (TextUtils.isEmpty(mTextStr)) {
+            mTextStr = getResources().getString(R.string.get_verify_code);
         }
 
         setPadding(padding, padding, padding, padding);
@@ -197,7 +206,7 @@ public class VerifyCodeButton extends FrameLayout {
         TextView textView = new TextView(getContext());
         textView.setLayoutParams(getDefaultParam());
         textView.setGravity(Gravity.CENTER);
-        textView.setText(R.string.get_verify_code);
+        textView.setText(mTextStr);
         textView.setTextColor(mTextColor);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSize);
         textView.setPadding(padding * 2, padding, padding * 2, padding);
@@ -255,6 +264,12 @@ public class VerifyCodeButton extends FrameLayout {
      */
     public void setOnTimingListener(OnTimingListener listener) {
         mTimingListener = listener;
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        mDiaplayView.setEnabled(enabled);
     }
 
     /**

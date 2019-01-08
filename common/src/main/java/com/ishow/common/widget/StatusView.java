@@ -24,6 +24,7 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.FloatRange;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -32,8 +33,10 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ishow.common.R;
@@ -101,7 +104,10 @@ public class StatusView extends FrameLayout implements View.OnClickListener {
     private boolean isInterruptTouchEvent;
     private boolean isTitleClickable;
     private boolean isSubTitleClickable;
-
+    private View mTopWeightView;
+    private float mTopWeight;
+    private View mBottomWeightView;
+    private float mBottomWeight;
     private OnStatusViewListener mOnStatusViewListener;
 
     public StatusView(Context context) {
@@ -143,6 +149,8 @@ public class StatusView extends FrameLayout implements View.OnClickListener {
         isInterruptTouchEvent = a.getBoolean(R.styleable.StatusView_interruptTouchEvent, true);
         isTitleClickable = a.getBoolean(R.styleable.StatusView_titleClickable, false);
         isSubTitleClickable = a.getBoolean(R.styleable.StatusView_subTitleClickable, false);
+        mTopWeight = a.getFloat(R.styleable.StatusView_topWeight, 2.6F);
+        mBottomWeight = a.getFloat(R.styleable.StatusView_topWeight, 5F);
         a.recycle();
         checkParams();
         initView();
@@ -161,7 +169,14 @@ public class StatusView extends FrameLayout implements View.OnClickListener {
         if (isSubTitleClickable) mSubTitleView.setOnClickListener(this);
         mReloadView = findViewById(R.id.reload);
         mReloadView.setOnClickListener(this);
+
+
+        mTopWeightView = findViewById(R.id.topWeight);
+        updateWeight(mTopWeightView, mTopWeight);
+        mBottomWeightView = findViewById(R.id.bottomWeight);
+        updateWeight(mBottomWeightView, mBottomWeight);
     }
+
 
     private void checkParams() {
         final ColorStateList defaultTextColor = getDefaultTextColor();
@@ -204,10 +219,10 @@ public class StatusView extends FrameLayout implements View.OnClickListener {
     public void showError(String reload, String title, String subTitle, int icon) {
         setVisibility(VISIBLE);
         mIconView.setImageResource(icon);
-		mIconView.setVisibility(VISIBLE);
+        mIconView.setVisibility(VISIBLE);
         stopLoadingAnimation();
         mLoadingView.setVisibility(GONE);
-	   
+
         mTitleView.setTextColor(mErrorTextColor);
         mTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mErrorTextSize);
         setText(mTitleView, title);
@@ -218,7 +233,7 @@ public class StatusView extends FrameLayout implements View.OnClickListener {
         mReloadView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mReloadTextSize);
         mReloadView.setBackground(mReloadTextBackground);
         setText(mReloadView, reload);
-        
+
     }
 
     public void showLoading() {
@@ -231,7 +246,7 @@ public class StatusView extends FrameLayout implements View.OnClickListener {
     }
 
     public void showLoading(String title, @DrawableRes int drawable) {
-       setVisibility(VISIBLE);
+        setVisibility(VISIBLE);
         mIconView.setVisibility(GONE);
         mLoadingView.setVisibility(VISIBLE);
         mTitleView.setTextColor(mLoadingTextColor);
@@ -270,7 +285,7 @@ public class StatusView extends FrameLayout implements View.OnClickListener {
         setVisibility(VISIBLE);
         mIconView.setImageResource(icon);
         mIconView.setVisibility(VISIBLE);
-		stopLoadingAnimation();
+        stopLoadingAnimation();
         mLoadingView.setVisibility(GONE);
 
         mTitleView.setTextColor(mEmptyTextColor);
@@ -360,7 +375,7 @@ public class StatusView extends FrameLayout implements View.OnClickListener {
         }
     }
 
-    private void notifyReload(){
+    private void notifyReload() {
         if (mOnStatusViewListener != null) {
             mOnStatusViewListener.onStatusClick(this, Which.Reload);
         }
@@ -372,6 +387,20 @@ public class StatusView extends FrameLayout implements View.OnClickListener {
 
     public void setSubTitleClickable(boolean clickable) {
         mSubTitleView.setOnClickListener(clickable ? this : null);
+    }
+
+    private void updateWeight(View view, float weight) {
+        ViewGroup.LayoutParams lp = view.getLayoutParams();
+        if (lp instanceof LinearLayout.LayoutParams) {
+            ((LinearLayout.LayoutParams) lp).weight = weight;
+        }
+    }
+
+    public void setWeight(@FloatRange(from = 0F) float topWeight, @FloatRange(from = 0F)float bottomWeight) {
+        mTopWeight = topWeight;
+        updateWeight(mTopWeightView, mTopWeight);
+        mBottomWeight = bottomWeight;
+        updateWeight(mBottomWeightView, mBottomWeight);
     }
 
     public interface OnStatusViewListener {

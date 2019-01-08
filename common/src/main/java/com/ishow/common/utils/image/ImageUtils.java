@@ -342,7 +342,7 @@ public final class ImageUtils {
     @SuppressWarnings("WeakerAccess")
     public static String saveBitmap(Context context, Bitmap bitmap) {
         String fileName = generateRandomPhotoName(context, Bitmap.CompressFormat.WEBP);
-        return saveBitmap(bitmap, Bitmap.CompressFormat.WEBP, fileName, DEFAULT_COMPRESS_QUALITY);
+        return saveBitmap(bitmap, Bitmap.CompressFormat.JPEG, fileName, DEFAULT_COMPRESS_QUALITY);
     }
 
 
@@ -352,7 +352,7 @@ public final class ImageUtils {
     @SuppressWarnings("WeakerAccess")
     public static String saveBitmap(Context context, Bitmap bitmap, int quality) {
         String fileName = generateRandomPhotoName(context, Bitmap.CompressFormat.WEBP);
-        return saveBitmap(bitmap, Bitmap.CompressFormat.WEBP, fileName, quality);
+        return saveBitmap(bitmap, Bitmap.CompressFormat.JPEG, fileName, quality);
     }
 
     /**
@@ -378,7 +378,7 @@ public final class ImageUtils {
      */
     @SuppressWarnings("WeakerAccess")
     public static String saveBitmap(Bitmap bitmap, String fileName) {
-        return saveBitmap(bitmap, Bitmap.CompressFormat.WEBP, fileName, DEFAULT_COMPRESS_QUALITY);
+        return saveBitmap(bitmap, Bitmap.CompressFormat.JPEG, fileName, DEFAULT_COMPRESS_QUALITY);
     }
 
     /**
@@ -386,7 +386,7 @@ public final class ImageUtils {
      */
     @SuppressWarnings("WeakerAccess")
     public static String saveBitmap(Bitmap bitmap, String fileName, int quality) {
-        return saveBitmap(bitmap, Bitmap.CompressFormat.WEBP, fileName, quality);
+        return saveBitmap(bitmap, Bitmap.CompressFormat.JPEG, fileName, quality);
     }
 
     /**

@@ -352,7 +352,7 @@ public class BaseController {
         return isFromBottom;
     }
 
-    private void setWidthProportion(Float widthProportion) {
+    void setWidthProportion(Float widthProportion) {
         if (widthProportion != null) {
             mWidthProportion = widthProportion;
         }
@@ -408,6 +408,12 @@ public class BaseController {
         mViewSpacingBottom = viewSpacingBottom;
     }
 
+    /**
+     * 是否从底部弹出
+     */
+    public void setFromBottom(boolean fromBottom){
+        isFromBottom = fromBottom;
+    }
     /**
      * Sets a click listener or a message to be sent when the button is clicked.
      * You only need to pass one of {@code listener} or {@code msg}.

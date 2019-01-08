@@ -304,6 +304,9 @@ public abstract class BaseActivity extends AppCompatActivity implements
      * @param message 显示的内容
      */
     protected Dialog dialog(String message) {
+        if (TextUtils.isEmpty(message)) {
+            return null;
+        }
         return dialog(message, false, false);
     }
 
@@ -378,30 +381,47 @@ public abstract class BaseActivity extends AppCompatActivity implements
 
 
     @Override
-    public void showLoading(String message, boolean dialog) {
-        if (dialog) {
-            mLoadingDialog = LoadingDialog.show(this, mLoadingDialog);
-        } else if (mStatusView != null) {
-            mStatusView.showLoading();
-        }
+    public void showLoading(String message, final boolean dialog) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (dialog) {
+                    mLoadingDialog = LoadingDialog.show(BaseActivity.this, mLoadingDialog);
+                } else if (mStatusView != null) {
+                    mStatusView.showLoading();
+                }
+            }
+        });
+
     }
 
     @Override
-    public void dismissLoading(boolean dialog) {
-        if (dialog) {
-            LoadingDialog.dismiss(mLoadingDialog);
-        } else if (mStatusView != null) {
-            mStatusView.dismiss();
-        }
+    public void dismissLoading(final boolean dialog) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (dialog) {
+                    LoadingDialog.dismiss(mLoadingDialog);
+                } else if (mStatusView != null) {
+                    mStatusView.dismiss();
+                }
+            }
+        });
+
     }
 
     @Override
-    public void showError(String message, boolean dialog, int errorType) {
-        if (dialog) {
-            dialog(message);
-        } else if (mStatusView != null) {
-            mStatusView.showError();
-        }
+    public void showError(final String message, final boolean dialog, int errorType) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (dialog) {
+                    dialog(message);
+                } else if (mStatusView != null) {
+                    mStatusView.showError();
+                }
+            }
+        });
     }
 
     @Override
@@ -411,9 +431,15 @@ public abstract class BaseActivity extends AppCompatActivity implements
 
     @Override
     public void showEmpty(String message) {
-        if (mStatusView != null) {
-            mStatusView.showEmpty();
-        }
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mStatusView != null) {
+                    mStatusView.showEmpty();
+                }
+            }
+        });
+
     }
 
 

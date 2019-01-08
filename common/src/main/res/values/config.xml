@@ -28,9 +28,9 @@
     <!--默认button的高度-->
     <dimen name="default_button_height">@dimen/dp_46</dimen>
     <!--默认线的高度-->
-    <dimen name="default_line_height">1dp</dimen>
+    <dimen name="default_line_height">1px</dimen>
     <!--默认TextViewPro和EditViewPro的高度-->
-    <dimen name="default_pro_height">@dimen/dp_50</dimen>
+    <dimen name="default_pro_height">@dimen/dp_55</dimen>
     <!--默认Dialog 的Item高度-->
     <dimen name="default_dialog_list_height">@dimen/dp_305</dimen>
     <dimen name="default_dialog_item_height">@dimen/dp_50</dimen>

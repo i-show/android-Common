@@ -105,7 +105,7 @@ public class Http {
      */
     public static void cancel(@NonNull Object tag) {
         if (getInstance().mExecutor != null) {
-            getExecutor().cancle(tag);
+            getExecutor().cancel(tag);
         }
     }
 

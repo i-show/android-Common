@@ -17,11 +17,14 @@
 package com.ishow.common.utils;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.provider.ContactsContract;
 import android.provider.Settings;
+import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.widget.Toast;
 
@@ -32,7 +35,10 @@ import com.ishow.common.R;
  */
 @SuppressWarnings("unused")
 public class IntentUtils {
-
+    /**
+     * 微信包名
+     */
+    public static final String WECHAT_PACKAGE_NAME = "com.tencent.mm";
     /**
      * 跳转拨号盘界面
      */
@@ -109,6 +115,38 @@ public class IntentUtils {
             context.startActivity(intent);
         } catch (Exception e) {
             ToastUtils.show(context, R.string.exception_intent_open, Toast.LENGTH_SHORT);
+        }
+    }
+
+    /**
+     * 打开某一个app
+     */
+    public static void openApp(Context context, String appPackageName, String errorMessage) {
+        try {
+            Intent intent = context.getPackageManager().getLaunchIntentForPackage(appPackageName.trim());
+            context.startActivity(intent);
+        } catch (Exception e) {
+            ToastUtils.show(context, errorMessage, Toast.LENGTH_SHORT);
+        }
+    }
+
+    /**
+     * 选择联系人
+     */
+    public static void selectContact(Activity activity, int requestCode){
+        Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+        activity.startActivityForResult(intent, requestCode);
+    }
+
+    /**
+     * 打开某一个app
+     */
+    public static void openApp(Context context, String appPackageName, @StringRes int errorMessage) {
+        try {
+            Intent intent = context.getPackageManager().getLaunchIntentForPackage(appPackageName.trim());
+            context.startActivity(intent);
+        } catch (Exception e) {
+            ToastUtils.show(context, errorMessage, Toast.LENGTH_SHORT);
         }
     }
 

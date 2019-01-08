@@ -68,7 +68,7 @@ public class MultiBody {
 
     @SuppressWarnings("unused")
     public void setBody(@NonNull byte[] body) {
-        this.body = body;
+        setBody(body, MediaType.STREAM);
     }
 
     @SuppressWarnings("unused")
@@ -89,6 +89,12 @@ public class MultiBody {
 
     @SuppressWarnings("WeakerAccess")
     public void setBody(@NonNull File body, @NonNull MediaType mediaType) {
+        this.body = body;
+        this.mediaType = mediaType;
+    }
+
+    @SuppressWarnings("WeakerAccess")
+    public void setBody(@NonNull byte[] body, @NonNull MediaType mediaType) {
         this.body = body;
         this.mediaType = mediaType;
     }

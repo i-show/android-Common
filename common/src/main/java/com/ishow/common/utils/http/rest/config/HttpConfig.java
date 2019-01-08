@@ -17,9 +17,13 @@
 package com.ishow.common.utils.http.rest.config;
 
 import android.support.annotation.Keep;
+import android.text.TextUtils;
 
 import com.ishow.common.utils.http.rest.Cookie;
 import com.ishow.common.utils.http.rest.Headers;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Bright.Yu on 2017/2/20.
@@ -59,6 +63,8 @@ public class HttpConfig {
      * Request headers
      */
     private static Headers.Builder headersBuilder;
+
+    private static Map<String, Object> mCommonParams;
 
     @SuppressWarnings("WeakerAccess")
     public HttpConfig() {
@@ -155,5 +161,23 @@ public class HttpConfig {
             headersBuilder = new Headers.Builder();
         }
         return headersBuilder.build();
+    }
+
+    public static void addCommonParams(String key, Object value) {
+        if (TextUtils.isEmpty(key) || value == null) {
+            return;
+        }
+
+        if (mCommonParams == null) {
+            mCommonParams = new HashMap<>();
+        }
+        mCommonParams.put(key, value);
+    }
+
+    public static Map<String, Object> getCommonParams(){
+        if (mCommonParams == null) {
+            mCommonParams = new HashMap<>();
+        }
+        return mCommonParams;
     }
 }

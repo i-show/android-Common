@@ -33,6 +33,7 @@ import com.ishow.common.utils.http.rest.response.Response;
 import com.ishow.common.utils.log.LogManager;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Bright.Yu on 2017/2/20.
@@ -87,17 +88,71 @@ public abstract class Executor {
                 // POST的时候放到里 Body里面
                 return StringUtils.EMPTY;
             default:
-                return buildParams(paramList);
+                return buildParams(request, paramList);
         }
     }
 
 
-    private String buildParams(@NonNull List<KeyValue> paramList) {
+    private String buildDebugParams(@NonNull List<KeyValue> paramList) {
         if (paramList.isEmpty()) {
             return StringUtils.EMPTY;
         }
 
         StringBuilder builder = new StringBuilder();
+        for (KeyValue param : paramList) {
+            String key = param.getKey();
+            Object value = param.getValue();
+
+            if (value instanceof String) {
+                builder.append("&");
+                builder.append(key);
+                builder.append("=");
+                builder.append(String.valueOf(value));
+            }
+        }
+
+        if (builder.length() > 0) {
+            builder.deleteCharAt(0);
+        }
+        return builder.toString();
+    }
+
+    private String buildDebugParams(@NonNull Map<String, Object> paramList) {
+        StringBuilder builder = new StringBuilder();
+        // 先添加通用参数
+        for (Map.Entry<String, Object> entry : HttpConfig.getCommonParams().entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            if (value instanceof String) {
+                builder.append("&");
+                builder.append(key);
+                builder.append("=");
+                builder.append(String.valueOf(value));
+            }
+        }
+        return builder.toString();
+    }
+
+    private String buildParams(Request request, @NonNull List<KeyValue> paramList) {
+        StringBuilder builder = new StringBuilder();
+        // 先添加通用参数
+        if (request.isAddCommonParams()) {
+            for (Map.Entry<String, Object> entry : HttpConfig.getCommonParams().entrySet()) {
+                String key = entry.getKey();
+                Object value = entry.getValue();
+                if (value instanceof String) {
+                    builder.append("&");
+                    builder.append(key);
+                    builder.append("=");
+                    builder.append(String.valueOf(value));
+                }
+            }
+        }
+
+        if (paramList.isEmpty()) {
+            return builder.toString();
+        }
+
         for (KeyValue param : paramList) {
             String key = param.getKey();
             Object value = param.getValue();
@@ -141,13 +196,18 @@ public abstract class Executor {
 
         RequestParams params = request.getParams();
 
-        String normalParsms = buildParams(params.getNormalParams());
+        String normalParsms = buildDebugParams(params.getNormalParams());
         if (!TextUtils.isEmpty(normalParsms)) {
             LogManager.d(request.getLogTag(), StringUtils.plusString(request.getId(), " PARAMS = ", normalParsms));
         }
 
+        String commonParams = buildDebugParams(HttpConfig.getCommonParams());
+        if (!TextUtils.isEmpty(commonParams) && request.isAddCommonParams()) {
+            LogManager.d(request.getLogTag(), StringUtils.plusString(request.getId(), " PARAMS COMMON = ", commonParams));
+        }
+
         Object body = params.getBody();
-        if (body != null && body instanceof String) {
+        if (body instanceof String) {
             LogManager.d(request.getLogTag(), StringUtils.plusString(request.getId(), " PARAMS = ", body.toString()));
         }
     }
@@ -160,13 +220,13 @@ public abstract class Executor {
     protected boolean isCanceled(@NonNull Request request, @NonNull Response response, @NonNull CallBack callBack) {
         boolean canceled = response.isCanceled();
         if (canceled) {
-            sendCanceledReuslt(request, callBack);
+            sendCanceledResult(request, callBack);
         }
         return canceled;
     }
 
     @SuppressWarnings("WeakerAccess")
-    protected void sendCanceledReuslt(@NonNull Request request, CallBack callBack) {
+    protected void sendCanceledResult(@NonNull Request request, CallBack callBack) {
         if (callBack == null) {
             return;
         }
@@ -214,5 +274,5 @@ public abstract class Executor {
     /**
      * 取消请求
      */
-    public abstract void cancle(@NonNull Object tag);
+    public abstract void cancel(@NonNull Object tag);
 }

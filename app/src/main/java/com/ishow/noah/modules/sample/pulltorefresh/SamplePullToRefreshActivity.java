@@ -11,7 +11,7 @@ import com.ishow.noah.modules.base.PullToRefreshActivity;
 import com.ishow.noah.modules.sample.entries.Job;
 import com.ishow.pulltorefresh.IPullToRefreshUtils;
 import com.ishow.pulltorefresh.PullToRefreshView;
-import com.ishow.pulltorefresh.classic.ClassicHeader;
+import com.ishow.pulltorefresh.headers.classic.ClassicHeader;
 import com.ishow.pulltorefresh.recycleview.LoadMoreAdapter;
 
 import java.util.List;

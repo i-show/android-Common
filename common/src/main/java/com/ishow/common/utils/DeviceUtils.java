@@ -1,17 +1,23 @@
 package com.ishow.common.utils;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
+
+import com.ishow.common.utils.permission.Permission;
+import com.ishow.common.utils.permission.PermissionManager;
 
 /**
  * Created by yuhaiyang on 2017/5/10.
@@ -57,13 +63,35 @@ public class DeviceUtils {
         if (!TextUtils.isEmpty(id)) {
             return id;
         }
-        
+
         try {
             id = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
         } catch (Exception e) {
             Log.i(TAG, "deviceId: e =" + e.toString());
         }
         return id;
+    }
+
+    public static String getOperator(Context context) {
+        String operator = "";
+        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        if (!PermissionManager.hasPermission(context, Manifest.permission.READ_PHONE_STATE)) {
+            return StringUtils.EMPTY;
+        }
+        @SuppressLint("MissingPermission")
+        String imsi = telephonyManager.getSubscriberId();
+        if (imsi == null) {
+            return StringUtils.EMPTY;
+        }
+        if (imsi.startsWith("46000") || imsi.startsWith("46002") || imsi.startsWith("46007")) {
+            operator = "中国移动";
+        } else if (imsi.startsWith("46001") || imsi.startsWith("46006")) {
+            operator = "中国联通";
+        } else if (imsi.startsWith("46003")) {
+            operator = "中国电信";
+        }
+        return operator;
+
     }
 
     /**

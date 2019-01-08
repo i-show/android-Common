@@ -71,6 +71,7 @@ public class PostRequest extends Request<PostRequest> {
      * Add byte[] params, Default is json
      */
     public PostRequest params(@NonNull byte[] body) {
+        mediaType(MediaType.STREAM);
         getParams().params(body);
         return this;
     }

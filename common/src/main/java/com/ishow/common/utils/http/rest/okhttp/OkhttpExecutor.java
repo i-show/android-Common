@@ -37,6 +37,7 @@ import com.ishow.common.utils.log.LogManager;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
@@ -52,7 +53,7 @@ import okhttp3.RequestBody;
  * Okhttp的请求
  */
 public class OkhttpExecutor extends Executor {
-    private static final String TAG = "OkhttpExecutor" ;
+    private static final String TAG = "OkhttpExecutor";
     private OkHttpClient mOkHttpClient;
     private OkCookiesManager mCookiesManager;
 
@@ -68,14 +69,13 @@ public class OkhttpExecutor extends Executor {
         // Step 2. 设置Cookie
         mCookiesManager = new OkCookiesManager(context, config.getCookieType());
         builder.cookieJar(mCookiesManager);
-
         mOkHttpClient = builder.build();
-
     }
 
 
     @Override
     public <T> void execute(Request request, CallBack<T> callBack) {
+
         // Step 1. url
         String url = formatUrl(request);
         request.setFinalUrl(url);
@@ -85,6 +85,9 @@ public class OkhttpExecutor extends Executor {
                 .url(url)
                 .headers(headers);
 
+        // Debug this
+        debugRequest(request);
+
         switch (request.getMethod()) {
             case POST:
                 RequestBody body = makeBody(request);
@@ -92,8 +95,6 @@ public class OkhttpExecutor extends Executor {
                 break;
         }
 
-        // Debug this
-        debugRequest(request);
         executeOkHttp(request, builder.build(), callBack);
     }
 
@@ -103,7 +104,7 @@ public class OkhttpExecutor extends Executor {
     }
 
     @Override
-    public void cancle(@NonNull Object tag) {
+    public void cancel(@NonNull Object tag) {
         try {
             for (Call call : mOkHttpClient.dispatcher().queuedCalls()) {
                 if (tag.equals(call.request().tag())) {
@@ -146,7 +147,7 @@ public class OkhttpExecutor extends Executor {
                 }
 
                 if (call.isCanceled()) {
-                    sendCanceledReuslt(request, callBack);
+                    sendCanceledResult(request, callBack);
                 } else {
                     HttpError error = HttpError.makeError(request);
                     error.setCode(HttpError.ERROR_IO);
@@ -223,6 +224,16 @@ public class OkhttpExecutor extends Executor {
         if (body == null && bodyList.isEmpty()) {
             // 只有key value样式的
             FormBody.Builder builder = new FormBody.Builder();
+
+            // 先添加通用参数
+            if(request.isAddCommonParams()) {
+                for (Map.Entry<String, Object> entry : HttpConfig.getCommonParams().entrySet()) {
+                    String key = entry.getKey();
+                    Object value = entry.getValue();
+                    builder.add(key, String.valueOf(value));
+                }
+            }
+
             for (KeyValue keyValue : normalParams) {
                 builder.add(keyValue.getKey(), String.valueOf(keyValue.getValue()));
             }
@@ -241,6 +252,13 @@ public class OkhttpExecutor extends Executor {
             // 混合的样式的
             MultipartBody.Builder builder = new MultipartBody.Builder();
             //builder.setType(MultipartBody.FORM);
+            // 先添加通用参数
+            for (Map.Entry<String, Object> entry : HttpConfig.getCommonParams().entrySet()) {
+                String key = entry.getKey();
+                Object value = entry.getValue();
+                builder.addFormDataPart(key, String.valueOf(value));
+            }
+
             // 1. Normal
             if (!normalParams.isEmpty()) {
                 for (KeyValue keyValue : normalParams) {

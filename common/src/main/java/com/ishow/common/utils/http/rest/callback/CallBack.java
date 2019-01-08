@@ -22,6 +22,7 @@ import android.content.res.Resources;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.ishow.common.R;
@@ -34,6 +35,7 @@ import com.ishow.common.utils.http.rest.request.Request;
 import com.ishow.common.utils.http.rest.response.Response;
 import com.ishow.common.utils.log.LogManager;
 
+import java.io.IOException;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
@@ -140,7 +142,7 @@ public abstract class CallBack<T> {
      */
     @SuppressWarnings("WeakerAccess")
     protected boolean checkInterruptionFailed(@NonNull HttpError error) {
-        if (mContext != null && mContext instanceof Activity) {
+        if (mContext instanceof Activity) {
             Activity activity = (Activity) mContext;
             if (activity.isFinishing()) {
                 LogManager.d(error.getLogtag(), StringUtils.plusString(error.getId(), " on Error activity is finishing to do nothing "));
@@ -187,6 +189,8 @@ public abstract class CallBack<T> {
             return resources.getString(R.string.net_server_error);
         } else if (e instanceof UnknownHostException) {
             return resources.getString(R.string.net_server_error);
+        } else if (e instanceof IOException) {
+            return resources.getString(R.string.net_poor_connections);
         }
         return null;
     }
@@ -216,6 +220,10 @@ public abstract class CallBack<T> {
 
         if (error.getCode() != 0) {
             LogManager.d(error.getLogtag(), StringUtils.plusString(error.getId(), " ERROR_TYPE  = " + error.getCode()));
+        }
+
+        if (!TextUtils.isEmpty(error.getBody())) {
+            LogManager.d(error.getLogtag(), StringUtils.plusString(error.getId(), " ERROR_BODY  = " + error.getBody()));
         }
 
         if (error.getException() == null) {

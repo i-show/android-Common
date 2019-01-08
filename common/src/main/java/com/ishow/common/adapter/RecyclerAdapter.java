@@ -51,7 +51,8 @@ public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holde
     private List<DATA> mData = new ArrayList<>();
     protected Context mContext;
     protected LayoutInflater mLayoutInflater;
-
+    private OnItemClickListener mOnItemClickListener;
+    protected boolean disableOnItemClickListener = false;
     /**
      * 当前绑定的RecycleView
      * {@link #onAttachedToRecyclerView(RecyclerView)} 中进行赋值操作
@@ -186,6 +187,9 @@ public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holde
     @Override
     public void onBindViewHolder(@NonNull HOLDER holder, int position) {
         holder.getItemView().setTag(R.id.tag_view_holder_recycle_item_click, position);
+        if(!disableOnItemClickListener) {
+            holder.getItemView().setOnClickListener(new ItemViewClickListener());
+        }
         onBindViewHolder(holder, position, holder.getItemViewType());
     }
 
@@ -227,6 +231,25 @@ public abstract class RecyclerAdapter<DATA, HOLDER extends RecyclerAdapter.Holde
 
         public View getItemView() {
             return mItemView;
+        }
+    }
+
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mOnItemClickListener = listener;
+    }
+
+    private class ItemViewClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            if (mOnItemClickListener != null) {
+                mOnItemClickListener.onItemClick((Integer) v.getTag(R.id.tag_view_holder_recycle_item_click));
+            }
         }
     }
 }

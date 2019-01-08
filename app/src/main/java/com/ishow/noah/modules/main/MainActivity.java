@@ -61,11 +61,6 @@ public class MainActivity extends AppBaseActivity implements BottomBar.OnBottomB
         Intent intent = getIntent();
         int type = intent.getIntExtra(KEY_TYPE, TAB_FIRST);
         mBottomBar.setSelectedId(type, true);
-
-        //String a = "0.255";
-        Double a = 0.255D;
-        String b = MathUtils.rounding(a, 2);
-        Log.i("yhy", "onCreate: b = " + b);
     }
 
     @Override

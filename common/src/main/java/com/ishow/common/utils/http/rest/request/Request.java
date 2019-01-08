@@ -18,6 +18,7 @@ package com.ishow.common.utils.http.rest.request;
 
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.ishow.common.entries.KeyValue;
@@ -30,6 +31,7 @@ import com.ishow.common.utils.http.rest.callback.CallBack;
 import com.ishow.common.utils.http.rest.config.HttpConfig;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -44,7 +46,7 @@ public abstract class Request<T extends Request> {
     /**
      * Debug tag
      */
-    private static final String DEFAULT_DEBUG_TAG = "HTTP" ;
+    private static final String DEFAULT_DEBUG_TAG = "HTTP";
     /**
      * Id
      */
@@ -101,6 +103,10 @@ public abstract class Request<T extends Request> {
      * config
      */
     private HttpConfig httpConfig;
+    /**
+     * 是否添加common params
+     */
+    private boolean isAddCommonParams = true;
 
     public Request(Method method) {
         this.method = method;
@@ -183,7 +189,15 @@ public abstract class Request<T extends Request> {
 
     // -------- 参数的封装 ----------//
     @SuppressWarnings("unchecked")
-    public T addParams(@NonNull String key, @NonNull String value) {
+    public T addParams(@NonNull String key, String value) {
+        if (!TextUtils.isEmpty(value)) {
+            params.addParams(key, value);
+        }
+        return (T) this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public T addParams(@NonNull String key, int value) {
         params.addParams(key, value);
         return (T) this;
     }
@@ -201,6 +215,12 @@ public abstract class Request<T extends Request> {
     }
 
     @SuppressWarnings("unchecked")
+    public T addParams(@NonNull String key, byte[] value) {
+        params.addParams(key, value);
+        return (T) this;
+    }
+
+    @SuppressWarnings("unchecked")
     public T addParams(@NonNull String key, File value) {
         params.addParams(key, value);
         return (T) this;
@@ -209,6 +229,19 @@ public abstract class Request<T extends Request> {
     @SuppressWarnings("unchecked")
     public T params(@NonNull List<KeyValue> listParams) {
         params.params(listParams);
+        return (T) this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public T params(Map<String, String> paramsMap) {
+        List<KeyValue> paramList = new ArrayList<>();
+        if (paramsMap != null && !paramsMap.isEmpty()) {
+            for (Map.Entry<String, String> entry : paramsMap.entrySet()) {
+                KeyValue param = new KeyValue(entry.getKey(), entry.getValue());
+                paramList.add(param);
+            }
+        }
+        params.params(paramList);
         return (T) this;
     }
 
@@ -330,10 +363,19 @@ public abstract class Request<T extends Request> {
         return (readTimeOut > 0 || writeTimeOut > 0 || connTimeOut > 0);
     }
 
+    public boolean isAddCommonParams() {
+        return isAddCommonParams;
+    }
+
+    public Request<T> setAddCommonParams(boolean addCommonParams) {
+        isAddCommonParams = addCommonParams;
+        return this;
+    }
+
     /**
      * 执行
      */
-    public final <RESULT> void execute(CallBack<RESULT> callBack) {
+    public final <RESULT> void execute(@Nullable CallBack<RESULT> callBack) {
         Http.getExecutor().execute(this, callBack);
     }
 }

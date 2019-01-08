@@ -34,6 +34,7 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.method.DigitsKeyListener;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
@@ -112,6 +113,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     private int mInputType;
     private String mInputTextString;
     private String mInputHintString;
+    private String mInputDigitsString;
     private int mCancelVisibility;
     private boolean isCancelEnable;
 
@@ -172,7 +174,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     private int mSuggestIconWidth;
     private int mSuggestCancelWidth;
     private int mDesireInputWidth;
-    private int mMinHegiht;
+    private int mMinHeight;
     private ColorStateList mTintColor;
 
     private OnEditTextListener mEditTextListener;
@@ -218,6 +220,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         mInputTextString = a.getString(R.styleable.EditTextPro_inputText);
         mInputHintString = a.getString(R.styleable.EditTextPro_inputHint);
         mInputType = a.getInt(R.styleable.EditTextPro_inputType, InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        mInputDigitsString = a.getString(R.styleable.EditTextPro_inputDigits);
         isCancelEnable = a.getBoolean(R.styleable.EditTextPro_cancelEnable, true);
 
         mRightTextString = a.getString(R.styleable.EditTextPro_rightText);
@@ -255,7 +258,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         mCustomizeMarginStart = a.getDimensionPixelSize(R.styleable.EditTextPro_customizeMarginStart, 0);
         mCustomizeMarginEnd = a.getDimensionPixelSize(R.styleable.EditTextPro_customizeMarginEnd, 0);
 
-        mMinHegiht = a.getDimensionPixelSize(R.styleable.EditTextPro_android_minHeight, getDefaultMinHeight());
+        mMinHeight = a.getDimensionPixelSize(R.styleable.EditTextPro_android_minHeight, getDefaultMinHeight());
         a.recycle();
 
         initNecessaryData();
@@ -378,7 +381,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
             case MeasureSpec.AT_MOST:
                 final int paddingStart = getPaddingStart();
                 final int paddingEnd = getPaddingEnd();
-                int height = mMinHegiht;
+                int height = mMinHeight;
 
                 int inputWidth = width - paddingStart - paddingEnd;
 
@@ -605,6 +608,10 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
                 mInputView.setFilters(new InputFilter[]{new InputFilter.LengthFilter(mInputMaxLength)});
             }
 
+            if (!TextUtils.isEmpty(mInputDigitsString)) {
+                mInputView.setKeyListener(DigitsKeyListener.getInstance(mInputDigitsString));
+            }
+
             mInputView.setText(mInputTextString);
             mInputView.setHint(mInputHintString);
             mInputView.addTextChangedListener(new InputWatcher());
@@ -750,12 +757,14 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     private int getDefaultFocusLineColor() {
         return getContext().getResources().getColor(R.color.color_accent);
     }
+
     /**
      * 线的高度
      */
     private int getDefaultLineHeight() {
         return getContext().getResources().getDimensionPixelSize(R.dimen.default_line_height);
     }
+
     /**
      * 获取默认的最小高度
      */
@@ -822,9 +831,9 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
 
     public String getInputText() {
         Editable inputText = mInputView.getText();
-        if(inputText == null){
+        if (inputText == null) {
             return StringUtils.EMPTY;
-        }else{
+        } else {
             return inputText.toString().trim();
         }
     }

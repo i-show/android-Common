@@ -33,7 +33,7 @@ class SelectAdapter<T extends IUnitSelect> extends ListAdapter<T, SelectAdapter.
     private int mGravity;
 
     SelectAdapter(Context context) {
-        this(context, Gravity.START | Gravity.CENTER_VERTICAL);
+        this(context, Gravity.CENTER);
     }
 
     @SuppressWarnings("WeakerAccess")
