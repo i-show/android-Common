@@ -38,12 +38,6 @@ class HomeFragment : AppBaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         topBar.setOnTopBarListener(this)
-
-
-        val dataList = ArrayList<TestA>()
-        dataList.add(TestA("你好啊"))
-        dataList.add(TestA("Hello Hello445奋达科技豆腐干了肯德基发过来的看法就搞定了开放个建档立卡房管局考虑到交付给"))
-        testSwitcher.setData(dataList as List<IAnnouncementData>?)
     }
 
     override fun onResume() {

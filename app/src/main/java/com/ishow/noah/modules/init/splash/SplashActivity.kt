@@ -20,8 +20,6 @@ import com.ishow.noah.modules.main.MainActivity
  */
 
 class SplashActivity : AppBaseActivity(), SplashContract.View {
-
-
     private lateinit var mPresenter: SplashContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,13 +91,13 @@ class SplashActivity : AppBaseActivity(), SplashContract.View {
             }
             SplashPresenter.Target.LOGIN -> {
                 AppRouter.with(this)
-                        .target(LoginActivity::class.java)!!
+                        .target(MainActivity::class.java)!!
                         .finishSelf()!!
                         .start()
             }
             SplashPresenter.Target.GUIDE -> {
                 AppRouter.with(this)
-                        .target(GuideActivity::class.java)!!
+                        .target(MainActivity::class.java)!!
                         .finishSelf()!!
                         .start()
             }
@@ -112,9 +110,7 @@ class SplashActivity : AppBaseActivity(), SplashContract.View {
      * 设置StatusBar的样式
      */
     override fun resetStatusBar() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE
-        }
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE
     }
 
     /**
