@@ -844,7 +844,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     }
 
     public void setInputText(CharSequence text) {
-        setInputText(text, false);
+        mInputView.setText(text);
     }
 
     public synchronized void setInputText(CharSequence text, boolean selectionEnd) {
