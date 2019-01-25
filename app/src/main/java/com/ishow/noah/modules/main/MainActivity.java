@@ -61,6 +61,10 @@ public class MainActivity extends AppBaseActivity implements BottomBar.OnBottomB
         Intent intent = getIntent();
         int type = intent.getIntExtra(KEY_TYPE, TAB_FIRST);
         mBottomBar.setSelectedId(type, true);
+
+        String a = "1.0.1";
+        String b = a.replace(".","");
+        Log.i(TAG, "onCreate: b = " + b);
     }
 
     @Override
