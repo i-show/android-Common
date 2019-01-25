@@ -37,6 +37,6 @@ captures/
 # Intellij
 *.iml
 .idea
-
+class_files.txt
 
 
