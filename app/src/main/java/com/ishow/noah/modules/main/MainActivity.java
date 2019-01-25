@@ -25,6 +25,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ishow.common.utils.EncryptUtils;
 import com.ishow.common.utils.MathUtils;
 import com.ishow.common.utils.ToastUtils;
 import com.ishow.common.utils.router.AppRouter;
@@ -62,9 +63,7 @@ public class MainActivity extends AppBaseActivity implements BottomBar.OnBottomB
         int type = intent.getIntExtra(KEY_TYPE, TAB_FIRST);
         mBottomBar.setSelectedId(type, true);
 
-        String a = "1.0.1";
-        String b = a.replace(".","");
-        Log.i(TAG, "onCreate: b = " + b);
+        EncryptUtils.md5(null);
     }
 
     @Override
