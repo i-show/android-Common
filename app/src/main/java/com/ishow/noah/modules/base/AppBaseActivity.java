@@ -4,15 +4,12 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.baidu.mobstat.StatService;
 import com.ishow.common.app.activity.BaseActivity;
 import com.ishow.common.widget.watermark.WaterMarkView;
 import com.ishow.noah.AppApplication;
 import com.ishow.noah.manager.VersionManager;
 import com.ishow.noah.ui.widget.dialog.VersionDialog;
-
-import butterknife.ButterKnife;
 
 
 /**
@@ -34,7 +31,6 @@ public abstract class AppBaseActivity extends BaseActivity {
     @Override
     protected void initNecessaryData() {
         super.initNecessaryData();
-        ButterKnife.bind(this);
     }
 
     @Override

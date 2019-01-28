@@ -106,7 +106,6 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
     }
 
 
-
     /**
      * 设置当前选中的ID
      */
@@ -169,7 +168,7 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
         int id = v.getId();
 
         if (mBottomBarListener != null) {
-            mBottomBarListener.onClickChlid(v, id == mSelectedId);
+            mBottomBarListener.onClickChild(v, id == mSelectedId);
         }
 
         setSelectedId(id);
@@ -195,7 +194,13 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
          */
         void onSelectedChanged(ViewGroup parent, @IdRes int selectId, int index);
 
-        void onClickChlid(View v, boolean isSameView);
+        /**
+         * 点击子View
+         *
+         * @param v          子view
+         * @param isSameView 是否是同一个View
+         */
+        void onClickChild(View v, boolean isSameView);
     }
 
     /**

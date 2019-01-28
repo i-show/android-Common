@@ -62,8 +62,6 @@ public class MainActivity extends AppBaseActivity implements BottomBar.OnBottomB
         Intent intent = getIntent();
         int type = intent.getIntExtra(KEY_TYPE, TAB_FIRST);
         mBottomBar.setSelectedId(type, true);
-
-        EncryptUtils.md5(null);
     }
 
     @Override
@@ -99,7 +97,7 @@ public class MainActivity extends AppBaseActivity implements BottomBar.OnBottomB
     }
 
     @Override
-    public void onClickChlid(View v, boolean isSameView) {
+    public void onClickChild(View v, boolean isSameView) {
     }
 
 

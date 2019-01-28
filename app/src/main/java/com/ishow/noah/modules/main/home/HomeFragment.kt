@@ -1,21 +1,15 @@
 package com.ishow.noah.modules.main.home
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ishow.common.extensions.inflate
-
 import com.ishow.common.utils.router.AppRouter
-import com.ishow.common.widget.TopBar
 import com.ishow.noah.R
 import com.ishow.noah.modules.base.AppBaseFragment
-import com.ishow.noah.modules.sample.entries.TestA
 import com.ishow.noah.modules.sample.main.SampleMainActivity
-import com.ishow.noah.ui.widget.announcement.IAnnouncementData
 import kotlinx.android.synthetic.main.fragement_tab_1.*
-import java.util.ArrayList
 
 /**
  * Created by yuhaiyang on 2017/4/21.
@@ -38,10 +32,6 @@ class HomeFragment : AppBaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         topBar.setOnTopBarListener(this)
-    }
-
-    override fun onResume() {
-        super.onResume()
     }
 
 

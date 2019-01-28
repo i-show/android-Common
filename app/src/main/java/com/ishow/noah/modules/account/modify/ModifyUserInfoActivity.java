@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
-
 import com.ishow.common.utils.image.loader.ImageLoader;
 import com.ishow.common.utils.image.select.OnSelectPhotoListener;
 import com.ishow.common.utils.image.select.SelectPhotoUtils;
@@ -15,14 +14,11 @@ import com.ishow.noah.modules.base.AppBaseActivity;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.OnClick;
 
 public class ModifyUserInfoActivity extends AppBaseActivity implements
         OnSelectPhotoListener,
         ModifyUserInfoContract.View {
 
-    @BindView(R.id.header)
     TextViewPro mHeader;
     private ModifyUserInfoContract.Presenter mPresenter;
 
@@ -57,7 +53,6 @@ public class ModifyUserInfoActivity extends AppBaseActivity implements
     }
 
 
-    @OnClick(R.id.header)
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.header:
