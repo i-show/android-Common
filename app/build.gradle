@@ -198,10 +198,9 @@ android {
     // 包名重命名，加上版本及日期
     android.applicationVariants.all { variant ->
         variant.outputs.all { output ->
-            renameAPK(android, variant, output);
+            renameAPK(android, variant, output)
         }
     }
-
 }
 
 

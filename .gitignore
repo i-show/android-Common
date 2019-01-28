@@ -38,5 +38,6 @@ captures/
 *.iml
 .idea
 class_files.txt
+output.json
 
 

@@ -6,7 +6,7 @@ buildscript {
 
     dependencies {
         //  Android 默认的编译工具库插件
-        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath 'com.android.tools.build:gradle:3.3.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VERSION"
     }
 }
@@ -34,6 +34,7 @@ static def releaseTime() {
 /**
  * 生成VersionCode
  */
+@SuppressWarnings("unused")
 static def generateVersionCode() {
     return new Date().format("yyyyMMdd")
 }
@@ -41,10 +42,11 @@ static def generateVersionCode() {
 /**
  *  重命名Apk的方法
  */
+@SuppressWarnings(["GrMethodMayBeStatic", "unused"])
 def renameAPK(android, variant, output) {
-    def flavor = variant.productFlavors[0];
-    def flavorName;
-    def versionName;
+    def flavor = variant.productFlavors[0]
+    def flavorName
+    def versionName
 
     if (flavor == null) {
         flavorName = ""
@@ -54,35 +56,30 @@ def renameAPK(android, variant, output) {
         flavorName = flavor.name
     }
 
-    if (versionName == null || versionName.toString().equals("null")) {
-        versionName = variant.versionName;
+    if (versionName == null || versionName.toString() == "null") {
+        versionName = variant.versionName
     }
 
-    if (versionName == null || versionName.toString().equals("null")) {
+    if (versionName == null || versionName.toString() == "null") {
         versionName = ""
     }
 
     def versionNameSuffix = variant.buildType.versionNameSuffix
-    if (versionNameSuffix.toString().equals("null")) {
+    if (versionNameSuffix.toString() == "null") {
         versionNameSuffix = ""
     }
 
-    def buildTypeName = variant.buildType.name;
+    def buildTypeName = variant.buildType.name
 
-    if (buildTypeName.equals("debug")) {
+    if (buildTypeName == "debug") {
         buildTypeName = "dev"
-    } else if (buildTypeName.equals("release")) {
+    } else if (buildTypeName == "release") {
         buildTypeName = "prod"
     }
 
-
-    def outputFile = output.outputFile
-
-    if (outputFile != null) {
-        if (flavorName.equals("") || flavorName.equals("null")) {
-            output.outputFileName = "${APK_PREFIX}_${buildTypeName}_v${versionName}${versionNameSuffix}_${releaseTime()}.apk"
-        } else {
-            output.outputFileName = "${APK_PREFIX}_${buildTypeName}_${flavorName}_v${versionName}${versionNameSuffix}_${releaseTime()}.apk"
-        }
+    if (flavorName == "" || flavorName == "null") {
+        output.outputFileName = "${APK_PREFIX}_${buildTypeName}_v${versionName}${versionNameSuffix}_${releaseTime()}.apk"
+    } else {
+        output.outputFileName = "${APK_PREFIX}_${buildTypeName}_${flavorName}_v${versionName}${versionNameSuffix}_${releaseTime()}.apk"
     }
 }
