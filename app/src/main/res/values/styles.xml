@@ -126,4 +126,29 @@
         <item name="textColor">@color/normal_grey_selected_coloraccent</item>
     </style>
 
+
+    <style name="TextViewPro.LoanStatus">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:foreground">?android:selectableItemBackground</item>
+        <item name="leftTextSize">16sp</item>
+        <item name="leftTextColor">#383838</item>
+        <item name="textSize">14sp</item>
+        <item name="textColor">#9092A5</item>
+        <item name="bottomLineColor">#C2CADC</item>
+        <item name="leftImageRightMargin">@dimen/dp_8</item>
+        <item name="android:layout_height">@dimen/dp_35</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:layout_marginStart">@dimen/dp_20</item>
+        <item name="android:layout_marginEnd">@dimen/dp_20</item>
+        <item name="textGravity">end|center_vertical</item>
+        <item name="leftImageVisibility">gone</item>
+        <item name="rightImageVisibility">gone</item>
+        <item name="rightTextGravity">end|center_vertical</item>
+        <item name="rightTextSize">14sp</item>
+        <item name="rightTextColor">#9092A5</item>
+        <item name="rightTextVisibility">visible</item>
+        <item name="bottomLineVisibility">gone</item>
+    </style>
 </resources>

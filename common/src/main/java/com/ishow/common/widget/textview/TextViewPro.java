@@ -463,7 +463,11 @@ public class TextViewPro extends ViewGroup {
         int right = r - l - getPaddingEnd();
         int bottom = b - t - getPaddingBottom();
         int index = 0;
+        int lastLeft = left;
         left = layoutCustomize(left, index);
+        index = lastLeft == left ? index : index + 1;
+
+
         if (mLeftImageView != null && mLeftImageView.getVisibility() != View.GONE) {
             int width = mLeftImageView.getMeasuredWidth();
             int height = mLeftImageView.getMeasuredHeight();
@@ -472,7 +476,9 @@ public class TextViewPro extends ViewGroup {
             left = left + width + mLeftImageRightMargin;
             index++;
         }
+        lastLeft = left;
         left = layoutCustomize(left, index);
+        index = lastLeft == left ? index : index + 1;
 
         if (mLeftTextView != null && mLeftTextView.getVisibility() != View.GONE) {
             int width = mLeftTextView.getMeasuredWidth();
@@ -480,7 +486,10 @@ public class TextViewPro extends ViewGroup {
             left = left + width + mLeftTextRightMargin;
             index++;
         }
+
+        lastLeft = left;
         left = layoutCustomize(left, index);
+        index = lastLeft == left ? index : index + 1;
 
         int inputWidth = mTextView.getMeasuredWidth();
         int inputHeight = mTextView.getMeasuredHeight();
@@ -488,7 +497,10 @@ public class TextViewPro extends ViewGroup {
         mTextView.layout(left, top, left + inputWidth, bottom);
         left = left + inputWidth + mTextRightMargin;
         index++;
+
+        lastLeft = left;
         left = layoutCustomize(left, index);
+        index = lastLeft == left ? index : index + 1;
 
         if (mRightTextView != null && mRightTextView.getVisibility() != View.GONE) {
             int width = mRightTextView.getMeasuredWidth();
@@ -499,7 +511,9 @@ public class TextViewPro extends ViewGroup {
             index++;
         }
 
+        lastLeft = left;
         left = layoutCustomize(left, index);
+        index = lastLeft == left ? index : index + 1;
 
         if (mRightImageView2 != null && mRightImageView2.getVisibility() != View.GONE) {
             int width = mRightImageView2.getMeasuredWidth();
@@ -509,6 +523,8 @@ public class TextViewPro extends ViewGroup {
             left = left + width;
             index++;
         }
+
+        // 倒数第二个不需要进行处理index了， 因为最后一个的index 肯定为-1
         left = layoutCustomize(left, index);
 
         if (mRightImageView != null && mRightImageView.getVisibility() != View.GONE) {

@@ -433,7 +433,10 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         int right = r - l - getPaddingEnd();
         int bottom = b - t - getPaddingBottom();
         int index = 0;
+        int lastLeft = left;
         left = layoutCustomize(left, index);
+        index = lastLeft == left ? index : index + 1;
+
         if (mLeftImageView != null && mLeftImageView.getVisibility() != View.GONE) {
             int height = mLeftImageView.getMeasuredHeight();
             int height2 = getMeasuredHeight();
@@ -442,14 +445,21 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
             left = left + mSuggestIconWidth + mLeftImageRightMargin;
             index++;
         }
+
+        lastLeft = left;
         left = layoutCustomize(left, index);
+        index = lastLeft == left ? index : index + 1;
+
         if (mLeftTextView != null && mLeftTextView.getVisibility() != View.GONE) {
             int width = mLeftTextView.getMeasuredWidth();
             mLeftTextView.layout(left, top, left + width, bottom);
             left = left + width + mLeftTextRightMargin;
             index++;
         }
+
+        lastLeft = left;
         left = layoutCustomize(left, index);
+        index = lastLeft == left ? index : index + 1;
 
         int inputWidth = mInputView.getMeasuredWidth();
         int inputHeight = mInputView.getMeasuredHeight();
@@ -462,7 +472,10 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         }
         left = left + mInputRightMargin;
         index++;
+
+        lastLeft = left;
         left = layoutCustomize(left, index);
+        index = lastLeft == left ? index : index + 1;
 
         if (mRightTextView != null && mRightTextView.getVisibility() != View.GONE) {
             int width = mRightTextView.getMeasuredWidth();
@@ -472,7 +485,9 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
             left = left + width + mRightTextRightMargin;
             index++;
         }
+        // 倒数第二个不需要处理index信息
         left = layoutCustomize(left, index);
+
         if (mRightImageView != null && mRightImageView.getVisibility() != View.GONE) {
             mRightImageView.layout(left, top, right, bottom);
         }
