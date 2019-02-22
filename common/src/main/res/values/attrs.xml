@@ -81,7 +81,8 @@
     <attr name="textColor" format="color" />
     <attr name="textBackground" format="reference|color" />
     <attr name="textAppearance" format="reference" />
-    <attr name="textRightMargin" format="dimension" />
+    <attr name="textMarginStart" format="dimension" />
+    <attr name="textMarginEnd" format="dimension" />
     <attr name="textLines" format="integer" />
     <attr name="textStyle" format="enum">
         <enum name="normal" value="0" />
@@ -135,7 +136,8 @@
     <attr name="leftTextColor" format="reference|color" />
     <attr name="leftTextDrawable" format="reference" />
     <attr name="leftTextDrawablePadding" format="dimension" />
-    <attr name="leftTextRightMargin" format="dimension" />
+    <attr name="leftTextMarginStart" format="dimension" />
+    <attr name="leftTextMarginEnd" format="dimension" />
     <attr name="leftTextMinWidth" format="dimension" />
     <attr name="leftTextMaxWidth" format="dimension" />
     <attr name="leftTextBackground" format="reference|color" />
@@ -177,7 +179,8 @@
     <attr name="leftImageWidth" format="dimension" />
     <attr name="leftImageHeight" format="dimension" />
     <attr name="leftImageBackground" format="reference|color" />
-    <attr name="leftImageRightMargin" format="dimension" />
+    <attr name="leftImageMarginStart" format="dimension" />
+    <attr name="leftImageMarginEnd" format="dimension" />
     <attr name="leftImageMinWidth" format="dimension" />
     <attr name="leftImageVisibility">
         <enum name="visible" value="0" />
@@ -186,7 +189,10 @@
     </attr>
 
     <attr name="leftImage2" format="reference" />
+    <attr name="leftImage2Width" format="dimension" />
+    <attr name="leftImage2Height" format="dimension" />
     <attr name="leftImage2Background" format="reference|color" />
+    <attr name="leftImage2LeftMargin" format="dimension" />
     <attr name="leftImage2RightMargin" format="dimension" />
     <attr name="leftImage2Visibility">
         <enum name="visible" value="0" />
@@ -200,7 +206,8 @@
     <attr name="rightTextColor" format="reference|color" />
     <attr name="rightTextDrawable" format="reference" />
     <attr name="rightTextDrawablePadding" format="dimension" />
-    <attr name="rightTextRightMargin" format="dimension" />
+    <attr name="rightTextMarginStart" format="dimension" />
+    <attr name="rightTextMarginEnd" format="dimension" />
     <attr name="rightTextRightDrawable" format="reference" />
     <attr name="rightTextLeftDrawable" format="reference" />
     <attr name="rightTextMinWidth" format="dimension" />
@@ -237,7 +244,8 @@
 
     <attr name="rightImage" format="reference" />
     <attr name="rightImageBackground" format="reference|color" />
-    <attr name="rightImageRightMargin" format="dimension" />
+    <attr name="rightImageMarginStart" format="dimension" />
+    <attr name="rightImageMarginEnd" format="dimension" />
     <attr name="rightImageMinWidth" format="dimension" />
     <attr name="rightImageWidth" format="dimension" />
     <attr name="rightImageHeight" format="dimension" />
@@ -247,10 +255,17 @@
         <enum name="gone" value="8" />
     </attr>
 
+    <attr name="rightImageAction">
+        <enum name="none" value="0" />
+        <enum name="setPasswordVisibility" value="4" />
+    </attr>
+
     <attr name="rightImage2" format="reference" />
     <attr name="rightImage2Background" format="reference|color" />
     <attr name="rightImage2Width" format="dimension" />
     <attr name="rightImage2Height" format="dimension" />
+    <attr name="rightImage2MarginStart" format="dimension" />
+    <attr name="rightImage2MarginEnd" format="dimension" />
     <attr name="rightImage2Visibility">
         <enum name="visible" value="0" />
         <enum name="invisible" value="4" />
@@ -398,14 +413,15 @@
 
     <attr name="inputBackground" format="reference|color" />
     <attr name="inputHint" format="string" />
-    <attr name="inputRightMargin" format="dimension" />
+    <attr name="inputMarginStart" format="dimension" />
+    <attr name="inputMarginEnd" format="dimension" />
     <attr name="inputText" format="string" />
     <attr name="inputTextSize" format="dimension" />
     <attr name="inputTextColor" format="color" />
     <attr name="inputHintTextColor" format="color" />
     <attr name="inputLines" format="integer" />
     <attr name="inputTextMaxLength" format="integer" />
-    <attr name="inputDigits" format="string"/>
+    <attr name="inputDigits" format="string" />
     <attr name="inputGravity">
         <!-- Push object to the top of its container, not changing its size. -->
         <flag name="top" value="0x30" />
@@ -995,15 +1011,19 @@
         <attr name="tintColor" />
 
         <attr name="leftImage" />
+        <attr name="leftImageWidth" />
+        <attr name="leftImageHeight" />
         <attr name="leftImageBackground" />
-        <attr name="leftImageRightMargin" />
+        <attr name="leftImageMarginStart" />
+        <attr name="leftImageMarginEnd" />
         <attr name="leftImageVisibility" />
 
         <attr name="leftText" />
         <attr name="leftTextSize" />
         <attr name="leftTextColor" />
         <attr name="leftTextVisibility" />
-        <attr name="leftTextRightMargin" />
+        <attr name="leftTextMarginStart" />
+        <attr name="leftTextMarginEnd" />
         <attr name="leftTextMinWidth" />
         <attr name="leftTextMaxWidth" />
         <attr name="leftTextBackground" />
@@ -1011,26 +1031,27 @@
         <attr name="leftTextStyle" />
 
         <attr name="inputText" />
+        <attr name="inputTextSize" />
+        <attr name="inputTextColor" />
         <attr name="inputBackground" />
         <attr name="inputGravity" />
         <attr name="inputDigits" />
-        <attr name="inputHint" />
-        <attr name="inputRightMargin" />
-        <attr name="inputTextSize" />
-        <attr name="inputTextColor" />
+        <attr name="inputMarginStart" />
+        <attr name="inputMarginEnd" />
         <attr name="inputTextMaxLength" />
+        <attr name="inputHint" />
         <attr name="inputHintTextColor" />
         <attr name="inputLines" />
         <attr name="inputType" />
         <attr name="cancelEnable" />
-        <attr name="cancelVisibility" />
 
         <attr name="rightText" />
         <attr name="rightTextSize" />
         <attr name="rightTextColor" />
         <attr name="rightTextBackground" />
         <attr name="rightTextRightDrawable" />
-        <attr name="rightTextRightMargin" />
+        <attr name="rightTextMarginStart" />
+        <attr name="rightTextMarginEnd" />
         <attr name="rightTextMinWidth" />
         <attr name="rightTextMaxWidth" />
         <attr name="rightTextVisibility" />
@@ -1038,8 +1059,13 @@
         <attr name="rightTextPadding" />
 
         <attr name="rightImage" />
+        <attr name="rightImageWidth" />
+        <attr name="rightImageHeight" />
         <attr name="rightImageBackground" />
         <attr name="rightImageVisibility" />
+        <attr name="rightImageMarginStart" />
+        <attr name="rightImageMarginEnd" />
+        <attr name="rightImageAction" />
 
         <attr name="topLineNormalColor" />
         <attr name="topLineFocusColor" />
@@ -1054,7 +1080,6 @@
         <attr name="bottomLinePaddingStart" />
         <attr name="bottomLinePaddingEnd" />
         <attr name="bottomLineVisibility" />
-
 
         <attr name="customizeViewId" />
         <attr name="customizeViewIndex" />
@@ -1072,14 +1097,16 @@
         <attr name="leftImageWidth" />
         <attr name="leftImageHeight" />
         <attr name="leftImageBackground" />
-        <attr name="leftImageRightMargin" />
+        <attr name="leftImageMarginStart" />
+        <attr name="leftImageMarginEnd" />
         <attr name="leftImageVisibility" />
 
         <attr name="leftText" />
         <attr name="leftTextSize" />
         <attr name="leftTextColor" />
         <attr name="leftTextVisibility" />
-        <attr name="leftTextRightMargin" />
+        <attr name="leftTextMarginStart" />
+        <attr name="leftTextMarginEnd" />
         <attr name="leftTextMinWidth" />
         <attr name="leftTextMaxWidth" />
         <attr name="leftTextBackground" />
@@ -1092,7 +1119,8 @@
         <attr name="textBackground" />
         <attr name="textGravity" />
         <attr name="textEllipsize" />
-        <attr name="textRightMargin" />
+        <attr name="textMarginStart" />
+        <attr name="textMarginEnd" />
         <attr name="textLines" />
 
         <attr name="rightText" />
@@ -1102,7 +1130,8 @@
         <attr name="rightTextDrawablePadding" />
         <attr name="rightTextRightDrawable" />
         <attr name="rightTextLeftDrawable" />
-        <attr name="rightTextRightMargin" />
+        <attr name="rightTextMarginStart" />
+        <attr name="rightTextMarginEnd" />
         <attr name="rightTextMinWidth" />
         <attr name="rightTextMaxWidth" />
         <attr name="rightTextVisibility" />
@@ -1114,12 +1143,16 @@
         <attr name="rightImage" />
         <attr name="rightImageWidth" />
         <attr name="rightImageHeight" />
+        <attr name="rightImageMarginStart" />
+        <attr name="rightImageMarginEnd" />
         <attr name="rightImageBackground" />
         <attr name="rightImageVisibility" />
 
         <attr name="rightImage2" />
         <attr name="rightImage2Width" />
         <attr name="rightImage2Height" />
+        <attr name="rightImage2MarginStart" />
+        <attr name="rightImage2MarginEnd" />
         <attr name="rightImage2Background" />
         <attr name="rightImage2Visibility" />
 

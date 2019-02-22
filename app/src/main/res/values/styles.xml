@@ -136,7 +136,7 @@
         <item name="textSize">14sp</item>
         <item name="textColor">#9092A5</item>
         <item name="bottomLineColor">#C2CADC</item>
-        <item name="leftImageRightMargin">@dimen/dp_8</item>
+        <item name="leftImageMarginEnd">@dimen/dp_8</item>
         <item name="android:layout_height">@dimen/dp_35</item>
         <item name="android:paddingStart">0dp</item>
         <item name="android:paddingEnd">0dp</item>
