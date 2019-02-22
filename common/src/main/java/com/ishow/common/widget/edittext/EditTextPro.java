@@ -258,8 +258,8 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         mRightImageHeight = a.getDimensionPixelSize(R.styleable.EditTextPro_rightImageHeight, 0);
         mRightImageBackgroundDrawable = a.getDrawable(R.styleable.EditTextPro_rightImageBackground);
         mRightImageVisibility = a.getInt(R.styleable.EditTextPro_rightImageVisibility, View.VISIBLE);
-        mRightImageMarginStart = a.getInt(R.styleable.EditTextPro_rightImageMarginStart, 0);
-        mRightImageMarginEnd = a.getInt(R.styleable.EditTextPro_rightImageMarginEnd, 0);
+        mRightImageMarginStart = a.getDimensionPixelSize(R.styleable.EditTextPro_rightImageMarginStart, 0);
+        mRightImageMarginEnd = a.getDimensionPixelSize(R.styleable.EditTextPro_rightImageMarginEnd, 0);
         mRightImageAction = a.getInt(R.styleable.EditTextPro_rightImageAction, RightImageAction.NONE);
 
         mTopLineHeight = a.getDimensionPixelSize(R.styleable.EditTextPro_topLineHeight, getDefaultLineHeight());

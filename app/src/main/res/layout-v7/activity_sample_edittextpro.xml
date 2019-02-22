@@ -27,6 +27,11 @@
         app:leftImage="@drawable/ic_back_white"
         app:text="@string/sample_permission" />
 
+    <View
+        android:layout_width="15dp"
+        android:layout_height="5dp"
+        android:background="#FF00"/>
+
     <com.ishow.common.widget.edittext.EditTextPro
         android:id="@+id/text"
         android:layout_width="match_parent"
@@ -42,7 +47,10 @@
         app:inputType="textPassword"
         app:leftImage="@drawable/ic_account"
         app:leftText="@string/forgot_password_tip_password"
+        app:leftTextMarginEnd="15dp"
         app:rightImage="@drawable/ic_password_visibility"
+        app:rightImageMarginStart="15dp"
+        app:rightImageMarginEnd="15dp"
         app:rightImageAction="setPasswordVisibility"
         app:rightImageBackground="@color/blue_50"
         app:rightImageHeight="20dp"
