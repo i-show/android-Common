@@ -40,6 +40,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ishow.common.R;
+import com.ishow.common.utils.UnitUtils;
 import com.ishow.common.utils.image.loader.ImageLoader;
 import com.ishow.common.widget.imageview.PromptImageView;
 import com.ishow.common.widget.prompt.IPrompt;
@@ -287,7 +288,7 @@ public class TextViewPro extends ViewGroup {
     }
 
     private void initNecessaryData() {
-        mSuggestIconWidth = getContext().getResources().getDimensionPixelSize(R.dimen.dp_40);
+        mSuggestIconWidth = UnitUtils.dip2px(40);
         mTopLinePaint = new Paint();
         mTopLinePaint.setDither(true);
         mTopLinePaint.setAntiAlias(true);
@@ -796,11 +797,11 @@ public class TextViewPro extends ViewGroup {
     }
 
     private int getDefaultTipMinWidth() {
-        return getContext().getResources().getDimensionPixelSize(R.dimen.dp_50);
+        return UnitUtils.dip2px(50);
     }
 
     private int getDefaultTipMaxWidth() {
-        return getContext().getResources().getDimensionPixelSize(R.dimen.dp_120);
+        return UnitUtils.dip2px(120);
     }
 
     private int getDefaultTipTextColor() {
@@ -977,6 +978,16 @@ public class TextViewPro extends ViewGroup {
     public void setRightTextClickListener(OnClickListener listener) {
         if (mRightTextView != null) {
             mRightTextView.setOnClickListener(listener);
+        }
+    }
+
+    /**
+     * 设置右侧按钮是否可见
+     */
+    public void setRightTextVisibility(int visibility) {
+        if (mRightTextView != null) {
+            mRightTextView.setVisibility(visibility);
+            mRightTextVisibility = visibility;
         }
     }
 

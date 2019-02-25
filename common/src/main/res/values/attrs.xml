@@ -594,7 +594,9 @@
     </attr>
 
     <attr name="promptBackground" format="color|reference" />
-
+    <attr name="promptHasBackgroundBorder" format="boolean" />
+    <attr name="promptBackgroundBorderColor" format="color" />
+    <attr name="promptBackgroundBorderSize" format="dimension" />
     <attr name="cropMode">
         <enum name="ratio_fit_image" value="0" />
         <enum name="ratio_4_3" value="1" />
@@ -822,6 +824,7 @@
         <attr name="loadingTextSize" />
         <attr name="loadingTextColor" />
         <attr name="loadingImage" />
+
         <attr name="errorText" />
         <attr name="errorTextSize" />
         <attr name="errorTextColor" />
@@ -829,6 +832,7 @@
         <attr name="errorSubTextSize" />
         <attr name="errorSubTextColor" />
         <attr name="errorImage" />
+
         <attr name="emptyText" />
         <attr name="emptyTextColor" />
         <attr name="emptyTextSize" />
@@ -836,6 +840,7 @@
         <attr name="emptySubTextColor" />
         <attr name="emptySubTextSize" />
         <attr name="emptyImage" />
+
         <attr name="reloadText" />
         <attr name="reloadTextColor" />
         <attr name="reloadTextSize" />
@@ -1089,7 +1094,6 @@
         <attr name="android:minHeight" />
     </declare-styleable>
 
-
     <declare-styleable name="TextViewPro">
         <attr name="tintColor" />
 
@@ -1286,7 +1290,6 @@
         <attr name="waterMarkAlpha" />
         <attr name="waterMarkAngle" />
     </declare-styleable>
-
 
     <declare-styleable name="DashLineView">
         <attr name="dashColor" />

@@ -48,6 +48,7 @@ import android.widget.ImageView;
 
 import com.ishow.common.R;
 import com.ishow.common.utils.StringUtils;
+import com.ishow.common.utils.UnitUtils;
 import com.ishow.common.widget.imageview.PromptImageView;
 import com.ishow.common.widget.prompt.IPrompt;
 import com.ishow.common.widget.textview.PromptTextView;
@@ -299,8 +300,8 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
             mCancelVisibility = VISIBLE;
         }
 
-        mSuggestIconWidth = getContext().getResources().getDimensionPixelSize(R.dimen.dp_40);
-        mSuggestCancelWidth = getContext().getResources().getDimensionPixelSize(R.dimen.dp_30);
+        mSuggestIconWidth = UnitUtils.dip2px(40);
+        mSuggestCancelWidth = UnitUtils.dip2px(30);
 
         mTopLinePaint = new Paint();
         mTopLinePaint.setDither(true);
@@ -654,7 +655,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
 
 
     @SuppressWarnings("UnusedReturnValue")
-    private EditText getInputView() {
+    public EditText getInputView() {
         if (mInputView == null) {
             mInputView = new AppCompatEditText(getContext());
             mInputView.setPadding(0, 0, 0, 0);
@@ -664,7 +665,6 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
             mInputView.setTextColor(mInputTextColor);
             mInputView.setHintTextColor(mInputHintTextColor);
             mInputView.setOnFocusChangeListener(this);
-
             mInputView.setInputType(mInputType);
 
 
@@ -809,11 +809,11 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     }
 
     private int getDefaultTipMinWidth() {
-        return getContext().getResources().getDimensionPixelSize(R.dimen.dp_50);
+        return UnitUtils.dip2px(50);
     }
 
     private int getDefaultTipMaxWidth() {
-        return getContext().getResources().getDimensionPixelSize(R.dimen.dp_120);
+        return UnitUtils.dip2px(120);
     }
 
     @SuppressWarnings("deprecation")
@@ -822,7 +822,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     }
 
     private int getDefaultInputTextSize() {
-        return getContext().getResources().getDimensionPixelSize(R.dimen.H_title);
+        return getContext().getResources().getDimensionPixelSize(R.dimen.I_title);
     }
 
     @SuppressWarnings("deprecation")
