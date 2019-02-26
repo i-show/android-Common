@@ -516,7 +516,6 @@ public class TopBar extends ViewGroup implements OnClickListener {
     public TextView getTitle() {
 
         if (mTitleVisibility == GONE) {
-            Log.i(TAG, "getTitle: return null mTitleVisibility is gone");
             return null;
         }
 
@@ -542,7 +541,6 @@ public class TopBar extends ViewGroup implements OnClickListener {
     public TextView getSubTitle() {
 
         if (mSubTitleVisibility == GONE) {
-            Log.i(TAG, "getTitle: return null mSubTitleVisibility is gone");
             return null;
         }
 
@@ -569,7 +567,6 @@ public class TopBar extends ViewGroup implements OnClickListener {
     public PromptImageView getLeftImageView() {
 
         if (mLeftImageVisibility == View.GONE) {
-            Log.i(TAG, "getLeftImageView: is visiable gone just not add");
             return null;
         }
 
@@ -592,7 +589,6 @@ public class TopBar extends ViewGroup implements OnClickListener {
     @SuppressWarnings("UnusedReturnValue")
     public PromptImageView getLeftImageView2() {
         if (mLeftImage2Visibility == View.GONE) {
-            Log.i(TAG, "getLeftImageView2: is visiable gone just not add");
             return null;
         }
 
@@ -615,7 +611,6 @@ public class TopBar extends ViewGroup implements OnClickListener {
     @SuppressWarnings("UnusedReturnValue")
     public PromptTextView getLeftTextView() {
         if (mLeftTextVisibility == View.GONE) {
-            Log.i(TAG, "getLeftTextView: is visiable gone just not add");
             return null;
         }
 
@@ -653,7 +648,6 @@ public class TopBar extends ViewGroup implements OnClickListener {
     public PromptImageView getRightImageView() {
 
         if (mRightImageVisibility == View.GONE) {
-            Log.i(TAG, "getRightImageView: is visiable gone just not add");
             return null;
         }
 
@@ -693,7 +687,6 @@ public class TopBar extends ViewGroup implements OnClickListener {
 
     public PromptTextView getRightTextView() {
         if (mRightTextVisibility == View.GONE) {
-            Log.i(TAG, "getRightTextView: is visiable gone just not add");
             return null;
         }
 
@@ -934,6 +927,29 @@ public class TopBar extends ViewGroup implements OnClickListener {
         mLeftTextView.setCompoundDrawablePadding(mLeftTextDrawablePadding);
     }
 
+    /**
+     * 右边文本的左侧小图
+     */
+    public void setLeftTextRightDrawable(@DrawableRes int resId) {
+        Drawable drawable = getResources().getDrawable(resId);
+        setLeftTextRightDrawable(drawable);
+    }
+
+    /**
+     * 右边文本的左侧小图
+     */
+    public void setLeftTextRightDrawable(Drawable drawable) {
+        if (drawable == null) {
+            Log.i(TAG, "setRightTextLeftDrawable: drawable is null");
+            return;
+        }
+        mLeftTextVisibility = VISIBLE;
+        if (mLeftTextView == null) {
+            getLeftTextView();
+        }
+        mLeftTextView.setCompoundDrawablesWithIntrinsicBounds(mLeftTextDrawable, null, drawable, null);
+        mLeftTextView.setCompoundDrawablePadding(mLeftTextDrawablePadding);
+    }
 
     /**
      * 左侧边文本和图片的padding
@@ -943,8 +959,8 @@ public class TopBar extends ViewGroup implements OnClickListener {
         if (mLeftTextView == null) {
             getLeftTextView();
         }
-        mLeftTextView.setCompoundDrawablePadding(padding);
         mLeftTextDrawablePadding = padding;
+        mLeftTextView.setCompoundDrawablePadding(padding);
     }
 
 
@@ -1042,6 +1058,12 @@ public class TopBar extends ViewGroup implements OnClickListener {
             getRightImageView();
         }
         mRightImageView.setImageResource(resId);
+        requestLayout();
+    }
+
+    public void setRightImageMinWidth(int minWidth) {
+        mRightImageMinWidth = minWidth;
+        mRightImageWidthSpec = MeasureSpec.makeMeasureSpec(Math.max(mRightImageMinWidth, mUnitWidth), MeasureSpec.EXACTLY);
         requestLayout();
     }
 

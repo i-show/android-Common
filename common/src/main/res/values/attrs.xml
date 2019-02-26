@@ -792,7 +792,7 @@
 
         <attr name="rightImage2" />
         <attr name="rightImage2Visibility" />
-
+        <attr name="rightImage2Background" />
     </declare-styleable>
 
     <declare-styleable name="BottomBar">
@@ -954,6 +954,9 @@
         <attr name="promptMode" />
         <!--提示的背景-->
         <attr name="promptBackground" />
+        <attr name="promptHasBackgroundBorder" />
+        <attr name="promptBackgroundBorderColor" />
+        <attr name="promptBackgroundBorderSize" />
         <!--提示的位置-->
         <attr name="promptPosition" />
 
