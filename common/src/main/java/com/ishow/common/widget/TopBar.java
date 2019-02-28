@@ -198,7 +198,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
     public TopBar(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TopBar, R.attr.topbarStyle, 0);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TopBar, R.attr.topBarStyle, 0);
 
         mLeftStr = a.getString(R.styleable.TopBar_leftText);
         mLeftTextSize = a.getDimensionPixelSize(R.styleable.TopBar_leftTextSize, 0);
@@ -247,7 +247,7 @@ public class TopBar extends ViewGroup implements OnClickListener {
         mItemBackground = a.getResourceId(R.styleable.TopBar_android_selectableItemBackground, android.R.color.transparent);
 
         isClickable = a.getBoolean(R.styleable.TopBar_clickable, false);
-        isSecretCode = a.getBoolean(R.styleable.TopBar_secretable, false);
+        isSecretCode = a.getBoolean(R.styleable.TopBar_secret, false);
 
         if (isSecretCode) {
             isClickable = true;

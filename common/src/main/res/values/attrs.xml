@@ -15,6 +15,10 @@
   -->
 
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- TopBar的样式 -->
+    <attr name="topBarStyle" format="reference" />
+    <!--StatusView的样式-->
+    <attr name="statusStyle" format="reference" />
 
     <attr name="dialogStyle" format="reference" />
     <attr name="dialogTitleStyle" format="reference" />
@@ -30,52 +34,6 @@
     <attr name="wholeBackground" format="reference|color" />
     <attr name="fromBottom" format="boolean" />
 
-    <!-- TopBar的样式 -->
-    <attr name="topbarStyle" format="reference" />
-    <attr name="actionMinWidth" format="dimension" />
-
-    <attr name="statusStyle" format="reference" />
-    <attr name="loadingText" format="string" />
-    <attr name="loadingTextSize" format="dimension" />
-    <attr name="loadingTextColor" format="color" />
-    <attr name="loadingImage" format="reference" />
-    <attr name="errorText" format="string" />
-    <attr name="errorTextSize" format="dimension" />
-    <attr name="errorTextColor" format="color" />
-    <attr name="errorSubText" format="string" />
-    <attr name="errorSubTextSize" format="dimension" />
-    <attr name="errorSubTextColor" format="color" />
-    <attr name="errorImage" format="reference" />
-    <attr name="emptyText" format="string" />
-    <attr name="emptyTextColor" format="color" />
-    <attr name="emptyTextSize" format="dimension" />
-    <attr name="emptySubText" format="string" />
-    <attr name="emptySubTextColor" format="color" />
-    <attr name="emptySubTextSize" format="dimension" />
-    <attr name="emptyImage" format="reference" />
-    <attr name="reloadText" format="string" />
-    <attr name="reloadTextColor" format="color" />
-    <attr name="reloadTextSize" format="dimension" />
-    <attr name="reloadBackground" format="reference|color" />
-
-    <attr name="itemMinHeight" format="dimension" />
-
-    <!-- 是否可以点击 -->
-    <attr name="clickable" format="boolean" />
-    <attr name="titleClickable" format="boolean" />
-    <attr name="subTitleClickable" format="boolean" />
-    <attr name="interruptTouchEvent" format="boolean" />
-
-    <!-- 是否开启密码格式 -->
-    <attr name="secretable" format="boolean" />
-    <!-- 是否可以编辑 -->
-    <attr name="editable" format="boolean" />
-
-    <attr name="hint" format="string" />
-
-    <attr name="unit" format="string" />
-    <attr name="unitTextSize" format="dimension" />
-
     <attr name="text" format="string" />
     <attr name="textSize" format="dimension" />
     <attr name="textColor" format="color" />
@@ -90,13 +48,11 @@
         <enum name="italic" value="2" />
         <enum name="bold_italic" value="3" />
     </attr>
-
     <attr name="textEllipsize">
         <flag name="start" value="1" />
         <flag name="middle" value="2" />
         <flag name="end" value="3" />
     </attr>
-
     <attr name="textGravity">
         <!-- Push object to the top of its container, not changing its size. -->
         <flag name="top" value="0x30" />
@@ -116,18 +72,180 @@
         <flag name="center" value="0x11" />
     </attr>
 
-    <attr name="selectedTextColor" format="reference|color" />
-    <attr name="selectedTextSize" format="dimension" />
-    <attr name="unselectedTextColor" format="reference|color" />
-    <attr name="unselectedTextSize" format="dimension" />
-
     <attr name="subText" format="string" />
     <attr name="subTextSize" format="dimension" />
     <attr name="subTextColor" format="color" />
 
-    <attr name="promptText" format="string" />
-    <attr name="promptTextColor" format="color" />
-    <attr name="promptTextSize" format="dimension" />
+    <attr name="inputBackground" format="reference|color" />
+    <attr name="inputHint" format="string" />
+    <attr name="inputMarginStart" format="dimension" />
+    <attr name="inputMarginEnd" format="dimension" />
+    <attr name="inputText" format="string" />
+    <attr name="inputTextSize" format="dimension" />
+    <attr name="inputTextColor" format="color" />
+    <attr name="inputHintTextColor" format="color" />
+    <attr name="inputLines" format="integer" />
+    <attr name="inputTextMaxLength" format="integer" />
+    <attr name="inputDigits" format="string" />
+    <attr name="inputGravity">
+        <!-- Push object to the top of its container, not changing its size. -->
+        <flag name="top" value="0x30" />
+        <!-- Push object to the bottom of its container, not changing its size. -->
+        <flag name="bottom" value="0x50" />
+        <!-- Push object to the left of its container, not changing its size. -->
+        <flag name="left" value="0x03" />
+        <!-- Push object to the left of its container, not changing its size. -->
+        <flag name="start" value="0x03" />
+        <!-- Push object to the right of its container, not changing its size. -->
+        <flag name="right" value="0x05" />
+        <!-- Push object to the left of its container, not changing its size. -->
+        <flag name="end" value="0x05" />
+        <!-- Place object in the vertical center of its container, not changing its size. -->
+        <flag name="center_vertical" value="0x10" />
+        <!-- Place object in the horizontal center of its container, not changing its size. -->
+        <flag name="center_horizontal" value="0x01" />
+        <!-- Place the object in the center of its container in both the vertical and horizontal axis, not changing its size. -->
+        <flag name="center" value="0x11" />
+    </attr>
+    <attr name="inputEllipsize">
+        <flag name="start" value="1" />
+        <flag name="middle" value="2" />
+        <flag name="end" value="3" />
+    </attr>
+    <attr name="inputType">
+        <!-- There is no content type.  The text is not editable. -->
+        <flag name="none" value="0x00000000" />
+        <!-- Just plain old text.  Corresponds to
+             {@link android.text.InputType#TYPE_CLASS_TEXT} |
+             {@link android.text.InputType#TYPE_TEXT_VARIATION_NORMAL}. -->
+        <flag name="text" value="0x00000001" />
+        <!-- Can be combined with <var>text</var> and its variations to
+             request capitalization of all characters.  Corresponds to
+             {@link android.text.InputType#TYPE_TEXT_FLAG_CAP_CHARACTERS}. -->
+        <flag name="textCapCharacters" value="0x00001001" />
+        <!-- Can be combined with <var>text</var> and its variations to
+             request capitalization of the first character of every word.  Corresponds to
+             {@link android.text.InputType#TYPE_TEXT_FLAG_CAP_WORDS}. -->
+        <flag name="textCapWords" value="0x00002001" />
+        <!-- Can be combined with <var>text</var> and its variations to
+             request capitalization of the first character of every sentence.  Corresponds to
+             {@link android.text.InputType#TYPE_TEXT_FLAG_CAP_SENTENCES}. -->
+        <flag name="textCapSentences" value="0x00004001" />
+        <!-- Can be combined with <var>text</var> and its variations to
+             request auto-correction of text being input.  Corresponds to
+             {@link android.text.InputType#TYPE_TEXT_FLAG_AUTO_CORRECT}. -->
+        <flag name="textAutoCorrect" value="0x00008001" />
+        <!-- Can be combined with <var>text</var> and its variations to
+             specify that this field will be doing its own auto-completion and
+             talking with the input method appropriately.  Corresponds to
+             {@link android.text.InputType#TYPE_TEXT_FLAG_AUTO_COMPLETE}. -->
+        <flag name="textAutoComplete" value="0x00010001" />
+        <!-- Can be combined with <var>text</var> and its variations to
+             allow multiple lines of text in the field.  If this flag is not set,
+             the text field will be constrained to a single line.  Corresponds to
+             {@link android.text.InputType#TYPE_TEXT_FLAG_MULTI_LINE}. -->
+        <flag name="textMultiLine" value="0x00020001" />
+        <!-- Can be combined with <var>text</var> and its variations to
+             indicate that though the regular text view should not be multiple
+             lines, the IME should provide multiple lines if it can.  Corresponds to
+             {@link android.text.InputType#TYPE_TEXT_FLAG_IME_MULTI_LINE}. -->
+        <flag name="textImeMultiLine" value="0x00040001" />
+        <!-- Can be combined with <var>text</var> and its variations to
+             indicate that the IME should not show any
+             dictionary-based word suggestions.  Corresponds to
+             {@link android.text.InputType#TYPE_TEXT_FLAG_NO_SUGGESTIONS}. -->
+        <flag name="textNoSuggestions" value="0x00080001" />
+        <!-- Text that will be used as a URI.  Corresponds to
+             {@link android.text.InputType#TYPE_CLASS_TEXT} |
+             {@link android.text.InputType#TYPE_TEXT_VARIATION_URI}. -->
+        <flag name="textUri" value="0x00000011" />
+        <!-- Text that will be used as an e-mail address.  Corresponds to
+             {@link android.text.InputType#TYPE_CLASS_TEXT} |
+             {@link android.text.InputType#TYPE_TEXT_VARIATION_EMAIL_ADDRESS}. -->
+        <flag name="textEmailAddress" value="0x00000021" />
+        <!-- Text that is being supplied as the subject of an e-mail.  Corresponds to
+             {@link android.text.InputType#TYPE_CLASS_TEXT} |
+             {@link android.text.InputType#TYPE_TEXT_VARIATION_EMAIL_SUBJECT}. -->
+        <flag name="textEmailSubject" value="0x00000031" />
+        <!-- Text that is the content of a short message.  Corresponds to
+             {@link android.text.InputType#TYPE_CLASS_TEXT} |
+             {@link android.text.InputType#TYPE_TEXT_VARIATION_SHORT_MESSAGE}. -->
+        <flag name="textShortMessage" value="0x00000041" />
+        <!-- Text that is the content of a long message.  Corresponds to
+             {@link android.text.InputType#TYPE_CLASS_TEXT} |
+             {@link android.text.InputType#TYPE_TEXT_VARIATION_LONG_MESSAGE}. -->
+        <flag name="textLongMessage" value="0x00000051" />
+        <!-- Text that is the name of a person.  Corresponds to
+             {@link android.text.InputType#TYPE_CLASS_TEXT} |
+             {@link android.text.InputType#TYPE_TEXT_VARIATION_PERSON_NAME}. -->
+        <flag name="textPersonName" value="0x00000061" />
+        <!-- Text that is being supplied as a postal mailing address.  Corresponds to
+             {@link android.text.InputType#TYPE_CLASS_TEXT} |
+             {@link android.text.InputType#TYPE_TEXT_VARIATION_POSTAL_ADDRESS}. -->
+        <flag name="textPostalAddress" value="0x00000071" />
+        <!-- Text that is a password.  Corresponds to
+             {@link android.text.InputType#TYPE_CLASS_TEXT} |
+             {@link android.text.InputType#TYPE_TEXT_VARIATION_PASSWORD}. -->
+        <flag name="textPassword" value="0x00000081" />
+        <!-- Text that is a password that should be visible.  Corresponds to
+             {@link android.text.InputType#TYPE_CLASS_TEXT} |
+             {@link android.text.InputType#TYPE_TEXT_VARIATION_VISIBLE_PASSWORD}. -->
+        <flag name="textVisiblePassword" value="0x00000091" />
+        <!-- Text that is being supplied as text in a web form.  Corresponds to
+             {@link android.text.InputType#TYPE_CLASS_TEXT} |
+             {@link android.text.InputType#TYPE_TEXT_VARIATION_WEB_EDIT_TEXT}. -->
+        <flag name="textWebEditText" value="0x000000a1" />
+        <!-- Text that is filtering some other data.  Corresponds to
+             {@link android.text.InputType#TYPE_CLASS_TEXT} |
+             {@link android.text.InputType#TYPE_TEXT_VARIATION_FILTER}. -->
+        <flag name="textFilter" value="0x000000b1" />
+        <!-- Text that is for phonetic pronunciation, such as a phonetic name
+             field in a contact entry.  Corresponds to
+             {@link android.text.InputType#TYPE_CLASS_TEXT} |
+             {@link android.text.InputType#TYPE_TEXT_VARIATION_PHONETIC}. -->
+        <flag name="textPhonetic" value="0x000000c1" />
+        <!-- Text that will be used as an e-mail address on a web form.  Corresponds to
+             {@link android.text.InputType#TYPE_CLASS_TEXT} |
+             {@link android.text.InputType#TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS}. -->
+        <flag name="textWebEmailAddress" value="0x000000d1" />
+        <!-- Text that will be used as a password on a web form.  Corresponds to
+             {@link android.text.InputType#TYPE_CLASS_TEXT} |
+             {@link android.text.InputType#TYPE_TEXT_VARIATION_WEB_PASSWORD}. -->
+        <flag name="textWebPassword" value="0x000000e1" />
+        <!-- A numeric only field.  Corresponds to
+             {@link android.text.InputType#TYPE_CLASS_NUMBER} |
+             {@link android.text.InputType#TYPE_NUMBER_VARIATION_NORMAL}. -->
+        <flag name="number" value="0x00000002" />
+        <!-- Can be combined with <var>number</var> and its other options to
+             allow a signed number.  Corresponds to
+             {@link android.text.InputType#TYPE_CLASS_NUMBER} |
+             {@link android.text.InputType#TYPE_NUMBER_FLAG_SIGNED}. -->
+        <flag name="numberSigned" value="0x00001002" />
+        <!-- Can be combined with <var>number</var> and its other options to
+             allow a decimal (fractional) number.  Corresponds to
+             {@link android.text.InputType#TYPE_CLASS_NUMBER} |
+             {@link android.text.InputType#TYPE_NUMBER_FLAG_DECIMAL}. -->
+        <flag name="numberDecimal" value="0x00002002" />
+        <!-- A numeric password field.  Corresponds to
+             {@link android.text.InputType#TYPE_CLASS_NUMBER} |
+             {@link android.text.InputType#TYPE_NUMBER_VARIATION_PASSWORD}. -->
+        <flag name="numberPassword" value="0x00000012" />
+        <!-- For entering a phone number.  Corresponds to
+             {@link android.text.InputType#TYPE_CLASS_PHONE}. -->
+        <flag name="phone" value="0x00000003" />
+        <!-- For entering a date and time.  Corresponds to
+             {@link android.text.InputType#TYPE_CLASS_DATETIME} |
+             {@link android.text.InputType#TYPE_DATETIME_VARIATION_NORMAL}. -->
+        <flag name="datetime" value="0x00000004" />
+        <!-- For entering a date.  Corresponds to
+             {@link android.text.InputType#TYPE_CLASS_DATETIME} |
+             {@link android.text.InputType#TYPE_DATETIME_VARIATION_DATE}. -->
+        <flag name="date" value="0x00000014" />
+        <!-- For entering a time.  Corresponds to
+             {@link android.text.InputType#TYPE_CLASS_DATETIME} |
+             {@link android.text.InputType#TYPE_DATETIME_VARIATION_TIME}. -->
+        <flag name="time" value="0x00000024" />
+    </attr>
 
     <attr name="leftBackground" format="reference|color" />
 
@@ -272,6 +390,58 @@
         <enum name="gone" value="8" />
     </attr>
 
+    <attr name="customizeViewId" format="reference" />
+    <attr name="customizeViewIndex" format="integer" />
+    <attr name="customizeMarginStart" format="dimension" />
+    <attr name="customizeMarginEnd" format="dimension" />
+
+    <attr name="loadingText" format="string" />
+    <attr name="loadingTextSize" format="dimension" />
+    <attr name="loadingTextColor" format="color" />
+    <attr name="loadingImage" format="reference" />
+
+    <attr name="errorText" format="string" />
+    <attr name="errorTextSize" format="dimension" />
+    <attr name="errorTextColor" format="color" />
+    <attr name="errorSubText" format="string" />
+    <attr name="errorSubTextSize" format="dimension" />
+    <attr name="errorSubTextColor" format="color" />
+    <attr name="errorImage" format="reference" />
+
+    <attr name="emptyText" format="string" />
+    <attr name="emptyTextColor" format="color" />
+    <attr name="emptyTextSize" format="dimension" />
+    <attr name="emptySubText" format="string" />
+    <attr name="emptySubTextColor" format="color" />
+    <attr name="emptySubTextSize" format="dimension" />
+    <attr name="emptyImage" format="reference" />
+
+    <attr name="reloadText" format="string" />
+    <attr name="reloadTextColor" format="color" />
+    <attr name="reloadTextSize" format="dimension" />
+    <attr name="reloadBackground" format="reference|color" />
+
+    <attr name="promptText" format="string" />
+    <attr name="promptTextColor" format="color" />
+    <attr name="promptTextSize" format="dimension" />
+    <attr name="promptBackground" format="color|reference" />
+    <attr name="promptHasBackgroundBorder" format="boolean" />
+    <attr name="promptBackgroundBorderColor" format="color" />
+    <attr name="promptBackgroundBorderSize" format="dimension" />
+    <attr name="promptPadding" format="dimension" />
+    <attr name="promptRadius" format="dimension|reference" />
+    <attr name="promptPosition">
+        <enum name="left" value="0" />
+        <enum name="right" value="4" />
+        <enum name="top" value="8" />
+        <enum name="bottom" value="16" />
+    </attr>
+    <attr name="promptMode">
+        <enum name="none" value="0" />
+        <enum name="text" value="1" />
+        <enum name="graph" value="2" />
+    </attr>
+
     <attr name="tint" format="color" />
     <attr name="tintAlpha" format="integer" />
     <attr name="tintColor" format="color|reference" />
@@ -280,26 +450,15 @@
     <attr name="imageWidth" format="dimension" />
     <attr name="imageHeight" format="dimension" />
 
-    <attr name="padding" format="dimension" />
-    <attr name="promptPadding" format="dimension" />
-    <attr name="widthPaddingScale" format="float" />
-    <attr name="heightPaddingScale" format="float" />
-
-    <attr name="topPadding" format="dimension" />
-    <attr name="bottomPadding" format="dimension" />
-    <attr name="startPadding" format="dimension" />
-    <attr name="endPadding" format="dimension" />
-    <attr name="rightPadding" format="dimension" />
-    <attr name="leftPadding" format="dimension" />
-
+    <attr name="widthRatio" format="integer" />
     <attr name="widthScale" format="integer" />
+    <attr name="widthPaddingScale" format="float" />
+    <attr name="widthProportion" format="float" />
+
     <attr name="heightScale" format="integer" />
-
-    <attr name="selectedChild" format="reference" />
-    <attr name="cannotSelectedChild" format="reference" />
-
-    <attr name="radius" format="dimension|reference" />
-    <attr name="promptRadius" format="dimension|reference" />
+    <attr name="heightRatio" format="integer" />
+    <attr name="heightPaddingScale" format="float" />
+    <attr name="heightProportion" format="float" />
 
     <attr name="thumbDrawable" format="reference" />
     <attr name="thumbColor" format="color|reference" />
@@ -312,65 +471,17 @@
     <attr name="thumbHeight" format="dimension|reference" />
     <attr name="thumbRadius" format="dimension|reference" />
 
-    <attr name="backgroundRadius" format="dimension|reference" />
-    <attr name="backgroundDrawable" format="reference" />
-    <attr name="backgroundColor" format="color|reference" />
-    <attr name="backgroundMeasureRatio" format="float" />
-
-    <attr name="fadeBack" format="boolean" />
-    <attr name="animationDuration" format="integer" />
-    <attr name="maxHeight" format="dimension" />
-
-    <attr name="position">
-        <enum name="left" value="0" />
-        <enum name="right" value="4" />
-        <enum name="top" value="8" />
-        <enum name="bottom" value="16" />
-    </attr>
-
-    <attr name="promptPosition">
-        <enum name="left" value="0" />
-        <enum name="right" value="4" />
-        <enum name="top" value="8" />
-        <enum name="bottom" value="16" />
-    </attr>
-
-
-    <attr name="shape">
-        <enum name="rect" value="0" />
-        <enum name="circle" value="4" />
-    </attr>
-
-    <attr name="flowMode">
-        <enum name="wrap" value="1" />
-        <enum name="adapter" value="2" />
-    </attr>
-
     <attr name="stripHeight" format="dimension" />
     <attr name="stripColor" format="color" />
     <attr name="stripPaddingRatio" format="float" />
 
-    <attr name="headerLineVisibility">
-        <enum name="visible" value="0" />
-        <enum name="invisible" value="4" />
-        <enum name="gone" value="8" />
-    </attr>
-
-    <attr name="footerLineVisibility">
-        <enum name="visible" value="0" />
-        <enum name="invisible" value="4" />
-        <enum name="gone" value="8" />
-    </attr>
-
-    <attr name="cancelVisibility">
-        <enum name="visible" value="0" />
-        <enum name="invisible" value="4" />
-        <enum name="gone" value="8" />
-    </attr>
+    <attr name="strokeWidth" format="dimension" tools:ignore="PrivateResource" />
+    <attr name="strokeHeight" format="dimension" />
+    <attr name="strokeColor" format="color" tools:ignore="PrivateResource" />
 
     <attr name="lineColor" format="color" />
-    <attr name="linePaddingRatio" format="float" />
     <attr name="lineHeight" format="dimension" />
+    <attr name="linePaddingRatio" format="float" />
     <attr name="linePaddingStart" format="dimension" />
     <attr name="linePaddingEnd" format="dimension" />
     <attr name="lineVisibility">
@@ -406,197 +517,50 @@
         <enum name="gone" value="8" />
     </attr>
 
+    <attr name="waterMarkAlpha" format="float" />
+    <attr name="waterMarkAngle" format="integer" />
+    <attr name="waterMarkEnable" format="boolean" />
 
-    <attr name="hasEmptyView" format="boolean" />
-    <attr name="normalColor" format="color" />
-    <attr name="focusColor" format="color" />
+    <attr name="backgroundRadius" format="dimension|reference" />
+    <attr name="backgroundDrawable" format="reference" />
+    <attr name="backgroundColor" format="color|reference" />
+    <attr name="backgroundMeasureRatio" format="float" />
 
-    <attr name="inputBackground" format="reference|color" />
-    <attr name="inputHint" format="string" />
-    <attr name="inputMarginStart" format="dimension" />
-    <attr name="inputMarginEnd" format="dimension" />
-    <attr name="inputText" format="string" />
-    <attr name="inputTextSize" format="dimension" />
-    <attr name="inputTextColor" format="color" />
-    <attr name="inputHintTextColor" format="color" />
-    <attr name="inputLines" format="integer" />
-    <attr name="inputTextMaxLength" format="integer" />
-    <attr name="inputDigits" format="string" />
-    <attr name="inputGravity">
-        <!-- Push object to the top of its container, not changing its size. -->
-        <flag name="top" value="0x30" />
-        <!-- Push object to the bottom of its container, not changing its size. -->
-        <flag name="bottom" value="0x50" />
-        <!-- Push object to the left of its container, not changing its size. -->
-        <flag name="left" value="0x03" />
-        <!-- Push object to the left of its container, not changing its size. -->
-        <flag name="start" value="0x03" />
-        <!-- Push object to the right of its container, not changing its size. -->
-        <flag name="right" value="0x05" />
-        <!-- Push object to the left of its container, not changing its size. -->
-        <flag name="end" value="0x05" />
-        <!-- Place object in the vertical center of its container, not changing its size. -->
-        <flag name="center_vertical" value="0x10" />
-        <!-- Place object in the horizontal center of its container, not changing its size. -->
-        <flag name="center_horizontal" value="0x01" />
-        <!-- Place the object in the center of its container in both the vertical and horizontal axis, not changing its size. -->
-        <flag name="center" value="0x11" />
+    <attr name="labelDistance" format="dimension" />
+    <attr name="labelHeight" format="dimension" />
+    <attr name="labelEnable" format="boolean" />
+    <attr name="labelGravity" format="enum">
+        <enum name="LEFT_TOP" value="1" />
+        <enum name="RIGHT_TOP" value="2" />
+        <enum name="LEFT_BOTTOM" value="3" />
+        <enum name="RIGHT_BOTTOM" value="4" />
     </attr>
 
-    <attr name="inputEllipsize">
-        <flag name="start" value="1" />
-        <flag name="middle" value="2" />
-        <flag name="end" value="3" />
-    </attr>
+    <attr name="dashColor" format="color" />
+    <attr name="dashGap" format="dimension" />
+    <attr name="dashWidth" format="dimension" />
 
-    <attr name="inputType">
-        <!-- There is no content type.  The text is not editable. -->
-        <flag name="none" value="0x00000000" />
-        <!-- Just plain old text.  Corresponds to
-             {@link android.text.InputType#TYPE_CLASS_TEXT} |
-             {@link android.text.InputType#TYPE_TEXT_VARIATION_NORMAL}. -->
-        <flag name="text" value="0x00000001" />
-        <!-- Can be combined with <var>text</var> and its variations to
-             request capitalization of all characters.  Corresponds to
-             {@link android.text.InputType#TYPE_TEXT_FLAG_CAP_CHARACTERS}. -->
-        <flag name="textCapCharacters" value="0x00001001" />
-        <!-- Can be combined with <var>text</var> and its variations to
-             request capitalization of the first character of every word.  Corresponds to
-             {@link android.text.InputType#TYPE_TEXT_FLAG_CAP_WORDS}. -->
-        <flag name="textCapWords" value="0x00002001" />
-        <!-- Can be combined with <var>text</var> and its variations to
-             request capitalization of the first character of every sentence.  Corresponds to
-             {@link android.text.InputType#TYPE_TEXT_FLAG_CAP_SENTENCES}. -->
-        <flag name="textCapSentences" value="0x00004001" />
-        <!-- Can be combined with <var>text</var> and its variations to
-             request auto-correction of text being input.  Corresponds to
-             {@link android.text.InputType#TYPE_TEXT_FLAG_AUTO_CORRECT}. -->
-        <flag name="textAutoCorrect" value="0x00008001" />
-        <!-- Can be combined with <var>text</var> and its variations to
-             specify that this field will be doing its own auto-completion and
-             talking with the input method appropriately.  Corresponds to
-             {@link android.text.InputType#TYPE_TEXT_FLAG_AUTO_COMPLETE}. -->
-        <flag name="textAutoComplete" value="0x00010001" />
-        <!-- Can be combined with <var>text</var> and its variations to
-             allow multiple lines of text in the field.  If this flag is not set,
-             the text field will be constrained to a single line.  Corresponds to
-             {@link android.text.InputType#TYPE_TEXT_FLAG_MULTI_LINE}. -->
-        <flag name="textMultiLine" value="0x00020001" />
-        <!-- Can be combined with <var>text</var> and its variations to
-             indicate that though the regular text view should not be multiple
-             lines, the IME should provide multiple lines if it can.  Corresponds to
-             {@link android.text.InputType#TYPE_TEXT_FLAG_IME_MULTI_LINE}. -->
-        <flag name="textImeMultiLine" value="0x00040001" />
-        <!-- Can be combined with <var>text</var> and its variations to
-             indicate that the IME should not show any
-             dictionary-based word suggestions.  Corresponds to
-             {@link android.text.InputType#TYPE_TEXT_FLAG_NO_SUGGESTIONS}. -->
-        <flag name="textNoSuggestions" value="0x00080001" />
-        <!-- Text that will be used as a URI.  Corresponds to
-             {@link android.text.InputType#TYPE_CLASS_TEXT} |
-             {@link android.text.InputType#TYPE_TEXT_VARIATION_URI}. -->
-        <flag name="textUri" value="0x00000011" />
-        <!-- Text that will be used as an e-mail address.  Corresponds to
-             {@link android.text.InputType#TYPE_CLASS_TEXT} |
-             {@link android.text.InputType#TYPE_TEXT_VARIATION_EMAIL_ADDRESS}. -->
-        <flag name="textEmailAddress" value="0x00000021" />
-        <!-- Text that is being supplied as the subject of an e-mail.  Corresponds to
-             {@link android.text.InputType#TYPE_CLASS_TEXT} |
-             {@link android.text.InputType#TYPE_TEXT_VARIATION_EMAIL_SUBJECT}. -->
-        <flag name="textEmailSubject" value="0x00000031" />
-        <!-- Text that is the content of a short message.  Corresponds to
-             {@link android.text.InputType#TYPE_CLASS_TEXT} |
-             {@link android.text.InputType#TYPE_TEXT_VARIATION_SHORT_MESSAGE}. -->
-        <flag name="textShortMessage" value="0x00000041" />
-        <!-- Text that is the content of a long message.  Corresponds to
-             {@link android.text.InputType#TYPE_CLASS_TEXT} |
-             {@link android.text.InputType#TYPE_TEXT_VARIATION_LONG_MESSAGE}. -->
-        <flag name="textLongMessage" value="0x00000051" />
-        <!-- Text that is the name of a person.  Corresponds to
-             {@link android.text.InputType#TYPE_CLASS_TEXT} |
-             {@link android.text.InputType#TYPE_TEXT_VARIATION_PERSON_NAME}. -->
-        <flag name="textPersonName" value="0x00000061" />
-        <!-- Text that is being supplied as a postal mailing address.  Corresponds to
-             {@link android.text.InputType#TYPE_CLASS_TEXT} |
-             {@link android.text.InputType#TYPE_TEXT_VARIATION_POSTAL_ADDRESS}. -->
-        <flag name="textPostalAddress" value="0x00000071" />
-        <!-- Text that is a password.  Corresponds to
-             {@link android.text.InputType#TYPE_CLASS_TEXT} |
-             {@link android.text.InputType#TYPE_TEXT_VARIATION_PASSWORD}. -->
-        <flag name="textPassword" value="0x00000081" />
-        <!-- Text that is a password that should be visible.  Corresponds to
-             {@link android.text.InputType#TYPE_CLASS_TEXT} |
-             {@link android.text.InputType#TYPE_TEXT_VARIATION_VISIBLE_PASSWORD}. -->
-        <flag name="textVisiblePassword" value="0x00000091" />
-        <!-- Text that is being supplied as text in a web form.  Corresponds to
-             {@link android.text.InputType#TYPE_CLASS_TEXT} |
-             {@link android.text.InputType#TYPE_TEXT_VARIATION_WEB_EDIT_TEXT}. -->
-        <flag name="textWebEditText" value="0x000000a1" />
-        <!-- Text that is filtering some other data.  Corresponds to
-             {@link android.text.InputType#TYPE_CLASS_TEXT} |
-             {@link android.text.InputType#TYPE_TEXT_VARIATION_FILTER}. -->
-        <flag name="textFilter" value="0x000000b1" />
-        <!-- Text that is for phonetic pronunciation, such as a phonetic name
-             field in a contact entry.  Corresponds to
-             {@link android.text.InputType#TYPE_CLASS_TEXT} |
-             {@link android.text.InputType#TYPE_TEXT_VARIATION_PHONETIC}. -->
-        <flag name="textPhonetic" value="0x000000c1" />
-        <!-- Text that will be used as an e-mail address on a web form.  Corresponds to
-             {@link android.text.InputType#TYPE_CLASS_TEXT} |
-             {@link android.text.InputType#TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS}. -->
-        <flag name="textWebEmailAddress" value="0x000000d1" />
-        <!-- Text that will be used as a password on a web form.  Corresponds to
-             {@link android.text.InputType#TYPE_CLASS_TEXT} |
-             {@link android.text.InputType#TYPE_TEXT_VARIATION_WEB_PASSWORD}. -->
-        <flag name="textWebPassword" value="0x000000e1" />
-        <!-- A numeric only field.  Corresponds to
-             {@link android.text.InputType#TYPE_CLASS_NUMBER} |
-             {@link android.text.InputType#TYPE_NUMBER_VARIATION_NORMAL}. -->
-        <flag name="number" value="0x00000002" />
-        <!-- Can be combined with <var>number</var> and its other options to
-             allow a signed number.  Corresponds to
-             {@link android.text.InputType#TYPE_CLASS_NUMBER} |
-             {@link android.text.InputType#TYPE_NUMBER_FLAG_SIGNED}. -->
-        <flag name="numberSigned" value="0x00001002" />
-        <!-- Can be combined with <var>number</var> and its other options to
-             allow a decimal (fractional) number.  Corresponds to
-             {@link android.text.InputType#TYPE_CLASS_NUMBER} |
-             {@link android.text.InputType#TYPE_NUMBER_FLAG_DECIMAL}. -->
-        <flag name="numberDecimal" value="0x00002002" />
-        <!-- A numeric password field.  Corresponds to
-             {@link android.text.InputType#TYPE_CLASS_NUMBER} |
-             {@link android.text.InputType#TYPE_NUMBER_VARIATION_PASSWORD}. -->
-        <flag name="numberPassword" value="0x00000012" />
-        <!-- For entering a phone number.  Corresponds to
-             {@link android.text.InputType#TYPE_CLASS_PHONE}. -->
-        <flag name="phone" value="0x00000003" />
-        <!-- For entering a date and time.  Corresponds to
-             {@link android.text.InputType#TYPE_CLASS_DATETIME} |
-             {@link android.text.InputType#TYPE_DATETIME_VARIATION_NORMAL}. -->
-        <flag name="datetime" value="0x00000004" />
-        <!-- For entering a date.  Corresponds to
-             {@link android.text.InputType#TYPE_CLASS_DATETIME} |
-             {@link android.text.InputType#TYPE_DATETIME_VARIATION_DATE}. -->
-        <flag name="date" value="0x00000014" />
-        <!-- For entering a time.  Corresponds to
-             {@link android.text.InputType#TYPE_CLASS_DATETIME} |
-             {@link android.text.InputType#TYPE_DATETIME_VARIATION_TIME}. -->
-        <flag name="time" value="0x00000024" />
-    </attr>
+    <attr name="indicatorRadius" format="dimension" />
+    <attr name="indicatorColor" format="color" />
 
+    <attr name="unit" format="string" />
+    <attr name="unitTextSize" format="dimension" />
 
-    <attr name="cancelEnable" format="boolean" />
+    <attr name="selectedTextColor" format="reference|color" />
+    <attr name="selectedTextSize" format="dimension" />
 
-    <attr name="promptMode">
-        <enum name="none" value="0" />
-        <enum name="text" value="1" />
-        <enum name="graph" value="2" />
-    </attr>
+    <attr name="unselectedTextColor" format="reference|color" />
+    <attr name="unselectedTextSize" format="dimension" />
 
-    <attr name="promptBackground" format="color|reference" />
-    <attr name="promptHasBackgroundBorder" format="boolean" />
-    <attr name="promptBackgroundBorderColor" format="color" />
-    <attr name="promptBackgroundBorderSize" format="dimension" />
+    <attr name="padding" format="dimension" />
+    <attr name="topPadding" format="dimension" />
+    <attr name="bottomPadding" format="dimension" />
+    <attr name="startPadding" format="dimension" />
+    <attr name="endPadding" format="dimension" />
+    <attr name="rightPadding" format="dimension" />
+    <attr name="leftPadding" format="dimension" />
+
+    <attr name="cropEnabled" format="boolean" />
     <attr name="cropMode">
         <enum name="ratio_fit_image" value="0" />
         <enum name="ratio_4_3" value="1" />
@@ -609,40 +573,34 @@
         <enum name="circle" value="8" />
     </attr>
 
+    <attr name="guideColor" format="color" />
+    <attr name="guideStrokeWeight" format="dimension" />
     <attr name="guideShowMode">
         <enum name="show_always" value="1" />
         <enum name="show_on_touch" value="2" />
         <enum name="not_show" value="3" />
     </attr>
 
+    <attr name="handleSize" format="dimension" />
+    <attr name="handleColor" format="color" />
     <attr name="handleShowMode">
         <enum name="show_always" value="1" />
         <enum name="show_on_touch" value="2" />
         <enum name="not_show" value="3" />
     </attr>
 
-    <attr name="overlayColor" format="color" />
     <attr name="frameColor" format="color" />
-    <attr name="handleColor" format="color" />
-    <attr name="guideColor" format="color" />
-
-    <attr name="handleSize" format="dimension" />
-    <attr name="touchPadding" format="dimension" />
-    <attr name="minFrameSize" format="dimension" />
     <attr name="frameStrokeWeight" format="dimension" />
-    <attr name="guideStrokeWeight" format="dimension" />
-
-    <attr name="cropEnabled" format="boolean" />
-
-    <attr name="waterMarkAlpha" format="float" />
-    <attr name="waterMarkAngle" format="integer" />
-    <attr name="waterMarkEnable" format="boolean" />
-
+    <attr name="frameMinSize" format="dimension" />
     <attr name="initialFrameScale" format="float" />
 
-    <attr name="visibleCount" format="integer" />
+    <attr name="overlayColor" format="color" />
+
+    <attr name="barColor" format="color" />
+    <attr name="barBorderColor" format="color" />
 
     <attr name="spinKit" format="reference" />
+    <attr name="spinKitColor" format="color" />
     <attr name="spinKitStyle">
         <enum name="RotatingPlane" value="0" />
         <enum name="DoubleBounce" value="1" />
@@ -661,50 +619,62 @@
         <enum name="MultiplePulseRing" value="14" />
     </attr>
 
-    <attr name="spinKitColor" format="color" />
+    <attr name="hint" format="string" />
+    <attr name="hintTextColor" format="color" />
+    <attr name="hintTextSize" format="dimension" />
 
+    <attr name="itemMinHeight" format="dimension" />
+    <!-- 是否可以点击 -->
+    <attr name="clickable" format="boolean" />
+    <attr name="titleClickable" format="boolean" />
+    <attr name="subTitleClickable" format="boolean" />
+    <attr name="interruptTouchEvent" format="boolean" />
+
+    <!-- 是否开启密码格式 -->
+    <attr name="secret" format="boolean" />
+    <!-- 是否可以编辑 -->
+    <attr name="editable" format="boolean" />
+
+    <attr name="selectedChild" format="reference" />
+    <attr name="cannotSelectedChild" format="reference" />
+
+    <attr name="radius" format="dimension|reference" />
+
+    <attr name="fadeBack" format="boolean" />
+    <attr name="animationDuration" format="integer" />
+    <attr name="maxHeight" format="dimension" />
+    <attr name="actionMinWidth" format="dimension" />
+
+    <attr name="position">
+        <enum name="left" value="0" />
+        <enum name="right" value="4" />
+        <enum name="top" value="8" />
+        <enum name="bottom" value="16" />
+    </attr>
+
+    <attr name="shape">
+        <enum name="rect" value="0" />
+        <enum name="circle" value="4" />
+    </attr>
+
+    <attr name="flowMode">
+        <enum name="wrap" value="1" />
+        <enum name="adapter" value="2" />
+    </attr>
+
+    <attr name="cancelEnable" format="boolean" />
+    <attr name="touchPadding" format="dimension" />
+    <attr name="visibleCount" format="integer" />
     <attr name="datePickerStyle">
         <enum name="dateTime" value="1" />
         <enum name="date" value="2" />
         <enum name="time" value="3" />
     </attr>
 
-    <attr name="strokeWidth" format="dimension" tools:ignore="PrivateResource" />
-    <attr name="strokeHeight" format="dimension" />
-    <attr name="strokeColor" format="color" tools:ignore="PrivateResource" />
-
-    <attr name="labelDistance" format="dimension" />
-    <attr name="labelHeight" format="dimension" />
-
-    <attr name="labelEnable" format="boolean" />
-    <attr name="labelGravity" format="enum">
-        <enum name="LEFT_TOP" value="1" />
-        <enum name="RIGHT_TOP" value="2" />
-        <enum name="LEFT_BOTTOM" value="3" />
-        <enum name="RIGHT_BOTTOM" value="4" />
-    </attr>
-
-    <attr name="barColor" format="color" />
-    <attr name="barBorderColor" format="color" />
     <attr name="itemPadding" format="dimension" />
-
-    <attr name="customizeViewId" format="reference" />
-    <attr name="customizeViewIndex" format="integer" />
-    <attr name="customizeMarginStart" format="dimension" />
-    <attr name="customizeMarginEnd" format="dimension" />
-
-    <attr name="widthProportion" format="float" />
-    <attr name="heightProportion" format="float" />
-    <attr name="widthRatio" format="integer" />
-    <attr name="heightRatio" format="integer" />
-    <attr name="indicatorRadius" format="dimension" />
-    <attr name="indicatorColor" format="color" />
-
-    <attr name="dashColor" format="color" />
-    <attr name="dashGap" format="dimension" />
-    <attr name="dashWidth" format="dimension" />
     <attr name="topWeight" format="float" />
-    <attr name="BottomWeight" format="float" />
+    <attr name="bottomWeight" format="float" />
+
 
     <!--==========分割线==========-->
     <declare-styleable name="ImageTextView">
@@ -749,7 +719,7 @@
         <attr name="actionMinWidth" />
 
         <attr name="clickable" />
-        <attr name="secretable" />
+        <attr name="secret" />
 
         <attr name="text" />
         <attr name="textColor" />
@@ -851,7 +821,7 @@
         <attr name="subTitleClickable" />
 
         <attr name="topWeight" />
-        <attr name="BottomWeight" />
+        <attr name="bottomWeight" />
     </declare-styleable>
 
 
