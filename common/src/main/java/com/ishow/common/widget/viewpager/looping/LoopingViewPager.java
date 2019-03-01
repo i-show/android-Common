@@ -30,7 +30,7 @@ import android.view.MotionEvent;
 
 import com.ishow.common.R;
 import com.ishow.common.utils.log.LogManager;
-import com.ishow.common.widget.viewpager.looping.lndicator.DefaultLoopingIndicator;
+import com.ishow.common.widget.viewpager.looping.indicator.DefaultLoopingIndicator;
 
 /**
  * 轮播图

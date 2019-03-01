@@ -25,7 +25,7 @@
         android:layout_height="match_parent"
         android:overScrollMode="never" />
 
-    <com.ishow.common.widget.indicator.SizeIndicator
+    <com.ishow.common.widget.viewpager.indicator.SizeIndicator
         android:id="@+id/state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

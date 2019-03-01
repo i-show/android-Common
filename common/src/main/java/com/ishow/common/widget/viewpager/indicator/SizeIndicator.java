@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ishow.common.widget.indicator;
+package com.ishow.common.widget.viewpager.indicator;
 
 import android.content.Context;
 import android.content.res.TypedArray;

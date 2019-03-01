@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ishow.common.widget;
+package com.ishow.common.widget.relativelayout;
 
 import android.content.Context;
 import android.content.res.TypedArray;

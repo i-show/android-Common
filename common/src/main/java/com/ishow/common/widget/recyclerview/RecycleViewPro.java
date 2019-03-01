@@ -14,40 +14,40 @@
  * limitations under the License.
  */
 
-package com.ishow.common.widget;
+package com.ishow.common.widget.recyclerview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.widget.LinearLayout;
 
 import com.ishow.common.R;
 
 
-public class LinearLayoutPro extends LinearLayout {
+public class RecycleViewPro extends RecyclerView {
     private int mMaxHeight;
     private int mMaxWidth;
 
-    public LinearLayoutPro(Context context) {
+    public RecycleViewPro(Context context) {
         super(context);
         init(context, null);
     }
 
-    public LinearLayoutPro(Context context, AttributeSet attrs) {
+    public RecycleViewPro(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
-    public LinearLayoutPro(Context context, AttributeSet attrs, int defStyleAttr) {
+    public RecycleViewPro(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }
 
 
     private void init(Context context, AttributeSet attrs) {
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.LinearLayoutPro);
-        mMaxHeight = a.getDimensionPixelSize(R.styleable.LinearLayoutPro_maxHeight, -1);
-        mMaxWidth = a.getDimensionPixelSize(R.styleable.LinearLayoutPro_maxWidth, -1);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RecycleViewPro);
+        mMaxHeight = a.getDimensionPixelSize(R.styleable.RecycleViewPro_maxHeight, -1);
+        mMaxWidth = a.getDimensionPixelSize(R.styleable.RecycleViewPro_maxWidth, -1);
         a.recycle();
     }
 
@@ -58,4 +58,5 @@ public class LinearLayoutPro extends LinearLayout {
         int widthSpec = mMaxWidth == -1 ? widthMeasureSpec : MeasureSpec.makeMeasureSpec(mMaxWidth, MeasureSpec.AT_MOST);
         super.onMeasure(widthSpec, heightSpec);
     }
+
 }

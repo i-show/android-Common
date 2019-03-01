@@ -1,10 +1,9 @@
-package com.ishow.common.widget.viewpager.looping.lndicator;
+package com.ishow.common.widget.viewpager.looping.indicator;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.util.Log;
 
 import com.ishow.common.utils.UnitUtils;
 import com.ishow.common.widget.viewpager.looping.ILoopingIndicator;

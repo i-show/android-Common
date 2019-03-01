@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.ishow.common.widget;
+package com.ishow.common.widget.linearlayout;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.ishow.common.R;
 
@@ -29,23 +29,23 @@ import com.ishow.common.R;
  * 比例的ImageView
  */
 
-public class ScaleFrameLayout extends FrameLayout {
+public class ScaleLinearLayout extends LinearLayout {
     private int mWidthRatio;
     private int mHeightRatio;
 
-    public ScaleFrameLayout(Context context) {
+    public ScaleLinearLayout(Context context) {
         this(context, null);
     }
 
-    public ScaleFrameLayout(Context context, AttributeSet attrs) {
+    public ScaleLinearLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ScaleFrameLayout(Context context, AttributeSet attrs, int defStyle) {
+    public ScaleLinearLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ScaleFrameLayout);
-        mWidthRatio = a.getInt(R.styleable.ScaleFrameLayout_widthScale, 1);
-        mHeightRatio = a.getInt(R.styleable.ScaleFrameLayout_heightScale, 1);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ScaleLinearLayout);
+        mWidthRatio = a.getInt(R.styleable.ScaleLinearLayout_widthScale, 1);
+        mHeightRatio = a.getInt(R.styleable.ScaleLinearLayout_heightScale, 1);
         a.recycle();
     }
 

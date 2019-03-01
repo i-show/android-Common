@@ -27,10 +27,8 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.ishow.common.R;
-import com.ishow.common.modules.image.show.ShowPhotoAdapter;
 import com.ishow.common.utils.DeviceUtils;
-import com.ishow.common.utils.ScreenUtils;
-import com.ishow.common.widget.indicator.SizeIndicator;
+import com.ishow.common.widget.viewpager.indicator.SizeIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
