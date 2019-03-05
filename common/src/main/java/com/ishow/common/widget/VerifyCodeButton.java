@@ -70,7 +70,7 @@ public class VerifyCodeButton extends FrameLayout {
     /**
      * 时间显示
      */
-    private TextView mDiaplayView;
+    private TextView mDisplayView;
     /**
      * 时间监听
      */
@@ -89,6 +89,7 @@ public class VerifyCodeButton extends FrameLayout {
      * 当前时间
      */
     private int mCurrentTime;
+    private int mMaxTime;
     /**
      * 当前状态
      */
@@ -108,7 +109,7 @@ public class VerifyCodeButton extends FrameLayout {
                         if (mTimingListener != null) {
                             mTimingListener.onTiming(mCurrentTime);
                         }
-                        mDiaplayView.setText(getContext().getString(R.string.second_timing, mCurrentTime));
+                        mDisplayView.setText(getContext().getString(R.string.second_timing, mCurrentTime));
                         sendEmptyMessageDelayed(HANDLER_TIME, 1000);
                     }
                     break;
@@ -116,10 +117,10 @@ public class VerifyCodeButton extends FrameLayout {
                 case HANDLER_RESET_TIME:
                     mStatus = STATE_IDLE;
                     mHandler.removeMessages(HANDLER_TIME);
-                    mDiaplayView.setText(mTextStr);
-                    mDiaplayView.setVisibility(VISIBLE);
+                    mDisplayView.setText(mTextStr);
+                    mDisplayView.setVisibility(VISIBLE);
                     mProgressBar.setVisibility(INVISIBLE);
-                    mCurrentTime = VERIFY_MAX_TIME;
+                    mCurrentTime = mMaxTime;
                     setClickable(true);
                     if (mTimingListener != null) {
                         mTimingListener.onTimingEnd();
@@ -161,9 +162,11 @@ public class VerifyCodeButton extends FrameLayout {
         mProgressBar.setVisibility(INVISIBLE);
         addView(mProgressBar);
 
-        mDiaplayView = getDisplayView();
-        mDiaplayView.setVisibility(VISIBLE);
-        addView(mDiaplayView);
+        mDisplayView = getDisplayView();
+        mDisplayView.setVisibility(VISIBLE);
+        addView(mDisplayView);
+
+        mMaxTime = VERIFY_MAX_TIME;
     }
 
     /**
@@ -176,7 +179,7 @@ public class VerifyCodeButton extends FrameLayout {
             mTimingListener.onSending();
         }
         mProgressBar.setVisibility(VISIBLE);
-        mDiaplayView.setVisibility(INVISIBLE);
+        mDisplayView.setVisibility(INVISIBLE);
         setClickable(false);
     }
 
@@ -184,12 +187,21 @@ public class VerifyCodeButton extends FrameLayout {
      * 开始计时
      */
     public void startTiming() {
+        startTiming(VERIFY_MAX_TIME);
+    }
+
+    /**
+     * 开始计时
+     */
+    public void startTiming(int maxTime) {
+        mMaxTime = maxTime;
         mStatus = STATE_TIMING;
         mProgressBar.setVisibility(INVISIBLE);
-        mDiaplayView.setVisibility(VISIBLE);
-        mCurrentTime = VERIFY_MAX_TIME;
+        mDisplayView.setVisibility(VISIBLE);
+        mCurrentTime = mMaxTime;
         mHandler.sendEmptyMessage(HANDLER_TIME);
     }
+
 
     /**
      * 重新计时
@@ -269,7 +281,7 @@ public class VerifyCodeButton extends FrameLayout {
     @Override
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
-        mDiaplayView.setEnabled(enabled);
+        mDisplayView.setEnabled(enabled);
     }
 
     /**
