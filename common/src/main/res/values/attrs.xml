@@ -675,6 +675,8 @@
     <attr name="topWeight" format="float" />
     <attr name="bottomWeight" format="float" />
 
+    <attr name="marqueeEnable" format="boolean" />
+
 
     <!--==========分割线==========-->
     <declare-styleable name="ImageTextView">
@@ -1273,5 +1275,9 @@
     <declare-styleable name="AnnouncementView">
         <attr name="textSize" />
         <attr name="textColor" />
+        <attr name="textLines" />
+        <attr name="textEllipsize" />
+        <attr name="cancelEnable" />
+        <attr name="marqueeEnable" />
     </declare-styleable>
 </resources>

@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.TextSwitcher;
+import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import com.ishow.common.R;
@@ -37,7 +39,10 @@ public class AnnouncementView extends FrameLayout implements ViewSwitcher.ViewFa
     private int mCurrentIndex;
     private int mTextColor;
     private int mTextSize;
-
+    private int mTextLines;
+    private int mTextEllipsize;
+    private boolean isMarqueeEnable;
+    private OnAnnouncementChangedListener mOnAnnouncementChangedListener;
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
@@ -67,6 +72,10 @@ public class AnnouncementView extends FrameLayout implements ViewSwitcher.ViewFa
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.AnnouncementView);
         mTextColor = a.getColor(R.styleable.AnnouncementView_textColor, Color.LTGRAY);
         mTextSize = a.getDimensionPixelSize(R.styleable.AnnouncementView_textSize, UnitUtils.dip2px(12));
+        mTextLines = a.getInt(R.styleable.AnnouncementView_textLines, -1);
+        mTextEllipsize = a.getInt(R.styleable.AnnouncementView_textEllipsize, -1);
+        isMarqueeEnable = a.getBoolean(R.styleable.AnnouncementView_marqueeEnable, false);
+        boolean cancelEnable = a.getBoolean(R.styleable.AnnouncementView_cancelEnable, false);
         a.recycle();
 
         mData = new ArrayList<>();
@@ -79,6 +88,7 @@ public class AnnouncementView extends FrameLayout implements ViewSwitcher.ViewFa
         mTextSwitcher.setOutAnimation(outAnimation());
 
         View exit = findViewById(R.id.exit);
+        exit.setVisibility(cancelEnable ? View.VISIBLE : View.GONE);
         exit.setOnClickListener(this);
     }
 
@@ -95,9 +105,17 @@ public class AnnouncementView extends FrameLayout implements ViewSwitcher.ViewFa
 
     @Override
     public View makeView() {
-        MarqueeTextView textView = new MarqueeTextView(getContext());
+        TextView textView;
+        if (isMarqueeEnable) {
+            textView = new MarqueeTextView(getContext());
+        } else {
+            textView = new TextView(getContext());
+        }
+
+        setInputEllipsize(textView);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSize);
         textView.setTextColor(mTextColor);
+        if (mTextLines > 0) textView.setLines(mTextLines);
         return textView;
     }
 
@@ -110,7 +128,7 @@ public class AnnouncementView extends FrameLayout implements ViewSwitcher.ViewFa
         mCurrentIndex = 0;
         updateView();
 
-        if(mData.size() > 1){
+        if (mData.size() > 1) {
             mHandler.removeCallbacksAndMessages(null);
             mHandler.sendEmptyMessageDelayed(0, DELAY_TIME);
         }
@@ -126,6 +144,9 @@ public class AnnouncementView extends FrameLayout implements ViewSwitcher.ViewFa
         setVisibility(VISIBLE);
         String text = mData.get(mCurrentIndex).getTitle();
         mTextSwitcher.setText(text);
+        if(mOnAnnouncementChangedListener != null){
+            mOnAnnouncementChangedListener.onChanged(mCurrentIndex);
+        }
         if (mCurrentIndex >= mData.size() - 1) {
             mCurrentIndex = 0;
         } else {
@@ -165,5 +186,31 @@ public class AnnouncementView extends FrameLayout implements ViewSwitcher.ViewFa
     @Override
     public void onClick(View v) {
         setVisibility(GONE);
+    }
+
+    /**
+     * 设置样式
+     */
+    private void setInputEllipsize(TextView view) {
+        switch (mTextEllipsize) {
+            case 1:
+                view.setEllipsize(TextUtils.TruncateAt.START);
+                break;
+            case 2:
+                view.setEllipsize(TextUtils.TruncateAt.MIDDLE);
+                break;
+            case 3:
+                view.setEllipsize(TextUtils.TruncateAt.END);
+                break;
+        }
+    }
+
+
+    public void setOnAnnouncementChangedListener(OnAnnouncementChangedListener listener){
+        mOnAnnouncementChangedListener = listener;
+    }
+
+    public interface OnAnnouncementChangedListener {
+        void onChanged(int position);
     }
 }
