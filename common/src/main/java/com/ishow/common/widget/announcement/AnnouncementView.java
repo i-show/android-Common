@@ -135,6 +135,10 @@ public class AnnouncementView extends FrameLayout implements ViewSwitcher.ViewFa
     }
 
 
+    public List<IAnnouncementData> getData() {
+        return mData;
+    }
+
     private void updateView() {
         if (mData.isEmpty()) {
             setVisibility(GONE);
@@ -144,8 +148,8 @@ public class AnnouncementView extends FrameLayout implements ViewSwitcher.ViewFa
         setVisibility(VISIBLE);
         String text = mData.get(mCurrentIndex).getTitle();
         mTextSwitcher.setText(text);
-        if(mOnAnnouncementChangedListener != null){
-            mOnAnnouncementChangedListener.onChanged(mCurrentIndex);
+        if (mOnAnnouncementChangedListener != null) {
+            mOnAnnouncementChangedListener.onChanged(mData.get(mCurrentIndex), mCurrentIndex);
         }
         if (mCurrentIndex >= mData.size() - 1) {
             mCurrentIndex = 0;
@@ -206,11 +210,11 @@ public class AnnouncementView extends FrameLayout implements ViewSwitcher.ViewFa
     }
 
 
-    public void setOnAnnouncementChangedListener(OnAnnouncementChangedListener listener){
+    public void setOnAnnouncementChangedListener(OnAnnouncementChangedListener listener) {
         mOnAnnouncementChangedListener = listener;
     }
 
     public interface OnAnnouncementChangedListener {
-        void onChanged(int position);
+        void onChanged(IAnnouncementData data, int position);
     }
 }
