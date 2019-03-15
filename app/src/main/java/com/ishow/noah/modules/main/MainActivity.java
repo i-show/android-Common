@@ -17,6 +17,7 @@
 package com.ishow.noah.modules.main;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
@@ -179,9 +180,6 @@ public class MainActivity extends AppBaseActivity implements BottomBar.OnBottomB
     }
 
     private void onRightClickForTab1() {
-        AppRouter.with(this)
-                .action("com.yuhaiyang.androidcommon.Test")
-                .start();
 
     }
 

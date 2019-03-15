@@ -41,6 +41,9 @@ public class AnnouncementView extends FrameLayout implements ViewSwitcher.ViewFa
     private int mTextSize;
     private int mTextLines;
     private int mTextEllipsize;
+    private int mDelayTime;
+    private float mTextSpacingAdd;
+    private float mTextSpacingMult;
     private boolean isMarqueeEnable;
     private OnAnnouncementChangedListener mOnAnnouncementChangedListener;
     @SuppressLint("HandlerLeak")
@@ -49,7 +52,7 @@ public class AnnouncementView extends FrameLayout implements ViewSwitcher.ViewFa
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             updateView();
-            mHandler.sendEmptyMessageDelayed(0, DELAY_TIME);
+            mHandler.sendEmptyMessageDelayed(0, mDelayTime);
         }
     };
 
@@ -74,7 +77,10 @@ public class AnnouncementView extends FrameLayout implements ViewSwitcher.ViewFa
         mTextSize = a.getDimensionPixelSize(R.styleable.AnnouncementView_textSize, UnitUtils.dip2px(12));
         mTextLines = a.getInt(R.styleable.AnnouncementView_textLines, -1);
         mTextEllipsize = a.getInt(R.styleable.AnnouncementView_textEllipsize, -1);
+        mTextSpacingAdd = a.getDimensionPixelSize(R.styleable.AnnouncementView_textLineSpacingExtra, 0);
+        mTextSpacingMult = a.getFloat(R.styleable.AnnouncementView_textLineSpacingMultiplier, 1.0F);
         isMarqueeEnable = a.getBoolean(R.styleable.AnnouncementView_marqueeEnable, false);
+        mDelayTime = a.getInt(R.styleable.AnnouncementView_delayTime, DELAY_TIME);
         boolean cancelEnable = a.getBoolean(R.styleable.AnnouncementView_cancelEnable, false);
         a.recycle();
 
@@ -97,7 +103,7 @@ public class AnnouncementView extends FrameLayout implements ViewSwitcher.ViewFa
     protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
         super.onVisibilityChanged(changedView, visibility);
         if (visibility == View.VISIBLE && mData.size() > 1) {
-            mHandler.sendEmptyMessageDelayed(0, DELAY_TIME);
+            mHandler.sendEmptyMessageDelayed(0, mDelayTime);
         } else {
             mHandler.removeCallbacksAndMessages(null);
         }
@@ -115,6 +121,7 @@ public class AnnouncementView extends FrameLayout implements ViewSwitcher.ViewFa
         setInputEllipsize(textView);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSize);
         textView.setTextColor(mTextColor);
+        textView.setLineSpacing(mTextSpacingAdd, mTextSpacingMult);
         if (mTextLines > 0) textView.setLines(mTextLines);
         return textView;
     }
@@ -130,13 +137,30 @@ public class AnnouncementView extends FrameLayout implements ViewSwitcher.ViewFa
 
         if (mData.size() > 1) {
             mHandler.removeCallbacksAndMessages(null);
-            mHandler.sendEmptyMessageDelayed(0, DELAY_TIME);
+            mHandler.sendEmptyMessageDelayed(0, mDelayTime);
         }
     }
 
 
     public List<IAnnouncementData> getData() {
         return mData;
+    }
+
+    public IAnnouncementData getCurrentData() {
+        if (mData == null || mData.isEmpty()) {
+            return null;
+        }
+        if (mCurrentIndex > mData.size() - 1) {
+            return mData.get(0);
+        } else {
+            return mData.get(mCurrentIndex);
+        }
+    }
+
+    public void setLineSpacing(float add, float mult) {
+        mTextSpacingAdd = add;
+        mTextSpacingMult = mult;
+        requestLayout();
     }
 
     private void updateView() {
@@ -157,6 +181,8 @@ public class AnnouncementView extends FrameLayout implements ViewSwitcher.ViewFa
             mCurrentIndex++;
         }
     }
+
+
 
     /**
      * 定义从右侧进入的动画效果

@@ -1,5 +1,7 @@
 package com.ishow.noah.modules.main.home
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -37,10 +39,9 @@ class HomeFragment : AppBaseFragment() {
 
     override fun onRightClick(v: View) {
         super.onRightClick(v)
-
-        AppRouter.with(context)
-                .target(SampleMainActivity::class.java)!!
-                .start()
+        val intent = Intent()
+        intent.data = Uri.parse("fzteacher://splash?token=aaaaaaaaa")
+        startActivity(intent)
     }
 
     companion object {
