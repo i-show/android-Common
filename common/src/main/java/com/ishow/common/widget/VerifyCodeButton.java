@@ -214,6 +214,7 @@ public class VerifyCodeButton extends FrameLayout {
      * 开始计时
      */
     private void startTiming(int maxTime, int currentTime) {
+        setClickable(false);
         mMaxTime = maxTime;
         mCurrentTime = currentTime;
         mStatus = STATE_TIMING;
