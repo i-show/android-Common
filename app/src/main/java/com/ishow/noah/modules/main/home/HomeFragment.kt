@@ -39,8 +39,7 @@ class HomeFragment : AppBaseFragment() {
 
     override fun onRightClick(v: View) {
         super.onRightClick(v)
-        val intent = Intent()
-        intent.data = Uri.parse("fzteacher://splash?token=aaaaaaaaa")
+        val intent = Intent("com.yuhaiyang.androidcommon.Test")
         startActivity(intent)
     }
 

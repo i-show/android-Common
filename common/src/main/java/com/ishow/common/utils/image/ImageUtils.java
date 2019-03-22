@@ -209,7 +209,7 @@ public final class ImageUtils {
      * 压缩并保存Bitmap
      */
     public static String compressBitmap(Context context, Bitmap image) {
-        return compressBitmap(context, image, Bitmap.CompressFormat.WEBP, DEFAULT_COMPRESS_PHOTO_SIZE);
+        return compressBitmap(context, image, Bitmap.CompressFormat.JPEG, DEFAULT_COMPRESS_PHOTO_SIZE);
     }
 
     /**
@@ -219,7 +219,7 @@ public final class ImageUtils {
      * @param pictureSize 要保存图片的大小
      */
     public static String compressBitmap(Context context, Bitmap image, int pictureSize) {
-        return compressBitmap(context, image, Bitmap.CompressFormat.WEBP, pictureSize);
+        return compressBitmap(context, image, Bitmap.CompressFormat.JPEG, pictureSize);
     }
 
     /**
@@ -426,7 +426,7 @@ public final class ImageUtils {
      * 生成图片名称
      */
     public static File generateRandomPhotoFile(Context context) {
-        return generateRandomPhotoFile(context, Bitmap.CompressFormat.WEBP);
+        return generateRandomPhotoFile(context, Bitmap.CompressFormat.JPEG);
     }
 
     /**
@@ -442,7 +442,7 @@ public final class ImageUtils {
      */
     @SuppressWarnings("WeakerAccess")
     public static String generateRandomPhotoName(Context context) {
-        return generateRandomPhotoName(context, Bitmap.CompressFormat.WEBP);
+        return generateRandomPhotoName(context, Bitmap.CompressFormat.JPEG);
     }
 
     /**

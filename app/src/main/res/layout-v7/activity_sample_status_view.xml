@@ -38,6 +38,10 @@
             android:text="Loading" />
     </LinearLayout>
 
+    <com.ishow.common.widget.VerifyCodeButton
+        android:id="@+id/sendVerifyCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
     <com.ishow.common.widget.StatusView
         android:id="@+id/statusView"
         android:layout_width="match_parent"

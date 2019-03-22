@@ -680,7 +680,6 @@
     <attr name="marqueeEnable" format="boolean"/>
     <attr name="delayTime" format="integer"/>
 
-
     <!--==========分割线==========-->
     <declare-styleable name="ImageTextView">
         <attr name="text"/>

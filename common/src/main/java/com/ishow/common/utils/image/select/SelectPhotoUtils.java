@@ -183,7 +183,7 @@ public class SelectPhotoUtils implements
      * 选择图片
      */
     public void select(@IntRange(from = 1) int maxCount) {
-        select(maxCount, Bitmap.CompressFormat.WEBP);
+        select(maxCount, Bitmap.CompressFormat.JPEG);
     }
 
     /**
@@ -242,6 +242,15 @@ public class SelectPhotoUtils implements
     }
 
 
+    public void selectByCamera() {
+        selectByCamera(null);
+    }
+
+    public void selectByCamera(File file) {
+        mSelectMode = SelectMode.SINGLE;
+        selectPhotoByCamera(file);
+    }
+
     /**
      * 显示选择框
      */
@@ -276,8 +285,15 @@ public class SelectPhotoUtils implements
      * 通过相机来选择图片
      */
     private void selectPhotoByCamera() {
+        selectPhotoByCamera(null);
+    }
+
+    /**
+     * 通过相机来选择图片
+     */
+    private void selectPhotoByCamera(File file) {
         String authority = StringUtils.plusString(mActivity.getPackageName(), ".fileprovider");
-        File file = ImageUtils.generateRandomPhotoFile(mActivity);
+        if (file == null) file = ImageUtils.generateRandomPhotoFile(mActivity);
         mCameraFileUri = Uri.fromFile(file);
         Uri uri = FileProvider.getUriForFile(mActivity, authority, file);
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

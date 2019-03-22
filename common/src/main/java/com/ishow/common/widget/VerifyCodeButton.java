@@ -17,20 +17,26 @@
 package com.ishow.common.widget;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.ishow.common.R;
+import com.ishow.common.utils.StorageUtils;
 
 /**
  * 发送验证码的button
@@ -94,6 +100,7 @@ public class VerifyCodeButton extends FrameLayout {
      * 当前状态
      */
     private int mStatus = STATE_IDLE;
+    private String mStatusKey;
 
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
@@ -167,6 +174,11 @@ public class VerifyCodeButton extends FrameLayout {
         addView(mDisplayView);
 
         mMaxTime = VERIFY_MAX_TIME;
+
+        final String contextName = context.getClass().getName();
+        mStatusKey = contextName.replace(".", "_") + "_" + getId();
+        Log.i(TAG, "VerifyCodeButton: mStatusKey = " + mStatusKey);
+
     }
 
     /**
@@ -194,20 +206,40 @@ public class VerifyCodeButton extends FrameLayout {
      * 开始计时
      */
     public void startTiming(int maxTime) {
+        startTiming(maxTime, maxTime);
+    }
+
+
+    /**
+     * 开始计时
+     */
+    private void startTiming(int maxTime, int currentTime) {
         mMaxTime = maxTime;
+        mCurrentTime = currentTime;
         mStatus = STATE_TIMING;
         mProgressBar.setVisibility(INVISIBLE);
         mDisplayView.setVisibility(VISIBLE);
-        mCurrentTime = mMaxTime;
         mHandler.sendEmptyMessage(HANDLER_TIME);
-    }
 
+        Status status = new Status();
+        status.startDate = System.currentTimeMillis();
+        status.remainTime = currentTime;
+        status.maxTime = maxTime;
+
+        StorageUtils.with(getContext())
+                .param(mStatusKey, JSON.toJSONString(status))
+                .save();
+    }
 
     /**
      * 重新计时
      */
     public void reset() {
         mHandler.sendEmptyMessage(HANDLER_RESET_TIME);
+
+        StorageUtils.with(getContext())
+                .key(mStatusKey)
+                .remove();
     }
 
     /**
@@ -257,6 +289,35 @@ public class VerifyCodeButton extends FrameLayout {
         return getContext().getResources().getDimensionPixelSize(R.dimen.H_title);
     }
 
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        String lastStatus = StorageUtils.with(getContext())
+                .key(mStatusKey)
+                .get(null);
+
+        Log.i(TAG, "onAttachedToWindow: lastStatus = " + lastStatus);
+
+        if (TextUtils.isEmpty(lastStatus)) {
+            return;
+        }
+
+        Status status = JSON.parseObject(lastStatus, Status.class);
+
+        int remainTime = status.remainTime - (int) (System.currentTimeMillis() - status.startDate) / 1000;
+        Log.i(TAG, "onAttachedToWindow: remainTime = " + remainTime);
+        if (remainTime > 0) {
+            startTiming(status.maxTime, remainTime);
+        } else {
+            StorageUtils.with(getContext())
+                    .key(mStatusKey)
+                    .remove();
+        }
+
+
+    }
+
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
@@ -284,6 +345,13 @@ public class VerifyCodeButton extends FrameLayout {
         mDisplayView.setEnabled(enabled);
     }
 
+    @Override
+    protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
+        super.onVisibilityChanged(changedView, visibility);
+        Log.i(TAG, "onVisibilityChanged: visibility = " + visibility);
+    }
+
+
     /**
      * 时间监听
      */
@@ -305,5 +373,21 @@ public class VerifyCodeButton extends FrameLayout {
          * 倒计时结束
          */
         void onTimingEnd();
+    }
+
+
+    public static class Status {
+        /**
+         * 开始计时的日期
+         */
+        public long startDate;
+        /**
+         * 剩余时间
+         */
+        public int remainTime;
+        /**
+         * 最大时间
+         */
+        public int maxTime;
     }
 }
