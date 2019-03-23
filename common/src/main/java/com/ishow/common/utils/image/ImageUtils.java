@@ -52,11 +52,11 @@ public final class ImageUtils {
     /**
      * 默认的的压缩图片质量
      */
-    private static final int DEFAULT_COMPRESS_QUALITY = 85;
+    private static final int DEFAULT_COMPRESS_QUALITY = 90;
     /**
      * 默认压缩后图片大小
      */
-    private static final int DEFAULT_COMPRESS_PHOTO_SIZE = 500;
+    private static final int DEFAULT_COMPRESS_PHOTO_SIZE = 1500;
 
     /**
      * Drawable转Bitmap
@@ -270,7 +270,7 @@ public final class ImageUtils {
      */
     @SuppressWarnings("WeakerAccess")
     public static String compressImage(Context context, String photoPath, int quality) {
-        return compressImage(context, Bitmap.CompressFormat.WEBP, photoPath, quality);
+        return compressImage(context, Bitmap.CompressFormat.JPEG, photoPath, quality);
     }
 
     /**
@@ -341,7 +341,7 @@ public final class ImageUtils {
      */
     @SuppressWarnings("WeakerAccess")
     public static String saveBitmap(Context context, Bitmap bitmap) {
-        String fileName = generateRandomPhotoName(context, Bitmap.CompressFormat.WEBP);
+        String fileName = generateRandomPhotoName(context, Bitmap.CompressFormat.JPEG);
         return saveBitmap(bitmap, Bitmap.CompressFormat.JPEG, fileName, DEFAULT_COMPRESS_QUALITY);
     }
 
@@ -351,7 +351,7 @@ public final class ImageUtils {
      */
     @SuppressWarnings("WeakerAccess")
     public static String saveBitmap(Context context, Bitmap bitmap, int quality) {
-        String fileName = generateRandomPhotoName(context, Bitmap.CompressFormat.WEBP);
+        String fileName = generateRandomPhotoName(context, Bitmap.CompressFormat.JPEG);
         return saveBitmap(bitmap, Bitmap.CompressFormat.JPEG, fileName, quality);
     }
 
