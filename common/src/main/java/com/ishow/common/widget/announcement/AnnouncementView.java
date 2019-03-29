@@ -51,6 +51,11 @@ public class AnnouncementView extends FrameLayout implements ViewSwitcher.ViewFa
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            if (mCurrentIndex >= mData.size() - 1) {
+                mCurrentIndex = 0;
+            } else {
+                mCurrentIndex++;
+            }
             updateView();
             mHandler.sendEmptyMessageDelayed(0, mDelayTime);
         }
@@ -150,11 +155,12 @@ public class AnnouncementView extends FrameLayout implements ViewSwitcher.ViewFa
         if (mData == null || mData.isEmpty()) {
             return null;
         }
-        if (mCurrentIndex > mData.size() - 1) {
-            return mData.get(0);
-        } else {
-            return mData.get(mCurrentIndex);
-        }
+
+        return mData.get(getCurrentIndex());
+    }
+
+    public int getCurrentIndex() {
+        return mCurrentIndex;
     }
 
     public void setLineSpacing(float add, float mult) {
@@ -175,13 +181,8 @@ public class AnnouncementView extends FrameLayout implements ViewSwitcher.ViewFa
         if (mOnAnnouncementChangedListener != null) {
             mOnAnnouncementChangedListener.onChanged(mData.get(mCurrentIndex), mCurrentIndex);
         }
-        if (mCurrentIndex >= mData.size() - 1) {
-            mCurrentIndex = 0;
-        } else {
-            mCurrentIndex++;
-        }
-    }
 
+    }
 
 
     /**
