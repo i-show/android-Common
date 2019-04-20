@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.ishow.common.extensions.inflate
 import com.ishow.common.utils.router.AppRouter
+import com.ishow.common.widget.tablayout.TabLayoutPro
 import com.ishow.noah.R
 import com.ishow.noah.modules.base.AppBaseFragment
 import com.ishow.noah.modules.sample.main.SampleMainActivity
@@ -34,6 +35,11 @@ class HomeFragment : AppBaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         topBar.setOnTopBarListener(this)
+        tabLayout.addTab(tabLayout.newTab().setText("储蓄卡"))
+        tabLayout.addTab(tabLayout.newTab().setText("信用卡"))
+
+        tabLayout2.addTab(tabLayout2.newTab().setText("储蓄卡"))
+        tabLayout2.addTab(tabLayout2.newTab().setText("信用卡"))
     }
 
 

@@ -195,6 +195,11 @@ android {
         ignoreWarnings true
     }
 
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+
     // 包名重命名，加上版本及日期
     android.applicationVariants.all { variant ->
         variant.outputs.all { output ->

@@ -57,6 +57,10 @@ public class DateUtils {
      */
     public static final long DAY_7 = 7L * DAY_1;
     /**
+     * 一月
+     */
+    public static final long ONE_MONTH = 30L * 24L * 60L * 60L * 1000L;
+    /**
      * 一年
      */
     public static final long ONE_YEAR = 365L * 24L * 60L * 60L * 1000L;
