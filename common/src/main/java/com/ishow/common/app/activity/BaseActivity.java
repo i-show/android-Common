@@ -138,6 +138,9 @@ public abstract class BaseActivity extends AppCompatActivity implements
     protected void initViews() {
         // 主动设置TopBar
         View topBarView = findViewById(R.id.top_bar);
+        if(topBarView == null){
+            topBarView = findViewById(R.id.topBar);
+        }
         if (topBarView instanceof TopBar) {
             TopBar topBar = (TopBar) topBarView;
             topBar.setOnTopBarListener(this);
@@ -145,6 +148,9 @@ public abstract class BaseActivity extends AppCompatActivity implements
 
         // 主动设置statusView
         View statusView = findViewById(R.id.status_view);
+        if(statusView == null) {
+            statusView = findViewById(R.id.statusView);
+        }
         if (statusView instanceof StatusView) {
             mStatusView = (StatusView) statusView;
             mStatusView.setOnStatusViewListener(this);

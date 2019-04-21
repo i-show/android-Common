@@ -65,7 +65,9 @@
 
 
     <item name="top_bar" type="id" />
+    <item name="topBar" type="id" />
     <item name="status_view" type="id" />
+    <item name="statusView" type="id" />
     <item name="water_mark_view" type="id" />
 
 </resources>
