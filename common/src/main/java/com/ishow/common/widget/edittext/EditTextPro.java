@@ -191,6 +191,8 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     private ColorStateList mTintColor;
 
     private OnEditTextListener mEditTextListener;
+    // 是否可以输入
+    private boolean isInputEnable = true;
 
     public EditTextPro(Context context) {
         this(context, null);
@@ -576,7 +578,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         if (id == R.id.cancel) {
             cancel();
         } else if (id == R.id.rightImage) {
-            updatePasswordVisibility(v);
+            updateViewByRightImage(v);
         }
     }
 
@@ -774,24 +776,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         return mRightImageView;
     }
 
-    /**
-     * 更新密码是否可见
-     */
-    private void updatePasswordVisibility(View v) {
-        int type = mInputView.getInputType();
-        if (type == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) {
-            mInputView.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);
-            v.setSelected(false);
-        } else {
-            mInputView.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-            v.setSelected(true);
-        }
 
-        Editable editable = mInputView.getText();
-        if (editable != null) {
-            mInputView.setSelection(editable.length());
-        }
-    }
 
     private void setDefaultPromptState(IPrompt prompt) {
         if (prompt == null) {
@@ -1091,6 +1076,58 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         return MeasureSpec.makeMeasureSpec(size, MeasureSpec.EXACTLY);
     }
 
+    /**
+     * 通过右侧的 RightAction来设置当前状态
+     */
+    private void updateViewByRightImage(View v){
+        switch (mRightImageAction){
+            case RightImageAction.SET_PASSWORD_VISIBILITY:
+                updatePasswordVisibility(v);
+                break;
+            case RightImageAction.SET_INPUT_ENABLE:
+                updateInputEnable(v);
+                break;
+        }
+    }
+
+    /**
+     * 更新密码是否可见
+     */
+    private void updatePasswordVisibility(View v) {
+        int type = mInputView.getInputType();
+        if (type == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) {
+            mInputView.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);
+            v.setSelected(false);
+        } else {
+            mInputView.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            v.setSelected(true);
+        }
+
+        Editable editable = mInputView.getText();
+        if (editable != null) {
+            mInputView.setSelection(editable.length());
+        }
+    }
+
+
+    /**
+     * 更新密码是否可见
+     */
+    private void updateInputEnable(View v) {
+        isInputEnable = !isInputEnable;
+        if (isInputEnable) {
+            mInputView.setFocusableInTouchMode(true);
+            mInputView.setFocusable(true);
+            mInputView.requestFocus();
+            v.setSelected(true);
+            showInput();
+        } else {
+            mInputView.setFocusableInTouchMode(false);
+            mInputView.setFocusable(false);
+            v.setSelected(false);
+            hideInput();
+        }
+    }
 
     public static final class RightImageAction {
         /**
@@ -1101,5 +1138,9 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
          * 设置密码是否可见
          */
         public final static int SET_PASSWORD_VISIBILITY = 4;
+        /**
+         * 设置是否可以输入
+         */
+        public final static int SET_INPUT_ENABLE = 8;
     }
 }
