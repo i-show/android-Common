@@ -765,9 +765,11 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
             mRightImageView.setBackground(mRightImageBackgroundDrawable);
             mRightImageView.setScaleType(ImageView.ScaleType.CENTER);
 
-            // 设置点击事件
-            if (mRightImageAction == RightImageAction.SET_PASSWORD_VISIBILITY) {
-                mRightImageView.setOnClickListener(this);
+            switch (mRightImageAction){
+                case RightImageAction.SET_PASSWORD_VISIBILITY:
+                case RightImageAction.SET_INPUT_ENABLE:
+                    mRightImageView.setOnClickListener(this);
+                    break;
             }
 
             setDefaultPromptState(mRightImageView);

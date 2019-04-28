@@ -378,7 +378,7 @@
     <attr name="rightImageAction">
         <enum name="none" value="0" />
         <enum name="setPasswordVisibility" value="4" />
-        <enum name="enable" value="8" />
+        <enum name="inputEnable" value="8" />
     </attr>
 
     <attr name="rightImage2" format="reference" />
