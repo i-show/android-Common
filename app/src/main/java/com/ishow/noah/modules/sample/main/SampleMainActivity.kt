@@ -20,6 +20,8 @@
 package com.ishow.noah.modules.sample.main
 
 import android.os.Bundle
+import android.util.Log
+import com.ishow.common.extensions.format2Money
 import com.ishow.common.widget.recyclerview.layoutmanager.FlowLayoutManager
 import com.ishow.noah.R
 import com.ishow.noah.modules.base.AppBaseActivity

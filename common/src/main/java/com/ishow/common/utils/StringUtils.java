@@ -47,7 +47,7 @@ public class StringUtils {
      * 人民币
      */
     @SuppressWarnings("unused")
-    public static final String MONEY = "￥";
+    public static final String MONEY = "¥";
     /**
      * 字符串0通常用来计算
      */
