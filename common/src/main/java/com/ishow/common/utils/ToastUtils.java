@@ -19,6 +19,7 @@ package com.ishow.common.utils;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.os.Handler;
 import android.support.annotation.StringRes;
 import android.util.Log;
 import android.widget.Toast;
@@ -54,7 +55,7 @@ public class ToastUtils {
     }
 
     @SuppressLint("ShowToast")
-    public static void show(Context context, CharSequence text, int duration) {
+    public static void show(final Context context, final CharSequence text, final int duration) {
         if (context == null) {
             Log.i(TAG, "makeText: context is null");
             return;
@@ -67,19 +68,21 @@ public class ToastUtils {
                 return;
             }
         }
-        if (mToast == null ) {
-            mToast = Toast.makeText(context.getApplicationContext(), text, duration);
-        } else {
-            mToast.setText(text);
-        }
-        mToast.show();
+
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(context, text, duration).show();
+            }
+        });
+
     }
 
     /**
      * 隐藏Toast
      */
     public static void dismiss() {
-        if (mToast == null ) {
+        if (mToast == null) {
             Log.i(TAG, "dismiss: toast is null");
             return;
         }
