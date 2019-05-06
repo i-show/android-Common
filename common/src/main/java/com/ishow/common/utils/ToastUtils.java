@@ -37,7 +37,7 @@ import java.lang.ref.WeakReference;
 public class ToastUtils {
     private static final String TAG = "ToastUtils";
 
-    private static WeakReference<Toast> mToast;
+    private static Toast mToast;
 
 
     public static void show(Context context, @StringRes int text) {
@@ -67,28 +67,23 @@ public class ToastUtils {
                 return;
             }
         }
-        Toast toast;
-        if (mToast == null || mToast.get() == null) {
-            toast = Toast.makeText(context.getApplicationContext(), text, duration);
-            mToast = new WeakReference<>(toast);
+        if (mToast == null ) {
+            mToast = Toast.makeText(context.getApplicationContext(), text, duration);
         } else {
-            toast = mToast.get();
-            toast.setText(text);
+            mToast.setText(text);
         }
-        toast.show();
+        mToast.show();
     }
 
     /**
      * 隐藏Toast
      */
     public static void dismiss() {
-        if (mToast == null || mToast.get() == null) {
+        if (mToast == null ) {
             Log.i(TAG, "dismiss: toast is null");
             return;
         }
-
-        Toast toast = mToast.get();
-        toast.cancel();
+        mToast.cancel();
     }
 
 }
