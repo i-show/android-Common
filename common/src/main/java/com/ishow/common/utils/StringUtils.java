@@ -54,6 +54,10 @@ public class StringUtils {
     @SuppressWarnings("unused")
     public static final String ZERO = "0";
     /**
+     * 空格
+     */
+    public static final String BLANK = " ";
+    /**
      * IP 正则表达式
      */
     public final static String REG_IP = "((?:(?:25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d)))\\.){3}(?:25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d))))";
