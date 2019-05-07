@@ -31,6 +31,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
+import android.text.method.MovementMethod;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -659,7 +660,7 @@ public class TextViewPro extends ViewGroup {
 
 
     @SuppressWarnings("UnusedReturnValue")
-    private TextView getTextView() {
+    public TextView getTextView() {
         if (mTextView == null) {
             mTextView = new AppCompatTextView(getContext());
             setInputEllipsize();
@@ -900,6 +901,13 @@ public class TextViewPro extends ViewGroup {
         mTextView.setTextColor(colorInt);
     }
 
+    public void setTextMovementMethod(MovementMethod movement) {
+        mTextView.setMovementMethod(movement);
+    }
+
+    public void setTextHighlightColor(int color) {
+        mTextView.setHighlightColor(color);
+    }
 
     public void setRightText(@StringRes int textRes) {
         String text = getContext().getString(textRes);
