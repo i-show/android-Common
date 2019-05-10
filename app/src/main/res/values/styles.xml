@@ -1,5 +1,12 @@
 <resources>
 
+    <style name="AppTopBar" parent="TopBar">
+        <item name="android:background">@color/color_accent</item>
+        <item name="textSize">18sp</item>
+        <item name="textColor">@color/white</item>
+        <item name="leftImage">@drawable/top_back_white_svg</item>
+    </style>
+
     <style name="AppEditText" parent="CommonEditText" />
 
     <style name="AppEditText.Login">
@@ -29,10 +36,10 @@
 
 
     <style name="AppButton.Submit">
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">@dimen/dp_300</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:layout_margin">@dimen/dp_30</item>
+        <item name="android:layout_marginTop">@dimen/dp_40</item>
         <item name="android:background">@drawable/round_accent_color_button_bg</item>
         <item name="android:textColor">@color/text_white_normal</item>
         <item name="android:textSize">@dimen/H_title</item>
@@ -41,8 +48,27 @@
 
     <style name="AppTextView" parent="CommonTextView" />
 
+    <style name="AppTextView.Agreement" />
+
+    <style name="AppTextView.Agreement.Header">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">-6dp</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">@color/text_grey_light</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="AppTextView.Agreement.Content">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#7091D3</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
     <style name="AppTextView.Login">
-        <item name="android:textSize">@dimen/I_title</item>
+        <item name="android:textSize">@dimen/J_title</item>
         <item name="android:textColor">@color/text_grey_light_normal</item>
         <item name="android:background">?selectableItemBackground</item>
         <item name="android:clickable">true</item>
@@ -56,50 +82,57 @@
     <style name="TextViewPro.Item">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingStart">@dimen/gap_grade_2</item>
-        <item name="android:paddingEnd">@dimen/gap_grade_2</item>
+        <item name="android:paddingStart">@dimen/default_xxpro_padding</item>
+        <item name="android:paddingEnd">@dimen/default_xxpro_padding</item>
+        <item name="android:background">@color/white</item>
+        <item name="leftTextColor">@color/text_grey</item>
+        <item name="leftTextSize">@dimen/J_title</item>
+        <item name="bottomLineNormalColor">@color/line</item>
         <item name="leftImageVisibility">gone</item>
         <item name="rightImageVisibility">gone</item>
         <item name="textGravity">right|center_vertical</item>
     </style>
 
-
-    <style name="EditTextPro" />
-
-    <style name="EditTextPro.Login">
+    <style name="TextViewPro.Mine">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/text_grey_normal</item>
-        <item name="android:textSize">@dimen/H_title</item>
-        <item name="android:textColorHint">@color/text_grey_hint</item>
-        <item name="android:layout_marginStart">@dimen/dp_30</item>
-        <item name="android:layout_marginEnd">@dimen/dp_30</item>
-        <item name="leftTextVisibility">gone</item>
+        <item name="android:paddingStart">@dimen/dp_10</item>
+        <item name="android:paddingEnd">@dimen/dp_10</item>
+        <item name="leftTextColor">@color/text_grey</item>
+        <item name="leftTextSize">@dimen/I_title</item>
+        <item name="leftImageVisibility">visible</item>
+        <item name="rightImageVisibility">visible</item>
+        <item name="textGravity">right|center_vertical</item>
+    </style>
+
+    <style name="EditTextPro">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">@dimen/default_xxpro_padding</item>
+        <item name="android:paddingEnd">@dimen/default_xxpro_padding</item>
+        <item name="android:background">@color/white</item>
+        <item name="leftTextColor">@color/text_grey</item>
+        <item name="leftTextSize">@dimen/J_title</item>
+        <item name="bottomLineNormalColor">@color/line</item>
+        <item name="inputTextSize">14sp</item>
+        <item name="inputTextColor">@color/text_grey_light</item>
+        <item name="inputHintTextColor">@color/text_grey_hint</item>
+    </style>
+
+    <style name="EditTextPro.Account">
+        <item name="leftImageVisibility">gone</item>
         <item name="rightImageVisibility">gone</item>
-        <item name="tintColor">@color/color_primary</item>
+        <item name="bottomLinePaddingStart">@dimen/default_xxpro_padding</item>
+        <item name="bottomLinePaddingEnd">@dimen/default_xxpro_padding</item>
         <item name="inputLines">1</item>
     </style>
 
-    <style name="EditTextPro.Register">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@android:color/white</item>
-        <item name="android:gravity">center</item>
-        <item name="leftImageVisibility">gone</item>
-        <item name="rightImageVisibility">gone</item>
-        <item name="android:paddingStart">@dimen/gap_grade_2</item>
-        <item name="android:paddingEnd">@dimen/gap_grade_2</item>
-    </style>
+    <style name="EditTextPro.Account.Login"></style>
 
-    <style name="EditTextPro.ForgotPassword">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@android:color/white</item>
-        <item name="android:paddingStart">@dimen/gap_grade_2</item>
-        <item name="android:paddingEnd">@dimen/gap_grade_2</item>
-        <item name="leftImageVisibility">gone</item>
-        <item name="rightImageVisibility">gone</item>
-    </style>
+    <style name="EditTextPro.Account.Register"></style>
+
+    <style name="EditTextPro.Account.ForgotPassword"></style>
+
 
     <style name="EditTextPro.Item">
         <item name="android:layout_width">match_parent</item>
@@ -126,29 +159,22 @@
         <item name="textColor">@color/normal_grey_selected_coloraccent</item>
     </style>
 
-
-    <style name="TextViewPro.LoanStatus">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:background">@color/white</item>
-        <item name="android:foreground">?android:selectableItemBackground</item>
-        <item name="leftTextSize">16sp</item>
-        <item name="leftTextColor">#383838</item>
-        <item name="textSize">14sp</item>
-        <item name="textColor">#9092A5</item>
-        <item name="bottomLineColor">#C2CADC</item>
-        <item name="leftImageMarginEnd">@dimen/dp_8</item>
-        <item name="android:layout_height">@dimen/dp_35</item>
-        <item name="android:paddingStart">0dp</item>
-        <item name="android:paddingEnd">0dp</item>
-        <item name="android:layout_marginStart">@dimen/dp_20</item>
-        <item name="android:layout_marginEnd">@dimen/dp_20</item>
-        <item name="textGravity">end|center_vertical</item>
-        <item name="leftImageVisibility">gone</item>
-        <item name="rightImageVisibility">gone</item>
-        <item name="rightTextGravity">end|center_vertical</item>
-        <item name="rightTextSize">14sp</item>
-        <item name="rightTextColor">#9092A5</item>
-        <item name="rightTextVisibility">visible</item>
-        <item name="bottomLineVisibility">gone</item>
+    <style name="VerifyCodeButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minWidth">@dimen/dp_90</item>
+        <item name="textColor">@color/verify_code_color</item>
+        <item name="textSize">@dimen/I_title</item>
     </style>
+
+    <style name="AppCheckBox" />
+
+    <style name="AppCheckBox.Agreement">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:scaleX">0.7</item>
+        <item name="android:scaleY">0.7</item>
+        <item name="android:text">@null</item>
+    </style>
+
 </resources>

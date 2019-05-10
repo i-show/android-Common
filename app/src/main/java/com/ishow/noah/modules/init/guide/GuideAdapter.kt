@@ -7,13 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import com.ishow.noah.R
 
+/**
+ * Created by yuhaiyang on 2018/8/8.
+ * Guide的Adapter
+ */
 internal class GuideAdapter( mContext: Context, private val mClickListener: View.OnClickListener) : PagerAdapter() {
 
     private val mLayoutInflater: LayoutInflater = LayoutInflater.from(mContext)
 
     companion object {
         private val GUIDE_IMAGES = intArrayOf(
-                R.drawable.guide_bg_1,
+                R.drawable.guide,
                 R.drawable.guide_bg_2,
                 R.drawable.guide_bg_3
         )

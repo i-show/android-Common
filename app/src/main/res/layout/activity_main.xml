@@ -15,7 +15,7 @@
         android:layout_weight="1" />
 
     <com.ishow.common.widget.BottomBar
-        android:id="@+id/bottom_bar"
+        android:id="@+id/bottomBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_bar_height"
         android:background="@drawable/top_line_white_normal_bg"

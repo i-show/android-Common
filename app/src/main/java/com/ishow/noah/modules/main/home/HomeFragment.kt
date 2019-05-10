@@ -34,19 +34,15 @@ class HomeFragment : AppBaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        topBar.setOnTopBarListener(this)
-        tabLayout.addTab(tabLayout.newTab().setText("储蓄卡"))
-        tabLayout.addTab(tabLayout.newTab().setText("信用卡"))
 
-        tabLayout2.addTab(tabLayout2.newTab().setText("储蓄卡"))
-        tabLayout2.addTab(tabLayout2.newTab().setText("信用卡"))
     }
 
 
     override fun onRightClick(v: View) {
         super.onRightClick(v)
-        val intent = Intent("com.yuhaiyang.androidcommon.Test")
-        startActivity(intent)
+        AppRouter.with(context)
+            .target(SampleMainActivity::class.java)
+            .start()
     }
 
     companion object {

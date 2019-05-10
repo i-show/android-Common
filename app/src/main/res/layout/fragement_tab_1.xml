@@ -7,31 +7,5 @@
     android:orientation="vertical">
 
 
-    <com.ishow.common.widget.TopBar
-        android:id="@+id/topBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:rightImage="@drawable/ic_list"
-        app:text="@string/tab_1" />
 
-
-    <com.ishow.common.widget.tablayout.TabLayoutPro
-        android:id="@+id/tabLayout"
-        android:layout_width="match_parent"
-        android:background="#33aa00ff"
-        android:layout_height="wrap_content"
-        app:tabIndicatorColor="@color/blue_500"
-        app:tabIndicatorFullWidth="false"
-        app:tabIndicatorHeight="10dp"/>
-
-    <com.ishow.common.widget.tablayout.TabLayoutPro
-        android:id="@+id/tabLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="#3300ffff"
-        app:tabIndicatorColor="@color/blue_500"
-        app:tabIndicatorFullWidth="false"
-        app:tabIndicatorWidth="50dp"
-        app:tabIndicatorRound="true"
-        app:tabIndicatorHeight="10dp"/>
 </LinearLayout>

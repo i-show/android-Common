@@ -24,12 +24,14 @@ import android.support.v4.view.ViewPager
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
+import com.ishow.common.utils.router.AppRouter
 import com.ishow.noah.R
 import com.ishow.noah.modules.account.login.LoginActivity
 import com.ishow.noah.modules.base.AppBaseActivity
 
 
 /**
+ * Created by yuhaiyang on 2018/8/8.
  * 引导页面
  */
 class GuideActivity : AppBaseActivity(), View.OnTouchListener, View.OnClickListener {
@@ -59,35 +61,33 @@ class GuideActivity : AppBaseActivity(), View.OnTouchListener, View.OnClickListe
     }
 
     private fun goToNext() {
-        val intent = Intent(this@GuideActivity, LoginActivity::class.java)
-        startActivity(intent)
-        this@GuideActivity.finish()
+        AppRouter.with(context)
+                .target(LoginActivity::class.java)
+                .flag(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                .finishSelf()
+                .start()
     }
 
 
     override fun resetStatusBar() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            val window = window
-            window.decorView.systemUiVisibility = (
-                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            or View.SYSTEM_UI_FLAG_FULLSCREEN
-                            or View.SYSTEM_UI_FLAG_IMMERSIVE
-                    )
+        val window = window
+        window.decorView.systemUiVisibility = (
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_IMMERSIVE
+                )
 
-            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
-        }
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
     }
 
 
     private fun hideStatusBar(v: View) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            v.systemUiVisibility = (
-                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            or View.SYSTEM_UI_FLAG_FULLSCREEN
-                            or View.SYSTEM_UI_FLAG_IMMERSIVE)
-        }
+        v.systemUiVisibility = (
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_IMMERSIVE)
     }
 
 

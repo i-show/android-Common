@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_12"
         android:layout_marginEnd="@dimen/dp_12"
-        android:background="@drawable/white_alpha_0_9_5_corner_16dp_bg"
+        android:background="@drawable/base_dialog_bg"
         android:orientation="vertical">
 
         <LinearLayout

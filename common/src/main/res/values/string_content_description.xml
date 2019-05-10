@@ -15,5 +15,11 @@
   -->
 
 <resources>
-    <string name="des_image">image</string>
+    <string name="des_image">图片</string>
+    <string name="des_icon">图标</string>
+    <string name="des_tips">提示</string>
+    <string name="des_background">背景</string>
+    <string name="des_merchandise">商品</string>
+    <string name="des_header">头像</string>
+    <string name="des_line">线</string>
 </resources>

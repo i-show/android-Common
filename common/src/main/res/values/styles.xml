@@ -98,16 +98,16 @@
         <item name="android:minHeight">@dimen/default_button_height</item>
         <item name="android:textSize">@dimen/H_title</item>
         <item name="android:textColor">@color/blue_400</item>
-        <item name="leftBackground">@drawable/white_alpha_0_9_5_corner_bottom_left_16dp_bg</item>
-        <item name="rightBackground">@drawable/white_alpha_0_9_5_corner_bottom_right_16dp_bg</item>
-        <item name="wholeBackground">@drawable/white_alpha_0_9_5_corner_bottom_16dp_bg</item>
+        <item name="leftBackground">@drawable/base_dialog_button_left</item>
+        <item name="rightBackground">@drawable/base_dialog_button_right</item>
+        <item name="wholeBackground">@drawable/base_dialog_button_whole</item>
         <item name="lineColor">@color/line</item>
     </style>
 
     <style name="BaseDialogButton.Bottom">
-        <item name="leftBackground">@drawable/white_alpha_0_9_5_corner_16dp_bg</item>
-        <item name="rightBackground">@drawable/white_alpha_0_9_5_corner_16dp_bg</item>
-        <item name="wholeBackground">@drawable/white_alpha_0_9_5_corner_16dp_bg</item>
+        <item name="leftBackground">@drawable/base_dialog_bg</item>
+        <item name="rightBackground">@drawable/base_dialog_bg</item>
+        <item name="wholeBackground">@drawable/base_dialog_bg</item>
     </style>
 
     <style name="Line" />

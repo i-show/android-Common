@@ -1,24 +1,19 @@
 package com.ishow.noah.modules.init.splash
 
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
-
 import com.ishow.common.utils.permission.PermissionDenied
 import com.ishow.common.utils.permission.PermissionGranted
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.noah.constant.Configure
-import com.ishow.noah.modules.account.login.LoginActivity
 import com.ishow.noah.modules.base.AppBaseActivity
-import com.ishow.noah.modules.init.guide.GuideActivity
 import com.ishow.noah.modules.main.MainActivity
 
 /**
  * Created by yuhaiyang on 2018/3/27.
  * Splash
  */
-
 class SplashActivity : AppBaseActivity(), SplashContract.View {
     private lateinit var mPresenter: SplashContract.Presenter
 

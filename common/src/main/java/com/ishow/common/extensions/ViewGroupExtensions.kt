@@ -17,7 +17,7 @@ fun ViewGroup.inflate(layoutRes: Int, attachToRoot: Boolean = false): View {
 /**
  * 子View隐藏显示动态布局
  */
-fun ViewGroup.animationChilds() {
+fun ViewGroup.animationChild() {
     this.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 }
 

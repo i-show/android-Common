@@ -18,13 +18,10 @@ package com.ishow.noah.modules.account.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
-
-import com.ishow.common.utils.StringUtils
+import com.ishow.common.extensions.animationChild
 import com.ishow.common.utils.router.AppRouter
-import com.ishow.common.widget.edittext.EditTextPro
+import com.ishow.common.widget.tablayout.TabLayoutPro
 import com.ishow.noah.R
 import com.ishow.noah.modules.account.password.forgot.ForgotPasswordActivity
 import com.ishow.noah.modules.account.register.RegisterActivity
@@ -34,6 +31,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 
 
 /**
+ * Created by yuhaiyang on 2018/8/8.
  * 登录界面
  */
 class LoginActivity : AppBaseActivity(), LoginContract.View, View.OnClickListener {
@@ -77,8 +75,33 @@ class LoginActivity : AppBaseActivity(), LoginContract.View, View.OnClickListene
 
     override fun initViews() {
         super.initViews()
+        root?.animationChild()
+        var tab = tabLayout.newTab()
+        tab.text = getString(R.string.login_password)
+        tabLayout.addTab(tab)
+        tab = tabLayout.newTab()
+        tab.text = getString(R.string.login_by_phone)
+        tabLayout.addTab(tab)
+        tabLayout.addOnTabSelectedListener(object : TabLayoutPro.OnTabSelectedListener {
+            override fun onTabUnselected(tab: TabLayoutPro.Tab?) {
+            }
 
-        mEditAccountView.addInputWatcher(mTextWatcher)
+            override fun onTabReselected(tab: TabLayoutPro.Tab?) {
+            }
+
+            override fun onTabSelected(tab: TabLayoutPro.Tab?) {
+                tab?.let {
+                    if (it.position == 0) {
+                        password.visibility = View.VISIBLE
+                        verifyCode.visibility = View.GONE
+                    } else {
+                        password.visibility = View.GONE
+                        verifyCode.visibility = View.VISIBLE
+                    }
+                }
+            }
+        })
+
         login.setOnClickListener(this)
         register.setOnClickListener(this)
         forgotPassword.setOnClickListener(this)
@@ -89,7 +112,7 @@ class LoginActivity : AppBaseActivity(), LoginContract.View, View.OnClickListene
         when (v.id) {
 
             R.id.login -> {
-                mPresenter.login(mEditAccountView.inputText, mEditPasswordView.inputText)
+                //mPresenter.login(mEditAccountView.inputText, mEditPasswordView.inputText)
             }
 
             R.id.register -> {
@@ -108,7 +131,7 @@ class LoginActivity : AppBaseActivity(), LoginContract.View, View.OnClickListene
 
 
     override fun updateUI(account: String) {
-        mEditAccountView.setInputText(account)
+        //account.setInputText(account)
     }
 
 
@@ -122,11 +145,6 @@ class LoginActivity : AppBaseActivity(), LoginContract.View, View.OnClickListene
     }
 
 
-    override fun onDestroy() {
-        super.onDestroy()
-        mEditAccountView.removeInputWatcher(mTextWatcher)
-    }
-
     override fun onBackPressed() {
         if (isGoToMain) {
             AppRouter.with(this@LoginActivity)
@@ -139,18 +157,5 @@ class LoginActivity : AppBaseActivity(), LoginContract.View, View.OnClickListene
         }
     }
 
-    private val mTextWatcher = object : TextWatcher {
-        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-
-        }
-
-        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-
-        }
-
-        override fun afterTextChanged(s: Editable) {
-            mEditPasswordView.setInputText(StringUtils.EMPTY)
-        }
-    }
 
 }

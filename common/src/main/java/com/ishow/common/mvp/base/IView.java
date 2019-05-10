@@ -21,7 +21,7 @@ import android.content.Context;
 /**
  * 自己修改过的
  */
-public interface IView {
+public interface IView extends IViewStatus{
 
     Context getContext();
 }

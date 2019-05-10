@@ -16,51 +16,67 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical">
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="110dp" />
 
-    <ImageView
+
+    <com.ishow.common.widget.tablayout.TabLayoutPro
+        android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/logo"
-        android:scaleType="center"
-        android:src="@drawable/logo" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3.5" />
+        android:layout_marginBottom="@dimen/dp_20"
+        app:tabIndicatorColor="@color/color_accent"
+        app:tabIndicatorPaddingEnd="@dimen/dp_30"
+        app:tabIndicatorPaddingStart="@dimen/dp_30"
+        app:tabSelectedTextColor="@color/color_accent"
+        app:tabTextSize="@dimen/I_title" />
 
 
     <com.ishow.common.widget.edittext.EditTextPro
-        android:id="@+id/mEditAccountView"
-        style="@style/EditTextPro.Login"
+        android:id="@+id/account"
+        style="@style/EditTextPro.Account.Login"
         app:inputHint="@string/login_hint_account"
-        app:leftImage="@drawable/ic_account" />
+        app:leftText="@string/login_account_tip" />
 
 
     <com.ishow.common.widget.edittext.EditTextPro
-        android:id="@+id/mEditPasswordView"
-        style="@style/EditTextPro.Login"
-        app:inputHint="@string/login_hint_passwrod"
+        android:id="@+id/password"
+        style="@style/EditTextPro.Account.Login"
+        app:inputHint="@string/login_hint_password"
         app:inputType="textPassword"
-        app:leftImage="@drawable/ic_password" />
+        app:leftText="@string/login_password_tip" />
 
+    <com.ishow.common.widget.edittext.EditTextPro
+        android:id="@+id/verifyCode"
+        style="@style/EditTextPro.Account.Login"
+        android:visibility="gone"
+        app:cancelEnable="false"
+        app:customizeViewId="@+id/sendVerifyCode"
+        app:inputHint="@string/register_hint_verify_code"
+        app:inputTextMaxLength="@integer/verify_code_max_length"
+        app:inputType="number"
+        app:leftText="@string/register_tip_verify_code">
+
+        <com.ishow.common.widget.VerifyCodeButton
+            android:id="@+id/sendVerifyCode"
+            style="@style/VerifyCodeButton" />
+    </com.ishow.common.widget.edittext.EditTextPro>
 
     <Button
         android:id="@+id/login"
         style="@style/AppButton.Login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/gap_grade_5"
+        android:layout_marginTop="@dimen/dp_20"
         android:text="@string/login" />
 
     <LinearLayout
@@ -80,7 +96,7 @@
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/forgotPassword"
@@ -93,11 +109,6 @@
 
 
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3" />
 
 
 </LinearLayout>

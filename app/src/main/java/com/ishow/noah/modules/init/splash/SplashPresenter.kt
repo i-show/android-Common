@@ -54,7 +54,7 @@ internal class SplashPresenter(private val mView: SplashContract.View) : SplashC
 
     override val target: Target
         get() {
-            if (VersionManager.isFirstEnterThisVersion()) {
+            if (VersionManager.isFirstEnterThisVersion) {
                 return Target.GUIDE
             }
             return if (mLoginSuccess) Target.MAIN else Target.LOGIN
@@ -85,9 +85,9 @@ internal class SplashPresenter(private val mView: SplashContract.View) : SplashC
         isInitFinished = false
         mLoginSuccess = false
         // 配置管理
-        ConfigureManager.getInstance().init(activity)
+        ConfigureManager.instance.init(activity)
         // 更新版本信息
-        VersionManager.getInstance().init(activity)
+        VersionManager.instance.init(activity)
         // 登录
         login(activity)
     }
@@ -97,7 +97,7 @@ internal class SplashPresenter(private val mView: SplashContract.View) : SplashC
      * 验证登录
      */
     private fun login(context: Context) {
-        val accessToken = UserManager.getInstance().getAccessToken(context)
+        val accessToken = UserManager.instance.getAccessToken(context)
         if (TextUtils.isEmpty(accessToken)) {
             isInitFinished = true
             mView.next()
@@ -121,7 +121,7 @@ internal class SplashPresenter(private val mView: SplashContract.View) : SplashC
                     }
 
                     override fun onSuccess(result: UserContainer) {
-                        val userManager = UserManager.getInstance()
+                        val userManager = UserManager.instance
                         userManager.setUserContainer(context, result)
                         isInitFinished = true
                         mLoginSuccess = true

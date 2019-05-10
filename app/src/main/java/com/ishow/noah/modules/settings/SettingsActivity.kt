@@ -16,21 +16,18 @@
 
 package com.ishow.noah.modules.settings
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
-
+import com.ishow.common.utils.AppUtils
+import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.widget.TopBar
-import com.ishow.common.widget.textview.TextViewPro
+import com.ishow.common.widget.dialog.BaseDialog
 import com.ishow.noah.R
 import com.ishow.noah.modules.account.login.LoginActivity
 import com.ishow.noah.modules.base.AppBaseActivity
-import com.ishow.common.utils.AppUtils
 import com.ishow.noah.modules.egg.EggActivity
-import com.ishow.common.utils.router.AppRouter
-import com.ishow.common.widget.dialog.BaseDialog
 import kotlinx.android.synthetic.main.activity_settings.*
 
 /**

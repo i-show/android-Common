@@ -17,8 +17,6 @@
 package com.ishow.noah.modules.account.login
 
 
-import android.content.Context
-
 import com.ishow.common.mvp.base.IPresenter
 import com.ishow.common.mvp.base.IView
 import com.ishow.common.mvp.base.IViewStatus

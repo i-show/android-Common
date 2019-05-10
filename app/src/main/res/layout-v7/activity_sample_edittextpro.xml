@@ -24,20 +24,24 @@
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:leftImage="@drawable/ic_back_white"
         app:text="@string/sample_permission" />
 
-    <View
-        android:layout_width="15dp"
-        android:layout_height="5dp"
-        android:background="#FF00" />
+    <com.ishow.common.widget.textview.TextViewPro
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftText="1211"/>
+
+    <com.ishow.common.widget.textview.TextViewPro
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftText="1211"/>
 
     <com.ishow.common.widget.edittext.EditTextPro
         android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:editable="false"
-        app:leftImage="@drawable/ic_account"
+        app:leftImage="@drawable/ic_develop_svg"
         app:leftText="@string/forgot_password_tip_password" />
 
 
@@ -45,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:inputType="textPassword"
-        app:leftImage="@drawable/ic_account"
+        app:leftImage="@drawable/ic_develop_svg"
         app:leftText="@string/forgot_password_tip_password"
         app:leftTextMarginEnd="15dp"
         app:rightImage="@drawable/ic_password_visibility"
@@ -61,7 +65,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
-        app:leftImage="@drawable/ic_account"
+        app:leftImage="@drawable/ic_develop_svg"
         app:leftText="@string/forgot_password_tip_password"
         app:rightText="提示"
         app:rightTextVisibility="visible" />

@@ -24,7 +24,6 @@
         android:id="@+id/mTopBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:leftImage="@drawable/ic_back_white"
         app:secret="true"
         app:text="@string/settings" />
 
@@ -36,10 +35,6 @@
         <com.ishow.common.widget.textview.TextViewPro
             android:id="@+id/version"
             style="@style/TextViewPro.Item"
-            android:paddingEnd="@dimen/gap_grade_8"
-            android:paddingStart="@dimen/gap_grade_1"
-            app:leftImage="@drawable/ic_version"
-            app:leftImageVisibility="visible"
             app:leftText="@string/settings_link_now_version"
             app:textSize="@dimen/I_title" />
     </LinearLayout>

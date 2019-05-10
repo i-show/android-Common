@@ -77,9 +77,11 @@
             android:screenOrientation="portrait" />
         <!--菜单界面-->
         <activity
-            android:name=".modules.egg.detail.EggAppInfoActivitiy"
+            android:name=".modules.egg.detail.EggAppInfoActivity"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".modules.base.ExitAppActivity"
+            android:launchMode="singleTask"/>
         <!--++++++++++++++++++++控件或者工具的Demo区域（init）++++++++++++++++++++++++++-->
         <!--Demo的主类-->
         <activity

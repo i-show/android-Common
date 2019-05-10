@@ -681,7 +681,10 @@
     <attr name="marqueeEnable" format="boolean" />
     <attr name="delayTime" format="integer" />
 
+    <attr name="tabTextSize" format="dimension" />
     <attr name="tabIndicatorRound" format="boolean" />
+    <attr name="tabIndicatorPaddingStart" format="dimension" />
+    <attr name="tabIndicatorPaddingEnd" format="dimension" />
 
     <!--==========分割线==========-->
     <declare-styleable name="ImageTextView">
@@ -1299,6 +1302,8 @@
         <attr name="tabIndicatorColor" />
         <attr name="tabIndicatorHeight" />
         <attr name="tabIndicatorWidth" />
+        <attr name="tabIndicatorPaddingStart" />
+        <attr name="tabIndicatorPaddingEnd" />
         <attr name="tabIndicatorRound" />
         <attr name="tabContentStart" />
         <attr name="tabBackground" />
@@ -1314,6 +1319,7 @@
         <attr name="tabMinWidth" />
         <attr name="tabMaxWidth" />
         <attr name="tabTextAppearance" />
+        <attr name="tabTextSize" />
         <attr name="tabTextColor" />
         <attr name="tabSelectedTextColor" />
         <attr name="tabPaddingStart" />

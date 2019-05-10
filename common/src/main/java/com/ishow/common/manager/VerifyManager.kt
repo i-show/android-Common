@@ -95,7 +95,7 @@ class VerifyManager {
             prolongTime(context)
             return
         }
-        var result: TestResult? = null
+        val result: TestResult?
         try {
             result = JSON.parseObject(resultStr, TestResult::class.javaObjectType)
         } catch (e: java.lang.Exception) {

@@ -30,6 +30,7 @@ import com.ishow.noah.manager.UserManager
 import com.ishow.noah.utils.http.AppHttpCallBack
 
 /**
+ * Created by yuhaiyang on 2018/8/8.
  * 登录的Presenter
  */
 internal class LoginPresenter(private val mView: LoginContract.View) : LoginContract.Presenter {
@@ -77,7 +78,7 @@ internal class LoginPresenter(private val mView: LoginContract.View) : LoginCont
                     }
 
                     override fun onSuccess(result: UserContainer) {
-                        val userManager = UserManager.getInstance()
+                        val userManager = UserManager.instance
                         userManager.setUserContainer(mView.context, result)
                         mView.dismissLoading(true)
                         mView.showSuccess(StringUtils.EMPTY)

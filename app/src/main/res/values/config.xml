@@ -23,6 +23,8 @@
     <integer name="max_password">12</integer>
     <integer name="max_address_user_name">20</integer>
     <integer name="max_address_detail_address">100</integer>
+    <integer name="verify_code_max_length">6</integer>
+    <dimen name="default_xxpro_padding">@dimen/dp_20</dimen>
 
     <dimen name="bottom_bar_height">@dimen/dp_60</dimen>
     <dimen name="item_height">@dimen/dp_52</dimen>

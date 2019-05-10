@@ -220,6 +220,8 @@ public class TabLayoutPro extends HorizontalScrollView {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TabLayoutPro);
 
         mTabStrip.setSelectedIndicatorWidth(a.getDimensionPixelSize(R.styleable.TabLayoutPro_tabIndicatorWidth, 0));
+        mTabStrip.setSelectedIndicatorPaddingStart(a.getDimensionPixelSize(R.styleable.TabLayoutPro_tabIndicatorPaddingStart, 0));
+        mTabStrip.setSelectedIndicatorPaddingEnd(a.getDimensionPixelSize(R.styleable.TabLayoutPro_tabIndicatorPaddingEnd, 0));
         mTabStrip.setSelectedIndicatorHeight(a.getDimensionPixelSize(R.styleable.TabLayoutPro_tabIndicatorHeight, UnitUtils.dip2px(2)));
         mTabStrip.setIndicatorRound(a.getBoolean(R.styleable.TabLayoutPro_tabIndicatorRound, false));
         mTabStrip.setSelectedIndicatorColor(a.getColor(R.styleable.TabLayoutPro_tabIndicatorColor, Color.BLUE));
@@ -253,6 +255,11 @@ public class TabLayoutPro extends HorizontalScrollView {
         if (a.hasValue(R.styleable.TabLayoutPro_tabTextColor)) {
             // If we have an explicit text color set, use it instead
             mTabTextColors = a.getColorStateList(R.styleable.TabLayoutPro_tabTextColor);
+        }
+
+        if (a.hasValue(R.styleable.TabLayoutPro_tabTextSize)) {
+            // If we have an explicit text color set, use it instead
+            mTabTextSize = a.getDimensionPixelSize(R.styleable.TabLayoutPro_tabTextSize, 0);
         }
 
         if (a.hasValue(R.styleable.TabLayoutPro_tabSelectedTextColor)) {
@@ -1709,6 +1716,8 @@ public class TabLayoutPro extends HorizontalScrollView {
     private class SlidingTabStrip extends LinearLayout {
         private int mSelectedIndicatorHeight;
         private int mSelectedIndicatorWidth;
+        private int mSelectedIndicatorPaddingStart;
+        private int mSelectedIndicatorPaddingEnd;
         private final Paint mSelectedIndicatorPaint;
 
         int mSelectedPosition = -1;
@@ -1745,6 +1754,20 @@ public class TabLayoutPro extends HorizontalScrollView {
         void setSelectedIndicatorWidth(int width) {
             if (mSelectedIndicatorWidth != width) {
                 mSelectedIndicatorWidth = width;
+                ViewCompat.postInvalidateOnAnimation(this);
+            }
+        }
+
+        void setSelectedIndicatorPaddingStart(int size) {
+            if (mSelectedIndicatorPaddingStart != size) {
+                mSelectedIndicatorPaddingStart = size;
+                ViewCompat.postInvalidateOnAnimation(this);
+            }
+        }
+
+        void setSelectedIndicatorPaddingEnd(int size) {
+            if (mSelectedIndicatorPaddingEnd != size) {
+                mSelectedIndicatorPaddingEnd = size;
                 ViewCompat.postInvalidateOnAnimation(this);
             }
         }
@@ -1988,6 +2011,9 @@ public class TabLayoutPro extends HorizontalScrollView {
                     left = mIndicatorLeft + (width - mSelectedIndicatorWidth) / 2;
                     right = left + mSelectedIndicatorWidth;
                 }
+
+                left = left + mSelectedIndicatorPaddingStart;
+                right = right - mSelectedIndicatorPaddingEnd;
 
                 if (isTabIndicatorRound) {
                     canvas.drawRoundRect(left,

@@ -20,19 +20,35 @@
         <item name="android:overScrollMode">never</item>
         <item name="android:divider">@color/line</item>
         <item name="android:dividerHeight">1px</item>
+        <!--  TopBar 的style -->
+        <item name="topBarStyle">@style/AppTopBar</item>
     </style>
+
 
     <!-- 现在App的Theme -->
     <style name="AppTheme" parent="AppBaseTheme">
-        <!-- Customize your theme here. -->
+        <item name="android:overScrollMode">never</item>
+        <item name="android:screenOrientation">portrait</item>
+        <item name="android:divider">@color/line</item>
+        <item name="android:dividerHeight">1px</item>
+        <item name="android:statusBarColor">@color/color_primary</item>
     </style>
+
     <!-- Splash界面 -->
     <style name="AppTheme.Splash" parent="Theme.NoActionBar.Fullscreen">
         <item name="android:windowBackground">@drawable/splash</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentNavigation">true</item>
     </style>
+
+    <!-- 登录界面 -->
+    <style name="AppTheme.Login">
+        <item name="colorPrimaryDark">@null</item>
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+
 
     <style name="AppTheme.Guide" parent="Theme.NoActionBar.Fullscreen"/>
 
-    <style name="AppTheme.Login"/>
 
 </resources>
