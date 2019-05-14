@@ -299,8 +299,6 @@ public class VerifyCodeButton extends FrameLayout {
                 .key(mStatusKey)
                 .get(null);
 
-        Log.i(TAG, "onAttachedToWindow: lastStatus = " + lastStatus);
-
         if (TextUtils.isEmpty(lastStatus)) {
             return;
         }
@@ -308,7 +306,6 @@ public class VerifyCodeButton extends FrameLayout {
         Status status = JSON.parseObject(lastStatus, Status.class);
 
         int remainTime = status.remainTime - (int) (System.currentTimeMillis() - status.startDate) / 1000;
-        Log.i(TAG, "onAttachedToWindow: remainTime = " + remainTime);
         if (remainTime > 0) {
             startTiming(status.maxTime, remainTime);
         } else {
@@ -345,6 +342,20 @@ public class VerifyCodeButton extends FrameLayout {
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
         mDisplayView.setEnabled(enabled);
+    }
+
+    /**
+     * 是否正在倒计时
+     */
+    public boolean isTiming() {
+        return mCurrentTime > 0;
+    }
+
+    /**
+     * 获取当前的时间
+     */
+    public int getCurrentTime() {
+        return mCurrentTime;
     }
 
     /**
