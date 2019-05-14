@@ -138,7 +138,7 @@ public abstract class BaseFragment extends Fragment implements
 
     /**
      * @param message    显示的内容
-     * @param finishSelf 是否关闭acitivity
+     * @param finishSelf 是否关闭activity
      */
     protected Dialog dialog(@StringRes int message, boolean finishSelf) {
         return dialog(message, finishSelf, false);
@@ -147,7 +147,7 @@ public abstract class BaseFragment extends Fragment implements
     /**
      * @param title      标题
      * @param message    显示的内容
-     * @param finishSelf 是否关闭acitivity
+     * @param finishSelf 是否关闭activity
      */
     protected Dialog dialog(@StringRes int title, @StringRes int message, boolean finishSelf) {
         return dialog(title, message, finishSelf, false);
@@ -155,7 +155,7 @@ public abstract class BaseFragment extends Fragment implements
 
     /**
      * @param message    显示的内容
-     * @param finishSelf 是否关闭acitivity
+     * @param finishSelf 是否关闭activity
      * @param cancelable 是否可以点击取消
      */
     protected Dialog dialog(@StringRes int message, final boolean finishSelf, boolean cancelable) {
@@ -166,7 +166,7 @@ public abstract class BaseFragment extends Fragment implements
     /**
      * @param title      标题
      * @param message    显示的内容
-     * @param finishSelf 是否关闭acitivity
+     * @param finishSelf 是否关闭activity
      * @param cancelable 是否可以点击取消
      */
     protected Dialog dialog(@StringRes int title, @StringRes int message, final boolean finishSelf, boolean cancelable) {
@@ -208,7 +208,7 @@ public abstract class BaseFragment extends Fragment implements
 
     /**
      * @param message    显示的内容
-     * @param finishSelf 是否关闭acitivity
+     * @param finishSelf 是否关闭activity
      */
     protected Dialog dialog(String message, boolean finishSelf) {
         return dialog(message, finishSelf, false);
@@ -220,7 +220,7 @@ public abstract class BaseFragment extends Fragment implements
      *
      * @param title      标题
      * @param message    显示的内容
-     * @param finishSelf 是否关闭acitivity
+     * @param finishSelf 是否关闭activity
      */
     protected Dialog dialog(String title, String message, boolean finishSelf) {
         return dialog(title, message, finishSelf, false);
@@ -228,7 +228,7 @@ public abstract class BaseFragment extends Fragment implements
 
     /**
      * @param message    显示的内容
-     * @param finishSelf 是否关闭acitivity
+     * @param finishSelf 是否关闭activity
      * @param cancelable 是否可以点击取消
      */
     protected Dialog dialog(String message, final boolean finishSelf, boolean cancelable) {
@@ -239,7 +239,7 @@ public abstract class BaseFragment extends Fragment implements
     /**
      * @param title      标题
      * @param message    显示的内容
-     * @param finishSelf 是否关闭acitivity
+     * @param finishSelf 是否关闭activity
      * @param cancelable 是否可以点击取消
      */
     protected Dialog dialog(String title, String message, final boolean finishSelf, boolean cancelable) {
@@ -304,12 +304,33 @@ public abstract class BaseFragment extends Fragment implements
     }
 
     @Override
+    public void showError(int message, boolean dialog, int errorType) {
+        if (dialog) {
+            dialog(message);
+        } else if (mStatusView != null) {
+            mStatusView.showError();
+        }
+    }
+
+    @Override
     public void showSuccess(String message) {
 
     }
 
     @Override
+    public void showSuccess(int message) {
+
+    }
+
+    @Override
     public void showEmpty(String message) {
+        if (mStatusView != null) {
+            mStatusView.showEmpty();
+        }
+    }
+
+    @Override
+    public void showEmpty(int message) {
         if (mStatusView != null) {
             mStatusView.showEmpty();
         }

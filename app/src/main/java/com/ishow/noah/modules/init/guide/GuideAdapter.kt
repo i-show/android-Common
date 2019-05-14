@@ -18,8 +18,8 @@ internal class GuideAdapter( mContext: Context, private val mClickListener: View
     companion object {
         private val GUIDE_IMAGES = intArrayOf(
                 R.drawable.guide,
-                R.drawable.guide_bg_2,
-                R.drawable.guide_bg_3
+                R.drawable.guide,
+                R.drawable.guide
         )
     }
 
