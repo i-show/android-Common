@@ -16,6 +16,8 @@
 
 package com.ishow.common.mvp.base;
 
+import android.support.annotation.StringRes;
+
 /**
  * Created by yuhaiyang on 2017/5/2.
  * View状态的更新
@@ -40,6 +42,13 @@ public interface IViewStatus {
     void showError(String message, boolean dialog, int errorType);
 
     /**
+     * 加载失败
+     *
+     * @param errorType 预防点击退出
+     */
+    void showError(@StringRes int message, boolean dialog, int errorType);
+
+    /**
      * 加载成功
      */
     void showSuccess(String message);
@@ -47,5 +56,15 @@ public interface IViewStatus {
     /**
      * 加载成功
      */
+    void showSuccess(@StringRes int message);
+
+    /**
+     * 展示空数据
+     */
     void showEmpty(String message);
+
+    /**
+     * 展示空数据
+     */
+    void showEmpty(@StringRes int message);
 }

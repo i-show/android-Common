@@ -177,8 +177,6 @@ public class VerifyCodeButton extends FrameLayout {
 
         final String contextName = context.getClass().getName();
         mStatusKey = contextName.replace(".", "_") + "_" + getId();
-        Log.i(TAG, "VerifyCodeButton: mStatusKey = " + mStatusKey);
-
     }
 
     /**
@@ -249,6 +247,7 @@ public class VerifyCodeButton extends FrameLayout {
     private TextView getDisplayView() {
         final int padding = getDefaultPadding();
         TextView textView = new TextView(getContext());
+        textView.setIncludeFontPadding(false);
         textView.setLayoutParams(getDefaultParam());
         textView.setGravity(Gravity.CENTER);
         textView.setText(mTextStr);
@@ -345,13 +344,6 @@ public class VerifyCodeButton extends FrameLayout {
         super.setEnabled(enabled);
         mDisplayView.setEnabled(enabled);
     }
-
-    @Override
-    protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
-        super.onVisibilityChanged(changedView, visibility);
-        Log.i(TAG, "onVisibilityChanged: visibility = " + visibility);
-    }
-
 
     /**
      * 时间监听

@@ -122,13 +122,13 @@ public class BaseDialog extends Dialog implements DialogInterface {
             return;
         }
 
-        super.show();
-
         Window window = getWindow();
         if (window == null) {
             Log.i(TAG, "show: window is null");
             return;
         }
+
+        super.show();
 
         LayoutParams lp = window.getAttributes();
         int width = DeviceUtils.getScreenSize()[0];

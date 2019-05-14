@@ -138,7 +138,7 @@ public abstract class BaseActivity extends AppCompatActivity implements
     protected void initViews() {
         // 主动设置TopBar
         View topBarView = findViewById(R.id.top_bar);
-        if(topBarView == null){
+        if (topBarView == null) {
             topBarView = findViewById(R.id.topBar);
         }
         if (topBarView instanceof TopBar) {
@@ -148,7 +148,7 @@ public abstract class BaseActivity extends AppCompatActivity implements
 
         // 主动设置statusView
         View statusView = findViewById(R.id.status_view);
-        if(statusView == null) {
+        if (statusView == null) {
             statusView = findViewById(R.id.statusView);
         }
         if (statusView instanceof StatusView) {
@@ -431,7 +431,26 @@ public abstract class BaseActivity extends AppCompatActivity implements
     }
 
     @Override
+    public void showError(final int message, final boolean dialog, int errorType) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (dialog) {
+                    dialog(message);
+                } else if (mStatusView != null) {
+                    mStatusView.showError();
+                }
+            }
+        });
+    }
+
+    @Override
     public void showSuccess(String message) {
+
+    }
+
+    @Override
+    public void showSuccess(int message) {
 
     }
 
@@ -446,6 +465,18 @@ public abstract class BaseActivity extends AppCompatActivity implements
             }
         });
 
+    }
+
+    @Override
+    public void showEmpty(int message) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mStatusView != null) {
+                    mStatusView.showEmpty();
+                }
+            }
+        });
     }
 
 
@@ -468,16 +499,14 @@ public abstract class BaseActivity extends AppCompatActivity implements
             isLightBar = false;
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            if (setMIUIStatusBarLightMode(getWindow(), isLightBar)) {
-                result = 1;
-            } else if (setFlymeStatusBarLightMode(getWindow(), isLightBar)) {
-                result = 2;
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                result = 3;
-            }
-            getWindow().getDecorView().setSystemUiVisibility(visibility);
+        if (setMIUIStatusBarLightMode(getWindow(), isLightBar)) {
+            result = 1;
+        } else if (setFlymeStatusBarLightMode(getWindow(), isLightBar)) {
+            result = 2;
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            result = 3;
         }
+        getWindow().getDecorView().setSystemUiVisibility(visibility);
         return result;
     }
 
