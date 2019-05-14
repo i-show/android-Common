@@ -82,6 +82,7 @@ public class VerifyCodeButton extends FrameLayout {
      */
     private OnTimingListener mTimingListener;
     private String mTextStr;
+    private String mTimingTextStr;
 
     /**
      * 字体的颜色
@@ -116,7 +117,7 @@ public class VerifyCodeButton extends FrameLayout {
                         if (mTimingListener != null) {
                             mTimingListener.onTiming(mCurrentTime);
                         }
-                        mDisplayView.setText(getContext().getString(R.string.second_timing, mCurrentTime));
+                        updateTiming();
                         sendEmptyMessageDelayed(HANDLER_TIME, 1000);
                     }
                     break;
@@ -152,6 +153,7 @@ public class VerifyCodeButton extends FrameLayout {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.VerifyCodeButton);
         int padding = a.getDimensionPixelSize(R.styleable.VerifyCodeButton_android_padding, getDefaultPadding());
         mTextStr = a.getString(R.styleable.VerifyCodeButton_text);
+        mTimingTextStr = a.getString(R.styleable.VerifyCodeButton_timingText);
         mTextColor = a.getColorStateList(R.styleable.VerifyCodeButton_textColor);
         mTextSize = a.getDimensionPixelSize(R.styleable.VerifyCodeButton_textSize, getDefaultTextSize());
         a.recycle();
@@ -343,6 +345,21 @@ public class VerifyCodeButton extends FrameLayout {
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
         mDisplayView.setEnabled(enabled);
+    }
+
+    /**
+     * 更新计时器
+     */
+    private void updateTiming() {
+        if (TextUtils.isEmpty(mTimingTextStr)) {
+            mDisplayView.setText(getContext().getString(R.string.second_timing, mCurrentTime));
+        } else if (mTimingTextStr.contains("%d")) {
+            mDisplayView.setText(String.format(mTimingTextStr, mCurrentTime));
+        } else if (mTimingTextStr.contains("%s")) {
+            mDisplayView.setText(String.format(mTimingTextStr, String.valueOf(mCurrentTime)));
+        } else {
+            throw new IllegalStateException("timingText must %d or %s");
+        }
     }
 
     /**

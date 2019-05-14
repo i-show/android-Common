@@ -66,6 +66,7 @@
     <string name="login_password_tip">密码：</string>
     <string name="login_account_tip">手机号：</string>
     <string name="agree">同意</string>
+    <string name="register_timing_text">重新发送(%d)</string>
 
 
 </resources>

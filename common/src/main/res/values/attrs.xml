@@ -78,6 +78,8 @@
     <attr name="subTextSize" format="dimension" />
     <attr name="subTextColor" format="color" />
 
+    <attr name="timingText" format="string" />
+
     <attr name="inputBackground" format="reference|color" />
     <attr name="inputHint" format="string" />
     <attr name="inputMarginStart" format="dimension" />
@@ -839,6 +841,7 @@
     <declare-styleable name="VerifyCodeButton">
         <attr name="android:padding" />
         <attr name="text" />
+        <attr name="timingText" />
         <attr name="textSize" />
         <attr name="textColor" />
     </declare-styleable>
