@@ -9,12 +9,10 @@ import android.support.annotation.AnimRes;
 import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.util.Log;
-
-
-import com.ishow.common.R;
+import com.ishow.common.utils.cache.LRUCache;
+import com.ishow.common.utils.log.LogManager;
 
 import java.io.Serializable;
-import java.lang.ref.WeakReference;
 
 /**
  * Created by yuhaiyang on 2017/12/12.
@@ -24,29 +22,37 @@ import java.lang.ref.WeakReference;
 public class AppRouter {
     private static final String TAG = "AppRouter";
     /**
+     * 路由缓存时间设置
+     */
+    private static final int MAX_ROUTER_CACHE_SIZE = 20;
+    /**
      * 非法的标记位
      */
-    @SuppressWarnings("WeakerAccess")
     public static final int INVALID_FLAGS = -512;
     /**
-     * 上次路由时间
+     * 路由跳转的间隔时间
      */
-    private static long mLastRouteTime;
+    private static final int S_INTERVAL_OF_ROUTE_TIME = 300;
+
     private Context mContext;
     private String mAction;
     private String mUrl;
     private String mScheme;
     private String mHost;
+    private String mPackageName;
     private Class<?> mClass;
 
     private Bundle mParams;
     private int mRequestCode;
     private int mFlag;
-    private int mAnimation[];
+    private int[] mAnimation;
     private boolean isFinish;
 
     private static AbsRouterConfigure config;
-    private static WeakReference<AppRouter> mRouter;
+    /**
+     * 路由时间判定
+     */
+    private static LRUCache<String, Long> sRouteTime = new LRUCache<>(MAX_ROUTER_CACHE_SIZE);
 
     private AppRouter() {
         mFlag = INVALID_FLAGS;
@@ -55,185 +61,133 @@ public class AppRouter {
     }
 
 
-    public static void setConfigure(AbsRouterConfigure custom){
+    public static void setConfigure(AbsRouterConfigure custom) {
         config = custom;
     }
 
     public static AppRouter with(Context context) {
         AppRouter router = new AppRouter();
         router.mContext = context;
-        mRouter = new WeakReference<>(router);
+        router.mPackageName = context.getPackageName();
         return router;
     }
 
 
     public AppRouter action(String action) {
-        AppRouter router = getRouter();
-        if (router == null) {
-            return null;
-        }
-        router.mAction = action;
-        return router;
+        mAction = action;
+        return this;
     }
 
     public AppRouter url(Uri uri) {
-        AppRouter router = getRouter();
-        if (router == null) {
-            return null;
-        }
         if (uri != null) {
-            router.mUrl = uri.toString();
+            mUrl = uri.toString();
         }
-        return router;
+        return this;
     }
 
     public AppRouter url(String url) {
-        AppRouter router = getRouter();
-        if (router == null) {
-            return null;
-        }
-        router.mUrl = url;
-        return router;
+        mUrl = url;
+        return this;
     }
 
     @SuppressWarnings("unused")
     public AppRouter scheme(String scheme) {
-        AppRouter router = getRouter();
-        if (router == null) {
-            return null;
-        }
-        router.mScheme = scheme;
-        return router;
+        mScheme = scheme;
+        return this;
     }
 
-    @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
+    @SuppressWarnings({"UnusedReturnValue"})
     public AppRouter scheme(@StringRes int scheme) {
-        AppRouter router = getRouter();
-        if (router == null) {
-            return null;
-        }
-        router.mScheme = router.mContext.getString(scheme);
-        return router;
+        mScheme = mContext.getString(scheme);
+        return this;
     }
 
     @SuppressWarnings("unused")
     public AppRouter host(String host) {
-        AppRouter router = getRouter();
-        if (router == null) {
-            return null;
-        }
-        router.mHost = host;
-        return router;
+        mHost = host;
+        return this;
     }
 
     @SuppressWarnings("unused")
     public AppRouter host(@StringRes int host) {
-        AppRouter router = getRouter();
-        if (router == null) {
-            return null;
-        }
-        router.mHost = router.mContext.getString(host);
-        return router;
+        mHost = mContext.getString(host);
+        return this;
     }
 
     @SuppressWarnings("unused")
     public AppRouter target(Class<?> cls) {
-        AppRouter router = getRouter();
-        if (router == null) {
-            return null;
-        }
-        router.mClass = cls;
-        return router;
+        mClass = cls;
+        return this;
     }
 
-    @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
+    @SuppressWarnings({"UnusedReturnValue"})
     public AppRouter flag(int flag) {
-        AppRouter router = getRouter();
-        if (router == null) {
-            return null;
-        }
-        router.mFlag = flag;
-        return router;
+        mFlag = flag;
+        return this;
     }
 
-    @SuppressWarnings("unused")
     public AppRouter requestCode(int code) {
-        AppRouter router = getRouter();
-        if (router == null) {
-            return null;
-        }
-        router.mRequestCode = code;
-        return router;
+        mRequestCode = code;
+        return this;
+    }
+
+    /**
+     * 设置包名
+     */
+    @SuppressWarnings("unused")
+    public AppRouter packageName(String packageName) {
+        mPackageName = packageName;
+        return this;
     }
 
     public AppRouter params(Bundle bundle) {
-        AppRouter router = getRouter();
-        if (router == null) {
-            return null;
-        }
-        if (router.mParams == null) {
-            router.mParams = bundle;
-        } else {
-            router.mParams.putAll(bundle);
-        }
 
-        return router;
+        if (mParams == null) {
+            mParams = bundle;
+        } else {
+            mParams.putAll(bundle);
+        }
+        return this;
     }
 
-    @SuppressWarnings("WeakerAccess")
     public AppRouter addParam(String key, String value) {
-        AppRouter router = getRouter();
-        if (router == null) {
-            return null;
-        }
-
         if (TextUtils.isEmpty(key) || TextUtils.isEmpty(value)) {
             Log.i(TAG, "addParam String error ");
-            return router;
+            return this;
         }
 
-        if (router.mParams == null) {
-            router.mParams = new Bundle();
+        if (mParams == null) {
+            mParams = new Bundle();
         }
-        router.mParams.putString(key, value);
-        return router;
+        mParams.putString(key, value);
+        return this;
     }
 
-    @SuppressWarnings("WeakerAccess")
     public AppRouter addParam(String key, Serializable value) {
-        AppRouter router = getRouter();
-        if (router == null) {
-            return null;
-        }
-
         if (TextUtils.isEmpty(key) || value == null) {
             Log.i(TAG, "addParam Serializable : params is error ");
-            return router;
+            return this;
         }
 
-        if (router.mParams == null) {
-            router.mParams = new Bundle();
+        if (mParams == null) {
+            mParams = new Bundle();
         }
-        router.mParams.putSerializable(key, value);
-        return router;
+        mParams.putSerializable(key, value);
+        return this;
     }
 
-    @SuppressWarnings("unused")
     public AppRouter addParam(String key, int value) {
-        AppRouter router = getRouter();
-        if (router == null) {
-            return null;
-        }
+
         if (TextUtils.isEmpty(key)) {
             Log.i(TAG, "addParma: ");
-            return router;
+            return this;
         }
 
-        if (router.mParams == null) {
-            router.mParams = new Bundle();
+        if (mParams == null) {
+            mParams = new Bundle();
         }
-        router.mParams.putInt(key, value);
-        return router;
+        mParams.putInt(key, value);
+        return this;
     }
 
     /**
@@ -241,26 +195,17 @@ public class AppRouter {
      */
     @SuppressWarnings("unused")
     public AppRouter overridePendingTransition(@AnimRes int enterAnim, @AnimRes int exitAnim) {
-        AppRouter router = getRouter();
-        if (router == null) {
-            return null;
-        }
-        router.mAnimation[0] = enterAnim;
-        router.mAnimation[1] = exitAnim;
-        return router;
+        mAnimation[0] = enterAnim;
+        mAnimation[1] = exitAnim;
+        return this;
     }
 
     /**
      * 是否关闭上一个应用
      */
     public AppRouter finishSelf() {
-        AppRouter router = getRouter();
-        if (router == null) {
-            return null;
-        }
-
-        router.isFinish = true;
-        return router;
+        isFinish = true;
+        return this;
     }
 
 
@@ -268,62 +213,80 @@ public class AppRouter {
      * 返回是否跳转成功
      */
     public boolean start() {
-        final long nowTime = System.currentTimeMillis();
-        if (nowTime - mLastRouteTime < 300) {
-            return false;
-        }
-        mLastRouteTime = nowTime;
-
-        final AppRouter router = getRouter();
-        if (router == null || router.mContext == null) {
+        if (mContext == null) {
             return false;
         }
 
-        if (router.mContext instanceof Activity && ((Activity) router.mContext).isFinishing()) {
+
+        if (mContext instanceof Activity && ((Activity) mContext).isFinishing()) {
             Log.i(TAG, "start: activity is finishing");
             return false;
         }
 
-        if(config != null){
-            config.config(router);
+        if (config != null) {
+            config.config(this);
         }
 
+        StringBuilder routerKey = new StringBuilder();
+        // 跳转目标
+        boolean isNoTarget = true;
         Intent intent;
-        if (router.mClass != null) {
-            intent = new Intent(mContext, router.mClass);
-        } else if (!TextUtils.isEmpty(router.mAction)) {
-            intent = new Intent(router.mAction);
+        if (mClass != null) {
+            intent = new Intent(mContext, mClass);
+            routerKey.append(mClass.getName());
+            isNoTarget = false;
+        } else if (!TextUtils.isEmpty(mAction)) {
+            intent = new Intent(mAction);
+            routerKey.append(mAction);
+            isNoTarget = false;
         } else {
             intent = new Intent(Intent.ACTION_VIEW);
+            routerKey.append(Intent.ACTION_VIEW);
         }
 
-        Uri uri = makrUri(router);
+        Uri uri = makeUri();
         if (uri != null) {
             intent.setData(uri);
+            routerKey.append(uri.toString());
+            isNoTarget = false;
         }
 
-        if (router.mFlag != INVALID_FLAGS) {
-            intent.setFlags(router.mFlag);
+        if (isNoTarget) {
+            LogManager.e(TAG, "no target activity");
+            return false;
         }
 
-        if (router.mParams != null) {
-            intent.putExtras(router.mParams);
+        if (mFlag != INVALID_FLAGS) {
+            intent.setFlags(mFlag);
+        }
+
+        if (mParams != null) {
+            intent.putExtras(mParams);
+        }
+
+        // Android 8.0 需要增加packageName设置否则会出现找不到引用提示
+        if (!TextUtils.isEmpty(mPackageName)) {
+            intent.setPackage(mPackageName);
+        }
+
+        if (isFastRouter(routerKey.toString())) {
+            return false;
         }
 
         try {
-            if (router.mRequestCode != INVALID_FLAGS && router.mContext instanceof Activity) {
-                Activity activity = (Activity) router.mContext;
-                activity.startActivityForResult(intent, router.mRequestCode);
+            if (mRequestCode != INVALID_FLAGS && mContext instanceof Activity) {
+                Activity activity = (Activity) mContext;
+                activity.startActivityForResult(intent, mRequestCode);
             } else {
-                router.mContext.startActivity(intent);
+                mContext.startActivity(intent);
             }
 
-            if (router.mContext instanceof Activity && (mAnimation[0] > 0 || mAnimation[1] > 0)) {
-                ((Activity) router.mContext).overridePendingTransition(mAnimation[0], mAnimation[1]);
+            if (mContext instanceof Activity && (mAnimation[0] > 0 || mAnimation[1] > 0)) {
+                ((Activity) mContext).overridePendingTransition(mAnimation[0], mAnimation[1]);
             }
 
-            if (router.isFinish && router.mContext instanceof Activity) {
-                ((Activity) router.mContext).finish();
+            if (isFinish && mContext instanceof Activity) {
+                ((Activity) mContext).finish();
             }
 
         } catch (Exception e) {
@@ -333,26 +296,43 @@ public class AppRouter {
         return true;
     }
 
-    private AppRouter getRouter() {
-        if (mRouter == null) {
-            return null;
-        }
-        return mRouter.get();
-    }
-
-
-    private Uri makrUri(AppRouter router) {
-        if (!TextUtils.isEmpty(router.mUrl)) {
-            return Uri.parse(router.mUrl);
+    private Uri makeUri() {
+        if (!TextUtils.isEmpty(mUrl)) {
+            return Uri.parse(mUrl);
         }
 
-        if (!TextUtils.isEmpty(router.mScheme) && !TextUtils.isEmpty(router.mHost)) {
+        if (!TextUtils.isEmpty(mScheme) && !TextUtils.isEmpty(mHost)) {
             Uri.Builder builder = new Uri.Builder();
-            builder.scheme(router.mScheme);
-            builder.authority(router.mHost);
+            builder.scheme(mScheme);
+            builder.authority(mHost);
             return builder.build();
         }
         return null;
+    }
+
+    /**
+     * 是否是迅速的2次跳转
+     */
+    private boolean isFastRouter(String key) {
+        final long nowTime = System.currentTimeMillis();
+        final long lastTime = getLastRouteTime(key);
+        if (nowTime - lastTime < S_INTERVAL_OF_ROUTE_TIME) {
+            Log.i(TAG, "start: The interval between activities is too short");
+            return true;
+        }
+        sRouteTime.put(key, nowTime);
+        return false;
+    }
+
+    private long getLastRouteTime(String key) {
+        if (sRouteTime == null) {
+            return 0L;
+        }
+
+        if (!sRouteTime.containsKey(key)) {
+            return 0L;
+        }
+        return sRouteTime.get(key);
     }
 
 
@@ -368,12 +348,10 @@ public class AppRouter {
         return mUrl;
     }
 
-    @SuppressWarnings("WeakerAccess")
     public String getHost() {
         return mHost;
     }
 
-    @SuppressWarnings("WeakerAccess")
     public int getFlag() {
         return mFlag;
     }
