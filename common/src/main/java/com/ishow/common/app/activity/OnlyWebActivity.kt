@@ -14,24 +14,24 @@
  * limitations under the License.
  */
 
-package com.ishow.noah.modules.base
+package com.ishow.common.app.activity
 
 
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.webkit.*
-
+import com.ishow.common.R
 import com.ishow.common.utils.WebViewUtils
-import com.ishow.common.utils.log.LogManager
-import com.ishow.noah.BuildConfig
-import com.ishow.noah.R
-import kotlinx.android.synthetic.main.activity_only_web.*
+import com.ishow.common.widget.TopBar
+import kotlinx.android.synthetic.main.activity_base_only_web.*
+
 
 /**
- * Created by Bright.Yu on 2016/8/9.
+ * 只有一个Webview的 Activity
+ * Created by yuhaiyang on 2016/8/9.
  */
-class OnlyWebActivity : AppBaseActivity() {
+class OnlyWebActivity : BaseActivity() {
 
     private var mTitleString: String? = null
     private var mUrl: String? = null
@@ -42,17 +42,17 @@ class OnlyWebActivity : AppBaseActivity() {
         setContentView(R.layout.activity_base_only_web)
     }
 
-
     override fun initNecessaryData() {
         super.initNecessaryData()
         val intent = intent
         mTitleString = intent.getStringExtra(KEY_TITLE)
         mUrl = intent.getStringExtra(KEY_CONTENT)
-        if (BuildConfig.DEBUG) LogManager.i(TAG, "initNecessaryData: mUrl = " + mUrl!!)
     }
 
     override fun initViews() {
         super.initViews()
+        val topBar = findViewById<TopBar>(R.id.top_bar)
+        topBar.setOnTopBarListener(this)
         topBar.setText(mTitleString)
 
         WebViewUtils.init(this, web)
@@ -60,7 +60,7 @@ class OnlyWebActivity : AppBaseActivity() {
         web.loadUrl(mUrl)
         //载入js
         web.webViewClient = WebClient()
-        // 设置下载监听
+
         web.setDownloadListener { url, _, _, _, _ ->
             val intent = Intent(Intent.ACTION_VIEW)
             intent.addCategory(Intent.CATEGORY_BROWSABLE)
@@ -69,28 +69,15 @@ class OnlyWebActivity : AppBaseActivity() {
         }
     }
 
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        if (web != null && web.canGoBack() && !mOnErrorUrl) {
-            web.goBack()
-        } else {
-            super.onBackPressed()
-        }
+    override fun onResume() {
+        super.onResume()
+        web.onResume()
     }
 
-    companion object {
-        private const val TAG = "OnlyWebActivity"
-        /**
-         * 要显示的标题
-         */
-        const val KEY_TITLE = "key_title"
-        /**
-         * 要显示的地址
-         */
-        const val KEY_CONTENT = "key_content"
+    override fun onPause() {
+        super.onPause()
+        web.onPause()
     }
-
 
     private inner class WebClient : WebViewClient() {
         override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
@@ -115,5 +102,18 @@ class OnlyWebActivity : AppBaseActivity() {
 
             mOnErrorUrl = true
         }
+    }
+
+    override fun onBackPressed() {
+        if (web != null && web.canGoBack() && !mOnErrorUrl) {
+            web.goBack()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+    companion object {
+        const val KEY_TITLE = "key_title"
+        const val KEY_CONTENT = "key_content"
     }
 }
