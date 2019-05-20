@@ -128,7 +128,7 @@ public class VerifyCodeButton extends FrameLayout {
                     mDisplayView.setText(mTextStr);
                     mDisplayView.setVisibility(VISIBLE);
                     mProgressBar.setVisibility(INVISIBLE);
-                    mCurrentTime = mMaxTime;
+                    mCurrentTime = -1;
                     setClickable(true);
                     if (mTimingListener != null) {
                         mTimingListener.onTimingEnd();
