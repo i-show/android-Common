@@ -24,15 +24,14 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Build;
-import android.support.annotation.ColorRes;
-import android.support.annotation.DimenRes;
-import android.support.annotation.FloatRange;
-import android.support.v7.widget.AppCompatTextView;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 
+import androidx.annotation.ColorRes;
+import androidx.annotation.DimenRes;
+import androidx.annotation.FloatRange;
+import androidx.appcompat.widget.AppCompatTextView;
 import com.ishow.common.R;
 import com.ishow.common.widget.prompt.IPrompt;
 
@@ -40,7 +39,6 @@ import com.ishow.common.widget.prompt.IPrompt;
  * 角标提示的TextView
  */
 public class PromptTextView extends AppCompatTextView implements IPrompt {
-    private static final String TAG = "PromptTextView";
     private int mMode;
 
     private String mPromptTextString;
@@ -202,7 +200,6 @@ public class PromptTextView extends AppCompatTextView implements IPrompt {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mPromptTextColor = getResources().getColor(color, getContext().getTheme());
         } else {
-            //noinspection deprecation
             mPromptTextColor = getResources().getColor(color);
         }
         mPromptTextPaint.setColor(mPromptTextColor);
@@ -221,7 +218,6 @@ public class PromptTextView extends AppCompatTextView implements IPrompt {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mPromptBackgroundColor = getResources().getColor(color, getContext().getTheme());
         } else {
-            //noinspection deprecation
             mPromptBackgroundColor = getResources().getColor(color);
         }
         mPromptBackgroundPaint.setColor(mPromptBackgroundColor);

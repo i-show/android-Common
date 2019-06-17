@@ -17,9 +17,9 @@
 package com.ishow.common.utils.image.loader;
 
 import android.content.Context;
-import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
 
+import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
 import com.ishow.common.utils.image.loader.glide.GlideImageLoaderExecutor;
 
 import java.lang.annotation.Retention;
@@ -33,7 +33,6 @@ import java.lang.annotation.RetentionPolicy;
 public class ImageLoader {
 
 
-    @SuppressWarnings("WeakerAccess")
     @IntDef({LoaderMode.NONE, LoaderMode.FIT_CENTER, LoaderMode.CENTER_CROP, LoaderMode.CENTER_INSIDE, LoaderMode.CIRCLE_CROP})
     @Retention(RetentionPolicy.SOURCE)
     public @interface LoaderMode {
@@ -60,7 +59,6 @@ public class ImageLoader {
         int CIRCLE_CROP = 4;
     }
 
-    @SuppressWarnings("WeakerAccess")
     @IntDef({Plan.NORMAL, Plan.NEW_LOAD})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Plan {
@@ -84,7 +82,6 @@ public class ImageLoader {
 
     }
 
-    @SuppressWarnings("WeakerAccess")
     public static ImageLoader getInstance() {
         if (sInstance == null) {
             synchronized (ImageLoader.class) {

@@ -5,12 +5,12 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.os.Build;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import com.ishow.common.R;
 import com.ishow.common.utils.log.LogManager;
 
@@ -72,12 +72,12 @@ public class WaterMarkView extends View {
      * 设置是否可见
      */
     @SuppressWarnings("unused")
-    public static void setVisibility(Activity activity, int visibility){
+    public static void setVisibility(Activity activity, int visibility) {
         if (activity == null || activity.isFinishing()) {
             return;
         }
-        WaterMarkView markView =activity.findViewById(R.id.water_mark_view);
-        if(markView == null){
+        WaterMarkView markView = activity.findViewById(R.id.water_mark_view);
+        if (markView == null) {
             return;
         }
 
@@ -92,8 +92,8 @@ public class WaterMarkView extends View {
         if (activity == null || activity.isFinishing()) {
             return;
         }
-        WaterMarkView markView =activity.findViewById(R.id.water_mark_view);
-        if(markView != null){
+        WaterMarkView markView = activity.findViewById(R.id.water_mark_view);
+        if (markView != null) {
             LogManager.i(TAG, "already add");
             return;
         }
@@ -112,8 +112,8 @@ public class WaterMarkView extends View {
         if (activity == null || activity.isFinishing()) {
             return;
         }
-        WaterMarkView markView =activity.findViewById(R.id.water_mark_view);
-        if(markView == null){
+        WaterMarkView markView = activity.findViewById(R.id.water_mark_view);
+        if (markView == null) {
             return;
         }
         ViewGroup root = activity.findViewById(android.R.id.content);

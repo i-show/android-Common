@@ -16,10 +16,10 @@
 
 package com.ishow.common.widget.prompt;
 
-import android.support.annotation.ColorRes;
-import android.support.annotation.DimenRes;
-import android.support.annotation.FloatRange;
-import android.support.annotation.IntDef;
+import androidx.annotation.ColorRes;
+import androidx.annotation.DimenRes;
+import androidx.annotation.FloatRange;
+import androidx.annotation.IntDef;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

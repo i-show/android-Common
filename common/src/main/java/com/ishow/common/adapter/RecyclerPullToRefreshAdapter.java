@@ -17,7 +17,7 @@
 package com.ishow.common.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.ishow.common.R;
 import com.ishow.pulltorefresh.IPullToRefreshUtils;

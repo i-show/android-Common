@@ -21,8 +21,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.ishow.common.R;
@@ -48,12 +47,10 @@ import java.net.UnknownHostException;
 public abstract class CallBack<T> {
     private Context mContext;
 
-    @SuppressWarnings("WeakerAccess")
     public CallBack() {
         this(null);
     }
 
-    @SuppressWarnings("WeakerAccess")
     public CallBack(Context context) {
         mContext = context;
     }
@@ -63,7 +60,6 @@ public abstract class CallBack<T> {
      *
      * @param error 错误信息的的组合对象
      */
-    @SuppressWarnings("WeakerAccess")
     protected abstract void onFailed(@NonNull HttpError error);
 
     /**
@@ -105,7 +101,6 @@ public abstract class CallBack<T> {
      *
      * @param result 返回成功的组合对象
      */
-    @SuppressWarnings("WeakerAccess")
     protected abstract void onSuccess(T result);
 
     /**
@@ -140,7 +135,6 @@ public abstract class CallBack<T> {
      * <p>
      * 例如： 如果一个请求如果canceled了 或者context 已经finish了 那么再进行返回就报错了
      */
-    @SuppressWarnings("WeakerAccess")
     protected boolean checkInterruptionFailed(@NonNull HttpError error) {
         if (mContext instanceof Activity) {
             Activity activity = (Activity) mContext;
@@ -162,7 +156,6 @@ public abstract class CallBack<T> {
      * <p>
      * 例如： 如果context 已经finish了 那么再进行继续操作了
      */
-    @SuppressWarnings("WeakerAccess")
     protected boolean checkInterruptionSuccessed(@NonNull final Response response) {
         if (mContext != null && mContext instanceof Activity) {
             Activity activity = (Activity) mContext;
@@ -178,7 +171,6 @@ public abstract class CallBack<T> {
     /**
      * 解析统一的返回错误信息
      */
-    @SuppressWarnings("WeakerAccess")
     protected String parseUniteErrorMessage(@NonNull HttpError error) {
         Exception e = error.getException();
         Resources resources = Http.getResources();
@@ -198,7 +190,6 @@ public abstract class CallBack<T> {
     /**
      * 如果错误信息要单独处理，就重写这个方法进行处理
      */
-    @SuppressWarnings("WeakerAccess,unused")
     protected String parseErrorMessage(HttpError error) {
         return null;
     }

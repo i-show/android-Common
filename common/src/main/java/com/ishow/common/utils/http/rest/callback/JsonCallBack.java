@@ -17,7 +17,7 @@
 package com.ishow.common.utils.http.rest.callback;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.alibaba.fastjson.JSON;
 import com.ishow.common.utils.http.rest.exception.HttpErrorException;

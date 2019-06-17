@@ -8,13 +8,13 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.support.annotation.ColorInt;
-import android.support.annotation.DimenRes;
-import android.support.annotation.IntDef;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.DimenRes;
+import androidx.annotation.IntDef;
 import com.ishow.common.R;
 
 import java.lang.annotation.Retention;
@@ -119,7 +119,7 @@ public class LabelViewHelper {
         final int width = getMeasuredWidth();
         final int height = getMeasuredHeight();
 
-        float actualDistance = mDistance + mHeight / 2;
+        float actualDistance = mDistance + mHeight / 2F;
         calculatePath(width, height);
 
         // 画背景
@@ -139,7 +139,7 @@ public class LabelViewHelper {
         float x = (float) (actualDistance / (Math.sin(Math.PI * 45 / 180)) / 2 - mTextBound.width() / 2);
         if (x < 0) x = 0;
 
-        float y = (fontMetrics.top - fontMetrics.bottom) / 2 - fontMetrics.top;
+        float y = (fontMetrics.top - fontMetrics.bottom) / 2F - fontMetrics.top;
         canvas.drawTextOnPath(mText, mTextPath, x, y, mTextPaint);
     }
 
@@ -149,7 +149,7 @@ public class LabelViewHelper {
     private void calculatePath(int width, int height) {
         float startX = width - mDistance - mHeight;
         float startY = height - mDistance - mHeight;
-        float middle = mHeight / 2;
+        float middle = mHeight / 2F;
 
         switch (mLabelGravity) {
             case Gravity.LEFT_TOP:
@@ -366,7 +366,6 @@ public class LabelViewHelper {
     }
 
     private int getDefaultBackgroundColor() {
-        //noinspection deprecation
         return mContext.getResources().getColor(R.color.color_primary);
     }
 

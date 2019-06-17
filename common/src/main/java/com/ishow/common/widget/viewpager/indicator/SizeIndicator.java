@@ -23,15 +23,14 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
 
+import androidx.viewpager.widget.ViewPager;
 import com.ishow.common.R;
 import com.ishow.common.utils.UnitUtils;
 
 public class SizeIndicator extends View implements ViewPager.OnPageChangeListener {
-    private static final String TAG = "SizeIndicator";
     private static final float RADIUS = 3.0f; // This is dp
     /**
      * 最大增幅
@@ -125,7 +124,7 @@ public class SizeIndicator extends View implements ViewPager.OnPageChangeListene
             return;
         }
         if (mViewPager != null) {
-            mViewPager.addOnPageChangeListener(null);
+            mViewPager.removeOnPageChangeListener(this);
         }
         if (view.getAdapter() == null) {
             throw new IllegalStateException(
@@ -263,7 +262,7 @@ public class SizeIndicator extends View implements ViewPager.OnPageChangeListene
     static class SavedState extends BaseSavedState {
         int currentPage;
 
-        public SavedState(Parcelable superState) {
+        SavedState(Parcelable superState) {
             super(superState);
         }
 

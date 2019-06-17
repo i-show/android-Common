@@ -17,7 +17,7 @@
 package com.ishow.common.utils.http.rest.okhttp;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.ishow.common.entries.KeyValue;
 import com.ishow.common.utils.http.rest.Headers;

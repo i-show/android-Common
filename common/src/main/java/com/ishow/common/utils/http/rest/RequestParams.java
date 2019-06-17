@@ -16,7 +16,7 @@
 
 package com.ishow.common.utils.http.rest;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.ishow.common.entries.KeyValue;
 

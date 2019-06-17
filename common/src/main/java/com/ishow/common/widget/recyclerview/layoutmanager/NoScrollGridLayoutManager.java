@@ -1,8 +1,8 @@
 package com.ishow.common.widget.recyclerview.layoutmanager;
 
 import android.content.Context;
-import android.support.v7.widget.GridLayoutManager;
 import android.util.AttributeSet;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 /**
  * Created by yuhaiyang on 2017/8/9.

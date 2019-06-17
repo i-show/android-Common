@@ -18,10 +18,11 @@ package com.ishow.common.widget.recyclerview.itemdecoration;
 
 import android.content.Context;
 import android.graphics.Rect;
-import android.support.annotation.DimenRes;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import androidx.annotation.DimenRes;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * 只进行增加空边距的
@@ -43,7 +44,6 @@ public class LinearSpacingItemDecoration extends RecyclerView.ItemDecoration {
         this(context, spacing, LinearLayoutManager.VERTICAL);
     }
 
-    @SuppressWarnings("WeakerAccess")
     public LinearSpacingItemDecoration(Context context, @DimenRes int spacing, int orientation) {
         mSpacing = context.getResources().getDimensionPixelSize(spacing);
         setOrientation(orientation);
@@ -65,7 +65,7 @@ public class LinearSpacingItemDecoration extends RecyclerView.ItemDecoration {
 
 
     @Override
-    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+    public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         RecyclerView.Adapter adapter = parent.getAdapter();
         if (adapter == null) {
             return;

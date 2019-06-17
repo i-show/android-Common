@@ -15,9 +15,9 @@
  */
 package com.ishow.common.utils.permission;
 
-import android.support.annotation.IntRange;
-import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
+import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 
 @SuppressWarnings("all")
 public interface Permission {

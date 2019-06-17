@@ -17,10 +17,10 @@
 package com.ishow.common.widget.recyclerview.layoutmanager;
 
 import android.graphics.Rect;
-import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 public class FlowLayoutManager extends RecyclerView.LayoutManager {
@@ -330,7 +330,6 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
     /**
      * 获取某个childView在水平方向所占的空间
      */
-    @SuppressWarnings("WeakerAccess")
     public int[] getViewSize(View view) {
         final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) view.getLayoutParams();
         int[] size = new int[2];
@@ -353,7 +352,6 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
     /**
      * 获取某个childView在水平方向所占的空间
      */
-    @SuppressWarnings({"WeakerAccess", "unused"})
     public int getDecoratedMeasurementHorizontal(View view) {
         final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) view.getLayoutParams();
         return getDecoratedMeasuredWidth(view) + params.leftMargin + params.rightMargin;
@@ -362,7 +360,6 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
     /**
      * 获取某个childView在竖直方向所占的空间
      */
-    @SuppressWarnings("WeakerAccess")
     public int getDecoratedMeasurementVertical(View view) {
         final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) view.getLayoutParams();
         return getDecoratedMeasuredHeight(view) + params.topMargin + params.bottomMargin;
@@ -374,7 +371,6 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager {
         return getHeight() - getPaddingTop() - getPaddingBottom();
     }
 
-    @SuppressWarnings("WeakerAccess")
     public int getHorizontalSpace() {
         return getWidth() - getPaddingLeft() - getPaddingRight();
     }

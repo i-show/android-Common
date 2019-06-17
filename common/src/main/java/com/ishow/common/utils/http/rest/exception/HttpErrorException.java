@@ -16,7 +16,7 @@
 
 package com.ishow.common.utils.http.rest.exception;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.ishow.common.utils.http.rest.HttpError;
 

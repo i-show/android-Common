@@ -2,13 +2,12 @@ package com.ishow.common.widget.label;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.support.annotation.ColorInt;
-import android.support.annotation.DimenRes;
-import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.ishow.common.R;
+import androidx.annotation.ColorInt;
+import androidx.annotation.DimenRes;
+import androidx.appcompat.widget.AppCompatTextView;
 
 public class LabelTextView extends AppCompatTextView implements ILabelView {
 

@@ -17,12 +17,12 @@
 package com.ishow.noah.modules.egg.detail
 
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
+import androidx.appcompat.widget.AppCompatTextView
 
 import com.ishow.common.utils.AppUtils
 import com.ishow.common.utils.DateUtils

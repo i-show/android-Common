@@ -29,13 +29,13 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.annotation.*;
-import android.support.v4.util.Pools;
-import android.support.v4.view.*;
-import android.support.v4.widget.TextViewCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.content.res.AppCompatResources;
-import android.support.v7.widget.TooltipCompat;
+import androidx.annotation.*;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.TooltipCompat;
+import androidx.core.util.Pools;
+import androidx.core.view.*;
+import androidx.core.widget.TextViewCompat;
 import android.text.Layout;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -48,6 +48,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 import com.ishow.common.R;
 import com.ishow.common.utils.UnitUtils;
 
@@ -57,7 +59,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import static android.support.v4.view.ViewPager.*;
+import static androidx.recyclerview.widget.RecyclerView.*;
 
 /**
  * TabLayout provides a horizontal layout to display tabs.
@@ -242,12 +244,12 @@ public class TabLayoutPro extends HorizontalScrollView {
 
         // Text colors/sizes come from the text appearance first
         final TypedArray ta = context.obtainStyledAttributes(mTabTextAppearance,
-                android.support.v7.appcompat.R.styleable.TextAppearance);
+                R.styleable.TextAppearance);
         try {
             mTabTextSize = ta.getDimensionPixelSize(
-                    android.support.v7.appcompat.R.styleable.TextAppearance_android_textSize, 0);
+                    R.styleable.TextAppearance_android_textSize, 0);
             mTabTextColors = ta.getColorStateList(
-                    android.support.v7.appcompat.R.styleable.TextAppearance_android_textColor);
+                    R.styleable.TextAppearance_android_textColor);
         } finally {
             ta.recycle();
         }

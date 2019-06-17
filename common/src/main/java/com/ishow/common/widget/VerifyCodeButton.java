@@ -17,19 +17,15 @@
 package com.ishow.common.widget;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -376,7 +372,6 @@ public class VerifyCodeButton extends FrameLayout {
     /**
      * 时间监听
      */
-    @SuppressWarnings("WeakerAccess")
     public interface OnTimingListener {
         /**
          * 正在发送验证码

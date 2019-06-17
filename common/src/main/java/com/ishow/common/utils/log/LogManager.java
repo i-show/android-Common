@@ -16,7 +16,7 @@
 
 package com.ishow.common.utils.log;
 
-import android.support.annotation.IntDef;
+import androidx.annotation.IntDef;
 import android.text.TextUtils;
 import android.util.Log;
 

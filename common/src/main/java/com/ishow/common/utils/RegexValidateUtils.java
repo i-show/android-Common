@@ -16,7 +16,7 @@
 
 package com.ishow.common.utils;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 

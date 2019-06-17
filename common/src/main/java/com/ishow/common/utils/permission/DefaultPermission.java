@@ -20,10 +20,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
-import android.support.v4.app.ActivityCompat;
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
+import androidx.core.app.ActivityCompat;
 import android.util.Log;
+import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -164,8 +165,8 @@ class DefaultPermission implements Permission {
     private static void requestPermissions(Object o, int requestCode, String... permissions) {
         if (o instanceof Activity)
             ActivityCompat.requestPermissions(((Activity) o), permissions, requestCode);
-        else if (o instanceof android.support.v4.app.Fragment)
-            ((android.support.v4.app.Fragment) o).requestPermissions(permissions, requestCode);
+        else if (o instanceof Fragment)
+            ((Fragment) o).requestPermissions(permissions, requestCode);
         else if (o instanceof android.app.Fragment) {
             ((android.app.Fragment) o).requestPermissions(permissions, requestCode);
             Log.e(TAG, "The " + o.getClass().getName() + " is not support " + "requestPermissions()");
@@ -182,8 +183,8 @@ class DefaultPermission implements Permission {
             } else {
                 Log.e(TAG, "The " + o.getClass().getName() + " is not support " + "onRequestPermissionsResult()");
             }
-        } else if (o instanceof android.support.v4.app.Fragment) {
-            ((android.support.v4.app.Fragment) o).onRequestPermissionsResult(requestCode, permissions, grantResults);
+        } else if (o instanceof Fragment) {
+            ((Fragment) o).onRequestPermissionsResult(requestCode, permissions, grantResults);
         } else if (o instanceof android.app.Fragment) {
             ((android.app.Fragment) o).onRequestPermissionsResult(requestCode, permissions, grantResults);
         }

@@ -20,11 +20,11 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
 
+import androidx.annotation.NonNull;
 import com.ishow.common.R;
 import com.ishow.common.utils.DeviceUtils;
 
@@ -89,7 +89,7 @@ public class LoadingDialog extends Dialog {
         }
 
         WindowManager.LayoutParams lp = window.getAttributes();
-        final int screen[] = DeviceUtils.getScreenSize();
+        final int[] screen = DeviceUtils.getScreenSize();
         lp.width = screen[0];
         lp.height = screen[1];
 

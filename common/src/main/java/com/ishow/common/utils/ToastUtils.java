@@ -20,11 +20,10 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
-import android.support.annotation.StringRes;
 import android.util.Log;
 import android.widget.Toast;
+import androidx.annotation.StringRes;
 
-import java.lang.ref.WeakReference;
 
 /**
  * Created by yuhaiyang on 2017/5/25.

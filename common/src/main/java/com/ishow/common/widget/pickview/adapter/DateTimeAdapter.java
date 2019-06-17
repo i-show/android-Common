@@ -16,9 +16,8 @@
 
 package com.ishow.common.widget.pickview.adapter;
 
-import android.support.annotation.IntRange;
 
-import com.ishow.common.widget.pickview.PickerView;
+import androidx.annotation.IntRange;
 
 /**
  * Created by yuhaiyang on 2017/4/25.

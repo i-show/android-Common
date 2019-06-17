@@ -20,12 +20,12 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import androidx.viewpager.widget.ViewPager;
 import com.ishow.common.R;
 import com.ishow.common.utils.DeviceUtils;
 import com.ishow.common.widget.viewpager.indicator.SizeIndicator;

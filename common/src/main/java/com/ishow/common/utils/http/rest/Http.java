@@ -18,7 +18,7 @@ package com.ishow.common.utils.http.rest;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.ishow.common.utils.http.rest.config.HttpConfig;
 import com.ishow.common.utils.http.rest.executor.Executor;

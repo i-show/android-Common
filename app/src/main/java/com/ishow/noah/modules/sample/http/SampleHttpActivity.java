@@ -17,7 +17,7 @@
 package com.ishow.noah.modules.sample.http;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.View;
 
 import com.ishow.common.utils.http.rest.Http;

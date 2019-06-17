@@ -24,12 +24,12 @@ import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.PathEffect;
 import android.os.Build;
-import android.support.annotation.ColorInt;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.View;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import com.ishow.common.R;
 import com.ishow.common.utils.UnitUtils;
 
@@ -90,7 +90,7 @@ public class DashLineView extends View {
         mLinePaint = new Paint();
         mLinePaint.setStyle(Paint.Style.STROKE);
         mLinePaint.setColor(mDashColor);
-        mLinePaint.setStrokeWidth(mDashWidth / 2);
+        mLinePaint.setStrokeWidth(mDashWidth / 2F);
         mLinePaint.setPathEffect(effects);
     }
 

@@ -20,15 +20,14 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.DimenRes;
-import android.support.annotation.DrawableRes;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.State;
 import android.util.Log;
 import android.view.View;
 
-import com.ishow.common.utils.UnitUtils;
+import androidx.annotation.DimenRes;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class LinearItemDecoration extends RecyclerView.ItemDecoration {
     private static final String TAG = "LinearItemDecoration";
@@ -77,7 +76,7 @@ public class LinearItemDecoration extends RecyclerView.ItemDecoration {
     }
 
     @Override
-    public void onDraw(Canvas c, RecyclerView parent, State state) {
+    public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         if (mOrientation == LinearLayoutManager.VERTICAL) {
             drawVertical(c, parent);
         } else {
@@ -118,7 +117,7 @@ public class LinearItemDecoration extends RecyclerView.ItemDecoration {
     }
 
     @Override
-    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, State state) {
+    public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         int position = parent.getChildAdapterPosition(view);
         int count = parent.getLayoutManager().getItemCount();
         if (!showLastDivier && position == count - 1) {

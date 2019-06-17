@@ -18,9 +18,9 @@ package com.ishow.common.utils.image.loader;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
 import android.widget.ImageView;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
 
 /**
  * Created by Bright on 2017/4/7.

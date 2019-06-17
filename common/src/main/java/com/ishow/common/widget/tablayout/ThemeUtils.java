@@ -18,11 +18,12 @@ package com.ishow.common.widget.tablayout;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import com.ishow.common.R;
 
 class ThemeUtils {
 
     private static final int[] APPCOMPAT_CHECK_ATTRS = {
-            android.support.v7.appcompat.R.attr.colorPrimary
+            R.attr.colorPrimary
     };
 
     static void checkAppCompatTheme(Context context) {

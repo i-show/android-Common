@@ -20,11 +20,11 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ListView;
 
+import androidx.annotation.ColorInt;
 import com.ishow.common.R;
 
 

@@ -17,9 +17,9 @@
 package com.ishow.common.widget.edittext;
 
 import android.content.Context;
-import android.support.v7.widget.AppCompatEditText;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import androidx.appcompat.widget.AppCompatEditText;
 
 /**
  * Created by Bright.Yu on 2016/11/12.

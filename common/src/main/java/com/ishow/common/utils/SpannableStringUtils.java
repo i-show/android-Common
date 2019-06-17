@@ -18,7 +18,6 @@ package com.ishow.common.utils;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.annotation.ColorRes;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
@@ -32,6 +31,7 @@ import android.text.style.SubscriptSpan;
 import android.text.style.SuperscriptSpan;
 import android.text.style.TypefaceSpan;
 import android.text.style.UnderlineSpan;
+import androidx.annotation.ColorRes;
 
 public class SpannableStringUtils {
 

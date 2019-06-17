@@ -17,9 +17,9 @@
 package com.ishow.noah.modules.sample.recycle.animation;
 
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.ishow.noah.R;
 import com.ishow.noah.modules.base.AppBaseActivity;
 import com.ishow.noah.modules.sample.Test;
@@ -44,7 +44,7 @@ public class SampleAnimationRecycleViewActivity extends AppBaseActivity {
         super.initViews();
         mAdapter = new AnimationRecycleAdapter(this);
 
-        RecyclerView list = (RecyclerView) findViewById(R.id.list);
+        RecyclerView list = findViewById(R.id.list);
         list.setLayoutManager(new GridLayoutManager(this, 2));
         list.setAdapter(mAdapter);
     }

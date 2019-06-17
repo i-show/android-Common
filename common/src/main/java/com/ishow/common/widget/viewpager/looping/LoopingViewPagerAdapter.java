@@ -1,13 +1,12 @@
 package com.ishow.common.widget.viewpager.looping;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.viewpager.widget.PagerAdapter;
 import com.ishow.common.R;
 
 import java.util.ArrayList;
@@ -17,7 +16,6 @@ import java.util.List;
  * 轮播图的Adapter
  */
 public abstract class LoopingViewPagerAdapter<DATA, HOLDER extends LoopingViewPagerAdapter.Holder> extends PagerAdapter {
-    private static final String TAG = "LoopingViewPagerAdapter";
     /**
      * 数据内容
      */
@@ -77,7 +75,6 @@ public abstract class LoopingViewPagerAdapter<DATA, HOLDER extends LoopingViewPa
     /**
      * 获取轮播图的真实数量
      */
-    @SuppressWarnings("WeakerAccess")
     public int getRealCount() {
         return mData.size();
     }
@@ -85,7 +82,6 @@ public abstract class LoopingViewPagerAdapter<DATA, HOLDER extends LoopingViewPa
     /**
      * 根据轮播的position来获取真实的position
      */
-    @SuppressWarnings("WeakerAccess")
     public int getRealPosition(int innerPosition) {
         int realCount = getRealCount();
         if (realCount <= 1) {
@@ -151,7 +147,6 @@ public abstract class LoopingViewPagerAdapter<DATA, HOLDER extends LoopingViewPa
      * @param position 当前的 position
      * @return 当前view的容器
      */
-    @SuppressWarnings("WeakerAccess")
     public abstract HOLDER onCreateView(ViewGroup parent, int position, int innerPosition);
 
     /**
@@ -160,7 +155,6 @@ public abstract class LoopingViewPagerAdapter<DATA, HOLDER extends LoopingViewPa
      * @param holder   当前view的容器
      * @param position 当前的 position
      */
-    @SuppressWarnings("WeakerAccess")
     public abstract void onBindView(HOLDER holder, int position, int innerPosition);
 
 
@@ -184,7 +178,6 @@ public abstract class LoopingViewPagerAdapter<DATA, HOLDER extends LoopingViewPa
             return mType;
         }
 
-        @SuppressWarnings("WeakerAccess")
         public View getItemView() {
             return item;
         }

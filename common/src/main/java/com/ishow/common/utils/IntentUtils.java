@@ -24,7 +24,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.provider.Settings;
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 import android.text.TextUtils;
 import android.widget.Toast;
 
@@ -74,7 +74,6 @@ public class IntentUtils {
     /**
      * 跳转 市场进行评分
      */
-    @SuppressWarnings("WeakerAccess")
     public static void goMarket(Context context, String packageName) {
 
         if (TextUtils.isEmpty(packageName)) {

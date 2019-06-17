@@ -21,13 +21,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.core.graphics.drawable.DrawableCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.ishow.common.R;
 import com.ishow.common.app.activity.BaseActivity;
 import com.ishow.common.entries.Folder;
@@ -85,14 +86,14 @@ public class PhotoSelectorActivity extends BaseActivity implements
     protected void initViews() {
         super.initViews();
 
-        TopBar topBar = (TopBar) findViewById(R.id.top_bar);
+        TopBar topBar = findViewById(R.id.top_bar);
         topBar.setOnTopBarListener(this);
         final int padding = getResources().getDimensionPixelSize(R.dimen.gap_grade_2);
         mRightTextView = topBar.getRightTextView();
         mRightTextView.setEnabled(false);
         mRightTextView.setPadding(padding, mRightTextView.getPaddingTop(), padding, mRightTextView.getPaddingBottom());
 
-        mTimeLine = (TextView) findViewById(R.id.time_line);
+        mTimeLine = findViewById(R.id.time_line);
 
         mFolderAdapter = new FolderSelectorAdapter(this);
 
@@ -101,7 +102,7 @@ public class PhotoSelectorActivity extends BaseActivity implements
         mPhotoAdapter.setMaxCount(mMode == Photo.Key.MODE_MULTI ? mMaxCount : 1);
 
         mLayoutManager = new GridLayoutManager(this, 3);
-        mRecyclerView = (RecyclerView) findViewById(R.id.list);
+        mRecyclerView = findViewById(R.id.list);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(this, R.dimen.photo_selector_item_gap));
         mRecyclerView.setAdapter(mPhotoAdapter);
@@ -109,7 +110,7 @@ public class PhotoSelectorActivity extends BaseActivity implements
 
         Drawable drawable = getResources().getDrawable(R.drawable.ic_photo_selector_floder);
         DrawableCompat.setTint(drawable, getResources().getColor(R.color.color_accent));
-        mFolderTextView = (TextView) findViewById(R.id.folder);
+        mFolderTextView = findViewById(R.id.folder);
         mFolderTextView.setOnClickListener(this);
         mFolderTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(drawable, null, null, null);
         mFolderTextView.setText(R.string.all_photos);
@@ -167,7 +168,7 @@ public class PhotoSelectorActivity extends BaseActivity implements
 
     private RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
         @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+        public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);
             if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                 mTimeLine.clearAnimation();
@@ -179,7 +180,7 @@ public class PhotoSelectorActivity extends BaseActivity implements
         }
 
         @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+        public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
             if (mTimeLine.getAlpha() >= 0.15f) {
                 Photo image = mPhotoAdapter.getItem(mLayoutManager.findFirstVisibleItemPosition());

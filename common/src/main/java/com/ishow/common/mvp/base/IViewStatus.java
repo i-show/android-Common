@@ -16,7 +16,7 @@
 
 package com.ishow.common.mvp.base;
 
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 
 /**
  * Created by yuhaiyang on 2017/5/2.

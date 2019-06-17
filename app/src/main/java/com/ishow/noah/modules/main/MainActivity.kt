@@ -21,11 +21,11 @@ package com.ishow.noah.modules.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.annotation.IdRes
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentTransaction
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.IdRes
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.ishow.common.utils.ToastUtils
 import com.ishow.common.widget.BottomBar
 import com.ishow.noah.R

@@ -28,15 +28,8 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
-import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
-import android.support.annotation.DimenRes;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.FloatRange;
-import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
-import android.support.v4.graphics.drawable.DrawableCompat;
+import androidx.annotation.*;
+import androidx.core.graphics.drawable.DrawableCompat;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
@@ -143,7 +136,6 @@ public class ImageTextView extends View implements IPrompt {
     private RectF mPromptUsedRectF;
 
     // 定义Ann
-    @SuppressWarnings("WeakerAccess")
     @IntDef({Orientation.LEFT, Orientation.TOP, Orientation.RIGHT, Orientation.BOTTOM})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Orientation {
@@ -170,7 +162,6 @@ public class ImageTextView extends View implements IPrompt {
      */
     public ImageTextView(Context context) {
         super(context);
-        //noinspection deprecation
         mTextColor = context.getResources().getColor(R.color.text_grey_normal);
         init();
     }
@@ -206,7 +197,6 @@ public class ImageTextView extends View implements IPrompt {
         a.recycle();
 
         if (mTextStateColor == null) {
-            //noinspection deprecation
             mTextColor = context.getResources().getColor(R.color.text_grey_normal);
         } else {
             mTextColor = mTextStateColor.getDefaultColor();
@@ -335,7 +325,6 @@ public class ImageTextView extends View implements IPrompt {
 
             case Orientation.LEFT:
             case Orientation.RIGHT:
-                maxSize = size - getImageWidth() - 2 * DEFAULT_PADDING - mPadding;
                 mLayout = new StaticLayout(mText, mTextPaint, mTextDesireWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true);
                 break;
         }
@@ -665,13 +654,9 @@ public class ImageTextView extends View implements IPrompt {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mTextStateColor = getContext().getResources().getColorStateList(color, getContext().getTheme());
         } else {
-            //noinspection deprecation
             mTextStateColor = getContext().getResources().getColorStateList(color);
         }
-        if (mTextStateColor == null) {
-            Log.i(TAG, "setTextColor:  color is null");
-            return;
-        }
+
         mTextColor = mTextStateColor.getDefaultColor();
         mTextPaint.setColor(mTextColor);
         postInvalidate();
@@ -703,7 +688,6 @@ public class ImageTextView extends View implements IPrompt {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mImageDrawable = getContext().getResources().getDrawable(resId, getContext().getTheme());
         } else {
-            //noinspection deprecation
             mImageDrawable = getContext().getResources().getDrawable(resId);
         }
         postInvalidate();
@@ -744,7 +728,6 @@ public class ImageTextView extends View implements IPrompt {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mPromptTextColor = getResources().getColor(color, getContext().getTheme());
         } else {
-            //noinspection deprecation
             mPromptTextColor = getResources().getColor(color);
         }
         mPromptTextPaint.setColor(mPromptTextColor);
@@ -763,7 +746,6 @@ public class ImageTextView extends View implements IPrompt {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mPromptBackgroundColor = getResources().getColor(color, getContext().getTheme());
         } else {
-            //noinspection deprecation
             mPromptBackgroundColor = getResources().getColor(color);
         }
         mPromptBackgroundPaint.setColor(mPromptBackgroundColor);

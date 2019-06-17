@@ -16,7 +16,6 @@
 
 package com.ishow.common.app.activity
 
-
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -93,7 +92,11 @@ class OnlyWebActivity : BaseActivity() {
             mOnErrorUrl = true
         }
 
-        override fun onReceivedHttpError(view: WebView?, request: WebResourceRequest?, errorResponse: WebResourceResponse?) {
+        override fun onReceivedHttpError(
+            view: WebView?,
+            request: WebResourceRequest?,
+            errorResponse: WebResourceResponse?
+        ) {
             super.onReceivedHttpError(view, request, errorResponse)
 
             if (request == null || !request.isForMainFrame) {

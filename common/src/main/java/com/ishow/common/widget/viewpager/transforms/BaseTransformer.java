@@ -16,14 +16,14 @@
 
 package com.ishow.common.widget.viewpager.transforms;
 
-import android.support.annotation.NonNull;
-import android.support.v4.view.ViewPager.PageTransformer;
 import android.view.View;
+import androidx.annotation.NonNull;
+import androidx.viewpager.widget.ViewPager;
 
 /**
  * https://github.com/ToxicBakery/ViewPagerTransforms
  */
-public abstract class BaseTransformer implements PageTransformer {
+public abstract class BaseTransformer implements ViewPager.PageTransformer {
 
     /**
      * Same as {@link Math#min(double, double)} without double casting, zero closest to infinity handling, or NaN support.

@@ -23,12 +23,12 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.ColorInt;
-import android.support.annotation.DimenRes;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.StringRes;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.widget.AppCompatEditText;
+import androidx.annotation.ColorInt;
+import androidx.annotation.DimenRes;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.StringRes;
+import androidx.appcompat.widget.AppCompatEditText;
+import androidx.core.graphics.drawable.DrawableCompat;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -803,7 +803,6 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         return UnitUtils.dip2px(120);
     }
 
-    @SuppressWarnings("deprecation")
     private int getDefaultTipTextColor() {
         return getContext().getResources().getColor(R.color.text_grey_light_normal);
     }
@@ -812,12 +811,10 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         return getContext().getResources().getDimensionPixelSize(R.dimen.I_title);
     }
 
-    @SuppressWarnings("deprecation")
     private int getDefaultInputTextColor() {
         return getContext().getResources().getColor(R.color.text_grey_normal);
     }
 
-    @SuppressWarnings("deprecation")
     private int getDefaultInputHintTextColor() {
         return getContext().getResources().getColor(R.color.text_grey_hint);
     }
@@ -860,7 +857,6 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         mEditTextListener = listener;
     }
 
-    @SuppressWarnings("WeakerAccess")
     public interface OnEditTextListener {
         void onCancel();
     }

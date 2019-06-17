@@ -1,8 +1,8 @@
 package com.ishow.common.widget.label;
 
-import android.support.annotation.ColorInt;
-import android.support.annotation.DimenRes;
 import android.view.View;
+import androidx.annotation.ColorInt;
+import androidx.annotation.DimenRes;
 
 /**
  * Created by yuhaiyang on 2017/5/19.

@@ -24,9 +24,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -46,6 +44,7 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import com.ishow.common.R;
 import com.ishow.common.widget.ListViewPro;
 
@@ -126,7 +125,6 @@ public class BaseController {
         }
     };
 
-    @SuppressWarnings("WeakerAccess")
     public BaseController(Context context, DialogInterface dialogInterface, Window window) {
         mContext = context;
         mDialogInterface = dialogInterface;

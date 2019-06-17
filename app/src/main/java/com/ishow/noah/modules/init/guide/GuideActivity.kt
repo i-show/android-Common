@@ -18,12 +18,11 @@ package com.ishow.noah.modules.init.guide
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.support.v4.view.ViewPager
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
+import androidx.viewpager.widget.ViewPager
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.noah.R
 import com.ishow.noah.modules.account.login.LoginActivity

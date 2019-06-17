@@ -18,9 +18,6 @@ package com.ishow.common.widget.pickview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.annotation.IntDef;
-import android.support.annotation.IntRange;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -28,6 +25,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import androidx.annotation.IntDef;
+import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
 import com.ishow.common.R;
 import com.ishow.common.widget.pickview.adapter.DateTimeAdapter;
 import com.ishow.common.widget.pickview.listener.OnItemSelectedListener;
@@ -122,27 +122,27 @@ public class DateTimePicker extends LinearLayout {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View root = inflater.inflate(R.layout.widget_date_time_picker, this, true);
         mYearAdapter = new DateTimeAdapter();
-        mYearPicker = (PickerView) root.findViewById(R.id.year);
+        mYearPicker = root.findViewById(R.id.year);
         mYearPicker.setAdapter(mYearAdapter);
         mYearPicker.setOnItemSelectedListener(new ItemSelectedListener(Calendar.YEAR));
 
         mMonthAdapter = new DateTimeAdapter();
-        mMonthPicker = (PickerView) root.findViewById(R.id.month);
+        mMonthPicker = root.findViewById(R.id.month);
         mMonthPicker.setAdapter(mMonthAdapter);
         mMonthPicker.setOnItemSelectedListener(new ItemSelectedListener(Calendar.MONTH));
 
         mDayAdapter = new DateTimeAdapter();
-        mDayPicker = (PickerView) root.findViewById(R.id.date);
+        mDayPicker = root.findViewById(R.id.date);
         mDayPicker.setAdapter(mDayAdapter);
         mDayPicker.setOnItemSelectedListener(new ItemSelectedListener(Calendar.DAY_OF_MONTH));
 
         mHourAdapter = new DateTimeAdapter();
-        mHourPicker = (PickerView) root.findViewById(R.id.hour);
+        mHourPicker = root.findViewById(R.id.hour);
         mHourPicker.setAdapter(mHourAdapter);
         mHourPicker.setOnItemSelectedListener(new ItemSelectedListener(Calendar.HOUR_OF_DAY));
 
         mMinAdapter = new DateTimeAdapter();
-        mMinPicker = (PickerView) root.findViewById(R.id.min);
+        mMinPicker = root.findViewById(R.id.min);
         mMinPicker.setAdapter(mMinAdapter);
         mMinPicker.setOnItemSelectedListener(new ItemSelectedListener(Calendar.MINUTE));
     }

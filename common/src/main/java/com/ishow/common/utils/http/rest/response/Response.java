@@ -16,7 +16,7 @@
 
 package com.ishow.common.utils.http.rest.response;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.ishow.common.utils.http.rest.Headers;
 import com.ishow.common.utils.http.rest.request.Request;

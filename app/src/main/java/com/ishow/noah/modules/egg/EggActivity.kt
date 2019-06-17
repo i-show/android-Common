@@ -17,7 +17,7 @@
 package com.ishow.noah.modules.egg
 
 import android.os.Bundle
-import android.support.v7.widget.GridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.ishow.noah.R
 import com.ishow.noah.modules.base.AppBaseActivity
 import kotlinx.android.synthetic.main.activity_egg.*

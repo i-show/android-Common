@@ -2,7 +2,6 @@ package com.ishow.common.utils;
 
 import android.os.Environment;
 import android.os.StatFs;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 import com.ishow.common.utils.log.LogManager;
@@ -301,7 +300,6 @@ public class FileUtils {
     /**
      * 获取SDcard路径
      */
-    @Nullable
     public static String getSDPath() {
         boolean sdCardExist = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED); //判断sd卡是否存在
         if (sdCardExist) {

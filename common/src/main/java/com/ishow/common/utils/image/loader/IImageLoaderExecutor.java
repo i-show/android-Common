@@ -16,8 +16,8 @@
 
 package com.ishow.common.utils.image.loader;
 
-import android.support.annotation.NonNull;
 import android.widget.ImageView;
+import androidx.annotation.NonNull;
 
 /**
  * Created by Bright on 2017/4/7.

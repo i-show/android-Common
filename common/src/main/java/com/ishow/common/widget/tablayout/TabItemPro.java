@@ -19,18 +19,12 @@ package com.ishow.common.widget.tablayout;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.support.design.widget.TabLayout;
 import android.util.AttributeSet;
 import android.view.View;
 import com.ishow.common.R;
 
 /**
- * TabItem is a special 'view' which allows you to declare tab items for a {@link TabLayout}
- * within a layout. This view is not actually added to TabLayout, it is just a dummy which allows
- * setting of a tab items's text, icon and custom layout. See TabLayout for more information on how
- * to use it.
  *
- * @see TabLayout
  */
 public final class TabItemPro extends View {
     final CharSequence mText;

@@ -1,14 +1,14 @@
 package com.ishow.common.widget.recyclerview.layoutmanager;
 
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
 import android.util.AttributeSet;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 /**
  * Created by yuhaiyang on 2018/9/12.
  * 禁止滚动的LinearLayoutManager
  */
-public class NoScrollLinearLayoutManager extends LinearLayoutManager{
+public class NoScrollLinearLayoutManager extends LinearLayoutManager {
     public NoScrollLinearLayoutManager(Context context) {
         super(context);
     }

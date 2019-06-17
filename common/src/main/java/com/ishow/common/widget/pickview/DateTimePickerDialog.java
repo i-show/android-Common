@@ -19,7 +19,6 @@ package com.ishow.common.widget.pickview;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -28,9 +27,9 @@ import android.view.Window;
 import android.view.WindowManager;
 
 
+import androidx.annotation.StringRes;
 import com.ishow.common.R;
 import com.ishow.common.utils.DeviceUtils;
-import com.ishow.common.utils.ScreenUtils;
 import com.ishow.common.widget.TopBar;
 
 
@@ -49,7 +48,6 @@ public class DateTimePickerDialog extends Dialog implements TopBar.OnTopBarListe
         this(context, DateTimePicker.Style.DATE_TIME);
     }
 
-    @SuppressWarnings("WeakerAccess")
     public DateTimePickerDialog(Context context, int type) {
         super(context, R.style.Theme_Dialog_DateTimePicker);
         mStyle = type;
@@ -124,12 +122,10 @@ public class DateTimePickerDialog extends Dialog implements TopBar.OnTopBarListe
 
     }
 
-    @SuppressWarnings("unused")
     public void setSelectDateListener(OnSelectDateListener listener) {
         mListener = listener;
     }
 
-    @SuppressWarnings("WeakerAccess")
     public interface OnSelectDateListener {
         void onSelected(long time);
     }

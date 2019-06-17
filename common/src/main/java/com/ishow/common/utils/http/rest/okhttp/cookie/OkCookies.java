@@ -1,12 +1,12 @@
 package com.ishow.common.utils.http.rest.okhttp.cookie;
 
-import android.support.annotation.Keep;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+import androidx.annotation.Keep;
 import okhttp3.Cookie;
 
 @Keep

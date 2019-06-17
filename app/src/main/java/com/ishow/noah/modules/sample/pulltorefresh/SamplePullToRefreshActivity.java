@@ -1,10 +1,11 @@
 package com.ishow.noah.modules.sample.pulltorefresh;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.ishow.common.widget.recyclerview.itemdecoration.LinearSpacingItemDecoration;
 import com.ishow.noah.R;
 import com.ishow.noah.modules.base.PullToRefreshActivity;
@@ -57,12 +58,12 @@ public class SamplePullToRefreshActivity extends PullToRefreshActivity implement
     }
 
     @Override
-    protected void loadData(View v, int pagerNumber, int pagerSize) {
+    protected void loadData(@NonNull View v, int pagerNumber, int pagerSize) {
         mPresenter.getList(this, pagerNumber, true);
     }
 
     @Override
-    protected IPullToRefreshUtils getPullToRefreshUtils(View v) {
+    protected IPullToRefreshUtils getPullToRefreshUtils(@NonNull View v) {
         return mAdapter;
     }
 

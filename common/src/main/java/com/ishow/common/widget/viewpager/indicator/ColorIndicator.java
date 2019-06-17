@@ -23,10 +23,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
 
+import androidx.viewpager.widget.ViewPager;
 import com.ishow.common.R;
 import com.ishow.common.utils.UnitUtils;
 
@@ -73,7 +73,6 @@ public class ColorIndicator extends View implements ViewPager.OnPageChangeListen
         this(context, attrs, 0);
     }
 
-    @SuppressWarnings("deprecation")
     public ColorIndicator(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         if (isInEditMode()) {

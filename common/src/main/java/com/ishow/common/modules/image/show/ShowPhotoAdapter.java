@@ -18,8 +18,7 @@ package com.ishow.common.modules.image.show;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
-import android.support.v4.view.PagerAdapter;
+import androidx.annotation.NonNull;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +28,7 @@ import android.widget.FrameLayout.LayoutParams;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import androidx.viewpager.widget.PagerAdapter;
 import com.ishow.common.R;
 import com.ishow.common.utils.DeviceUtils;
 import com.ishow.common.utils.image.loader.IImageLoaderListerner;

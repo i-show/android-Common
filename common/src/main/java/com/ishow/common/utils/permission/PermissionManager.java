@@ -20,13 +20,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
 
+import androidx.fragment.app.Fragment;
 import com.ishow.common.R;
 import com.ishow.common.utils.IntentUtils;
 import com.ishow.common.utils.ToastUtils;
@@ -105,11 +106,11 @@ public class PermissionManager {
     /**
      * Some privileges permanently disabled, may need to set up in the execute.
      *
-     * @param fragment          {@link android.support.v4.app.Fragment}.
+     * @param fragment          {@link androidx.core.app.Fragment}.
      * @param deniedPermissions one or more permissions.
      * @return true, other wise is false.
      */
-    public static boolean hasAlwaysDeniedPermission(@NonNull android.support.v4.app.Fragment fragment, @NonNull List<String> deniedPermissions) {
+    public static boolean hasAlwaysDeniedPermission(@NonNull Fragment fragment, @NonNull List<String> deniedPermissions) {
         for (String deniedPermission : deniedPermissions) {
             if (!PermissionUtils.shouldShowRationalePermissions(fragment, deniedPermission)) {
                 return true;
@@ -149,12 +150,12 @@ public class PermissionManager {
     /**
      * In the Activity.
      *
-     * @param fragment {@link android.support.v4.app.Fragment}.
+     * @param fragment {@link androidx.core.app.Fragment}.
      * @return {@link Permission}.
      */
     public static
     @NonNull
-    Permission with(@NonNull android.support.v4.app.Fragment fragment) {
+    Permission with(@NonNull Fragment fragment) {
         return new DefaultPermission(fragment);
     }
 
@@ -184,11 +185,11 @@ public class PermissionManager {
     /**
      * Request permissions in the activity.
      *
-     * @param fragment    {@link android.support.v4.app.Fragment}.
+     * @param fragment    {@link androidx.core.app.Fragment}.
      * @param requestCode request code.
      * @param permissions all permissions.
      */
-    public static void send(@NonNull android.support.v4.app.Fragment fragment, int requestCode, @NonNull String...
+    public static void send(@NonNull Fragment fragment, int requestCode, @NonNull String...
             permissions) {
         with(fragment).requestCode(requestCode).permission(permissions).send();
     }
@@ -220,13 +221,13 @@ public class PermissionManager {
     /**
      * Parse the request results.
      *
-     * @param fragment     {@link android.support.v4.app.Fragment}.
+     * @param fragment     {@link androidx.core.app.Fragment}.
      * @param realizeClass 注解的实现类.
      * @param requestCode  request code.
      * @param permissions  all permissions.
      * @param grantResults results.
      */
-    public static void onRequestPermissionsResult(@NonNull android.support.v4.app.Fragment fragment, int requestCode, @NonNull String[] permissions, int[] grantResults) {
+    public static void onRequestPermissionsResult(@NonNull Fragment fragment, int requestCode, @NonNull String[] permissions, int[] grantResults) {
         callbackAnnotation(fragment, requestCode, permissions, grantResults);
     }
 
@@ -234,7 +235,7 @@ public class PermissionManager {
     /**
      * Parse the request results.
      *
-     * @param o            {@link Activity} or {@link android.support.v4.app.Fragment} or
+     * @param o            {@link Activity} or {@link androidx.core.app.Fragment} or
      *                     {@link android.app.Fragment}.
      * @param requestCode  request code.
      * @param permissions  all permissions.

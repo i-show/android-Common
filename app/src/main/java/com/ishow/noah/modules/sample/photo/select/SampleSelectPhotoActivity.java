@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2016 The yuhaiyang Android Source Project
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,10 +19,9 @@ package com.ishow.noah.modules.sample.photo.select;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
-
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.ishow.common.utils.image.select.OnSelectPhotoListener;
 import com.ishow.common.utils.image.select.SelectPhotoUtils;
 import com.ishow.common.widget.recyclerview.itemdecoration.GridSpacingItemDecoration;
@@ -47,8 +46,8 @@ public class SampleSelectPhotoActivity extends AppBaseActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample_select_photo);
-    mSelectPhotoUtils = new SelectPhotoUtils(this, SelectPhotoUtils.SelectMode.SINGLE);
-    mSelectPhotoUtils.setOnSelectPhotoListener(this);
+        mSelectPhotoUtils = new SelectPhotoUtils(this, SelectPhotoUtils.SelectMode.SINGLE);
+        mSelectPhotoUtils.setOnSelectPhotoListener(this);
     }
 
     @Override

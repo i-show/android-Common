@@ -16,9 +16,9 @@
 
 package com.ishow.common.utils.http.rest.config;
 
-import android.support.annotation.Keep;
 import android.text.TextUtils;
 
+import androidx.annotation.Keep;
 import com.ishow.common.utils.http.rest.Cookie;
 import com.ishow.common.utils.http.rest.Headers;
 

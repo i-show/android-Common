@@ -17,7 +17,7 @@
 package com.ishow.common.utils.http.rest.callback;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.ishow.common.utils.http.rest.exception.HttpErrorException;
 import com.ishow.common.utils.http.rest.request.Request;

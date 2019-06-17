@@ -18,20 +18,15 @@ package com.ishow.common.widget.imageview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.RectF;
+import android.graphics.*;
 import android.os.Build;
-import android.support.annotation.ColorRes;
-import android.support.annotation.DimenRes;
-import android.support.annotation.FloatRange;
-import android.support.v7.widget.AppCompatImageView;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-
+import androidx.annotation.ColorRes;
+import androidx.annotation.DimenRes;
+import androidx.annotation.FloatRange;
+import androidx.appcompat.widget.AppCompatImageView;
 import com.ishow.common.R;
 import com.ishow.common.widget.prompt.IPrompt;
 
@@ -39,7 +34,6 @@ import com.ishow.common.widget.prompt.IPrompt;
  * 角标提示的TextView
  */
 public class PromptImageView extends AppCompatImageView implements IPrompt {
-    private static final String TAG = "PromptImageView";
     private int mMode;
 
     private String mPromptTextString;

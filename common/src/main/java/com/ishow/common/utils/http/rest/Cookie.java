@@ -1,9 +1,8 @@
 package com.ishow.common.utils.http.rest;
 
-import android.support.annotation.IntDef;
-import android.support.annotation.Keep;
+import androidx.annotation.IntDef;
+import androidx.annotation.Keep;
 
-import com.ishow.common.widget.prompt.IPrompt;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

@@ -1,8 +1,8 @@
 package com.ishow.noah.modules.sample.entries;
 
 import android.content.Context;
-import android.support.annotation.IntDef;
-import android.support.annotation.StringRes;
+import androidx.annotation.IntDef;
+import androidx.annotation.StringRes;
 
 import com.ishow.common.utils.router.AppRouter;
 
