@@ -1,14 +1,11 @@
 package com.ishow.noah.modules.main.home
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ishow.common.extensions.inflate
 import com.ishow.common.utils.router.AppRouter
-import com.ishow.common.widget.tablayout.TabLayoutPro
 import com.ishow.noah.R
 import com.ishow.noah.modules.base.AppBaseFragment
 import com.ishow.noah.modules.sample.main.SampleMainActivity
@@ -34,23 +31,20 @@ class HomeFragment : AppBaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        topBar.setOnTopBarListener(this)
     }
 
 
     override fun onRightClick(v: View) {
         super.onRightClick(v)
         AppRouter.with(context)
-            .target(SampleMainActivity::class.java)
-            .start()
+                .target(SampleMainActivity::class.java)
+                .start()
     }
 
     companion object {
-
         fun newInstance(): HomeFragment {
-
             val args = Bundle()
-
             val fragment = HomeFragment()
             fragment.arguments = args
             return fragment

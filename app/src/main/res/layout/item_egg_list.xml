@@ -21,7 +21,7 @@
              android:layout_height="match_parent"
              android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/gap_grade_1"
@@ -40,5 +40,5 @@
             android:gravity="center"
             android:textColor="@color/text_grey_light_normal"
             android:textSize="@dimen/F_title"/>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 </FrameLayout>
