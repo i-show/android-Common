@@ -162,7 +162,7 @@ public class PickerView extends View {
         mItemHeight = 0;
         mCurrentPosition = Math.min(mCurrentPosition, mAdapter.getCount() - 1);
         mCurrentPosition = computePosition(mCurrentPosition);
-        
+
         mTextPaint.setTextSize(mSelectedTextSize);
         Rect rect = new Rect();
         for (int i = 0; i < mAdapter.getCount(); i++) {
@@ -249,8 +249,8 @@ public class PickerView extends View {
         int height = getMeasuredHeight();
 
         //计算两条横线和控件中间点的Y位置
-        mFirstLineY = (height - mItemHeight) / 2;
-        mSecondLineY = (height + mItemHeight) / 2;
+        mFirstLineY = (float) ((height - mItemHeight) / 2);
+        mSecondLineY = (float) ((height + mItemHeight) / 2);
     }
 
 
@@ -294,8 +294,9 @@ public class PickerView extends View {
 
         canvas.save();
         Paint.FontMetricsInt fmi = mTextPaint.getFontMetricsInt();
+        final int index = mVisibleCount / 2;
         float baseline = (float) (mItemHeight - (fmi.bottom + fmi.top)) / 2.0f;
-        final float y = baseline + mItemHeight * (mVisibleCount / 2) - mMove + getPaddingTop();
+        final float y = baseline + mItemHeight * index - mMove + getPaddingTop();
         canvas.drawText(text, mDrawItemX, y, mTextPaint);
 
         // 绘制上方data
@@ -335,12 +336,14 @@ public class PickerView extends View {
         float baseline = (float) (mItemHeight - (fmi.bottom + fmi.top)) / 2.0f;
         String text;
 
+        final int index = mVisibleCount / 2;
+
         if (direction == Direction.UP) {
-            final float y = baseline + mItemHeight * (mVisibleCount / 2 - position) - mMove + getPaddingTop();
+            final float y = baseline + mItemHeight * (index - position) - mMove + getPaddingTop();
             text = getItemText(mCurrentPosition - position);
             canvas.drawText(text, mDrawItemX, y, mTextPaint);
         } else {
-            final float y = baseline + mItemHeight * (mVisibleCount / 2 + position) - mMove + getPaddingTop();
+            final float y = baseline + mItemHeight * (index + position) - mMove + getPaddingTop();
             text = getItemText(mCurrentPosition + position);
             canvas.drawText(text, mDrawItemX, y, mTextPaint);
         }
@@ -352,11 +355,11 @@ public class PickerView extends View {
         if (TextUtils.isEmpty(mUnit)) {
             return;
         }
-
+        final int index = mVisibleCount / 2;
         Paint.FontMetricsInt fmi = mUnitPaint.getFontMetricsInt();
         final float baseline = (float) (mItemHeight - (fmi.bottom + fmi.top)) / 2.0f;
         final int x = mDrawItemX + mItemWidth / 2 + mUnitWidth / 2;
-        final int y = (int) (baseline + mItemHeight * (mVisibleCount / 2) + getPaddingBottom());
+        final int y = (int) (baseline + mItemHeight * index + getPaddingBottom());
         canvas.drawText(mUnit, x, y, mUnitPaint);
     }
 
@@ -397,19 +400,25 @@ public class PickerView extends View {
 
 
     private void countVelocityTracker() {
+        Log.i("yhy", "countVelocityTracker");
+        Log.i("yhy", "countVelocityTracker mMinVelocity = " + mMinVelocity);
         mVelocityTracker.computeCurrentVelocity(1000);
         int yVelocity = (int) mVelocityTracker.getYVelocity();
         if (Math.abs(yVelocity) > mMinVelocity) {
+            Log.i("yhy", "countVelocityTracker fling ");
             fling(yVelocity);
         } else {
+            Log.i("yhy", "countVelocityTracker calibration ");
             calibration();
         }
     }
 
     private void fling(int yVelocity) {
+        Log.i("yhy", "fling: yVelocity = " + yVelocity);
         mLastScrollerY = 0;
         mAdjustScroller.forceFinished(true);
         mFlingScroller.fling(0, 0, 0, yVelocity, 0, 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        postInvalidate();
     }
 
     /**
@@ -476,17 +485,22 @@ public class PickerView extends View {
 
     @Override
     public void computeScroll() {
+        Log.i("yhy", "computeScroll");
         computeFlingScroll();
         computeAdjustScroll();
     }
 
     private void computeFlingScroll() {
+        Log.i("yhy", "computeFlingScroll");
         if (!mFlingScroller.computeScrollOffset()) {
+            Log.i("yhy", "computeFlingScroll return");
             return;
         }
         if (mFlingScroller.getCurrY() == mFlingScroller.getFinalY()) {
+            Log.i("yhy", "computeFlingScroll 111");
             calibration();
         } else {
+            Log.i("yhy", "computeFlingScroll 222");
             int position = mFlingScroller.getCurrY();
             mMove += (mLastScrollerY - position);
             compute();
@@ -508,6 +522,7 @@ public class PickerView extends View {
             mLastY = 0;
             mMove = 0;
         } else {
+            Log.i("yhy", "computeAdjustScroll 2222 ");
             int position = mAdjustScroller.getCurrY();
             mMove += (mLastScrollerY - position);
             mLastScrollerY = position;

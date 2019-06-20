@@ -383,7 +383,7 @@ public class PermissionManager {
         builder.setPositiveButton(R.string.go_settings, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                IntentUtils.goToAppSettings(context);
+                IntentUtils.INSTANCE.gotoAppSettings(context);
             }
         });
 

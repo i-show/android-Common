@@ -31,7 +31,7 @@ import java.lang.annotation.RetentionPolicy;
  */
 
 public class LogManager {
-    private static final String DEFAULT_MIX_TAG = "clubman";
+    private static final String DEFAULT_MIX_TAG = "yhy";
     private static boolean isMix;
 
     private static String mMixTag;

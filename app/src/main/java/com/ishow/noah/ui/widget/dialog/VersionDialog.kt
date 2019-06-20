@@ -94,7 +94,7 @@ class VersionDialog(context: Context) : Dialog(context, R.style.Theme_Dialog_Tra
             }
             R.id.submit -> {
                 val version = VersionManager.instance.getVersion(context)
-                IntentUtils.goToBrowser(context, version?.downloadPath)
+                IntentUtils.gotoBrowser(context, version?.downloadPath)
                 dismiss()
             }
         }
