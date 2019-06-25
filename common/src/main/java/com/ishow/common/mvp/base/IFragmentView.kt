@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-package com.ishow.common.mvp.base;
+package com.ishow.common.mvp.base
 
-import android.content.Context;
+import android.content.Context
 
 /**
  * 自己修改过的
  */
-public interface IView extends IViewStatus{
-
-    Context getContext();
+interface IFragmentView : IViewStatus {
+    fun getContext(): Context?
 }

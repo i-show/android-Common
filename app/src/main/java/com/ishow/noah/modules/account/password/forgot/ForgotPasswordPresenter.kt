@@ -22,6 +22,7 @@ package com.ishow.noah.modules.account.password.forgot
 import android.content.Context
 import android.os.Handler
 import android.text.TextUtils
+import com.ishow.common.entries.status.Error
 
 import com.ishow.noah.R
 import com.ishow.noah.manager.UserManager
@@ -34,61 +35,37 @@ import java.util.Random
  */
 internal class ForgotPasswordPresenter(private val mView: ForgotPasswordContract.View) : ForgotPasswordContract.Presenter {
 
-
-    //  用来模拟网络连接的Handler
-    private val mHandler: Handler
-
-    init {
-        mHandler = Handler()
-    }
-
     override fun resetPassword(context: Context, name: String, verifyCode: String, password: String, ensurePassword: String) {
         var errorMessage = UserManager.checkAccount(context, name)
         if (!TextUtils.isEmpty(errorMessage)) {
-            mView.showError(errorMessage, true, 0)
+            mView.showError(Error.dialog(errorMessage))
             return
         }
 
         if (TextUtils.isEmpty(verifyCode)) {
-            mView.showError(context.getString(R.string.register_please_input_verify_code), true, 0)
+            mView.showError(Error.dialog(R.string.register_please_input_verify_code))
             return
         }
 
         errorMessage = UserManager.checkPassword(context, password)
         if (!TextUtils.isEmpty(errorMessage)) {
-            mView.showError(errorMessage, true, 0)
+            mView.showError(Error.dialog(errorMessage))
             return
         }
 
         errorMessage = UserManager.checkEnsurePassword(context, password, ensurePassword)
         if (!TextUtils.isEmpty(errorMessage)) {
-            mView.showError(errorMessage, true, 0)
+            mView.showError(Error.dialog(errorMessage))
             return
         }
 
-        mView.showLoading(null, true)
+        mView.showLoading()
 
-        // 模拟注册
-        mHandler.postDelayed({
-            val result = Random().nextInt()
-            if (result % 2 == 0) {
-                mView.showSuccess(null)
-            } else {
-                mView.showError("手机号码已经注册过，请直接登录", true, 0)
-            }
-        }, 3000)
+
     }
 
     override fun sendVerifyCode(context: Context, phoneNumber: String) {
-        // 模拟发送验证码
-        mHandler.postDelayed({
-            val result = Random().nextInt()
-            if (result % 2 == 0) {
-                mView.showSendVerifySuccess()
-            } else {
-                mView.showSendVerifyFail("请求超时")
-            }
-        }, 3000)
+
     }
 
 }

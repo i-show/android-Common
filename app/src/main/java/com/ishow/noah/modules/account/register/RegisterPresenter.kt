@@ -23,6 +23,7 @@ import android.content.Context
 import android.os.Handler
 import android.text.TextUtils
 import com.alibaba.fastjson.JSONObject
+import com.ishow.common.entries.status.Error
 import com.ishow.common.utils.http.rest.Http
 import com.ishow.common.utils.http.rest.HttpError
 import com.ishow.noah.R
@@ -43,30 +44,13 @@ internal class RegisterPresenter(private val mView: RegisterContract.View) : Reg
 
 
     override fun register(context: Context, name: String, verifyCode: String, password: String, ensurePassword: String) {
-        var errorMessage = UserManager.checkAccount(context, name)
+        val errorMessage = UserManager.checkEnsurePassword(context, password, ensurePassword)
         if (!TextUtils.isEmpty(errorMessage)) {
-            mView.showError(errorMessage, true, 0)
+            mView.showError(Error.dialog(errorMessage))
             return
         }
 
-        if (TextUtils.isEmpty(verifyCode)) {
-            mView.showError(context.getString(R.string.register_please_input_verify_code), true, 0)
-            return
-        }
-
-        errorMessage = UserManager.checkPassword(context, password)
-        if (!TextUtils.isEmpty(errorMessage)) {
-            mView.showError(errorMessage, true, 0)
-            return
-        }
-
-        errorMessage = UserManager.checkEnsurePassword(context, password, ensurePassword)
-        if (!TextUtils.isEmpty(errorMessage)) {
-            mView.showError(errorMessage, true, 0)
-            return
-        }
-
-        mView.showLoading(null, true)
+        mView.showLoading()
 
         val params = JSONObject()
         params["verifyCode"] = verifyCode
@@ -78,13 +62,13 @@ internal class RegisterPresenter(private val mView: RegisterContract.View) : Reg
                 .params(params.toString())
                 .execute(object : AppHttpCallBack<String>(context) {
                     override fun onFailed(error: HttpError) {
-                        mView.dismissLoading(true)
-                        mView.showError(error.message, true, 1)
+                        mView.dismissLoading()
+                        mView.showError(Error.dialog(error.message))
                     }
 
                     override fun onSuccess(result: String) {
-                        mView.dismissLoading(true)
-                        mView.showSuccess(null)
+                        mView.dismissLoading()
+                        mView.showSuccess()
                     }
                 })
     }

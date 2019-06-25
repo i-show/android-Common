@@ -135,7 +135,7 @@ class LoginActivity : AppBaseActivity(), LoginContract.View, View.OnClickListene
     }
 
 
-    override fun showSuccess(message: String) {
+    override fun showSuccess() {
         if (!isOnlyFinish) {
             val intent = Intent(this, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
@@ -156,6 +156,5 @@ class LoginActivity : AppBaseActivity(), LoginContract.View, View.OnClickListene
             super.onBackPressed()
         }
     }
-
 
 }

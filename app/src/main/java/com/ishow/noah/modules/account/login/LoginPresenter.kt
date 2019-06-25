@@ -18,6 +18,7 @@ package com.ishow.noah.modules.account.login
 
 import android.text.TextUtils
 import com.alibaba.fastjson.JSONObject
+import com.ishow.common.entries.status.Error
 import com.ishow.common.utils.DeviceUtils
 import com.ishow.common.utils.StorageUtils
 import com.ishow.common.utils.StringUtils
@@ -37,8 +38,8 @@ internal class LoginPresenter(private val mView: LoginContract.View) : LoginCont
 
     override fun init() {
         val account = StorageUtils.with(mView.context)
-                .key(UserContainer.Key.ACCOUNT)
-                .get(StringUtils.EMPTY)
+            .key(UserContainer.Key.ACCOUNT)
+            .get(StringUtils.EMPTY)
 
         mView.updateUI(account)
         clear()
@@ -47,19 +48,19 @@ internal class LoginPresenter(private val mView: LoginContract.View) : LoginCont
     override fun login(account: String, password: String) {
         var errorMessage = UserManager.checkAccount(mView.context, account)
         if (!TextUtils.isEmpty(errorMessage)) {
-            mView.showError(errorMessage, true, 0)
+            mView.showError(Error.dialog(errorMessage))
             return
         }
 
         errorMessage = UserManager.checkPassword(mView.context, password)
         if (!TextUtils.isEmpty(errorMessage)) {
-            mView.showError(errorMessage, true, 0)
+            mView.showError(Error.dialog(errorMessage))
             return
         }
 
         saveUserInfo(account)
 
-        mView.showLoading(null, true)
+        mView.showLoading()
 
         val params = JSONObject()
         params["account"] = account
@@ -69,21 +70,21 @@ internal class LoginPresenter(private val mView: LoginContract.View) : LoginCont
         params["deviceVersion"] = DeviceUtils.version()
 
         Http.post()
-                .url(Url.login())
-                .params(params.toJSONString())
-                .execute(object : AppHttpCallBack<UserContainer>(mView.context) {
-                    override fun onFailed(error: HttpError) {
-                        mView.dismissLoading(true)
-                        mView.showError(error.message, true, 0)
-                    }
+            .url(Url.login())
+            .params(params.toJSONString())
+            .execute(object : AppHttpCallBack<UserContainer>(mView.context) {
+                override fun onFailed(error: HttpError) {
+                    mView.dismissLoading()
+                    mView.showError(Error.dialog(error.message))
+                }
 
-                    override fun onSuccess(result: UserContainer) {
-                        val userManager = UserManager.instance
-                        userManager.setUserContainer(mView.context, result)
-                        mView.dismissLoading(true)
-                        mView.showSuccess(StringUtils.EMPTY)
-                    }
-                })
+                override fun onSuccess(result: UserContainer) {
+                    val userManager = UserManager.instance
+                    userManager.setUserContainer(mView.context, result)
+                    mView.dismissLoading()
+                    mView.showSuccess()
+                }
+            })
     }
 
 
@@ -92,8 +93,8 @@ internal class LoginPresenter(private val mView: LoginContract.View) : LoginCont
      */
     private fun saveUserInfo(account: String) {
         StorageUtils.with(mView.context)
-                .param(UserContainer.Key.ACCOUNT, account)
-                .save()
+            .param(UserContainer.Key.ACCOUNT, account)
+            .save()
     }
 
     /**
@@ -101,7 +102,7 @@ internal class LoginPresenter(private val mView: LoginContract.View) : LoginCont
      */
     private fun clear() {
         StorageUtils.with(mView.context)
-                .key(UserContainer.Key.CACHE)
-                .remove()
+            .key(UserContainer.Key.CACHE)
+            .remove()
     }
 }

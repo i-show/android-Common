@@ -21,6 +21,7 @@ package com.ishow.noah.modules.account.password.forgot
 
 import android.os.Bundle
 import android.view.View
+import com.ishow.common.extensions.dialog
 import com.ishow.noah.R
 import com.ishow.noah.modules.base.AppBaseActivity
 import kotlinx.android.synthetic.main.activity_password.*
@@ -70,5 +71,4 @@ class ForgotPasswordActivity : AppBaseActivity(), View.OnClickListener, ForgotPa
         sendVerifyCode.reset()
         dialog(message)
     }
-
 }

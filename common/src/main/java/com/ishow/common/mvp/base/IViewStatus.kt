@@ -14,57 +14,49 @@
  * limitations under the License.
  */
 
-package com.ishow.common.mvp.base;
+package com.ishow.common.mvp.base
 
-import androidx.annotation.StringRes;
+import com.ishow.common.entries.status.Empty
+import com.ishow.common.entries.status.Error
+import com.ishow.common.entries.status.Loading
+import com.ishow.common.entries.status.Success
 
 /**
- * Created by yuhaiyang on 2017/5/2.
+ * Created by yuhaiyang on 2019/6/25.
  * View状态的更新
  */
 
-public interface IViewStatus {
+interface IViewStatus {
     /**
      * 显示加载动画
      */
-    void showLoading(String message, boolean dialog);
+    fun showLoading()
+
+    fun showLoading(loading: Loading)
 
     /**
      * 隐藏加载动画
      */
-    void dismissLoading(boolean dialog);
+    fun dismissLoading()
+
+    fun dismissLoading(loading: Loading)
 
     /**
      * 加载失败
-     *
-     * @param errorType 预防点击退出
      */
-    void showError(String message, boolean dialog, int errorType);
-
-    /**
-     * 加载失败
-     *
-     * @param errorType 预防点击退出
-     */
-    void showError(@StringRes int message, boolean dialog, int errorType);
+    fun showError(error: Error)
 
     /**
      * 加载成功
      */
-    void showSuccess(String message);
+    fun showSuccess()
 
-    /**
-     * 加载成功
-     */
-    void showSuccess(@StringRes int message);
+    fun showSuccess(success: Success)
 
     /**
      * 展示空数据
      */
-    void showEmpty(String message);
+    fun showEmpty()
 
-    /**
-     * 展示空数据
-     */
-    void showEmpty(@StringRes int message);
+    fun showEmpty(empty: Empty)
 }

@@ -1,6 +1,7 @@
 package com.ishow.noah.modules.main.mine
 
 import android.content.Context
+import com.ishow.common.mvp.base.IFragmentView
 
 import com.ishow.common.mvp.base.IPresenter
 import com.ishow.common.mvp.base.IView
@@ -13,7 +14,7 @@ import com.ishow.noah.entries.UserContainer
  */
 
 internal interface MineContract {
-    interface View : IView, IViewStatus {
+    interface View : IFragmentView {
         /**
          * 更新信息
          */
@@ -23,6 +24,6 @@ internal interface MineContract {
 
     interface Presenter : IPresenter {
 
-        fun onResume(context: Context?)
+        fun onResume()
     }
 }

@@ -56,7 +56,7 @@ class SplashActivity : AppBaseActivity(), SplashContract.View {
      * 延迟进入
      */
     private fun nextDelay(time: Long) {
-        mHandler.postDelayed({ next() }, time)
+        mHandler?.postDelayed({ next() }, time)
     }
 
     /**

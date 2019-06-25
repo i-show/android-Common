@@ -14,9 +14,6 @@
  * limitations under the License.
  */
 
-package com.ishow.common.mvp.base;
+package com.ishow.common.mvp.base
 
-public interface IPresenter {
-
-
-}
+interface IPresenter

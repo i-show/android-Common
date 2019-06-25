@@ -16,17 +16,15 @@
 
 package com.ishow.common.modules.image.select;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.core.graphics.drawable.DrawableCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-
+import androidx.annotation.NonNull;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.ishow.common.R;
@@ -124,30 +122,7 @@ public class PhotoSelectorActivity extends BaseActivity implements
         mSelectedFolder = folderList.isEmpty() ? null : folderList.get(0);
     }
 
-    @Override
-    public void showLoading(String message, boolean dialog) {
 
-    }
-
-    @Override
-    public void dismissLoading(boolean dialog) {
-
-    }
-
-    @Override
-    public void showError(String message, boolean dialog, int errorType) {
-
-    }
-
-    @Override
-    public void showSuccess(String message) {
-
-    }
-
-    @Override
-    public void showEmpty(String message) {
-
-    }
 
     private PhotoSelectorAdapter.OnSelectedChangedListener mSelectedChangedListener = new PhotoSelectorAdapter.OnSelectedChangedListener() {
         @Override
@@ -277,8 +252,5 @@ public class PhotoSelectorActivity extends BaseActivity implements
         }
     }
 
-    @Override
-    public Context getContext() {
-        return this;
-    }
+
 }

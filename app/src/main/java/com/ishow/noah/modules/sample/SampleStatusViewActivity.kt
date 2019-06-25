@@ -9,9 +9,9 @@ import com.ishow.noah.modules.base.AppBaseActivity
 import kotlinx.android.synthetic.main.activity_sample_status_view.*
 
 /**
-* Created by yuhaiyang on 2018-10-29.
-* StatusView
-*/
+ * Created by yuhaiyang on 2018-10-29.
+ * StatusView
+ */
 class SampleStatusViewActivity : AppBaseActivity(), View.OnClickListener, StatusView.OnStatusViewListener {
 
 
@@ -36,7 +36,7 @@ class SampleStatusViewActivity : AppBaseActivity(), View.OnClickListener, Status
         }
     }
 
-    override fun onStatusClick(v: View?, which: StatusView.Which) {
+    override fun onStatusClick(v: View, which: StatusView.Which) {
         when (which) {
             StatusView.Which.Reload -> ToastUtils.show(this, "reloadClick")
             StatusView.Which.Title -> ToastUtils.show(this, "Title")

@@ -253,7 +253,7 @@ public class MathUtils {
      */
     @SuppressWarnings("WeakerAccess")
     public static String rounding(double value, int scale, boolean force) {
-        return rounding(new BigDecimal(value), scale, false);
+        return rounding(String.valueOf(value), scale, false);
     }
 
     /**

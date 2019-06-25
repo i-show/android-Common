@@ -1,9 +1,12 @@
 package com.ishow.common.extensions
 
 import android.app.Activity
+import android.app.Dialog
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import com.ishow.common.R
+import com.ishow.common.widget.dialog.BaseDialog
 
 /**
  * inflate 方便实现

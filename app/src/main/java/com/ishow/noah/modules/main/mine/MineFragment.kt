@@ -1,6 +1,10 @@
 package com.ishow.noah.modules.main.mine
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
+import android.os.Parcel
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +27,7 @@ class MineFragment : AppBaseFragment(), MineContract.View, View.OnClickListener 
 
     private lateinit var mPresenter: MineContract.Presenter
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         if (mRootView != null) {
             return mRootView
@@ -41,7 +46,7 @@ class MineFragment : AppBaseFragment(), MineContract.View, View.OnClickListener 
 
     override fun onResume() {
         super.onResume()
-        mPresenter.onResume(context)
+        mPresenter.onResume()
     }
 
 
@@ -62,8 +67,8 @@ class MineFragment : AppBaseFragment(), MineContract.View, View.OnClickListener 
         when (v?.id) {
             R.id.settings -> {
                 AppRouter.with(context)
-                        .target(SettingsActivity::class.java)
-                        .start()
+                    .target(SettingsActivity::class.java)
+                    .start()
             }
         }
     }

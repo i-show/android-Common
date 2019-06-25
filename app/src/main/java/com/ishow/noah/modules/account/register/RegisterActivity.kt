@@ -18,6 +18,7 @@ package com.ishow.noah.modules.account.register
 
 import android.os.Bundle
 import android.view.View
+import com.ishow.common.extensions.dialog
 import com.ishow.common.widget.loading.LoadingDialog
 import com.ishow.noah.R
 import com.ishow.noah.modules.base.AppBaseActivity
@@ -69,7 +70,7 @@ class RegisterActivity : AppBaseActivity(), View.OnClickListener, RegisterContra
     }
 
 
-    override fun showSuccess(message: String) {
+    override fun showSuccess() {
         LoadingDialog.dismiss(mLoadingDialog)
         dialog(R.string.register_success, true)
     }
