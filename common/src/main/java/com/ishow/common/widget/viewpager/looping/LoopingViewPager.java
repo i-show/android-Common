@@ -29,7 +29,7 @@ import android.view.MotionEvent;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import com.ishow.common.R;
-import com.ishow.common.utils.log.LogManager;
+import com.ishow.common.utils.log.LogUtils;
 import com.ishow.common.widget.viewpager.looping.indicator.DefaultLoopingIndicator;
 
 /**
@@ -188,7 +188,7 @@ public class LoopingViewPager extends ViewPager {
         @Override
         public void onPageSelected(int position) {
             if (mAdapter == null) {
-                LogManager.i(TAG, "onPageSelected: adapter is null");
+                LogUtils.i(TAG, "onPageSelected: adapter is null");
                 return;
             }
 
@@ -201,7 +201,7 @@ public class LoopingViewPager extends ViewPager {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             if (mAdapter == null) {
-                LogManager.i(TAG, "onPageScrolled: adapter is null");
+                LogUtils.i(TAG, "onPageScrolled: adapter is null");
                 return;
             }
 

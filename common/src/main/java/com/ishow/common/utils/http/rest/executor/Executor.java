@@ -30,7 +30,7 @@ import com.ishow.common.utils.http.rest.config.HttpConfig;
 import com.ishow.common.utils.http.rest.exception.CanceledException;
 import com.ishow.common.utils.http.rest.request.Request;
 import com.ishow.common.utils.http.rest.response.Response;
-import com.ishow.common.utils.log.LogManager;
+import com.ishow.common.utils.log.LogUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -179,36 +179,36 @@ public abstract class Executor {
      */
     @SuppressWarnings("WeakerAccess")
     protected void debugRequest(@NonNull final Request request) {
-        LogManager.d(request.getLogTag(), StringUtils.plusString("=================== ", request.getMethod(), ":", request.getId(), " ==================="));
-        LogManager.d(request.getLogTag(), StringUtils.plusString(request.getId(), " URL     = ", request.getFinalUrl()));
+        LogUtils.d(request.getLogTag(), StringUtils.plusString("=================== ", request.getMethod(), ":", request.getId(), " ==================="));
+        LogUtils.d(request.getLogTag(), StringUtils.plusString(request.getId(), " URL     = ", request.getFinalUrl()));
 
         Headers headers = HttpConfig.getHeaders();
         if (headers.size() > 0) {
-            LogManager.d(request.getLogTag(), StringUtils.plusString(request.getId(), " HEADERS_DEFAULT = ", headers.toString()));
+            LogUtils.d(request.getLogTag(), StringUtils.plusString(request.getId(), " HEADERS_DEFAULT = ", headers.toString()));
         }
 
         headers = request.getHeaders();
         if (headers != null && headers.size() > 0) {
-            LogManager.d(request.getLogTag(), StringUtils.plusString(request.getId(), " HEADERS = ", headers.toString()));
+            LogUtils.d(request.getLogTag(), StringUtils.plusString(request.getId(), " HEADERS = ", headers.toString()));
         }
 
-        LogManager.d(request.getLogTag(), StringUtils.plusString(request.getId(), " TIMEOUT = ", request.getConnTimeOut(true)));
+        LogUtils.d(request.getLogTag(), StringUtils.plusString(request.getId(), " TIMEOUT = ", request.getConnTimeOut(true)));
 
         RequestParams params = request.getParams();
 
         String normalParsms = buildDebugParams(params.getNormalParams());
         if (!TextUtils.isEmpty(normalParsms)) {
-            LogManager.d(request.getLogTag(), StringUtils.plusString(request.getId(), " PARAMS = ", normalParsms));
+            LogUtils.d(request.getLogTag(), StringUtils.plusString(request.getId(), " PARAMS = ", normalParsms));
         }
 
         String commonParams = buildDebugParams(HttpConfig.getCommonParams());
         if (!TextUtils.isEmpty(commonParams) && request.isAddCommonParams()) {
-            LogManager.d(request.getLogTag(), StringUtils.plusString(request.getId(), " PARAMS COMMON = ", commonParams));
+            LogUtils.d(request.getLogTag(), StringUtils.plusString(request.getId(), " PARAMS COMMON = ", commonParams));
         }
 
         Object body = params.getBody();
         if (body instanceof String) {
-            LogManager.d(request.getLogTag(), StringUtils.plusString(request.getId(), " PARAMS = ", body.toString()));
+            LogUtils.d(request.getLogTag(), StringUtils.plusString(request.getId(), " PARAMS = ", body.toString()));
         }
     }
 

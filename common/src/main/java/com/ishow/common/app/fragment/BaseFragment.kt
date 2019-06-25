@@ -16,7 +16,6 @@
 
 package com.ishow.common.app.fragment
 
-import android.content.Context
 import android.os.Handler
 import android.view.View
 import androidx.fragment.app.Fragment

@@ -6,7 +6,7 @@ import com.baidu.location.BDLocationListener
 import com.baidu.location.LocationClient
 import com.baidu.location.LocationClientOption
 import com.ishow.common.entries.Location
-import com.ishow.common.utils.log.LogManager
+import com.ishow.common.utils.log.LogUtils
 
 /**
  * 位置信息获取
@@ -65,7 +65,7 @@ object LocationUtils {
      */
     private fun notificationOnReceiveLocation(listener: OnLocationListener?, bdLocation: BDLocation?) {
         if (listener == null || bdLocation == null) {
-            LogManager.e(TAG, "notificationOnReceiveLocation: listener is null or BDLocation is null")
+            LogUtils.e(TAG, "notificationOnReceiveLocation: listener is null or BDLocation is null")
             return
         }
         val location = Location()
@@ -90,7 +90,7 @@ object LocationUtils {
     ) : BDLocationListener {
 
         override fun onReceiveLocation(bdLocation: BDLocation) {
-            LogManager.d(TAG, "位置信息: " + bdLocation.addrStr)
+            LogUtils.d(TAG, "位置信息: " + bdLocation.addrStr)
             notificationOnReceiveLocation(listener, bdLocation)
             unregisterLocationListener(client, this)
         }

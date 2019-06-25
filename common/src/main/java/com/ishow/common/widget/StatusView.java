@@ -40,7 +40,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ishow.common.R;
-import com.ishow.common.utils.log.LogManager;
+import com.ishow.common.utils.log.LogUtils;
 import com.ishow.common.widget.spinkit.SpinKitView;
 
 /**
@@ -341,7 +341,7 @@ public class StatusView extends FrameLayout implements View.OnClickListener {
     private void startLoadingAnimation() {
         Drawable drawable = mIconView.getDrawable();
         if (!(drawable instanceof AnimationDrawable)) {
-            LogManager.e(TAG, "drawable is not AnimationDrawable");
+            LogUtils.e(TAG, "drawable is not AnimationDrawable");
             return;
         }
 
@@ -352,7 +352,7 @@ public class StatusView extends FrameLayout implements View.OnClickListener {
         mIconView.clearAnimation();
         Drawable drawable = mIconView.getDrawable();
         if (!(drawable instanceof AnimationDrawable)) {
-            LogManager.e(TAG, "drawable is not AnimationDrawable");
+            LogUtils.e(TAG, "drawable is not AnimationDrawable");
             return;
         }
 

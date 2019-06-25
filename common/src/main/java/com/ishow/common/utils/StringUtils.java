@@ -18,7 +18,7 @@ package com.ishow.common.utils;
 
 import android.text.TextUtils;
 
-import com.ishow.common.utils.log.LogManager;
+import com.ishow.common.utils.log.LogUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -83,7 +83,7 @@ public class StringUtils {
         try {
             return Integer.valueOf(value);
         } catch (Exception e) {
-            LogManager.d(TAG, "format2int e = " + e.toString());
+            LogUtils.d(TAG, "format2int e = " + e.toString());
             return 0;
         }
     }
@@ -95,7 +95,7 @@ public class StringUtils {
         try {
             return Float.valueOf(value);
         } catch (Exception e) {
-            LogManager.d(TAG, "format2int e = " + e.toString());
+            LogUtils.d(TAG, "format2int e = " + e.toString());
             return 0F;
         }
     }

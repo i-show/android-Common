@@ -26,7 +26,7 @@ class VerifyManager {
 
     private fun initPrecondition(context: Context): Boolean {
         try {
-            if (!HttpUtils.hasNetWorkConection(context)) {
+            if (!HttpUtils.hasNetWorkConnection(context)) {
                 return false
             }
 

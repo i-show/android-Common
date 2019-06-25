@@ -20,6 +20,7 @@ import com.ishow.common.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 文件夹
@@ -103,7 +104,7 @@ public class Folder {
 
         Folder folder = (Folder) o;
 
-        return id != null ? id.equals(folder.id) : folder.id == null;
+        return Objects.equals(id, folder.id);
 
     }
 

@@ -23,7 +23,7 @@ import android.os.Bundle
 import android.webkit.*
 
 import com.ishow.common.utils.WebViewUtils
-import com.ishow.common.utils.log.LogManager
+import com.ishow.common.utils.log.LogUtils
 import com.ishow.noah.BuildConfig
 import com.ishow.noah.R
 import kotlinx.android.synthetic.main.activity_only_web.*
@@ -48,7 +48,7 @@ class OnlyWebActivity : AppBaseActivity() {
         val intent = intent
         mTitleString = intent.getStringExtra(KEY_TITLE)
         mUrl = intent.getStringExtra(KEY_CONTENT)
-        if (BuildConfig.DEBUG) LogManager.i(TAG, "initNecessaryData: mUrl = " + mUrl!!)
+        if (BuildConfig.DEBUG) LogUtils.i(TAG, "initNecessaryData: mUrl = " + mUrl!!)
     }
 
     override fun initViews() {

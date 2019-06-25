@@ -32,7 +32,7 @@ import com.ishow.common.utils.http.rest.executor.Executor;
 import com.ishow.common.utils.http.rest.okhttp.cookie.OkCookiesManager;
 import com.ishow.common.utils.http.rest.request.Request;
 import com.ishow.common.utils.http.rest.response.Response;
-import com.ishow.common.utils.log.LogManager;
+import com.ishow.common.utils.log.LogUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -118,7 +118,7 @@ public class OkhttpExecutor extends Executor {
                 }
             }
         } catch (Exception e) {
-            LogManager.i(TAG, "cancle " + e.toString());
+            LogUtils.i(TAG, "cancle " + e.toString());
         }
     }
 
@@ -142,7 +142,7 @@ public class OkhttpExecutor extends Executor {
             @Override
             public void onFailure(Call call, IOException e) {
                 if (callBack == null) {
-                    LogManager.d(request.getLogTag(), "request failed");
+                    LogUtils.d(request.getLogTag(), "request failed");
                     return;
                 }
 
@@ -160,7 +160,7 @@ public class OkhttpExecutor extends Executor {
             @Override
             public void onResponse(Call call, okhttp3.Response okhttp3Response) throws IOException {
                 if (callBack == null) {
-                    LogManager.d(request.getLogTag(), "request success");
+                    LogUtils.d(request.getLogTag(), "request success");
                     return;
                 }
 

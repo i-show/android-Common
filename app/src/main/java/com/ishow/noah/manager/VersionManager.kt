@@ -24,7 +24,7 @@ import com.ishow.common.utils.AppUtils
 import com.ishow.common.utils.StorageUtils
 import com.ishow.common.utils.http.rest.Http
 import com.ishow.common.utils.http.rest.HttpError
-import com.ishow.common.utils.log.LogManager
+import com.ishow.common.utils.log.LogUtils
 import com.ishow.noah.BuildConfig
 import com.ishow.noah.entries.Version
 import com.ishow.noah.modules.init.splash.SplashActivity
@@ -100,7 +100,7 @@ class VersionManager private constructor() {
 
     private fun makeVersion(versionJson: String?) {
         if (TextUtils.isEmpty(versionJson)) {
-            LogManager.i(TAG, "makeVersion: version is empty")
+            LogUtils.i(TAG, "makeVersion: version is empty")
             return
         }
         mVersion = JSON.parseObject(versionJson, Version::class.java)

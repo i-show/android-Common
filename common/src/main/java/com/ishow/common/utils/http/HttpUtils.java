@@ -30,7 +30,7 @@ public class HttpUtils {
     /**
      * 判断是否具有网络连接
      */
-    public static boolean hasNetWorkConection(Context context) {
+    public static boolean hasNetWorkConnection(Context context) {
         if (context == null) {
             return false;
         }
@@ -38,8 +38,7 @@ public class HttpUtils {
         final ConnectivityManager connectivityManager = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         // 获取连接的网络信息
-        final NetworkInfo networkInfo = connectivityManager
-                .getActiveNetworkInfo();
+        final NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isAvailable());
     }
 
@@ -50,8 +49,7 @@ public class HttpUtils {
         // 获取连接活动管理器
         final ConnectivityManager connectivityManager = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
-        final NetworkInfo networkInfo = connectivityManager
-                .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        final NetworkInfo networkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         return (networkInfo != null && networkInfo.isConnected());
     }
 
@@ -62,8 +60,7 @@ public class HttpUtils {
         // 获取连接活动管理器
         final ConnectivityManager connectivityManager = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
-        final NetworkInfo networkInfo = connectivityManager
-                .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        final NetworkInfo networkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
         return (networkInfo != null && networkInfo.isAvailable());
     }
 

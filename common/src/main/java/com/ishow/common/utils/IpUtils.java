@@ -1,6 +1,6 @@
 package com.ishow.common.utils;
 
-import com.ishow.common.utils.log.LogManager;
+import com.ishow.common.utils.log.LogUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,7 +31,7 @@ public class IpUtils {
                 if (ipAdress == null) {
                     ipAdress = "";
                 }
-                LogManager.i(TAG, "本机IP：" + ipAdress);
+                LogUtils.i(TAG, "本机IP：" + ipAdress);
             }
         }).start();
     }
@@ -68,7 +68,7 @@ public class IpUtils {
 
         } catch (Exception e) {
             if (e.getMessage() != null) {
-                LogManager.e(TAG, e.getMessage());
+                LogUtils.e(TAG, e.getMessage());
             }
         } finally {
             try {
@@ -79,7 +79,7 @@ public class IpUtils {
                     httpConnection.disconnect();
                 }
             } catch (IOException e) {
-                LogManager.e(TAG, e.getMessage());
+                LogUtils.e(TAG, e.getMessage());
             }
         }
         return ipLine;

@@ -4,7 +4,7 @@ import android.os.Environment;
 import android.os.StatFs;
 import android.text.TextUtils;
 import android.util.Log;
-import com.ishow.common.utils.log.LogManager;
+import com.ishow.common.utils.log.LogUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -95,7 +95,7 @@ public class FileUtils {
             long availableBlocks = stat.getAvailableBlocks();
             freeSpace = availableBlocks * blockSize / 1024;
         } catch (Exception e) {
-            LogManager.e(TAG, e.getMessage());
+            LogUtils.e(TAG, e.getMessage());
         }
 
         return freeSpace;
@@ -174,7 +174,7 @@ public class FileUtils {
 
         File root = new File(path);
         if (!root.exists()) {
-            LogManager.e(TAG, "getFileList: path is not exists");
+            LogUtils.e(TAG, "getFileList: path is not exists");
             return result;
         }
 
@@ -201,7 +201,7 @@ public class FileUtils {
 
         File root = new File(path);
         if (!root.exists()) {
-            LogManager.e(TAG, "getFileList: path is not exists");
+            LogUtils.e(TAG, "getFileList: path is not exists");
             return result;
         }
 
@@ -238,11 +238,11 @@ public class FileUtils {
      * @param newPathStr 新路径
      */
     public static void copy(String oldPathStr, String newPathStr) {
-        LogManager.i(TAG, "copy: oldPathStr = " + oldPathStr);
-        LogManager.i(TAG, "copy: newPathStr = " + newPathStr);
+        LogUtils.i(TAG, "copy: oldPathStr = " + oldPathStr);
+        LogUtils.i(TAG, "copy: newPathStr = " + newPathStr);
 
         if (TextUtils.isEmpty(oldPathStr) || TextUtils.isEmpty(newPathStr)) {
-            LogManager.e(TAG, "copy: oldPath or newPath is empty");
+            LogUtils.e(TAG, "copy: oldPath or newPath is empty");
             return;
         }
         if (isChild(oldPathStr, newPathStr)) {
@@ -251,7 +251,7 @@ public class FileUtils {
 
         File oldPath = new File(oldPathStr);
         if (oldPath.isFile()) {
-            LogManager.e(TAG, "copy: oldPath is a file not a path");
+            LogUtils.e(TAG, "copy: oldPath is a file not a path");
             return;
         }
 
@@ -292,7 +292,7 @@ public class FileUtils {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            LogManager.e(TAG, "copy: e = " + e.toString());
+            LogUtils.e(TAG, "copy: e = " + e.toString());
         }
     }
 
@@ -319,7 +319,7 @@ public class FileUtils {
      */
     public static boolean isChild(String original, String target) {
         if (original == null || target == null) {
-            LogManager.e(TAG, "isChild: original or target is null");
+            LogUtils.e(TAG, "isChild: original or target is null");
             return false;
         }
 

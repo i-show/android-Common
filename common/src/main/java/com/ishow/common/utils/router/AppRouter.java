@@ -10,7 +10,7 @@ import androidx.annotation.StringRes;
 import android.text.TextUtils;
 import android.util.Log;
 import com.ishow.common.utils.cache.LRUCache;
-import com.ishow.common.utils.log.LogManager;
+import com.ishow.common.utils.log.LogUtils;
 
 import java.io.Serializable;
 
@@ -252,7 +252,7 @@ public class AppRouter {
         }
 
         if (isNoTarget) {
-            LogManager.e(TAG, "no target activity");
+            LogUtils.e(TAG, "no target activity");
             return false;
         }
 

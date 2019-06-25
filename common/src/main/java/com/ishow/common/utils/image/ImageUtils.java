@@ -33,7 +33,7 @@ import android.util.Log;
 
 import com.ishow.common.utils.AppUtils;
 import com.ishow.common.utils.StringUtils;
-import com.ishow.common.utils.log.LogManager;
+import com.ishow.common.utils.log.LogUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -108,7 +108,7 @@ public final class ImageUtils {
      */
     public static byte[] drawableToBytes(Drawable drawable) {
         if (!(drawable instanceof BitmapDrawable)) {
-            LogManager.e(TAG, "drawableToBytes:  not a bitmap drawable");
+            LogUtils.e(TAG, "drawableToBytes:  not a bitmap drawable");
             return new byte[]{};
         }
         BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
@@ -122,7 +122,7 @@ public final class ImageUtils {
     @SuppressWarnings("WeakerAccess")
     public static byte[] bitmapToBytes(Bitmap bitmap) {
         if (bitmap == null) {
-            LogManager.e(TAG, "bitmap is null");
+            LogUtils.e(TAG, "bitmap is null");
             return new byte[]{};
         }
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -402,7 +402,7 @@ public final class ImageUtils {
      */
     @SuppressWarnings("WeakerAccess")
     public static String saveBitmap(Bitmap bitmap, Bitmap.CompressFormat format, String fileName, int quality) {
-        LogManager.e(TAG, "保存图片 fileName =  " + fileName + " format =" + format);
+        LogUtils.e(TAG, "保存图片 fileName =  " + fileName + " format =" + format);
 
         File cache = new File(fileName);
         try {

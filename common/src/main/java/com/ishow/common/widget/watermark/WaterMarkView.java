@@ -12,7 +12,7 @@ import android.view.ViewGroup.LayoutParams;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import com.ishow.common.R;
-import com.ishow.common.utils.log.LogManager;
+import com.ishow.common.utils.log.LogUtils;
 
 public class WaterMarkView extends View {
     private static final String TAG = "WaterMarkView";
@@ -94,7 +94,7 @@ public class WaterMarkView extends View {
         }
         WaterMarkView markView = activity.findViewById(R.id.water_mark_view);
         if (markView != null) {
-            LogManager.i(TAG, "already add");
+            LogUtils.i(TAG, "already add");
             return;
         }
         markView = new WaterMarkView(activity);

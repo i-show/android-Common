@@ -27,6 +27,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.text.TextUtils;
+import android.util.Log;
 import androidx.annotation.IntDef;
 import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
@@ -34,18 +36,14 @@ import androidx.annotation.StringRes;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
-import android.text.TextUtils;
-import android.util.Log;
-
 import com.ishow.common.R;
-import com.ishow.common.constant.Shift;
 import com.ishow.common.entries.Photo;
 import com.ishow.common.modules.image.cutter.PhotoCutterActivity;
 import com.ishow.common.modules.image.select.PhotoSelectorActivity;
 import com.ishow.common.utils.StringUtils;
 import com.ishow.common.utils.ToastUtils;
 import com.ishow.common.utils.image.ImageUtils;
-import com.ishow.common.utils.log.LogManager;
+import com.ishow.common.utils.log.LogUtils;
 import com.ishow.common.widget.dialog.BaseDialog;
 import com.ishow.common.widget.loading.LoadingDialog;
 
@@ -362,7 +360,7 @@ public class SelectPhotoUtils implements
                 notifySelectPhoto(picPath);
                 break;
             default:
-                LogManager.i(TAG, "requestCode = " + requestCode);
+                LogUtils.i(TAG, "requestCode = " + requestCode);
                 break;
         }
     }
@@ -590,7 +588,7 @@ public class SelectPhotoUtils implements
         /**
          * 单选调用摄像头
          */
-        static final int REQUEST_SINGLE_CAMERA = 1 << Shift.UTILS;
+        static final int REQUEST_SINGLE_CAMERA = 1 << 8;
         /**
          * 多选调用摄像头
          */

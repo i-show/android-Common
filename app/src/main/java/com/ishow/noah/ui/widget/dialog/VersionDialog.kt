@@ -25,7 +25,7 @@ import com.alibaba.fastjson.JSON
 import com.ishow.common.utils.DeviceUtils
 import com.ishow.common.utils.IntentUtils
 import com.ishow.common.utils.StorageUtils
-import com.ishow.common.utils.log.LogManager
+import com.ishow.common.utils.log.LogUtils
 import com.ishow.noah.R
 import com.ishow.noah.entries.Version
 import com.ishow.noah.manager.VersionManager
@@ -78,7 +78,7 @@ class VersionDialog(context: Context) : Dialog(context, R.style.Theme_Dialog_Tra
         super.show()
         val window = window
         if (window == null) {
-            LogManager.i(TAG, "window is null")
+            LogUtils.i(TAG, "window is null")
             return
         }
         val lp = window.attributes
