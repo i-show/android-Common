@@ -71,9 +71,9 @@ public abstract class Executor {
         }
 
         if (url.contains("?")) {
-            return StringUtils.plusString(url, "&", paramsString);
+            return StringUtils.INSTANCE.plusString(url, "&", paramsString);
         } else {
-            return StringUtils.plusString(url, "?", paramsString);
+            return StringUtils.INSTANCE.plusString(url, "?", paramsString);
         }
     }
 
@@ -107,7 +107,7 @@ public abstract class Executor {
                 builder.append("&");
                 builder.append(key);
                 builder.append("=");
-                builder.append(String.valueOf(value));
+                builder.append(value);
             }
         }
 
@@ -127,7 +127,7 @@ public abstract class Executor {
                 builder.append("&");
                 builder.append(key);
                 builder.append("=");
-                builder.append(String.valueOf(value));
+                builder.append(value);
             }
         }
         return builder.toString();
@@ -144,7 +144,7 @@ public abstract class Executor {
                     builder.append("&");
                     builder.append(key);
                     builder.append("=");
-                    builder.append(String.valueOf(value));
+                    builder.append(value);
                 }
             }
         }
@@ -161,7 +161,7 @@ public abstract class Executor {
                 builder.append("&");
                 builder.append(key);
                 builder.append("=");
-                builder.append(String.valueOf(value));
+                builder.append(value);
             }
         }
 
@@ -177,38 +177,37 @@ public abstract class Executor {
      * TODO ：
      * 1. 请求的参数和Mediatype打印
      */
-    @SuppressWarnings("WeakerAccess")
     protected void debugRequest(@NonNull final Request request) {
-        LogUtils.d(request.getLogTag(), StringUtils.plusString("=================== ", request.getMethod(), ":", request.getId(), " ==================="));
-        LogUtils.d(request.getLogTag(), StringUtils.plusString(request.getId(), " URL     = ", request.getFinalUrl()));
+        LogUtils.d(request.getLogTag(), StringUtils.INSTANCE.plusString("=================== ", request.getMethod(), ":", request.getId(), " ==================="));
+        LogUtils.d(request.getLogTag(), StringUtils.INSTANCE.plusString(request.getId(), " URL     = ", request.getFinalUrl()));
 
         Headers headers = HttpConfig.getHeaders();
         if (headers.size() > 0) {
-            LogUtils.d(request.getLogTag(), StringUtils.plusString(request.getId(), " HEADERS_DEFAULT = ", headers.toString()));
+            LogUtils.d(request.getLogTag(), StringUtils.INSTANCE.plusString(request.getId(), " HEADERS_DEFAULT = ", headers.toString()));
         }
 
         headers = request.getHeaders();
         if (headers != null && headers.size() > 0) {
-            LogUtils.d(request.getLogTag(), StringUtils.plusString(request.getId(), " HEADERS = ", headers.toString()));
+            LogUtils.d(request.getLogTag(), StringUtils.INSTANCE.plusString(request.getId(), " HEADERS = ", headers.toString()));
         }
 
-        LogUtils.d(request.getLogTag(), StringUtils.plusString(request.getId(), " TIMEOUT = ", request.getConnTimeOut(true)));
+        LogUtils.d(request.getLogTag(), StringUtils.INSTANCE.plusString(request.getId(), " TIMEOUT = ", request.getConnTimeOut(true)));
 
         RequestParams params = request.getParams();
 
         String normalParsms = buildDebugParams(params.getNormalParams());
         if (!TextUtils.isEmpty(normalParsms)) {
-            LogUtils.d(request.getLogTag(), StringUtils.plusString(request.getId(), " PARAMS = ", normalParsms));
+            LogUtils.d(request.getLogTag(), StringUtils.INSTANCE.plusString(request.getId(), " PARAMS = ", normalParsms));
         }
 
         String commonParams = buildDebugParams(HttpConfig.getCommonParams());
         if (!TextUtils.isEmpty(commonParams) && request.isAddCommonParams()) {
-            LogUtils.d(request.getLogTag(), StringUtils.plusString(request.getId(), " PARAMS COMMON = ", commonParams));
+            LogUtils.d(request.getLogTag(), StringUtils.INSTANCE.plusString(request.getId(), " PARAMS COMMON = ", commonParams));
         }
 
         Object body = params.getBody();
         if (body instanceof String) {
-            LogUtils.d(request.getLogTag(), StringUtils.plusString(request.getId(), " PARAMS = ", body.toString()));
+            LogUtils.d(request.getLogTag(), StringUtils.INSTANCE.plusString(request.getId(), " PARAMS = ", body.toString()));
         }
     }
 
@@ -216,7 +215,6 @@ public abstract class Executor {
     /**
      * 请求是否已经被取消掉
      */
-    @SuppressWarnings("WeakerAccess")
     protected boolean isCanceled(@NonNull Request request, @NonNull Response response, @NonNull CallBack callBack) {
         boolean canceled = response.isCanceled();
         if (canceled) {
@@ -225,7 +223,6 @@ public abstract class Executor {
         return canceled;
     }
 
-    @SuppressWarnings("WeakerAccess")
     protected void sendCanceledResult(@NonNull Request request, CallBack callBack) {
         if (callBack == null) {
             return;
@@ -249,7 +246,6 @@ public abstract class Executor {
     /**
      * 请求是否成功
      */
-    @SuppressWarnings("WeakerAccess")
     protected boolean isSuccessful(@NonNull Request request, @NonNull Response response, @NonNull CallBack callBack) {
         boolean successful = response.isSuccessful();
         if (!successful) {
@@ -259,7 +255,6 @@ public abstract class Executor {
 
     }
 
-    @SuppressWarnings("WeakerAccess")
     protected void sendResponseCodeErrorResult(@NonNull Request request, @NonNull Response response, CallBack callBack) {
         if (callBack == null) {
             return;

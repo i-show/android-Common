@@ -89,7 +89,7 @@ public class LoadingDialog extends Dialog {
         }
 
         WindowManager.LayoutParams lp = window.getAttributes();
-        final int[] screen = DeviceUtils.getScreenSize();
+        final int[] screen = DeviceUtils.INSTANCE.getScreenSize();
         lp.width = screen[0];
         lp.height = screen[1];
 

@@ -48,7 +48,7 @@ class EggAppInfoActivity : AppBaseActivity() {
 
     private val lineParams: LinearLayout.LayoutParams
         get() {
-            val screenWidth = DeviceUtils.getScreenSize()[0]
+            val screenWidth = DeviceUtils.screenSize[0]
             val lp = LinearLayout.LayoutParams(0, 1)
             lp.weight = 1f
             lp.leftMargin = screenWidth / 10
@@ -77,12 +77,12 @@ class EggAppInfoActivity : AppBaseActivity() {
 
 
     private fun init() {
-        val screen = DeviceUtils.getScreenSize()
+        val screen = DeviceUtils.screenSize
         addCate("Android")
         addItem("分辨率：", StringUtils.plusString(screen[1], "*", screen[0]))
         addItem("手机型号：", DeviceUtils.model())
         addItem("手机版本：", DeviceUtils.version())
-        addItem("最小宽度：", resources.configuration.smallestScreenWidthDp)
+        addItem("最小宽度：", resources.configuration.smallestScreenWidthDp.toLong())
 
         addCate("App")
         addItem("包名：", packageName)
@@ -119,7 +119,7 @@ class EggAppInfoActivity : AppBaseActivity() {
     }
 
 
-    private fun addItem(name: String, value: Int) {
+    private fun addItem(name: String, value: Long) {
         addItem(name, value.toString())
     }
 

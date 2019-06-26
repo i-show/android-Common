@@ -130,7 +130,7 @@ class PhotoSelectorAdapter extends RecyclerAdapter<Photo, PhotoSelectorAdapter.V
             // 如果当前数量已经是最大数量，当前图片还没有选中
             if (alreadyCount >= mMaxCount && !entry.isSelected) {
                 String tip = mContext.getString(R.string.already_select_max, mMaxCount);
-                ToastUtils.show(mContext, tip);
+                ToastUtils.INSTANCE.show(mContext, tip);
                 return;
             }
 

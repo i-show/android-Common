@@ -109,7 +109,7 @@ public class ShowPhotoDialog extends Dialog {
     @Override
     public void show() {
         super.show();
-        int screen[] = DeviceUtils.getScreenSize();
+        int screen[] = DeviceUtils.INSTANCE.getScreenSize();
         Window window = getWindow();
         WindowManager.LayoutParams lp = window.getAttributes();
         lp.width = screen[0];

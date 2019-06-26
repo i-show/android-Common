@@ -302,8 +302,8 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
             mCancelVisibility = VISIBLE;
         }
 
-        mSuggestIconWidth = UnitUtils.dip2px(40);
-        mSuggestCancelWidth = UnitUtils.dip2px(30);
+        mSuggestIconWidth = UnitUtils.INSTANCE.dip2px(40);
+        mSuggestCancelWidth = UnitUtils.INSTANCE.dip2px(30);
 
         mTopLinePaint = new Paint();
         mTopLinePaint.setDither(true);
@@ -796,11 +796,11 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
     }
 
     private int getDefaultTipMinWidth() {
-        return UnitUtils.dip2px(50);
+        return UnitUtils.INSTANCE.dip2px(50);
     }
 
     private int getDefaultTipMaxWidth() {
-        return UnitUtils.dip2px(120);
+        return UnitUtils.INSTANCE.dip2px(120);
     }
 
     private int getDefaultTipTextColor() {
@@ -1127,6 +1127,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
         }
     }
 
+    @SuppressWarnings("WeakerAccess")
     public static final class RightImageAction {
         /**
          * 没有任何操作

@@ -73,7 +73,7 @@ public class SpannableStringUtils {
      */
     public static SpannableString getSizeSpanSpToPx(Context context, String str, int start, int end, int spSize) {
         SpannableString ss = new SpannableString(str);
-        ss.setSpan(new AbsoluteSizeSpan(UnitUtils.sp2px(context, spSize)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(new AbsoluteSizeSpan(UnitUtils.INSTANCE.sp2px(context, spSize)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return ss;
     }
 

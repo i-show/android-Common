@@ -23,7 +23,7 @@ public class DefaultLoopingIndicator implements ILoopingIndicator {
     private int mHeight;
 
     public DefaultLoopingIndicator() {
-        mIndicatorRadius = UnitUtils.dip2px(3);
+        mIndicatorRadius = UnitUtils.INSTANCE.dip2px(3);
         mIndicatorItemWidth = 5 * mIndicatorRadius;
         mIndicatorHeight = 6 * mIndicatorRadius;
 

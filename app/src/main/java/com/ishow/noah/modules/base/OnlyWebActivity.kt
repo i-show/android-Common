@@ -55,7 +55,7 @@ class OnlyWebActivity : AppBaseActivity() {
         super.initViews()
         topBar.setText(mTitleString)
 
-        WebViewUtils.init(this, web)
+        WebViewUtils.init(web)
         //载入js
         web.loadUrl(mUrl)
         //载入js
@@ -106,7 +106,11 @@ class OnlyWebActivity : AppBaseActivity() {
             mOnErrorUrl = true
         }
 
-        override fun onReceivedHttpError(view: WebView?, request: WebResourceRequest?, errorResponse: WebResourceResponse?) {
+        override fun onReceivedHttpError(
+            view: WebView?,
+            request: WebResourceRequest?,
+            errorResponse: WebResourceResponse?
+        ) {
             super.onReceivedHttpError(view, request, errorResponse)
 
             if (request == null || !request.isForMainFrame) {

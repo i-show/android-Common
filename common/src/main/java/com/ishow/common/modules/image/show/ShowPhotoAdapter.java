@@ -99,7 +99,7 @@ public class ShowPhotoAdapter extends PagerAdapter implements PhotoViewAttacher.
         if (mBeforeView != null) {
             int width = mBeforeView.getWidth();
             int height = mBeforeView.getHeight();
-            final int[] screen = DeviceUtils.getScreenSize();
+            final int[] screen = DeviceUtils.INSTANCE.getScreenSize();
             //mLoadAnimation = new GlideAnimation(width, height);
             mThumbLayoutParams.width = width;
             mThumbLayoutParams.height = height;

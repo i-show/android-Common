@@ -57,7 +57,7 @@ class UserManager private constructor() {
         if (mUserContainer == null) {
             val cache = StorageUtils.with(context)
                     .key(UserContainer.Key.CACHE)
-                    .get<String>(null)
+                    .get(StringUtils.EMPTY)
 
             if (TextUtils.isEmpty(cache)) {
                 Log.i(TAG, "getUser: no user")
@@ -76,7 +76,7 @@ class UserManager private constructor() {
         if (mUserContainer == null) {
             val cache = StorageUtils.with(context)
                     .key(UserContainer.Key.CACHE)
-                    .get<String>(null)
+                    .get()
 
             if (TextUtils.isEmpty(cache)) {
                 Log.i(TAG, "getUser: no user")

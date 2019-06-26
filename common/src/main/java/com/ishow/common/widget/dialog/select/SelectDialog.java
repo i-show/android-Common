@@ -84,7 +84,7 @@ public class SelectDialog<T extends IUnitSelect> extends Dialog implements Adapt
             return;
         }
         WindowManager.LayoutParams lp = window.getAttributes();
-        lp.width = DeviceUtils.getScreenSize()[0];
+        lp.width = DeviceUtils.INSTANCE.getScreenSize()[0];
         lp.gravity = Gravity.BOTTOM;
         window.setAttributes(lp);
     }

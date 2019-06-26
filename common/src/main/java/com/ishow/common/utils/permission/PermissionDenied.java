@@ -23,7 +23,6 @@ import java.lang.annotation.Target;
 /**
  * Permission denied
  */
-@SuppressWarnings("all")
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface PermissionDenied {

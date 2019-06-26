@@ -289,7 +289,7 @@ public class TextViewPro extends ViewGroup {
     }
 
     private void initNecessaryData() {
-        mSuggestIconWidth = UnitUtils.dip2px(40);
+        mSuggestIconWidth = UnitUtils.INSTANCE.dip2px(40);
         mTopLinePaint = new Paint();
         mTopLinePaint.setDither(true);
         mTopLinePaint.setAntiAlias(true);
@@ -798,11 +798,11 @@ public class TextViewPro extends ViewGroup {
     }
 
     private int getDefaultTipMinWidth() {
-        return UnitUtils.dip2px(50);
+        return UnitUtils.INSTANCE.dip2px(50);
     }
 
     private int getDefaultTipMaxWidth() {
-        return UnitUtils.dip2px(120);
+        return UnitUtils.INSTANCE.dip2px(120);
     }
 
     private int getDefaultTipTextColor() {

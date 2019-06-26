@@ -22,6 +22,7 @@ import android.util.Log
 import com.alibaba.fastjson.JSON
 import com.ishow.common.utils.AppUtils
 import com.ishow.common.utils.StorageUtils
+import com.ishow.common.utils.StringUtils
 import com.ishow.common.utils.http.rest.Http
 import com.ishow.common.utils.http.rest.HttpError
 import com.ishow.common.utils.log.LogUtils
@@ -42,7 +43,7 @@ class VersionManager private constructor() {
 
     fun init(context: SplashActivity) {
         clear(context.applicationContext)
-        isFirstEnterThisVersion = checkIsFirstEnterThisVerison(context.applicationContext)
+        isFirstEnterThisVersion = checkIsFirstEnterThisVersion(context.applicationContext)
         getVersionFromServer(context.applicationContext)
         cleanCache(context)
     }
@@ -50,8 +51,8 @@ class VersionManager private constructor() {
 
     fun hasNewVersion(context: Context): Boolean {
         val ignore = StorageUtils.with(context)
-                .key(Version.Key.IGNORE_NOW)
-                .get(false)!!
+            .key(Version.Key.IGNORE_NOW)
+            .get(false)
 
         if (ignore) {
             Log.i(TAG, "hasNewVersion: already ignore")
@@ -79,8 +80,8 @@ class VersionManager private constructor() {
     fun getVersion(context: Context): Version? {
         if (mVersion == null) {
             val cache = StorageUtils.with(context)
-                    .key(Version.Key.CACHE)
-                    .get<String>(null)
+                .key(Version.Key.CACHE)
+                .get(StringUtils.EMPTY)
             makeVersion(cache)
         }
         return mVersion
@@ -89,8 +90,8 @@ class VersionManager private constructor() {
 
     private fun getIgnoreVersion(context: Context): Version? {
         val cache = StorageUtils.with(context)
-                .key(Version.Key.IGNORE_VERSION)
-                .get<String>(null)
+            .key(Version.Key.IGNORE_VERSION)
+            .get(StringUtils.EMPTY)
         return if (TextUtils.isEmpty(cache)) {
             null
         } else {
@@ -115,30 +116,30 @@ class VersionManager private constructor() {
         version.versionName = BuildConfig.VERSION_NAME
 
         Http.post()
-                .url("http://10.0.2.55:8080/version/getVersion")
-                .params(JSON.toJSONString(version))
-                .execute(object : AppHttpCallBack<String>(context) {
-                    override fun onFailed(error: HttpError) {
+            .url("http://10.0.2.55:8080/version/getVersion")
+            .params(JSON.toJSONString(version))
+            .execute(object : AppHttpCallBack<String>(context) {
+                override fun onFailed(error: HttpError) {
 
-                    }
+                }
 
-                    override fun onSuccess(result: String) {
-                        val cache = StorageUtils.with(context)
-                                .key(Version.Key.CACHE)
-                                .get<String>(null)
+                override fun onSuccess(result: String) {
+                    val cache = StorageUtils.with(context)
+                        .key(Version.Key.CACHE)
+                        .get()
 
-                        if (!TextUtils.equals(cache, result)) {
-                            StorageUtils.with(context)
-                                    .key(Version.Key.IGNORE_VERSION)
-                                    .remove()
-                        }
-
+                    if (!TextUtils.equals(cache, result)) {
                         StorageUtils.with(context)
-                                .param(Version.Key.CACHE, result)
-                                .save()
-                        makeVersion(result)
+                            .key(Version.Key.IGNORE_VERSION)
+                            .remove()
                     }
-                })
+
+                    StorageUtils.with(context)
+                        .param(Version.Key.CACHE, result)
+                        .save()
+                    makeVersion(result)
+                }
+            })
     }
 
     private fun cleanCache(context: Context) {
@@ -178,15 +179,15 @@ class VersionManager private constructor() {
         /**
          * 检测是否是第一次登录这个版本
          */
-        private fun checkIsFirstEnterThisVerison(context: Context): Boolean {
+        private fun checkIsFirstEnterThisVersion(context: Context): Boolean {
             // 获取之前保存的版本信息
             val versionCode = StorageUtils.with(context)
-                    .key(AppUtils.VERSION_CODE)
-                    .get(0)!!
+                .key(AppUtils.VERSION_CODE)
+                .get(0)
 
             val versionName = StorageUtils.with(context)
-                    .key(AppUtils.VERSION_NAME)
-                    .get<String>(null)
+                .key(AppUtils.VERSION_NAME)
+                .get()
 
             // 获取当前版本号
             val _versionCode = AppUtils.getVersionCode(context)
@@ -196,12 +197,12 @@ class VersionManager private constructor() {
 
             // 保存现在的版本号
             StorageUtils.with(context)
-                    .param(AppUtils.VERSION_CODE, _versionCode)
-                    .save()
+                .param(AppUtils.VERSION_CODE, _versionCode)
+                .save()
 
             StorageUtils.with(context)
-                    .param(AppUtils.VERSION_NAME, _versionName)
-                    .save()
+                .param(AppUtils.VERSION_NAME, _versionName)
+                .save()
 
             // 如果当前版本比保存的版本大，说明APP更新了
             // 版本名称不相等且版本code比上一个版本大 才进行走ViewPager
@@ -213,11 +214,11 @@ class VersionManager private constructor() {
          */
         private fun clear(context: Context) {
             StorageUtils.with(context)
-                    .key(Version.Key.CACHE)
-                    .remove()
+                .key(Version.Key.CACHE)
+                .remove()
             StorageUtils.with(context)
-                    .key(Version.Key.IGNORE_NOW)
-                    .remove()
+                .key(Version.Key.IGNORE_NOW)
+                .remove()
         }
     }
 }

@@ -127,8 +127,8 @@ public class BaseDialog extends Dialog implements DialogInterface {
         super.show();
 
         LayoutParams lp = window.getAttributes();
-        int width = DeviceUtils.getScreenSize()[0];
-        int height = DeviceUtils.getScreenSize()[1];
+        int width = DeviceUtils.INSTANCE.getScreenSize()[0];
+        int height = DeviceUtils.INSTANCE.getScreenSize()[1];
         if (mController.isFromBottom()) {
             lp.width = (int) (width * mController.getWidthProportion());
             lp.gravity = Gravity.BOTTOM;

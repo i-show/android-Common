@@ -453,7 +453,7 @@ public final class ImageUtils {
         File cacheFolder = context.getExternalCacheDir();
         if (null == cacheFolder) {
             File target = Environment.getExternalStorageDirectory();
-            cacheFolder = new File(target + File.separator + AppUtils.getAppName(context));
+            cacheFolder = new File(target + File.separator + AppUtils.INSTANCE.getAppName(context));
         }
 
         Log.d(TAG, "cacheFolder path = " + cacheFolder.getAbsolutePath());
@@ -476,7 +476,7 @@ public final class ImageUtils {
             suffix = ".jpg";
         }
 
-        String name = StringUtils.plusString(UUID.randomUUID().toString().toUpperCase(), suffix);
-        return StringUtils.plusString(cacheFolder.getAbsolutePath(), File.separator, name);
+        String name = StringUtils.INSTANCE.plusString(UUID.randomUUID().toString().toUpperCase(), suffix);
+        return StringUtils.INSTANCE.plusString(cacheFolder.getAbsolutePath(), File.separator, name);
     }
 }

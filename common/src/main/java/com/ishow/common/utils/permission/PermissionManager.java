@@ -349,7 +349,7 @@ public class PermissionManager {
         if (hasAlwaysDeniedPermission(o, deniedList)) {
             showAlwaysDeniedPermissionDialog(context, permission);
         } else {
-            ToastUtils.show(context, permission.message);
+            ToastUtils.INSTANCE.show(context, permission.message);
         }
     }
 

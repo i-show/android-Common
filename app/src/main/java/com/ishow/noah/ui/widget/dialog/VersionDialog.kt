@@ -82,7 +82,7 @@ class VersionDialog(context: Context) : Dialog(context, R.style.Theme_Dialog_Tra
             return
         }
         val lp = window.attributes
-        lp.width = (DeviceUtils.getScreenSize()[0] * 0.8f).toInt()
+        lp.width = (DeviceUtils.screenSize[0] * 0.8f).toInt()
         window.attributes = lp
     }
 

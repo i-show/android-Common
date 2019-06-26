@@ -223,7 +223,7 @@ public class VerifyCodeButton extends FrameLayout {
         status.remainTime = currentTime;
         status.maxTime = maxTime;
 
-        StorageUtils.with(getContext())
+        StorageUtils.INSTANCE.with(getContext())
                 .param(mStatusKey, JSON.toJSONString(status))
                 .save();
     }
@@ -234,7 +234,7 @@ public class VerifyCodeButton extends FrameLayout {
     public void reset() {
         mHandler.sendEmptyMessage(HANDLER_RESET_TIME);
 
-        StorageUtils.with(getContext())
+        StorageUtils.INSTANCE.with(getContext())
                 .key(mStatusKey)
                 .remove();
     }
@@ -291,9 +291,9 @@ public class VerifyCodeButton extends FrameLayout {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        String lastStatus = StorageUtils.with(getContext())
+        String lastStatus = StorageUtils.INSTANCE.with(getContext())
                 .key(mStatusKey)
-                .get(null);
+                .get();
 
         if (TextUtils.isEmpty(lastStatus)) {
             return;
@@ -305,7 +305,7 @@ public class VerifyCodeButton extends FrameLayout {
         if (remainTime > 0) {
             startTiming(status.maxTime, remainTime);
         } else {
-            StorageUtils.with(getContext())
+            StorageUtils.INSTANCE.with(getContext())
                     .key(mStatusKey)
                     .remove();
         }

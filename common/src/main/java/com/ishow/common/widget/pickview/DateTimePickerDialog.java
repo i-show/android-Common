@@ -91,8 +91,8 @@ public class DateTimePickerDialog extends Dialog implements TopBar.OnTopBarListe
             return;
         }
         WindowManager.LayoutParams lp = window.getAttributes();
-        int width = DeviceUtils.getScreenSize()[0];
-        int height = DeviceUtils.getScreenSize()[1];
+        int width = DeviceUtils.INSTANCE.getScreenSize()[0];
+        int height = DeviceUtils.INSTANCE.getScreenSize()[1];
         if (width > height) {
             //noinspection SuspiciousNameCombination
             lp.width = height;

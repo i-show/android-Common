@@ -290,7 +290,7 @@ public class SelectPhotoUtils implements
      * 通过相机来选择图片
      */
     private void selectPhotoByCamera(File file) {
-        String authority = StringUtils.plusString(mActivity.getPackageName(), ".fileprovider");
+        String authority = StringUtils.INSTANCE.plusString(mActivity.getPackageName(), ".fileprovider");
         if (file == null) file = ImageUtils.generateRandomPhotoFile(mActivity);
         mCameraFileUri = Uri.fromFile(file);
         Uri uri = FileProvider.getUriForFile(mActivity, authority, file);

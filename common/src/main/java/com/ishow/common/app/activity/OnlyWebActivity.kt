@@ -54,7 +54,7 @@ class OnlyWebActivity : BaseActivity() {
         topBar.setOnTopBarListener(this)
         topBar.setText(mTitleString)
 
-        WebViewUtils.init(this, web)
+        WebViewUtils.init(web)
         //载入js
         web.loadUrl(mUrl)
         //载入js

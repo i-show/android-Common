@@ -82,8 +82,8 @@ public class DashLineView extends View {
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.DashLineView);
         mDashColor = a.getColor(R.styleable.DashLineView_dashColor, Color.CYAN);
-        mDashGap = a.getDimensionPixelSize(R.styleable.DashLineView_dashGap,  UnitUtils.dip2px(8));
-        mDashWidth = a.getDimensionPixelSize(R.styleable.DashLineView_dashWidth,  UnitUtils.dip2px(4));
+        mDashGap = a.getDimensionPixelSize(R.styleable.DashLineView_dashGap,  UnitUtils.INSTANCE.dip2px(8));
+        mDashWidth = a.getDimensionPixelSize(R.styleable.DashLineView_dashWidth,  UnitUtils.INSTANCE.dip2px(4));
         a.recycle();
 
         PathEffect effects = new DashPathEffect(new float[]{mDashWidth, mDashGap, mDashWidth, mDashGap}, 1);

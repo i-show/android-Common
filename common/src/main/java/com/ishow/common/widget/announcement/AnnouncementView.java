@@ -78,7 +78,7 @@ public class AnnouncementView extends FrameLayout implements ViewSwitcher.ViewFa
     private void init(@NonNull Context context, @Nullable AttributeSet attrs) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.AnnouncementView);
         mTextColor = a.getColor(R.styleable.AnnouncementView_textColor, Color.LTGRAY);
-        mTextSize = a.getDimensionPixelSize(R.styleable.AnnouncementView_textSize, UnitUtils.dip2px(12));
+        mTextSize = a.getDimensionPixelSize(R.styleable.AnnouncementView_textSize, UnitUtils.INSTANCE.dip2px(12));
         mTextLines = a.getInt(R.styleable.AnnouncementView_textLines, -1);
         mTextEllipsize = a.getInt(R.styleable.AnnouncementView_textEllipsize, -1);
         mTextSpacingAdd = a.getDimensionPixelSize(R.styleable.AnnouncementView_textLineSpacingExtra, 0);

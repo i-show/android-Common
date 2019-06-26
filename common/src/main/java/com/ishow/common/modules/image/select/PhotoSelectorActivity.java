@@ -147,10 +147,10 @@ public class PhotoSelectorActivity extends BaseActivity implements
             super.onScrollStateChanged(recyclerView, newState);
             if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                 mTimeLine.clearAnimation();
-                AnimatorUtils.alpha(mTimeLine, mTimeLine.getAlpha(), 0, 800);
+                AnimatorUtils.INSTANCE.alpha(mTimeLine, mTimeLine.getAlpha(), 0, 800);
             } else {
                 mTimeLine.clearAnimation();
-                AnimatorUtils.alpha(mTimeLine, mTimeLine.getAlpha(), 1.0f, 800);
+                AnimatorUtils.INSTANCE.alpha(mTimeLine, mTimeLine.getAlpha(), 1.0f, 800);
             }
         }
 

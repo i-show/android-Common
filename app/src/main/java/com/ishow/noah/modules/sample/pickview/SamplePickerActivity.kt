@@ -40,7 +40,7 @@ class SamplePickerActivity : AppBaseActivity(), View.OnClickListener {
     override fun onClick(v: View) {
         when (v.id) {
             R.id.get_time -> {
-                val time = DateUtils.format(datePicker.currentTime, DateUtils.FORMAT_YMDHMS_CN)
+                val time = DateUtils.format(datePicker.currentTime, DateUtils.FORMAT_YMDHMS)
                 dialog(time)
             }
 

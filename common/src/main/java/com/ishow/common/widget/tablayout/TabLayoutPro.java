@@ -224,7 +224,7 @@ public class TabLayoutPro extends HorizontalScrollView {
         mTabStrip.setSelectedIndicatorWidth(a.getDimensionPixelSize(R.styleable.TabLayoutPro_tabIndicatorWidth, 0));
         mTabStrip.setSelectedIndicatorPaddingStart(a.getDimensionPixelSize(R.styleable.TabLayoutPro_tabIndicatorPaddingStart, 0));
         mTabStrip.setSelectedIndicatorPaddingEnd(a.getDimensionPixelSize(R.styleable.TabLayoutPro_tabIndicatorPaddingEnd, 0));
-        mTabStrip.setSelectedIndicatorHeight(a.getDimensionPixelSize(R.styleable.TabLayoutPro_tabIndicatorHeight, UnitUtils.dip2px(2)));
+        mTabStrip.setSelectedIndicatorHeight(a.getDimensionPixelSize(R.styleable.TabLayoutPro_tabIndicatorHeight, UnitUtils.INSTANCE.dip2px(2)));
         mTabStrip.setIndicatorRound(a.getBoolean(R.styleable.TabLayoutPro_tabIndicatorRound, false));
         mTabStrip.setSelectedIndicatorColor(a.getColor(R.styleable.TabLayoutPro_tabIndicatorColor, Color.BLUE));
 

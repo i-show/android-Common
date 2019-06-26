@@ -141,12 +141,10 @@ class VerifyManager {
     private inner class TestCallBack constructor(private val context1: Context) : StringCallBack(context1) {
 
         override fun onFailed(error: HttpError) {
-            Log.i("yhy", "context1 = $context1")
             prolongTime(context1)
         }
 
         override fun onSuccess(result: String) {
-            Log.i("yhy", "context2 = $context1")
             formatResult(context1, result)
         }
     }

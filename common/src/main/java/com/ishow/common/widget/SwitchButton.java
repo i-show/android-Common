@@ -169,7 +169,7 @@ public class SwitchButton extends CompoundButton {
             mTintColor = DEFAULT_TINT_COLOR;
         }
         if (!mIsThumbUseDrawable && mThumbColor == null) {
-            mThumbColor = ColorUtils.generateThumbColorWithTintColor(mTintColor);
+            mThumbColor = ColorUtils.INSTANCE.generateThumbColorWithTintColor(mTintColor);
             mCurrThumbColor = mThumbColor.getDefaultColor();
         }
         if (mIsThumbUseDrawable) {
@@ -183,7 +183,7 @@ public class SwitchButton extends CompoundButton {
         mBackColor = backColor;
         mIsBackUseDrawable = mBackDrawable != null;
         if (!mIsBackUseDrawable && mBackColor == null) {
-            mBackColor = ColorUtils.generateBackColorWithTintColor(mTintColor);
+            mBackColor = ColorUtils.INSTANCE.generateBackColorWithTintColor(mTintColor);
             mCurrBackColor = mBackColor.getDefaultColor();
             mNextBackColor = mBackColor.getColorForState(CHECKED_PRESSED_STATE, mCurrBackColor);
         }
@@ -702,8 +702,8 @@ public class SwitchButton extends CompoundButton {
 
     public void setTintColor(int tintColor) {
         mTintColor = tintColor;
-        mThumbColor = ColorUtils.generateThumbColorWithTintColor(mTintColor);
-        mBackColor = ColorUtils.generateBackColorWithTintColor(mTintColor);
+        mThumbColor = ColorUtils.INSTANCE.generateThumbColorWithTintColor(mTintColor);
+        mBackColor = ColorUtils.INSTANCE.generateBackColorWithTintColor(mTintColor);
         mIsBackUseDrawable = false;
         mIsThumbUseDrawable = false;
         // call this method to refresh color states

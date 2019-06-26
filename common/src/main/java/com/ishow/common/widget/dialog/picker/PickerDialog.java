@@ -82,7 +82,7 @@ public class PickerDialog<T extends IUnitPicker> extends Dialog implements TopBa
             return;
         }
         WindowManager.LayoutParams lp = window.getAttributes();
-        lp.width = DeviceUtils.getScreenSize()[0];
+        lp.width = DeviceUtils.INSTANCE.getScreenSize()[0];
         lp.gravity = Gravity.BOTTOM;
         window.setAttributes(lp);
     }

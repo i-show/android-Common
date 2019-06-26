@@ -44,8 +44,8 @@ public class RoundedRectIndicator implements ILoopingIndicator {
         mNextRect = new RectF();
         mNormalRect = new RectF();
 
-        mIndicatorItemSize = UnitUtils.dip2px(6);
-        mIndicatorGapSize = UnitUtils.dip2px(6);
+        mIndicatorItemSize = UnitUtils.INSTANCE.dip2px(6);
+        mIndicatorGapSize = UnitUtils.INSTANCE.dip2px(6);
         mIndicatorItemIncreaseSize = mIndicatorItemSize * 2;
     }
 

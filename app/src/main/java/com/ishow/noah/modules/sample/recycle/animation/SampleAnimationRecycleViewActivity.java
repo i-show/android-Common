@@ -36,7 +36,7 @@ public class SampleAnimationRecycleViewActivity extends AppBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample_ani_recycle);
-        mAdapter.setData(Test.getPhotosList(50));
+        //mAdapter.setData(Test.getPhotosList(50));
     }
 
     @Override
