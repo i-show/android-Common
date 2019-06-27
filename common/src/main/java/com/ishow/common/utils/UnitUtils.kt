@@ -17,55 +17,51 @@
 package com.ishow.common.utils
 
 
-import android.content.Context
 import android.content.res.Resources
 
 object UnitUtils {
     /**
      * 将px值转换为dip或dp值，保证尺寸大小不变
      */
-    fun px2dip(context: Context, pxValue: Float): Int {
-        val scale = context.resources.displayMetrics.density
-        return (pxValue / scale + 0.5f).toInt()
-    }
-
-    /**
-     * 将dip或dp值转换为px值，保证尺寸大小不变
-     */
-    fun dip2px(context: Context, dipValue: Float): Int {
-        val scale = context.resources.displayMetrics.density
-        return (dipValue * scale + 0.5f).toInt()
-    }
-
-    /**
-     * 将dip或dp值转换为px值，保证尺寸大小不变
-     */
-    fun dip2px(dipValue: Float): Int {
+    @JvmStatic
+    fun px2dip(value: Float): Int {
         val scale = Resources.getSystem().displayMetrics.density
-        return (dipValue * scale + 0.5f).toInt()
+        return (value / scale + 0.5f).toInt()
     }
 
     /**
      * 将dip或dp值转换为px值，保证尺寸大小不变
      */
-    fun dip2px(dipValue: Int): Int {
+    @JvmStatic
+    fun dip2px(value: Float): Int {
         val scale = Resources.getSystem().displayMetrics.density
-        return (dipValue * scale + 0.5f).toInt()
+        return (value * scale + 0.5f).toInt()
+    }
+
+    /**
+     * 将dip或dp值转换为px值，保证尺寸大小不变
+     */
+    @JvmStatic
+    fun dip2px(value: Int): Int {
+        val scale = Resources.getSystem().displayMetrics.density
+        return (value * scale + 0.5f).toInt()
     }
 
     /**
      * 将px值转换为sp值，保证文字大小不变
      */
-    fun px2sp(context: Context, pxValue: Float): Int {
-        val fontScale = context.resources.displayMetrics.scaledDensity
-        return (pxValue / fontScale + 0.5f).toInt()
+    @JvmStatic
+    fun px2sp(value: Float): Int {
+        val fontScale = Resources.getSystem().displayMetrics.scaledDensity
+        return (value / fontScale + 0.5f).toInt()
     }
 
     /**
      * 将sp值转换为px值，保证文字大小不变
      */
-    fun sp2px(context: Context, spValue: Float): Int {
-        val fontScale = context.resources.displayMetrics.scaledDensity
-        return (spValue * fontScale + 0.5f).toInt()
+    @JvmStatic
+    fun sp2px(value: Float): Int {
+        val fontScale = Resources.getSystem().displayMetrics.scaledDensity
+        return (value * fontScale + 0.5f).toInt()
     }
 }

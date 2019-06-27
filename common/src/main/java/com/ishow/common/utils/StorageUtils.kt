@@ -145,25 +145,16 @@ object StorageUtils {
             val sharedPreferences = context.getSharedPreferences(group, Context.MODE_PRIVATE)
             val editor = sharedPreferences.edit()
 
-            if (value == null || value is String) {
-                editor.putString(key, value as String?)
-                editor.apply()
-            } else if (value is Boolean) {
-                editor.putBoolean(key, (value as Boolean))
-                editor.apply()
-            } else if (value is Int) {
-                editor.putInt(key, (value as Int))
-                editor.apply()
-            } else if (value is Float) {
-                editor.putFloat(key, (value as Float))
-                editor.apply()
-            } else if (value is Long) {
-                editor.putLong(key, (value as Long))
-                editor.apply()
-            } else if (value is Set<*>) {
-                editor.putStringSet(key, value as Set<String>?)
-                editor.apply()
+            when (value) {
+                is Boolean -> editor.putBoolean(key, value as Boolean)
+                is String -> editor.putString(key, value as String)
+                is Int -> editor.putInt(key, (value as Int))
+                is Long -> editor.putLong(key, (value as Long))
+                is Float -> editor.putFloat(key, (value as Float))
+                is Set<*> -> editor.putStringSet(key, value as Set<String>?)
+                else -> editor.putString(key, value as String)
             }
+            editor.apply()
 
             if (expireTime > 0) {
                 val expireSp = context.getSharedPreferences(group!! + EXPIRE_SUFFIX, Context.MODE_PRIVATE)

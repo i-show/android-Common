@@ -13,5 +13,11 @@
         app:leftImage="@drawable/ic_top_back_svg"
         app:rightImage="@drawable/ic_back_white"/>
 
+    <TextView
+        android:id="@+id/test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/dp_25"
+        android:text="@string/tab_2"/>
 
 </LinearLayout>

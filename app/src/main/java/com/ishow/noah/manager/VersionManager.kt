@@ -18,9 +18,11 @@ package com.ishow.noah.manager
 
 import android.content.Context
 import android.text.TextUtils
+import android.text.style.RelativeSizeSpan
 import android.util.Log
 import com.alibaba.fastjson.JSON
 import com.ishow.common.utils.AppUtils
+import com.ishow.common.utils.SpanUtils
 import com.ishow.common.utils.StorageUtils
 import com.ishow.common.utils.StringUtils
 import com.ishow.common.utils.http.rest.Http
@@ -50,6 +52,10 @@ class VersionManager private constructor() {
 
 
     fun hasNewVersion(context: Context): Boolean {
+        SpanUtils.Builder()
+            .body("Hello")
+            .add(RelativeSizeSpan(1.0F), "111")
+
         val ignore = StorageUtils.with(context)
             .key(Version.Key.IGNORE_NOW)
             .get(false)

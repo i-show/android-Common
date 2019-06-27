@@ -65,7 +65,7 @@ public class SizeIndicator extends View implements ViewPager.OnPageChangeListene
         mPaint.setDither(true);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SizeIndicator);
-        mRadius = a.getDimensionPixelSize(R.styleable.SizeIndicator_thumbRadius, UnitUtils.INSTANCE.dip2px(context, RADIUS));
+        mRadius = a.getDimensionPixelSize(R.styleable.SizeIndicator_thumbRadius, UnitUtils.dip2px(RADIUS));
 
         int left = a.getDimensionPixelSize(R.styleable.SizeIndicator_android_paddingLeft, getDefaultPaddingStart());
         left = a.getDimensionPixelSize(R.styleable.SizeIndicator_android_paddingStart, left);

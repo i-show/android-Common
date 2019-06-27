@@ -27,6 +27,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import androidx.viewpager.widget.ViewPager;
+
 import com.ishow.common.R;
 import com.ishow.common.utils.UnitUtils;
 
@@ -82,7 +83,7 @@ public class ColorIndicator extends View implements ViewPager.OnPageChangeListen
         mThumbColor = a.getColor(R.styleable.ColorIndicator_thumbColor, DEFAULT_THUMB_COLOR);
         mBarColor = a.getColor(R.styleable.ColorIndicator_barColor, DEFAULT_BAR_COLOR);
         mBarBorderColor = a.getColor(R.styleable.ColorIndicator_barBorderColor, DEFAULT_BAR_BORDER_COLOR);
-        mRadius = a.getDimensionPixelOffset(R.styleable.ColorIndicator_radius, UnitUtils.INSTANCE.dip2px(context, DEFAULT_RADIUS));
+        mRadius = a.getDimensionPixelOffset(R.styleable.ColorIndicator_radius, UnitUtils.dip2px(DEFAULT_RADIUS));
         final int itemPadding = a.getDimensionPixelOffset(R.styleable.ColorIndicator_itemPadding, 0);
         a.recycle();
 
