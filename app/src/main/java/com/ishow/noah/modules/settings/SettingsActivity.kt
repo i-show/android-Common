@@ -20,6 +20,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
+import androidx.core.content.ContextCompat.startActivity
 import com.ishow.common.utils.AppUtils
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.widget.TopBar
@@ -35,17 +36,14 @@ import kotlinx.android.synthetic.main.activity_settings.*
  * 设置
  */
 
-class SettingsActivity : AppBaseActivity(), TopBar.OnSecretListener, View.OnClickListener {
+class SettingsActivity : AppBaseActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
     }
 
-
     override fun initViews() {
         super.initViews()
-
-        mTopBar.setOnSecretListener(this)
         logout.setOnClickListener(this)
         version.setText(AppUtils.getVersionName(this))
     }
@@ -68,13 +66,5 @@ class SettingsActivity : AppBaseActivity(), TopBar.OnSecretListener, View.OnClic
                         .finishSelf()
                         .start()}
                 .show()
-    }
-
-
-    override fun onSecretClick(v: View, count: Int) {
-        if (count == 5) {
-            val intent = Intent(this, EggActivity::class.java)
-            startActivity(intent)
-        }
     }
 }

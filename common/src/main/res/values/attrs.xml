@@ -729,9 +729,7 @@
         <attr name="android:selectableItemBackground" />
 
         <attr name="actionMinWidth" />
-
         <attr name="clickable" />
-        <attr name="secret" />
 
         <attr name="text" />
         <attr name="textColor" />

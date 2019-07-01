@@ -21,15 +21,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Message;
 import android.view.View;
-import android.webkit.ConsoleMessage;
-import android.webkit.GeolocationPermissions;
-import android.webkit.JsPromptResult;
-import android.webkit.JsResult;
-import android.webkit.PermissionRequest;
-import android.webkit.ValueCallback;
-import android.webkit.WebChromeClient;
-import android.webkit.WebStorage;
-import android.webkit.WebView;
+import android.webkit.*;
 import androidx.annotation.RequiresApi;
 
 /**
@@ -87,14 +79,6 @@ class LoadingWebChromeClient extends WebChromeClient {
         super.onShowCustomView(view, callback);
         if (mRealWebChromeClient != null) {
             mRealWebChromeClient.onShowCustomView(view, callback);
-        }
-    }
-
-    @Override
-    public void onShowCustomView(View view, int requestedOrientation, CustomViewCallback callback) {
-        super.onShowCustomView(view, requestedOrientation, callback);
-        if (mRealWebChromeClient != null) {
-            mRealWebChromeClient.onShowCustomView(view, requestedOrientation, callback);
         }
     }
 
@@ -168,22 +152,6 @@ class LoadingWebChromeClient extends WebChromeClient {
     }
 
     @Override
-    public void onExceededDatabaseQuota(String url, String databaseIdentifier, long quota, long estimatedDatabaseSize, long totalQuota, WebStorage.QuotaUpdater quotaUpdater) {
-        super.onExceededDatabaseQuota(url, databaseIdentifier, quota, estimatedDatabaseSize, totalQuota, quotaUpdater);
-        if (mRealWebChromeClient != null) {
-            mRealWebChromeClient.onExceededDatabaseQuota(url, databaseIdentifier, quota, estimatedDatabaseSize, totalQuota, quotaUpdater);
-        }
-    }
-
-    @Override
-    public void onReachedMaxAppCacheSize(long requiredStorage, long quota, WebStorage.QuotaUpdater quotaUpdater) {
-        super.onReachedMaxAppCacheSize(requiredStorage, quota, quotaUpdater);
-        if (mRealWebChromeClient != null) {
-            mRealWebChromeClient.onReachedMaxAppCacheSize(requiredStorage, quota, quotaUpdater);
-        }
-    }
-
-    @Override
     public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
         super.onGeolocationPermissionsShowPrompt(origin, callback);
         if (mRealWebChromeClient != null) {
@@ -217,22 +185,6 @@ class LoadingWebChromeClient extends WebChromeClient {
         }
     }
 
-    @Override
-    public boolean onJsTimeout() {
-        if (mRealWebChromeClient != null) {
-            return mRealWebChromeClient.onJsTimeout();
-        } else {
-            return super.onJsTimeout();
-        }
-    }
-
-    @Override
-    public void onConsoleMessage(String message, int lineNumber, String sourceID) {
-        super.onConsoleMessage(message, lineNumber, sourceID);
-        if (mRealWebChromeClient != null) {
-            mRealWebChromeClient.onConsoleMessage(message, lineNumber, sourceID);
-        }
-    }
 
     @Override
     public boolean onConsoleMessage(ConsoleMessage consoleMessage) {

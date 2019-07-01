@@ -18,6 +18,7 @@
     <color name="windows_background">@android:color/white</color>
     <color name="windows_background_light">@android:color/white</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="transparent">@android:color/transparent</color>
     <!--灰色-->
     <color name="grey_deep_1">#FF000000</color>
     <color name="grey_deep_2">#FF151515</color>
@@ -41,7 +42,6 @@
     <color name="semipermeable_dark">#99000000</color>
     <color name="semipermeable_dark_more">#ab000000</color>
     <color name="semipermeable_pressed">#99000000</color>
-    <color name="test">#FBC02D</color>
     <!--蓝色-->
     <color name="blue_50">#FFE3F2FD</color>
     <color name="blue_100">#FFBBDEFB</color>

@@ -24,7 +24,6 @@
         android:id="@+id/mTopBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:secret="true"
         app:text="@string/settings" />
 
     <LinearLayout

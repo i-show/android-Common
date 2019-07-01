@@ -28,7 +28,6 @@ import com.ishow.common.R;
 
 
 public class LoadingWebView extends WebView {
-    private static final String TAG = "LoadingWebView";
     private LoadingWebChromeClient mLoadingWebChromeClient;
     private Paint mLoadingPaint;
     private int mProgress;

@@ -50,7 +50,6 @@ class OnlyWebActivity : BaseActivity() {
 
     override fun initViews() {
         super.initViews()
-        val topBar = findViewById<TopBar>(R.id.top_bar)
         topBar.setOnTopBarListener(this)
         topBar.setText(mTitleString)
 
