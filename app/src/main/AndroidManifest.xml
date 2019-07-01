@@ -80,8 +80,9 @@
             android:name=".modules.egg.detail.EggAppInfoActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".modules.base.ExitAppActivity"
-            android:launchMode="singleTask"/>
+        <activity
+            android:name=".modules.base.ExitAppActivity"
+            android:launchMode="singleTask" />
         <!--++++++++++++++++++++控件或者工具的Demo区域（init）++++++++++++++++++++++++++-->
         <!--Demo的主类-->
         <activity
@@ -147,6 +148,9 @@
         <!--StatusView-->
         <activity
             android:name=".modules.sample.SampleStatusViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".modules.sample.widget.dashline.SampleDashLineActivity"
             android:screenOrientation="portrait" />
         <!--++++++++++++++++++++控件或者工具的测试区域（end）++++++++++++++++++++++++++-->
 

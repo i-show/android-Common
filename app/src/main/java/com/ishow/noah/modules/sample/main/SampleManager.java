@@ -14,6 +14,7 @@ import com.ishow.noah.modules.sample.pickview.SamplePickerActivity;
 import com.ishow.noah.modules.sample.pulltorefresh.SamplePullToRefreshActivity;
 import com.ishow.noah.modules.sample.recycle.animation.SampleAnimationRecycleViewActivity;
 import com.ishow.noah.modules.sample.webview.loading.SampleLoadingWebViewActivity;
+import com.ishow.noah.modules.sample.widget.dashline.SampleDashLineActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +62,7 @@ public class SampleManager {
         list.add(Sample.newInstance(R.string.sample_pull_to_refresh, SamplePullToRefreshActivity.class));
         list.add(Sample.newInstance(R.string.sample_base_dialog, SampleBaseDialogActivity.class));
         list.add(Sample.newInstance(R.string.sample_status_view, SampleStatusViewActivity.class));
+        list.add(Sample.newInstance(R.string.sample_dash_line, SampleDashLineActivity.class));
         return list;
     }
 }

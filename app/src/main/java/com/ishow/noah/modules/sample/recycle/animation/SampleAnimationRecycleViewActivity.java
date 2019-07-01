@@ -22,7 +22,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.ishow.noah.R;
 import com.ishow.noah.modules.base.AppBaseActivity;
-import com.ishow.noah.modules.sample.Test;
 
 /**
  * Created by yuhaiyang on 2017/6/2.

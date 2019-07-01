@@ -27,6 +27,7 @@
     <string name="sample_pull_to_refresh">PullToRefresh</string>
     <string name="sample_base_dialog">BaseDialog</string>
     <string name="sample_status_view">StatusView</string>
+    <string name="sample_dash_line">DashLine</string>
     <string name="test_span_body">你好 %s, %s</string>
     <string name="test_span_child">小明2</string>
 
