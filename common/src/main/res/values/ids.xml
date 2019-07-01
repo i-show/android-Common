@@ -29,6 +29,8 @@
     <item name="widget" type="id" />
     <!-- 左中右 -->
     <item name="center" type="id" />
+    <item name="title" type="id" />
+    <item name="subTitle" type="id" />
     <item name="left" type="id" />
     <item name="leftText" type="id" />
     <item name="leftImage" type="id" />
@@ -62,7 +64,6 @@
     <item name="child_08" type="id" />
     <item name="child_09" type="id" />
     <item name="child_10" type="id" />
-
 
     <item name="top_bar" type="id" />
     <item name="topBar" type="id" />

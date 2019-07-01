@@ -32,7 +32,7 @@ class SampleStatusViewActivity : AppBaseActivity(), View.OnClickListener, Status
         when (v.id) {
             R.id.loading -> statusView.showLoading()
             R.id.empty -> statusView.showEmpty()
-            R.id.error -> sendVerifyCode.startTiming()
+            R.id.error -> statusView.showError()
         }
     }
 

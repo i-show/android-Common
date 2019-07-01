@@ -81,7 +81,7 @@ public abstract class Sprite extends Drawable implements
 
     @Override
     public int getOpacity() {
-        return PixelFormat.RGBA_8888;
+        return PixelFormat.TRANSLUCENT;
     }
 
     public float getTranslateXPercentage() {
