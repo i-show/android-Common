@@ -15,7 +15,7 @@
     <com.ishow.common.widget.DashLineView
         android:id="@+id/dashLine"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="4dp"
         android:layout_margin="10dp"
         app:dashColor="@color/green_800"
         app:dashGap="15dp"

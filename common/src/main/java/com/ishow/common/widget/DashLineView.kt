@@ -17,19 +17,14 @@
 package com.ishow.common.widget
 
 import android.content.Context
-import android.content.res.TypedArray
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.DashPathEffect
 import android.graphics.Paint
-import android.graphics.PathEffect
-import android.os.Build
 import android.util.AttributeSet
 import android.view.View
-import android.widget.FrameLayout
 
 import androidx.annotation.ColorInt
-import androidx.annotation.RequiresApi
 import com.ishow.common.R
 import com.ishow.common.utils.UnitUtils
 
@@ -42,80 +37,66 @@ class DashLineView @JvmOverloads constructor(context: Context, attrs: AttributeS
     /**
      * 划线画笔
      */
-    private var mLinePaint: Paint
-    /**
-     * 破折线颜色
-     */
-    private var mDashColor: Int = 0
-    /**
-     * 破折线间距
-     */
-    private var mDashGap: Int = 0
-    /**
-     * 破折线宽度
-     */
-    private var mDashWidth: Int = 0
+    private var mLinePaint = Paint(Paint.ANTI_ALIAS_FLAG)
 
     /**
      * 破折线颜色
      */
-    var dashColor: Int
-        get() = mDashColor
-        set(@ColorInt dashColor) {
-            mDashColor = dashColor
-            mLinePaint.color = mDashColor
+    var dashColor: Int = Color.GRAY
+        set(@ColorInt color) {
+            field = color
+            mLinePaint.color = color
             postInvalidate()
         }
+
     /**
      * 破折线间距
      */
-    var dashGap: Int
-        get() = mDashGap
-        set(dashGap) {
-            mDashGap = dashGap
-            val effects = DashPathEffect(getIntervals(), 1f)
-            mLinePaint.pathEffect = effects
-            postInvalidate()
+    var dashGap: Int = 0
+        set(gap) {
+            field = gap
+            updateEffect()
         }
 
     /**
      * 破折线宽度
      */
-    var dashWidth: Int
-        get() = mDashWidth
-        set(dashWidth) {
-            mDashWidth = dashWidth
-            val effects = DashPathEffect(getIntervals(), 1f)
-            mLinePaint.pathEffect = effects
-            postInvalidate()
+    var dashWidth: Int = 0
+        set(width) {
+            field = width
+            updateEffect()
         }
 
     init {
         setLayerType(LAYER_TYPE_SOFTWARE, null)
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.DashLineView)
-        mDashColor = a.getColor(R.styleable.DashLineView_dashColor, Color.CYAN)
-        mDashGap = a.getDimensionPixelSize(R.styleable.DashLineView_dashGap, UnitUtils.dip2px(8))
-        mDashWidth = a.getDimensionPixelSize(R.styleable.DashLineView_dashWidth, UnitUtils.dip2px(4))
+        dashColor = a.getColor(R.styleable.DashLineView_dashColor, Color.CYAN)
+        dashGap = a.getDimensionPixelSize(R.styleable.DashLineView_dashGap, UnitUtils.dip2px(8))
+        dashWidth = a.getDimensionPixelSize(R.styleable.DashLineView_dashWidth, UnitUtils.dip2px(4))
         a.recycle()
 
-        val effects = DashPathEffect(getIntervals(), 1F)
         mLinePaint = Paint()
         mLinePaint.style = Paint.Style.STROKE
-        mLinePaint.color = mDashColor
-        mLinePaint.strokeWidth = mDashWidth / 2F
-        mLinePaint.pathEffect = effects
+        mLinePaint.color = dashColor
+        updateEffect(invalidate = false)
     }
 
-    private fun getIntervals(): FloatArray {
-        return floatArrayOf(mDashWidth.toFloat(), mDashGap.toFloat(), mDashWidth.toFloat(), mDashGap.toFloat())
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        mLinePaint.strokeWidth = h.toFloat()
+    }
+
+    private fun updateEffect(invalidate: Boolean = true) {
+        val intervals = floatArrayOf(dashWidth.toFloat(), dashGap.toFloat())
+        mLinePaint.pathEffect = DashPathEffect(intervals, 1F)
+        if (invalidate) postInvalidate()
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         val width = measuredWidth.toFloat()
-        val height = measuredHeight
-        val y = height / 2F
+        val y = measuredHeight / 2F
         canvas.drawLine(0f, y, width, y, mLinePaint)
     }
 }
