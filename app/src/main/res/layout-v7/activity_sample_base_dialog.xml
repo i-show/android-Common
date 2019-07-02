@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center_horizontal"
+    android:orientation="vertical"
     tools:ignore="HardcodedText">
 
     <com.ishow.common.widget.TopBar
@@ -16,60 +16,35 @@
 
 
     <TextView
-        android:layout_marginTop="@dimen/gap_grade_3"
         android:id="@+id/normal"
-        android:text="Normal"
-        style="@style/AppTextView.Sample"/>
-
-    <TextView
-        android:layout_marginTop="@dimen/gap_grade_3"
-        android:id="@+id/noTitleDialog"
-        android:text="没有Title的"
-        style="@style/AppTextView.Sample"/>
-
-    <TextView
-        android:layout_marginTop="@dimen/gap_grade_3"
-        android:id="@+id/listDialog"
-        android:text="listDialog"
-        style="@style/AppTextView.Sample"/>
-
-    <TextView
-        android:layout_marginTop="@dimen/gap_grade_3"
-        android:id="@+id/singleChoiceDialog"
-        android:text="singleChoiceDialog"
         style="@style/AppTextView.Sample"
-        />
+        android:layout_marginTop="@dimen/gap_grade_3"
+        android:text="Normal" />
 
     <TextView
+        android:id="@+id/noTitleDialog"
+        style="@style/AppTextView.Sample"
         android:layout_marginTop="@dimen/gap_grade_3"
-        android:id="@+id/multiChoiceDialog"
-        android:text="multiChoiceDialog"
-        style="@style/AppTextView.Sample"/>
+        android:text="没有Title的" />
 
+    <TextView
+        android:id="@+id/listDialog"
+        style="@style/AppTextView.Sample"
+        android:layout_marginTop="@dimen/gap_grade_3"
+        android:text="listDialog" />
 
 
     <TextView
-        android:layout_marginTop="@dimen/gap_grade_3"
         android:id="@+id/bottomDialog"
-        android:text="底部弹出"
-        style="@style/AppTextView.Sample"/>
+        style="@style/AppTextView.Sample"
+        android:layout_marginTop="@dimen/gap_grade_3"
+        android:text="底部弹出" />
 
     <TextView
-        android:layout_marginTop="@dimen/gap_grade_3"
         android:id="@+id/bottomDialogNoTitle"
-        android:text="底部弹出没有标题"
-        style="@style/AppTextView.Sample"/>
-
-    <TextView
+        style="@style/AppTextView.Sample"
         android:layout_marginTop="@dimen/gap_grade_3"
-        android:id="@+id/singleChoiceBottomDialog"
-        android:text="底部弹出单选"
-        style="@style/AppTextView.Sample" />
+        android:text="底部弹出没有标题" />
 
-    <TextView
-        android:layout_marginTop="@dimen/gap_grade_3"
-        android:id="@+id/singleChoiceBottomDialog2"
-        android:text="底部弹出单选2按钮"
-        style="@style/AppTextView.Sample" />
 
 </LinearLayout>

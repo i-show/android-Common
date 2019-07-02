@@ -57,8 +57,6 @@
         <item name="dialogMainLayout">@layout/dialog</item>
         <item name="dialogListLayout">@layout/dialog_select</item>
         <item name="dialogListItem">@layout/dialog_select_item</item>
-        <item name="dialogSingleChoiceItem">@layout/dialog_select_singlechoice</item>
-        <item name="dialogMultiChoiceItem">@layout/dialog_select_multichoice</item>
         <item name="fromBottom">false</item>
         <item name="widthProportion">0.8</item>
     </style>
@@ -84,7 +82,7 @@
         <item name="android:paddingLeft">@dimen/dp_20</item>
         <item name="android:paddingRight">@dimen/dp_20</item>
         <item name="android:paddingBottom">@dimen/dp_20</item>
-        <item name="android:minHeight">@dimen/dp_80</item>
+        <item name="android:minHeight">@dimen/dp_70</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/H_title</item>
         <item name="android:textColor">@color/text_grey</item>
@@ -217,7 +215,7 @@
     <style name="Default" />
 
     <style name="Default.StatusView">
-        <item name="loadingImage"/>
+        <item name="loadingImage" />
         <item name="loadingText" />
         <item name="loadingTextSize">@dimen/status_view_title_size</item>
         <item name="loadingTextColor">@color/status_view_title_color</item>
@@ -234,7 +232,7 @@
         <item name="emptyText">@string/nothing</item>
         <item name="emptyTextSize">@dimen/status_view_title_size</item>
         <item name="emptyTextColor">@color/status_view_title_color</item>
-        <item name="emptySubText"/>
+        <item name="emptySubText" />
         <item name="emptySubTextSize">@dimen/status_view_sub_title_size</item>
         <item name="emptySubTextColor">@color/status_view_sub_title_color</item>
         <item name="emptyImage">@drawable/status_empty</item>

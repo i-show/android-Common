@@ -120,7 +120,6 @@
     <style name="Theme.Dialog.Bottom">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowAnimationStyle">@style/Animation.Windows.Bottom</item>
-
         <item name="dialogStyle">@style/BaseDialog.Bottom</item>
         <item name="dialogButtonStyle">@style/BaseDialogButton.Bottom</item>
     </style>

@@ -45,6 +45,7 @@ class SettingsActivity : AppBaseActivity(), View.OnClickListener {
     override fun initViews() {
         super.initViews()
         logout.setOnClickListener(this)
+        logout.setOnClickListener {  }
         version.setText(AppUtils.getVersionName(this))
     }
 
@@ -55,16 +56,19 @@ class SettingsActivity : AppBaseActivity(), View.OnClickListener {
     }
 
     private fun logout() {
+
         BaseDialog.Builder(this)
                 .setMessage(R.string.ensure_logout)
                 .setMessageGravity(Gravity.CENTER)
-                .setNegativeButton(R.string.cancel, null)
-                .setPositiveButton(R.string.yes){ _, _ ->
+                .setNegativeButton(R.string.cancel)
+                .setPositiveButton(R.string.yes) { _, _ ->
                     AppRouter.with(this)
-                        .target(LoginActivity::class.java)
-                        .flag(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                        .finishSelf()
-                        .start()}
+                            .target(LoginActivity::class.java)
+                            .flag(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                            .finishSelf()
+                            .start()
+                }
                 .show()
+
     }
 }

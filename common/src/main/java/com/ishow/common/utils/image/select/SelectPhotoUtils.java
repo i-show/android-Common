@@ -257,7 +257,7 @@ public class SelectPhotoUtils implements
             mSelectDialog = new BaseDialog.Builder(mActivity, R.style.Theme_Dialog_Bottom)
                     .setNegativeButton(R.string.cancel, null)
                     .fromBottom(true)
-                    .setItems(R.array.select_photos, this)
+                    //.setItems(R.array.select_photos, this)
                     .setOnDismissListener(this)
                     .create();
         }
@@ -538,6 +538,7 @@ public class SelectPhotoUtils implements
 
 
     private void requestPermissionRationale(@StringRes int message) {
+        /*
         BaseDialog dialog = new BaseDialog.Builder(mActivity)
                 .setMessage(message)
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -550,6 +551,7 @@ public class SelectPhotoUtils implements
                 })
                 .create();
         dialog.show();
+        */
     }
 
     /**

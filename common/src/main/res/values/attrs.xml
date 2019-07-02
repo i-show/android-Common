@@ -1177,7 +1177,7 @@
         <attr name="maxWidth" />
     </declare-styleable>
 
-    <declare-styleable name="RecycleViewPro">
+    <declare-styleable name="RecyclerViewPro">
         <attr name="maxHeight" />
         <attr name="maxWidth" />
     </declare-styleable>

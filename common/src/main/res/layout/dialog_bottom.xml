@@ -63,19 +63,6 @@
                     android:layout_height="wrap_content" />
             </com.ishow.common.widget.ScrollViewPro>
         </LinearLayout>
-
-        <FrameLayout
-            android:id="@+id/customPanel"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-
-            <FrameLayout
-                android:id="@+id/custom"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </FrameLayout>
-
     </LinearLayout>
 
     <LinearLayout
@@ -94,7 +81,7 @@
         <View
             android:id="@+id/button_middle_line"
             android:layout_width="@dimen/dp_12"
-            android:layout_height="0dp"/>
+            android:layout_height="0dp" />
 
         <Button
             android:id="@+id/positive"

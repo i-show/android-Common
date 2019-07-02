@@ -25,15 +25,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ishow.common.R
 
 
-class RecycleViewPro @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
+class RecyclerViewPro @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
         RecyclerView(context, attrs, defStyleAttr) {
     private var mMaxHeight: Int = 0
     private var mMaxWidth: Int = 0
 
     init {
-        val a = context.obtainStyledAttributes(attrs, R.styleable.RecycleViewPro)
-        mMaxHeight = a.getDimensionPixelSize(R.styleable.RecycleViewPro_maxHeight, -1)
-        mMaxWidth = a.getDimensionPixelSize(R.styleable.RecycleViewPro_maxWidth, -1)
+        val a = context.obtainStyledAttributes(attrs, R.styleable.RecyclerViewPro)
+        mMaxHeight = a.getDimensionPixelSize(R.styleable.RecyclerViewPro_maxHeight, -1)
+        mMaxWidth = a.getDimensionPixelSize(R.styleable.RecyclerViewPro_maxWidth, -1)
         a.recycle()
     }
 
