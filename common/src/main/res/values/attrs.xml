@@ -776,7 +776,6 @@
     </declare-styleable>
 
     <declare-styleable name="BottomBar">
-        <attr name="android:orientation" />
         <attr name="selectedChild" />
         <attr name="cannotSelectedChild" />
     </declare-styleable>
@@ -992,10 +991,6 @@
         <attr name="topLineVisibility" />
     </declare-styleable>
 
-    <declare-styleable name="MaxHeightScrollView">
-        <attr name="maxHeight" />
-    </declare-styleable>
-
     <declare-styleable name="EditTextPro">
         <attr name="tintColor" />
 
@@ -1183,6 +1178,11 @@
     </declare-styleable>
 
     <declare-styleable name="RecycleViewPro">
+        <attr name="maxHeight" />
+        <attr name="maxWidth" />
+    </declare-styleable>
+
+    <declare-styleable name="ScrollViewPro">
         <attr name="maxHeight" />
         <attr name="maxWidth" />
     </declare-styleable>

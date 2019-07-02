@@ -51,7 +51,7 @@ object AppUtils {
         get() {
             val currentTime = System.currentTimeMillis()
             val timeDiffer = currentTime - sLastClickTime
-            if (timeDiffer in 1..499) {
+            if (timeDiffer in 1..300) {
                 return true
             }
             sLastClickTime = currentTime
