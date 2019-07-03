@@ -1,21 +1,21 @@
-package com.ishow.common.widget.viewpager.looping;
+package com.ishow.common.widget.viewpager.looping
 
-import android.graphics.Canvas;
+import android.graphics.Canvas
 
 /**
  * Created by yuhaiyang on 2018/9/13.
  * 小点点
  */
-public interface ILoopingIndicator {
+interface ILoopingIndicator {
     /**
      * LoopingViewPager Pager大小改变
      */
-    void onViewSizeChanged(int w, int h);
+    fun onViewSizeChanged(w: Int, h: Int)
 
     /**
      * 数据变化
      */
-    void onDataSizeChanged(int count);
+    fun onDataSizeChanged(count: Int)
 
     /**
      * 画信息
@@ -26,6 +26,6 @@ public interface ILoopingIndicator {
      * @param currentPosition 当前的Position
      * @param positionOffset  移动距离
      */
-    void onDraw(Canvas canvas, final int scrollX, final int count, final int currentPosition, final float positionOffset);
+    fun onDraw(canvas: Canvas, scrollX: Int, count: Int, currentPosition: Int, positionOffset: Float)
 
 }
