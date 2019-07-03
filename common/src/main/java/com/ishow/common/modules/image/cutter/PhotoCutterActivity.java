@@ -97,7 +97,7 @@ public class PhotoCutterActivity extends BaseActivity {
     @Override
     public void onRightClick(View v) {
         super.onRightClick(v);
-        LoadingDialog dialog = LoadingDialog.show(this, null);
+        LoadingDialog dialog = LoadingDialog.Companion.show(this, null);
         Bitmap bitmap = mCropView.getCroppedBitmap();
         String cachePath = ImageUtils.compressBitmap(this, bitmap, mCompressFormat);
         Intent intent = new Intent();

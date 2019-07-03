@@ -155,7 +155,7 @@
         <item name="android:layout_weight">1</item>
         <item name="android:background">?android:selectableItemBackground</item>
         <item name="android:gravity">center</item>
-        <item name="textSize">@dimen/I_title</item>
+        <item name="textSize">@dimen/J_title</item>
         <item name="textColor">@color/normal_grey_selected_coloraccent</item>
     </style>
 

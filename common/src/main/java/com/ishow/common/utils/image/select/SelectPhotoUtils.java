@@ -390,7 +390,7 @@ public class SelectPhotoUtils implements
             return;
         }
 
-        mLoadingDialog = LoadingDialog.show(mActivity, mLoadingDialog);
+        mLoadingDialog = LoadingDialog.Companion.show(mActivity, mLoadingDialog);
 
         List<String> photos = new ArrayList<>();
         photos.add(picPath);
@@ -400,7 +400,7 @@ public class SelectPhotoUtils implements
 
         switch (mResultMode) {
             case ResultMode.COMPRESS:
-                mLoadingDialog = LoadingDialog.show(mActivity, mLoadingDialog);
+                mLoadingDialog = LoadingDialog.Companion.show(mActivity, mLoadingDialog);
                 resolveResultPhotosForCompress(photos);
                 break;
             case ResultMode.CROP:
@@ -421,7 +421,7 @@ public class SelectPhotoUtils implements
         mPhotos.clear();
         mPhotos.addAll(pathList);
 
-        mLoadingDialog = LoadingDialog.show(mActivity, mLoadingDialog);
+        mLoadingDialog = LoadingDialog.Companion.show(mActivity, mLoadingDialog);
         resolveResultPhotosForCompress(pathList);
     }
 
@@ -474,7 +474,7 @@ public class SelectPhotoUtils implements
         @Override
         public void handleMessage(Message msg) {
             if (mSelectPhotoListener == null) {
-                LoadingDialog.dismiss(mLoadingDialog);
+                LoadingDialog.Companion.dismiss(mLoadingDialog);
                 return;
             }
 
@@ -500,7 +500,7 @@ public class SelectPhotoUtils implements
      * 提示已经选了多少图片
      */
     private void notifySelectPhoto(List<String> multiPath, String singlePath) {
-        LoadingDialog.dismiss(mLoadingDialog);
+        LoadingDialog.Companion.dismiss(mLoadingDialog);
         if (mSelectPhotoListener != null) {
             mSelectPhotoListener.onSelectedPhoto(multiPath, singlePath);
         }
