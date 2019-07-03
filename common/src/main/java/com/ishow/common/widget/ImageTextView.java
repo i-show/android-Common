@@ -183,16 +183,16 @@ public class ImageTextView extends View implements IPrompt {
         mImageOrientation = a.getInt(R.styleable.ImageTextView_position, Orientation.TOP);
         mPadding = a.getDimensionPixelSize(R.styleable.ImageTextView_padding, DEFAULT_PADDING);
 
-        mMode = a.getInt(R.styleable.ImageTextView_promptMode, PromptMode.NONE);
+        mMode = a.getInt(R.styleable.ImageTextView_promptMode, PromptMode.Companion.getNONE());
         mPromptTextString = a.getString(R.styleable.ImageTextView_promptText);
         mPromptTextColor = a.getColor(R.styleable.ImageTextView_promptTextColor, Color.WHITE);
         mPromptTextSize = a.getDimensionPixelSize(R.styleable.ImageTextView_promptTextSize, getDefaultPromptTextSize(context));
         mPromptPadding = a.getDimensionPixelSize(R.styleable.ImageTextView_promptPadding, getDefaultPromptPadding(context));
         mPromptRadius = a.getDimensionPixelSize(R.styleable.ImageTextView_promptRadius, getDefaultPromptRadius(context));
-        mPromptPosition = a.getInt(R.styleable.ImageTextView_promptPosition, PromptPosition.LEFT);
+        mPromptPosition = a.getInt(R.styleable.ImageTextView_promptPosition, PromptPosition.Companion.getLEFT());
         mPromptBackgroundColor = a.getColor(R.styleable.ImageTextView_promptBackground, Color.RED);
-        mWidthPaddingScale = a.getFloat(R.styleable.ImageTextView_widthPaddingScale, DEFAULT_PADDING_SCALE);
-        mHeightPaddingScale = a.getFloat(R.styleable.ImageTextView_heightPaddingScale, DEFAULT_PADDING_SCALE);
+        mWidthPaddingScale = a.getFloat(R.styleable.ImageTextView_widthPaddingScale, Companion.getDEFAULT_PADDING_SCALE());
+        mHeightPaddingScale = a.getFloat(R.styleable.ImageTextView_heightPaddingScale, Companion.getDEFAULT_PADDING_SCALE());
 
         a.recycle();
 
@@ -413,21 +413,21 @@ public class ImageTextView extends View implements IPrompt {
 
 
     private void measurePrompt(int width, int height) {
-        if (mMode == PromptMode.NONE) {
+        if (mMode == PromptMode.Companion.getNONE()) {
             return;
         }
 
-        if (mMode == PromptMode.TEXT && TextUtils.isEmpty(mPromptTextString)) {
+        if (mMode == PromptMode.Companion.getTEXT() && TextUtils.isEmpty(mPromptTextString)) {
             return;
         }
 
 
         switch (mPromptPosition) {
-            case PromptPosition.LEFT:
+            case PromptPosition.Companion.getLEFT():
                 mPromptUsedRectF.set(mPromptRecordRectF);
                 mPromptUsedRectF.offset(width * mWidthPaddingScale, height * mHeightPaddingScale);
                 break;
-            case PromptPosition.RIGHT:
+            case PromptPosition.Companion.getRIGHT():
                 mPromptUsedRectF.set(mPromptRecordRectF);
                 mPromptUsedRectF.offset(width * (1 - mWidthPaddingScale) - mPromptRecordRectF.width(), height * mHeightPaddingScale);
                 break;
@@ -530,15 +530,15 @@ public class ImageTextView extends View implements IPrompt {
     }
 
     private void drawPrompt(Canvas canvas) {
-        if (mMode == PromptMode.NONE) {
+        if (mMode == PromptMode.Companion.getNONE()) {
             return;
         }
 
-        if (mMode == PromptMode.TEXT && TextUtils.isEmpty(mPromptTextString)) {
+        if (mMode == PromptMode.Companion.getTEXT() && TextUtils.isEmpty(mPromptTextString)) {
             return;
         }
         canvas.drawRoundRect(mPromptUsedRectF, 999, 999, mPromptBackgroundPaint);
-        if (mMode == PromptMode.TEXT && !TextUtils.isEmpty(mPromptTextString)) {
+        if (mMode == PromptMode.Companion.getTEXT() && !TextUtils.isEmpty(mPromptTextString)) {
             Paint.FontMetricsInt fontMetrics = mPromptTextPaint.getFontMetricsInt();
             float baseline = mPromptUsedRectF.top + (mPromptUsedRectF.bottom - mPromptUsedRectF.top - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top;
             mPromptTextPaint.setTextAlign(Paint.Align.CENTER);
@@ -797,7 +797,7 @@ public class ImageTextView extends View implements IPrompt {
      */
     protected ImageTextView commit(boolean init) {
         switch (mMode) {
-            case PromptMode.TEXT:
+            case PromptMode.Companion.getTEXT():
                 if (TextUtils.isEmpty(mPromptTextString)) {
                     mPromptTextRect.set(0, 0, mPromptRadius, mPromptRadius);
                     mPromptRecordRectF.set(mPromptTextRect);
@@ -812,7 +812,7 @@ public class ImageTextView extends View implements IPrompt {
                     mPromptRecordRectF.offset(mPromptPadding, mPromptTextRect.height() + mPromptPadding);
                 }
                 break;
-            case PromptMode.GRAPH:
+            case PromptMode.Companion.getGRAPH():
                 mPromptRecordRectF.set(0, 0, mPromptRadius, mPromptRadius);
                 break;
         }

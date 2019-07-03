@@ -786,7 +786,7 @@ public class EditTextPro extends ViewGroup implements View.OnFocusChangeListener
             return;
         }
 
-        prompt.setPromptMode(IPrompt.PromptMode.NONE);
+        prompt.setPromptMode(IPrompt.PromptMode.Companion.getNONE());
         prompt.commit();
     }
 

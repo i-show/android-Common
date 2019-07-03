@@ -788,7 +788,7 @@ public class TextViewPro extends ViewGroup {
             return;
         }
 
-        prompt.setPromptMode(IPrompt.PromptMode.NONE);
+        prompt.setPromptMode(IPrompt.PromptMode.Companion.getNONE());
         prompt.commit();
     }
 
