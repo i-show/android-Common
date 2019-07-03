@@ -80,7 +80,7 @@ class LoadingWebView : WebView {
     private fun drawLoading(canvas: Canvas) {
         if (mProgress < 100) {
             val right = mProgress * width / 100
-            canvas.drawRect(0f, scrollY.toFloat(), right.toFloat(), (scrollY + mLoadingHeight).toFloat(), mLoadingPaint!!)
+            canvas.drawRect(0f, scrollY.toFloat(), right.toFloat(), (scrollY + mLoadingHeight).toFloat(), mLoadingPaint)
         }
     }
 

@@ -150,7 +150,7 @@ class LoopingViewPager @JvmOverloads constructor(context: Context, attrs: Attrib
     }
 
     override fun getCurrentItem(): Int {
-        return if (mAdapter != null) mAdapter.getRealPosition(super.getCurrentItem()) else 0
+        return if (mAdapter != null) mAdapter!!.getRealPosition(super.getCurrentItem()) else 0
     }
 
     override fun setCurrentItem(item: Int) {
@@ -161,7 +161,7 @@ class LoopingViewPager @JvmOverloads constructor(context: Context, attrs: Attrib
 
     override fun setCurrentItem(item: Int, smoothScroll: Boolean) {
         mAdapter?.let {
-            val innerPosition = mAdapter.getInnerPosition(item)
+            val innerPosition = it.getInnerPosition(item)
             super.setCurrentItem(innerPosition, smoothScroll)
         }
     }
@@ -177,8 +177,8 @@ class LoopingViewPager @JvmOverloads constructor(context: Context, attrs: Attrib
 
     override fun dispatchDraw(canvas: Canvas) {
         super.dispatchDraw(canvas)
-        if (mAdapter != null) {
-            mLoopingIndicator?.onDraw(canvas, scrollX, mAdapter.realCount, mRealCurrentPosition, mPositionOffset)
+        mAdapter?.let {
+            mLoopingIndicator?.onDraw(canvas, scrollX, it.realCount, mRealCurrentPosition, mPositionOffset)
         }
     }
 

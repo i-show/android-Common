@@ -788,7 +788,7 @@ public class TextViewPro extends ViewGroup {
             return;
         }
 
-        prompt.setPromptMode(IPrompt.PromptMode.Companion.getNONE());
+        prompt.setPromptMode(IPrompt.PromptMode.NONE);
         prompt.commit();
     }
 
@@ -798,11 +798,11 @@ public class TextViewPro extends ViewGroup {
     }
 
     private int getDefaultTipMinWidth() {
-        return UnitUtils.INSTANCE.dip2px(50);
+        return UnitUtils.dip2px(50);
     }
 
     private int getDefaultTipMaxWidth() {
-        return UnitUtils.INSTANCE.dip2px(120);
+        return UnitUtils.dip2px(120);
     }
 
     private int getDefaultTipTextColor() {
