@@ -38,7 +38,7 @@ import com.ishow.common.utils.DeviceUtils
 /**
  * BaseDialog
  */
-class BaseDialog constructor(context: Context, theme: Int) : Dialog(context, theme), DialogInterface {
+open class BaseDialog constructor(context: Context, theme: Int) : Dialog(context, theme), DialogInterface {
     private val mController: BaseController
 
     constructor(context: Context) : this(context, R.style.Theme_Dialog) {

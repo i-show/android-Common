@@ -25,7 +25,7 @@ import android.widget.TextView;
 
 import com.ishow.common.R;
 import com.ishow.common.adapter.ListAdapter;
-import com.ishow.common.entries.IUnitSelect;
+import com.ishow.common.entries.utils.IUnitSelect;
 
 
 class SelectAdapter<T extends IUnitSelect> extends ListAdapter<T, SelectAdapter.ViewHolder> {

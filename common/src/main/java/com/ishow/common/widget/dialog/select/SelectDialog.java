@@ -28,7 +28,7 @@ import android.widget.ListView;
 
 
 import com.ishow.common.R;
-import com.ishow.common.entries.IUnitSelect;
+import com.ishow.common.entries.utils.IUnitSelect;
 import com.ishow.common.utils.DeviceUtils;
 
 import java.util.List;
@@ -98,19 +98,16 @@ public class SelectDialog<T extends IUnitSelect> extends Dialog implements Adapt
     }
 
 
-    @SuppressWarnings("unchecked")
     private void notifySelectCityChanged(T selected) {
         if (mSelectedListener != null) {
             mSelectedListener.onSelected(selected);
         }
     }
 
-    @SuppressWarnings("unused")
     public void setOnSelectedListener(OnSelectedListener<T> listener) {
         mSelectedListener = listener;
     }
 
-    @SuppressWarnings("WeakerAccess")
     public interface OnSelectedListener<T extends IUnitSelect> {
         void onSelected(T t);
     }

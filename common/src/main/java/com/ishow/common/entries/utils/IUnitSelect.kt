@@ -14,22 +14,23 @@
  * limitations under the License.
  */
 
-package com.ishow.common.entries;
+package com.ishow.common.entries.utils
 
-import android.content.Context;
+import android.content.Context
 
 /**
  * Created by Bright.Yu on 2016/12/29.
  * 选中的ISelect
  */
 
-public interface IUnitSelect {
+interface IUnitSelect {
     /**
      * 获取标题
      */
-    String getTitle(Context context);
+    fun getTitle(context: Context): String
+
     /**
      * 获取副标题
      */
-    String getSubTitle(Context context);
+    fun getSubTitle(context: Context): String?
 }

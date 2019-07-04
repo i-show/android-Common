@@ -174,8 +174,9 @@ class TextViewPro @JvmOverloads constructor(context: Context, attrs: AttributeSe
     val leftTextView: PromptTextView?
         get() = mLeftTextView
 
-    val text: String
+    var text: String
         get() = mTextView.text.toString().trim { it <= ' ' }
+        set(value) = setText(value)
 
     val textView: TextView?
         get() = mTextView
