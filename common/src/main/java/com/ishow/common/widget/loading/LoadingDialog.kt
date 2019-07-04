@@ -21,8 +21,6 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.KeyEvent
-import android.view.Window
-import android.view.WindowManager
 import com.ishow.common.R
 import com.ishow.common.utils.DeviceUtils
 
@@ -57,7 +55,7 @@ class LoadingDialog private constructor(context: Context, themeResId: Int = R.st
 
     companion object {
 
-        private fun show(context: Context): LoadingDialog? {
+        private fun show(context: Context?): LoadingDialog? {
             if (context !is Activity) {
                 return null
             }
@@ -72,7 +70,7 @@ class LoadingDialog private constructor(context: Context, themeResId: Int = R.st
         }
 
         @JvmStatic
-        fun show(context: Context, dialog: LoadingDialog?): LoadingDialog? {
+        fun show(context: Context?, dialog: LoadingDialog?): LoadingDialog? {
             if (dialog == null) {
                 return show(context)
             }

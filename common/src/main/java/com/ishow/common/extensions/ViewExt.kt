@@ -7,3 +7,4 @@ fun View.getLocationOnScreen(): IntArray {
     this.getLocationOnScreen(location)
     return location
 }
+

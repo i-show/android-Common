@@ -30,3 +30,17 @@ fun TextView.setDrawableRight(drawable: Int) {
 fun TextView.setDrawableRight(drawable: Drawable) {
     this.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null)
 }
+
+/**
+ * 设置右侧图片
+ */
+fun TextView.setDrawableTop(drawable: Int) {
+    this.setCompoundDrawablesWithIntrinsicBounds(0, drawable, 0, 0)
+}
+
+/**
+ * 设置右侧图片
+ */
+fun TextView.setDrawableTop(drawable: Drawable) {
+    this.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null)
+}
