@@ -8,3 +8,6 @@ fun View.getLocationOnScreen(): IntArray {
     return location
 }
 
+fun View.setPadding(horizontal: Int, vertical: Int) {
+    setPadding(horizontal, vertical, horizontal, vertical)
+}
