@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
-package com.ishow.common.widget.pickview.listener;
+package com.ishow.common.widget.pickview.constant
 
+/**
+ * 画的方向
+ */
 
-public interface OnItemSelectedListener {
-    void onItemSelected(int position);
+enum class Direction {
+    UP, DOWN
 }
