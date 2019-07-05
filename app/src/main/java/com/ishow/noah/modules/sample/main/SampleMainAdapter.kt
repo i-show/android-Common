@@ -4,8 +4,8 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-
 import com.ishow.common.adapter.RecyclerAdapter
+
 import com.ishow.noah.R
 import com.ishow.common.extensions.inflate
 import com.ishow.noah.modules.sample.entries.Sample

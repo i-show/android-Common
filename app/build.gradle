@@ -16,6 +16,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 repositories {
     jcenter()
@@ -200,6 +201,10 @@ android {
         targetCompatibility 1.8
     }
 
+    dataBinding {
+        enabled = true
+    }
+
     // 包名重命名，加上版本及日期
     android.applicationVariants.all { variant ->
         variant.outputs.all { output ->
@@ -216,6 +221,6 @@ dependencies {
 
     //  百度统计
     implementation 'com.baidu.mobstat:mtj-sdk:3.8.0.6'
-
+    kapt "com.android.databinding:compiler:3.1.4"
 }
 

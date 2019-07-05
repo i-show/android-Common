@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.ishow.common.adapter.BindAdapter
 import com.ishow.common.extensions.inflate
 import com.ishow.common.utils.router.AppRouter
+import com.ishow.noah.BR
 import com.ishow.noah.R
 import com.ishow.noah.modules.base.AppBaseFragment
 import com.ishow.noah.modules.sample.main.SampleMainActivity
@@ -32,6 +34,18 @@ class HomeFragment : AppBaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         topBar.setOnTopBarListener(this)
+
+        val adapter = BindAdapter<String>(context)
+        adapter.addLayout(R.layout.test_item)
+        adapter.variableId = BR.item
+
+        recyclerView.adapter = adapter
+
+        val dataList = ArrayList<String>()
+        dataList.add("张三")
+        dataList.add("李四")
+        dataList.add("王五")
+        adapter.data = dataList
     }
 
 
