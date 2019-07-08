@@ -25,6 +25,10 @@ import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
 import com.bumptech.glide.load.engine.cache.ExternalPreferredCacheDiskCacheFactory
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.module.AppGlideModule
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.target.CustomViewTarget
+import com.bumptech.glide.request.target.ViewTarget
+import com.ishow.common.R
 import java.io.InputStream
 
 /**
@@ -33,6 +37,8 @@ import java.io.InputStream
 @GlideModule
 class GlideConfiguration : AppGlideModule() {
     override fun applyOptions(context: Context, builder: GlideBuilder) {
+        @Suppress("DEPRECATION")
+        ViewTarget.setTagId(R.id.tag_glide)
         builder.setDiskCache(ExternalPreferredCacheDiskCacheFactory(context))
     }
 

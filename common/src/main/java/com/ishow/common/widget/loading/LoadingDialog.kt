@@ -27,7 +27,7 @@ import com.ishow.common.utils.DeviceUtils
 
 class LoadingDialog private constructor(context: Context, themeResId: Int = R.style.Theme_Dialog_Semipermeable) : Dialog(context, themeResId) {
 
-    override fun onCreate(savedInstanceState: Bundle) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTitle("dialog_loading")
         setContentView(R.layout.dialog_loading)

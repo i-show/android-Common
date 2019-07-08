@@ -14,19 +14,17 @@
  * limitations under the License.
  */
 
-package com.ishow.common.utils.image.select;
-
-import java.util.List;
+package com.ishow.common.utils.image.select
 
 /**
  * Created by Bright.Yu on 2017/1/15.
  * 选择图片的监听
  */
 
-public interface OnSelectPhotoListener {
+interface OnSelectPhotoListener {
     /**
      * @param multiPath  多选图片的路径
      * @param singlePath 单选图片
      */
-    void onSelectedPhoto(List<String> multiPath, String singlePath);
+    fun onSelectedPhoto(multiPath: List<String>, singlePath: String)
 }

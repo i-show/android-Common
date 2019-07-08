@@ -435,6 +435,7 @@ class BaseController(private val mContext: Context, private val mDialogInterface
                 val adapter = BindAdapter<String>(mContext)
                 adapter.setOnItemClickListener { position ->
                     mOnClickListener?.let { it(dialog.mDialogInterface, position) }
+                    dialog.mDialogInterface.dismiss()
                 }
                 adapter.addLayout(dialog.mListItemLayout, BR.text)
                 @Suppress("UNCHECKED_CAST")
