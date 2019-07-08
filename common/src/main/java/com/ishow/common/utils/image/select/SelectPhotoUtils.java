@@ -257,7 +257,7 @@ public class SelectPhotoUtils implements
             mSelectDialog = new BaseDialog.Builder(mActivity, R.style.Theme_Dialog_Bottom)
                     .setNegativeButton(R.string.cancel, null)
                     .fromBottom(true)
-                    //.setItems(R.array.select_photos, this)
+                    .setItems(R.array.select_photos)
                     .setOnDismissListener(this)
                     .create();
         }
@@ -290,7 +290,7 @@ public class SelectPhotoUtils implements
      * 通过相机来选择图片
      */
     private void selectPhotoByCamera(File file) {
-        String authority = StringUtils.INSTANCE.plusString(mActivity.getPackageName(), ".fileprovider");
+        String authority = StringUtils.plusString(mActivity.getPackageName(), ".fileprovider");
         if (file == null) file = ImageUtils.generateRandomPhotoFile(mActivity);
         mCameraFileUri = Uri.fromFile(file);
         Uri uri = FileProvider.getUriForFile(mActivity, authority, file);
@@ -367,7 +367,7 @@ public class SelectPhotoUtils implements
 
 
     /**
-     * onActivityResult 裁掉caceled的事件
+     * onActivityResult 裁掉canceled的事件
      */
     private void resolveResultCanceled(int requestCode) {
         switch (requestCode) {
@@ -474,7 +474,7 @@ public class SelectPhotoUtils implements
         @Override
         public void handleMessage(Message msg) {
             if (mSelectPhotoListener == null) {
-                LoadingDialog.Companion.dismiss(mLoadingDialog);
+                LoadingDialog.dismiss(mLoadingDialog);
                 return;
             }
 

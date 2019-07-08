@@ -29,8 +29,11 @@ import android.widget.ScrollView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.ishow.common.BR
 import com.ishow.common.R
+import com.ishow.common.adapter.BindAdapter
 import com.ishow.common.widget.recyclerview.RecyclerViewPro
+import com.ishow.common.widget.recyclerview.itemdecoration.ColorDecoration
 import java.lang.ref.WeakReference
 import kotlin.math.max
 
@@ -129,12 +132,11 @@ class BaseController(private val mContext: Context, private val mDialogInterface
         val hasTitle = setupTitle(topPanel)
 
         val contentPanel = mWindow.findViewById<LinearLayout>(R.id.contentPanel)
+        setupList(hasTitle)
         setupContent(contentPanel, hasTitle)
 
         val buttonPanel = mWindow.findViewById<View>(R.id.buttonPanel)
         setupButtons(buttonPanel)
-
-        setupList(hasTitle)
     }
 
     private fun setupTitle(topPanel: LinearLayout): Boolean {
@@ -246,8 +248,8 @@ class BaseController(private val mContext: Context, private val mDialogInterface
     }
 
     private fun setupList(hasTitle: Boolean) {
-        if (mListView != null && mAdapter != null) {
-            mListView!!.adapter = mAdapter
+        if (mAdapter != null) {
+            mListView?.adapter = mAdapter
         }
     }
 
@@ -427,19 +429,21 @@ class BaseController(private val mContext: Context, private val mDialogInterface
         }
 
         private fun createListView(dialog: BaseController) {
-
-            /*
-
-              val listView = mInflater.inflate(dialog.mListLayout, null) as ListViewPro
-            val adapter: Adapter<*>? =
-
-
-                    /* Don't directly set the adapter on the ListView as we might
-                     * want to add a footer to the ListView later.
-                     */
-                    dialog.mAdapter = adapter
+            val listView = mInflater.inflate(dialog.mListLayout, null) as RecyclerViewPro
+            listView.addItemDecoration(ColorDecoration())
+            if (mAdapter == null) {
+                val adapter = BindAdapter<String>(mContext)
+                adapter.setOnItemClickListener { position ->
+                    mOnClickListener?.let { it(dialog.mDialogInterface, position) }
+                }
+                adapter.addLayout(dialog.mListItemLayout, BR.text)
+                @Suppress("UNCHECKED_CAST")
+                adapter.data = mItems?.toList() as ArrayList<String>
+                dialog.mAdapter = adapter
+            } else {
+                dialog.mAdapter = mAdapter
+            }
             dialog.mListView = listView
-            */
         }
     }
 
@@ -451,30 +455,6 @@ class BaseController(private val mContext: Context, private val mDialogInterface
 
         private const val BIT_BUTTON_POSITIVE = 1
         private const val BIT_BUTTON_NEGATIVE = 2
-        /**
-         * 当前包含的View是否可以输入
-         */
-        private fun canTextInput(v: View): Boolean {
-            if (v.onCheckIsTextEditor()) {
-                return true
-            }
-
-            if (v !is ViewGroup) {
-                return false
-            }
-
-
-            var child: View
-            var i = v.childCount
-            while (i > 0) {
-                i--
-                child = v.getChildAt(i)
-                if (canTextInput(child)) {
-                    return true
-                }
-            }
-            return false
-        }
     }
 
 }

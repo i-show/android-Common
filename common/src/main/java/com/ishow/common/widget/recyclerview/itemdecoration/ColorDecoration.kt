@@ -47,7 +47,6 @@ class ColorDecoration : RecyclerView.ItemDecoration {
     }
 
     @JvmOverloads
-    @Suppress("unused")
     constructor(color: Int = 0XFFC2CADC.toInt(), @Px height: Int = 1) {
         mDividerPaint.color = color
         mDividerHeight = height

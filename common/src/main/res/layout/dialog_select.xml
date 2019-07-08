@@ -19,7 +19,8 @@
 <com.ishow.common.widget.recyclerview.RecyclerViewPro xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="80dp"
     android:overScrollMode="never"
     android:scrollbars="vertical"
+    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
     app:maxHeight="@dimen/default_dialog_list_height" />
