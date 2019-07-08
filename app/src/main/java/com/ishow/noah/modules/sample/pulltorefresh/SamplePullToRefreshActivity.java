@@ -6,7 +6,8 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.ishow.common.widget.recyclerview.itemdecoration.LinearSpacingItemDecoration;
+
+import com.ishow.common.widget.recyclerview.itemdecoration.SpacingDecoration;
 import com.ishow.noah.R;
 import com.ishow.noah.modules.base.PullToRefreshActivity;
 import com.ishow.noah.modules.sample.entries.Job;
@@ -44,7 +45,7 @@ public class SamplePullToRefreshActivity extends PullToRefreshActivity implement
 
         RecyclerView list = findViewById(R.id.list);
         list.setLayoutManager(new LinearLayoutManager(this));
-        list.addItemDecoration(new LinearSpacingItemDecoration(this, R.dimen.gap_grade_1));
+        list.addItemDecoration(new SpacingDecoration(this, R.dimen.gap_grade_1));
         list.setAdapter(footer);
 
         ClassicHeader header = new ClassicHeader(this);

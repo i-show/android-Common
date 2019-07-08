@@ -9,20 +9,26 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.ishow.common.extensions.inflate
 
-class BindAdapter<T>(val context: Context?) : RecyclerView.Adapter<BindAdapter.BindHolder>() {
+open class BindAdapter<T>(val context: Context?) : RecyclerView.Adapter<BindAdapter.BindHolder>() {
 
     var data: MutableList<T> = ArrayList()
-    var variableId: Int = 0
 
     private val layoutList = SparseIntArray()
+    private val variableList = SparseIntArray()
+    private var itemClickListener: ((Int) -> Unit)? = null
 
+    protected var disableOnItemClickListener = false
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindHolder {
         return BindHolder(parent.inflate(layoutList[viewType]), viewType)
     }
 
     override fun onBindViewHolder(holder: BindHolder, position: Int) {
+        if (!disableOnItemClickListener) {
+            itemClickListener?.let { holder.item.setOnClickListener { it(position) } }
+        }
         val itemData = getItem(position)
-        holder.bind(variableId, itemData)
+        val viewType = getItemViewType(position)
+        holder.bind(variableList[viewType], itemData)
     }
 
     override fun getItemCount(): Int = data.size
@@ -33,8 +39,9 @@ class BindAdapter<T>(val context: Context?) : RecyclerView.Adapter<BindAdapter.B
      * 添加布局文件
      */
     @JvmOverloads
-    fun addLayout(layoutRes: Int, viewType: Int = 0) {
+    fun addLayout(layoutRes: Int, variableId: Int, viewType: Int = 0) {
         layoutList.put(viewType, layoutRes)
+        variableList.put(viewType, variableId)
     }
 
     /**
@@ -72,6 +79,9 @@ class BindAdapter<T>(val context: Context?) : RecyclerView.Adapter<BindAdapter.B
         notifyDataSetChanged()
     }
 
+    fun setOnItemClickListener(listener: ((Int) -> Unit)?) {
+        itemClickListener = listener
+    }
 
     class BindHolder(val item: View, val viewType: Int) : RecyclerView.ViewHolder(item) {
         private val binding: ViewDataBinding? = DataBindingUtil.bind(item)

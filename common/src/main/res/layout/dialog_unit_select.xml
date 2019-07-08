@@ -14,12 +14,20 @@
   limitations under the License.
   -->
 
-<com.ishow.common.widget.ListViewPro xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/list"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:divider="@drawable/line"
     android:background="@drawable/top_line_white_normal_bg"
-    app:maxHeight="@dimen/dp_300" />
+    android:orientation="vertical">
 
+    <com.ishow.common.widget.recyclerview.RecyclerViewPro
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/dp_20"
+        android:paddingEnd="@dimen/dp_20"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:maxHeight="@dimen/dp_300" />
+</LinearLayout>

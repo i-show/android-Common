@@ -20,11 +20,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
+
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.ishow.common.utils.image.select.OnSelectPhotoListener;
 import com.ishow.common.utils.image.select.SelectPhotoUtils;
-import com.ishow.common.widget.recyclerview.itemdecoration.GridSpacingItemDecoration;
+import com.ishow.common.widget.recyclerview.itemdecoration.SpacingDecoration;
 import com.ishow.noah.R;
 import com.ishow.noah.modules.base.AppBaseActivity;
 
@@ -67,7 +69,7 @@ public class SampleSelectPhotoActivity extends AppBaseActivity implements
         RecyclerView list = findViewById(R.id.photo_list);
         list.setAdapter(mAdapter);
         list.setLayoutManager(new GridLayoutManager(this, 3));
-        list.addItemDecoration(new GridSpacingItemDecoration(this, R.dimen.photo_selector_item_gap));
+        list.addItemDecoration(new SpacingDecoration(this, R.dimen.photo_selector_item_gap));
     }
 
     @Override

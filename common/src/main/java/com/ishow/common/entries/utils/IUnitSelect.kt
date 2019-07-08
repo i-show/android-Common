@@ -33,4 +33,6 @@ interface IUnitSelect {
      * 获取副标题
      */
     fun getSubTitle(context: Context): String?
+
+    fun gravity(): Int
 }

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.ishow.common.adapter.BindAdapter
 import com.ishow.common.extensions.inflate
+import com.ishow.common.utils.ToastUtils
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.noah.BR
 import com.ishow.noah.R
@@ -36,9 +37,8 @@ class HomeFragment : AppBaseFragment() {
         topBar.setOnTopBarListener(this)
 
         val adapter = BindAdapter<String>(context)
-        adapter.addLayout(R.layout.test_item)
-        adapter.variableId = BR.item
-
+        adapter.addLayout(R.layout.test_item, BR.item)
+        adapter.setOnItemClickListener { ToastUtils.show(context, "it = $it") }
         recyclerView.adapter = adapter
 
         val dataList = ArrayList<String>()
@@ -52,8 +52,8 @@ class HomeFragment : AppBaseFragment() {
     override fun onRightClick(v: View) {
         super.onRightClick(v)
         AppRouter.with(context)
-                .target(SampleMainActivity::class.java)
-                .start()
+            .target(SampleMainActivity::class.java)
+            .start()
     }
 
     companion object {

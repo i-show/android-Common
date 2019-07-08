@@ -18,6 +18,7 @@ package com.ishow.noah.modules.sample.dialog.select
 
 import android.content.Context
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import android.widget.TextView
 
@@ -87,6 +88,9 @@ class SampleSelectDialogAndPickerDialog : AppBaseActivity(), View.OnClickListene
 
     //偷懒Entry 写在这里
     private inner class DemoEntry internal constructor(internal var day: Int) : IUnitSelect, IUnitPicker {
+        override fun gravity(): Int {
+            return Gravity.START and Gravity.CENTER_VERTICAL
+        }
 
         override fun getTitle(context: Context): String {
             return "$day 天"

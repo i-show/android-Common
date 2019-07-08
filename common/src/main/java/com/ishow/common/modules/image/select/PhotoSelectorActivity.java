@@ -16,17 +16,18 @@
 
 package com.ishow.common.modules.image.select;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.ishow.common.R;
 import com.ishow.common.app.activity.BaseActivity;
 import com.ishow.common.entries.Folder;
@@ -34,8 +35,7 @@ import com.ishow.common.entries.Photo;
 import com.ishow.common.utils.AnimatorUtils;
 import com.ishow.common.utils.DateUtils;
 import com.ishow.common.widget.TopBar;
-import com.ishow.common.widget.dialog.BaseDialog;
-import com.ishow.common.widget.recyclerview.itemdecoration.GridSpacingItemDecoration;
+import com.ishow.common.widget.recyclerview.itemdecoration.SpacingDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,7 +102,7 @@ public class PhotoSelectorActivity extends BaseActivity implements
         mLayoutManager = new GridLayoutManager(this, 3);
         mRecyclerView = findViewById(R.id.list);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(this, R.dimen.photo_selector_item_gap));
+        mRecyclerView.addItemDecoration(new SpacingDecoration(this, R.dimen.photo_selector_item_gap));
         mRecyclerView.setAdapter(mPhotoAdapter);
         mRecyclerView.addOnScrollListener(mScrollListener);
 
