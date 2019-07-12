@@ -28,6 +28,8 @@ import com.ishow.common.utils.StringUtils
 
 object LogUtils {
     private const val DEFAULT_MIX_TAG = "yhy"
+
+    private const val DEFAULT_TAG = "yhy"
     /**
      * 是否需要混入
      */
@@ -68,6 +70,11 @@ object LogUtils {
     /**
      * Info 级别的Log输出
      */
+    @JvmStatic
+    fun i(msg: String?) {
+        i(DEFAULT_TAG, msg)
+    }
+
     @JvmStatic
     fun i(tag: String?, msg: String?) {
         var finalTag = tag

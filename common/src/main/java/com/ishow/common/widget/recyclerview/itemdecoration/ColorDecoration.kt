@@ -55,13 +55,13 @@ class ColorDecoration : RecyclerView.ItemDecoration {
     override fun onDraw(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         super.onDraw(canvas, parent, state)
         when (val layoutManager = parent.layoutManager) {
-            is LinearLayoutManager -> {
-                drawLinearLayout(canvas, layoutManager, parent)
-            }
-
             is GridLayoutManager,
             is StaggeredGridLayoutManager -> {
                 drawGridLayout(canvas, parent)
+            }
+
+            is LinearLayoutManager -> {
+                drawLinearLayout(canvas, layoutManager, parent)
             }
         }
     }
@@ -69,13 +69,13 @@ class ColorDecoration : RecyclerView.ItemDecoration {
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         when (val layoutManager = parent.layoutManager) {
-            is LinearLayoutManager -> {
-                offsetLinearLayout(layoutManager, parent, view, outRect)
-            }
-
             is GridLayoutManager,
             is StaggeredGridLayoutManager -> {
                 offsetGridLayout(parent, view, outRect)
+            }
+
+            is LinearLayoutManager -> {
+                offsetLinearLayout(layoutManager, parent, view, outRect)
             }
         }
     }

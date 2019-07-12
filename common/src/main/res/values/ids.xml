@@ -43,6 +43,7 @@
 
     <item name="cancel" type="id" />
 
+    <item name="tag_position" type="id" />
     <item name="tag_01" type="id" />
     <item name="tag_02" type="id" />
     <item name="tag_03" type="id" />

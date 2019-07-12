@@ -1,6 +1,7 @@
 package com.ishow.noah
 
 import android.app.Application
+import com.facebook.drawee.backends.pipeline.Fresco
 
 import com.ishow.common.utils.http.rest.Http
 import com.ishow.common.utils.image.loader.ImageLoader
@@ -16,7 +17,7 @@ class AppApplication : Application() {
 
         Http.init(this)
         ImageLoader.init(this)
-
+        Fresco.initialize(this)
         AppRouter.setConfigure(AppRouterConfigure())
     }
 }

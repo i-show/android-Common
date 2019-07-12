@@ -14,40 +14,65 @@
   ~ limitations under the License.
   -->
 
-<com.ishow.common.widget.framelayout.ScaleFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                      android:layout_width="match_parent"
-                                                      android:layout_height="wrap_content">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/photo"
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="photo"
+            type="com.ishow.common.entries.Photo" />
+
+        <variable
+            name="position"
+            type="Integer" />
+
+        <variable
+            name="listener"
+            type="com.ishow.common.modules.image.select.PhotoActionListener" />
+    </data>
+
+    <com.ishow.common.widget.framelayout.ScaleFrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white"
-        android:contentDescription="@string/des_image"
-        android:scaleType="center" />
-
-    <View
-        android:id="@+id/mask"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/grey_alpha_0_6"
-        android:visibility="gone" />
-
-    <FrameLayout
-        android:id="@+id/status_container"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="top|end"
-        android:minHeight="@dimen/dp_40"
-        android:minWidth="@dimen/dp_40">
+        app:heightScale="1"
+        app:widthScale="1">
 
-        <CheckBox
-            android:id="@+id/status"
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:actualImageScaleType="focusCrop"
+            app:frescoUrl="@{photo.path}"
+            app:placeholderImage="@color/grey_alpha_0_5"
+            app:viewAspectRatio="1" />
+
+        <View
+            android:id="@+id/mask"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/grey_alpha_0_6"
+            android:visibility="@{photo.isSelected?View.VISIBLE:View.GONE}" />
+
+        <FrameLayout
+            android:id="@+id/statusContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top|end"
-            android:layout_margin="@dimen/dp_1"
-            android:clickable="false" />
-    </FrameLayout>
+            android:minWidth="@dimen/dp_40"
+            android:minHeight="@dimen/dp_40"
+            android:onClick="@{()->listener.onClickPhotoStatus(position, photo)}">
 
-</com.ishow.common.widget.framelayout.ScaleFrameLayout>
+            <CheckBox
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|end"
+                android:checked="@{photo.isSelected}"
+                android:clickable="false"
+                android:scaleX="0.8"
+                android:scaleY="0.8" />
+        </FrameLayout>
+    </com.ishow.common.widget.framelayout.ScaleFrameLayout>
+</layout>

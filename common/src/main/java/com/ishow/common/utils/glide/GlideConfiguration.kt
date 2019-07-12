@@ -25,8 +25,6 @@ import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
 import com.bumptech.glide.load.engine.cache.ExternalPreferredCacheDiskCacheFactory
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.module.AppGlideModule
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.target.CustomViewTarget
 import com.bumptech.glide.request.target.ViewTarget
 import com.ishow.common.R
 import java.io.InputStream

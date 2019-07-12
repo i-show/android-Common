@@ -16,6 +16,8 @@
 
 package com.ishow.common.entries;
 
+import androidx.annotation.NonNull;
+
 /**
  * 图片实体
  */
@@ -67,6 +69,17 @@ public class Photo {
         return super.equals(o);
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return "Photo{" +
+                "path='" + path + '\'' +
+                ", name='" + name + '\'' +
+                ", folderName='" + folderName + '\'' +
+                ", modifyDate=" + modifyDate +
+                ", isSelected=" + isSelected +
+                '}';
+    }
 
     public static final class Key {
         /**
@@ -97,6 +110,6 @@ public class Photo {
         /**
          * 默认最大选择数量
          */
-        public static final int DEAFULT_MAX_COUNT = 9;
+        public static final int DEFAULT_MAX_COUNT = 9;
     }
 }

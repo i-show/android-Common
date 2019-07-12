@@ -14,65 +14,82 @@
   ~ limitations under the License.
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <com.ishow.common.widget.TopBar
-        android:id="@+id/top_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:rightText="@string/complete"
-        app:rightTextBackground="@drawable/corner_5dp_accent_color_bg"
-        app:text="@string/select_photo_title"
-        app:textColor="@color/white" />
+    <data>
 
+        <variable
+            name="vm"
+            type="com.ishow.common.modules.image.select.PhotoSelectorViewModel" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/top_bar"
-        android:overScrollMode="never"
-        android:paddingBottom="?android:actionBarSize" />
-
-    <TextView
-        android:id="@+id/time_line"
-        style="@style/CommonTextView.PhotoSelector.TimeLine"
-        android:layout_below="@id/top_bar"
-        tools:text="2015年4月1日" />
-
+    </data>
 
     <RelativeLayout
-        android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
-        android:layout_height="?android:actionBarSize"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/top_line_white_normal_bg"
-        android:gravity="center_vertical">
+        android:layout_height="match_parent">
+
+        <com.ishow.common.widget.TopBar
+            android:id="@+id/topBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:leftImage="@drawable/svg_top_back"
+            app:leftImageVisibility="visible"
+            app:rightText="@string/complete"
+            app:rightTextBackground="@drawable/corner_5dp_accent_color_bg"
+            app:text="@string/select_photo_title"
+            app:textColor="@color/white" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/topBar"
+            android:overScrollMode="never"
+            android:padding="@dimen/dp_1"
+            android:paddingBottom="?android:actionBarSize"
+            app:items="@{vm.photoList}"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="4" />
 
         <TextView
-            android:id="@+id/folder"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="?android:selectableItemBackground"
-            android:clickable="true"
-            android:drawablePadding="@dimen/gap_grade_1"
-            android:gravity="center"
-            android:maxWidth="@dimen/dp_180"
-            android:paddingLeft="@dimen/gap_grade_3"
-            android:paddingRight="@dimen/gap_grade_3"
-            android:textColor="@color/color_accent"
-            android:textSize="@dimen/I_title" />
+            android:id="@+id/timeLine"
+            style="@style/CommonTextView.PhotoSelector.TimeLine"
+            android:layout_below="@id/topBar"
+            tools:text="2015年4月1日" />
 
-        <View
-            android:id="@+id/bottom_line"
-            style="@style/Line.Vertical"
-            android:layout_marginBottom="@dimen/gap_grade_4"
-            android:layout_marginTop="@dimen/gap_grade_4"
-            android:layout_toEndOf="@id/folder" />
 
+        <RelativeLayout
+            android:id="@+id/bottomBar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:actionBarSize"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/top_line_white_normal_bg"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/folderView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="?android:selectableItemBackground"
+                android:clickable="true"
+                android:drawablePadding="@dimen/gap_grade_1"
+                android:focusable="true"
+                android:gravity="center"
+                android:maxWidth="@dimen/dp_180"
+                android:paddingLeft="@dimen/gap_grade_3"
+                android:paddingRight="@dimen/gap_grade_3"
+                android:textColor="@color/color_accent"
+                android:textSize="@dimen/I_title" />
+
+            <View
+                android:id="@+id/bottomLine"
+                style="@style/Line.Vertical"
+                android:layout_marginTop="@dimen/gap_grade_4"
+                android:layout_marginBottom="@dimen/gap_grade_4"
+                android:layout_toEndOf="@id/folderView" />
+
+        </RelativeLayout>
     </RelativeLayout>
-</RelativeLayout>
+</layout>

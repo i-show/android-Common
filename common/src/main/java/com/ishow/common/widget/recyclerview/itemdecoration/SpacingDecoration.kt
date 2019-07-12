@@ -18,11 +18,13 @@ package com.ishow.common.widget.recyclerview.itemdecoration
 
 import android.content.Context
 import android.graphics.Rect
+import android.util.Log
 import android.view.View
 import androidx.annotation.DimenRes
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.ishow.common.utils.log.LogUtils
 
 /**
  * 只进行增加空边距的
@@ -43,12 +45,11 @@ class SpacingDecoration constructor(context: Context, @DimenRes spacing: Int) :
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         when (val layoutManager = parent.layoutManager) {
-            is LinearLayoutManager -> {
-                spacingLinear(layoutManager, parent, view, outRect)
-            }
-
             is GridLayoutManager -> {
                 spacingGrid(outRect)
+            }
+            is LinearLayoutManager -> {
+                spacingLinear(layoutManager, parent, view, outRect)
             }
         }
     }

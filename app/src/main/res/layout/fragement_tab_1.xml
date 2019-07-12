@@ -10,7 +10,7 @@
         android:id="@+id/topBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:leftImage="@drawable/ic_top_back_svg"
+        app:leftImage="@drawable/svg_top_back"
         app:rightImage="@drawable/ic_back_white" />
 
     <androidx.recyclerview.widget.RecyclerView

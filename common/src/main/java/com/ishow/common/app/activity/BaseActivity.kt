@@ -22,6 +22,10 @@ import android.os.Handler
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProviders
 import com.ishow.common.R
 import com.ishow.common.entries.status.Empty
 import com.ishow.common.entries.status.Error
@@ -37,7 +41,7 @@ import com.ishow.common.widget.loading.LoadingDialog
 
 
 abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListener, IViewStatus,
-    TopBar.OnTopBarListener {
+        TopBar.OnTopBarListener {
 
 
     /**
@@ -54,6 +58,8 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
     protected var mHandler: Handler? = null
 
     protected var isActivityPaused: Boolean = false
+
+
     /**
      * Activity
      * isResumed 已经被占用..
@@ -115,20 +121,22 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
         initViews(view, params)
     }
 
+
+
     protected open fun initViews() {
         // 主动设置TopBar
-        var topBarView: View? = findViewById(R.id.top_bar)
+        var topBarView: View? = findViewById(R.id.topBar)
         if (topBarView == null) {
-            topBarView = findViewById(R.id.topBar)
+            topBarView = findViewById(R.id.top_bar)
         }
         if (topBarView is TopBar) {
             topBarView.setOnTopBarListener(this)
         }
 
         // 主动设置statusView
-        var statusView: View? = findViewById(R.id.status_view)
+        var statusView: View? = findViewById(R.id.statusView)
         if (statusView == null) {
-            statusView = findViewById(R.id.statusView)
+            statusView = findViewById(R.id.status_view)
         }
         if (statusView is StatusView) {
             mStatusView = statusView
@@ -241,7 +249,6 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
     }
 
     companion object {
-        private const val TAG = "BaseActivity"
         /**
          * Activity的TYPE
          */
