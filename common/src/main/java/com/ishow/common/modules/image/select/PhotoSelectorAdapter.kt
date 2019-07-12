@@ -17,15 +17,15 @@
 package com.ishow.common.modules.image.select
 
 import android.content.Context
-import android.util.Log
+import android.widget.CheckBox
 import androidx.annotation.IntRange
+import com.ishow.common.BR
 
 import com.ishow.common.adapter.BindAdapter
 import com.ishow.common.databinding.ItemPhotoSelectorBinding
 import com.ishow.common.entries.Photo
 
 import java.util.ArrayList
-import android.R.id.mask
 import com.ishow.common.R
 import com.ishow.common.utils.ToastUtils
 
@@ -36,20 +36,21 @@ import com.ishow.common.utils.ToastUtils
  */
 
 internal class PhotoSelectorAdapter(context: Context) : BindAdapter<Photo>(context) {
-
-    private val mSelectedPhotos: MutableList<Photo>
-    private var mSelectedChangedListener: OnSelectedChangedListener? = null
-    private var mMaxCount: Int = 0
-
     /**
      * 获取 选中照片
      */
+    private val _selectedPhotos: MutableList<Photo> = ArrayList()
     val selectedPhotos: List<Photo>
-        get() = mSelectedPhotos
+        get() = _selectedPhotos
+
+    private var mSelectedChangedListener: OnSelectedChangedListener? = null
+    private var mMaxCount: Int = 0
+
 
     init {
-        mSelectedPhotos = ArrayList()
+        addLayout(R.layout.item_photo_selector, BR.photo)
     }
+
 
     fun setMaxCount(@IntRange(from = 1) maxCount: Int) {
         mMaxCount = maxCount
@@ -58,7 +59,6 @@ internal class PhotoSelectorAdapter(context: Context) : BindAdapter<Photo>(conte
     override fun onBindViewHolder(holder: BindHolder, position: Int) {
         super.onBindViewHolder(holder, position)
         if (holder.binding is ItemPhotoSelectorBinding) {
-            holder.binding.position = position
             holder.binding.listener = actionsListener
         }
     }
@@ -75,14 +75,14 @@ internal class PhotoSelectorAdapter(context: Context) : BindAdapter<Photo>(conte
     }
 
     private fun notifySelectedChanged() {
-        mSelectedChangedListener?.onSelectedChanged(mSelectedPhotos.size)
+        mSelectedChangedListener?.onSelectedChanged(_selectedPhotos.size)
     }
 
     /**
      * 选择照片
      */
-    private fun selectPhoto(position: Int, entry: Photo) {
-        val alreadyCount = mSelectedPhotos.size
+    private fun selectPhoto(view: CheckBox, entry: Photo) {
+        val alreadyCount = _selectedPhotos.size
         if (alreadyCount >= mMaxCount && !entry.isSelected) {
             val tip = context.getString(R.string.already_select_max, mMaxCount)
             ToastUtils.show(context, tip)
@@ -91,18 +91,17 @@ internal class PhotoSelectorAdapter(context: Context) : BindAdapter<Photo>(conte
 
         entry.isSelected = !entry.isSelected
         if (entry.isSelected) {
-            mSelectedPhotos.add(entry)
+            _selectedPhotos.add(entry)
         } else {
-            mSelectedPhotos.remove(entry)
+            _selectedPhotos.remove(entry)
         }
-
-        notifyItemChanged(position)
+        view.isChecked = entry.isSelected
         notifySelectedChanged()
     }
 
     private val actionsListener = object : PhotoActionListener {
-        override fun onClickPhotoStatus(position: Int, photo: Photo) {
-            selectPhoto(position, photo)
+        override fun onClickPhotoStatus(view: CheckBox, photo: Photo) {
+            selectPhoto(view, photo)
         }
     }
 

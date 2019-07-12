@@ -102,7 +102,7 @@ class PhotoSelectorActivity : BaseBindActivity<ActivityPhotoSelectorBinding>(), 
         setTheme(R.style.Theme_PhotoSelector)
         bindContentView(R.layout.activity_photo_selector)
         mBindingView.vm = getViewModel(PhotoSelectorViewModel::class.java)
-        mBindingView.vm?.init(this)
+        mBindingView.vm?.init(context = this)
         mBindingView.list.addItemDecoration(SpacingDecoration(context, R.dimen.photo_selector_item_gap))
         mBindingView.list.adapter = mPhotoAdapter
     }
@@ -125,7 +125,6 @@ class PhotoSelectorActivity : BaseBindActivity<ActivityPhotoSelectorBinding>(), 
         mFolderAdapter = FolderSelectorAdapter(this)
 
         mPhotoAdapter = PhotoSelectorAdapter(this)
-        mPhotoAdapter.addLayout(R.layout.item_photo_selector, BR.photo)
         mPhotoAdapter.setSelectedChangedListener(mSelectedChangedListener)
         mPhotoAdapter.setMaxCount(if (mMode == Photo.Key.MODE_MULTI) mMaxCount else 1)
 

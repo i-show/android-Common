@@ -26,10 +26,6 @@
             type="com.ishow.common.entries.Photo" />
 
         <variable
-            name="position"
-            type="Integer" />
-
-        <variable
             name="listener"
             type="com.ishow.common.modules.image.select.PhotoActionListener" />
     </data>
@@ -53,7 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/grey_alpha_0_6"
-            android:visibility="@{photo.isSelected?View.VISIBLE:View.GONE}" />
+            android:visibility="@{status.checked?View.VISIBLE:View.GONE}" />
 
         <FrameLayout
             android:id="@+id/statusContainer"
@@ -62,7 +58,7 @@
             android:layout_gravity="top|end"
             android:minWidth="@dimen/dp_40"
             android:minHeight="@dimen/dp_40"
-            android:onClick="@{()->listener.onClickPhotoStatus(position, photo)}">
+            android:onClick="@{()->listener.onClickPhotoStatus(status, photo)}">
 
             <CheckBox
                 android:id="@+id/status"
