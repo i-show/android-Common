@@ -11,3 +11,11 @@ fun View.getLocationOnScreen(): IntArray {
 fun View.setPadding(horizontal: Int, vertical: Int) {
     setPadding(horizontal, vertical, horizontal, vertical)
 }
+
+fun View.setPaddingHorizontal(value: Int) {
+    setPadding(value, paddingTop, value, paddingBottom)
+}
+
+fun View.setPaddingVertical(value: Int) {
+    setPadding(paddingStart, value, paddingEnd, value)
+}

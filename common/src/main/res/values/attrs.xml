@@ -764,6 +764,8 @@
         <attr name="rightTextDrawablePadding" />
         <attr name="rightTextBackground" />
         <attr name="rightTextMinWidth" />
+        <attr name="rightTextPaddingHorizontal" />
+        <attr name="rightTextPaddingVertical" />
 
         <attr name="rightImage" />
         <attr name="rightImageBackground" />

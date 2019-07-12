@@ -18,16 +18,13 @@ package com.ishow.common.modules.image.select
 
 import android.content.Context
 import android.widget.CheckBox
-import androidx.annotation.IntRange
 import com.ishow.common.BR
-
+import com.ishow.common.R
 import com.ishow.common.adapter.BindAdapter
 import com.ishow.common.databinding.ItemPhotoSelectorBinding
 import com.ishow.common.entries.Photo
-
-import java.util.ArrayList
-import com.ishow.common.R
 import com.ishow.common.utils.ToastUtils
+import java.util.*
 
 
 /**
@@ -35,7 +32,7 @@ import com.ishow.common.utils.ToastUtils
  * 图片选择期的Adapter
  */
 
-internal class PhotoSelectorAdapter(context: Context) : BindAdapter<Photo>(context) {
+internal class PhotoSelectorAdapter(context: Context, private val maxCount: Int) : BindAdapter<Photo>(context) {
     /**
      * 获取 选中照片
      */
@@ -43,18 +40,13 @@ internal class PhotoSelectorAdapter(context: Context) : BindAdapter<Photo>(conte
     val selectedPhotos: List<Photo>
         get() = _selectedPhotos
 
-    private var mSelectedChangedListener: OnSelectedChangedListener? = null
-    private var mMaxCount: Int = 0
+    private var mSelectedChangedListener: ((Int) -> Unit)? = null
 
 
     init {
         addLayout(R.layout.item_photo_selector, BR.photo)
     }
 
-
-    fun setMaxCount(@IntRange(from = 1) maxCount: Int) {
-        mMaxCount = maxCount
-    }
 
     override fun onBindViewHolder(holder: BindHolder, position: Int) {
         super.onBindViewHolder(holder, position)
@@ -70,21 +62,18 @@ internal class PhotoSelectorAdapter(context: Context) : BindAdapter<Photo>(conte
         fun onSelectedChanged(selectCount: Int)
     }
 
-    fun setSelectedChangedListener(listener: OnSelectedChangedListener) {
+    fun setSelectedChangedListener(listener: ((Int) -> Unit)?) {
         mSelectedChangedListener = listener
     }
 
-    private fun notifySelectedChanged() {
-        mSelectedChangedListener?.onSelectedChanged(_selectedPhotos.size)
-    }
 
     /**
      * 选择照片
      */
     private fun selectPhoto(view: CheckBox, entry: Photo) {
         val alreadyCount = _selectedPhotos.size
-        if (alreadyCount >= mMaxCount && !entry.isSelected) {
-            val tip = context.getString(R.string.already_select_max, mMaxCount)
+        if (alreadyCount >= maxCount && !entry.isSelected) {
+            val tip = context.getString(R.string.already_select_max, maxCount)
             ToastUtils.show(context, tip)
             return
         }
@@ -96,7 +85,8 @@ internal class PhotoSelectorAdapter(context: Context) : BindAdapter<Photo>(conte
             _selectedPhotos.remove(entry)
         }
         view.isChecked = entry.isSelected
-        notifySelectedChanged()
+
+        mSelectedChangedListener?.let { it(selectedPhotos.size) }
     }
 
     private val actionsListener = object : PhotoActionListener {

@@ -1,19 +1,13 @@
 package com.ishow.common.modules.image.select
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.util.Log
-import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.ishow.common.R
 import com.ishow.common.entries.Folder
 import com.ishow.common.entries.Photo
-import com.ishow.common.utils.ToastUtils
-import io.reactivex.Observable
-import java.util.ArrayList
-import java.util.concurrent.TimeUnit
 
 class PhotoSelectorViewModel : ViewModel() {
 
@@ -25,18 +19,45 @@ class PhotoSelectorViewModel : ViewModel() {
     val photoList: LiveData<List<Photo>>
         get() = _photoList
 
+    private val _topRightEnable = MutableLiveData<Boolean>()
+    val topRightEnable: LiveData<Boolean>
+        get() = _topRightEnable
 
-    fun init(context: Activity) {
+    private val _topRightText = MutableLiveData<String>()
+    val topRightText: LiveData<String>
+        get() = _topRightText
+
+    private var mMode: Int = Photo.Key.MODE_SINGLE
+    private var mMaxCount: Int = 1
+
+    fun init(context: Activity, mode: Int, maxCount: Int) {
+        mMode = mode
+        mMaxCount = maxCount
+
+        _topRightEnable.value = false
+        _topRightText.value = context.getString(R.string.complete)
+
         val photoModel = PhotoModel(context)
         photoModel.getPhotos { folders, photos ->
             _folderList.value = folders
             _photoList.value = photos
         }
+
+
     }
 
-    fun onClickPhotoStatus(view: View) {
-        Log.i("yhy", "onClickPhotoStatus")
-        ToastUtils.show(view.context, "11111")
+    fun onPhotoSelectStatusChanged(context: Context, selectCount: Int) {
+        @Suppress("CascadeIf")
+        if (selectCount <= 0) {
+            _topRightEnable.value = false
+            _topRightText.value = context.getString(R.string.complete)
+        } else if (mMode == Photo.Key.MODE_SINGLE) {
+            _topRightEnable.value = true
+            _topRightText.value = context.getString(R.string.complete)
+        } else {
+            _topRightEnable.value = true
+            _topRightText.value = context.getString(R.string.link_complete, selectCount, mMaxCount)
+        }
     }
 
     fun onClickPhoto() {

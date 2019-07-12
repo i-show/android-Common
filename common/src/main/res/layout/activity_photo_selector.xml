@@ -36,8 +36,10 @@
             android:layout_height="wrap_content"
             app:leftImage="@drawable/svg_top_back"
             app:leftImageVisibility="visible"
-            app:rightText="@string/complete"
+            app:rightText="@{vm.topRightText}"
             app:rightTextBackground="@drawable/corner_5dp_accent_color_bg"
+            app:rightTextEnable="@{vm.topRightEnable}"
+            app:rightTextPaddingVertical="@dimen/gap_grade_1"
             app:text="@string/select_photo_title"
             app:textColor="@color/white" />
 
@@ -74,12 +76,15 @@
                 android:layout_height="match_parent"
                 android:background="?android:selectableItemBackground"
                 android:clickable="true"
+                android:drawableStart="@drawable/ic_photo_selector_folder"
                 android:drawablePadding="@dimen/gap_grade_1"
                 android:focusable="true"
+                android:foregroundTint="@color/color_accent"
                 android:gravity="center"
                 android:maxWidth="@dimen/dp_180"
                 android:paddingLeft="@dimen/gap_grade_3"
                 android:paddingRight="@dimen/gap_grade_3"
+                android:text="@string/all_photos"
                 android:textColor="@color/color_accent"
                 android:textSize="@dimen/I_title" />
 

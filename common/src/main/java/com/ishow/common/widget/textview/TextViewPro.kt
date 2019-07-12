@@ -39,9 +39,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.setPadding
 import com.ishow.common.R
-import com.ishow.common.extensions.loadUrl
-import com.ishow.common.extensions.setPadding
-import com.ishow.common.extensions.tint
+import com.ishow.common.extensions.*
 import com.ishow.common.utils.UnitUtils
 import com.ishow.common.utils.image.loader.ImageLoader
 import com.ishow.common.widget.imageview.PromptImageView
@@ -53,7 +51,7 @@ import kotlin.math.max
  * 加强版本的TextView
  */
 class TextViewPro @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) :
-    ViewGroup(context, attrs, defStyle) {
+        ViewGroup(context, attrs, defStyle) {
     /**
      * 左侧图片信息
      */
@@ -357,8 +355,8 @@ class TextViewPro @JvmOverloads constructor(context: Context, attrs: AttributeSe
         if (mLeftImageView != null && mLeftImageView!!.visibility != View.GONE) {
             if (mLeftImageWidth > 0 && mLeftImageHeight > 0) {
                 mLeftImageView!!.measure(
-                    getExactlyMeasureSpec(mLeftImageWidth),
-                    getExactlyMeasureSpec(mLeftImageHeight)
+                        getExactlyMeasureSpec(mLeftImageWidth),
+                        getExactlyMeasureSpec(mLeftImageHeight)
                 )
             } else if (mLeftImageWidth > 0) {
                 mLeftImageView!!.measure(getExactlyMeasureSpec(mLeftImageWidth), heightSpec)
@@ -378,8 +376,8 @@ class TextViewPro @JvmOverloads constructor(context: Context, attrs: AttributeSe
         if (mRightImageView != null && mRightImageView!!.visibility != View.GONE) {
             if (mRightImageWidth > 0 && mRightImageHeight > 0) {
                 mRightImageView!!.measure(
-                    getExactlyMeasureSpec(mRightImageWidth),
-                    getExactlyMeasureSpec(mRightImageHeight)
+                        getExactlyMeasureSpec(mRightImageWidth),
+                        getExactlyMeasureSpec(mRightImageHeight)
                 )
             } else if (mRightImageWidth > 0) {
                 mRightImageView!!.measure(getExactlyMeasureSpec(mRightImageWidth), heightSpec)
@@ -395,8 +393,8 @@ class TextViewPro @JvmOverloads constructor(context: Context, attrs: AttributeSe
         if (mRightImageView2 != null && mRightImageView2!!.visibility != View.GONE) {
             if (mRightImage2Width > 0 && mRightImage2Height > 0) {
                 mRightImageView2!!.measure(
-                    getExactlyMeasureSpec(mRightImage2Width),
-                    getExactlyMeasureSpec(mRightImage2Height)
+                        getExactlyMeasureSpec(mRightImage2Width),
+                        getExactlyMeasureSpec(mRightImage2Height)
                 )
             } else if (mRightImage2Width > 0) {
                 mRightImageView2!!.measure(getExactlyMeasureSpec(mRightImage2Width), heightSpec)
@@ -588,21 +586,21 @@ class TextViewPro @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
         if (mTopLineVisibility == View.VISIBLE) {
             canvas.drawLine(
-                mTopLinePaddingStart.toFloat(),
-                mTopLineHeight.toFloat(),
-                (width - mTopLinePaddingEnd).toFloat(),
-                mTopLineHeight.toFloat(),
-                mTopLinePaint
+                    mTopLinePaddingStart.toFloat(),
+                    mTopLineHeight.toFloat(),
+                    (width - mTopLinePaddingEnd).toFloat(),
+                    mTopLineHeight.toFloat(),
+                    mTopLinePaint
             )
         }
 
         if (mBottomLineVisibility == View.VISIBLE) {
             canvas.drawLine(
-                mBottomLinePaddingStart.toFloat(),
-                (height - mBottomLineHeight).toFloat(),
-                (width - mBottomLinePaddingEnd).toFloat(),
-                (height - mBottomLineHeight).toFloat(),
-                mBottomLinePaint
+                    mBottomLinePaddingStart.toFloat(),
+                    (height - mBottomLineHeight).toFloat(),
+                    (width - mBottomLinePaddingEnd).toFloat(),
+                    (height - mBottomLineHeight).toFloat(),
+                    mBottomLinePaint
             )
         }
     }
@@ -807,8 +805,12 @@ class TextViewPro @JvmOverloads constructor(context: Context, attrs: AttributeSe
             textView.includeFontPadding = false
             if (mRightTextPadding > 0) {
                 textView.setPadding(mRightTextPadding)
-            } else if (mRightTextPaddingVertical > 0 || mRightTextPaddingHorizontal > 0) {
+            } else if (mRightTextPaddingHorizontal > 0 && mRightTextPaddingVertical > 0) {
                 textView.setPadding(mRightTextPaddingHorizontal, mRightTextPaddingVertical)
+            } else if (mRightTextPaddingHorizontal > 0) {
+                textView.setPaddingHorizontal(mRightTextPaddingHorizontal)
+            } else if (mRightTextPaddingVertical > 0) {
+                textView.setPaddingVertical(mRightTextPaddingVertical)
             }
 
             if (mRightTextRightDrawable != null || mRightTextLeftDrawable != null) {
@@ -816,10 +818,10 @@ class TextViewPro @JvmOverloads constructor(context: Context, attrs: AttributeSe
                 mRightTextRightDrawable = mRightTextRightDrawable?.tint(mTintColor)
 
                 textView.setCompoundDrawablesWithIntrinsicBounds(
-                    mRightTextLeftDrawable,
-                    null,
-                    mRightTextRightDrawable,
-                    null
+                        mRightTextLeftDrawable,
+                        null,
+                        mRightTextRightDrawable,
+                        null
                 )
                 textView.compoundDrawablePadding = mRightTextDrawablePadding
             }

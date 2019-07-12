@@ -37,6 +37,9 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import com.ishow.common.R
 import com.ishow.common.extensions.setDrawableLeft
+import com.ishow.common.extensions.setPadding
+import com.ishow.common.extensions.setPaddingHorizontal
+import com.ishow.common.extensions.setPaddingVertical
 import com.ishow.common.utils.AppUtils
 import com.ishow.common.widget.imageview.PromptImageView
 import com.ishow.common.widget.prompt.IPrompt
@@ -124,6 +127,8 @@ class TopBar(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs),
     private var mRightTextSize: Int = 0
     private var mRightTextDrawablePadding: Int = 0
     private var mRightTextVisibility: Int = 0
+    private var mRightTextPaddingHorizontal: Int = 0
+    private var mRightTextPaddingVertical: Int = 0
 
     private val mBackGround: Int
     private var mLeftBackground: Int = 0
@@ -170,12 +175,18 @@ class TopBar(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs),
     private val defaultTextSize: Int
         get() = context.resources.getDimensionPixelOffset(R.dimen.top_bar_title_text_size)
 
-
     /**
      * 获取默认副标题标题字体大小
      */
     private val defaultSubTitleSize: Int
         get() = context.resources.getDimensionPixelOffset(R.dimen.top_bar_sub_title_text_size)
+
+    var rightTextEnable: Boolean
+        get() = if (mRightTextView != null) mRightTextView!!.isEnabled else false
+        set(value) {
+            mRightTextView?.isEnabled = value
+        }
+
 
     init {
         val a = context.obtainStyledAttributes(attrs, R.styleable.TopBar, R.attr.topBarStyle, 0)
@@ -216,6 +227,8 @@ class TopBar(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs),
         mRightTextDrawable = a.getDrawable(R.styleable.TopBar_rightTextDrawable)
         mRightTextDrawablePadding = a.getDimensionPixelSize(R.styleable.TopBar_rightTextDrawablePadding, 0)
         mRightTextMinWidth = a.getDimensionPixelSize(R.styleable.TopBar_rightTextMinWidth, 0)
+        mRightTextPaddingHorizontal = a.getDimensionPixelSize(R.styleable.TopBar_rightTextPaddingHorizontal, 0)
+        mRightTextPaddingVertical = a.getDimensionPixelSize(R.styleable.TopBar_rightTextPaddingVertical, 0)
 
         mRightBackground = a.getResourceId(R.styleable.TopBar_rightImageBackground, 0)
         mRightImageResId = a.getResourceId(R.styleable.TopBar_rightImage, 0)
@@ -309,7 +322,7 @@ class TopBar(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs),
             } else {
                 val tmpHeight = mLeftTextView!!.measuredHeight
                 val tmpTop = (mHeight - tmpHeight) / 2
-                if (left == 0)  left = mGapSize
+                if (left == 0) left = mGapSize
                 mLeftTextView!!.layout(left, tmpTop, left + mLeftTextViewWidth, tmpTop + tmpHeight)
             }
         }
@@ -597,29 +610,38 @@ class TopBar(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs),
         }
 
         if (mRightTextView == null) {
-            mRightTextView = PromptTextView(context)
-            mRightTextView!!.id = R.id.rightText
-            mRightTextView!!.text = mRightStr
-            mRightTextView!!.setPadding(mGapSize, mGapSize, mGapSize, mGapSize)
-            mRightTextView!!.gravity = Gravity.CENTER
-            mRightTextView!!.setTextColor(mRightTextColor)
-            mRightTextView!!.setTextSize(TypedValue.COMPLEX_UNIT_PX, mRightTextSize.toFloat())
-            mRightTextView!!.setLines(1)
-            mRightTextView!!.setOnClickListener(this)
-            mRightTextView!!.minWidth = max(mUnitWidth, mRightTextMinWidth)
-            mRightTextView!!.ellipsize = TextUtils.TruncateAt.END
+            val textView = PromptTextView(context)
+            textView.id = R.id.rightText
+            textView.text = mRightStr
+            textView.setPadding(mGapSize, mGapSize, mGapSize, mGapSize)
+            textView.gravity = Gravity.CENTER
+            textView.setTextColor(mRightTextColor)
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mRightTextSize.toFloat())
+            textView.setLines(1)
+            textView.setOnClickListener(this)
+            textView.minWidth = max(mUnitWidth, mRightTextMinWidth)
+            textView.ellipsize = TextUtils.TruncateAt.END
             if (mRightTextBackground != null) {
-                mRightTextView!!.background = mRightTextBackground
+                textView.background = mRightTextBackground
             } else {
-                mRightTextView!!.setBackgroundResource(mRightBackground)
+                textView.setBackgroundResource(mRightBackground)
             }
 
             if (mRightTextDrawable != null) {
-                mRightTextView!!.setDrawableLeft(mRightTextDrawable)
-                mRightTextView!!.compoundDrawablePadding = mRightTextDrawablePadding
+                textView.setDrawableLeft(mRightTextDrawable)
+                textView.compoundDrawablePadding = mRightTextDrawablePadding
             }
 
-            setDefaultPromptState(mRightTextView)
+            if(mRightTextPaddingHorizontal > 0 && mRightTextPaddingVertical > 0){
+                textView.setPadding(mRightTextPaddingHorizontal, mRightTextPaddingVertical)
+            }else if(mRightTextPaddingHorizontal > 0){
+                textView.setPaddingHorizontal(mRightTextPaddingHorizontal)
+            } else if(mRightTextPaddingVertical > 0){
+                textView.setPaddingVertical(mRightTextPaddingVertical)
+            }
+
+            setDefaultPromptState(textView)
+            mRightTextView = textView
             addView(mRightTextView)
         }
         return mRightTextView
