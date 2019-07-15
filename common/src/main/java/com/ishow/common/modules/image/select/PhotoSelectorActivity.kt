@@ -171,7 +171,6 @@ class PhotoSelectorActivity : BaseBindActivity<ActivityPhotoSelectorBinding>() {
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
-
             val layoutManager: GridLayoutManager = recyclerView.layoutManager as GridLayoutManager
             if (timeLine.alpha >= 0.15f) {
                 val image = mPhotoAdapter.getItem(layoutManager.findFirstVisibleItemPosition())

@@ -39,7 +39,7 @@ class SampleSelectPhotoAdapter extends RecyclerAdapter<String, SampleSelectPhoto
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
-        View item = mLayoutInflater.inflate(R.layout.item_sample_select_photo, parent, false);
+        View item = getMLayoutInflater().inflate(R.layout.item_sample_select_photo, parent, false);
         return new ViewHolder(item, type);
     }
 
@@ -48,7 +48,7 @@ class SampleSelectPhotoAdapter extends RecyclerAdapter<String, SampleSelectPhoto
         String path = getItem(position);
         holder.photo.setTag(path);
        
-        ImageLoader.with(mContext)
+        ImageLoader.with(getMContext())
                 .load(path)
                 .placeholder(R.drawable.no_picture)
                 .mode(ImageLoader.LoaderMode.CENTER_CROP)
@@ -68,7 +68,7 @@ class SampleSelectPhotoAdapter extends RecyclerAdapter<String, SampleSelectPhoto
         @Override
         public void onClick(View v) {
             String path = (String) v.getTag();
-            ShowPhotoDialog dialog = new ShowPhotoDialog(mContext);
+            ShowPhotoDialog dialog = new ShowPhotoDialog(getMContext());
             dialog.setData(path);
             dialog.setBeforeView(v);
             dialog.show();

@@ -40,14 +40,14 @@ class AnimationRecycleAdapter extends RecyclerAdapter<String, AnimationRecycleAd
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int type) {
-        View item = mLayoutInflater.inflate(R.layout.item_sample_only_photo, parent, false);
+        View item = getMLayoutInflater().inflate(R.layout.item_sample_only_photo, parent, false);
         return new ViewHolder(item, type);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position, int type) {
         String path = getItem(position);
-        ImageLoader.with(mContext)
+        ImageLoader.with(getMContext())
                 .load(path)
                 .mode(ImageLoader.LoaderMode.CENTER_CROP)
                 .into(holder.photo);

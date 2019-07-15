@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.ishow.common.adapter.RecyclerAdapter;
 import com.ishow.common.adapter.RecyclerPullToRefreshAdapter;
 import com.ishow.common.utils.image.loader.ImageLoader;
@@ -25,18 +27,19 @@ class SamplePullToRefreshAdapter extends RecyclerPullToRefreshAdapter<Job, Sampl
     }
 
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
-        View item = mLayoutInflater.inflate(R.layout.item_sample_pulltorefresh, parent, false);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int type) {
+        View item = getMLayoutInflater().inflate(R.layout.item_sample_pulltorefresh, parent, false);
         return new ViewHolder(item, type);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position, int type) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position, int type) {
         Job entry = getItem(position);
-        holder.getItemView().setTag(entry);
+        holder.itemView.setTag(entry);
 
-        ImageLoader.with(mContext)
+        ImageLoader.with(getMContext())
                 .load(entry.imagePath)
                 .mode(ImageLoader.LoaderMode.CENTER_CROP)
                 .into(holder.image);
@@ -50,8 +53,8 @@ class SamplePullToRefreshAdapter extends RecyclerPullToRefreshAdapter<Job, Sampl
 
         ViewHolder(View item, int type) {
             super(item, type);
-            image = (ImageView) item.findViewById(R.id.image);
-            name = (TextView) item.findViewById(R.id.name);
+            image = item.findViewById(R.id.image);
+            name = item.findViewById(R.id.name);
         }
     }
 }

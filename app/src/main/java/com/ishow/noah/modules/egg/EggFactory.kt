@@ -29,7 +29,7 @@ import java.util.*
 
 object EggFactory {
 
-    fun product(context: Context): List<Egg> {
+    fun product(context: Context): MutableList<Egg> {
         val eggList = ArrayList<Egg>()
         val egg = Egg()
         egg.name = context.getString(R.string.egg_app_info)
