@@ -32,7 +32,7 @@
     <!--默认TextViewPro和EditViewPro的高度-->
     <dimen name="default_pro_height">@dimen/dp_55</dimen>
     <!--默认Dialog 的Item高度-->
-    <dimen name="default_dialog_list_height">@dimen/dp_305</dimen>
+    <dimen name="default_dialog_list_height">@dimen/dp_500</dimen>
     <dimen name="default_dialog_item_height">@dimen/dp_50</dimen>
 
     <dimen name="status_view_title_size">@dimen/I_title</dimen>

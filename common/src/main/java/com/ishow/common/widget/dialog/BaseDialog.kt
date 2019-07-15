@@ -32,6 +32,7 @@ import androidx.annotation.FloatRange
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.RecyclerView
 import com.ishow.common.R
+import com.ishow.common.adapter.BindAdapter
 import com.ishow.common.utils.DeviceUtils
 
 
@@ -312,6 +313,15 @@ open class BaseDialog constructor(context: Context, theme: Int) : Dialog(context
          */
         @JvmOverloads
         fun setAdapter(adapter: RecyclerView.Adapter<*>, listener: ((DialogInterface, Int) -> Unit)? = null): Builder {
+            mParams.mAdapter = adapter
+            return this
+        }
+
+        /**
+         * 设置Adapter
+         */
+        @JvmOverloads
+        fun setAdapter(adapter: BindAdapter<*>, listener: ((DialogInterface, Int) -> Unit)? = null): Builder {
             mParams.mAdapter = adapter
             mParams.mOnClickListener = listener
             return this

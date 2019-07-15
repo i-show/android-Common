@@ -14,60 +14,76 @@
   ~ limitations under the License.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:background="?selectableItemBackground"
-              android:descendantFocusability="blocksDescendants"
-              android:gravity="center"
-              android:orientation="horizontal"
-              android:padding="@dimen/dp_10">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/cover"
-        android:layout_width="@dimen/folder_cover_size"
-        android:layout_height="@dimen/folder_cover_size"
-        android:layout_gravity="center_vertical"
-        android:contentDescription="@null"
-        android:scaleType="center"
-        android:src="@drawable/no_picture"/>
+    <data>
+
+        <variable
+            name="folder"
+            type="com.ishow.common.entries.Folder" />
+    </data>
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:padding="@dimen/gap_grade_2">
+        android:background="?selectableItemBackground"
+        android:descendantFocusability="blocksDescendants"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="@dimen/dp_10">
 
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text_grey_dark_normal"
-            android:textSize="@dimen/H_title"
-            tools:text="img"/>
+        <ImageView
+            android:id="@+id/cover"
+            android:layout_width="@dimen/folder_cover_size"
+            android:layout_height="@dimen/folder_cover_size"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="@null"
+            android:scaleType="center"
+            android:src="@drawable/no_picture"
+            app:imageUrl="@{folder.getCoverImage()}" />
 
-        <TextView
-            android:id="@+id/size"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/gap_grade_2"
-            android:ellipsize="end"
-            android:lines="1"
-            android:textColor="@color/text_grey_light_normal"
-            android:textSize="@dimen/J_title"
-            tools:text="1张"/>
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="@dimen/gap_grade_2">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{folder.name}"
+                android:textColor="@color/text_grey_dark_normal"
+                android:textSize="@dimen/H_title"
+                tools:text="img" />
+
+            <TextView
+                android:id="@+id/size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/gap_grade_2"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="@{@string/link_sheet(folder.photoList.size())}"
+                android:textColor="@color/text_grey_light_normal"
+                android:textSize="@dimen/J_title"
+                tools:text="1张" />
+
+        </LinearLayout>
+
+        <RadioButton
+            android:id="@+id/state"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            android:checked="@{folder.isSelected}"
+            android:clickable="false"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:text="@null" />
 
     </LinearLayout>
-
-    <RadioButton
-        android:id="@+id/state"
-        android:layout_width="@dimen/dp_30"
-        android:layout_height="@dimen/dp_30"
-        android:layout_margin="@dimen/gap_grade_3"
-        android:clickable="false"
-        android:text="@null"/>
-
-</LinearLayout>
+</layout>

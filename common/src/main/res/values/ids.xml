@@ -18,7 +18,7 @@
 
     <!-- Glide 中使用的 -->
     <item name="tag_glide" type="id" />
-    <!-- 封装后 ListAdapter 中使用 -->
+    <!-- 封装后 Adapter 中使用 -->
     <item name="tag_view_holder" type="id" />
     <!-- Recycle 的onClick中使用-->
     <item name="tag_view_holder_recycle_item_click" type="id" />

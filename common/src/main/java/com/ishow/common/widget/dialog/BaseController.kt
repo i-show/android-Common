@@ -132,7 +132,7 @@ class BaseController(private val mContext: Context, private val mDialogInterface
         val hasTitle = setupTitle(topPanel)
 
         val contentPanel = mWindow.findViewById<LinearLayout>(R.id.contentPanel)
-        setupList(hasTitle)
+        setupList()
         setupContent(contentPanel, hasTitle)
 
         val buttonPanel = mWindow.findViewById<View>(R.id.buttonPanel)
@@ -247,7 +247,7 @@ class BaseController(private val mContext: Context, private val mDialogInterface
         buttonPanel.visibility = if (whichButtons == 0) View.GONE else View.VISIBLE
     }
 
-    private fun setupList(hasTitle: Boolean) {
+    private fun setupList() {
         if (mAdapter != null) {
             mListView?.adapter = mAdapter
         }
@@ -431,18 +431,27 @@ class BaseController(private val mContext: Context, private val mDialogInterface
         private fun createListView(dialog: BaseController) {
             val listView = mInflater.inflate(dialog.mListLayout, null) as RecyclerViewPro
             listView.addItemDecoration(ColorDecoration())
-            if (mAdapter == null) {
-                val adapter = BindAdapter<String>(mContext)
-                adapter.setOnItemClickListener { position ->
-                    mOnClickListener?.let { it(dialog.mDialogInterface, position) }
-                    dialog.mDialogInterface.dismiss()
+            when (mAdapter) {
+                null -> {
+                    val adapter = BindAdapter<String>(mContext)
+                    adapter.setOnItemClickListener { position ->
+                        mOnClickListener?.let { it(dialog.mDialogInterface, position) }
+                        dialog.mDialogInterface.dismiss()
+                    }
+                    adapter.addLayout(dialog.mListItemLayout, BR.text)
+                    @Suppress("UNCHECKED_CAST")
+                    adapter.data = mItems?.toList() as ArrayList<String>
+                    dialog.mAdapter = adapter
                 }
-                adapter.addLayout(dialog.mListItemLayout, BR.text)
-                @Suppress("UNCHECKED_CAST")
-                adapter.data = mItems?.toList() as ArrayList<String>
-                dialog.mAdapter = adapter
-            } else {
-                dialog.mAdapter = mAdapter
+                is BindAdapter<*> -> {
+                    val adapter: BindAdapter<*> = mAdapter as BindAdapter<*>
+                    adapter.setOnItemClickListener { position ->
+                        mOnClickListener?.let { it(dialog.mDialogInterface, position) }
+                        dialog.mDialogInterface.dismiss()
+                    }
+                    dialog.mAdapter = adapter
+                }
+                else -> dialog.mAdapter = mAdapter
             }
             dialog.mListView = listView
         }

@@ -21,18 +21,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.TextView
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.ishow.common.BR
 import com.ishow.common.R
+import com.ishow.common.adapter.BindAdapter
 import com.ishow.common.app.activity.BaseBindActivity
 import com.ishow.common.databinding.ActivityPhotoSelectorBinding
 import com.ishow.common.entries.Folder
 import com.ishow.common.entries.Photo
 import com.ishow.common.utils.AnimatorUtils
 import com.ishow.common.utils.DateUtils
+import com.ishow.common.widget.dialog.BaseDialog
 import com.ishow.common.widget.recyclerview.itemdecoration.SpacingDecoration
 import kotlinx.android.synthetic.main.activity_photo_selector.*
 import java.util.*
@@ -42,35 +42,122 @@ import java.util.*
  * 选择照片的Activity
  */
 
-class PhotoSelectorActivity : BaseBindActivity<ActivityPhotoSelectorBinding>(), View.OnClickListener {
+class PhotoSelectorActivity : BaseBindActivity<ActivityPhotoSelectorBinding>() {
+
+    private lateinit var mViewModel: PhotoSelectorViewModel
     private lateinit var mPhotoAdapter: PhotoSelectorAdapter
-    private lateinit var mFolderAdapter: FolderSelectorAdapter
 
     private var mMaxCount: Int = 0
     private var mMode: Int = 0
-    private var mSelectedFolder: Folder? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setTheme(R.style.Theme_PhotoSelector)
+        bindContentView(R.layout.activity_photo_selector)
+        mViewModel = getViewModel(PhotoSelectorViewModel::class.java)
+        mViewModel.init(context = this, maxCount = mMaxCount, mode = mMode)
 
-    private val mSelectedChangedListener = object : PhotoSelectorAdapter.OnSelectedChangedListener {
-        override fun onSelectedChanged(selectCount: Int) {
-            /*
-            if (selectCount <= 0) {
-                mRightTextView.isEnabled = false
-                mRightTextView.setText(R.string.complete)
-            } else if (mMode == Photo.Key.MODE_SINGLE) {
-                mRightTextView.isEnabled = true
-                mRightTextView.setText(R.string.complete)
-            } else {
-                mRightTextView.isEnabled = true
-                val count = getString(R.string.link_complete, selectCount, mMaxCount)
-                mRightTextView.text = count
-            }
-            */
-        }
-
+        mBindingView.vm = mViewModel
     }
 
-    private val mScrollListener = object : RecyclerView.OnScrollListener() {
+    override fun initNecessaryData() {
+        super.initNecessaryData()
+        val intent: Intent = intent
+        mMaxCount = intent.getIntExtra(Photo.Key.EXTRA_SELECT_COUNT, Photo.Key.DEFAULT_MAX_COUNT)
+        mMode = intent.getIntExtra(Photo.Key.EXTRA_SELECT_MODE, Photo.Key.MODE_MULTI)
+        if (mMode == Photo.Key.MODE_SINGLE) mMaxCount = 1
+    }
+
+    override fun initViews() {
+        super.initViews()
+        mPhotoAdapter = PhotoSelectorAdapter(context, mMaxCount)
+        mPhotoAdapter.setSelectedChangedListener { mBindingView.vm?.onPhotoSelectStatusChanged(context, it) }
+        list.addItemDecoration(SpacingDecoration(context, R.dimen.photo_selector_item_gap))
+        list.adapter = mPhotoAdapter
+        list.addOnScrollListener(scrollListener)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        list.removeOnScrollListener(scrollListener)
+    }
+
+    override fun onRightClick(v: View) {
+        super.onRightClick(v)
+        setResult()
+    }
+
+
+    fun onViewClick(v: View) {
+        when (v.id) {
+            R.id.folderView -> selectPhotoFolder()
+        }
+    }
+
+    /**
+     * 选择图片文件夹
+     */
+    private fun selectPhotoFolder() {
+        val adapter = BindAdapter<Folder>(context)
+        adapter.addLayout(R.layout.item_photo_selector_folder, BR.folder)
+        adapter.data = mBindingView.vm?.folderList?.value!!
+
+        BaseDialog.Builder(this, R.style.Theme_Dialog_Bottom2)
+                .fromBottom(true)
+                .setWidthProportion(1F)
+                .setAdapter(adapter) { _, which -> updatePhotos(adapter.getItem(which)) }
+                .create()
+                .show()
+    }
+
+    private fun updatePhotos(folder: Folder) {
+        val currentFolder = mViewModel.currentFolder.value
+        if (folder == currentFolder) {
+            Log.i(TAG, "updatePhotos: is same folder")
+            return
+        }
+
+        folder.isSelected = true
+        currentFolder?.isSelected = false
+        mViewModel.updateCurrentFolder(folder)
+
+        mPhotoAdapter.data = folder.getPhotoList()
+        folderView.text = folder.getName()
+        list.scrollToPosition(0)
+    }
+
+
+    private fun setResult() {
+        val photoList: MutableList<Photo> = mPhotoAdapter.selectedPhotos
+        if (photoList.isEmpty()) {
+            Log.i(TAG, "setResult: photoList is null or empty")
+            finish()
+            return
+        }
+
+        when (mMode) {
+            Photo.Key.MODE_SINGLE -> setSingleResult(photoList)
+            Photo.Key.MODE_MULTI -> setMultiResult(photoList)
+        }
+    }
+
+    private fun setSingleResult(photoList: MutableList<Photo>) {
+        val photo = photoList[0]
+        val intent = Intent()
+        intent.putExtra(Photo.Key.EXTRA_RESULT, photo.getPath())
+        setResult(Activity.RESULT_OK, intent)
+        finish()
+    }
+
+    private fun setMultiResult(photoList: MutableList<Photo>) {
+        val photoPaths: ArrayList<String> = photoList.map { it.path } as ArrayList<String>
+        val intent = Intent()
+        intent.putStringArrayListExtra(Photo.Key.EXTRA_RESULT, photoPaths)
+        setResult(Activity.RESULT_OK, intent)
+        finish()
+    }
+
+    private val scrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)
             if (newState == RecyclerView.SCROLL_STATE_IDLE) {
@@ -84,129 +171,14 @@ class PhotoSelectorActivity : BaseBindActivity<ActivityPhotoSelectorBinding>(), 
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
-            /*
+
+            val layoutManager: GridLayoutManager = recyclerView.layoutManager as GridLayoutManager
             if (timeLine.alpha >= 0.15f) {
-                val image = mPhotoAdapter.getItem(mLayoutManager.findFirstVisibleItemPosition())
+                val image = mPhotoAdapter.getItem(layoutManager.findFirstVisibleItemPosition())
                 timeLine.text = DateUtils.formatFriendly(context, image.modifyDate * 1000)
             }
-            */
-        }
-    }
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setTheme(R.style.Theme_PhotoSelector)
-        bindContentView(R.layout.activity_photo_selector)
-        mBindingView.vm = getViewModel(PhotoSelectorViewModel::class.java)
-        mBindingView.vm?.init(context = this, maxCount = mMaxCount, mode = mMode)
-
-
-        mBindingView.list.addItemDecoration(SpacingDecoration(context, R.dimen.photo_selector_item_gap))
-        mBindingView.list.adapter = mPhotoAdapter
-    }
-
-    override fun initNecessaryData() {
-        super.initNecessaryData()
-        val intent = intent
-        mMaxCount = intent.getIntExtra(Photo.Key.EXTRA_SELECT_COUNT, Photo.Key.DEFAULT_MAX_COUNT)
-        mMode = intent.getIntExtra(Photo.Key.EXTRA_SELECT_MODE, Photo.Key.MODE_MULTI)
-        if (mMode == Photo.Key.MODE_SINGLE) mMaxCount = 1
-    }
-
-    override fun initViews() {
-        super.initViews()
-
-        mFolderAdapter = FolderSelectorAdapter(context)
-
-        mPhotoAdapter = PhotoSelectorAdapter(context, mMaxCount)
-        mPhotoAdapter.setSelectedChangedListener { mBindingView.vm?.onPhotoSelectStatusChanged(context, it) }
-    }
-
-    override fun onClick(v: View) {
-        when (v.id) {
-            R.id.folderView -> selectPhotoFolder()
-        }
-    }
-
-    override fun onRightClick(v: View) {
-        super.onRightClick(v)
-        setResult()
-    }
-
-    /**
-     * 选择图片文件夹
-     */
-    private fun selectPhotoFolder() {
-        /*
-        BaseDialog dialog = new BaseDialog.Builder(this, R.style.Theme_Dialog_Bottom)
-                .fromBottom(true)
-                .setAdapter(mFolderAdapter, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, final int which) {
-                        Folder folder = mFolderAdapter.getItem(which);
-                        updatePhotos(folder);
-                    }
-                }).create();
-        dialog.show();
-        */
-    }
-
-    private fun updatePhotos(folder: Folder) {
-
-        if (folder == mSelectedFolder) {
-            Log.i(TAG, "updatePhotos: is same folder")
-            return
         }
 
-        folder.isSelected = true
-        if (mSelectedFolder != null) {
-            mSelectedFolder!!.isSelected = false
-        }
-        mSelectedFolder = folder
-
-        folderView.text = folder.getName()
-        mPhotoAdapter.data = folder.getPhotoList()
-        mFolderAdapter.notifyDataSetChanged()
-        list.scrollToPosition(0)
-    }
-
-
-    private fun setResult() {
-        val photoList = mPhotoAdapter.selectedPhotos
-        when (mMode) {
-            Photo.Key.MODE_SINGLE -> {
-                if (photoList.isEmpty()) {
-                    Log.i(TAG, "setResult: photoList is null or empty")
-                    finish()
-                    return
-                }
-                val photo = photoList[0]
-                // 返回已选择的图片数据
-                val singleData = Intent()
-                singleData.putExtra(Photo.Key.EXTRA_RESULT, photo.getPath())
-                setResult(Activity.RESULT_OK, singleData)
-                finish()
-            }
-            Photo.Key.MODE_MULTI -> {
-                if (photoList.isEmpty()) {
-                    Log.i(TAG, "setResult: photoList is null or empty")
-                    finish()
-                    return
-                }
-
-                val photoPaths = ArrayList<String>()
-                for (photo in photoList) {
-                    photoPaths.add(photo.getPath())
-                }
-
-                // 返回已选择的图片数据
-                val multiData = Intent()
-                multiData.putStringArrayListExtra(Photo.Key.EXTRA_RESULT, photoPaths)
-                setResult(Activity.RESULT_OK, multiData)
-                finish()
-            }
-        }
     }
 
     companion object {

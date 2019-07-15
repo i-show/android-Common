@@ -17,12 +17,14 @@
 package com.ishow.common.modules.image.select
 
 import android.content.Context
+import android.view.View
 import android.widget.CheckBox
 import com.ishow.common.BR
 import com.ishow.common.R
 import com.ishow.common.adapter.BindAdapter
 import com.ishow.common.databinding.ItemPhotoSelectorBinding
 import com.ishow.common.entries.Photo
+import com.ishow.common.modules.image.show.ShowPhotoDialog
 import com.ishow.common.utils.ToastUtils
 import java.util.*
 
@@ -37,7 +39,7 @@ internal class PhotoSelectorAdapter(context: Context, private val maxCount: Int)
      * 获取 选中照片
      */
     private val _selectedPhotos: MutableList<Photo> = ArrayList()
-    val selectedPhotos: List<Photo>
+    val selectedPhotos: MutableList<Photo>
         get() = _selectedPhotos
 
     private var mSelectedChangedListener: ((Int) -> Unit)? = null
@@ -90,8 +92,17 @@ internal class PhotoSelectorAdapter(context: Context, private val maxCount: Int)
     }
 
     private val actionsListener = object : PhotoActionListener {
+
+
         override fun onClickPhotoStatus(view: CheckBox, photo: Photo) {
             selectPhoto(view, photo)
+        }
+
+        override fun viewPhoto(v: View, photo: Photo) {
+            val dialog = ShowPhotoDialog(context)
+            dialog.setData(photo.path)
+            dialog.setBeforeView(v)
+            dialog.show()
         }
     }
 

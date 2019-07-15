@@ -124,6 +124,13 @@
         <item name="dialogButtonStyle">@style/BaseDialogButton.Bottom</item>
     </style>
 
+    <style name="Theme.Dialog.Bottom2">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@style/Animation.Windows.Bottom</item>
+        <item name="dialogStyle">@style/BaseDialog.Bottom2</item>
+        <item name="dialogButtonStyle">@style/BaseDialogButton.Bottom</item>
+    </style>
+
     <!-- 从底部弹出的Dialog -->
     <style name="Theme.Dialog.Bottom.Transparent">
         <item name="android:windowFrame">@null</item>

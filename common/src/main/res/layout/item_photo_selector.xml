@@ -31,8 +31,10 @@
     </data>
 
     <com.ishow.common.widget.framelayout.ScaleFrameLayout
+        android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="@{()->listener.viewPhoto(root, photo)}"
         app:heightScale="1"
         app:widthScale="1">
 

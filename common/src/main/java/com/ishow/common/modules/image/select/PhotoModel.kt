@@ -56,7 +56,7 @@ class PhotoModel(private val context: Context) {
     }
 
     @SuppressLint("CheckResult")
-    fun getPhotos(listener: ((List<Folder>, List<Photo>) -> Unit)?) {
+    fun getPhotos(listener: ((MutableList<Folder>, MutableList<Photo>) -> Unit)?) {
         Observable.create(getPhotoTask)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

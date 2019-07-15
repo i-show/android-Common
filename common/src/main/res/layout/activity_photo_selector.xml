@@ -85,6 +85,7 @@
                 android:paddingLeft="@dimen/gap_grade_3"
                 android:paddingRight="@dimen/gap_grade_3"
                 android:text="@string/all_photos"
+                android:onClick="onViewClick"
                 android:textColor="@color/color_accent"
                 android:textSize="@dimen/I_title" />
 

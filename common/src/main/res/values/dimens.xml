@@ -45,7 +45,7 @@
     <!--图片多选-->
     <dimen name="image_size">@dimen/dp_80</dimen>
     <dimen name="photo_selector_item_gap">@dimen/dp_2</dimen>
-    <dimen name="folder_cover_size">@dimen/dp_70</dimen>
+    <dimen name="folder_cover_size">@dimen/dp_68</dimen>
 
     <dimen name="date_time_picker_padding">@dimen/dp_10</dimen>
 </resources>

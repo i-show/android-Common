@@ -68,6 +68,12 @@
         <item name="widthProportion">1.0</item>
     </style>
 
+    <style name="BaseDialog.Bottom2">
+        <item name="dialogMainLayout">@layout/dialog_bottom_2</item>
+        <item name="fromBottom">true</item>
+        <item name="widthProportion">1.0</item>
+    </style>
+
     <style name="BaseDialogTitle">
         <item name="android:scrollHorizontally">true</item>
         <item name="android:gravity">center</item>
@@ -177,12 +183,12 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:alpha">0</item>
         <item name="android:background">@color/grey_alpha_0_7</item>
-        <item name="android:paddingTop">@dimen/gap_grade_0</item>
+        <item name="android:paddingTop">@dimen/dp_4</item>
         <item name="android:paddingLeft">@dimen/gap_grade_3</item>
         <item name="android:paddingRight">@dimen/gap_grade_3</item>
-        <item name="android:paddingBottom">@dimen/gap_grade_0</item>
-        <item name="android:textColor">@color/text_white_normal</item>
-        <item name="android:textSize">@dimen/I_title</item>
+        <item name="android:paddingBottom">@dimen/dp_4</item>
+        <item name="android:textColor">#DDFFFFFF</item>
+        <item name="android:textSize">@dimen/J_title</item>
     </style>
 
 
