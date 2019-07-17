@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
+import com.bumptech.glide.request.RequestOptions
 import com.ishow.common.utils.image.loader.ImageLoader
 import com.ishow.common.utils.image.select.OnSelectPhotoListener
 import com.ishow.common.utils.image.select.SelectPhotoUtils
@@ -17,10 +18,9 @@ import kotlinx.android.synthetic.main.activity_modify_user_info.*
  * 修改用户信息
  */
 class ModifyUserInfoActivity : AppBaseActivity(),
-        ModifyUserInfoContract.View,
-        OnSelectPhotoListener,
-        View.OnClickListener {
-
+    ModifyUserInfoContract.View,
+    OnSelectPhotoListener,
+    View.OnClickListener {
 
     private lateinit var mPresenter: ModifyUserInfoContract.Presenter
     private lateinit var mSelectPhotoUtils: SelectPhotoUtils
@@ -37,7 +37,7 @@ class ModifyUserInfoActivity : AppBaseActivity(),
     override fun initViews() {
         super.initViews()
         val userManager = UserManager.instance
-        header.setRightImageUrl2(userManager.getAvatar(this), ImageLoader.LoaderMode.CIRCLE_CROP)
+        header.setRightImageUrl2(userManager.getAvatar(this), RequestOptions.circleCropTransform())
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -46,7 +46,7 @@ class ModifyUserInfoActivity : AppBaseActivity(),
     }
 
     override fun updateAvatar(avatar: String) {
-        header.setRightImageUrl2(avatar, ImageLoader.LoaderMode.CIRCLE_CROP)
+        header.setRightImageUrl2(avatar, RequestOptions.circleCropTransform())
     }
 
     override fun onClick(v: View?) {

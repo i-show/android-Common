@@ -8,7 +8,7 @@ object RecyclerViewBindings {
 
     @JvmStatic
     @Suppress("UNCHECKED_CAST")
-    @BindingAdapter("app:items")
+    @BindingAdapter("items")
     fun <T> setItems(listView: RecyclerView, items: MutableList<T>) {
         if (listView.adapter is BindAdapter<*>) {
             val adapter = listView.adapter as BindAdapter<T>

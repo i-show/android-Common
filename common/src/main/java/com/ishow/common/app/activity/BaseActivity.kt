@@ -41,9 +41,7 @@ import com.ishow.common.widget.loading.LoadingDialog
 
 
 abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListener, IViewStatus,
-        TopBar.OnTopBarListener {
-
-
+    TopBar.OnTopBarListener {
     /**
      * Loading的Dialog
      */
@@ -122,7 +120,6 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
     }
 
 
-
     protected open fun initViews() {
         // 主动设置TopBar
         var topBarView: View? = findViewById(R.id.topBar)
@@ -187,7 +184,7 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
         runOnUiThread {
             when (loading.type) {
                 Loading.Type.Dialog -> {
-                    mLoadingDialog = LoadingDialog.show(this@BaseActivity, mLoadingDialog)
+                    mLoadingDialog = LoadingDialog.show(context, mLoadingDialog)
                 }
                 Loading.Type.View -> {
                     mStatusView?.showLoading()

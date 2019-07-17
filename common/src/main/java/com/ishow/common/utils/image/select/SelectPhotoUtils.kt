@@ -51,7 +51,8 @@ import java.util.concurrent.Executors
 /**
  * 基类
  */
-class SelectPhotoUtils(private val mActivity: Activity, @param:SelectMode private var mSelectMode: Int) : DialogInterface.OnClickListener, DialogInterface.OnDismissListener {
+class SelectPhotoUtils(private val mActivity: Activity, @param:SelectMode private var mSelectMode: Int) :
+    DialogInterface.OnClickListener, DialogInterface.OnDismissListener {
 
     /**
      * 保存图片的地址的
@@ -101,7 +102,7 @@ class SelectPhotoUtils(private val mActivity: Activity, @param:SelectMode privat
     /**
      * Format
      */
-    private var mCompressFormat: Bitmap.CompressFormat? = null
+    private lateinit var mCompressFormat: Bitmap.CompressFormat
 
 
     @SuppressLint("HandlerLeak")
@@ -203,11 +204,11 @@ class SelectPhotoUtils(private val mActivity: Activity, @param:SelectMode privat
     private fun showSelectDialog() {
         if (mSelectDialog == null) {
             mSelectDialog = BaseDialog.Builder(mActivity, R.style.Theme_Dialog_Bottom)
-                    .setNegativeButton(R.string.cancel, null)
-                    .fromBottom(true)
-                    .setItems(R.array.select_photos) { dialog, which -> onClick(dialog, which) }
-                    .setOnDismissListener(this)
-                    .create()
+                .setNegativeButton(R.string.cancel, null)
+                .fromBottom(true)
+                .setItems(R.array.select_photos) { dialog, which -> onClick(dialog, which) }
+                .setOnDismissListener(this)
+                .create()
         }
 
         if (!mSelectDialog!!.isShowing) {
@@ -229,9 +230,9 @@ class SelectPhotoUtils(private val mActivity: Activity, @param:SelectMode privat
         var resultFile = file
         @Suppress("SpellCheckingInspection")
         val authority = StringUtils.plusString(mActivity.packageName, ".fileprovider")
-        if (resultFile == null) resultFile = ImageUtils.generateRandomPhotoFile(mActivity)
+        if (resultFile == null) resultFile = ImageUtils.genImageFile(mActivity)
         mCameraFileUri = Uri.fromFile(resultFile)
-        val uri = FileProvider.getUriForFile(mActivity, authority, resultFile!!)
+        val uri = FileProvider.getUriForFile(mActivity, authority, resultFile)
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
@@ -376,14 +377,13 @@ class SelectPhotoUtils(private val mActivity: Activity, @param:SelectMode privat
         intent.putExtra(PhotoCutterActivity.KEY_PATH, path)
         intent.putExtra(PhotoCutterActivity.KEY_RATIO_X, mScaleX)
         intent.putExtra(PhotoCutterActivity.KEY_RATIO_Y, mScaleY)
-        intent.putExtra(PhotoCutterActivity.KEY_FOTMAT, mCompressFormat)
+        intent.putExtra(PhotoCutterActivity.KEY_FORMAT, mCompressFormat)
         mActivity.startActivityForResult(intent, Request.REQUEST_CROP_IMAGE)
     }
 
     private inner class CompressRunnable internal constructor(internal var path: String, internal var key: Int) : Runnable {
-
         override fun run() {
-            val resultPath = ImageUtils.compressImage(mActivity, mCompressFormat, path)
+            val resultPath = ImageUtils.compressImage(mActivity, path, mCompressFormat)
             mPhotos[key] = resultPath
             mHandler.sendEmptyMessageDelayed(0, 100)
         }
@@ -419,8 +419,8 @@ class SelectPhotoUtils(private val mActivity: Activity, @param:SelectMode privat
         val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
         if (!hasPermission(mActivity, *permissions)) {
             PermissionManager.with(mActivity)
-                    .permission(*permissions)
-                    .send()
+                .permission(*permissions)
+                .send()
             return false
         }
         return true

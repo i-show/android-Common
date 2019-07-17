@@ -22,7 +22,7 @@
 
 
     <com.ishow.common.widget.imageview.CropImageView
-        android:id="@+id/crop"
+        android:id="@+id/cropView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:backgroundColor="@android:color/black"
