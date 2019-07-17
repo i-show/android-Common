@@ -28,10 +28,6 @@ import com.ishow.common.extensions.save
 import com.ishow.common.utils.image.select.SelectPhotoUtils
 import com.ishow.common.widget.loading.LoadingDialog
 import kotlinx.android.synthetic.main.activity_crop_image.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 /**
  * 图片剪切界面

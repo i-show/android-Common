@@ -20,13 +20,13 @@
     android:orientation="vertical">
 
     <com.ishow.common.widget.ViewPagerFix
-        android:id="@+id/content"
+        android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:overScrollMode="never" />
 
     <com.ishow.common.widget.viewpager.indicator.SizeIndicator
-        android:id="@+id/state"
+        android:id="@+id/indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
