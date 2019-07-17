@@ -32,7 +32,7 @@ public class Sample {
     }
 
     public void startAction(Context context) {
-        AppRouter.with(context)
+        AppRouter.Companion.with(context)
                 .target(action)
                 .start();
     }
