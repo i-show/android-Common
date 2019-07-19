@@ -85,9 +85,9 @@ internal class SplashPresenter(private val mView: SplashContract.View) : SplashC
         isInitFinished = false
         mLoginSuccess = false
         // 配置管理
-        ConfigureManager.instance.init(activity)
+        ConfigureManager.init()
         // 更新版本信息
-        VersionManager.instance.init(activity)
+        VersionManager.init(activity)
         // 登录
         login(activity)
     }

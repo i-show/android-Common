@@ -26,18 +26,7 @@ import com.ishow.noah.modules.init.splash.SplashActivity
 
 class ConfigureManager private constructor() {
 
-    /**
-     * 配置文件初始化
-     */
-    @Suppress("UNUSED_PARAMETER")
-    fun init(context: SplashActivity) {
-
-        WaterMarkHelp.show(BuildConfig.VERSION_TYPE != BuildConfig.VERSION_PROD)
-        WaterMarkHelp.defaultText(BuildConfig.VERSION_DESCRIPTION)
-    }
-
     companion object {
-        private val TAG = "ConfigureManager"
         /**
          * 这个东西使用后可以被回收
          */
@@ -57,6 +46,12 @@ class ConfigureManager private constructor() {
 
                 return sInstance!!
             }
+
+
+        fun init() {
+            WaterMarkHelp.show(BuildConfig.VERSION_TYPE != BuildConfig.VERSION_PROD)
+            WaterMarkHelp.defaultText(BuildConfig.VERSION_DESCRIPTION)
+        }
     }
 
 

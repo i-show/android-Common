@@ -7,7 +7,7 @@ object Configure {
     /**
      * Splash 显示时间
      */
-    const val SPLASH_TIME = 1000
+    const val SPLASH_TIME = 1000L
 
     /**
      * HTTP的token

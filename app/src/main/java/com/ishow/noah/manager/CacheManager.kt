@@ -27,7 +27,7 @@ class CacheManager private constructor() {
             get() {
 
                 if (sInstance == null) {
-                    synchronized(ConfigureManager::class.java) {
+                    synchronized(CacheManager::class.java) {
                         if (sInstance == null) {
                             sInstance = CacheManager()
                         }
