@@ -1,6 +1,7 @@
 package com.ishow.noah.modules.init.splash
 
 import android.Manifest
+import android.provider.Settings
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.baidu.mobstat.StatService
@@ -11,6 +12,8 @@ import com.ishow.noah.manager.ConfigureManager
 import com.ishow.noah.manager.VersionManager
 import com.ishow.noah.modules.account.common.AccountModel
 import com.ishow.noah.modules.base.AppBaseViewModel
+import com.ishow.noah.modules.init.splash.task.MinTimeTask
+import kotlinx.coroutines.delay
 
 class SplashViewModel : AppBaseViewModel() {
 
@@ -33,6 +36,7 @@ class SplashViewModel : AppBaseViewModel() {
         ConfigureManager.init()
         VersionManager.init(activity)
         mAccountModel.loginByToken(activity, loginCallBack)
+        Settings.Secure.ANDROID_ID
     }
 
 

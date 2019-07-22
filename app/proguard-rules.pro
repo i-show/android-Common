@@ -58,6 +58,15 @@
     @android.support.annotation.Keep *;
 }
 
+-keepnames class kotlinx.coroutines.internal.MainDispatcherFactory {}
+-keepnames class kotlinx.coroutines.CoroutineExceptionHandler {}
+-keepnames class kotlinx.coroutines.android.AndroidExceptionPreHandler {}
+-keepnames class kotlinx.coroutines.android.AndroidDispatcherFactory {}
+
+-keepclassmembernames class kotlinx.** {
+    volatile <fields>;
+}
+
 #忽略警告
 #####################记录生成的日志数据,gradle build时在本项目根目录输出################
 #apk 包内所有 class 的内部结构
@@ -264,3 +273,4 @@ public static java.lang.String TABLENAME;
 -keepclassmembers class ** {
     @com.ishow.common.utils.permission.PermissionDenied <methods>;
 }
+

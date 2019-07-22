@@ -33,25 +33,17 @@ object DeviceUtils {
         }
 
     /**
-     * 平台
+     * 平台信息
      */
-    fun platform(): String {
-        return "Android"
-    }
-
+    const val platform: String = "Android"
     /**
      * 获取手机型号
      */
-    fun model(): String {
-        return android.os.Build.MODEL
-    }
-
+    val model: String = android.os.Build.MODEL
     /**
      * 获取手机的Android版本
      */
-    fun version(): String {
-        return android.os.Build.VERSION.RELEASE
-    }
+    val version: String = android.os.Build.VERSION.RELEASE
 
     /**
      * 获取手机的deviceId
