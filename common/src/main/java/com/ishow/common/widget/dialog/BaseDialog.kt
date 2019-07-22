@@ -311,8 +311,7 @@ open class BaseDialog constructor(context: Context, theme: Int) : Dialog(context
         /**
          * 设置Adapter
          */
-        @JvmOverloads
-        fun setAdapter(adapter: RecyclerView.Adapter<*>, listener: ((DialogInterface, Int) -> Unit)? = null): Builder {
+        fun setAdapter(adapter: RecyclerView.Adapter<*>): Builder {
             mParams.mAdapter = adapter
             return this
         }

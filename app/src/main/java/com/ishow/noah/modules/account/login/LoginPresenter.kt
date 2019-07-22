@@ -66,8 +66,8 @@ internal class LoginPresenter(private val mView: LoginContract.View) : LoginCont
         params["account"] = account
         params["password"] = password
         params["device"] = Configure.DEVICE
-        params["deviceModel"] = DeviceUtils.model()
-        params["deviceVersion"] = DeviceUtils.version()
+        params["deviceModel"] = DeviceUtils.model
+        params["deviceVersion"] = DeviceUtils.version
 
         Http.post()
             .url(Url.login())

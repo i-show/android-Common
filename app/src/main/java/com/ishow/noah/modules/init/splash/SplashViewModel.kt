@@ -1,19 +1,20 @@
 package com.ishow.noah.modules.init.splash
 
 import android.Manifest
-import android.provider.Settings
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.baidu.mobstat.StatService
-import com.ishow.common.utils.http.rest.HttpError
 import com.ishow.common.utils.permission.PermissionManager
-import com.ishow.noah.entries.UserContainer
 import com.ishow.noah.manager.ConfigureManager
 import com.ishow.noah.manager.VersionManager
 import com.ishow.noah.modules.account.common.AccountModel
 import com.ishow.noah.modules.base.AppBaseViewModel
 import com.ishow.noah.modules.init.splash.task.MinTimeTask
-import kotlinx.coroutines.delay
+import com.ishow.noah.modules.init.splash.task.TaskManager
+import com.ishow.noah.modules.init.splash.task.UserTask
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class SplashViewModel : AppBaseViewModel() {
 
@@ -35,8 +36,14 @@ class SplashViewModel : AppBaseViewModel() {
     fun init(activity: SplashActivity) {
         ConfigureManager.init()
         VersionManager.init(activity)
-        mAccountModel.loginByToken(activity, loginCallBack)
-        Settings.Secure.ANDROID_ID
+        val taskManager = TaskManager.instance
+                .addTask(MinTimeTask())
+                .addTask(UserTask(activity))
+
+        GlobalScope.launch {
+            taskManager.startAsync().await()
+        }
+
     }
 
 
@@ -53,18 +60,6 @@ class SplashViewModel : AppBaseViewModel() {
                     .requestCode(REQUEST_PERMISSION_CODE)
                     .send()
         }
-    }
-
-    /**
-     * 登录的回调
-     */
-    private val loginCallBack = object : AccountModel.OnLoginCallBack {
-        override fun onSuccess(container: UserContainer) {
-        }
-
-        override fun onFailed(error: HttpError) {
-        }
-
     }
 
 

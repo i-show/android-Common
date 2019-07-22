@@ -91,7 +91,7 @@ class UserManager private constructor() {
     }
 
     /**
-     * 获取Accessoken
+     * 获取AccessToken
      */
     fun getAccessToken(context: Context): String {
         val userContainer = getUserContainer(context) ?: return StringUtils.EMPTY

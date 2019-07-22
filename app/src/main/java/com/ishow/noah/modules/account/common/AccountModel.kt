@@ -6,7 +6,7 @@ import com.ishow.noah.entries.UserContainer
 
 class AccountModel {
 
-    fun loginByToken(context: Context, callBack: OnLoginCallBack? = null) {
+    fun loginByToken(token: String, callBack: OnLoginCallBack? = null) {
 
     }
 

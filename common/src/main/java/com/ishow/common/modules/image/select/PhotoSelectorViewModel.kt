@@ -6,10 +6,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ishow.common.R
+import com.ishow.common.app.viewmodel.BaseViewModel
 import com.ishow.common.entries.Folder
 import com.ishow.common.entries.Photo
 
-class PhotoSelectorViewModel : ViewModel() {
+class PhotoSelectorViewModel : BaseViewModel() {
 
     private val _folderList = MutableLiveData<MutableList<Folder>>()
     val folderList: LiveData<MutableList<Folder>>

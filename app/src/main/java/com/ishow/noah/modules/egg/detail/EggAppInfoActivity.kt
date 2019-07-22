@@ -80,8 +80,8 @@ class EggAppInfoActivity : AppBaseActivity() {
         val screen = DeviceUtils.screenSize
         addCate("Android")
         addItem("分辨率：", StringUtils.plusString(screen[1], "*", screen[0]))
-        addItem("手机型号：", DeviceUtils.model())
-        addItem("手机版本：", DeviceUtils.version())
+        addItem("手机型号：", DeviceUtils.model)
+        addItem("手机版本：", DeviceUtils.version)
         addItem("最小宽度：", resources.configuration.smallestScreenWidthDp.toLong())
 
         addCate("App")

@@ -5,7 +5,6 @@ import android.view.View
 import androidx.lifecycle.Observer
 import com.ishow.common.utils.permission.PermissionDenied
 import com.ishow.common.utils.permission.PermissionGranted
-import com.ishow.noah.R
 import com.ishow.noah.databinding.ActivitySpalshBinding
 import com.ishow.noah.modules.base.AppBindActivity
 
@@ -18,15 +17,17 @@ class SplashActivity : AppBindActivity<ActivitySpalshBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        bindContentView(R.layout.activity_spalsh)
         mSplashViewModel = getViewModel(SplashViewModel::class.java)
-        observe()
+        initViewModel()
     }
 
-    private fun observe() {
+    private fun initViewModel() {
         val activity = this@SplashActivity
         mSplashViewModel.run {
+            // 注册状态
             permissionGranted.observe(activity, Observer { permissionGranted() })
+            // 初始化
+            preInit(activity)
         }
     }
 
@@ -47,7 +48,6 @@ class SplashActivity : AppBindActivity<ActivitySpalshBinding>() {
     fun permissionGranted() {
         mSplashViewModel.init(this@SplashActivity)
     }
-
 
     /**
      * 权限已经被拒绝
