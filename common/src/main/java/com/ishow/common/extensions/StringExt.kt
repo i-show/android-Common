@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.ishow.common.extensions
 
 import android.text.SpannableString
@@ -60,3 +62,21 @@ fun String.spanUnderLine(start: Int, end: Int): SpannableString {
     span.setSpan(UnderlineSpan(), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
     return span
 }
+
+
+fun String.isPhone(): Boolean {
+    val p = "^((1[3-9][0-9])\\d{8})\$".toRegex()
+    return matches(p)
+}
+
+fun String.isEmail(): Boolean {
+    if(!contains("@")){
+        return false
+    }
+    if (split("@").size != 2) {
+        return false
+    }
+    val p = "^(\\w)+(\\.\\w+)*@(\\w)+((\\.\\w+)+)\$".toRegex()
+    return matches(p)
+}
+

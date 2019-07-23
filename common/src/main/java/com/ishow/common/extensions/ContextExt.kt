@@ -1,13 +1,35 @@
+@file:Suppress("unused")
+
 package com.ishow.common.extensions
 
 import android.app.Activity
+import android.app.AlarmManager
+import android.app.KeyguardManager
+import android.app.admin.DevicePolicyManager
+import android.content.ClipboardManager
 import android.content.Context
+import android.content.Context.*
+import android.net.ConnectivityManager
+import android.telephony.TelephonyManager
+import android.view.LayoutInflater
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.annotation.StringRes
+import androidx.annotation.*
+import androidx.core.content.ContextCompat
 import com.ishow.common.R
 import com.ishow.common.utils.StringUtils
 import com.ishow.common.utils.ToastUtils
 import com.ishow.common.widget.dialog.BaseDialog
+
+
+/**
+ * inflate 方便实现
+ * @param layoutRes layout的Id
+ */
+fun Context.inflate(layoutRes: Int): View {
+    return LayoutInflater.from(this).inflate(layoutRes, null)
+}
 
 /**
  * Toast提示
@@ -43,10 +65,10 @@ fun Context.dialog(message: String, finishSelf: Boolean = false, cancelable: Boo
     }
     val activity = this
     BaseDialog.Builder(this)
-        .setMessage(message)
-        .setPositiveButton(R.string.yes) { _, _ -> if (finishSelf) activity.finish() }
-        .setCancelable(cancelable)
-        .show()
+            .setMessage(message)
+            .setPositiveButton(R.string.yes) { _, _ -> if (finishSelf) activity.finish() }
+            .setCancelable(cancelable)
+            .show()
 }
 
 /**
@@ -65,10 +87,53 @@ fun Context.dialog(title: String = StringUtils.EMPTY, message: String, finishSel
     }
     val activity = this
     BaseDialog.Builder(this)
-        .setMessage(title)
-        .setMessage(message)
-        .setPositiveButton(R.string.yes) { _, _ -> if (finishSelf) activity.finish() }
-        .setCancelable(cancelable)
-        .show()
+            .setMessage(title)
+            .setMessage(message)
+            .setPositiveButton(R.string.yes) { _, _ -> if (finishSelf) activity.finish() }
+            .setCancelable(cancelable)
+            .show()
 }
 
+/**
+ * 获取颜色
+ */
+fun Context.findColor(@ColorRes color: Int) = ContextCompat.getColor(this, color)
+
+/**
+ * 获取Drawable
+ */
+fun Context.findDrawable(@DrawableRes id: Int) = ContextCompat.getDrawable(this, id)
+
+/**
+ * 获取Boolean
+ */
+fun Context.getBoolean(@BoolRes id: Int) = resources.getBoolean(id)
+
+/**
+ * 获取Integer
+ */
+fun Context.getInteger(@IntegerRes id: Int) = resources.getInteger(id)
+
+/**
+ * 获取输入法管理
+ */
+inline val Context.inputManager: InputMethodManager?
+    get() = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
+
+inline val Context.keyguardManager: KeyguardManager?
+    get() = getSystemService(KEYGUARD_SERVICE) as? KeyguardManager
+
+inline val Context.telephonyManager: TelephonyManager?
+    get() = getSystemService(TELEPHONY_SERVICE) as? TelephonyManager
+
+inline val Context.devicePolicyManager: DevicePolicyManager?
+    get() = getSystemService(DEVICE_POLICY_SERVICE) as? DevicePolicyManager
+
+inline val Context.connectivityManager: ConnectivityManager?
+    get() = getSystemService(CONNECTIVITY_SERVICE) as? ConnectivityManager
+
+inline val Context.alarmManager: AlarmManager?
+    get() = getSystemService(ALARM_SERVICE) as? AlarmManager
+
+inline val Context.clipboardManager: ClipboardManager?
+    get() = getSystemService(CLIPBOARD_SERVICE) as? ClipboardManager
