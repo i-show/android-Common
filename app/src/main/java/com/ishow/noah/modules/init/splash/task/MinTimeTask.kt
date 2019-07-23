@@ -6,7 +6,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 
 class MinTimeTask : ITask {
-    
+
     override fun startAsync() = GlobalScope.async {
         delay(Configure.SPLASH_TIME)
     }

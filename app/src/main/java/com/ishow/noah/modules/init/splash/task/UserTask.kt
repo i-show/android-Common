@@ -2,8 +2,6 @@ package com.ishow.noah.modules.init.splash.task
 
 import android.content.Context
 import android.text.TextUtils
-import com.ishow.common.utils.http.rest.HttpError
-import com.ishow.noah.entries.UserContainer
 import com.ishow.noah.manager.UserManager
 import com.ishow.noah.modules.account.common.AccountModel
 import kotlinx.coroutines.GlobalScope
@@ -18,22 +16,9 @@ class UserTask(val context: Context) : ITask {
         }
 
         val accountModel = AccountModel()
-        accountModel.loginByToken(accessToken, object : AccountModel.OnLoginCallBack {
-
-            override fun onSuccess(container: UserContainer) {
-                status = Status.LoginSuccess
-            }
-
-            override fun onFailed(error: HttpError) {
-                status = Status.LoginFailed
-            }
-        })
+        accountModel.loginByToken(accessToken)
     }
 
-
-    private fun login() = GlobalScope.async {
-
-    }
 
     companion object {
         internal var status: Status? = Status.None

@@ -1,20 +1,11 @@
 package com.ishow.noah.modules.account.common
 
-import android.content.Context
-import com.ishow.common.utils.http.rest.HttpError
-import com.ishow.noah.entries.UserContainer
+import com.ishow.noah.manager.RetrofitManager
 
 class AccountModel {
 
-    fun loginByToken(token: String, callBack: OnLoginCallBack? = null) {
-
-    }
-
-
-    interface OnLoginCallBack {
-
-        fun onSuccess(container: UserContainer)
-
-        fun onFailed(error: HttpError)
+    fun loginByToken(token: String) {
+        val httpService = RetrofitManager.instance.appService
+        httpService.loginByToken().execute()
     }
 }
