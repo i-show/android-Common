@@ -1,8 +1,6 @@
 package com.ishow.noah.modules.account.login
 
 import android.app.Application
-import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ishow.common.extensions.getInteger
@@ -13,11 +11,8 @@ import com.ishow.noah.entries.UserContainer
 import com.ishow.noah.entries.http.AppHttpResponse
 import com.ishow.noah.modules.account.common.AccountModel
 import com.ishow.noah.modules.base.AppBaseViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.lang.Exception
 
 
 class LoginViewModel(application: Application) : AppBaseViewModel(application) {
@@ -35,8 +30,8 @@ class LoginViewModel(application: Application) : AppBaseViewModel(application) {
         mAccountModel = AccountModel()
 
         val account = StorageUtils.with(context)
-                .key(UserContainer.Key.ACCOUNT)
-                .get(StringUtils.EMPTY)
+            .key(UserContainer.Key.ACCOUNT)
+            .get(StringUtils.EMPTY)
         _phoneNumber.value = account
 
         val min = context.getInteger(R.integer.min_password)
@@ -50,14 +45,7 @@ class LoginViewModel(application: Application) : AppBaseViewModel(application) {
      * 登录
      */
     fun login(phone: String, password: String) = GlobalScope.launch {
-        showLoading()
-        mAccountModel.login(phone, password)
-        mAccountModel.login(phone, password)
-        mAccountModel.login(phone, password)
-        mAccountModel.login(phone, password)
-        val result: AppHttpResponse<UserContainer> = mAccountModel.login(phone, password)
-        dismissLoading()
-
+        val result: AppHttpResponse<UserContainer> = withLoading { mAccountModel.login(phone, password) }
         if (result.isSuccess()) {
             saveUserInfo(phone)
         } else {
@@ -65,13 +53,14 @@ class LoginViewModel(application: Application) : AppBaseViewModel(application) {
         }
     }
 
+
     /**
      * 清除用户缓存
      */
     private fun clear() {
         StorageUtils.with(context)
-                .key(UserContainer.Key.CACHE)
-                .remove()
+            .key(UserContainer.Key.CACHE)
+            .remove()
     }
 
 
@@ -80,7 +69,7 @@ class LoginViewModel(application: Application) : AppBaseViewModel(application) {
      */
     private fun saveUserInfo(account: String) {
         StorageUtils.with(context)
-                .param(UserContainer.Key.ACCOUNT, account)
-                .save()
+            .param(UserContainer.Key.ACCOUNT, account)
+            .save()
     }
 }
