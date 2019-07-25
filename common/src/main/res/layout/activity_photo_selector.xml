@@ -38,7 +38,7 @@
             app:leftImageVisibility="visible"
             app:rightText="@{vm.topRightText}"
             app:rightTextBackground="@drawable/corner_5dp_accent_color_bg"
-            app:rightTextEnable="@{vm.topRightEnable.getValue()}"
+            app:rightTextEnable="@{vm.topRightEnable}"
             app:rightTextPaddingVertical="@dimen/gap_grade_1"
             app:text="@string/select_photo_title"
             app:textColor="@color/white" />

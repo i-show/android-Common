@@ -16,7 +16,6 @@ import com.ishow.noah.ui.widget.dialog.VersionDialog
  * App层面的BaseActivity
  */
 abstract class AppBaseActivity : BaseActivity() {
-
     /**
      * 检测升级的Dialog
      */
@@ -34,17 +33,6 @@ abstract class AppBaseActivity : BaseActivity() {
         super.initViews()
         WaterMarkView.attachToActivity(this)
     }
-
-    override fun initViews(view: View) {
-        super.initViews(view)
-        WaterMarkView.attachToActivity(this)
-    }
-
-    override fun initViews(view: View, params: ViewGroup.LayoutParams) {
-        super.initViews(view, params)
-        WaterMarkView.attachToActivity(this)
-    }
-
 
     override fun onResume() {
         super.onResume()

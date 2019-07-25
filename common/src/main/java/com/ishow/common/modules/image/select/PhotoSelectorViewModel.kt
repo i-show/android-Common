@@ -1,6 +1,7 @@
 package com.ishow.common.modules.image.select
 
 import android.app.Activity
+import android.app.Application
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,7 +11,7 @@ import com.ishow.common.app.viewmodel.BaseViewModel
 import com.ishow.common.entries.Folder
 import com.ishow.common.entries.Photo
 
-class PhotoSelectorViewModel : BaseViewModel() {
+class PhotoSelectorViewModel(application: Application) : BaseViewModel(application) {
 
     private val _folderList = MutableLiveData<MutableList<Folder>>()
     val folderList: LiveData<MutableList<Folder>>

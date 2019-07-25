@@ -110,15 +110,19 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
     override fun setContentView(view: View) {
         super.setContentView(view)
         initNecessaryData()
-        initViews(view)
+        initViews()
     }
 
     override fun setContentView(view: View, params: ViewGroup.LayoutParams) {
         super.setContentView(view, params)
         initNecessaryData()
-        initViews(view, params)
+        initViews()
     }
 
+    /**
+     * 有一些数据要在initViews之前处理的在这个方法中处理
+     */
+    protected open fun initNecessaryData() {}
 
     protected open fun initViews() {
         // 主动设置TopBar
@@ -140,15 +144,6 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
             mStatusView?.setOnStatusViewListener(this)
         }
     }
-
-    protected open fun initViews(view: View) {}
-
-    protected open fun initViews(view: View, params: ViewGroup.LayoutParams) {}
-
-    /**
-     * 有一些数据要在initViews之前处理的在这个方法中处理
-     */
-    protected open fun initNecessaryData() {}
 
     /**
      * TopBar的左侧点击事件

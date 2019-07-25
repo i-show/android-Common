@@ -1,12 +1,9 @@
 package com.ishow.noah.modules.base
 
 import android.app.Dialog
-import android.view.View
-import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import com.baidu.mobstat.StatService
-import com.ishow.common.app.activity.BaseActivity
-import com.ishow.common.app.activity.BaseBindActivity
+import com.ishow.common.app.activity.BindActivity
 import com.ishow.common.widget.watermark.WaterMarkView
 import com.ishow.noah.AppApplication
 import com.ishow.noah.manager.VersionManager
@@ -17,7 +14,7 @@ import com.ishow.noah.ui.widget.dialog.VersionDialog
  * Created by yuhaiyang on 2018/8/8.
  * App层面的BaseActivity
  */
-abstract class AppBindActivity<T: ViewDataBinding> : BaseBindActivity<T>() {
+abstract class AppBindActivity<T: ViewDataBinding> : BindActivity<T>() {
 
     /**
      * 检测升级的Dialog

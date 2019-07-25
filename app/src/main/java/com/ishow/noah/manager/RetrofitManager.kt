@@ -1,15 +1,29 @@
 package com.ishow.noah.manager
 
 import com.ishow.noah.data.retrofit.AppRestService
+import com.ishow.noah.utils.http.okhttp.interceptor.AppHttpInterceptor
+import com.ishow.noah.utils.http.okhttp.interceptor.OkHttpLogInterceptor
+import com.ishow.noah.utils.http.retrofit.convert.AppConverterFactory
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitManager private constructor() {
-    
+
     val appService: AppRestService by lazy {
+
+        val loggingInterceptor = HttpLoggingInterceptor()
+        loggingInterceptor.level = HttpLoggingInterceptor.Level.BASIC
+
+        val okBuilder = OkHttpClient.Builder()
+                .retryOnConnectionFailure(true)
+                .addInterceptor(AppHttpInterceptor())
+                .addInterceptor(OkHttpLogInterceptor())
+
         val retrofit = Retrofit.Builder()
                 .baseUrl(AppRestService.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .client(okBuilder.build())
+                .addConverterFactory(AppConverterFactory.create())
                 .build()
 
         retrofit.create(AppRestService::class.java)

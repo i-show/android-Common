@@ -42,7 +42,7 @@ import com.ishow.common.utils.StorageUtils
  * 发送验证码的button
  */
 class VerifyCodeButton @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
-    FrameLayout(context, attrs, defStyleAttr) {
+        FrameLayout(context, attrs, defStyleAttr) {
 
     private var mProgressBar: ProgressBar
     private var mDisplayView: TextView
@@ -80,6 +80,16 @@ class VerifyCodeButton @JvmOverloads constructor(context: Context, attrs: Attrib
             }
         }
     }
+
+    /**
+     * 获取当前时间
+     */
+    val currentTime: Int = mCurrentTime
+
+    /**
+     * 是否正在倒计时
+     */
+    val isTiming: Boolean = mCurrentTime > 0
 
     /**
      * 获取默认的布局参数
@@ -193,8 +203,8 @@ class VerifyCodeButton @JvmOverloads constructor(context: Context, attrs: Attrib
         status.maxTime = maxTime
 
         StorageUtils.with(context)
-            .param(mStatusKey, Gson().toJson(status))
-            .save()
+                .param(mStatusKey, Gson().toJson(status))
+                .save()
     }
 
     /**
@@ -203,8 +213,8 @@ class VerifyCodeButton @JvmOverloads constructor(context: Context, attrs: Attrib
     fun reset() {
         mHandler.sendEmptyMessage(HANDLER_RESET_TIME)
         StorageUtils.with(context)
-            .key(mStatusKey)
-            .remove()
+                .key(mStatusKey)
+                .remove()
     }
 
     /**
@@ -214,15 +224,6 @@ class VerifyCodeButton @JvmOverloads constructor(context: Context, attrs: Attrib
         mTimingListener = listener
     }
 
-    /**
-     * 获取当前时间
-     */
-    fun getCurrentTime(): Int = mCurrentTime
-
-    /**
-     * 是否正在倒计时
-     */
-    fun isTiming(): Boolean = mCurrentTime > 0
 
     /**
      * 获取时间显示
@@ -297,8 +298,8 @@ class VerifyCodeButton @JvmOverloads constructor(context: Context, attrs: Attrib
      */
     private fun restoreState() {
         val lastStatus = StorageUtils.with(context)
-            .key(mStatusKey)
-            .get()
+                .key(mStatusKey)
+                .get()
 
         if (lastStatus.isEmpty()) {
             return
@@ -310,8 +311,8 @@ class VerifyCodeButton @JvmOverloads constructor(context: Context, attrs: Attrib
             startTiming(status.maxTime, remainTime)
         } else {
             StorageUtils.with(context)
-                .key(mStatusKey)
-                .remove()
+                    .key(mStatusKey)
+                    .remove()
         }
     }
 

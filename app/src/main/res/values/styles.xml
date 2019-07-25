@@ -31,7 +31,7 @@
         <item name="android:gravity">center</item>
         <item name="android:layout_marginStart">@dimen/dp_30</item>
         <item name="android:layout_marginEnd">@dimen/dp_30</item>
-        <item name="android:background">@drawable/corner_5dp_accent_color_bg</item>
+        <item name="android:background">@drawable/submit_full_bg</item>
     </style>
 
 
@@ -127,11 +127,11 @@
         <item name="inputLines">1</item>
     </style>
 
-    <style name="EditTextPro.Account.Login"></style>
+    <style name="EditTextPro.Account.Login"/>
 
-    <style name="EditTextPro.Account.Register"></style>
+    <style name="EditTextPro.Account.Register"/>
 
-    <style name="EditTextPro.Account.ForgotPassword"></style>
+    <style name="EditTextPro.Account.ForgotPassword"/>
 
 
     <style name="EditTextPro.Item">

@@ -20,7 +20,7 @@
     <string name="id_number_rule" translatable="false">0123456789xX</string>
     <!--密码长度验证 -->
     <integer name="min_password">6</integer>
-    <integer name="max_password">12</integer>
+    <integer name="max_password">20</integer>
     <integer name="max_address_user_name">20</integer>
     <integer name="max_address_detail_address">100</integer>
     <integer name="verify_code_max_length">6</integer>

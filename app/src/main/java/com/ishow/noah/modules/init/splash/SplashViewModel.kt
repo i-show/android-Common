@@ -1,6 +1,7 @@
 package com.ishow.noah.modules.init.splash
 
 import android.Manifest
+import android.app.Application
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -19,7 +20,7 @@ import com.ishow.noah.modules.init.splash.task.UserTask
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class SplashViewModel : AppBaseViewModel() {
+class SplashViewModel(app: Application) : AppBaseViewModel(app) {
 
     private val _permissionGranted = MutableLiveData<Boolean>()
     val permissionGranted: LiveData<Boolean>
