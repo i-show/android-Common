@@ -20,6 +20,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import com.ishow.common.extensions.getInteger
 import com.ishow.common.extensions.openBrowser
 import com.ishow.common.extensions.toast
 import com.ishow.common.modules.binding.Event
@@ -27,6 +28,7 @@ import com.ishow.common.utils.IntentUtils
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.utils.watcher.EnableTextWatcher
 import com.ishow.common.utils.watcher.VerifyCodeTextWatcher
+import com.ishow.common.utils.watcher.checker.PasswordChecker
 import com.ishow.common.utils.watcher.checker.PhoneNumberChecker
 import com.ishow.noah.R
 import com.ishow.noah.databinding.ActivityRegisterBinding
@@ -66,8 +68,8 @@ class RegisterActivity : AppBindActivity<ActivityRegisterBinding>() {
                 .setEnableView(submit)
                 .addChecker(phone, PhoneNumberChecker())
                 .addChecker(verifyCode)
-                .addChecker(password)
-                .addChecker(ensurePassword)
+                .addChecker(password, PasswordChecker(getInteger(R.integer.min_password)))
+                .addChecker(ensurePassword, PasswordChecker(getInteger(R.integer.min_password)))
     }
 
     fun onViewClick(v: View) {
@@ -102,7 +104,7 @@ class RegisterActivity : AppBindActivity<ActivityRegisterBinding>() {
         }
     }
 
-    private fun registerSuccess(){
+    private fun registerSuccess() {
         toast(R.string.register_success)
         AppRouter.with(context)
                 .target(MainActivity::class.java)
