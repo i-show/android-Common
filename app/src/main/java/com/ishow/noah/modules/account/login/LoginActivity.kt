@@ -18,7 +18,9 @@ package com.ishow.noah.modules.account.login
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Observer
 import com.ishow.common.extensions.getInteger
+import com.ishow.common.modules.binding.Event
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.utils.watcher.EnableTextWatcher
 import com.ishow.common.utils.watcher.checker.PasswordChecker
@@ -28,6 +30,7 @@ import com.ishow.noah.databinding.ActivityLoginBinding
 import com.ishow.noah.modules.account.password.forgot.ForgotPasswordActivity
 import com.ishow.noah.modules.account.register.RegisterActivity
 import com.ishow.noah.modules.base.AppBindActivity
+import com.ishow.noah.modules.main.MainActivity
 import kotlinx.android.synthetic.main.activity_login.*
 
 
@@ -45,19 +48,20 @@ class LoginActivity : AppBindActivity<ActivityLoginBinding>() {
         super.onCreate(savedInstanceState)
         bindContentView(R.layout.activity_login)
         getViewModel(LoginViewModel::class.java).also {
+            observeLiveData(it)
             mBindingView.vm = it
             mLoginViewModel = it
             it.init()
         }
     }
 
-
     override fun initViews() {
         super.initViews()
         mEnableWatcher.setEnableView(login)
-                .addChecker(account, PhoneNumberChecker())
-                .addChecker(password, PasswordChecker(getInteger(R.integer.min_password)))
+            .addChecker(account, PhoneNumberChecker())
+            .addChecker(password, PasswordChecker(getInteger(R.integer.min_password)))
     }
+
 
     fun onViewClick(v: View) {
         when (v.id) {
@@ -68,17 +72,28 @@ class LoginActivity : AppBindActivity<ActivityLoginBinding>() {
 
             R.id.register -> {
                 AppRouter.with(this)
-                        .target(RegisterActivity::class.java)
-                        .start()
+                    .target(RegisterActivity::class.java)
+                    .start()
             }
 
             R.id.forgotPassword -> {
                 AppRouter.with(this)
-                        .target(ForgotPasswordActivity::class.java)
-                        .start()
+                    .target(ForgotPasswordActivity::class.java)
+                    .start()
             }
         }
     }
 
+    private fun observeLiveData(vm: LoginViewModel) = vm.run {
+        loginSuccess.observe(this@LoginActivity, Observer { loginSuccess(it) })
+    }
+
+    private fun loginSuccess(event: Event<Boolean>) {
+        event.getContent()?.let {
+            AppRouter.with(context)
+                .target(MainActivity::class.java)
+                .start()
+        }
+    }
 
 }

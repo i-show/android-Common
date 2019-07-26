@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ishow.common.extensions.getInteger
+import com.ishow.common.modules.binding.Event
 import com.ishow.common.utils.StorageUtils
 import com.ishow.common.utils.StringUtils
 import com.ishow.noah.R
@@ -11,18 +12,24 @@ import com.ishow.noah.entries.UserContainer
 import com.ishow.noah.entries.http.AppHttpResponse
 import com.ishow.noah.modules.account.common.AccountModel
 import com.ishow.noah.modules.base.AppBaseViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class LoginViewModel(application: Application) : AppBaseViewModel(application) {
-    private var _phoneNumber = MutableLiveData<String>()
+    private val _phoneNumber = MutableLiveData<String>()
     val phoneNumber: LiveData<String>
         get() = _phoneNumber
 
-    private var _passwordHint = MutableLiveData<String>()
+    private val _passwordHint = MutableLiveData<String>()
     val passwordHint: LiveData<String>
         get() = _passwordHint
+
+    private val _loginSuccess = MutableLiveData<Event<Boolean>>()
+    val loginSuccess: LiveData<Event<Boolean>>
+        get() = _loginSuccess
 
     private lateinit var mAccountModel: AccountModel
 
@@ -48,6 +55,7 @@ class LoginViewModel(application: Application) : AppBaseViewModel(application) {
         val result: AppHttpResponse<UserContainer> = withLoading { mAccountModel.login(phone, password) }
         if (result.isSuccess()) {
             saveUserInfo(phone)
+            withContext(Dispatchers.Main) { _loginSuccess.value = Event(true) }
         } else {
             showToast(result.message)
         }

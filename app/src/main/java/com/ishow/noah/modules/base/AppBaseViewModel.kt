@@ -11,7 +11,7 @@ abstract class AppBaseViewModel(application: Application) : BaseViewModel(applic
      * 前后增加Loading处理数据
      * @param autoDismiss 是否自动取消Loading
      */
-    fun <T> withLoading(autoDismiss: Boolean = false, block: () -> AppHttpResponse<T>): AppHttpResponse<T> {
+    fun <T> withLoading(autoDismiss: Boolean = true, block: () -> AppHttpResponse<T>): AppHttpResponse<T> {
         showLoading()
         val result: AppHttpResponse<T> = block()
         if (autoDismiss) dismissLoading()
