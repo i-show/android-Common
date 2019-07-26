@@ -19,11 +19,21 @@
 
 package com.ishow.noah.modules.account.password.forgot
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import com.ishow.common.extensions.dialog
+import androidx.lifecycle.Observer
+import com.ishow.common.extensions.toast
+import com.ishow.common.modules.binding.Event
+import com.ishow.common.utils.router.AppRouter
+import com.ishow.common.utils.watcher.EnableTextWatcher
+import com.ishow.common.utils.watcher.VerifyCodeTextWatcher
+import com.ishow.common.utils.watcher.checker.PhoneNumberChecker
 import com.ishow.noah.R
-import com.ishow.noah.modules.base.AppBaseActivity
+import com.ishow.noah.databinding.ActivityPasswordBinding
+import com.ishow.noah.modules.account.login.LoginActivity
+import com.ishow.noah.modules.base.AppBindActivity
+import com.ishow.noah.utils.checker.PasswordChecker
 import kotlinx.android.synthetic.main.activity_password.*
 
 /**
@@ -31,44 +41,69 @@ import kotlinx.android.synthetic.main.activity_password.*
  * 修改密码和重置密码一系类的东西
  * 和注册分开预防后期业务更改
  */
-class ForgotPasswordActivity : AppBaseActivity(), View.OnClickListener, ForgotPasswordContract.View {
+class ForgotPasswordActivity : AppBindActivity<ActivityPasswordBinding>() {
 
-    private lateinit var mPresenter: ForgotPasswordContract.Presenter
+    private lateinit var mVerifyCodeWatcher: VerifyCodeTextWatcher
+    private lateinit var mSubmitWatcher: EnableTextWatcher
 
+    private lateinit var mViewModel: ForgotPasswordViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_password)
-        mPresenter = ForgotPasswordPresenter(this)
+        bindContentView(R.layout.activity_password)
+        getViewModel(ForgotPasswordViewModel::class.java).also {
+            observeLiveData(it)
+            mViewModel = it
+            mBindingView.vm = it
+        }
     }
 
     override fun initViews() {
         super.initViews()
-        sendVerifyCode.setOnClickListener(this)
-        submit.setOnClickListener(this)
+        mVerifyCodeWatcher = VerifyCodeTextWatcher()
+                .setEnableView(sendVerifyCode)
+                .addChecker(phone, PhoneNumberChecker())
+
+        mSubmitWatcher = EnableTextWatcher()
+                .setEnableView(submit)
+                .addChecker(phone, PhoneNumberChecker())
+                .addChecker(verifyCode)
+                .addChecker(password, PasswordChecker(context))
+                .addChecker(ensurePassword, PasswordChecker(context))
     }
 
-    override fun onClick(v: View) {
+    fun onViewClick(v: View) {
         when (v.id) {
             R.id.sendVerifyCode -> {
                 sendVerifyCode.showLoading()
-                mPresenter.sendVerifyCode(this, phone.inputText)
+                mViewModel.sendVerifyCode(phone.inputText)
             }
             R.id.submit -> {
-                val phone = phone.inputText
-                val verifyCode = verifyCode.inputText
-                val password = password.inputText
-                val passwordEnsure = ensurePassword.inputText
-                mPresenter.resetPassword(context, phone, verifyCode, password, passwordEnsure)
+                mViewModel.resetPassword(phone.inputText, verifyCode.inputText, password.inputText, ensurePassword.inputText)
             }
         }
     }
 
-    override fun showSendVerifySuccess() {
-        sendVerifyCode.startTiming()
+    private fun observeLiveData(vm: ForgotPasswordViewModel) = vm.run {
+        verifyCodeStatus.observe(activity, Observer { onVerifyCodeStatusChanged(it) })
+        resetState.observe(activity, Observer { resetSuccess() })
     }
 
-    override fun showSendVerifyFail(message: String) {
-        sendVerifyCode.reset()
-        dialog(message)
+    private fun onVerifyCodeStatusChanged(status: Event<Boolean>) {
+        status.getContent()?.let { success ->
+            if (success) {
+                sendVerifyCode.startTiming()
+            } else {
+                sendVerifyCode.reset()
+            }
+        }
+    }
+
+    private fun resetSuccess() {
+        toast(R.string.reset_password_success)
+        AppRouter.with(context)
+                .target(LoginActivity::class.java)
+                .flag(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                .finishSelf()
+                .start()
     }
 }

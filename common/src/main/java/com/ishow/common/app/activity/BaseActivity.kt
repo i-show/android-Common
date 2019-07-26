@@ -67,6 +67,9 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
     val context: Context
         get() = this
 
+    val activity: BaseActivity
+        get() = this
+
     //************************ 生命周期 区域*********************** //
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

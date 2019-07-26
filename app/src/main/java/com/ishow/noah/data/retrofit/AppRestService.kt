@@ -3,6 +3,7 @@ package com.ishow.noah.data.retrofit
 import com.ishow.noah.BuildConfig
 import com.ishow.noah.entries.UserContainer
 import com.ishow.noah.entries.http.AppHttpResponse
+import com.ishow.noah.entries.params.request.ForgotPasswordParams
 import com.ishow.noah.entries.params.request.LoginParams
 import com.ishow.noah.entries.params.request.RegisterParams
 import retrofit2.Call
@@ -40,4 +41,10 @@ interface AppRestService {
      */
     @POST("common/account/register")
     fun register(@Body params: RegisterParams): Call<AppHttpResponse<UserContainer>>
+
+    /**
+     * 忘记密码
+     */
+    @POST("common/account/forgotPassword")
+    fun forgotPassword(@Body params: ForgotPasswordParams): Call<AppHttpResponse<Any>>
 }

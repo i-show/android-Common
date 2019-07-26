@@ -1,6 +1,7 @@
 package com.ishow.noah.modules.base
 
 import com.ishow.noah.entries.http.AppHttpResponse
+import retrofit2.Call
 import retrofit2.Response
 import java.io.IOException
 import java.net.ConnectException
@@ -12,9 +13,9 @@ abstract class AppBaseModel {
     /**
      * 请求网络信息
      */
-    protected fun <T> request(block: () -> Response<AppHttpResponse<T>>): AppHttpResponse<T> {
+    protected fun <T> request(block: () -> Call<AppHttpResponse<T>>): AppHttpResponse<T> {
         try {
-            val response: Response<AppHttpResponse<T>> = block()
+            val response: Response<AppHttpResponse<T>> = block().execute()
             if (response.isSuccessful) {
                 return response.body() ?: return AppHttpResponse.empty()
             } else {
