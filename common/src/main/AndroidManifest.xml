@@ -15,12 +15,13 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.ishow.common">
+    package="com.ishow.common">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application>
         <!-- Android 7.0 Uri的共享机制-->
@@ -31,20 +32,20 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_provider_configure"/>
+                android:resource="@xml/file_provider_configure" />
         </provider>
 
         <!--选择图片的类-->
         <activity
             android:name=".modules.image.select.PhotoSelectorActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.NoActionBar"/>
+            android:theme="@style/Theme.NoActionBar" />
 
         <!--剪切图片的类-->
         <activity
             android:name=".modules.image.cutter.PhotoCutterActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.NoActionBar.Fullscreen"/>
+            android:theme="@style/Theme.NoActionBar.Fullscreen" />
 
     </application>
 

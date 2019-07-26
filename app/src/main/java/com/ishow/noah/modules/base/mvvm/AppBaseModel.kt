@@ -1,5 +1,6 @@
 package com.ishow.noah.modules.base.mvvm
 
+import android.util.Log
 import com.ishow.noah.entries.http.AppHttpResponse
 import retrofit2.Call
 import retrofit2.Response
@@ -12,10 +13,10 @@ abstract class AppBaseModel {
 
     /**
      * 请求网络信息
-     */
-    protected fun <T> request(block: () -> Call<AppHttpResponse<T>>): AppHttpResponse<T> {
+
+    protected fun <T> request(block: () -> AppHttpResponse<T>): AppHttpResponse<T> {
         try {
-            val response: Response<AppHttpResponse<T>> = block().execute()
+            val response: Response<AppHttpResponse<T>> = block()
             if (response.isSuccessful) {
                 return response.body() ?: return AppHttpResponse.empty()
             } else {
@@ -25,6 +26,7 @@ abstract class AppBaseModel {
                 return error
             }
         } catch (e: Exception) {
+            Log.i("yhy", "e = $e")
             return parseException(e)
         }
     }
@@ -38,4 +40,5 @@ abstract class AppBaseModel {
             else -> AppHttpResponse.exception(e.message)
         }
     }
+     */
 }

@@ -22,6 +22,7 @@ import androidx.annotation.NonNull;
 import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
+
 import com.ishow.common.entries.KeyValue;
 import com.ishow.common.utils.http.rest.Headers;
 import com.ishow.common.utils.http.rest.Http;
@@ -183,7 +184,7 @@ public abstract class Request<T extends Request> {
     }
 
     @SuppressWarnings("unchecked")
-    public T addHeader(@NonNull String key, @NonNull String value) {
+    public T addHeader(@NonNull String key, String value) {
         headers.add(key, value);
         return (T) this;
     }

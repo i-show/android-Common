@@ -23,28 +23,27 @@ interface AppRestService {
                 }
     }
 
-
     /**
      * 登录
      */
     @POST("common/account/login")
-    fun login(@Body params: LoginParams): Call<AppHttpResponse<UserContainer>>
+    fun login(@Body params: LoginParams): AppHttpResponse<UserContainer>
 
     /**
      * 通过Token来处理
      */
     @POST("common/account/loginByToken")
-    fun loginByToken(): Call<UserContainer>
+    fun loginByToken(): AppHttpResponse<UserContainer>
 
     /**
      * 用户注册
      */
     @POST("common/account/register")
-    fun register(@Body params: RegisterParams): Call<AppHttpResponse<UserContainer>>
+    fun register(@Body params: RegisterParams): AppHttpResponse<UserContainer>
 
     /**
      * 忘记密码
      */
     @POST("common/account/forgotPassword")
-    fun forgotPassword(@Body params: ForgotPasswordParams): Call<AppHttpResponse<Any>>
+    fun forgotPassword(@Body params: ForgotPasswordParams): AppHttpResponse<Any>
 }

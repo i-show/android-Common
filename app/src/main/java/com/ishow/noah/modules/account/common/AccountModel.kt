@@ -1,5 +1,6 @@
 package com.ishow.noah.modules.account.common
 
+import android.util.Log
 import com.ishow.noah.entries.UserContainer
 import com.ishow.noah.entries.http.AppHttpResponse
 import com.ishow.noah.entries.params.request.ForgotPasswordParams
@@ -11,8 +12,8 @@ import com.ishow.noah.modules.base.mvvm.AppBaseModel
 class AccountModel : AppBaseModel() {
     private val httpService = RetrofitManager.instance.appService
 
-    fun loginByToken(token: String) {
-        httpService.loginByToken().execute()
+    fun loginByToken(token: String?) {
+        httpService.loginByToken()
     }
 
     /**
@@ -22,21 +23,21 @@ class AccountModel : AppBaseModel() {
         val params = LoginParams()
         params.account = phone
         params.password = password
-        return request { httpService.login(params) }
+        return httpService.login(params)
     }
 
     /**
      * 注册
      */
     fun register(params: RegisterParams): AppHttpResponse<UserContainer> {
-        return request { httpService.register(params) }
+        return httpService.register(params)
     }
 
     /**
      * 忘记密码
      */
     fun forgotPassword(params: ForgotPasswordParams): AppHttpResponse<Any> {
-        return request { httpService.forgotPassword(params) }
+        return httpService.forgotPassword(params)
     }
 
 

@@ -86,14 +86,14 @@ class UserManager private constructor() {
         }
         return if (mUserContainer == null) {
             StringUtils.EMPTY
-        } else mUserContainer!!.user.avatar
+        } else mUserContainer!!.user?.avatar
 
     }
 
     /**
      * 获取AccessToken
      */
-    fun getAccessToken(context: Context): String {
+    fun getAccessToken(context: Context): String? {
         val userContainer = getUserContainer(context) ?: return StringUtils.EMPTY
         val token = userContainer.token ?: return StringUtils.EMPTY
         return token.accessToken

@@ -1,6 +1,7 @@
 package com.ishow.noah.modules.account.login
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ishow.common.extensions.getInteger
@@ -37,8 +38,8 @@ class LoginViewModel(application: Application) : AppBaseViewModel(application) {
         mAccountModel = AccountModel()
 
         val account = StorageUtils.with(context)
-            .key(UserContainer.Key.ACCOUNT)
-            .get(StringUtils.EMPTY)
+                .key(UserContainer.Key.ACCOUNT)
+                .get(StringUtils.EMPTY)
         _phoneNumber.value = account
 
         val min = context.getInteger(R.integer.min_password)
@@ -55,6 +56,7 @@ class LoginViewModel(application: Application) : AppBaseViewModel(application) {
         val result: AppHttpResponse<UserContainer> = withLoading { mAccountModel.login(phone, password) }
         if (result.isSuccess()) {
             saveUserInfo(phone)
+            Log.i("yhy", "result = " + result.value.toString())
             withContext(Dispatchers.Main) { _loginSuccess.value = Event(true) }
         } else {
             toast(result.message)
@@ -67,8 +69,8 @@ class LoginViewModel(application: Application) : AppBaseViewModel(application) {
      */
     private fun clear() {
         StorageUtils.with(context)
-            .key(UserContainer.Key.CACHE)
-            .remove()
+                .key(UserContainer.Key.CACHE)
+                .remove()
     }
 
 
@@ -77,7 +79,7 @@ class LoginViewModel(application: Application) : AppBaseViewModel(application) {
      */
     private fun saveUserInfo(account: String) {
         StorageUtils.with(context)
-            .param(UserContainer.Key.ACCOUNT, account)
-            .save()
+                .param(UserContainer.Key.ACCOUNT, account)
+                .save()
     }
 }

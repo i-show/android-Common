@@ -3,6 +3,7 @@ package com.ishow.noah.manager
 import com.ishow.noah.data.retrofit.AppRestService
 import com.ishow.noah.utils.http.okhttp.interceptor.AppHttpInterceptor
 import com.ishow.noah.utils.http.okhttp.interceptor.OkHttpLogInterceptor
+import com.ishow.noah.utils.http.retrofit.adapter.AppCallAdapterFactory
 import com.ishow.noah.utils.http.retrofit.convert.AppConverterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -24,6 +25,7 @@ class RetrofitManager private constructor() {
                 .baseUrl(AppRestService.BASE_URL)
                 .client(okBuilder.build())
                 .addConverterFactory(AppConverterFactory.create())
+                .addCallAdapterFactory(AppCallAdapterFactory())
                 .build()
 
         retrofit.create(AppRestService::class.java)

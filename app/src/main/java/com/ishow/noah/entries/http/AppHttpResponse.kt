@@ -8,17 +8,21 @@ class AppHttpResponse<T> {
 
     fun isSuccess() = code == Code.Success
 
+    override fun toString(): String {
+        return "AppHttpResponse(code=$code, message=$message, value=$value)"
+    }
+
     companion object {
 
-        fun <T> empty(code: Int = Code.Failed): AppHttpResponse<T> {
-            val response = AppHttpResponse<T>()
+        fun empty(code: Int = Code.Failed): AppHttpResponse<*> {
+            val response = AppHttpResponse<Any>()
             response.code = code
             response.message = "暂无数据"
             return response
         }
 
-        fun <T> exception(message: String?, code: Int = Code.Failed): AppHttpResponse<T> {
-            val response = AppHttpResponse<T>()
+        fun exception(message: String?, code: Int = Code.Failed): AppHttpResponse<*> {
+            val response = AppHttpResponse<Any>()
             response.code = code
             response.message = message
             return response
