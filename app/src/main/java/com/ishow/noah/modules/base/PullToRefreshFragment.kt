@@ -70,6 +70,6 @@ abstract class PullToRefreshFragment : AppBaseFragment(), OnPullToRefreshListene
     protected abstract fun getPullToRefreshUtils(v: View): IPullToRefreshUtils<*>?
 
     companion object {
-        private val TAG = "PullToRefreshFragment"
+        private const val TAG = "PullToRefreshFragment"
     }
 }

@@ -1,4 +1,4 @@
-package com.ishow.noah.modules.base
+package com.ishow.noah.modules.base.mvvm
 
 import android.app.Dialog
 import androidx.databinding.ViewDataBinding

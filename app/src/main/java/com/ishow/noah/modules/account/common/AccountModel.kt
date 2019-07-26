@@ -6,7 +6,7 @@ import com.ishow.noah.entries.params.request.ForgotPasswordParams
 import com.ishow.noah.entries.params.request.LoginParams
 import com.ishow.noah.entries.params.request.RegisterParams
 import com.ishow.noah.manager.RetrofitManager
-import com.ishow.noah.modules.base.AppBaseModel
+import com.ishow.noah.modules.base.mvvm.AppBaseModel
 
 class AccountModel : AppBaseModel() {
     private val httpService = RetrofitManager.instance.appService

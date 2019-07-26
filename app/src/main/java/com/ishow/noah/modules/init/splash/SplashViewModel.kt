@@ -3,7 +3,6 @@ package com.ishow.noah.modules.init.splash
 import android.Manifest
 import android.app.Application
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.baidu.mobstat.StatService
@@ -13,7 +12,7 @@ import com.ishow.noah.manager.ConfigureManager
 import com.ishow.noah.manager.VersionManager
 import com.ishow.noah.modules.account.common.AccountModel
 import com.ishow.noah.modules.account.login.LoginActivity
-import com.ishow.noah.modules.base.AppBaseViewModel
+import com.ishow.noah.modules.base.mvvm.AppBaseViewModel
 import com.ishow.noah.modules.init.splash.task.MinTimeTask
 import com.ishow.noah.modules.init.splash.task.TaskManager
 import com.ishow.noah.modules.init.splash.task.UserTask

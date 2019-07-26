@@ -19,7 +19,6 @@ package com.ishow.noah.modules.account.login
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import com.ishow.common.extensions.getInteger
 import com.ishow.common.modules.binding.Event
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.utils.watcher.EnableTextWatcher
@@ -28,7 +27,7 @@ import com.ishow.noah.R
 import com.ishow.noah.databinding.ActivityLoginBinding
 import com.ishow.noah.modules.account.password.forgot.ForgotPasswordActivity
 import com.ishow.noah.modules.account.register.RegisterActivity
-import com.ishow.noah.modules.base.AppBindActivity
+import com.ishow.noah.modules.base.mvvm.AppBindActivity
 import com.ishow.noah.modules.main.MainActivity
 import com.ishow.noah.utils.checker.PasswordChecker
 import kotlinx.android.synthetic.main.activity_login.*

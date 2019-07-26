@@ -20,7 +20,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import com.ishow.common.extensions.getInteger
 import com.ishow.common.extensions.openBrowser
 import com.ishow.common.extensions.toast
 import com.ishow.common.modules.binding.Event
@@ -30,7 +29,7 @@ import com.ishow.common.utils.watcher.VerifyCodeTextWatcher
 import com.ishow.common.utils.watcher.checker.PhoneNumberChecker
 import com.ishow.noah.R
 import com.ishow.noah.databinding.ActivityRegisterBinding
-import com.ishow.noah.modules.base.AppBindActivity
+import com.ishow.noah.modules.base.mvvm.AppBindActivity
 import com.ishow.noah.modules.main.MainActivity
 import com.ishow.noah.utils.checker.PasswordChecker
 import kotlinx.android.synthetic.main.activity_register.*

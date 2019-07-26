@@ -1,4 +1,4 @@
-package com.ishow.noah.modules.base
+package com.ishow.noah.modules.base.mvvm
 
 import android.app.Application
 import com.ishow.common.app.viewmodel.BaseViewModel

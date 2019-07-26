@@ -1,4 +1,4 @@
-package com.ishow.noah.modules.base
+package com.ishow.noah.modules.base.mvvm
 
 import com.ishow.noah.entries.http.AppHttpResponse
 import retrofit2.Call

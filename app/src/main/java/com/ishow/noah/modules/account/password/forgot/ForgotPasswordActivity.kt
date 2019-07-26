@@ -32,7 +32,7 @@ import com.ishow.common.utils.watcher.checker.PhoneNumberChecker
 import com.ishow.noah.R
 import com.ishow.noah.databinding.ActivityPasswordBinding
 import com.ishow.noah.modules.account.login.LoginActivity
-import com.ishow.noah.modules.base.AppBindActivity
+import com.ishow.noah.modules.base.mvvm.AppBindActivity
 import com.ishow.noah.utils.checker.PasswordChecker
 import kotlinx.android.synthetic.main.activity_password.*
 

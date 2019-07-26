@@ -10,7 +10,7 @@ import com.ishow.noah.entries.UserContainer
 import com.ishow.noah.entries.http.AppHttpResponse
 import com.ishow.noah.entries.params.request.RegisterParams
 import com.ishow.noah.modules.account.common.AccountModel
-import com.ishow.noah.modules.base.AppBaseViewModel
+import com.ishow.noah.modules.base.mvvm.AppBaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay

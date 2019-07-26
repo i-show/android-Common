@@ -6,7 +6,7 @@ import androidx.lifecycle.Observer
 import com.ishow.common.utils.permission.PermissionDenied
 import com.ishow.common.utils.permission.PermissionGranted
 import com.ishow.noah.databinding.ActivitySpalshBinding
-import com.ishow.noah.modules.base.AppBindActivity
+import com.ishow.noah.modules.base.mvvm.AppBindActivity
 
 /**
  * Created by yuhaiyang on 2018/3/27.
