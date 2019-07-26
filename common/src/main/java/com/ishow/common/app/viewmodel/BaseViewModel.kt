@@ -3,16 +3,14 @@ package com.ishow.common.app.viewmodel
 import android.app.Application
 import android.content.Context
 import android.os.Looper
-import android.util.Log
+import androidx.annotation.StringRes
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.ishow.common.modules.binding.Event
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 abstract class BaseViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -36,7 +34,7 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
         if (isMainThread()) {
             _loadingDialog.value = true
         } else {
-            runOnMainThread { _loadingDialog.value = true }
+            mainThread { _loadingDialog.value = true }
         }
     }
 
@@ -44,19 +42,23 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
         if (isMainThread()) {
             _loadingDialog.value = false
         } else {
-            runOnMainThread { _loadingDialog.value = false }
+            mainThread { _loadingDialog.value = false }
         }
     }
 
-    fun showToast(message: String?) {
+    fun toast(message: String?) {
         if (message.isNullOrEmpty()) {
             return
         }
         if (isMainThread()) {
             _toastMessage.value = Event(message)
         } else {
-            runOnMainThread { _toastMessage.value = Event(message) }
+            mainThread { _toastMessage.value = Event(message) }
         }
+    }
+
+    fun toast(@StringRes message: Int) {
+        toast(context.getString(message))
     }
 
     /**
@@ -67,7 +69,7 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
     /**
      * 通过协程  在主线程上运行
      */
-    private fun runOnMainThread(block: () -> Unit) = GlobalScope.launch(Dispatchers.Main) {
+    fun mainThread(block: () -> Unit) = GlobalScope.launch(Dispatchers.Main) {
         block()
     }
 }

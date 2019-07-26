@@ -45,7 +45,6 @@ class SettingsActivity : AppBaseActivity(), View.OnClickListener {
     override fun initViews() {
         super.initViews()
         logout.setOnClickListener(this)
-        logout.setOnClickListener {  }
         version.setText(AppUtils.getVersionName(this))
     }
 

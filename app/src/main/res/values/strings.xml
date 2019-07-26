@@ -34,7 +34,7 @@
     <string name="register_hint_phone">请输入手机号码</string>
     <string name="register_tip_verify_code">验证码：</string>
     <string name="register_hint_verify_code">请输入验证码</string>
-    <string name="register_tip_password">密&#160;&#160;&#160;&#160;码：</string>
+    <string name="register_tip_password">密 码：</string>
     <string name="register_hint_password">请输入密码</string>
     <string name="register_tip_ensure_password">确认密码：</string>
     <string name="register_hint_ensure_password">请再次输入密码</string>

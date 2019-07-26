@@ -110,7 +110,6 @@ object IntentUtils {
         } catch (e: ActivityNotFoundException) {
             ToastUtils.show(context, R.string.exception_intent_open)
         }
-
     }
 
     /**

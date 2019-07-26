@@ -126,19 +126,13 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
 
     protected open fun initViews() {
         // 主动设置TopBar
-        var topBarView: View? = findViewById(R.id.topBar)
-        if (topBarView == null) {
-            topBarView = findViewById(R.id.top_bar)
-        }
+        val topBarView: View? = findViewById(R.id.topBar)
         if (topBarView is TopBar) {
             topBarView.setOnTopBarListener(this)
         }
 
         // 主动设置statusView
-        var statusView: View? = findViewById(R.id.statusView)
-        if (statusView == null) {
-            statusView = findViewById(R.id.status_view)
-        }
+        val statusView: View? = findViewById(R.id.statusView)
         if (statusView is StatusView) {
             mStatusView = statusView
             mStatusView?.setOnStatusViewListener(this)

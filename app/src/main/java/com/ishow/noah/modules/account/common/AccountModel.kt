@@ -4,6 +4,7 @@ import android.util.Log
 import com.ishow.noah.entries.UserContainer
 import com.ishow.noah.entries.http.AppHttpResponse
 import com.ishow.noah.entries.params.request.LoginParams
+import com.ishow.noah.entries.params.request.RegisterParams
 import com.ishow.noah.manager.RetrofitManager
 import com.ishow.noah.modules.base.AppBaseModel
 import retrofit2.Response
@@ -15,11 +16,21 @@ class AccountModel : AppBaseModel() {
         httpService.loginByToken().execute()
     }
 
+    /**
+     * 登录
+     */
     fun login(phone: String, password: String): AppHttpResponse<UserContainer> {
         val params = LoginParams()
         params.account = phone
         params.password = password
         return request { httpService.login(params).execute() }
+    }
+
+    /**
+     * 注册
+     */
+    fun register(params: RegisterParams): AppHttpResponse<UserContainer> {
+        return request { httpService.register(params).execute() }
     }
 
 }

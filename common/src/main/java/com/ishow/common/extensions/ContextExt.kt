@@ -6,11 +6,16 @@ import android.app.Activity
 import android.app.AlarmManager
 import android.app.KeyguardManager
 import android.app.admin.DevicePolicyManager
+import android.content.ActivityNotFoundException
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.*
+import android.content.Intent
 import android.net.ConnectivityManager
+import android.net.Uri
+import android.provider.Settings
 import android.telephony.TelephonyManager
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -137,3 +142,74 @@ inline val Context.alarmManager: AlarmManager?
 
 inline val Context.clipboardManager: ClipboardManager?
     get() = getSystemService(CLIPBOARD_SERVICE) as? ClipboardManager
+
+
+/**
+ * 跳转浏览器
+ */
+fun Context.openBrowser(url: String?) {
+    if (TextUtils.isEmpty(url)) {
+        return
+    }
+    try {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+    } catch (e: ActivityNotFoundException) {
+        toast(R.string.exception_intent_open)
+    }
+}
+
+/**
+ * 打开拨号盘
+ */
+fun Context.openDial(number: String?) {
+    if (number.isNullOrEmpty()) {
+        return
+    }
+    try {
+        val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + number.trim { it <= ' ' }))
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+    } catch (e: ActivityNotFoundException) {
+        toast(R.string.exception_intent_open)
+    }
+}
+
+/**
+ * 打开拨号盘
+ */
+fun Context.call(number: String?) {
+    if (number.isNullOrEmpty()) {
+        return
+    }
+    try {
+        val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + number.trim { it <= ' ' }))
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+    } catch (e: ActivityNotFoundException) {
+        toast(R.string.exception_intent_open)
+    }
+}
+
+/**
+ * 打开APP设置界面
+ */
+fun Context.openAppSettings() {
+    try {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        intent.data = Uri.fromParts("package", packageName, null)
+        startActivity(intent)
+    } catch (e: Exception) {
+        toast(R.string.exception_intent_open)
+    }
+}
+
+fun Context.openApp(packageName: String) {
+    try {
+        val intent = packageManager.getLaunchIntentForPackage(packageName)
+        startActivity(intent)
+    } catch (e: Exception) {
+        toast(R.string.exception_intent_open)
+    }
+}

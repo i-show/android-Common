@@ -57,7 +57,7 @@ class LoginViewModel(application: Application) : AppBaseViewModel(application) {
             saveUserInfo(phone)
             withContext(Dispatchers.Main) { _loginSuccess.value = Event(true) }
         } else {
-            showToast(result.message)
+            toast(result.message)
         }
     }
 

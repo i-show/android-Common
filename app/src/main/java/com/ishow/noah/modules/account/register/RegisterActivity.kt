@@ -16,62 +16,98 @@
 
 package com.ishow.noah.modules.account.register
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import com.ishow.common.extensions.dialog
-import com.ishow.common.widget.loading.LoadingDialog
+import androidx.lifecycle.Observer
+import com.ishow.common.extensions.openBrowser
+import com.ishow.common.extensions.toast
+import com.ishow.common.modules.binding.Event
+import com.ishow.common.utils.IntentUtils
+import com.ishow.common.utils.router.AppRouter
+import com.ishow.common.utils.watcher.EnableTextWatcher
+import com.ishow.common.utils.watcher.VerifyCodeTextWatcher
+import com.ishow.common.utils.watcher.checker.PhoneNumberChecker
 import com.ishow.noah.R
-import com.ishow.noah.modules.base.AppBaseActivity
+import com.ishow.noah.databinding.ActivityRegisterBinding
+import com.ishow.noah.modules.base.AppBindActivity
+import com.ishow.noah.modules.main.MainActivity
 import kotlinx.android.synthetic.main.activity_register.*
 
 /**
  * Created by yuhaiyang on 2018/8/8.
  * 注册界面
  */
-class RegisterActivity : AppBaseActivity(), View.OnClickListener, RegisterContract.View {
+class RegisterActivity : AppBindActivity<ActivityRegisterBinding>() {
 
-    private lateinit var mPresenter: RegisterContract.Presenter
+    private lateinit var mVerifyCodeWatcher: VerifyCodeTextWatcher
+    private lateinit var mSubmitWatcher: EnableTextWatcher
+
+    private lateinit var mViewModel: RegisterViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
-        mPresenter = RegisterPresenter(this)
+        bindContentView(R.layout.activity_register)
+        getViewModel(RegisterViewModel::class.java).also {
+            observeLiveData(it)
+            mViewModel = it
+            mBindingView.vm = it
+        }
     }
 
     override fun initViews() {
         super.initViews()
-        sendVerifyCode.setOnClickListener(this)
-        submit.setOnClickListener(this)
+
+        mVerifyCodeWatcher = VerifyCodeTextWatcher()
+                .setEnableView(sendVerifyCode)
+                .addChecker(phone, PhoneNumberChecker())
+
+        mSubmitWatcher = EnableTextWatcher()
+                .setEnableView(submit)
+                .addChecker(phone, PhoneNumberChecker())
+                .addChecker(verifyCode)
+                .addChecker(password)
+                .addChecker(ensurePassword)
     }
 
-    override fun onClick(v: View) {
+    fun onViewClick(v: View) {
         when (v.id) {
             R.id.sendVerifyCode -> {
                 sendVerifyCode.showLoading()
-                mPresenter.sendVerifyCode(this, phone.inputText)
+                mViewModel.sendVerifyCode(phone.inputText)
             }
             R.id.submit -> {
-                val phone = phone.inputText
-                val verifyCode = verifyCode.inputText
-                val password = password.inputText
-                val passwordEnsure = ensurePassword.inputText
-                mPresenter.register(this, phone, verifyCode, password, passwordEnsure)
+                mViewModel.register(phone.inputText, verifyCode.inputText, password.inputText, ensurePassword.inputText)
+            }
+
+            R.id.agreement -> {
+                openBrowser("https://www.baidu.com/")
             }
         }
     }
 
-    override fun showSendVerifySuccess() {
-        sendVerifyCode.startTiming()
+
+    private fun observeLiveData(vm: RegisterViewModel) = vm.run {
+        verifyCodeStatus.observe(this@RegisterActivity, Observer { onVerifyCodeStatusChanged(it) })
+        registerState.observe(this@RegisterActivity, Observer { registerSuccess() })
     }
 
-    override fun showSendVerifyFail(message: String) {
-        sendVerifyCode.reset()
-        dialog(message)
+    private fun onVerifyCodeStatusChanged(status: Event<Boolean>) {
+        status.getContent()?.let { success ->
+            if (success) {
+                sendVerifyCode.startTiming()
+            } else {
+                sendVerifyCode.reset()
+            }
+        }
     }
 
-
-    override fun showSuccess() {
-        LoadingDialog.dismiss(mLoadingDialog)
-        dialog(R.string.register_success, true)
+    private fun registerSuccess(){
+        toast(R.string.register_success)
+        AppRouter.with(context)
+                .target(MainActivity::class.java)
+                .flag(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                .finishSelf()
+                .start()
     }
 }

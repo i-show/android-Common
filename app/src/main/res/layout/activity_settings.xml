@@ -21,7 +21,7 @@
     android:orientation="vertical">
 
     <com.ishow.common.widget.TopBar
-        android:id="@+id/mTopBar"
+        android:id="@+id/topBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:text="@string/settings" />

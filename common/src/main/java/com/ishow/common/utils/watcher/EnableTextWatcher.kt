@@ -36,17 +36,10 @@ class EnableTextWatcher : TextWatcher {
     }
 
     /**
-     * 监控
-     * @param view 需要监听的数据
-     */
-    fun addChecker(view: View?): EnableTextWatcher {
-        return addChecker(view, EmptyChecker())
-    }
-
-    /**
      * 添加监控View
      */
-    fun addChecker(view: View?, checker: ITextChecker): EnableTextWatcher {
+    @JvmOverloads
+    fun addChecker(view: View?, checker: ITextChecker = EmptyChecker()): EnableTextWatcher {
         when (view) {
             is EditText -> {
                 view.addTextChangedListener(this)
