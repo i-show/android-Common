@@ -38,6 +38,75 @@ class OkHttpLogInterceptor @JvmOverloads constructor(var level: Level = Level.Bo
     }
 
 
+    /**
+     * Log输出请求
+     */
+    private fun logRequest(requestId: String, request: Request, connection: Connection?) {
+        val logRequestHeader = level >= Level.RequestHeaders
+        val requestBody = request.body()
+        val protocol = if (connection == null) "" else " ${connection.protocol()}"
+        var requestLog = "$requestId ${request.method()} ${request.url()}$protocol"
+
+        if (requestBody != null) {
+            requestLog += " (${requestBody.contentLength()}byte)"
+        }
+        LogUtils.i(LOG_TAG, requestLog)
+
+        if (logRequestHeader) {
+            logRequestHeaders(requestId, request)
+        }
+
+        if (requestBody == null) {
+            return
+        }
+
+        val buffer = Buffer()
+        requestBody.writeTo(buffer)
+
+        var charset: Charset? = UTF8
+        val contentType = requestBody.contentType()
+        contentType?.let { charset = it.charset(UTF8) }
+
+        if (isPlaintext(buffer)) {
+            LogUtils.i(LOG_TAG, "$requestId PARAMS: ${buffer.readString(charset!!)}")
+        } else {
+            LogUtils.i(LOG_TAG, "$requestId PARAMS: $contentType  (${requestBody.contentLength()}byte)")
+        }
+    }
+
+    /**
+     * Log输出请求头
+     */
+    private fun logRequestHeaders(requestId: String, request: Request) {
+        val requestBody = request.body()
+        val hasRequestBody = requestBody != null
+
+        val logHeaderPrefix = "$requestId HEADER："
+
+        var logHeader = logHeaderPrefix
+        if (hasRequestBody) {
+            requestBody!!.contentType()?.let { logHeader += "Content-Type: $it $HEADER_SPACER" }
+        }
+
+        val headers = request.headers()
+        val headerCount = headers.size()
+
+        for (i in 0 until headerCount) {
+            val name = headers.name(i)
+            if (checkHeaderName(name)) {
+                val log = "$name: ${headers.value(i)} $HEADER_SPACER"
+                if (logHeader.length + log.length > MAX_LENGTH) {
+                    LogUtils.i(LOG_TAG, logHeader)
+                    logHeader = logHeaderPrefix + log
+                } else {
+                    logHeader += log
+                }
+            }
+        }
+
+        LogUtils.i(LOG_TAG, logHeader)
+    }
+
     private fun logResponse(requestId: String, response: Response, tookMs: Long) {
         val responseBody = response.body()
         if (responseBody == null) {
@@ -109,59 +178,6 @@ class OkHttpLogInterceptor @JvmOverloads constructor(var level: Level = Level.Bo
                 logHeader += log
             }
         }
-        LogUtils.i(LOG_TAG, logHeader)
-    }
-
-    /**
-     * Log输出请求
-     */
-    private fun logRequest(requestId: String, request: Request, connection: Connection?) {
-        val logRequestHeader = level >= Level.RequestHeaders
-        val requestBody = request.body()
-        val hasRequestBody = requestBody != null
-        val protocol = if (connection == null) "" else " ${connection.protocol()}"
-        var requestLog = "$requestId ${request.method()} ${request.url()}$protocol"
-
-        if (hasRequestBody) {
-            requestLog += " (${requestBody!!.contentLength()}byte)"
-        }
-        LogUtils.i(LOG_TAG, requestLog)
-
-        if (logRequestHeader) {
-            logRequestHeaders(requestId, request)
-        }
-    }
-
-    /**
-     * Log输出请求头
-     */
-    private fun logRequestHeaders(requestId: String, request: Request) {
-        val requestBody = request.body()
-        val hasRequestBody = requestBody != null
-
-        val logHeaderPrefix = "$requestId HEADER："
-
-        var logHeader = logHeaderPrefix
-        if (hasRequestBody) {
-            requestBody!!.contentType()?.let { logHeader += "Content-Type: $it $HEADER_SPACER" }
-        }
-
-        val headers = request.headers()
-        val headerCount = headers.size()
-
-        for (i in 0 until headerCount) {
-            val name = headers.name(i)
-            if (checkHeaderName(name)) {
-                val log = "$name: ${headers.value(i)} $HEADER_SPACER"
-                if (logHeader.length + log.length > MAX_LENGTH) {
-                    LogUtils.i(LOG_TAG, logHeader)
-                    logHeader = logHeaderPrefix + log
-                } else {
-                    logHeader += log
-                }
-            }
-        }
-
         LogUtils.i(LOG_TAG, logHeader)
     }
 
