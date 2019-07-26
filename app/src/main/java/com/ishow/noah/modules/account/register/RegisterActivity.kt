@@ -24,16 +24,15 @@ import com.ishow.common.extensions.getInteger
 import com.ishow.common.extensions.openBrowser
 import com.ishow.common.extensions.toast
 import com.ishow.common.modules.binding.Event
-import com.ishow.common.utils.IntentUtils
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.utils.watcher.EnableTextWatcher
 import com.ishow.common.utils.watcher.VerifyCodeTextWatcher
-import com.ishow.common.utils.watcher.checker.PasswordChecker
 import com.ishow.common.utils.watcher.checker.PhoneNumberChecker
 import com.ishow.noah.R
 import com.ishow.noah.databinding.ActivityRegisterBinding
 import com.ishow.noah.modules.base.AppBindActivity
 import com.ishow.noah.modules.main.MainActivity
+import com.ishow.noah.utils.checker.PasswordChecker
 import kotlinx.android.synthetic.main.activity_register.*
 
 /**
@@ -68,8 +67,8 @@ class RegisterActivity : AppBindActivity<ActivityRegisterBinding>() {
                 .setEnableView(submit)
                 .addChecker(phone, PhoneNumberChecker())
                 .addChecker(verifyCode)
-                .addChecker(password, PasswordChecker(getInteger(R.integer.min_password)))
-                .addChecker(ensurePassword, PasswordChecker(getInteger(R.integer.min_password)))
+                .addChecker(password, PasswordChecker(context))
+                .addChecker(ensurePassword, PasswordChecker(context))
     }
 
     fun onViewClick(v: View) {
