@@ -11,6 +11,8 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.*
 import android.content.Intent
+import android.content.res.Resources
+import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.provider.Settings
@@ -107,7 +109,13 @@ fun Context.findColor(@ColorRes color: Int) = ContextCompat.getColor(this, color
 /**
  * 获取Drawable
  */
-fun Context.findDrawable(@DrawableRes id: Int) = ContextCompat.getDrawable(this, id)
+fun Context.findDrawable(@DrawableRes id: Int): Drawable? {
+    return try {
+        ContextCompat.getDrawable(this, id)
+    } catch (e: Resources.NotFoundException) {
+        null
+    }
+}
 
 /**
  * 获取Boolean

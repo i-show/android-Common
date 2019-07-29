@@ -17,10 +17,10 @@ class AppCallAdapter<R>(private val type: Type) : CallAdapter<R, R> {
     override fun adapt(call: Call<R>): R {
         return try {
             val response = call.execute()
-            val result = AppHttpResponse<R>()
             if (response.isSuccessful) {
                 response.body() ?: AppHttpResponse.empty() as R
             } else {
+                val result = AppHttpResponse<R>()
                 result.code = response.code()
                 result.message = response.message()
                 result as R

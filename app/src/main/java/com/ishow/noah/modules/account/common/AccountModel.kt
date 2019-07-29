@@ -8,6 +8,9 @@ import com.ishow.noah.entries.params.request.LoginParams
 import com.ishow.noah.entries.params.request.RegisterParams
 import com.ishow.noah.manager.RetrofitManager
 import com.ishow.noah.modules.base.mvvm.AppBaseModel
+import okhttp3.MediaType
+import okhttp3.RequestBody
+import java.io.File
 
 class AccountModel : AppBaseModel() {
     private val httpService = RetrofitManager.instance.appService
@@ -40,5 +43,11 @@ class AccountModel : AppBaseModel() {
         return httpService.forgotPassword(params)
     }
 
-
+    /**
+     * 上传头像
+     */
+    fun uploadAvatar(path: String): AppHttpResponse<String> {
+        val body = RequestBody.create(MediaType.parse("image/jpg"), File(path))
+        return httpService.uploadAvatar(body)
+    }
 }

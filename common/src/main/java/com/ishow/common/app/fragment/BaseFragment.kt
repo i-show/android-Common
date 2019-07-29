@@ -48,7 +48,6 @@ abstract class BaseFragment : Fragment(), StatusView.OnStatusViewListener, IView
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Http.cancel(this)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {

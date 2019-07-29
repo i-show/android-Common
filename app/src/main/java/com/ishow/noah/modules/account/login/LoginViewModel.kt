@@ -11,8 +11,10 @@ import com.ishow.common.utils.StringUtils
 import com.ishow.noah.R
 import com.ishow.noah.entries.UserContainer
 import com.ishow.noah.entries.http.AppHttpResponse
+import com.ishow.noah.manager.UserManager
 import com.ishow.noah.modules.account.common.AccountModel
 import com.ishow.noah.modules.base.mvvm.AppBaseViewModel
+import com.ishow.noah.utils.http.okhttp.interceptor.AppHttpInterceptor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -38,8 +40,8 @@ class LoginViewModel(application: Application) : AppBaseViewModel(application) {
         mAccountModel = AccountModel()
 
         val account = StorageUtils.with(context)
-                .key(UserContainer.Key.ACCOUNT)
-                .get(StringUtils.EMPTY)
+            .key(UserContainer.Key.ACCOUNT)
+            .get(StringUtils.EMPTY)
         _phoneNumber.value = account
 
         val min = context.getInteger(R.integer.min_password)
@@ -56,8 +58,8 @@ class LoginViewModel(application: Application) : AppBaseViewModel(application) {
         val result: AppHttpResponse<UserContainer> = withLoading { mAccountModel.login(phone, password) }
         if (result.isSuccess()) {
             saveUserInfo(phone)
-            Log.i("yhy", "result = " + result.value.toString())
-            withContext(Dispatchers.Main) { _loginSuccess.value = Event(true) }
+            UserManager.instance.setUserContainer(context, result.data)
+            mainThread { _loginSuccess.value = Event(true) }
         } else {
             toast(result.message)
         }
@@ -68,9 +70,11 @@ class LoginViewModel(application: Application) : AppBaseViewModel(application) {
      * 清除用户缓存
      */
     private fun clear() {
+        AppHttpInterceptor.token = null
+
         StorageUtils.with(context)
-                .key(UserContainer.Key.CACHE)
-                .remove()
+            .key(UserContainer.Key.CACHE)
+            .remove()
     }
 
 
@@ -79,7 +83,7 @@ class LoginViewModel(application: Application) : AppBaseViewModel(application) {
      */
     private fun saveUserInfo(account: String) {
         StorageUtils.with(context)
-                .param(UserContainer.Key.ACCOUNT, account)
-                .save()
+            .param(UserContainer.Key.ACCOUNT, account)
+            .save()
     }
 }

@@ -3,13 +3,13 @@ package com.ishow.noah.entries.http
 class AppHttpResponse<T> {
     var code: Int = 0
     var message: String? = null
-    var value: T? = null
+    var data: T? = null
 
 
     fun isSuccess() = code == Code.Success
 
     override fun toString(): String {
-        return "AppHttpResponse(code=$code, message=$message, value=$value)"
+        return "AppHttpResponse(code=$code, message=$message, data=$data)"
     }
 
     companion object {

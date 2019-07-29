@@ -16,20 +16,19 @@ fun ImageView.loadUrl(
         options: RequestOptions = RequestOptions.centerCropTransform(),
         placeHolder: Int = -1
 ) {
-    if (url.isNullOrEmpty()) {
-        return
-    }
+    loadUrl(url, options, context.findDrawable(placeHolder))
+}
 
-    val finalOptions = if (placeHolder == -1) {
-        RequestOptions().apply(options)
-    } else {
-        RequestOptions.placeholderOf(placeHolder).apply(options)
-    }
-
-    Glide.with(context)
-            .load(url)
-            .apply(finalOptions)
-            .into(this)
+/**
+ * 加载图片Url
+ */
+@SuppressLint("CheckResult")
+fun ImageView.loadUrl(
+        url: String?,
+        options: RequestOptions = RequestOptions.centerCropTransform(),
+        placeHolder: Drawable?
+) {
+    loadUrl(url, null, options, placeHolder)
 }
 
 
@@ -43,11 +42,25 @@ fun ImageView.loadUrl(
         options: RequestOptions = RequestOptions.centerCropTransform(),
         placeHolder: Int = -1
 ) {
+    loadUrl(url, listener, options, context.findDrawable(placeHolder))
+}
+
+
+/**
+ * 加载图片Url
+ */
+@SuppressLint("CheckResult")
+fun ImageView.loadUrl(
+        url: String?,
+        listener: RequestListener<Drawable>? = null,
+        options: RequestOptions = RequestOptions.centerCropTransform(),
+        placeHolder: Drawable?
+) {
     if (url.isNullOrEmpty()) {
         return
     }
 
-    val finalOptions = if (placeHolder == -1) {
+    val finalOptions = if (placeHolder == null) {
         RequestOptions().apply(options)
     } else {
         RequestOptions.placeholderOf(placeHolder).apply(options)

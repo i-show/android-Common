@@ -22,7 +22,17 @@ class AppHttpInterceptor : Interceptor {
     private fun addCommonHeader(request: Request): Headers {
         val builder: Headers.Builder = request.headers().newBuilder()
 
-        return builder.add("device", "100")
-                .build()
+        builder.add("device", "100")
+
+        if(!token.isNullOrEmpty()){
+            builder.add("token", token)
+        }
+
+        return builder.build()
+    }
+
+
+    companion object {
+        var token: String? = null
     }
 }

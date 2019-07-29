@@ -10,7 +10,7 @@ import com.ishow.noah.data.retrofit.AppRestService
 
 object Url {
     private val baseUrl: String
-        get() = "https://api.yuhaiyang.net/common"
+        get() = "http://192.168.202.134:8080"
 
     /**
      * 登录

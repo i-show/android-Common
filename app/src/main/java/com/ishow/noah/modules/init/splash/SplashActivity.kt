@@ -2,7 +2,9 @@ package com.ishow.noah.modules.init.splash
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import com.ishow.common.extensions.findDrawable
 import com.ishow.common.utils.permission.PermissionDenied
 import com.ishow.common.utils.permission.PermissionGranted
 import com.ishow.noah.databinding.ActivitySpalshBinding

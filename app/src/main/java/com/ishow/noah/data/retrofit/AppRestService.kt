@@ -6,9 +6,12 @@ import com.ishow.noah.entries.http.AppHttpResponse
 import com.ishow.noah.entries.params.request.ForgotPasswordParams
 import com.ishow.noah.entries.params.request.LoginParams
 import com.ishow.noah.entries.params.request.RegisterParams
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 
 interface AppRestService {
     companion object {
@@ -18,32 +21,36 @@ interface AppRestService {
                     BuildConfig.VERSION_DEV,
                     BuildConfig.VERSION_SIT,
                     BuildConfig.VERSION_UAT,
-                    BuildConfig.VERSION_PROD -> "https://api.yuhaiyang.net/"
-                    else -> "https://api.yuhaiyang.net/"
+                    BuildConfig.VERSION_PROD -> "http://192.168.202.134:8080/"
+                    else -> "https://api.yuhaiyang.net/common/"
                 }
     }
 
     /**
      * 登录
      */
-    @POST("common/account/login")
+    @POST("account/login")
     fun login(@Body params: LoginParams): AppHttpResponse<UserContainer>
 
     /**
      * 通过Token来处理
      */
-    @POST("common/account/loginByToken")
+    @POST("account/loginByToken")
     fun loginByToken(): AppHttpResponse<UserContainer>
 
     /**
      * 用户注册
      */
-    @POST("common/account/register")
+    @POST("account/register")
     fun register(@Body params: RegisterParams): AppHttpResponse<UserContainer>
 
     /**
      * 忘记密码
      */
-    @POST("common/account/forgotPassword")
+    @POST("account/forgotPassword")
     fun forgotPassword(@Body params: ForgotPasswordParams): AppHttpResponse<Any>
+
+    @Multipart
+    @POST("account/uploadAvatar")
+    fun uploadAvatar( @Part("file\"; filename=\"image.jpg") file: RequestBody): AppHttpResponse<String>
 }

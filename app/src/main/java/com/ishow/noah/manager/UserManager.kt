@@ -21,11 +21,13 @@ import android.content.Context
 import android.text.TextUtils
 import android.util.Log
 import com.alibaba.fastjson.JSON
+import com.google.gson.Gson
 import com.ishow.common.utils.RegexValidateUtils
 import com.ishow.common.utils.StorageUtils
 import com.ishow.common.utils.StringUtils
 import com.ishow.noah.R
 import com.ishow.noah.entries.UserContainer
+import com.ishow.noah.utils.http.okhttp.interceptor.AppHttpInterceptor
 
 /**
  * Created by yuhaiyang on 2018/8/8.
@@ -40,7 +42,9 @@ class UserManager private constructor() {
      * 设置UserContainer
      */
     fun setUserContainer(context: Context, container: UserContainer?) {
+        AppHttpInterceptor.token = container?.token?.accessToken
         mUserContainer = container
+
         StorageUtils.with(context)
                 .param(UserContainer.Key.CACHE, JSON.toJSONString(container))
                 .save()
@@ -50,7 +54,7 @@ class UserManager private constructor() {
      * 获取用户信息
      */
     fun getUserContainer(context: Context?): UserContainer? {
-        if(context == null){
+        if (context == null) {
             return mUserContainer
         }
 
@@ -63,7 +67,7 @@ class UserManager private constructor() {
                 Log.i(TAG, "getUser: no user")
                 return null
             }
-            mUserContainer = JSON.parseObject(cache, UserContainer::class.java)
+            mUserContainer = Gson().fromJson(cache, UserContainer::class.java)
         }
         return mUserContainer
     }
@@ -100,64 +104,17 @@ class UserManager private constructor() {
     }
 
     companion object {
-        private val TAG = "UserManager"
+        private const val TAG = "UserManager"
 
         @Volatile
         private var sInstance: UserManager? = null
 
 
         val instance: UserManager
-            get() {
-                if (sInstance == null) {
-                    synchronized(UserManager::class.java) {
-                        if (sInstance == null) {
-                            sInstance = UserManager()
-                        }
-                    }
+            get() =
+                sInstance ?: synchronized(UserManager::class.java) {
+                    sInstance
+                            ?: UserManager().also { sInstance = it }
                 }
-                return sInstance!!
-            }
-
-        /**
-         * 检测账户是否有效
-         */
-        fun checkAccount(context: Context, account: String): String {
-            if (TextUtils.isEmpty(account)) {
-                return context.getString(R.string.login_please_input_account)
-            }
-            return if (!RegexValidateUtils.checkMobileNumber(account)) {
-                context.getString(R.string.login_please_input_correct_account)
-            } else StringUtils.EMPTY
-        }
-
-        /**
-         * 检测密码是否有效
-         */
-        fun checkPassword(context: Context, password: String): String {
-            if (TextUtils.isEmpty(password)) {
-                return context.getString(R.string.login_please_input_password)
-            }
-
-            val length = password.length
-            val min = context.resources.getInteger(R.integer.min_password)
-            val max = context.resources.getInteger(R.integer.max_password)
-            return if (length < min || length > max) {
-                context.getString(R.string.login_please_input_correct_password, min.toString(), max.toString())
-            } else StringUtils.EMPTY
-
-        }
-
-        /**
-         * 检测再次输入的密码是否有效
-         */
-        fun checkEnsurePassword(context: Context, password: String, ensurePassword: String): String {
-            if (TextUtils.isEmpty(ensurePassword)) {
-                return context.getString(R.string.please_input_ensure_password)
-            }
-
-            return if (!TextUtils.equals(password, ensurePassword)) {
-                context.getString(R.string.please_input_right_ensure_password)
-            } else StringUtils.EMPTY
-        }
     }
 }

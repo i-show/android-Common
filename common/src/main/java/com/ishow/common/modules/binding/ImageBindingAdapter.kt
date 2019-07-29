@@ -1,33 +1,32 @@
 package com.ishow.common.modules.binding
 
+import android.graphics.drawable.Drawable
 import android.util.Log
 import android.widget.ImageView
 
 import androidx.databinding.BindingAdapter
 
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.facebook.drawee.view.SimpleDraweeView
+import com.ishow.common.extensions.loadUrl
 
 object ImageBindingAdapter {
 
     @JvmStatic
-    @BindingAdapter("imageUrl")
-    fun loadImage(view: ImageView, imageUrl: String) {
-        Glide.with(view.context)
-            .load(imageUrl)
-           .into(view)
+    @BindingAdapter(value = ["imageUrl", "placeholder"], requireAll = false)
+    fun loadImage(view: ImageView, imageUrl: String, placeholder: Drawable?) {
+        view.loadUrl(imageUrl, RequestOptions.centerCropTransform(), placeholder)
     }
 
 
     @JvmStatic
     @BindingAdapter("frescoUrl")
     fun loadImage(view: SimpleDraweeView, imageUrl: String) {
-        if(imageUrl.startsWith("http")) {
+        if (imageUrl.startsWith("http")) {
             view.setImageURI(imageUrl)
-        }else{
+        } else {
             view.setImageURI("file://$imageUrl")
         }
     }
-
-
 }

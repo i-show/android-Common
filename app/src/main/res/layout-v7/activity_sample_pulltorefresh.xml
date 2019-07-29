@@ -6,7 +6,7 @@
               android:orientation="vertical">
 
     <com.ishow.common.widget.TopBar
-        android:id="@+id/top_bar"
+        android:id="@+id/topBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:text="@string/sample_pull_to_refresh"/>

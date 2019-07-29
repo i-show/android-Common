@@ -863,7 +863,7 @@ class TextViewPro @JvmOverloads constructor(context: Context, attrs: AttributeSe
             val imageView = PromptImageView(context)
             imageView.id = R.id.rightImage2
             imageView.visibility = mRightImage2Visibility
-            imageView.setImageDrawable(mRightImageDrawable)
+            imageView.setImageDrawable(mRightImage2Drawable)
             imageView.background = mRightImage2BackgroundDrawable
             imageView.scaleType = ImageView.ScaleType.CENTER
             setDefaultPromptState(imageView)

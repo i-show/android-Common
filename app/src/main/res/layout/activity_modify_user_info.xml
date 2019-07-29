@@ -1,26 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.ishow.common.widget.TopBar
-        android:id="@+id/top_bar"
+    <data>
+
+        <import type="com.bumptech.glide.request.RequestOptions" />
+
+        <variable
+            name="vm"
+            type="com.ishow.noah.modules.account.modify.ModifyUserViewModel" />
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:text="@string/modify_user_info" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.ishow.common.widget.TopBar
+            android:id="@+id/topBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:text="@string/modify_user_info" />
 
 
-    <com.ishow.common.widget.textview.TextViewPro
-        android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_80"
-        android:background="@drawable/bottom_line_normal_bg"
-        app:leftImageVisibility="gone"
-        app:leftText="@string/modify_user_info_header"
-        app:leftTextSize="@dimen/G_title"
-        app:rightImage2Height="@dimen/dp_56"
-        app:rightImage2Width="@dimen/dp_56" />
+        <com.ishow.common.widget.textview.TextViewPro
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_80"
+            android:background="@drawable/bottom_line_normal_bg"
+            android:onClick="onViewClick"
+            app:image2Options="@{RequestOptions.circleCropTransform()}"
+            app:image2Placeholder="@{@drawable/splash}"
+            app:image2Url="@{vm.avatarPath}"
+            app:leftImageVisibility="gone"
+            app:leftText="@string/modify_user_info_header"
+            app:leftTextSize="@dimen/G_title"
+            app:rightImage2Height="@dimen/dp_56"
+            app:rightImage2Visibility="visible"
+            app:rightImage2Width="@dimen/dp_56" />
 
-</LinearLayout>
+    </LinearLayout>
+</layout>

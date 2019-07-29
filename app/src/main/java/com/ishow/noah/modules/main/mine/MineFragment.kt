@@ -1,16 +1,16 @@
 package com.ishow.noah.modules.main.mine
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
-import android.os.Parcel
-import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.ishow.common.extensions.loadUrl
+import com.ishow.common.utils.image.loader.ImageLoader
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.noah.R
 import com.ishow.noah.entries.UserContainer
+import com.ishow.noah.manager.UserManager
+import com.ishow.noah.modules.account.modify.ModifyUserActivity
 import com.ishow.noah.modules.base.AppBaseFragment
 import com.ishow.noah.modules.settings.SettingsActivity
 import kotlinx.android.synthetic.main.fragement_mine.*
@@ -42,25 +42,19 @@ class MineFragment : AppBaseFragment(), MineContract.View, View.OnClickListener 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         settings.setOnClickListener(this)
+        name.setOnClickListener(this)
     }
 
-    override fun onResume() {
-        super.onResume()
-        mPresenter.onResume()
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if(!hidden)mPresenter.onResume()
     }
 
 
     override fun update(userContainer: UserContainer?) {
-        /*
-        ImageLoader.with(getContext())
-                .load(userContainer.getUser().getAvatar())
-                .mode(ImageLoader.LoaderMode.CIRCLE_CROP)
-                .placeholder(R.drawable.logo)
-                .into(mAvatarView);
-
-
-        mNameView.setText(userContainer.getUser().getNickName());
-        */
+        avatar.loadUrl(userContainer?.user?.avatar)
+        name.text = userContainer?.user?.nickName
     }
 
     override fun onClick(v: View?) {
@@ -68,6 +62,12 @@ class MineFragment : AppBaseFragment(), MineContract.View, View.OnClickListener 
             R.id.settings -> {
                 AppRouter.with(context)
                     .target(SettingsActivity::class.java)
+                    .start()
+            }
+
+            R.id.name ->{
+                AppRouter.with(context)
+                    .target(ModifyUserActivity::class.java)
                     .start()
             }
         }

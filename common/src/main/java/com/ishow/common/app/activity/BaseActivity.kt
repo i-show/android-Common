@@ -38,6 +38,7 @@ import com.ishow.common.utils.permission.PermissionManager
 import com.ishow.common.widget.StatusView
 import com.ishow.common.widget.TopBar
 import com.ishow.common.widget.loading.LoadingDialog
+import retrofit2.Retrofit
 
 
 abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListener, IViewStatus,
@@ -91,8 +92,6 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
 
     override fun onDestroy() {
         super.onDestroy()
-        // 取消请求接口
-        Http.cancel(this)
         // 清除Handler预防内存泄露
         mHandler?.removeCallbacksAndMessages(null)
         mHandler = null
