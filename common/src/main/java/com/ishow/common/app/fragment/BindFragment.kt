@@ -1,31 +1,34 @@
-package com.ishow.common.app.activity
+package com.ishow.common.app.fragment
 
+import android.os.Bundle
+import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.ishow.common.app.viewmodel.BaseViewModel
-import com.ishow.common.extensions.inflate
 import com.ishow.common.extensions.toast
 import com.ishow.common.modules.binding.Event
 
-abstract class BindActivity<T : ViewDataBinding> : BaseActivity() {
+abstract class BindFragment<T : ViewDataBinding> : BaseFragment() {
     protected lateinit var dataBinding: T
 
-    protected open fun bindContentView(layoutId: Int): T {
-        val view = inflate(layoutId)
-        setContentView(view)
-        dataBinding = DataBindingUtil.bind(view)!!
-        dataBinding.lifecycleOwner = this
-        return dataBinding
+    protected open fun bindContentView(container: ViewGroup?, layoutId: Int) {
+        dataBinding = DataBindingUtil.inflate(layoutInflater, layoutId, container, false)
     }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        dataBinding.lifecycleOwner = viewLifecycleOwner
+    }
+
 
     protected open fun <VM : BaseViewModel> getViewModel(viewModelClass: Class<VM>): VM {
         val vm = ViewModelProviders.of(this).get(viewModelClass)
-        val activity = this@BindActivity
+        val fragment = this@BindFragment
         vm.run {
-            loadingDialog.observe(activity, Observer { changeLoadingDialogStatus(it) })
-            toastMessage.observe(activity, Observer { showToast(it) })
+            loadingDialog.observe(fragment, Observer { changeLoadingDialogStatus(it) })
+            toastMessage.observe(fragment, Observer { showToast(it) })
             return vm
         }
     }

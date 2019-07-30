@@ -16,17 +16,8 @@
 
 package com.ishow.common.utils
 
-import android.text.TextUtils
-import com.alibaba.fastjson.JSON
-
 import com.ishow.common.utils.log.LogUtils
-
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStream
-import java.io.InputStreamReader
-import java.io.UnsupportedEncodingException
-import java.util.Locale
+import java.util.*
 
 object StringUtils {
     private const val TAG = "StringUtils"
@@ -94,20 +85,6 @@ object StringUtils {
             LogUtils.d(TAG, "format2int e = $e")
             0F
         }
-    }
-
-    /**
-     * 添加人民币符号
-     */
-    fun format2Money(money: String): String {
-        return plusString(MONEY, money)
-    }
-
-    /**
-     * 2位小数计算
-     */
-    fun format2Money(money: String, scale: Int): String {
-        return plusString(MONEY, MathUtils.rounding(money, scale))
     }
 
     /**

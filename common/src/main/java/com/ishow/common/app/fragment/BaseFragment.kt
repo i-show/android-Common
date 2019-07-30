@@ -46,10 +46,6 @@ abstract class BaseFragment : Fragment(), StatusView.OnStatusViewListener, IView
      */
     protected var mHandler: Handler? = null
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         PermissionManager.onRequestPermissionsResult(this, requestCode, permissions, grantResults)
@@ -81,7 +77,6 @@ abstract class BaseFragment : Fragment(), StatusView.OnStatusViewListener, IView
 
 
     override fun onStatusClick(v: View, which: StatusView.Which) {
-
     }
 
     override fun showLoading() {
@@ -123,9 +118,9 @@ abstract class BaseFragment : Fragment(), StatusView.OnStatusViewListener, IView
             when (error.showType) {
                 Error.Type.Dialog -> {
                     if (error.message.isNullOrEmpty()) {
-                        activity?.dialog(error.messageRes)
+                        dialog(error.messageRes)
                     } else {
-                        activity?.dialog(error.message!!)
+                        dialog(error.message)
                     }
                 }
                 Error.Type.View -> {

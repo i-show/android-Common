@@ -57,7 +57,7 @@ class PhotoSelectorActivity : BindActivity<ActivityPhotoSelectorBinding>() {
         mViewModel = getViewModel(PhotoSelectorViewModel::class.java)
         mViewModel.init(context = this, maxCount = mMaxCount, mode = mMode)
 
-        mBindingView.vm = mViewModel
+        dataBinding.vm = mViewModel
     }
 
     override fun initNecessaryData() {
@@ -71,7 +71,7 @@ class PhotoSelectorActivity : BindActivity<ActivityPhotoSelectorBinding>() {
     override fun initViews() {
         super.initViews()
         mPhotoAdapter = PhotoSelectorAdapter(context, mMaxCount)
-        mPhotoAdapter.setSelectedChangedListener { mBindingView.vm?.onPhotoSelectStatusChanged(context, it) }
+        mPhotoAdapter.setSelectedChangedListener { dataBinding.vm?.onPhotoSelectStatusChanged(context, it) }
         list.addItemDecoration(SpacingDecoration(context, R.dimen.photo_selector_item_gap))
         list.adapter = mPhotoAdapter
         list.addOnScrollListener(scrollListener)
@@ -100,7 +100,7 @@ class PhotoSelectorActivity : BindActivity<ActivityPhotoSelectorBinding>() {
     private fun selectPhotoFolder() {
         val adapter = BindAdapter<Folder>(context)
         adapter.addLayout(R.layout.item_photo_selector_folder, BR.folder)
-        adapter.data = mBindingView.vm?.folderList?.value!!
+        adapter.data = dataBinding.vm?.folderList?.value!!
 
         BaseDialog.Builder(this, R.style.Theme_Dialog_Bottom2)
                 .fromBottom(true)

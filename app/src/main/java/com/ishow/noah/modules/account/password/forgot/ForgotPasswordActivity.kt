@@ -53,7 +53,7 @@ class ForgotPasswordActivity : AppBindActivity<ActivityPasswordBinding>() {
         getViewModel(ForgotPasswordViewModel::class.java).also {
             observeLiveData(it)
             mViewModel = it
-            mBindingView.vm = it
+            dataBinding.vm = it
         }
     }
 

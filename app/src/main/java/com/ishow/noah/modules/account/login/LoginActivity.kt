@@ -48,7 +48,7 @@ class LoginActivity : AppBindActivity<ActivityLoginBinding>() {
         bindContentView(R.layout.activity_login)
         getViewModel(LoginViewModel::class.java).also {
             observeLiveData(it)
-            mBindingView.vm = it
+            dataBinding.vm = it
             mLoginViewModel = it
             it.init()
         }

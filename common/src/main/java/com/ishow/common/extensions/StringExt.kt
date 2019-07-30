@@ -63,12 +63,17 @@ fun String.spanUnderLine(start: Int, end: Int): SpannableString {
     return span
 }
 
-
+/**
+ * 是否是手机号
+ */
 fun String.isPhone(): Boolean {
     val p = "^((1[3-9][0-9])\\d{8})\$".toRegex()
     return matches(p)
 }
 
+/**
+ * 是否是邮箱
+ */
 fun String.isEmail(): Boolean {
     if(!contains("@")){
         return false

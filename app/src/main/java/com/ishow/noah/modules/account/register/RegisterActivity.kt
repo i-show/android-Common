@@ -51,7 +51,7 @@ class RegisterActivity : AppBindActivity<ActivityRegisterBinding>() {
         getViewModel(RegisterViewModel::class.java).also {
             observeLiveData(it)
             mViewModel = it
-            mBindingView.vm = it
+            dataBinding.vm = it
         }
     }
 

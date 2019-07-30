@@ -33,7 +33,11 @@ object ToastUtils {
 
     @JvmStatic
     @JvmOverloads
-    fun show(context: Context, @StringRes text: Int, duration: Int = Toast.LENGTH_SHORT) {
+    fun show(context: Context?, @StringRes text: Int, duration: Int = Toast.LENGTH_SHORT) {
+        if (context == null) {
+            Log.i(TAG, "makeText: context is null")
+            return
+        }
         val content = context.getString(text)
         show(context, content, duration)
     }

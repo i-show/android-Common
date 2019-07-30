@@ -4,17 +4,11 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
-import androidx.databinding.DataBindingUtil.setContentView
-import com.bumptech.glide.request.RequestOptions
-import com.ishow.common.utils.image.loader.ImageLoader
 import com.ishow.common.utils.image.select.OnSelectPhotoListener
 import com.ishow.common.utils.image.select.SelectPhotoUtils
 import com.ishow.noah.R
 import com.ishow.noah.databinding.ActivityModifyUserInfoBinding
-import com.ishow.noah.manager.UserManager
-import com.ishow.noah.modules.base.AppBaseActivity
 import com.ishow.noah.modules.base.mvvm.AppBindActivity
-import kotlinx.android.synthetic.main.activity_modify_user_info.*
 
 /**
  * Created by yuhaiyang on 2018/8/8.
@@ -28,7 +22,7 @@ class ModifyUserActivity : AppBindActivity<ActivityModifyUserInfoBinding>(), OnS
         super.onCreate(savedInstanceState)
         bindContentView(R.layout.activity_modify_user_info)
         getViewModel(ModifyUserViewModel::class.java).also {
-            mBindingView.vm = it
+            dataBinding.vm = it
             it.init()
         }
 
@@ -54,6 +48,6 @@ class ModifyUserActivity : AppBindActivity<ActivityModifyUserInfoBinding>(), OnS
     }
 
     override fun onSelectedPhoto(multiPath: List<String>, singlePath: String) {
-        mBindingView.vm?.uploadAvatar(singlePath)
+        dataBinding.vm?.uploadAvatar(singlePath)
     }
 }
