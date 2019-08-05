@@ -86,8 +86,8 @@
     <color name="text_grey_normal">#383838</color>
     <color name="text_grey_pressed">#272727</color>
 
-    <color name="text_grey_light">#9092A5</color>
-    <color name="text_grey_light_normal">#9092A5</color>
+    <color name="text_grey_light">#999999</color>
+    <color name="text_grey_light_normal">#999999</color>
     <color name="text_grey_light_pressed">#7D7F92</color>
 
     <color name="text_grey_light_more">#C2CADC</color>

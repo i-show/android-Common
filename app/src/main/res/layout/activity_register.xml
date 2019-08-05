@@ -22,7 +22,7 @@
 
         <com.ishow.common.widget.edittext.EditTextPro
             android:id="@+id/phone"
-            style="@style/EditTextPro.Account.Register"
+            style="@style/AppEditTextPro.Account.Register"
             android:inputType="phone"
             app:inputHint="@string/register_hint_phone"
             app:inputTextMaxLength="11"
@@ -31,7 +31,7 @@
 
         <com.ishow.common.widget.edittext.EditTextPro
             android:id="@+id/verifyCode"
-            style="@style/EditTextPro.Account.Register"
+            style="@style/AppEditTextPro.Account.Register"
             app:cancelEnable="false"
             app:customizeViewId="@id/sendVerifyCode"
             app:inputHint="@string/register_hint_verify_code"
@@ -46,7 +46,7 @@
 
         <com.ishow.common.widget.edittext.EditTextPro
             android:id="@+id/password"
-            style="@style/EditTextPro.Account.Register"
+            style="@style/AppEditTextPro.Account.Register"
             app:inputHint="@string/register_hint_password"
             app:inputTextMaxLength="@integer/max_password"
             app:inputType="textPassword"
@@ -57,7 +57,7 @@
 
         <com.ishow.common.widget.edittext.EditTextPro
             android:id="@+id/ensurePassword"
-            style="@style/EditTextPro.Account.Register"
+            style="@style/AppEditTextPro.Account.Register"
             app:inputHint="@string/register_hint_ensure_password"
             app:inputTextMaxLength="@integer/max_password"
             app:inputType="textPassword"

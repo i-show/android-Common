@@ -21,16 +21,15 @@
         <item name="android:divider">@color/line</item>
         <item name="android:dividerHeight">1px</item>
         <!--  TopBar 的style -->
-        <item name="topBarStyle">@style/AppTopBar</item>
+        <item name="topBarStyle">@style/AppTheme.Widget.TopBar</item>
+        <item name="editTextProStyle">@style/AppTheme.Widget.EditTextPro</item>
+        <item name="textViewProStyle">@style/AppTheme.Widget.TextViewPro</item>
     </style>
 
 
     <!-- 现在App的Theme -->
     <style name="AppTheme" parent="AppBaseTheme">
         <item name="android:overScrollMode">never</item>
-        <item name="android:screenOrientation">portrait</item>
-        <item name="android:divider">@color/line</item>
-        <item name="android:dividerHeight">1px</item>
         <item name="android:statusBarColor">@color/color_primary</item>
     </style>
 
@@ -48,7 +47,25 @@
     </style>
 
 
-    <style name="AppTheme.Guide" parent="Theme.NoActionBar.Fullscreen"/>
+    <style name="AppTheme.Guide" parent="Theme.NoActionBar.Fullscreen" />
+
+
+    <style name="AppTheme.Widget" />
+
+    <style name="AppTheme.Widget.TopBar">
+        <item name="android:background">@color/color_accent</item>
+        <item name="textSize">18sp</item>
+        <item name="textColor">@color/white</item>
+        <item name="leftImage">@drawable/top_back_white_svg</item>
+    </style>
+
+
+    <style name="AppTheme.Widget.TextViewPro" />
+
+    <style name="AppTheme.Widget.EditTextPro">
+        <item name="leftTextColor">@color/text_grey</item>
+        <item name="leftTextSize">@dimen/J_title</item>
+    </style>
 
 
 </resources>

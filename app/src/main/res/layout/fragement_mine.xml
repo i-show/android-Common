@@ -40,7 +40,7 @@
 
         <com.ishow.common.widget.textview.TextViewPro
                 android:id="@+id/settings"
-                style="@style/TextViewPro.Mine"
+                style="@style/AppTextViewPro.Mine"
                 app:leftText="@string/settings"
                 app:leftImage="@drawable/mine_settings_svg"/>
     </LinearLayout>

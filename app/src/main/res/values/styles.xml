@@ -1,12 +1,5 @@
 <resources>
 
-    <style name="AppTopBar" parent="TopBar">
-        <item name="android:background">@color/color_accent</item>
-        <item name="textSize">18sp</item>
-        <item name="textColor">@color/white</item>
-        <item name="leftImage">@drawable/top_back_white_svg</item>
-    </style>
-
     <style name="AppEditText" parent="CommonEditText" />
 
     <style name="AppEditText.Login">
@@ -77,9 +70,9 @@
         <item name="android:minHeight">@dimen/dp_40</item>
     </style>
 
-    <style name="TextViewPro" />
+    <style name="AppTextViewPro" />
 
-    <style name="TextViewPro.Item">
+    <style name="AppTextViewPro.Item">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingStart">@dimen/default_xxpro_padding</item>
@@ -93,7 +86,7 @@
         <item name="textGravity">right|center_vertical</item>
     </style>
 
-    <style name="TextViewPro.Mine">
+    <style name="AppTextViewPro.Mine">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingStart">@dimen/dp_10</item>
@@ -105,7 +98,7 @@
         <item name="textGravity">right|center_vertical</item>
     </style>
 
-    <style name="EditTextPro">
+    <style name="AppEditTextPro">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingStart">@dimen/default_xxpro_padding</item>
@@ -119,7 +112,7 @@
         <item name="inputHintTextColor">@color/text_grey_hint</item>
     </style>
 
-    <style name="EditTextPro.Account">
+    <style name="AppEditTextPro.Account">
         <item name="leftImageVisibility">gone</item>
         <item name="rightImageVisibility">gone</item>
         <item name="bottomLinePaddingStart">@dimen/default_xxpro_padding</item>
@@ -127,14 +120,14 @@
         <item name="inputLines">1</item>
     </style>
 
-    <style name="EditTextPro.Account.Login"/>
+    <style name="AppEditTextPro.Account.Login"/>
 
-    <style name="EditTextPro.Account.Register"/>
+    <style name="AppEditTextPro.Account.Register"/>
 
-    <style name="EditTextPro.Account.ForgotPassword"/>
+    <style name="AppEditTextPro.Account.ForgotPassword"/>
 
 
-    <style name="EditTextPro.Item">
+    <style name="AppEditTextPro.Item">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/default_item_height</item>
         <item name="android:background">@drawable/bottom_line_bg</item>

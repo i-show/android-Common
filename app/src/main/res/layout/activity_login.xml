@@ -39,7 +39,7 @@
 
         <com.ishow.common.widget.edittext.EditTextPro
             android:id="@+id/account"
-            style="@style/EditTextPro.Account.Login"
+            style="@style/AppEditTextPro.Account.Login"
             app:inputHint="@string/login_hint_account"
             app:inputText="@{vm.phoneNumber}"
             app:inputType="phone"
@@ -47,7 +47,7 @@
 
         <com.ishow.common.widget.edittext.EditTextPro
             android:id="@+id/password"
-            style="@style/EditTextPro.Account.Login"
+            style="@style/AppEditTextPro.Account.Login"
             app:inputHint="@{vm.passwordHint}"
             app:inputTextMaxLength="@integer/max_password"
             app:inputType="textPassword"

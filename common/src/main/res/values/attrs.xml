@@ -17,6 +17,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- TopBar的样式 -->
     <attr name="topBarStyle" format="reference" />
+    <attr name="editTextProStyle" format="reference" />
+    <attr name="textViewProStyle" format="reference" />
     <!--StatusView的样式-->
     <attr name="statusStyle" format="reference" />
 

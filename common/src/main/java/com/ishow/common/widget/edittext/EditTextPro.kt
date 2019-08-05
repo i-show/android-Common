@@ -235,7 +235,7 @@ class EditTextPro @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
 
     init {
-        val a = context.obtainStyledAttributes(attrs, R.styleable.EditTextPro)
+        val a = context.obtainStyledAttributes(attrs, R.styleable.EditTextPro, R.attr.editTextProStyle, 0)
 
         mTintColor = a.getColorStateList(R.styleable.EditTextPro_tintColor)
 
