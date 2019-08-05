@@ -30,6 +30,7 @@ import com.ishow.common.app.activity.BindActivity
 import com.ishow.common.databinding.ActivityPhotoSelectorBinding
 import com.ishow.common.entries.Folder
 import com.ishow.common.entries.Photo
+import com.ishow.common.extensions.toast
 import com.ishow.common.utils.AnimatorUtils
 import com.ishow.common.utils.DateUtils
 import com.ishow.common.widget.dialog.BaseDialog
@@ -131,7 +132,7 @@ class PhotoSelectorActivity : BindActivity<ActivityPhotoSelectorBinding>() {
         val photoList: MutableList<Photo> = mPhotoAdapter.selectedPhotos
         if (photoList.isEmpty()) {
             Log.i(TAG, "setResult: photoList is null or empty")
-            finish()
+            toast(R.string.please_select_image)
             return
         }
 

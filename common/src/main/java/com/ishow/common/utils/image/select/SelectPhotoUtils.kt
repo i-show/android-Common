@@ -310,7 +310,7 @@ class SelectPhotoUtils(private val mActivity: Activity, @param:SelectMode privat
             Request.REQUEST_SINGLE_CAMERA,
             Request.REQUEST_MULTI_PICK,
             Request.REQUEST_MULTI_CAMERA,
-            Request.REQUEST_CROP_IMAGE -> ToastUtils.show(mActivity, R.string.cancle_photo)
+            Request.REQUEST_CROP_IMAGE -> ToastUtils.show(mActivity, R.string.cancel_photo)
         }
     }
 
