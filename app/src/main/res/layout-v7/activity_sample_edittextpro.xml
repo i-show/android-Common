@@ -49,6 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:inputType="textPassword"
+        app:inputEnable="false"
         app:leftImage="@drawable/ic_develop_svg"
         app:leftText="@string/forgot_password_tip_password"
         app:leftTextMarginEnd="15dp"

@@ -272,6 +272,7 @@ class EditTextPro @JvmOverloads constructor(context: Context, attrs: AttributeSe
         mInputLines = a.getInt(R.styleable.EditTextPro_inputLines, 0)
         mInputMaxLength = a.getInt(R.styleable.EditTextPro_inputTextMaxLength, 0)
         mInputType = a.getInt(R.styleable.EditTextPro_inputType, InputType.TYPE_TEXT_FLAG_MULTI_LINE)
+        isInputEnable = a.getBoolean(R.styleable.EditTextPro_inputEnable, true)
         isCancelEnable = a.getBoolean(R.styleable.EditTextPro_cancelEnable, true)
 
         mRightTextString = a.getString(R.styleable.EditTextPro_rightText)
@@ -653,6 +654,7 @@ class EditTextPro @JvmOverloads constructor(context: Context, attrs: AttributeSe
         mInputView.setText(mInputTextString)
         mInputView.hint = mInputHintString
         mInputView.addTextChangedListener(InputWatcher())
+        updateInputEnable()
         addView(mInputView)
     }
 
@@ -965,7 +967,7 @@ class EditTextPro @JvmOverloads constructor(context: Context, attrs: AttributeSe
     private fun updateViewByRightImage(v: View) {
         when (mRightImageAction) {
             RightImageAction.SET_PASSWORD_VISIBILITY -> updatePasswordVisibility(v)
-            RightImageAction.SET_INPUT_ENABLE -> updateInputEnable(v)
+            RightImageAction.SET_INPUT_ENABLE -> changeInputEnableStatus(v)
         }
     }
 
@@ -989,20 +991,36 @@ class EditTextPro @JvmOverloads constructor(context: Context, attrs: AttributeSe
     }
 
     /**
+     * 设置是否可以输入
+     * @param statusView statusView 会变更状态
+     */
+    fun setInputEnable(enable: Boolean, statusView: View? = null) {
+        isInputEnable = enable
+        updateInputEnable(statusView)
+    }
+
+    /**
+     * 更改输入状态
+     */
+    private fun changeInputEnableStatus(v: View?) {
+        isInputEnable = !isInputEnable
+        updateInputEnable(v)
+    }
+
+    /**
      * 更新是否可以输入
      */
-    private fun updateInputEnable(v: View) {
-        isInputEnable = !isInputEnable
+    private fun updateInputEnable(v: View? = null) {
         if (isInputEnable) {
             mInputView.isFocusableInTouchMode = true
             mInputView.isFocusable = true
             mInputView.requestFocus()
-            v.isSelected = true
+            v?.isSelected = true
             showInput()
         } else {
             mInputView.isFocusableInTouchMode = false
             mInputView.isFocusable = false
-            v.isSelected = false
+            v?.isSelected = false
             hideInput()
         }
     }

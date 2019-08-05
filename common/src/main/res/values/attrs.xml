@@ -82,6 +82,7 @@
 
     <attr name="inputBackground" format="reference|color" />
     <attr name="inputHint" format="string" />
+    <attr name="inputEnable" format="boolean" />
     <attr name="inputMarginStart" format="dimension" />
     <attr name="inputMarginEnd" format="dimension" />
     <attr name="inputText" format="string" />
@@ -1019,6 +1020,7 @@
         <attr name="inputText" />
         <attr name="inputTextSize" />
         <attr name="inputTextColor" />
+        <attr name="inputEnable" />
         <attr name="inputBackground" />
         <attr name="inputGravity" />
         <attr name="inputDigits" />
