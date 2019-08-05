@@ -28,7 +28,7 @@ class OkHttpLogInterceptor @JvmOverloads constructor(var level: Level = Level.Bo
         try {
             response = chain.proceed(request)
         } catch (e: Exception) {
-            LogUtils.i(LOG_TAG, " $requestId FAILED: $e")
+            LogUtils.i(LOG_TAG, "$requestId FAILED: $e")
             throw e
         }
 

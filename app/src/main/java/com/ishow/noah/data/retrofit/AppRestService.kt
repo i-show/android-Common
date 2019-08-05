@@ -21,7 +21,7 @@ interface AppRestService {
                     BuildConfig.VERSION_DEV,
                     BuildConfig.VERSION_SIT,
                     BuildConfig.VERSION_UAT,
-                    BuildConfig.VERSION_PROD -> "http://192.168.202.134:8080/"
+                    BuildConfig.VERSION_PROD -> "https://api.yuhaiyang.net/common/"
                     else -> "https://api.yuhaiyang.net/common/"
                 }
     }

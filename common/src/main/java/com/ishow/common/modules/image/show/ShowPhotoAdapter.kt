@@ -19,7 +19,6 @@ package com.ishow.common.modules.image.show
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -28,23 +27,21 @@ import android.widget.FrameLayout.LayoutParams
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.viewpager.widget.PagerAdapter
-import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.github.chrisbanes.photoview.PhotoView
 import com.ishow.common.R
 import com.ishow.common.extensions.loadUrl
 import com.ishow.common.utils.DeviceUtils
-import uk.co.senab.photoview.PhotoView
-import uk.co.senab.photoview.PhotoViewAttacher
 import java.util.*
 import kotlin.math.min
 
 /**
  * 查看大图
  */
-class ShowPhotoAdapter internal constructor(private val mContext: Context) : PagerAdapter(), PhotoViewAttacher.OnViewTapListener {
+class ShowPhotoAdapter internal constructor(mContext: Context) : PagerAdapter() {
     private val mLayoutInflater: LayoutInflater
     private var mUrls: List<String>
     /**
@@ -124,11 +121,11 @@ class ShowPhotoAdapter internal constructor(private val mContext: Context) : Pag
         val url = mUrls[position]
         val root = mLayoutInflater.inflate(R.layout.item_show_photo, container, false)
         val imageHD = root.findViewById<PhotoView>(R.id.image)
-        imageHD.onViewTapListener = this
+        imageHD.setOnPhotoTapListener { _, _, _ -> dismiss() }
 
         val imageThumb = root.findViewById<PhotoView>(R.id.thumbnails)
         imageThumb.isEnabled = false
-        imageThumb.onViewTapListener = this
+        imageThumb.setOnPhotoTapListener { _, _, _ -> dismiss() }
         imageThumb.layoutParams = mThumbLayoutParams
         if (mBeforeView is ImageView) {
             val image = mBeforeView as ImageView?
@@ -156,21 +153,32 @@ class ShowPhotoAdapter internal constructor(private val mContext: Context) : Pag
         container.removeView(child as View)
     }
 
-    override fun onViewTap(view: View, v: Float, v1: Float) {
+
+    private fun dismiss() {
         mDialog?.dismiss()
         mDialog = null
     }
 
-
     internal class ImageListener(val imageThumb: ImageView, val progress: View) : RequestListener<Drawable> {
-        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+        override fun onLoadFailed(
+            e: GlideException?,
+            model: Any?,
+            target: Target<Drawable>?,
+            isFirstResource: Boolean
+        ): Boolean {
             imageThumb.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
             imageThumb.isEnabled = true
             progress.visibility = View.GONE
             return false
         }
 
-        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+        override fun onResourceReady(
+            resource: Drawable?,
+            model: Any?,
+            target: Target<Drawable>?,
+            dataSource: DataSource?,
+            isFirstResource: Boolean
+        ): Boolean {
             imageThumb.visibility = View.GONE
             progress.visibility = View.GONE
             return false
