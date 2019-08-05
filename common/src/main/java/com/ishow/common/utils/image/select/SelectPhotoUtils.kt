@@ -270,10 +270,12 @@ class SelectPhotoUtils(private val mActivity: Activity, @param:SelectMode privat
      */
     fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
         if (intentData == null) {
+            LoadingDialog.dismiss(mLoadingDialog)
             return
         }
 
         if (resultCode == Activity.RESULT_CANCELED) {
+            LoadingDialog.dismiss(mLoadingDialog)
             resolveResultCanceled(requestCode)
             return
         }
