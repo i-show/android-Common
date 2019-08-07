@@ -19,6 +19,9 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+// 添加插件
+apply plugin: 'com.novoda.bintray-release'
+
 repositories {
     google()
     jcenter()
@@ -125,4 +128,16 @@ dependencies {
     kapt "com.android.databinding:compiler:3.1.4"
 
     api "com.github.chrisbanes:PhotoView:2.3.0"
+}
+
+
+//添加
+publish {
+    repoName = 'ishow'//bintray.com用户名
+    userOrg = 'brightyu'//bintray.com用户名
+    groupId = 'com.ishow.common'//jcenter上的路径
+    artifactId = 'androidx'//项目名称
+    publishVersion = PROD_VERSION_NAME//版本号
+    desc = 'AndroidCommon AndroidX版本'
+    website = 'https://github.com/i-show/AndroidCommon'
 }
