@@ -25,10 +25,6 @@ class PhotoSelectorViewModel(application: Application) : BaseViewModel(applicati
     val photoList: LiveData<List<Photo>>
         get() = _photoList
 
-    private val _topRightEnable = MutableLiveData<Boolean>()
-    val topRightEnable: LiveData<Boolean>
-        get() = _topRightEnable
-
     private val _topRightText = MutableLiveData<String>()
     val topRightText: LiveData<String>
         get() = _topRightText
@@ -42,7 +38,6 @@ class PhotoSelectorViewModel(application: Application) : BaseViewModel(applicati
 
         _folderList.value = ArrayList()
         _photoList.value = ArrayList()
-        _topRightEnable.value = false
         _topRightText.value = context.getString(R.string.complete)
 
         val photoModel = PhotoModel(context)
@@ -56,13 +51,10 @@ class PhotoSelectorViewModel(application: Application) : BaseViewModel(applicati
     fun onPhotoSelectStatusChanged(context: Context, selectCount: Int) {
         @Suppress("CascadeIf")
         if (selectCount <= 0) {
-            _topRightEnable.value = false
             _topRightText.value = context.getString(R.string.complete)
         } else if (mMode == Photo.Key.MODE_SINGLE) {
-            _topRightEnable.value = true
             _topRightText.value = context.getString(R.string.complete)
         } else {
-            _topRightEnable.value = true
             _topRightText.value = context.getString(R.string.link_complete, selectCount, mMaxCount)
         }
     }
@@ -70,9 +62,5 @@ class PhotoSelectorViewModel(application: Application) : BaseViewModel(applicati
 
     fun updateCurrentFolder(folder: Folder) {
         _currentFolder.value = folder
-    }
-
-    fun onClickPhoto() {
-
     }
 }

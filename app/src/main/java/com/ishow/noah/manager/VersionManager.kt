@@ -190,7 +190,7 @@ class VersionManager private constructor() {
             // 获取之前保存的版本信息
             val versionCode = StorageUtils.with(context)
                     .key(AppUtils.VERSION_CODE)
-                    .get(0)
+                    .getInt(0)
 
             val versionName = StorageUtils.with(context)
                     .key(AppUtils.VERSION_NAME)

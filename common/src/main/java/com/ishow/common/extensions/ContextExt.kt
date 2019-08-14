@@ -130,26 +130,26 @@ fun Context.getInteger(@IntegerRes id: Int) = resources.getInteger(id)
 /**
  * 获取输入法管理
  */
-inline val Context.inputManager: InputMethodManager?
-    get() = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
+inline val Context.inputManager: InputMethodManager
+    get() = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
 
-inline val Context.keyguardManager: KeyguardManager?
-    get() = getSystemService(KEYGUARD_SERVICE) as? KeyguardManager
+inline val Context.keyguardManager: KeyguardManager
+    get() = getSystemService(KEYGUARD_SERVICE) as KeyguardManager
 
-inline val Context.telephonyManager: TelephonyManager?
-    get() = getSystemService(TELEPHONY_SERVICE) as? TelephonyManager
+inline val Context.telephonyManager: TelephonyManager
+    get() = getSystemService(TELEPHONY_SERVICE) as TelephonyManager
 
-inline val Context.devicePolicyManager: DevicePolicyManager?
-    get() = getSystemService(DEVICE_POLICY_SERVICE) as? DevicePolicyManager
+inline val Context.devicePolicyManager: DevicePolicyManager
+    get() = getSystemService(DEVICE_POLICY_SERVICE) as DevicePolicyManager
 
-inline val Context.connectivityManager: ConnectivityManager?
-    get() = getSystemService(CONNECTIVITY_SERVICE) as? ConnectivityManager
+inline val Context.connectivityManager: ConnectivityManager
+    get() = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
 
-inline val Context.alarmManager: AlarmManager?
-    get() = getSystemService(ALARM_SERVICE) as? AlarmManager
+inline val Context.alarmManager: AlarmManager
+    get() = getSystemService(ALARM_SERVICE) as AlarmManager
 
-inline val Context.clipboardManager: ClipboardManager?
-    get() = getSystemService(CLIPBOARD_SERVICE) as? ClipboardManager
+inline val Context.clipboardManager: ClipboardManager
+    get() = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
 
 
 /**

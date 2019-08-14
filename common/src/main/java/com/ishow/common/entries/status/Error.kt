@@ -33,6 +33,28 @@ class Error {
         }
 
         /**
+         * Toast展示
+         */
+        fun toast(message: String, errorType: Int = 0): Error {
+            val error = Error()
+            error.showType = Type.Toast
+            error.errorType = errorType
+            error.message = message
+            return error
+        }
+
+        /**
+         * Toast展示
+         */
+        fun toast(@StringRes messageRes: Int, errorType: Int = 0): Error {
+            val error = Error()
+            error.showType = Type.Toast
+            error.errorType = errorType
+            error.messageRes = messageRes
+            return error
+        }
+
+        /**
          * View展示
          */
         fun view(message: String, errorType: Int = 0): Error {
@@ -86,5 +108,9 @@ class Error {
          * 通过View样式来展示
          */
         const val View = 2
+        /**
+         * 通过Toast样式来展示
+         */
+        const val Toast = 3
     }
 }

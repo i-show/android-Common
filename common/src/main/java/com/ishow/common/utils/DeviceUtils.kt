@@ -1,6 +1,5 @@
 package com.ishow.common.utils
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
@@ -11,10 +10,7 @@ import android.graphics.Rect
 import android.provider.Settings
 import android.telephony.TelephonyManager
 import android.text.TextUtils
-import android.util.DisplayMetrics
 import android.util.Log
-
-import com.ishow.common.utils.permission.PermissionManager
 
 /**
  * Created by yuhaiyang on 2017/5/10.
@@ -48,6 +44,7 @@ object DeviceUtils {
     /**
      * 获取手机的deviceId
      */
+    @Suppress("DEPRECATION")
     @SuppressLint("HardwareIds", "MissingPermission")
     fun deviceId(context: Context): String {
         val manager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
@@ -69,25 +66,6 @@ object DeviceUtils {
         }
 
         return id
-    }
-
-    fun getOperator(context: Context): String {
-        var operator = ""
-        val telephonyManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-        if (!PermissionManager.hasPermission(context, Manifest.permission.READ_PHONE_STATE)) {
-            return StringUtils.EMPTY
-        }
-        @SuppressLint("MissingPermission")
-        val imsi = telephonyManager.subscriberId ?: return StringUtils.EMPTY
-        if (imsi.startsWith("46000") || imsi.startsWith("46002") || imsi.startsWith("46007")) {
-            operator = "中国移动"
-        } else if (imsi.startsWith("46001") || imsi.startsWith("46006")) {
-            operator = "中国联通"
-        } else if (imsi.startsWith("46003")) {
-            operator = "中国电信"
-        }
-        return operator
-
     }
 
     /**

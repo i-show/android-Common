@@ -7,7 +7,6 @@ import android.graphics.PixelFormat
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import androidx.core.graphics.drawable.DrawableCompat
-import com.ishow.common.utils.image.ImageUtils
 import com.ishow.common.utils.log.LogUtils
 
 /**

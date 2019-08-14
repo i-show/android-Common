@@ -248,7 +248,7 @@ class TopBar(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs),
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, mExactlyHeightSpec)
-        val width = measuredWidth
+        val width = measuredWidth - paddingStart - paddingEnd
 
         if (mLeftImageVisibility != View.GONE && mLeftImageView != null) {
             mLeftImageView!!.measure(mLeftImageWidthSpec, mExactlyHeightSpec)
@@ -303,8 +303,8 @@ class TopBar(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs),
 
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, bottom: Int) {
-        var left = l
-        var right = r
+        var left = l + paddingStart
+        var right = r - paddingEnd
         val width = right - left
         if (mLeftImageVisibility != View.GONE && mLeftImageView != null) {
             mLeftImageView!!.layout(left, 0, left + mLeftImageWidth, mHeight)
@@ -632,11 +632,11 @@ class TopBar(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs),
                 textView.compoundDrawablePadding = mRightTextDrawablePadding
             }
 
-            if(mRightTextPaddingHorizontal > 0 && mRightTextPaddingVertical > 0){
+            if (mRightTextPaddingHorizontal > 0 && mRightTextPaddingVertical > 0) {
                 textView.setPadding(mRightTextPaddingHorizontal, mRightTextPaddingVertical)
-            }else if(mRightTextPaddingHorizontal > 0){
+            } else if (mRightTextPaddingHorizontal > 0) {
                 textView.setPaddingHorizontal(mRightTextPaddingHorizontal)
-            } else if(mRightTextPaddingVertical > 0){
+            } else if (mRightTextPaddingVertical > 0) {
                 textView.setPaddingVertical(mRightTextPaddingVertical)
             }
 
@@ -671,10 +671,10 @@ class TopBar(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs),
                 rightTotal += mGapSize
             }
             mTitleView?.setPadding(
-                    leftTotal + mGapSize,
-                    mSmallGapSize,
-                    rightTotal + sub + mGapSize,
-                    mSmallGapSize
+                leftTotal + mGapSize,
+                mSmallGapSize,
+                rightTotal + sub + mGapSize,
+                mSmallGapSize
             )
         } else {
             if (leftTotal == mLeftTextViewWidth && mLeftTextBackground != null) {
@@ -686,10 +686,10 @@ class TopBar(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs),
             }
 
             mTitleView?.setPadding(
-                    leftTotal + mGapSize + sub,
-                    mSmallGapSize,
-                    rightTotal + mGapSize,
-                    mSmallGapSize
+                leftTotal + mGapSize + sub,
+                mSmallGapSize,
+                rightTotal + mGapSize,
+                mSmallGapSize
             )
         }
     }

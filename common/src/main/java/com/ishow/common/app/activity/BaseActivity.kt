@@ -22,23 +22,18 @@ import android.os.Handler
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProviders
 import com.ishow.common.R
 import com.ishow.common.entries.status.Empty
 import com.ishow.common.entries.status.Error
 import com.ishow.common.entries.status.Loading
 import com.ishow.common.entries.status.Success
 import com.ishow.common.extensions.dialog
+import com.ishow.common.extensions.toast
 import com.ishow.common.mvp.base.IViewStatus
-import com.ishow.common.utils.http.rest.Http
 import com.ishow.common.utils.permission.PermissionManager
 import com.ishow.common.widget.StatusView
 import com.ishow.common.widget.TopBar
 import com.ishow.common.widget.loading.LoadingDialog
-import retrofit2.Retrofit
 
 
 abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListener, IViewStatus,
@@ -209,6 +204,13 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
                         dialog(error.messageRes)
                     } else {
                         dialog(error.message!!)
+                    }
+                }
+                Error.Type.Toast -> {
+                    if (error.message.isNullOrEmpty()) {
+                        toast(error.messageRes)
+                    } else {
+                        toast(error.message!!)
                     }
                 }
                 Error.Type.View -> {

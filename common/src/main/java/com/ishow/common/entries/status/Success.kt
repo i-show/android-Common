@@ -26,15 +26,4 @@ class Success {
             return success
         }
     }
-
-    object Type {
-        /**
-         * 通过Dialog样式来展示
-         */
-        const val Dialog = 1
-        /**
-         * 通过View样式来展示
-         */
-        const val View = 2
-    }
 }
