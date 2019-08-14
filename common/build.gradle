@@ -19,9 +19,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-// 添加插件
-apply plugin: 'com.novoda.bintray-release'
-
 repositories {
     google()
     jcenter()
@@ -97,6 +94,7 @@ dependencies {
     api "androidx.core:core-ktx:1.0.2"
     api "androidx.lifecycle:lifecycle-extensions:2.2.0-alpha03"
     api "androidx.recyclerview:recyclerview:1.0.0"
+    api 'androidx.viewpager:viewpager:1.0.0'
     api "com.google.android.material:material:1.0.0"
 
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$KOTLIN_VERSION"
@@ -117,9 +115,9 @@ dependencies {
     api "com.squareup.retrofit2:adapter-rxjava:2.1.0"
 
     //  网络请求框架
-    api "com.squareup.okhttp3:okhttp:${OKHTTP_VERSION}"
+    api "com.squareup.okhttp3:okhttp:3.14.1"
     // JSON 解析工具
-    api "com.alibaba:fastjson:${FAST_JSON_VERSION}"
+    api "com.alibaba:fastjson:1.1.70.android"
     api "com.google.code.gson:gson:2.8.5"
 
     // 上拉刷新下拉加载更多
@@ -128,16 +126,4 @@ dependencies {
     kapt "com.android.databinding:compiler:3.1.4"
 
     api "com.github.chrisbanes:PhotoView:2.3.0"
-}
-
-
-//添加
-publish {
-    repoName = 'ishow'//bintray.com用户名
-    userOrg = 'brightyu'//bintray.com用户名
-    groupId = 'com.ishow.common'//jcenter上的路径
-    artifactId = 'androidx'//项目名称
-    publishVersion = PROD_VERSION_NAME//版本号
-    desc = 'AndroidCommon AndroidX版本'
-    website = 'https://github.com/i-show/AndroidCommon'
 }

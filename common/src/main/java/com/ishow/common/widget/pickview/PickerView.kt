@@ -75,7 +75,7 @@ class PickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet
 
     private val mUnitTextSize: Float
     private val mSelectedTextSize: Float
-    private val mUnselectedTextSize: Float
+    private var mUnselectedTextSize: Float
 
     // 第一条线Y坐标值
     private var mFirstLineY = 0F
@@ -161,8 +161,11 @@ class PickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet
 
         mItemMinHeight = a.getDimensionPixelOffset(R.styleable.PickerView_itemMinHeight, 0)
         mSelectedTextSize = a.getDimensionPixelOffset(R.styleable.PickerView_textSize, defaultTextSize).toFloat()
+        mUnselectedTextSize = a.getDimensionPixelOffset(R.styleable.PickerView_unselectedTextSize, 0).toFloat()
         mUnitTextSize = a.getDimensionPixelSize(R.styleable.PickerView_unitTextSize, defaultUnitTextSize).toFloat()
-        mUnselectedTextSize = mSelectedTextSize * UNSELECTED_TEXT_SIZE_RATIO
+        if (mUnselectedTextSize == 0F) {
+            mUnselectedTextSize = mSelectedTextSize * UNSELECTED_TEXT_SIZE_RATIO
+        }
 
         mVisibleCount = a.getInteger(R.styleable.PickerView_visibleCount, DEFAULT_VISIBLE_COUNT)
         a.recycle()
@@ -476,7 +479,7 @@ class PickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     private fun compute() {
         val moveCount = (mMove / mItemHeight).toInt()
         if (abs(moveCount) > 0) {
-            // 如果 已经移动了一个Item的高度，那么positon 增加或者减少
+            // 如果 已经移动了一个Item的高度，那么position 增加或者减少
             // mMove 减少对应Item的高度
             mMove -= (moveCount * mItemHeight).toFloat()
             mCurrentPosition += moveCount
@@ -493,6 +496,10 @@ class PickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     private fun computePosition(position: Int): Int {
         var pos = position
         val itemCount = mAdapter!!.getCount()
+        if (itemCount == 0) {
+            return position;
+        }
+
         pos %= if (pos < 0) {
             -itemCount
         } else {
@@ -575,13 +582,14 @@ class PickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet
      */
     private fun getItemText(position: Int): String {
         var pos = position
-        if (mAdapter == null) {
+        if (mAdapter == null || mAdapter.isEmpty()) {
             Log.i(TAG, "getItemText: mAdapter is null")
             return StringUtils.EMPTY
         }
 
-        val itemCount = mAdapter!!.getCount()
+        val adapter = mAdapter!!
 
+        val itemCount = adapter.getCount()
         if (isCyclic) {
             // 先进行取余，如果还小于0 那么只要加一个count值即可
             pos %= if (pos < 0) {

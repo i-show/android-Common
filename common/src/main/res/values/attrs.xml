@@ -960,6 +960,7 @@
         <attr name="unit" />
         <attr name="unitTextSize" />
         <attr name="textSize" />
+        <attr name="unselectedTextSize" />
         <attr name="selectedTextColor" />
         <attr name="unselectedTextColor" />
         <attr name="divider" />

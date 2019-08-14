@@ -190,30 +190,30 @@ class VersionManager private constructor() {
             // 获取之前保存的版本信息
             val versionCode = StorageUtils.with(context)
                     .key(AppUtils.VERSION_CODE)
-                    .getInt(0)
+                    .get(0L)
 
             val versionName = StorageUtils.with(context)
                     .key(AppUtils.VERSION_NAME)
                     .get()
 
             // 获取当前版本号
-            val _versionCode = AppUtils.getVersionCode(context)
-            val _versionName = AppUtils.getVersionName(context)
-            Log.d(TAG, "originVersion = $versionCode ,localVersion = $_versionCode")
-            Log.d(TAG, "originVersionName = $versionName ,localVersionName = $_versionName")
+            val currentCode = AppUtils.getVersionCode(context)
+            val currentName = AppUtils.getVersionName(context)
+            Log.d(TAG, "originVersion = $versionCode ,localVersion = $currentCode")
+            Log.d(TAG, "originVersionName = $versionName ,localVersionName = $currentName")
 
             // 保存现在的版本号
             StorageUtils.with(context)
-                    .param(AppUtils.VERSION_CODE, _versionCode)
+                    .param(AppUtils.VERSION_CODE, currentCode)
                     .save()
 
             StorageUtils.with(context)
-                    .param(AppUtils.VERSION_NAME, _versionName)
+                    .param(AppUtils.VERSION_NAME, currentName)
                     .save()
 
             // 如果当前版本比保存的版本大，说明APP更新了
             // 版本名称不相等且版本code比上一个版本大 才进行走ViewPager
-            return !TextUtils.equals(versionName, _versionName) && _versionCode > versionCode
+            return !TextUtils.equals(versionName, currentName) && currentCode > versionCode
         }
 
         /**

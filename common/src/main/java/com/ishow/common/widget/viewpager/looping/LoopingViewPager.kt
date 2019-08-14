@@ -33,7 +33,8 @@ import com.ishow.common.widget.viewpager.looping.indicator.DefaultLoopingIndicat
 /**
  * 轮播图
  */
-class LoopingViewPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : ViewPager(context, attrs) {
+class LoopingViewPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) :
+    ViewPager(context, attrs) {
 
 
     private var mPositionOffset = 0F
@@ -100,6 +101,7 @@ class LoopingViewPager @JvmOverloads constructor(context: Context, attrs: Attrib
             }
             startLooping()
             notifyLoopingIndicatorDataChanged()
+            requestLayout()
         }
     }
 

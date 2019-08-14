@@ -8,8 +8,6 @@ buildscript {
         //  Android 默认的编译工具库插件
         classpath 'com.android.tools.build:gradle:3.4.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VERSION"
-        // 上传的插件
-        classpath 'com.novoda:bintray-release:0.9'
     }
 }
 

@@ -57,4 +57,7 @@ abstract class PickerAdapter<T> {
         mDataSetObservable.notifyChanged()
     }
 
+    fun isEmpty(): Boolean {
+        return getCount() == 0;
+    }
 }

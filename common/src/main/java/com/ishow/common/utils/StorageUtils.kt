@@ -182,7 +182,7 @@ object StorageUtils {
             return getSharedPreferences().getBoolean(key, defaultValue)
         }
 
-        fun getInt(defaultValue: Int): Int {
+        fun get(defaultValue: Int): Int {
             if (checkExpire()) {
                 return defaultValue
             }
