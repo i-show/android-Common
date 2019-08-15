@@ -26,7 +26,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ishow.common.BR
 import com.ishow.common.R
 import com.ishow.common.adapter.BindAdapter
-import com.ishow.common.app.activity.BindActivity
+import com.ishow.common.app.mvvm.view.BindActivity
 import com.ishow.common.databinding.ActivityPhotoSelectorBinding
 import com.ishow.common.entries.Folder
 import com.ishow.common.entries.Photo

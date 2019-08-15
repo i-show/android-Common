@@ -3,7 +3,7 @@ package com.ishow.noah.modules.base.mvvm
 import android.app.Dialog
 import androidx.databinding.ViewDataBinding
 import com.baidu.mobstat.StatService
-import com.ishow.common.app.activity.BindActivity
+import com.ishow.common.app.mvvm.view.BindActivity
 import com.ishow.common.widget.watermark.WaterMarkView
 import com.ishow.noah.AppApplication
 import com.ishow.noah.manager.VersionManager

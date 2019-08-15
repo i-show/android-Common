@@ -43,7 +43,7 @@ fun Context.inflate(layoutRes: Int): View {
  * @param message 内容
  * @param duration 时长
  */
-fun Context.toast(message: String, duration: Int = Toast.LENGTH_SHORT) {
+fun Context.toast(message: String?, duration: Int = Toast.LENGTH_SHORT) {
     ToastUtils.show(this, message, duration)
 }
 
@@ -72,10 +72,10 @@ fun Context.dialog(message: String, finishSelf: Boolean = false, cancelable: Boo
     }
     val activity = this
     BaseDialog.Builder(this)
-            .setMessage(message)
-            .setPositiveButton(R.string.yes) { _, _ -> if (finishSelf) activity.finish() }
-            .setCancelable(cancelable)
-            .show()
+        .setMessage(message)
+        .setPositiveButton(R.string.yes) { _, _ -> if (finishSelf) activity.finish() }
+        .setCancelable(cancelable)
+        .show()
 }
 
 /**
@@ -88,17 +88,22 @@ fun Context.dialog(title: Int, message: String, finishSelf: Boolean = false, can
 /**
  * Dialog提示
  */
-fun Context.dialog(title: String = StringUtils.EMPTY, message: String, finishSelf: Boolean = false, cancelable: Boolean = true) {
+fun Context.dialog(
+    title: String = StringUtils.EMPTY,
+    message: String,
+    finishSelf: Boolean = false,
+    cancelable: Boolean = true
+) {
     if (this !is Activity) {
         return
     }
     val activity = this
     BaseDialog.Builder(this)
-            .setMessage(title)
-            .setMessage(message)
-            .setPositiveButton(R.string.yes) { _, _ -> if (finishSelf) activity.finish() }
-            .setCancelable(cancelable)
-            .show()
+        .setMessage(title)
+        .setMessage(message)
+        .setPositiveButton(R.string.yes) { _, _ -> if (finishSelf) activity.finish() }
+        .setCancelable(cancelable)
+        .show()
 }
 
 /**

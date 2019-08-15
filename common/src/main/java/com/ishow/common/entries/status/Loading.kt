@@ -6,6 +6,7 @@ class Loading {
 
     var type: Int = 0
     var message: String? = null
+    var status: Int = Status.Show
 
     companion object {
         /**
@@ -15,6 +16,7 @@ class Loading {
             val loading = Loading()
             loading.type = Type.Dialog
             loading.message = message
+            loading.status = Status.Show
             return loading
         }
 
@@ -25,6 +27,7 @@ class Loading {
             val loading = Loading()
             loading.type = Type.View
             loading.message = message
+            loading.status = Status.Show
             return loading
         }
 
@@ -35,6 +38,18 @@ class Loading {
             val loading = Loading()
             loading.type = type
             loading.message = message
+            loading.status = Status.Show
+            return loading
+        }
+
+        /**
+         * Dismiss
+         */
+        fun dismiss(type: Int = Type.Dialog, message: String = StringUtils.EMPTY): Loading {
+            val loading = Loading()
+            loading.type = type
+            loading.message = message
+            loading.status = Status.Dismiss
             return loading
         }
     }
@@ -48,5 +63,16 @@ class Loading {
          * 通过View样式来展示
          */
         const val View = 2
+    }
+
+    object Status {
+        /**
+         * 通过Dialog样式来展示
+         */
+        const val Show = 1
+        /**
+         * 通过View样式来展示
+         */
+        const val Dismiss = 2
     }
 }

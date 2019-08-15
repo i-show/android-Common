@@ -1,9 +1,8 @@
 package com.ishow.noah.modules.base.mvvm
 
 import android.app.Application
-import com.ishow.common.app.viewmodel.BaseViewModel
+import com.ishow.common.app.mvvm.viewmodel.BaseViewModel
 import com.ishow.noah.entries.http.AppHttpResponse
-import java.lang.Error
 
 
 abstract class AppBaseViewModel(application: Application) : BaseViewModel(application) {
