@@ -12,7 +12,7 @@ class Empty {
         /**
          * New
          */
-        fun new(message: String = StringUtils.EMPTY): Empty {
+        fun new(message: String? = StringUtils.EMPTY): Empty {
             val empty = Empty()
             empty.message = message
             return empty

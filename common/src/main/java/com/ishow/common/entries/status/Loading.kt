@@ -12,7 +12,7 @@ class Loading {
         /**
          * Dialog展示
          */
-        fun dialog(message: String = StringUtils.EMPTY): Loading {
+        fun dialog(message: String? = StringUtils.EMPTY): Loading {
             val loading = Loading()
             loading.type = Type.Dialog
             loading.message = message
@@ -23,7 +23,7 @@ class Loading {
         /**
          * View展示
          */
-        fun view(message: String = StringUtils.EMPTY): Loading {
+        fun view(message: String? = StringUtils.EMPTY): Loading {
             val loading = Loading()
             loading.type = Type.View
             loading.message = message
@@ -34,7 +34,7 @@ class Loading {
         /**
          * New
          */
-        fun new(type: Int = Type.View, message: String = StringUtils.EMPTY): Loading {
+        fun new(type: Int = Type.View, message: String? = StringUtils.EMPTY): Loading {
             val loading = Loading()
             loading.type = type
             loading.message = message
@@ -45,7 +45,7 @@ class Loading {
         /**
          * Dismiss
          */
-        fun dismiss(type: Int = Type.Dialog, message: String = StringUtils.EMPTY): Loading {
+        fun dismiss(type: Int = Type.Dialog, message: String? = StringUtils.EMPTY): Loading {
             val loading = Loading()
             loading.type = type
             loading.message = message

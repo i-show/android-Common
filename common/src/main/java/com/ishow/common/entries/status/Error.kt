@@ -13,7 +13,7 @@ class Error {
         /**
          * Dialog展示
          */
-        fun dialog(message: String, errorType: Int = 0): Error {
+        fun dialog(message: String?, errorType: Int = 0): Error {
             val error = Error()
             error.showType = Type.Dialog
             error.errorType = errorType
@@ -35,7 +35,7 @@ class Error {
         /**
          * Toast展示
          */
-        fun toast(message: String, errorType: Int = 0): Error {
+        fun toast(message: String?, errorType: Int = 0): Error {
             val error = Error()
             error.showType = Type.Toast
             error.errorType = errorType
@@ -57,7 +57,7 @@ class Error {
         /**
          * View展示
          */
-        fun view(message: String, errorType: Int = 0): Error {
+        fun view(message: String?, errorType: Int = 0): Error {
             val error = Error()
             error.showType = Type.View
             error.errorType = errorType
@@ -79,7 +79,7 @@ class Error {
         /**
          * New
          */
-        fun new(showType: Int = Type.View, message: String, errorType: Int = 0): Error {
+        fun new(showType: Int = Type.View, message: String?, errorType: Int = 0): Error {
             val error = Error()
             error.showType = showType
             error.errorType = errorType

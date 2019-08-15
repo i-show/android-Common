@@ -89,8 +89,8 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
     /**
      * 展示错误信息
      */
-    fun showError(message: String = StringUtils.EMPTY) {
-        showError(Error.toast(message))
+    fun showError(message: String? = StringUtils.EMPTY) {
+            showError(Error.toast(message))
     }
 
     fun showError(@StringRes messageRes: Int) {
@@ -108,7 +108,7 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
     /**
      * 展示成功的信息
      */
-    fun showSuccess(message: String = StringUtils.EMPTY) {
+    fun showSuccess(message: String? = StringUtils.EMPTY) {
         showSuccess(Success.new(message))
     }
 
@@ -127,7 +127,7 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
     /**
      * 展示成功的信息
      */
-    fun showEmpty(message: String = StringUtils.EMPTY) {
+    fun showEmpty(message: String? = StringUtils.EMPTY) {
         showEmpty(Empty.new(message))
     }
 

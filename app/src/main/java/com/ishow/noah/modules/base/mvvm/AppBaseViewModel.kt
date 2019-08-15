@@ -11,11 +11,15 @@ abstract class AppBaseViewModel(application: Application) : BaseViewModel(applic
      * 前后增加Loading处理数据
      * @param autoDismiss 是否自动取消Loading
      */
-    fun <T> withLoading(toastError: Boolean = true, autoDismiss: Boolean = true, block: () -> AppHttpResponse<T>): AppHttpResponse<T> {
+    fun <T> withLoading(
+        toastError: Boolean = true,
+        autoDismiss: Boolean = true,
+        block: () -> AppHttpResponse<T>
+    ): AppHttpResponse<T> {
         showLoading()
         val result: AppHttpResponse<T> = block()
         if (autoDismiss) dismissLoading()
-        if (toastError && !result.isSuccess()) toast(result.message)
+        if (toastError && !result.isSuccess()) showError(result.message)
         return result
     }
 
@@ -32,7 +36,7 @@ abstract class AppBaseViewModel(application: Application) : BaseViewModel(applic
         return if (result.isSuccess()) {
             result.data
         } else {
-            if (toastError) toast(result.message)
+            if (toastError) showError(result.message)
             null
         }
     }

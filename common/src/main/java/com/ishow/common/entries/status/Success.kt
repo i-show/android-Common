@@ -11,7 +11,7 @@ class Success {
         /**
          * New
          */
-        fun new(message: String): Success {
+        fun new(message: String?): Success {
             val success = Success()
             success.message = message
             return success
