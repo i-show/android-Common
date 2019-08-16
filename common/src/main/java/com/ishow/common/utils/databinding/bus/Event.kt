@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ishow.common.modules.binding
+package com.ishow.common.utils.databinding.bus
 
 /**
  * Used as a wrapper for data that is exposed via a LiveData that represents an event.

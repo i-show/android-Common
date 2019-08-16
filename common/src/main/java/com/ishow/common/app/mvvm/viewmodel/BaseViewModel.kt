@@ -11,7 +11,7 @@ import com.ishow.common.entries.status.Empty
 import com.ishow.common.entries.status.Error
 import com.ishow.common.entries.status.Loading
 import com.ishow.common.entries.status.Success
-import com.ishow.common.modules.binding.Event
+import com.ishow.common.utils.databinding.bus.Event
 import com.ishow.common.utils.StringUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

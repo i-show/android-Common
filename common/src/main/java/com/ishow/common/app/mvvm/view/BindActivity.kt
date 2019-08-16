@@ -4,7 +4,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.ishow.common.app.activity.BaseActivity
 import com.ishow.common.app.mvvm.viewmodel.BaseViewModel
 import com.ishow.common.entries.status.Empty
@@ -13,7 +12,7 @@ import com.ishow.common.entries.status.Loading
 import com.ishow.common.entries.status.Success
 import com.ishow.common.extensions.inflate
 import com.ishow.common.extensions.toast
-import com.ishow.common.modules.binding.Event
+import com.ishow.common.utils.databinding.bus.Event
 
 abstract class BindActivity<T : ViewDataBinding> : BaseActivity() {
     protected lateinit var dataBinding: T

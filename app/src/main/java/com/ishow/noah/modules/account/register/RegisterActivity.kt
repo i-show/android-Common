@@ -22,7 +22,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import com.ishow.common.extensions.openBrowser
 import com.ishow.common.extensions.toast
-import com.ishow.common.modules.binding.Event
+import com.ishow.common.utils.databinding.bus.Event
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.utils.watcher.EnableTextWatcher
 import com.ishow.common.utils.watcher.VerifyCodeTextWatcher

@@ -4,7 +4,7 @@ import android.app.Application
 import android.text.TextUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.ishow.common.modules.binding.Event
+import com.ishow.common.utils.databinding.bus.Event
 import com.ishow.noah.R
 import com.ishow.noah.entries.UserContainer
 import com.ishow.noah.entries.http.AppHttpResponse

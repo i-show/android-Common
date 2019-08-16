@@ -1,11 +1,10 @@
 package com.ishow.noah.modules.account.login
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ishow.common.extensions.getInteger
-import com.ishow.common.modules.binding.Event
+import com.ishow.common.utils.databinding.bus.Event
 import com.ishow.common.utils.StorageUtils
 import com.ishow.common.utils.StringUtils
 import com.ishow.noah.R
@@ -15,10 +14,8 @@ import com.ishow.noah.manager.UserManager
 import com.ishow.noah.modules.account.common.AccountModel
 import com.ishow.noah.modules.base.mvvm.AppBaseViewModel
 import com.ishow.noah.utils.http.okhttp.interceptor.AppHttpInterceptor
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class LoginViewModel(application: Application) : AppBaseViewModel(application) {

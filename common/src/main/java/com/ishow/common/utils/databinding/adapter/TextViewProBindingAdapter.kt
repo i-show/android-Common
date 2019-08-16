@@ -1,4 +1,4 @@
-package com.ishow.common.modules.binding
+package com.ishow.common.utils.databinding.adapter
 
 import android.graphics.drawable.Drawable
 import androidx.databinding.BindingAdapter

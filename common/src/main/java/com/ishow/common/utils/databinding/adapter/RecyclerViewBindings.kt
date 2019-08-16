@@ -1,4 +1,4 @@
-package com.ishow.common.modules.binding
+package com.ishow.common.utils.databinding.adapter
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
