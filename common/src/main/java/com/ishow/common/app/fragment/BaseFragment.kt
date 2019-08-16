@@ -24,8 +24,7 @@ import com.ishow.common.entries.status.Error
 import com.ishow.common.entries.status.Loading
 import com.ishow.common.entries.status.Success
 import com.ishow.common.extensions.dialog
-import com.ishow.common.mvp.base.IViewStatus
-import com.ishow.common.utils.http.rest.Http
+import com.ishow.common.app.mvp.IViewStatus
 import com.ishow.common.utils.permission.PermissionManager
 import com.ishow.common.widget.StatusView
 import com.ishow.common.widget.TopBar

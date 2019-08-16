@@ -132,6 +132,8 @@ fun Context.getBoolean(@BoolRes id: Int) = resources.getBoolean(id)
  */
 fun Context.getInteger(@IntegerRes id: Int) = resources.getInteger(id)
 
+fun Context.getDimensionPixelSize(@DimenRes id: Int) = resources.getDimensionPixelSize(id)
+
 /**
  * 获取输入法管理
  */

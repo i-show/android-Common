@@ -2,9 +2,9 @@ package com.ishow.noah.modules.sample.pulltorefresh;
 
 import android.content.Context;
 
-import com.ishow.common.mvp.base.IPresenter;
-import com.ishow.common.mvp.base.IView;
-import com.ishow.common.mvp.base.IViewStatus;
+import com.ishow.common.app.mvp.IPresenter;
+import com.ishow.common.app.mvp.IView;
+import com.ishow.common.app.mvp.IViewStatus;
 import com.ishow.noah.modules.sample.entries.Job;
 
 import java.util.List;

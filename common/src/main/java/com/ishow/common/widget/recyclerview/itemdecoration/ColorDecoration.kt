@@ -23,17 +23,22 @@ import android.graphics.Rect
 import android.view.View
 import androidx.annotation.ColorRes
 import androidx.annotation.Px
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.ishow.common.R
+import com.ishow.common.extensions.dp2px
+import com.ishow.common.extensions.findColor
+import com.ishow.common.extensions.getDimensionPixelSize
 
 class ColorDecoration : RecyclerView.ItemDecoration {
 
     private var mDividerPaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.DITHER_FLAG)
     private var mDividerHeight: Int
+
+    private var mPaddingStart: Int = 0
+    private var mPaddingEnd: Int = 0
     /**
      * 是否显示最后的Diver
      * 仅支持 LinearLayoutManager
@@ -42,14 +47,31 @@ class ColorDecoration : RecyclerView.ItemDecoration {
 
     @JvmOverloads
     constructor(context: Context, @ColorRes color: Int = R.color.line, @Px height: Int = 1) {
-        mDividerPaint.color = ContextCompat.getColor(context, color)
+        mDividerPaint.color = context.findColor(color)
         mDividerHeight = height
     }
+
 
     @JvmOverloads
     constructor(color: Int = 0XFFC2CADC.toInt(), @Px height: Int = 1) {
         mDividerPaint.color = color
         mDividerHeight = height
+    }
+
+    /**
+     * 设置Padding的值
+     * @param start dp值
+     * @param end dp值
+     * 注意：Padding只对LinearLayout有效
+     */
+    fun setPadding(start: Int, end: Int) {
+        mPaddingStart = start.dp2px()
+        mPaddingEnd = end.dp2px()
+    }
+
+    fun setPaddingRes(context: Context, start: Int, end: Int) {
+        mPaddingStart = context.getDimensionPixelSize(start)
+        mPaddingEnd = context.getDimensionPixelSize(end)
     }
 
     override fun onDraw(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State) {
@@ -105,7 +127,12 @@ class ColorDecoration : RecyclerView.ItemDecoration {
     /**
      * LinearLayoutManager 增加间距
      */
-    private fun offsetLinearLayout(layoutManager: LinearLayoutManager, parent: RecyclerView, child: View, outRect: Rect) {
+    private fun offsetLinearLayout(
+        layoutManager: LinearLayoutManager,
+        parent: RecyclerView,
+        child: View,
+        outRect: Rect
+    ) {
         val adapter = parent.adapter ?: return
         val position = parent.getChildAdapterPosition(child)
         val count = adapter.itemCount
@@ -130,8 +157,8 @@ class ColorDecoration : RecyclerView.ItemDecoration {
     }
 
     private fun drawLinearLayoutHorizontal(canvas: Canvas, parent: RecyclerView) {
-        val top = parent.paddingTop
-        val bottom = parent.height - parent.paddingBottom
+        val top = parent.paddingTop + mPaddingStart
+        val bottom = parent.height - parent.paddingBottom - mPaddingEnd
 
         val childCount = if (showLastDivider) parent.childCount else parent.childCount - 1
         for (i in 0 until childCount) {
@@ -143,8 +170,8 @@ class ColorDecoration : RecyclerView.ItemDecoration {
     }
 
     private fun drawLinearLayoutVertical(canvas: Canvas, parent: RecyclerView) {
-        val left = parent.paddingLeft
-        val right = parent.width - parent.paddingRight
+        val left = parent.paddingLeft + mPaddingStart
+        val right = parent.width - parent.paddingRight - mPaddingEnd
 
         val childCount = if (showLastDivider) parent.childCount else parent.childCount - 1
         for (i in 0 until childCount) {

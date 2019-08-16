@@ -29,14 +29,15 @@ import com.ishow.common.entries.status.Loading
 import com.ishow.common.entries.status.Success
 import com.ishow.common.extensions.dialog
 import com.ishow.common.extensions.toast
-import com.ishow.common.mvp.base.IViewStatus
+import com.ishow.common.app.mvp.IViewStatus
 import com.ishow.common.utils.permission.PermissionManager
 import com.ishow.common.widget.StatusView
 import com.ishow.common.widget.TopBar
 import com.ishow.common.widget.loading.LoadingDialog
 
 
-abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListener, IViewStatus,
+abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListener,
+    IViewStatus,
     TopBar.OnTopBarListener {
     /**
      * Loading的Dialog

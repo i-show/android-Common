@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ishow.common.mvp.base
+package com.ishow.common.app.mvp
 
 import com.ishow.common.entries.status.Empty
 import com.ishow.common.entries.status.Error
