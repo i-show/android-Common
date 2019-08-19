@@ -129,7 +129,7 @@ class ImageTextView(context: Context, attrs: AttributeSet) : View(context, attrs
         prompt.paddingHeight = a.getFloat(R.styleable.ImageTextView_heightPaddingScale, IPrompt.DEFAULT_PADDING_SCALE)
         a.recycle()
         mTextColor = if (mTextStateColor == null) {
-            ContextCompat.getColor(context, R.color.text_grey_normal)
+            ContextCompat.getColor(context, R.color.text_grey)
         } else {
             mTextStateColor!!.defaultColor
         }

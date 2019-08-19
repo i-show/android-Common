@@ -82,25 +82,12 @@
 
 
     <!--默认的字体颜色和hint颜色-->
-    <color name="text_grey">#383838</color>
-    <color name="text_grey_normal">#383838</color>
-    <color name="text_grey_pressed">#272727</color>
-
-    <color name="text_grey_light">#999999</color>
-    <color name="text_grey_light_normal">#999999</color>
-    <color name="text_grey_light_pressed">#7D7F92</color>
-
-    <color name="text_grey_light_more">#C2CADC</color>
-    <color name="text_grey_light_more_normal">#C2CADC</color>
-    <color name="text_grey_light_more_pressed">@color/grey_deep_9</color>
+    <color name="text_grey">#333333</color>
+    <color name="text_grey_light">#666666</color>
+    <color name="text_grey_light_more">#999999</color>
 
     <color name="text_grey_dark">#292C2E</color>
-    <color name="text_grey_dark_normal">#292C2E</color>
-    <color name="text_grey_dark_pressed">#16181A</color>
-
     <color name="text_grey_dark_more">@color/grey_deep_4</color>
-    <color name="text_grey_dark_more_normal">@color/grey_deep_4</color>
-    <color name="text_grey_dark_more_pressed">@color/grey_deep_2</color>
 
     <color name="text_grey_hint">#DBDCE4</color>
     <color name="text_grey_hint_light">#EFEFEF</color>

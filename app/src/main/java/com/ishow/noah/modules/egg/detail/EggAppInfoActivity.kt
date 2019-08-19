@@ -66,7 +66,7 @@ class EggAppInfoActivity : AppBaseActivity() {
         super.initNecessaryData()
         mItemMinHeight = resources.getDimensionPixelSize(R.dimen.default_item_height)
         mCateTextSize = resources.getDimensionPixelSize(R.dimen.I_title)
-        mCateTextColor = ContextCompat.getColor(context, R.color.text_grey_light_normal)
+        mCateTextColor = ContextCompat.getColor(context, R.color.text_grey_light)
         mTipMinWidth = resources.getDimensionPixelSize(R.dimen.dp_100)
     }
 

@@ -130,7 +130,7 @@ class PickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet
      * 获取未选中的Text的颜色
      */
     private val defaultUnselectedTextColor: Int
-        get() = ContextCompat.getColor(context, R.color.text_grey_light_normal)
+        get() = ContextCompat.getColor(context, R.color.text_grey_light)
 
 
     /**

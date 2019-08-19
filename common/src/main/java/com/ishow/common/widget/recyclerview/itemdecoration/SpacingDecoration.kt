@@ -24,6 +24,7 @@ import androidx.annotation.DimenRes
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.ishow.common.extensions.getDimensionPixelSize
 import com.ishow.common.utils.log.LogUtils
 
 /**
@@ -34,7 +35,7 @@ class SpacingDecoration constructor(context: Context, @DimenRes spacing: Int) :
     /**
      * Item间距
      */
-    private val mSpacing: Int = context.resources.getDimensionPixelSize(spacing)
+    private val mSpacing: Int = context.getDimensionPixelSize(spacing)
 
     /**
      * 是否显示最后的Diver

@@ -69,7 +69,7 @@
                 android:ellipsize="end"
                 android:lines="1"
                 android:text="@{@string/link_sheet(folder.photoList.size())}"
-                android:textColor="@color/text_grey_light_normal"
+                android:textColor="@color/text_grey_light"
                 android:textSize="@dimen/J_title"
                 tools:text="1张" />
 

@@ -44,7 +44,7 @@
             android:gravity="@{itemUnitSelect.gravity()}"
             android:lines="1"
             android:text="@{itemUnitSelect.getTitle(context)}"
-            android:textColor="@color/text_grey_normal"
+            android:textColor="@color/text_grey"
             android:textSize="@dimen/H_title"
             tools:text="111113333" />
 
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:gravity="@{itemUnitSelect.gravity()}"
             android:text="@{itemUnitSelect.getSubTitle(context)}"
-            android:textColor="@color/text_grey_light_normal"
+            android:textColor="@color/text_grey_light"
             android:textSize="@dimen/I_title"
             android:visibility="@{TextUtils.isEmpty(itemUnitSelect.getSubTitle(context))? View.GONE:View.VISIBLE}" />
 

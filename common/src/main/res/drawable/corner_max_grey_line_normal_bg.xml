@@ -21,6 +21,6 @@
 
     <stroke
         android:width="1px"
-        android:color="@color/text_grey_normal" />
+        android:color="@color/text_grey" />
 
 </shape>

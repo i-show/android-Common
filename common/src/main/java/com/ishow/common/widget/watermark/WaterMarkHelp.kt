@@ -108,7 +108,7 @@ class WaterMarkHelp {
         }
 
         fun getDefaultTextColor(context: Context): Int {
-            return ContextCompat.getColor(context, R.color.text_grey_light_normal)
+            return ContextCompat.getColor(context, R.color.text_grey_light)
         }
 
         fun getDefaultPadding(context: Context): Int {

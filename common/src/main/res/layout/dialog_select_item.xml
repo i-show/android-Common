@@ -36,6 +36,6 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:text="@{text}"
-        android:textColor="@color/text_grey_normal"
+        android:textColor="@color/text_grey"
         android:textSize="@dimen/H_title" />
 </layout>

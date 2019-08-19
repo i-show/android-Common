@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_80"
             android:gravity="center"
-            android:textColor="@color/text_grey_light_normal"
+            android:textColor="@color/text_grey_light"
             android:textSize="@dimen/F_title"/>
     </androidx.cardview.widget.CardView>
 </FrameLayout>

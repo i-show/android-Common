@@ -210,13 +210,13 @@ class EditTextPro @JvmOverloads constructor(context: Context, attrs: AttributeSe
         get() = UnitUtils.dip2px(120)
 
     private val defaultTipTextColor: Int
-        get() = ContextCompat.getColor(context, R.color.text_grey_light_normal)
+        get() = ContextCompat.getColor(context, R.color.text_grey_light)
 
     private val defaultInputTextSize: Int
         get() = context.resources.getDimensionPixelSize(R.dimen.I_title)
 
     private val defaultInputTextColor: Int
-        get() = ContextCompat.getColor(context, R.color.text_grey_normal)
+        get() = ContextCompat.getColor(context, R.color.text_grey)
 
     private val defaultInputHintTextColor: Int
         get() = ContextCompat.getColor(context, R.color.text_grey_hint)

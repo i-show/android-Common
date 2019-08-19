@@ -113,7 +113,7 @@ class VerifyCodeButton @JvmOverloads constructor(context: Context, attrs: Attrib
      * 获取默认的颜色值
      */
     private val defaultTextColor: ColorStateList
-        get() = ContextCompat.getColorStateList(context, R.color.text_grey_light_normal)!!
+        get() = ContextCompat.getColorStateList(context, R.color.text_grey_light)!!
 
 
     init {

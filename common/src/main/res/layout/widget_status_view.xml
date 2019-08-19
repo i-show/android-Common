@@ -52,7 +52,7 @@
         android:includeFontPadding="false"
         android:lines="1"
         android:text="@string/load_data_failed"
-        android:textColor="@color/text_grey_normal"
+        android:textColor="@color/text_grey"
         android:textSize="@dimen/H_title" />
 
     <TextView
@@ -79,7 +79,7 @@
         android:minWidth="@dimen/dp_100"
         android:padding="@dimen/gap_grade_2"
         android:text="@string/reload_data"
-        android:textColor="@color/text_grey_normal"
+        android:textColor="@color/text_grey"
         android:textSize="@dimen/H_title" />
 
     <View
