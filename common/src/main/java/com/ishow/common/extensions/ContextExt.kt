@@ -27,6 +27,7 @@ import androidx.core.content.ContextCompat
 import com.ishow.common.R
 import com.ishow.common.utils.StringUtils
 import com.ishow.common.utils.ToastUtils
+import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.widget.dialog.BaseDialog
 
 
@@ -72,10 +73,10 @@ fun Context.dialog(message: String, finishSelf: Boolean = false, cancelable: Boo
     }
     val activity = this
     BaseDialog.Builder(this)
-        .setMessage(message)
-        .setPositiveButton(R.string.yes) { _, _ -> if (finishSelf) activity.finish() }
-        .setCancelable(cancelable)
-        .show()
+            .setMessage(message)
+            .setPositiveButton(R.string.yes) { _, _ -> if (finishSelf) activity.finish() }
+            .setCancelable(cancelable)
+            .show()
 }
 
 /**
@@ -89,21 +90,21 @@ fun Context.dialog(title: Int, message: String, finishSelf: Boolean = false, can
  * Dialog提示
  */
 fun Context.dialog(
-    title: String = StringUtils.EMPTY,
-    message: String,
-    finishSelf: Boolean = false,
-    cancelable: Boolean = true
+        title: String = StringUtils.EMPTY,
+        message: String,
+        finishSelf: Boolean = false,
+        cancelable: Boolean = true
 ) {
     if (this !is Activity) {
         return
     }
     val activity = this
     BaseDialog.Builder(this)
-        .setMessage(title)
-        .setMessage(message)
-        .setPositiveButton(R.string.yes) { _, _ -> if (finishSelf) activity.finish() }
-        .setCancelable(cancelable)
-        .show()
+            .setMessage(title)
+            .setMessage(message)
+            .setPositiveButton(R.string.yes) { _, _ -> if (finishSelf) activity.finish() }
+            .setCancelable(cancelable)
+            .show()
 }
 
 /**
@@ -220,6 +221,9 @@ fun Context.openAppSettings() {
     }
 }
 
+/**
+ * 打开APP
+ */
 fun Context.openApp(packageName: String) {
     try {
         val intent = packageManager.getLaunchIntentForPackage(packageName)
@@ -227,4 +231,16 @@ fun Context.openApp(packageName: String) {
     } catch (e: Exception) {
         toast(R.string.exception_intent_open)
     }
+}
+
+/**
+ * 打开一个Class
+ */
+fun Context.open(cls: Class<*>, finishSelf: Boolean = false) {
+    val router = AppRouter.with(this)
+            .target(cls)
+    if (finishSelf) {
+        router.finishSelf()
+    }
+    router.start()
 }

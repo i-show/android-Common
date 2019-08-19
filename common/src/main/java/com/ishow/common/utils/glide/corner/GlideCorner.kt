@@ -45,8 +45,6 @@ class GlideCorner(roundingRadius: Int, val position: Position = Position.All) : 
             val canvas = Canvas(result)
             canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
             canvas.drawRoundRect(rect, radius.toFloat(), radius.toFloat(), paint)
-
-            //parseArea(canvas, rect, paint)
             clear(canvas)
         } finally {
             BITMAP_DRAWABLE_LOCK.unlock()

@@ -23,15 +23,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.ishow.common.R
+import com.ishow.common.app.mvp.IViewStatus
 import com.ishow.common.entries.status.Empty
 import com.ishow.common.entries.status.Error
 import com.ishow.common.entries.status.Loading
 import com.ishow.common.entries.status.Success
 import com.ishow.common.extensions.dialog
 import com.ishow.common.extensions.toast
-import com.ishow.common.app.mvp.IViewStatus
 import com.ishow.common.utils.permission.PermissionManager
-import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.widget.StatusView
 import com.ishow.common.widget.TopBar
 import com.ishow.common.widget.loading.LoadingDialog
@@ -238,19 +237,6 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
 
     override fun onStatusClick(v: View, which: StatusView.Which) {
 
-    }
-
-    /**
-     * 打开一个Activity
-     */
-    @JvmOverloads
-    fun open(cls: Class<*>, finishSelf: Boolean = false) {
-        val router = AppRouter.with(this)
-                .target(cls)
-        if (finishSelf) {
-            router.finishSelf()
-        }
-        router.start()
     }
 
     companion object {
