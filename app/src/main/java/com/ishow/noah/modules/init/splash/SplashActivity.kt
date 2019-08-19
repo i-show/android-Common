@@ -2,9 +2,7 @@ package com.ishow.noah.modules.init.splash
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import com.ishow.common.extensions.findDrawable
 import com.ishow.common.utils.permission.PermissionDenied
 import com.ishow.common.utils.permission.PermissionGranted
 import com.ishow.noah.databinding.ActivitySpalshBinding
@@ -19,19 +17,15 @@ class SplashActivity : AppBindActivity<ActivitySpalshBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mSplashViewModel = getViewModel(SplashViewModel::class.java)
-        initViewModel()
-    }
-
-    private fun initViewModel() {
-        val activity = this@SplashActivity
-        mSplashViewModel.run {
+        getViewModel(SplashViewModel::class.java).also {
+            mSplashViewModel = it
             // 注册状态
-            permissionGranted.observe(activity, Observer { permissionGranted() })
+            it.permissionStatus.observe(activity, Observer { permissionGranted() })
             // 初始化
-            preInit(activity)
+            it.preInit(this@SplashActivity)
         }
     }
+
 
     override fun onResume() {
         super.onResume()

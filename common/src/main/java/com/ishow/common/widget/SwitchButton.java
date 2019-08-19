@@ -79,7 +79,7 @@ public class SwitchButton extends CompoundButton {
     private ObjectAnimator mProcessAnimator;
     // animation control
     private float mProcess;
-    // temp position of thumb when dragging or animating
+    // temp pos of thumb when dragging or animating
     private RectF mPresentThumbRectF;
     private float mStartX, mStartY, mLastX;
     private int mTouchSlop;
@@ -441,7 +441,7 @@ public class SwitchButton extends CompoundButton {
 
 
     /**
-     * return the status based on position of thumb
+     * return the status based on pos of thumb
      *
      * @return
      */

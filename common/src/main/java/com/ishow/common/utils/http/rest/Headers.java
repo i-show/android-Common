@@ -78,7 +78,7 @@ public final class Headers {
     }
 
     /**
-     * Returns the field at {@code position}.
+     * Returns the field at {@code pos}.
      */
     public String name(int index) {
         return mNamesAndValues[index * 2];

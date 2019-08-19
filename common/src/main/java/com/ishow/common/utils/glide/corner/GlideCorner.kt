@@ -8,6 +8,7 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
 import com.bumptech.glide.util.Preconditions
 import com.bumptech.glide.util.Synthetic
 import com.bumptech.glide.util.Util
+import com.ishow.common.extensions.dp2px
 import java.nio.ByteBuffer
 import java.security.MessageDigest
 import java.util.concurrent.TimeUnit
@@ -17,14 +18,16 @@ import java.util.concurrent.locks.Lock
 /**
  * A [BitmapTransformation] which rounds the corners of a bitmap.
  */
-class GlideCorner(private val roundingRadius: Int) : BitmapTransformation() {
+class GlideCorner(roundingRadius: Int, val position: Position = Position.All) : BitmapTransformation() {
+
+    private val radius: Int = roundingRadius.dp2px()
 
     init {
-        Preconditions.checkArgument(roundingRadius > 0, "roundingRadius must be greater than 0.")
+        Preconditions.checkArgument(roundingRadius > 0, "radius must be greater than 0.")
     }
 
     override fun transform(pool: BitmapPool, toTransform2: Bitmap, outWidth: Int, outHeight: Int): Bitmap {
-        Preconditions.checkArgument(roundingRadius > 0, "roundingRadius must be greater than 0.")
+        Preconditions.checkArgument(radius > 0, "radius must be greater than 0.")
         val safeConfig = getAlphaSafeConfig(toTransform2)
         val toTransform = getAlphaSafeBitmap(pool, toTransform2)
         val result = pool.get(toTransform.width, toTransform.height, safeConfig)
@@ -35,14 +38,15 @@ class GlideCorner(private val roundingRadius: Int) : BitmapTransformation() {
         val paint = Paint()
         paint.isAntiAlias = true
         paint.shader = shader
-        val rect = RectF(0f, 0f, result.width.toFloat(), result.height.toFloat())
+        var rect = RectF(0f, 0f, result.width.toFloat(), result.height.toFloat())
         BITMAP_DRAWABLE_LOCK.lock()
         try {
+            rect = fixRect(rect)
             val canvas = Canvas(result)
             canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
-            canvas.drawRoundRect(rect, roundingRadius.toFloat(), roundingRadius.toFloat(), paint)
-            rect.top = result.height / 2f
-            canvas.drawRect(rect, paint)
+            canvas.drawRoundRect(rect, radius.toFloat(), radius.toFloat(), paint)
+
+            //parseArea(canvas, rect, paint)
             clear(canvas)
         } finally {
             BITMAP_DRAWABLE_LOCK.unlock()
@@ -54,21 +58,58 @@ class GlideCorner(private val roundingRadius: Int) : BitmapTransformation() {
         return result
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other is GlideCorner) {
-            val otherCorner = other as GlideCorner?
-            return roundingRadius == otherCorner!!.roundingRadius
+    @Suppress("ProtectedInFinal", "NON_EXHAUSTIVE_WHEN")
+    protected fun fixRect(originRect: RectF): RectF {
+        val rect = RectF(originRect)
+        when (position) {
+            Position.Top -> rect.bottom = originRect.bottom + radius
+            Position.Bottom -> rect.top = originRect.top - radius
+            Position.Start -> rect.right = originRect.right + radius
+            Position.End -> rect.left = originRect.left - radius
+
+            Position.TopStart -> {
+                rect.right = originRect.right + radius
+                rect.bottom = originRect.bottom + radius
+            }
+
+            Position.TopEnd -> {
+                rect.bottom = originRect.bottom + radius
+                rect.left = originRect.left - radius
+            }
+
+            Position.BottomStart -> {
+                rect.top = originRect.top - radius
+                rect.right = originRect.right + radius
+            }
+
+            Position.BottomEnd -> {
+                rect.top = originRect.top - radius
+                rect.left = originRect.left - radius
+            }
         }
-        return false
+        return rect
+    }
+
+
+    override fun equals(other: Any?): Boolean {
+        return if (other is GlideCorner) {
+            radius == other.radius && position == other.position
+        } else {
+            false
+        }
     }
 
     override fun hashCode(): Int {
-        return Util.hashCode(ID.hashCode(), Util.hashCode(roundingRadius))
+        return Util.hashCode(ID.hashCode(), Util.hashCode(radius, position.pos))
     }
 
     override fun updateDiskCacheKey(messageDigest: MessageDigest) {
         messageDigest.update(ID_BYTES)
-        val radiusData = ByteBuffer.allocate(4).putInt(roundingRadius).array()
+        val value = position.pos * 10000 + radius
+        val radiusData = ByteBuffer.allocate(5)
+                .putInt(value)
+                .array()
+
         messageDigest.update(radiusData)
     }
 
@@ -140,7 +181,17 @@ class GlideCorner(private val roundingRadius: Int) : BitmapTransformation() {
     }
 
 
-
+    enum class Position(val pos: Int) {
+        All(0),
+        Top(1),
+        Bottom(2),
+        Start(3),
+        End(4),
+        TopStart(5),
+        TopEnd(6),
+        BottomStart(7),
+        BottomEnd(8)
+    }
 
 }
 

@@ -63,7 +63,7 @@
         android:paddingTop="@dimen/gap_grade_1"
         android:paddingBottom="@dimen/gap_grade_4"
         android:text="@string/load_data_failed_tip"
-        android:textColor="@color/text_grey_light_more_normal"
+        android:textColor="@color/text_grey_light_more"
         android:textSize="@dimen/J_title" />
 
     <TextView

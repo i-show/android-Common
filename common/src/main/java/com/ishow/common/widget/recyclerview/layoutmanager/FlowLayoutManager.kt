@@ -32,7 +32,7 @@ class FlowLayoutManager : RecyclerView.LayoutManager() {
      */
     private var mTotalOffset: Int = 0
     /**
-     * 第一个可见的item position
+     * 第一个可见的item pos
      */
     private var mFirstVisiblePosition: Int = 0
     /**

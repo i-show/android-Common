@@ -11,19 +11,19 @@ import com.ishow.common.utils.router.AppRouter
 import com.ishow.noah.manager.ConfigureManager
 import com.ishow.noah.manager.VersionManager
 import com.ishow.noah.modules.account.common.AccountModel
-import com.ishow.noah.modules.account.login.LoginActivity
 import com.ishow.noah.modules.base.mvvm.AppBaseViewModel
 import com.ishow.noah.modules.init.splash.task.MinTimeTask
 import com.ishow.noah.modules.init.splash.task.TaskManager
 import com.ishow.noah.modules.init.splash.task.UserTask
+import com.ishow.noah.modules.main.MainActivity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class SplashViewModel(app: Application) : AppBaseViewModel(app) {
 
-    private val _permissionGranted = MutableLiveData<Boolean>()
-    val permissionGranted: LiveData<Boolean>
-        get() = _permissionGranted
+    private val _permissionStatus = MutableLiveData<Boolean>()
+    val permissionStatus: LiveData<Boolean>
+        get() = _permissionStatus
 
     private var initTime: Long = 0
     private var initFinished: Boolean = false
@@ -47,16 +47,14 @@ class SplashViewModel(app: Application) : AppBaseViewModel(app) {
             taskManager.startAsync().await()
             gotoTarget(activity)
         }
-
     }
-
 
     /**
      * 检测权限
      */
     private fun checkPermission(activity: SplashActivity) {
         if (PermissionManager.hasPermission(activity, *PERMISSIONS)) {
-            _permissionGranted.value = true
+            _permissionStatus.value = true
         } else {
             PermissionManager.with(activity)
                     .permission(*PERMISSIONS)
@@ -69,7 +67,8 @@ class SplashViewModel(app: Application) : AppBaseViewModel(app) {
 
     private fun gotoTarget(context: Context) {
         AppRouter.with(context)
-                .target(LoginActivity::class.java)
+                .target(MainActivity::class.java)
+                .finishSelf()
                 .start()
     }
 

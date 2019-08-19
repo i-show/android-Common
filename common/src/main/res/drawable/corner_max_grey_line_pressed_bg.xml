@@ -21,7 +21,7 @@
 
     <stroke
         android:width="1px"
-        android:color="@color/text_grey_pressed" />
+        android:color="@color/line" />
 
     <solid android:color="#15000000" />
 

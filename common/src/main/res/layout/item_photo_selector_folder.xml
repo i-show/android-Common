@@ -57,7 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{folder.name}"
-                android:textColor="@color/text_grey_dark_normal"
+                android:textColor="@color/text_grey_dark"
                 android:textSize="@dimen/H_title"
                 tools:text="img" />
 

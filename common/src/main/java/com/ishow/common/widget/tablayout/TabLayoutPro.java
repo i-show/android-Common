@@ -317,13 +317,13 @@ public class TabLayoutPro extends HorizontalScrollView {
     }
 
     /**
-     * Set the scroll position of the tabs. This is useful for when the tabs are being displayed as
+     * Set the scroll pos of the tabs. This is useful for when the tabs are being displayed as
      * part of a scrolling container such as {@link ViewPager}.
      * <p>
      * Calling this method does not update the selected tab, it is only used for drawing purposes.
      *
-     * @param position           current scroll position
-     * @param positionOffset     Value from [0, 1) indicating the offset from {@code position}.
+     * @param position           current scroll pos
+     * @param positionOffset     Value from [0, 1) indicating the offset from {@code pos}.
      * @param updateSelectedText Whether to update the text's selected state.
      */
     public void setScrollPosition(int position, float positionOffset, boolean updateSelectedText) {
@@ -337,12 +337,12 @@ public class TabLayoutPro extends HorizontalScrollView {
             return;
         }
 
-        // Set the indicator position, if enabled
+        // Set the indicator pos, if enabled
         if (updateIndicatorPosition) {
             mTabStrip.setIndicatorPositionFromTabPosition(position, positionOffset);
         }
 
-        // Now update the scroll position, canceling any running animation
+        // Now update the scroll pos, canceling any running animation
         if (mScrollAnimator != null && mScrollAnimator.isRunning()) {
             mScrollAnimator.cancel();
         }
@@ -370,11 +370,11 @@ public class TabLayoutPro extends HorizontalScrollView {
     }
 
     /**
-     * Add a tab to this layout. The tab will be inserted at <code>position</code>.
+     * Add a tab to this layout. The tab will be inserted at <code>pos</code>.
      * If this is the first tab to be added it will become the selected tab.
      *
      * @param tab      The tab to add
-     * @param position The new position of the tab
+     * @param position The new pos of the tab
      */
     @SuppressWarnings("unused")
     public void addTab(@NonNull Tab tab, int position) {
@@ -392,10 +392,10 @@ public class TabLayoutPro extends HorizontalScrollView {
     }
 
     /**
-     * Add a tab to this layout. The tab will be inserted at <code>position</code>.
+     * Add a tab to this layout. The tab will be inserted at <code>pos</code>.
      *
      * @param tab         The tab to add
-     * @param position    The new position of the tab
+     * @param position    The new pos of the tab
      * @param setSelected True if the added tab should become the selected tab.
      */
     public void addTab(@NonNull Tab tab, int position, boolean setSelected) {
@@ -514,9 +514,9 @@ public class TabLayoutPro extends HorizontalScrollView {
     }
 
     /**
-     * Returns the position of the current selected tab.
+     * Returns the pos of the current selected tab.
      *
-     * @return selected tab position, or {@code -1} if there isn't a selected tab.
+     * @return selected tab pos, or {@code -1} if there isn't a selected tab.
      */
     public int getSelectedTabPosition() {
         return mSelectedTab != null ? mSelectedTab.getPosition() : -1;
@@ -751,7 +751,7 @@ public class TabLayoutPro extends HorizontalScrollView {
             mAdapterChangeListener.setAutoRefresh(autoRefresh);
             viewPager.addOnAdapterChangeListener(mAdapterChangeListener);
 
-            // Now update the scroll position to match the ViewPager's current item
+            // Now update the scroll pos to match the ViewPager's current item
             setScrollPosition(viewPager.getCurrentItem(), 0f, true);
         } else {
             // We've been given a null ViewPager so we need to clear out the internal state,
@@ -1006,7 +1006,7 @@ public class TabLayoutPro extends HorizontalScrollView {
         if (getWindowToken() == null || !ViewCompat.isLaidOut(this)
                 || mTabStrip.childrenNeedLayout()) {
             // If we don't have a window token, or we haven't been laid out yet just draw the new
-            // position now
+            // pos now
             setScrollPosition(newPosition, 0f, true);
             return;
         }
@@ -1166,7 +1166,7 @@ public class TabLayoutPro extends HorizontalScrollView {
     public static final class Tab {
 
         /**
-         * An invalid position for a tab.
+         * An invalid pos for a tab.
          *
          * @see #getPosition()
          */
@@ -1272,9 +1272,9 @@ public class TabLayoutPro extends HorizontalScrollView {
         }
 
         /**
-         * Return the current position of this tab in the action bar.
+         * Return the current pos of this tab in the action bar.
          *
-         * @return Current position, or {@link #INVALID_POSITION} if this tab is not currently in
+         * @return Current pos, or {@link #INVALID_POSITION} if this tab is not currently in
          * the action bar.
          */
         public int getPosition() {
@@ -1888,7 +1888,7 @@ public class TabLayoutPro extends HorizontalScrollView {
                 animateIndicatorToPosition(mSelectedPosition,
                         Math.round((1f - mIndicatorAnimator.getAnimatedFraction()) * duration));
             } else {
-                // If we've been layed out, update the indicator position
+                // If we've been layed out, update the indicator pos
                 updateIndicatorPosition();
             }
         }
@@ -1935,7 +1935,7 @@ public class TabLayoutPro extends HorizontalScrollView {
 
             final View targetView = getChildAt(position);
             if (targetView == null) {
-                // If we don't have a view, just update the position now and return
+                // If we don't have a view, just update the pos now and return
                 updateIndicatorPosition();
                 return;
             }
@@ -2083,7 +2083,7 @@ public class TabLayoutPro extends HorizontalScrollView {
 
     /**
      * A {@link ViewPager.OnPageChangeListener} class which contains the
-     * necessary calls back to the provided {@link TabLayoutPro} so that the tab position is
+     * necessary calls back to the provided {@link TabLayoutPro} so that the tab pos is
      * kept in sync.
      *
      * <p>This class stores the provided TabLayout weakly, meaning that you can use
@@ -2145,7 +2145,7 @@ public class TabLayoutPro extends HorizontalScrollView {
 
     /**
      * A {@link TabLayoutPro.OnTabSelectedListener} class which contains the necessary calls back
-     * to the provided {@link ViewPager} so that the tab position is kept in sync.
+     * to the provided {@link ViewPager} so that the tab pos is kept in sync.
      */
     public static class ViewPagerOnTabSelectedListener implements TabLayoutPro.OnTabSelectedListener {
         private final ViewPager mViewPager;

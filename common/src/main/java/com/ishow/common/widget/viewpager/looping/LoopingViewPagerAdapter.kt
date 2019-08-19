@@ -121,7 +121,7 @@ abstract class LoopingViewPagerAdapter<DATA, HOLDER : LoopingViewPagerAdapter.Ho
     /**
      * 创建View容器
      *
-     * @param position 当前的 position
+     * @param position 当前的 pos
      * @return 当前view的容器
      */
     abstract fun onCreateView(parent: ViewGroup, position: Int, innerPosition: Int): HOLDER
@@ -130,7 +130,7 @@ abstract class LoopingViewPagerAdapter<DATA, HOLDER : LoopingViewPagerAdapter.Ho
      * 通过容器来 绑定view
      *
      * @param holder   当前view的容器
-     * @param position 当前的 position
+     * @param position 当前的 pos
      */
     abstract fun onBindView(holder: HOLDER, position: Int, innerPosition: Int)
 

@@ -25,16 +25,7 @@ import kotlinx.android.synthetic.main.fragement_mine.*
 
 class MineFragment : AppBindFragment<FragementMineBinding>() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        bindContentView(container, R.layout.fragement_mine)
-        return dataBinding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
-
+    override fun getLayout(): Int = R.layout.fragement_mine
 
 
     fun update(userContainer: UserContainer?) {

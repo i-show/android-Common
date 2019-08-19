@@ -31,14 +31,15 @@ import com.ishow.common.extensions.dialog
 import com.ishow.common.extensions.toast
 import com.ishow.common.app.mvp.IViewStatus
 import com.ishow.common.utils.permission.PermissionManager
+import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.widget.StatusView
 import com.ishow.common.widget.TopBar
 import com.ishow.common.widget.loading.LoadingDialog
 
 
 abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListener,
-    IViewStatus,
-    TopBar.OnTopBarListener {
+        IViewStatus,
+        TopBar.OnTopBarListener {
     /**
      * Loading的Dialog
      */
@@ -237,6 +238,19 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
 
     override fun onStatusClick(v: View, which: StatusView.Which) {
 
+    }
+
+    /**
+     * 打开一个Activity
+     */
+    @JvmOverloads
+    fun open(cls: Class<*>, finishSelf: Boolean = false) {
+        val router = AppRouter.with(this)
+                .target(cls)
+        if (finishSelf) {
+            router.finishSelf()
+        }
+        router.start()
     }
 
     companion object {

@@ -720,7 +720,7 @@ public class CropImageView extends AppCompatImageView {
         }
     }
 
-    // Frame position correction ///////////////////////////////////////////////////////////////////
+    // Frame pos correction ///////////////////////////////////////////////////////////////////
 
     private void checkScaleBounds() {
         float lDiff = mFrameRect.left - mImageRect.left;
@@ -1072,7 +1072,7 @@ public class CropImageView extends AppCompatImageView {
     }
 
     /**
-     * Get frame position relative to the source bitmap.
+     * Get frame pos relative to the source bitmap.
      *
      * @return crop area boundaries.
      */

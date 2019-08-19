@@ -45,7 +45,7 @@ import kotlin.math.pow
 
 
 class PickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
-    View(context, attrs, defStyleAttr) {
+        View(context, attrs, defStyleAttr) {
 
     /**
      * 校准数据时应该增加或者减少的Position
@@ -109,7 +109,7 @@ class PickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet
                 return
             }
             if (position >= mAdapter!!.getCount()) {
-                throw IllegalArgumentException("position is " + position + "  while total count" + mAdapter!!.getCount())
+                throw IllegalArgumentException("pos is " + position + "  while total count" + mAdapter!!.getCount())
             }
             mCurrentPosition = position
             postInvalidate()
@@ -292,11 +292,11 @@ class PickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         val width = measuredWidth
         // 视觉上有点偏左
         mDrawItemX =
-            if (mUnitWidth > 0) {
-                (width - mUnitWidth) / 2 + width / 11
-            } else {
-                width / 2
-            }
+                if (mUnitWidth > 0) {
+                    (width - mUnitWidth) / 2 + width / 11
+                } else {
+                    width / 2
+                }
         drawLine(canvas, width)
         drawText(canvas)
         drawUnit(canvas)
@@ -582,7 +582,7 @@ class PickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet
      */
     private fun getItemText(position: Int): String {
         var pos = position
-        if (mAdapter == null || mAdapter.isEmpty()) {
+        if (mAdapter == null || mAdapter!!.isEmpty()) {
             Log.i(TAG, "getItemText: mAdapter is null")
             return StringUtils.EMPTY
         }

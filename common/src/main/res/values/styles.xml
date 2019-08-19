@@ -233,7 +233,7 @@
         <item name="errorSubText">@string/load_data_failed_tip</item>
         <item name="errorSubTextSize">@dimen/status_view_sub_title_size</item>
         <item name="errorSubTextColor">@color/status_view_sub_title_color</item>
-        <item name="errorImage">@drawable/status_error</item>
+        <item name="errorImage">@drawable/svg_status_error</item>
 
         <item name="emptyText">@string/nothing</item>
         <item name="emptyTextSize">@dimen/status_view_title_size</item>
@@ -241,7 +241,7 @@
         <item name="emptySubText" />
         <item name="emptySubTextSize">@dimen/status_view_sub_title_size</item>
         <item name="emptySubTextColor">@color/status_view_sub_title_color</item>
-        <item name="emptyImage">@drawable/status_empty</item>
+        <item name="emptyImage">@drawable/svg_status_empty</item>
 
         <item name="reloadText">@string/reload_data</item>
         <item name="reloadTextSize">@dimen/status_view_reload_size</item>

@@ -34,12 +34,13 @@ import com.ishow.noah.modules.main.home.HomeFragment
 import com.ishow.noah.modules.main.mine.MineFragment
 import com.ishow.noah.modules.main.tab2.Tab2Fragment
 import com.ishow.noah.modules.main.tab3.Tab3Fragment
+import com.ishow.noah.modules.sample.glide.SampleGlideCornerFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
 
     private var mBeforeFragment: Fragment? = null
-    private var mTab1Fragment: HomeFragment? = null
+    private var mTab1Fragment: SampleGlideCornerFragment? = null
     private var mTab2Fragment: Tab2Fragment? = null
     private var mTab3Fragment: Tab3Fragment? = null
     private var mTab4Fragment: MineFragment? = null
@@ -93,7 +94,7 @@ class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
         when (selectId) {
             R.id.tab_1 -> {
                 if (mTab1Fragment == null) {
-                    mTab1Fragment = HomeFragment.newInstance()
+                    mTab1Fragment = SampleGlideCornerFragment()
                 }
                 if (mTab1Fragment!!.isAdded) {
                     transaction.show(mTab1Fragment!!)

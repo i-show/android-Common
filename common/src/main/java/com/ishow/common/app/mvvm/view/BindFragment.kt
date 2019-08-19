@@ -1,6 +1,8 @@
 package com.ishow.common.app.mvvm.view
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -18,15 +20,23 @@ import com.ishow.common.utils.databinding.bus.Event
 abstract class BindFragment<T : ViewDataBinding> : BaseFragment() {
     protected lateinit var dataBinding: T
 
-    protected open fun bindContentView(container: ViewGroup?, layoutId: Int) {
+
+    abstract fun getLayout(): Int
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return bindContentView(container, getLayout())
+    }
+
+    protected open fun bindContentView(container: ViewGroup?, layoutId: Int): View {
         dataBinding = DataBindingUtil.inflate(layoutInflater, layoutId, container, false)
+        return dataBinding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         dataBinding.lifecycleOwner = viewLifecycleOwner
     }
-    
+
     protected open fun <VM : BaseViewModel> getViewModel(viewModelClass: Class<VM>): VM {
         val vm = ViewModelProvider(this).get(viewModelClass)
         val fragment = this@BindFragment

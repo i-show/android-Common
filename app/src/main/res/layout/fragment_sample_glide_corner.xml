@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.ishow.common.utils.glide.corner.GlideCorner.Position" />
+
+        <variable
+            name="imgUrl"
+            type="String" />
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/des_image"
+                android:textColor="@color/text_grey"
+                android:textSize="15sp"
+                app:fakeBoldText="@{true}" />
+
+            <ImageView
+                android:layout_width="300dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:contentDescription="@string/des_image"
+                android:scaleType="centerCrop"
+                app:glideCorner="@{50}"
+                app:glideCornerPosition="@{Position.Top}"
+                app:imageUrl="@{imgUrl}"
+                app:placeholder="@{@drawable/splash}" />
+
+            <ImageView
+                android:layout_width="300dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dp_10"
+                android:contentDescription="@string/des_image"
+                android:scaleType="centerCrop"
+                app:glideCorner="@{50}"
+                app:glideCornerPosition="@{Position.Bottom}"
+                app:imageUrl="@{imgUrl}"
+                app:placeholder="@{@drawable/splash}" />
+
+            <ImageView
+                android:layout_width="300dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dp_10"
+                android:contentDescription="@string/des_image"
+                android:scaleType="centerCrop"
+                app:glideCorner="@{90}"
+                app:glideCornerPosition="@{Position.Start}"
+                app:imageUrl="@{imgUrl}"
+                app:placeholder="@{@drawable/splash}" />
+
+
+            <ImageView
+                android:layout_width="300dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dp_10"
+                android:contentDescription="@string/des_image"
+                android:scaleType="centerCrop"
+                app:glideCorner="@{50}"
+                app:glideCornerPosition="@{Position.End}"
+                app:imageUrl="@{imgUrl}"
+                app:placeholder="@{@drawable/splash}" />
+
+            <ImageView
+                android:layout_width="300dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dp_10"
+                android:contentDescription="@string/des_image"
+                android:scaleType="centerCrop"
+                app:glideCorner="@{50}"
+                app:glideCornerPosition="@{Position.TopStart}"
+                app:imageUrl="@{imgUrl}"
+                app:placeholder="@{@drawable/splash}" />
+
+            <ImageView
+                android:layout_width="300dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dp_10"
+                android:contentDescription="@string/des_image"
+                android:scaleType="centerCrop"
+                app:glideCorner="@{50}"
+                app:glideCornerPosition="@{Position.TopEnd}"
+                app:imageUrl="@{imgUrl}"
+                app:placeholder="@{@drawable/splash}" />
+
+            <ImageView
+                android:layout_width="300dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dp_10"
+                android:contentDescription="@string/des_image"
+                android:scaleType="centerCrop"
+                app:glideCorner="@{50}"
+                app:glideCornerPosition="@{Position.BottomStart}"
+                app:imageUrl="@{imgUrl}"
+                app:placeholder="@{@drawable/splash}" />
+
+            <ImageView
+                android:layout_width="300dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dp_10"
+                android:contentDescription="@string/des_image"
+                android:scaleType="centerCrop"
+                app:glideCorner="@{50}"
+                app:glideCornerPosition="@{Position.BottomEnd}"
+                app:imageUrl="@{imgUrl}"
+                app:placeholder="@{@drawable/splash}" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+        </LinearLayout>
+    </ScrollView>
+</layout>
