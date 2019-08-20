@@ -26,6 +26,7 @@ import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.ishow.common.extensions.showFragment
 import com.ishow.common.utils.ToastUtils
 import com.ishow.common.widget.BottomBar
 import com.ishow.noah.R
@@ -40,7 +41,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
 
     private var mBeforeFragment: Fragment? = null
-    private var mTab1Fragment: SampleGlideCornerFragment? = null
+    private var mTab1Fragment: HomeFragment? = null
     private var mTab2Fragment: Tab2Fragment? = null
     private var mTab3Fragment: Tab3Fragment? = null
     private var mTab4Fragment: MineFragment? = null
@@ -86,23 +87,12 @@ class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
 
 
     fun selectFragment(selectId: Int) {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-        if (mBeforeFragment != null) {
-            transaction.hide(mBeforeFragment!!)
-        }
         when (selectId) {
             R.id.tab_1 -> {
                 if (mTab1Fragment == null) {
-                    mTab1Fragment = SampleGlideCornerFragment()
+                    mTab1Fragment = HomeFragment.newInstance()
                 }
-                if (mTab1Fragment!!.isAdded) {
-                    transaction.show(mTab1Fragment!!)
-                } else {
-                    transaction.add(R.id.content, mTab1Fragment!!)
-                }
-                transaction.commit()
-
+                showFragment(mTab1Fragment, mBeforeFragment, FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 mBeforeFragment = mTab1Fragment
             }
             R.id.tab_2 -> {
@@ -110,39 +100,21 @@ class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
                     mTab2Fragment = Tab2Fragment.newInstance()
                 }
 
-                if (mTab2Fragment!!.isAdded) {
-                    transaction.show(mTab2Fragment!!)
-                } else {
-                    transaction.add(R.id.content, mTab2Fragment!!)
-                }
-                transaction.commit()
-
+                showFragment(mTab2Fragment, mBeforeFragment, FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 mBeforeFragment = mTab2Fragment
             }
             R.id.tab_3 -> {
                 if (mTab3Fragment == null) {
                     mTab3Fragment = Tab3Fragment.newInstance()
                 }
-                if (mTab3Fragment!!.isAdded) {
-                    transaction.show(mTab3Fragment!!)
-                } else {
-                    transaction.add(R.id.content, mTab3Fragment!!)
-                }
-                transaction.commit()
-
+                showFragment(mTab3Fragment, mBeforeFragment, FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 mBeforeFragment = mTab3Fragment
             }
             R.id.tab_4 -> {
                 if (mTab4Fragment == null) {
                     mTab4Fragment = MineFragment.newInstance()
                 }
-                if (mTab4Fragment!!.isAdded) {
-                    transaction.show(mTab4Fragment!!)
-                } else {
-                    transaction.add(R.id.content, mTab4Fragment!!)
-                }
-                transaction.commit()
-
+                showFragment(mTab4Fragment, mBeforeFragment, FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 mBeforeFragment = mTab4Fragment
             }
         }

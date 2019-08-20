@@ -19,6 +19,7 @@ package com.ishow.noah.modules.account.login
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import com.ishow.common.extensions.open
 import com.ishow.common.utils.databinding.bus.Event
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.utils.watcher.EnableTextWatcher
@@ -46,7 +47,7 @@ class LoginActivity : AppBindActivity<ActivityLoginBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bindContentView(R.layout.activity_login)
-        getViewModel(LoginViewModel::class.java).also {
+        bindViewModel(LoginViewModel::class.java) {
             observeLiveData(it)
             dataBinding.vm = it
             mLoginViewModel = it
@@ -70,15 +71,11 @@ class LoginActivity : AppBindActivity<ActivityLoginBinding>() {
             }
 
             R.id.register -> {
-                AppRouter.with(this)
-                    .target(RegisterActivity::class.java)
-                    .start()
+                open(RegisterActivity::class.java)
             }
 
             R.id.forgotPassword -> {
-                AppRouter.with(this)
-                    .target(ForgotPasswordActivity::class.java)
-                    .start()
+                open(ForgotPasswordActivity::class.java)
             }
         }
     }

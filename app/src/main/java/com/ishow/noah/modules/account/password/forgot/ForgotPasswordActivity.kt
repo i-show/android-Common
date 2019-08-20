@@ -50,7 +50,7 @@ class ForgotPasswordActivity : AppBindActivity<ActivityPasswordBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bindContentView(R.layout.activity_password)
-        getViewModel(ForgotPasswordViewModel::class.java).also {
+        bindViewModel(ForgotPasswordViewModel::class.java) {
             observeLiveData(it)
             mViewModel = it
             dataBinding.vm = it

@@ -1,19 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.ishow.common.widget.TopBar
-        android:id="@+id/topBar"
+    <data>
+
+        <variable
+            name="vm"
+            type="com.ishow.noah.modules.sample.main.SampleMainViewModel" />
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:text="@string/sample_main" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <com.ishow.common.widget.recyclerview.AnimationRecyclerView
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        <com.ishow.common.widget.TopBar
+            android:id="@+id/topBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:text="@{vm.title}" />
 
-</LinearLayout>
+        <FrameLayout
+            android:id="@+id/fragmentContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+</layout>

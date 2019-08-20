@@ -85,4 +85,5 @@ abstract class AppBindActivity<T: ViewDataBinding> : BindActivity<T>() {
         }
         mVersionDialog = null
     }
+
 }

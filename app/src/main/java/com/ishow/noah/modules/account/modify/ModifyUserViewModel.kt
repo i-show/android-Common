@@ -15,7 +15,7 @@ class ModifyUserViewModel(application: Application) : AppBaseViewModel(applicati
         get() = _avatarPath
 
 
-    fun init() {
+    override fun init() {
         _avatarPath.value = UserManager.instance.getAvatar(context)
     }
 

@@ -21,7 +21,7 @@ class ModifyUserActivity : AppBindActivity<ActivityModifyUserInfoBinding>(), OnS
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bindContentView(R.layout.activity_modify_user_info)
-        getViewModel(ModifyUserViewModel::class.java).also {
+        bindViewModel(ModifyUserViewModel::class.java) {
             dataBinding.vm = it
             it.init()
         }

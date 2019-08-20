@@ -55,7 +55,7 @@ class PhotoSelectorActivity : BindActivity<ActivityPhotoSelectorBinding>() {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_PhotoSelector)
         bindContentView(R.layout.activity_photo_selector)
-        mViewModel = getViewModel(PhotoSelectorViewModel::class.java)
+        mViewModel = bindViewModel(PhotoSelectorViewModel::class.java)
         mViewModel.init(context = this, maxCount = mMaxCount, mode = mMode)
 
         dataBinding.vm = mViewModel

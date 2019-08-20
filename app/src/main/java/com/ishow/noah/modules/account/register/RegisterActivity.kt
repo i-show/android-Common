@@ -48,7 +48,7 @@ class RegisterActivity : AppBindActivity<ActivityRegisterBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bindContentView(R.layout.activity_register)
-        getViewModel(RegisterViewModel::class.java).also {
+        bindViewModel(RegisterViewModel::class.java) {
             observeLiveData(it)
             mViewModel = it
             dataBinding.vm = it

@@ -20,27 +20,33 @@
 package com.ishow.noah.modules.sample.main
 
 import android.os.Bundle
-import android.util.Log
-import com.ishow.common.extensions.format2Money
-import com.ishow.common.widget.recyclerview.layoutmanager.FlowLayoutManager
+import androidx.fragment.app.Fragment
+import com.ishow.common.extensions.showFragment
 import com.ishow.noah.R
-import com.ishow.noah.modules.base.AppBaseActivity
-import kotlinx.android.synthetic.main.activity_sample_main.*
+import com.ishow.noah.databinding.ActivitySampleMainBinding
+import com.ishow.noah.modules.base.mvvm.AppBindActivity
 
 /**
  * 测试Demo
  */
-class SampleMainActivity : AppBaseActivity() {
+class SampleMainActivity : AppBindActivity<ActivitySampleMainBinding>() {
+    private lateinit var viewModel: SampleMainViewModel
+    private val mListFragment = SampleListFragment.newInstance()
+    private var mLastFragment: Fragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sample_main)
+        bindContentView(R.layout.activity_sample_main)
 
-        val adapter = SampleMainAdapter(this)
-        adapter.data = SampleManager.getSamples()
-
-        list.layoutManager = FlowLayoutManager()
-        list.adapter = adapter
+        bindViewModel(SampleMainViewModel::class.java) {
+            viewModel = it
+            dataBinding.vm = it
+            showFragment(mListFragment)
+        }
     }
 
+    fun showDetail(fragment: Fragment) {
+        mLastFragment=  fragment
+        showFragment(fragment, mListFragment)
+    }
 }

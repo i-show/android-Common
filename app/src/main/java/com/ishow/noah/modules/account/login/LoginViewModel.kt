@@ -33,7 +33,7 @@ class LoginViewModel(application: Application) : AppBaseViewModel(application) {
 
     private lateinit var mAccountModel: AccountModel
 
-    fun init() {
+    override fun init() {
         mAccountModel = AccountModel()
 
         val account = StorageUtils.with(context)

@@ -24,6 +24,7 @@ open class BindAdapter<T>(val context: Context) : RecyclerView.Adapter<BindAdapt
     private var itemClickListener: ((Int) -> Unit)? = null
 
     protected var disableOnItemClickListener = false
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindHolder {
         val item = parent.inflate(layoutList[viewType])
         setItemListener(item)
@@ -94,11 +95,13 @@ open class BindAdapter<T>(val context: Context) : RecyclerView.Adapter<BindAdapt
             return
         }
 
-        itemClickListener?.let { listener ->
-            item.setOnClickListener {
-                val position = it.getTag(R.id.tag_position) as Int
-                listener(position)
+        item.setOnClickListener {
+            if (itemClickListener == null) {
+                return@setOnClickListener
             }
+
+            val position = it.getTag(R.id.tag_position) as Int
+            itemClickListener!!(position)
         }
     }
 

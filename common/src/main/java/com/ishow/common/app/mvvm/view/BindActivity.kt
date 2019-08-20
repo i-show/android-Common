@@ -25,18 +25,19 @@ abstract class BindActivity<T : ViewDataBinding> : BaseActivity() {
         return dataBinding
     }
 
-    protected open fun <VM : BaseViewModel> getViewModel(viewModelClass: Class<VM>): VM {
-        val vm = ViewModelProvider(this).get(viewModelClass)
+    protected open fun <VM : BaseViewModel> bindViewModel(cls: Class<VM>, block: ((VM) -> Unit)? = null): VM {
+        val vm = ViewModelProvider(this).get(cls)
         val activity = this@BindActivity
-        vm.run {
-            loadingStatus.observe(activity, Observer { changeLoadingStatus(it) })
-            errorStatus.observe(activity, Observer { changeErrorStatus(it) })
-            successStatus.observe(activity, Observer { changeSuccessStatus(it) })
-            emptyStatus.observe(activity, Observer { changeEmptyStatus(it) })
-            toastMessage.observe(activity, Observer { showToast(it) })
-            return vm
-        }
+        vm.loadingStatus.observe(activity, Observer { changeLoadingStatus(it) })
+        vm.errorStatus.observe(activity, Observer { changeErrorStatus(it) })
+        vm.successStatus.observe(activity, Observer { changeSuccessStatus(it) })
+        vm.emptyStatus.observe(activity, Observer { changeEmptyStatus(it) })
+        vm.toastMessage.observe(activity, Observer { showToast(it) })
+        vm.init()
+        block?.let { it(vm) }
+        return vm
     }
+
 
     /**
      * 改变LoadingDialog的状态

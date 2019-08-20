@@ -57,6 +57,11 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
         get() = _toastMessage
 
     /**
+     * 初始化
+     */
+    open fun init() {}
+
+    /**
      * 显示加载动画
      */
     fun showLoading() {
@@ -90,7 +95,7 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
      * 展示错误信息
      */
     fun showError(message: String? = StringUtils.EMPTY) {
-            showError(Error.toast(message))
+        showError(Error.toast(message))
     }
 
     fun showError(@StringRes messageRes: Int) {

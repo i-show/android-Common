@@ -17,7 +17,7 @@ class SplashActivity : AppBindActivity<ActivitySpalshBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getViewModel(SplashViewModel::class.java).also {
+        bindViewModel(SplashViewModel::class.java) {
             mSplashViewModel = it
             // 注册状态
             it.permissionStatus.observe(activity, Observer { permissionGranted() })

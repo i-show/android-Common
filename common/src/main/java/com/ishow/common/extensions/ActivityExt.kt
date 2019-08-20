@@ -1,5 +1,6 @@
 package com.ishow.common.extensions
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
@@ -22,8 +23,6 @@ fun Activity.inflate(layoutRes: Int): View {
  */
 fun AppCompatActivity.showFragment(fragment: Fragment, layoutId: Int = R.id.fragmentContainer) {
     val transaction = supportFragmentManager.beginTransaction()
-    transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-
     if (fragment.isAdded) {
         transaction.show(fragment)
     } else {
@@ -35,12 +34,32 @@ fun AppCompatActivity.showFragment(fragment: Fragment, layoutId: Int = R.id.frag
 /**
  * 显示Fragment
  */
-fun AppCompatActivity.showFragment(showFragment: Fragment, hideFragment: Fragment? = null, layout: Int = R.id.fragmentContainer) {
+@SuppressLint("WrongConstant")
+fun AppCompatActivity.showFragment(
+        showFragment: Fragment?,
+        hideFragment: Fragment? = null,
+        transitionStyle: Int = FragmentTransaction.TRANSIT_UNSET,
+        layout: Int = R.id.fragmentContainer
+) {
     val transaction = supportFragmentManager.beginTransaction()
-    transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+    if (transitionStyle == FragmentTransaction.TRANSIT_UNSET) {
+        transaction.setCustomAnimations(
+                R.anim.activity_right_in,
+                R.anim.activity_left_out,
+                R.anim.activity_left_in,
+                R.anim.activity_right_out
+        )
+    } else {
+        transaction.setTransition(transitionStyle)
+    }
 
     if (hideFragment != null) {
         transaction.hide(hideFragment)
+    }
+
+    if (showFragment == null) {
+        transaction.commit()
+        return
     }
 
     if (showFragment.isAdded) {
@@ -49,6 +68,7 @@ fun AppCompatActivity.showFragment(showFragment: Fragment, hideFragment: Fragmen
         transaction.add(layout, showFragment)
     }
 
+    transaction.addToBackStack(null)
     transaction.commit()
 }
 
@@ -57,7 +77,6 @@ fun AppCompatActivity.showFragment(showFragment: Fragment, hideFragment: Fragmen
  */
 fun AppCompatActivity.hideFragment(fragment: Fragment) {
     val transaction = supportFragmentManager.beginTransaction()
-    transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
     transaction.hide(fragment)
     transaction.commit()
 }

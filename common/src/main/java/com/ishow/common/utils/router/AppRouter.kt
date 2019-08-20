@@ -307,6 +307,7 @@ class AppRouter private constructor() {
             config = custom
         }
 
+        @JvmStatic
         fun with(context: Context?): AppRouter {
             if(context == null) throw IllegalStateException("context is null")
             val router = AppRouter()
