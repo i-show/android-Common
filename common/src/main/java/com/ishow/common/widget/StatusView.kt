@@ -87,7 +87,7 @@ class StatusView @JvmOverloads constructor(context: Context, attrs: AttributeSet
      * 默认字体颜色
      */
     private val defaultTextColor: ColorStateList?
-        get() = ContextCompat.getColorStateList(context, R.color.text_grey)
+        get() = ContextCompat.getColorStateList(context, R.color.text_grey_light)
 
     /**
      * 默认副标题字体大小
@@ -99,7 +99,7 @@ class StatusView @JvmOverloads constructor(context: Context, attrs: AttributeSet
      * 默认副标题字体颜色
      */
     private val defaultSubTextColor: ColorStateList?
-        get() = ContextCompat.getColorStateList(context, R.color.text_grey_light)
+        get() = ContextCompat.getColorStateList(context, R.color.text_grey_light_more)
 
     /**
      * 默认重新加载字体大小

@@ -19,6 +19,7 @@
 
 package com.ishow.noah.modules.sample.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -52,6 +53,13 @@ class SampleMainActivity : AppBindActivity<ActivitySampleMainBinding>() {
                 viewModel.updateTitle(getString(R.string.sample_main))
             }
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Log.i("yhy", "requestCode = $requestCode")
+        Log.i("yhy", "resultCode = $resultCode")
+        Log.i("yhy", "data = $data")
     }
 
     fun showDetail(sample: Sample) {

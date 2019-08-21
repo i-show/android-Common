@@ -47,7 +47,7 @@ class ModifyUserActivity : AppBindActivity<ActivityModifyUserInfoBinding>(), OnS
         mSelectPhotoUtils.select(1, 1, Bitmap.CompressFormat.JPEG)
     }
 
-    override fun onSelectedPhoto(multiPath: List<String>, singlePath: String) {
+    override fun onSelectedPhoto(multiPath: MutableList<String>, singlePath: String) {
         dataBinding.vm?.uploadAvatar(singlePath)
     }
 }

@@ -31,6 +31,7 @@ import android.util.Log
 import androidx.annotation.IntDef
 import androidx.annotation.IntRange
 import androidx.core.content.FileProvider
+import androidx.fragment.app.Fragment
 import com.ishow.common.R
 import com.ishow.common.entries.Photo
 import com.ishow.common.modules.image.cutter.PhotoCutterActivity
@@ -51,7 +52,7 @@ import java.util.concurrent.Executors
 /**
  * 基类
  */
-class SelectPhotoUtils(private val mActivity: Activity, @param:SelectMode private var mSelectMode: Int) :
+class SelectPhotoUtils(private val activity: Activity, @param:SelectMode private var mSelectMode: Int) :
     DialogInterface.OnClickListener, DialogInterface.OnDismissListener {
 
     /**
@@ -104,6 +105,7 @@ class SelectPhotoUtils(private val mActivity: Activity, @param:SelectMode privat
      */
     private lateinit var mCompressFormat: Bitmap.CompressFormat
 
+    var fragment: Fragment? = null
 
     @SuppressLint("HandlerLeak")
     private val mHandler = object : Handler() {
@@ -203,7 +205,7 @@ class SelectPhotoUtils(private val mActivity: Activity, @param:SelectMode privat
      */
     private fun showSelectDialog() {
         if (mSelectDialog == null) {
-            mSelectDialog = BaseDialog.Builder(mActivity, R.style.Theme_Dialog_Bottom)
+            mSelectDialog = BaseDialog.Builder(activity, R.style.Theme_Dialog_Bottom)
                 .setNegativeButton(R.string.cancel, null)
                 .fromBottom(true)
                 .setItems(R.array.select_photos) { dialog, which -> onClick(dialog, which) }
@@ -226,19 +228,31 @@ class SelectPhotoUtils(private val mActivity: Activity, @param:SelectMode privat
     /**
      * 通过相机来选择图片
      */
+    @Suppress("SpellCheckingInspection")
     private fun selectPhotoByCamera(file: File? = null) {
         var resultFile = file
-        @Suppress("SpellCheckingInspection")
-        val authority = StringUtils.plusString(mActivity.packageName, ".fileprovider")
-        if (resultFile == null) resultFile = ImageUtils.genImageFile(mActivity)
+        val authority = activity.packageName + ".fileprovider"
+        if (resultFile == null) resultFile = ImageUtils.genImageFile(activity)
         mCameraFileUri = Uri.fromFile(resultFile)
-        val uri = FileProvider.getUriForFile(mActivity, authority, resultFile)
+        val uri = FileProvider.getUriForFile(activity, authority, resultFile)
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
         when (mSelectMode) {
-            SelectMode.SINGLE -> mActivity.startActivityForResult(intent, Request.REQUEST_SINGLE_CAMERA)
-            SelectMode.MULTIPLE -> mActivity.startActivityForResult(intent, Request.REQUEST_MULTI_CAMERA)
+            SelectMode.SINGLE -> {
+                if (fragment == null) {
+                    activity.startActivityForResult(intent, Request.REQUEST_SINGLE_CAMERA)
+                } else {
+                    fragment?.startActivityForResult(intent, Request.REQUEST_SINGLE_CAMERA)
+                }
+            }
+            SelectMode.MULTIPLE -> {
+                if (fragment == null) {
+                    activity.startActivityForResult(intent, Request.REQUEST_MULTI_CAMERA)
+                } else {
+                    fragment?.startActivityForResult(intent, Request.REQUEST_MULTI_CAMERA)
+                }
+            }
         }
     }
 
@@ -246,16 +260,24 @@ class SelectPhotoUtils(private val mActivity: Activity, @param:SelectMode privat
      * 通过相册来选择图片
      */
     private fun selectPhotoByGallery() {
-        val intent = Intent(mActivity, PhotoSelectorActivity::class.java)
+        val intent = Intent(activity, PhotoSelectorActivity::class.java)
         when (mSelectMode) {
             SelectMode.SINGLE -> {
                 intent.putExtra(Photo.Key.EXTRA_SELECT_MODE, Photo.Key.MODE_SINGLE)
-                mActivity.startActivityForResult(intent, Request.REQUEST_SINGLE_PICK)
+                if (fragment == null) {
+                    activity.startActivityForResult(intent, Request.REQUEST_SINGLE_PICK)
+                } else {
+                    fragment?.startActivityForResult(intent, Request.REQUEST_SINGLE_PICK)
+                }
             }
             SelectMode.MULTIPLE -> {
                 intent.putExtra(Photo.Key.EXTRA_SELECT_MODE, Photo.Key.MODE_MULTI)
                 intent.putExtra(Photo.Key.EXTRA_SELECT_COUNT, mMaxSelectCount)
-                mActivity.startActivityForResult(intent, Request.REQUEST_MULTI_PICK)
+                if (fragment == null) {
+                    activity.startActivityForResult(intent, Request.REQUEST_MULTI_PICK)
+                } else {
+                    fragment?.startActivityForResult(intent, Request.REQUEST_MULTI_PICK)
+                }
             }
         }
     }
@@ -269,30 +291,37 @@ class SelectPhotoUtils(private val mActivity: Activity, @param:SelectMode privat
      * 用来接管activity的result
      */
     fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
-        if (intentData == null) {
-            LoadingDialog.dismiss(mLoadingDialog)
-            return
-        }
-
         if (resultCode == Activity.RESULT_CANCELED) {
             LoadingDialog.dismiss(mLoadingDialog)
             resolveResultCanceled(requestCode)
             return
         }
 
-
         when (requestCode) {
             // 不管多选还是单选 相机处理是一样的
-            Request.REQUEST_SINGLE_CAMERA, Request.REQUEST_MULTI_CAMERA -> resolveSingleResult(mCameraFileUri!!.path)
+            Request.REQUEST_SINGLE_CAMERA,
+            Request.REQUEST_MULTI_CAMERA -> resolveSingleResult(mCameraFileUri!!.path)
             Request.REQUEST_SINGLE_PICK -> {
+                if (intentData == null) {
+                    LoadingDialog.dismiss(mLoadingDialog)
+                    return
+                }
                 val path = intentData.getStringExtra(Photo.Key.EXTRA_RESULT)
                 resolveSingleResult(path)
             }
             Request.REQUEST_MULTI_PICK -> {
+                if (intentData == null) {
+                    LoadingDialog.dismiss(mLoadingDialog)
+                    return
+                }
                 val pathList = intentData.getStringArrayListExtra(Photo.Key.EXTRA_RESULT)
                 resolveMultiResult(pathList)
             }
             Request.REQUEST_CROP_IMAGE -> {
+                if (intentData == null) {
+                    LoadingDialog.dismiss(mLoadingDialog)
+                    return
+                }
                 val picPath = intentData.getStringExtra(PhotoCutterActivity.KEY_RESULT_PATH)
                 notifySelectPhoto(picPath)
             }
@@ -310,7 +339,7 @@ class SelectPhotoUtils(private val mActivity: Activity, @param:SelectMode privat
             Request.REQUEST_SINGLE_CAMERA,
             Request.REQUEST_MULTI_PICK,
             Request.REQUEST_MULTI_CAMERA,
-            Request.REQUEST_CROP_IMAGE -> ToastUtils.show(mActivity, R.string.cancel_photo)
+            Request.REQUEST_CROP_IMAGE -> ToastUtils.show(activity, R.string.cancel_photo)
         }
     }
 
@@ -323,7 +352,7 @@ class SelectPhotoUtils(private val mActivity: Activity, @param:SelectMode privat
             return
         }
 
-        mLoadingDialog = LoadingDialog.show(mActivity, mLoadingDialog)
+        mLoadingDialog = LoadingDialog.show(activity, mLoadingDialog)
 
         val photos = ArrayList<String>()
         photos.add(picPath!!)
@@ -333,7 +362,7 @@ class SelectPhotoUtils(private val mActivity: Activity, @param:SelectMode privat
 
         when (mResultMode) {
             ResultMode.COMPRESS -> {
-                mLoadingDialog = LoadingDialog.show(mActivity, mLoadingDialog)
+                mLoadingDialog = LoadingDialog.show(activity, mLoadingDialog)
                 resolveResultPhotosForCompress(photos)
             }
             ResultMode.CROP -> goToCrop(picPath)
@@ -352,7 +381,7 @@ class SelectPhotoUtils(private val mActivity: Activity, @param:SelectMode privat
         mPhotos.clear()
         mPhotos.addAll(pathList)
 
-        mLoadingDialog = LoadingDialog.show(mActivity, mLoadingDialog)
+        mLoadingDialog = LoadingDialog.show(activity, mLoadingDialog)
         resolveResultPhotosForCompress(pathList)
     }
 
@@ -375,17 +404,25 @@ class SelectPhotoUtils(private val mActivity: Activity, @param:SelectMode privat
      * 跳转剪切
      */
     private fun goToCrop(path: String?) {
-        val intent = Intent(mActivity, PhotoCutterActivity::class.java)
+        val intent = Intent(activity, PhotoCutterActivity::class.java)
         intent.putExtra(PhotoCutterActivity.KEY_PATH, path)
         intent.putExtra(PhotoCutterActivity.KEY_RATIO_X, mScaleX)
         intent.putExtra(PhotoCutterActivity.KEY_RATIO_Y, mScaleY)
         intent.putExtra(PhotoCutterActivity.KEY_FORMAT, mCompressFormat)
-        mActivity.startActivityForResult(intent, Request.REQUEST_CROP_IMAGE)
+
+        if (fragment == null) {
+            activity.startActivityForResult(intent, Request.REQUEST_CROP_IMAGE)
+        } else {
+            fragment?.startActivityForResult(intent, Request.REQUEST_CROP_IMAGE)
+        }
     }
 
-    private inner class CompressRunnable internal constructor(internal var path: String, internal var key: Int) : Runnable {
+    private inner class CompressRunnable internal constructor(
+        internal var path: String,
+        internal var key: Int
+    ) : Runnable {
         override fun run() {
-            val resultPath = ImageUtils.compressImage(mActivity, path, mCompressFormat)
+            val resultPath = ImageUtils.compressImage(activity, path, mCompressFormat)
             mPhotos[key] = resultPath
             mHandler.sendEmptyMessageDelayed(0, 100)
         }
@@ -404,7 +441,7 @@ class SelectPhotoUtils(private val mActivity: Activity, @param:SelectMode privat
     /**
      * 提示已经选了多少图片
      */
-    private fun notifySelectPhoto(multiPath: List<String>, singlePath: String) {
+    private fun notifySelectPhoto(multiPath: MutableList<String>, singlePath: String) {
         LoadingDialog.dismiss(mLoadingDialog)
         mSelectPhotoListener?.onSelectedPhoto(multiPath, singlePath)
     }
@@ -418,15 +455,19 @@ class SelectPhotoUtils(private val mActivity: Activity, @param:SelectMode privat
 
 
     private fun checkPermission(): Boolean {
-        val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
-        if (!hasPermission(mActivity, *permissions)) {
-            PermissionManager.with(mActivity)
+        val permissions = arrayOf(
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
+        if (!hasPermission(activity, *permissions)) {
+            PermissionManager.with(activity)
                 .permission(*permissions)
                 .send()
             return false
         }
         return true
     }
+
 
     /**
      * 定义图片是单选还是多选

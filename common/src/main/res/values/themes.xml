@@ -69,11 +69,7 @@
 
     <!-- ################ Dialog ################ -->
     <style name="Theme.Dialog" parent="@style/Theme.AppCompat.Light.Dialog">
-        <item name="android:listPreferredItemHeightSmall">@dimen/default_dialog_item_height</item>
-        <!--Dialog的背景图片-->
         <item name="android:windowBackground">@drawable/base_dialog_bg</item>
-        <!--Dialog中List的线-->
-        <item name="android:listDivider">@drawable/line_blue</item>
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorAccent">@color/color_accent</item>
         <item name="colorControlNormal">@color/grey_deep_10</item>

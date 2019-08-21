@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="fragment"
+            type="com.ishow.noah.modules.sample.detail.dashline.SampleDashLineFragment" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.ishow.common.widget.DashLineView
+            android:id="@+id/dashLine"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_margin="10dp"
+            app:dashColor="@color/green_800"
+            app:dashGap="15dp"
+            app:dashWidth="10dp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/gap_grade_2"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/colorInput"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="请输入破折线颜色，例如：112233" />
+
+            <TextView
+                android:id="@+id/colorSet"
+                style="@style/AppTextView.Sample"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{()->fragment.onViewClick(colorSet)}"
+                android:text="@string/settings" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/gap_grade_2"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/gapInput"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="请输入破折线间距" />
+
+            <TextView
+                android:id="@+id/gapSet"
+                style="@style/AppTextView.Sample"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{()->fragment.onViewClick(gapSet)}"
+                android:text="@string/settings" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/gap_grade_2"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/widthInput"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="请输入破折线宽度" />
+
+            <TextView
+                android:id="@+id/widthSet"
+                style="@style/AppTextView.Sample"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{()->fragment.onViewClick(widthSet)}"
+                android:text="@string/settings" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>

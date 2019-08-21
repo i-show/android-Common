@@ -14,28 +14,28 @@
   limitations under the License.
   -->
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
         <variable
-            name="imgUrl"
-            type="String" />
+            name="fragment"
+            type="com.ishow.noah.modules.sample.detail.permission.SamplePermissionFragment" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp">
 
-        <com.ishow.common.widget.imageview.ScaleImageView
-            android:id="@+id/photo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="center"
-            app:heightScale="1"
-            app:imageUrl="@{imgUrl}"
-            app:widthScale="1" />
+
+        <!--请求SDcard权限-->
+        <TextView
+            android:id="@+id/request"
+            style="@style/AppTextView.Sample"
+            android:onClick="@{()->fragment.onViewClick(request)}"
+            android:text="@string/sample_permission_sdcard" />
+
     </LinearLayout>
 </layout>

@@ -15,17 +15,23 @@ import com.ishow.common.utils.glide.corner.GlideCorner
 object ImageBindingAdapter {
 
     @JvmStatic
-    @BindingAdapter(value = ["imageUrl", "placeholder", "glideCorner", "glideCornerPosition"], requireAll = false)
-    fun loadImage(view: ImageView,
-                  imageUrl: String?,
-                  placeholder: Drawable?,
-                  corner: Int?,
-                  position: GlideCorner.Position = GlideCorner.Position.All) {
+    @BindingAdapter(
+        value = ["imageUrl", "placeholder", "glideCorner", "glideCornerPosition"],
+        requireAll = false
+    )
+    fun loadImage(
+        view: ImageView,
+        imageUrl: String?,
+        placeholder: Drawable?,
+        corner: Int?,
+        position: GlideCorner.Position? = GlideCorner.Position.All
+    ) {
 
-        val options = if (corner == null || position == GlideCorner.Position.All) {
+        val glidePosition = position ?: GlideCorner.Position.All
+        val options = if (corner == null || glidePosition == GlideCorner.Position.All) {
             RequestOptions.centerCropTransform()
         } else {
-            RequestOptions().transform(CenterCrop(), GlideCorner(corner, position))
+            RequestOptions().transform(CenterCrop(), GlideCorner(corner, glidePosition))
         }
 
         view.loadUrl(imageUrl, options, placeholder)

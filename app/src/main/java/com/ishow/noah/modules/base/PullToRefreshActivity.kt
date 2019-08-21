@@ -42,7 +42,7 @@ abstract class PullToRefreshActivity : AppBaseActivity(), OnPullToRefreshListene
         pullToRefreshUtils.isLoadingMoreState = false
         pullToRefreshUtils.resetPagerNumber()
         view.setLoadMoreNormal()
-        loadData(view, pullToRefreshUtils.pagerNumber, pullToRefreshUtils.pagerSize)
+        loadData(view, pullToRefreshUtils.pagerNumber, true)
     }
 
     override fun onLoadMore(view: PullToRefreshView) {
@@ -52,7 +52,7 @@ abstract class PullToRefreshActivity : AppBaseActivity(), OnPullToRefreshListene
             return
         }
         pullToRefreshUtils.isLoadingMoreState = true
-        loadData(view, pullToRefreshUtils.pagerNumber, pullToRefreshUtils.pagerSize)
+        loadData(view, pullToRefreshUtils.pagerNumber, false)
     }
 
     /**
@@ -60,7 +60,7 @@ abstract class PullToRefreshActivity : AppBaseActivity(), OnPullToRefreshListene
      *
      * @param v 可能会存在多个pulltoRefresh 所以通过v来区分
      */
-    protected abstract fun loadData(v: View, pagerNumber: Int, pagerSize: Int)
+    protected abstract fun loadData(v: View, pagerNumber: Int, refresh: Boolean)
 
     /**
      * 获取pullToRefresh的工具类

@@ -139,7 +139,10 @@ object ImageUtils {
      * 生成图片名称
      */
     @JvmOverloads
-    fun genImageFile(context: Context, format: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG): File {
+    fun genImageFile(
+        context: Context,
+        format: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG
+    ): File {
         var folder = context.externalCacheDir
         if (null == folder) {
             val target = Environment.getExternalStorageDirectory()
@@ -155,7 +158,7 @@ object ImageUtils {
             Bitmap.CompressFormat.WEBP -> ".webp"
         }
 
-        val name = UUID.randomUUID().toString().toUpperCase() + suffix
+        val name = UUID.randomUUID().toString().replace("-", "") + suffix
         return File(folder, name)
     }
 
@@ -163,7 +166,10 @@ object ImageUtils {
      * 生成随机的名字
      */
     @JvmOverloads
-    fun genImageName(context: Context, format: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG): String {
+    fun genImageName(
+        context: Context,
+        format: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG
+    ): String {
         return genImageFile(context, format).absolutePath
     }
 }
