@@ -19,11 +19,13 @@
 
 package com.ishow.noah.modules.main
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.ishow.common.extensions.showFragment
@@ -35,7 +37,6 @@ import com.ishow.noah.modules.main.home.HomeFragment
 import com.ishow.noah.modules.main.mine.MineFragment
 import com.ishow.noah.modules.main.tab2.Tab2Fragment
 import com.ishow.noah.modules.main.tab3.Tab3Fragment
-import com.ishow.noah.modules.sample.glide.SampleGlideCornerFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
@@ -92,37 +93,60 @@ class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
                 if (mTab1Fragment == null) {
                     mTab1Fragment = HomeFragment.newInstance()
                 }
-                showFragment(mTab1Fragment, mBeforeFragment, FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                mBeforeFragment = mTab1Fragment
+                replaceFragment(mTab1Fragment, mBeforeFragment)
             }
             R.id.tab_2 -> {
                 if (mTab2Fragment == null) {
                     mTab2Fragment = Tab2Fragment.newInstance()
                 }
 
-                showFragment(mTab2Fragment, mBeforeFragment, FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                mBeforeFragment = mTab2Fragment
+                replaceFragment(mTab2Fragment, mBeforeFragment)
             }
             R.id.tab_3 -> {
                 if (mTab3Fragment == null) {
                     mTab3Fragment = Tab3Fragment.newInstance()
                 }
-                showFragment(mTab3Fragment, mBeforeFragment, FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                mBeforeFragment = mTab3Fragment
+                replaceFragment(mTab3Fragment, mBeforeFragment)
             }
             R.id.tab_4 -> {
                 if (mTab4Fragment == null) {
                     mTab4Fragment = MineFragment.newInstance()
                 }
-                showFragment(mTab4Fragment, mBeforeFragment, FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                mBeforeFragment = mTab4Fragment
+                replaceFragment(mTab4Fragment, mBeforeFragment)
             }
         }
+    }
+
+    /**
+     * 显示Fragment
+     */
+    private fun replaceFragment(showFragment: Fragment?, hideFragment: Fragment? = null) {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+
+        if (hideFragment != null) {
+            transaction.hide(hideFragment)
+        }
+
+        if (showFragment == null) {
+            transaction.commit()
+            return
+        }
+
+        if (showFragment.isAdded) {
+            transaction.show(showFragment)
+        } else {
+            transaction.add(R.id.fragmentContainer, showFragment)
+        }
+        transaction.commit()
+        mBeforeFragment = showFragment
     }
 
     companion object {
         const val TAB_FIRST = R.id.tab_1
     }
+
+
 }
 
 

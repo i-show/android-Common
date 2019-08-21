@@ -21,19 +21,11 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/des_image"
-                android:textColor="@color/text_grey"
-                android:textSize="15sp"
-                app:fakeBoldText="@{true}" />
-
             <ImageView
                 android:layout_width="300dp"
                 android:layout_height="150dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="30dp"
                 android:contentDescription="@string/des_image"
                 android:scaleType="centerCrop"
                 app:glideCorner="@{50}"

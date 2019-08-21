@@ -20,11 +20,13 @@
 package com.ishow.noah.modules.sample.main
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import com.ishow.common.extensions.showFragment
 import com.ishow.noah.R
 import com.ishow.noah.databinding.ActivitySampleMainBinding
 import com.ishow.noah.modules.base.mvvm.AppBindActivity
+import com.ishow.noah.modules.sample.entries.Sample
 
 /**
  * 测试Demo
@@ -43,10 +45,20 @@ class SampleMainActivity : AppBindActivity<ActivitySampleMainBinding>() {
             dataBinding.vm = it
             showFragment(mListFragment)
         }
+
+        val fragmentManager = supportFragmentManager
+        fragmentManager.addOnBackStackChangedListener {
+            if (fragmentManager.backStackEntryCount == 0) {
+                viewModel.updateTitle(getString(R.string.sample_main))
+            }
+        }
     }
 
-    fun showDetail(fragment: Fragment) {
-        mLastFragment=  fragment
+    fun showDetail(sample: Sample) {
+        val fragment = sample.action.newInstance() as? Fragment ?: return
+
+        viewModel.updateTitle(sample.name)
+        mLastFragment = fragment
         showFragment(fragment, mListFragment)
     }
 }

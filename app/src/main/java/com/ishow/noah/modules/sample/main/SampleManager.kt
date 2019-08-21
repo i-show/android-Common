@@ -1,21 +1,8 @@
 package com.ishow.noah.modules.sample.main
 
-import com.ishow.noah.R
-import com.ishow.noah.modules.sample.SampleStatusViewActivity
-import com.ishow.noah.modules.sample.dialog.normal.SampleBaseDialogActivity
-import com.ishow.noah.modules.sample.dialog.select.SampleSelectDialogAndPickerDialog
-import com.ishow.noah.modules.sample.edittextpro.SampleEditTextProActivity
+import com.ishow.noah.modules.sample.detail.pickview.SamplePickerFragment
 import com.ishow.noah.modules.sample.entries.Sample
-import com.ishow.noah.modules.sample.glide.SampleGlideCornerFragment
-import com.ishow.noah.modules.sample.http.SampleHttpActivity
-import com.ishow.noah.modules.sample.imageloader.SampleImageLoaderActivity
-import com.ishow.noah.modules.sample.permission.SamplePermissionActivity
-import com.ishow.noah.modules.sample.photo.select.SampleSelectPhotoActivity
-import com.ishow.noah.modules.sample.pickview.SamplePickerActivity
-import com.ishow.noah.modules.sample.pulltorefresh.SamplePullToRefreshActivity
-import com.ishow.noah.modules.sample.recycle.animation.SampleAnimationRecycleViewActivity
-import com.ishow.noah.modules.sample.webview.loading.SampleLoadingWebViewActivity
-import com.ishow.noah.modules.sample.widget.dashline.SampleDashLineActivity
+import com.ishow.noah.modules.sample.detail.glide.SampleGlideCornerFragment
 
 import java.util.ArrayList
 
@@ -30,6 +17,7 @@ object SampleManager {
     val samples: MutableList<Sample>
         get() {
             val list = ArrayList<Sample>()
+            list.add(Sample.instance("PickerView", SamplePickerFragment::class.java))
             list.add(Sample.instance("GlideCorner", SampleGlideCornerFragment::class.java))
             return list
         }
@@ -37,7 +25,7 @@ object SampleManager {
     /*
     private static List<Sample> getWidgetSamples() {
         List<Sample> list = new ArrayList<>();
-        list.add(Sample.Companion.instance(R.string.sample_pick_view, SamplePickerActivity.class));
+        list.add(Sample.Companion.instance(R.string.sample_pick_view, SamplePickerFragment.class));
         list.add(Sample.Companion.instance(R.string.sample_select_photo, SampleSelectPhotoActivity.class));
         list.add(Sample.Companion.instance(R.string.sample_permission, SamplePermissionActivity.class));
         list.add(Sample.Companion.instance(R.string.sample_edittextpro, SampleEditTextProActivity.class));

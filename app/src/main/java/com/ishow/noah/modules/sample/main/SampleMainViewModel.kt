@@ -20,4 +20,8 @@ class SampleMainViewModel(app: Application) : AppBaseViewModel(app) {
         super.init()
         _title.value = context.getString(R.string.sample_main)
     }
+
+    fun updateTitle(title: String) {
+        _title.value = title
+    }
 }

@@ -192,7 +192,7 @@ class TopBar(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs),
         val a = context.obtainStyledAttributes(attrs, R.styleable.TopBar, R.attr.topBarStyle, 0)
         mHeight = a.getDimensionPixelOffset(R.styleable.TopBar_android_actionBarSize, defaultHeight)
         mBackGround = a.getResourceId(R.styleable.TopBar_android_background, R.color.transparent)
-        mItemBackground = a.getResourceId(R.styleable.TopBar_android_selectableItemBackground, R.color.transparent)
+        mItemBackground = a.getResourceId(R.styleable.TopBar_itemBackground, R.color.transparent)
 
         mTitleStr = a.getString(R.styleable.TopBar_text)
         mTitleSize = a.getDimensionPixelSize(R.styleable.TopBar_textSize, defaultTextSize)

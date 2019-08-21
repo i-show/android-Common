@@ -15,28 +15,30 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:background="@android:color/white"
-              android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_data_pick_dialog_bg"
+    android:orientation="vertical">
 
     <com.ishow.common.widget.TopBar
         android:id="@+id/topBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:actionBarSize="@dimen/dp_45"
+        android:background="@drawable/shape_data_pick_dialog_top_bg"
+        app:leftImageVisibility="gone"
         app:leftText="@string/cancel"
-        app:leftTextMinWidth="@dimen/dp_100"
+        app:leftTextMinWidth="@dimen/dp_80"
         app:rightText="@string/yes"
-        app:rightTextMinWidth="@dimen/dp_100"/>
+        app:rightTextMinWidth="@dimen/dp_80" />
 
-    <View style="@style/Line.Horizontal"/>
+    <View style="@style/Line.Horizontal" />
 
     <com.ishow.common.widget.pickview.DateTimePicker
         android:id="@+id/picker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/gap_grade_3"
-        android:layout_marginTop="@dimen/gap_grade_3"/>
+        android:layout_marginTop="@dimen/gap_grade_3"
+        android:layout_marginBottom="@dimen/gap_grade_3" />
 </LinearLayout>

@@ -461,7 +461,7 @@ class BaseController(private val mContext: Context, private val mDialogInterface
         /**
          * 默认宽度
          */
-        private const val DEFAULT_WIDTH_PRO_PORTION = 0.8f
+        private const val DEFAULT_WIDTH_PRO_PORTION = 0.85f
 
         private const val BIT_BUTTON_POSITIVE = 1
         private const val BIT_BUTTON_NEGATIVE = 2

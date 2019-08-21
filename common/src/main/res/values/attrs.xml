@@ -680,6 +680,7 @@
     </attr>
 
     <attr name="itemPadding" format="dimension" />
+    <attr name="itemBackground" format="reference" />
     <attr name="topWeight" format="float" />
     <attr name="bottomWeight" format="float" />
 
@@ -729,9 +730,9 @@
     <declare-styleable name="TopBar">
         <attr name="android:actionBarSize" />
         <attr name="android:background" />
-        <attr name="android:selectableItemBackground" />
 
         <attr name="actionMinWidth" />
+        <attr name="itemBackground" />
         <attr name="clickable" />
 
         <attr name="text" />

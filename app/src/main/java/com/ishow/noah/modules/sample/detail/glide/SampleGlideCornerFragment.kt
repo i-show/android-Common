@@ -1,4 +1,4 @@
-package com.ishow.noah.modules.sample.glide
+package com.ishow.noah.modules.sample.detail.glide
 
 import android.os.Bundle
 import android.view.View

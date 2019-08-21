@@ -2,9 +2,7 @@ package com.ishow.noah.modules.sample.main
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import com.ishow.common.adapter.BindAdapter
-import com.ishow.common.utils.ToastUtils
 import com.ishow.noah.BR
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSampleListBinding
@@ -34,10 +32,7 @@ class SampleListFragment : AppBindFragment<FragmentSampleListBinding>() {
     }
 
     private fun gotoDetail(entry: Sample) {
-        val fragment = entry.action.newInstance()
-        if (fragment is Fragment) {
-            (activity as SampleMainActivity).showDetail(fragment)
-        }
+        (activity as SampleMainActivity).showDetail(entry)
     }
 
     companion object {
