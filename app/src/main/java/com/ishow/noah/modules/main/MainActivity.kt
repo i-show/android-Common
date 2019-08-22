@@ -21,14 +21,18 @@ package com.ishow.noah.modules.main
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import com.ishow.common.extensions.showFragment
+import com.ishow.common.extensions.*
 import com.ishow.common.utils.ToastUtils
 import com.ishow.common.widget.BottomBar
 import com.ishow.noah.R
@@ -94,6 +98,7 @@ class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
                     mTab1Fragment = HomeFragment.newInstance()
                 }
                 replaceFragment(mTab1Fragment, mBeforeFragment)
+                normalWindow()
             }
             R.id.tab_2 -> {
                 if (mTab2Fragment == null) {
@@ -101,18 +106,21 @@ class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
                 }
 
                 replaceFragment(mTab2Fragment, mBeforeFragment)
+                fullWindow(true)
             }
             R.id.tab_3 -> {
                 if (mTab3Fragment == null) {
                     mTab3Fragment = Tab3Fragment.newInstance()
                 }
                 replaceFragment(mTab3Fragment, mBeforeFragment)
+                fullWindow()
             }
             R.id.tab_4 -> {
                 if (mTab4Fragment == null) {
                     mTab4Fragment = MineFragment.newInstance()
                 }
                 replaceFragment(mTab4Fragment, mBeforeFragment)
+                fullWindow(true)
             }
         }
     }
@@ -141,6 +149,7 @@ class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
         transaction.commit()
         mBeforeFragment = showFragment
     }
+
 
     companion object {
         const val TAB_FIRST = R.id.tab_1
