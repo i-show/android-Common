@@ -18,10 +18,8 @@ package com.ishow.noah.modules.account.login
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
+import com.ishow.common.entries.status.Success
 import com.ishow.common.extensions.open
-import com.ishow.common.utils.databinding.bus.Event
-import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.utils.watcher.EnableTextWatcher
 import com.ishow.common.utils.watcher.checker.PhoneNumberChecker
 import com.ishow.noah.R
@@ -42,7 +40,7 @@ class LoginActivity : AppBindActivity<ActivityLoginBinding>() {
 
     private lateinit var mLoginViewModel: LoginViewModel
     private var mEnableWatcher = EnableTextWatcher()
-    private var mType = TYPE_FINISHSELF
+    private var mType = TYPE_FINISHED
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +61,7 @@ class LoginActivity : AppBindActivity<ActivityLoginBinding>() {
 
     override fun initNecessaryData() {
         super.initNecessaryData()
-        mType = intent.getIntExtra(KEY_TYPE, TYPE_FINISHSELF)
+        mType = intent.getIntExtra(KEY_TYPE, TYPE_FINISHED)
     }
 
     fun onViewClick(v: View) {
@@ -83,13 +81,13 @@ class LoginActivity : AppBindActivity<ActivityLoginBinding>() {
         }
     }
 
-    override fun showSuccess() {
-        super.showSuccess()
+    override fun showSuccess(success: Success) {
+        super.showSuccess(success)
         onBackPressed()
     }
 
     override fun onBackPressed() {
-        if (mType == TYPE_FINISHSELF) {
+        if (mType == TYPE_FINISHED) {
             finish()
         } else {
             open(MainActivity::class.java, true)
@@ -100,10 +98,10 @@ class LoginActivity : AppBindActivity<ActivityLoginBinding>() {
         /**
          * 跳转首页
          */
-        const val TYPE_GO_TOMAIN = 1
+        const val TYPE_GOTO_MAIN = 1
         /**
          * 回退
          */
-        const val TYPE_FINISHSELF = 2
+        const val TYPE_FINISHED = 2
     }
 }

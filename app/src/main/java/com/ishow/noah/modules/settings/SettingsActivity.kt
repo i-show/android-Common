@@ -20,16 +20,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
-import androidx.core.content.ContextCompat.startActivity
-import com.ishow.common.app.activity.BaseActivity
 import com.ishow.common.utils.AppUtils
 import com.ishow.common.utils.router.AppRouter
-import com.ishow.common.widget.TopBar
 import com.ishow.common.widget.dialog.BaseDialog
 import com.ishow.noah.R
 import com.ishow.noah.modules.account.login.LoginActivity
 import com.ishow.noah.modules.base.AppBaseActivity
-import com.ishow.noah.modules.egg.EggActivity
 import kotlinx.android.synthetic.main.activity_settings.*
 
 /**
@@ -64,7 +60,7 @@ class SettingsActivity : AppBaseActivity(), View.OnClickListener {
                 AppRouter.with(this)
                     .target(LoginActivity::class.java)
                     .flag(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                    .addParam(KEY_TYPE, LoginActivity.TYPE_GO_TOMAIN)
+                    .addParam(KEY_TYPE, LoginActivity.TYPE_GOTO_MAIN)
                     .finishSelf()
                     .start()
             }
