@@ -120,7 +120,7 @@ class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
                     mTab4Fragment = MineFragment.newInstance()
                 }
                 replaceFragment(mTab4Fragment, mBeforeFragment)
-                fullWindow(true)
+                normalWindow()
             }
         }
     }

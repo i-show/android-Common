@@ -2,7 +2,6 @@ package com.ishow.noah.modules.base
 
 import com.baidu.mobstat.StatService
 import com.ishow.common.app.fragment.BaseFragment
-import com.ishow.noah.modules.main.mine.MineContract
 
 /**
  * Created by yuhaiyang on 2018/8/8.

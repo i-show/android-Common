@@ -4,6 +4,7 @@ import android.content.Context
 import android.text.TextUtils
 import com.ishow.noah.manager.UserManager
 import com.ishow.noah.modules.account.common.AccountModel
+import com.ishow.noah.utils.http.okhttp.interceptor.AppHttpInterceptor
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 
@@ -14,9 +15,15 @@ class UserTask(val context: Context) : ITask {
             status = Status.None
             return@async
         }
+        AppHttpInterceptor.token = accessToken
+        val result = AccountModel().loginByToken()
 
-        val accountModel = AccountModel()
-        accountModel.loginByToken(accessToken)
+        status = if (result.isSuccess()) {
+            UserManager.instance.setUserContainer(context, result.data)
+            Status.LoginSuccess
+        } else {
+            Status.LoginFailed
+        }
     }
 
 

@@ -21,6 +21,7 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import androidx.core.content.ContextCompat.startActivity
+import com.ishow.common.app.activity.BaseActivity
 import com.ishow.common.utils.AppUtils
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.widget.TopBar
@@ -55,19 +56,19 @@ class SettingsActivity : AppBaseActivity(), View.OnClickListener {
     }
 
     private fun logout() {
-
         BaseDialog.Builder(this)
-                .setMessage(R.string.ensure_logout)
-                .setMessageGravity(Gravity.CENTER)
-                .setNegativeButton(R.string.cancel)
-                .setPositiveButton(R.string.yes) { _, _ ->
-                    AppRouter.with(this)
-                            .target(LoginActivity::class.java)
-                            .flag(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                            .finishSelf()
-                            .start()
-                }
-                .show()
+            .setMessage(R.string.ensure_logout)
+            .setMessageGravity(Gravity.CENTER)
+            .setNegativeButton(R.string.cancel)
+            .setPositiveButton(R.string.yes) { _, _ ->
+                AppRouter.with(this)
+                    .target(LoginActivity::class.java)
+                    .flag(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    .addParam(KEY_TYPE, LoginActivity.TYPE_GO_TOMAIN)
+                    .finishSelf()
+                    .start()
+            }
+            .show()
 
     }
 }

@@ -40,15 +40,14 @@ import kotlinx.android.synthetic.main.activity_login.*
  */
 class LoginActivity : AppBindActivity<ActivityLoginBinding>() {
 
-
     private lateinit var mLoginViewModel: LoginViewModel
     private var mEnableWatcher = EnableTextWatcher()
+    private var mType = TYPE_FINISHSELF
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bindContentView(R.layout.activity_login)
         bindViewModel(LoginViewModel::class.java) {
-            observeLiveData(it)
             dataBinding.vm = it
             mLoginViewModel = it
             it.init()
@@ -62,6 +61,10 @@ class LoginActivity : AppBindActivity<ActivityLoginBinding>() {
             .addChecker(password, PasswordChecker(context))
     }
 
+    override fun initNecessaryData() {
+        super.initNecessaryData()
+        mType = intent.getIntExtra(KEY_TYPE, TYPE_FINISHSELF)
+    }
 
     fun onViewClick(v: View) {
         when (v.id) {
@@ -80,16 +83,27 @@ class LoginActivity : AppBindActivity<ActivityLoginBinding>() {
         }
     }
 
-    private fun observeLiveData(vm: LoginViewModel) = vm.run {
-        loginSuccess.observe(this@LoginActivity, Observer { loginSuccess(it) })
+    override fun showSuccess() {
+        super.showSuccess()
+        onBackPressed()
     }
 
-    private fun loginSuccess(event: Event<Boolean>) {
-        event.getContent()?.let {
-            AppRouter.with(context)
-                .target(MainActivity::class.java)
-                .start()
+    override fun onBackPressed() {
+        if (mType == TYPE_FINISHSELF) {
+            finish()
+        } else {
+            open(MainActivity::class.java, true)
         }
     }
 
+    companion object {
+        /**
+         * 跳转首页
+         */
+        const val TYPE_GO_TOMAIN = 1
+        /**
+         * 回退
+         */
+        const val TYPE_FINISHSELF = 2
+    }
 }

@@ -1,12 +1,9 @@
 package com.ishow.common.utils.databinding.adapter
 
 import android.graphics.drawable.Drawable
-import android.util.Log
 import android.widget.ImageView
-
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
-
 import com.bumptech.glide.request.RequestOptions
 import com.facebook.drawee.view.SimpleDraweeView
 import com.ishow.common.extensions.loadUrl
@@ -28,7 +25,7 @@ object ImageBindingAdapter {
     ) {
 
         val glidePosition = position ?: GlideCorner.Position.All
-        val options = if (corner == null || glidePosition == GlideCorner.Position.All) {
+        val options = if (corner == null) {
             RequestOptions.centerCropTransform()
         } else {
             RequestOptions().transform(CenterCrop(), GlideCorner(corner, glidePosition))

@@ -27,10 +27,6 @@ class LoginViewModel(application: Application) : AppBaseViewModel(application) {
     val passwordHint: LiveData<String>
         get() = _passwordHint
 
-    private val _loginSuccess = MutableLiveData<Event<Boolean>>()
-    val loginSuccess: LiveData<Event<Boolean>>
-        get() = _loginSuccess
-
     private lateinit var mAccountModel: AccountModel
 
     override fun init() {
@@ -56,12 +52,11 @@ class LoginViewModel(application: Application) : AppBaseViewModel(application) {
         if (result.isSuccess()) {
             saveUserInfo(phone)
             UserManager.instance.setUserContainer(context, result.data)
-            mainThread { _loginSuccess.value = Event(true) }
+            showSuccess()
         } else {
             toast(result.message)
         }
     }
-
 
     /**
      * 清除用户缓存

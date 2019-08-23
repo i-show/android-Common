@@ -1,12 +1,14 @@
 package com.ishow.common.extensions
 
 import android.app.Activity
+import android.content.Context
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import com.ishow.common.R
 import com.ishow.common.utils.StringUtils
 import com.ishow.common.utils.ToastUtils
+import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.widget.dialog.BaseDialog
 
 /**
@@ -72,4 +74,16 @@ fun Fragment.dialog(title: String = StringUtils.EMPTY, message: String, finishSe
         .setPositiveButton(R.string.yes) { _, _ -> if (finishSelf) activity.finish() }
         .setCancelable(cancelable)
         .show()
+}
+
+/**
+ * 打开一个Class
+ */
+fun Fragment.open(cls: Class<*>, finishSelf: Boolean = false) {
+    val router = AppRouter.with(context)
+        .target(cls)
+    if (finishSelf) {
+        router.finishSelf()
+    }
+    router.start()
 }

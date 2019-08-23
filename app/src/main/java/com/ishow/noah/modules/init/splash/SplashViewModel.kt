@@ -27,7 +27,6 @@ class SplashViewModel(app: Application) : AppBaseViewModel(app) {
 
     private var initTime: Long = 0
     private var initFinished: Boolean = false
-    private val mAccountModel = AccountModel()
 
     fun preInit(activity: SplashActivity) {
         StatService.start(activity)
@@ -40,8 +39,9 @@ class SplashViewModel(app: Application) : AppBaseViewModel(app) {
         ConfigureManager.init()
         VersionManager.init(activity)
         val taskManager = TaskManager.instance
-                .addTask(MinTimeTask())
-                .addTask(UserTask(activity))
+            .clear()
+            .addTask(MinTimeTask())
+            .addTask(UserTask(activity))
 
         GlobalScope.launch {
             taskManager.startAsync().await()
@@ -57,19 +57,19 @@ class SplashViewModel(app: Application) : AppBaseViewModel(app) {
             _permissionStatus.value = true
         } else {
             PermissionManager.with(activity)
-                    .permission(*PERMISSIONS)
-                    .annotationClass(activity)
-                    .requestCode(REQUEST_PERMISSION_CODE)
-                    .send()
+                .permission(*PERMISSIONS)
+                .annotationClass(activity)
+                .requestCode(REQUEST_PERMISSION_CODE)
+                .send()
         }
     }
 
 
     private fun gotoTarget(context: Context) {
         AppRouter.with(context)
-                .target(MainActivity::class.java)
-                .finishSelf()
-                .start()
+            .target(MainActivity::class.java)
+            .finishSelf()
+            .start()
     }
 
     companion object {
@@ -81,8 +81,8 @@ class SplashViewModel(app: Application) : AppBaseViewModel(app) {
          * 请求的权限
          */
         private val PERMISSIONS = arrayOf(
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
         )
     }
 }

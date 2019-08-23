@@ -37,17 +37,17 @@ abstract class BindFragment<T : ViewDataBinding> : BaseFragment() {
         dataBinding.lifecycleOwner = viewLifecycleOwner
     }
 
-    protected open fun <VM : BaseViewModel> getViewModel(viewModelClass: Class<VM>): VM {
-        val vm = ViewModelProvider(this).get(viewModelClass)
+    protected open fun <VM : BaseViewModel> bindViewModel(cls: Class<VM>, block: ((VM) -> Unit)? = null): VM {
+        val vm = ViewModelProvider(this).get(cls)
         val fragment = this@BindFragment
-        vm.run {
-            loadingStatus.observe(fragment, Observer { changeLoadingStatus(it) })
-            errorStatus.observe(fragment, Observer { changeErrorStatus(it) })
-            successStatus.observe(fragment, Observer { changeSuccessStatus(it) })
-            emptyStatus.observe(fragment, Observer { changeEmptyStatus(it) })
-            toastMessage.observe(fragment, Observer { showToast(it) })
-            return vm
-        }
+        vm.loadingStatus.observe(fragment, Observer { changeLoadingStatus(it) })
+        vm.errorStatus.observe(fragment, Observer { changeErrorStatus(it) })
+        vm.successStatus.observe(fragment, Observer { changeSuccessStatus(it) })
+        vm.emptyStatus.observe(fragment, Observer { changeEmptyStatus(it) })
+        vm.toastMessage.observe(fragment, Observer { showToast(it) })
+        vm.init()
+        block?.let { it(vm) }
+        return vm
     }
 
     /**

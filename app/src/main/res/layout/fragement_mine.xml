@@ -1,47 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data>
 
-    </data>
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/windows_background"
-            android:orientation="vertical">
+        <variable
+            name="fragment"
+            type="com.ishow.noah.modules.main.mine.MineFragment" />
 
+        <variable
+            name="vm"
+            type="com.ishow.noah.modules.main.mine.MineViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/windows_background"
+        android:orientation="vertical">
 
         <LinearLayout
-                android:id="@+id/modify_user_info"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_120"
-                android:background="@color/color_accent"
-                android:gravity="center"
-                android:orientation="vertical">
+            android:id="@+id/userContainer"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_120"
+            android:background="@color/color_accent"
+            android:gravity="center"
+            android:onClick="@{()->fragment.onViewClick(userContainer)}"
+            android:orientation="vertical">
 
             <ImageView
-                    android:id="@+id/avatar"
-                    android:layout_width="@dimen/large_header"
-                    android:layout_height="@dimen/large_header"
-                    android:contentDescription="@string/des_image"
-                    tools:src="@mipmap/icon_launcher"/>
-
+                android:id="@+id/avatar"
+                android:layout_width="@dimen/large_header"
+                android:layout_height="@dimen/large_header"
+                android:contentDescription="@string/des_image"
+                android:src="@drawable/default_header"
+                app:glideCorner="@{100}"
+                app:imageUrl="@{vm.avatarUrl}"
+                app:placeholder="@{@drawable/default_header}" />
 
             <TextView
-                    android:id="@+id/name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_5"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/H_title"
-                    tools:text="鱼大人"/>
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_5"
+                android:text="@{vm.userName}"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/H_title"
+                tools:text="鱼大人" />
 
         </LinearLayout>
 
         <com.ishow.common.widget.textview.TextViewPro
-                android:id="@+id/settings"
-                style="@style/AppTextViewPro.Mine"
-                app:leftText="@string/settings"
-                app:leftImage="@drawable/mine_settings_svg"/>
+            android:id="@+id/settings"
+            style="@style/AppTextViewPro.Mine"
+            android:onClick="@{()->fragment.onViewClick(settings)}"
+            app:leftImage="@drawable/mine_settings_svg"
+            app:leftText="@string/settings" />
+
     </LinearLayout>
 </layout>

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ishow.common.extensions.loadUrl
+import com.ishow.common.extensions.open
 import com.ishow.common.extensions.toJson
 import com.ishow.common.utils.image.loader.ImageLoader
 import com.ishow.common.utils.router.AppRouter
@@ -27,28 +28,33 @@ class MineFragment : AppBindFragment<FragementMineBinding>() {
 
     override fun getLayout(): Int = R.layout.fragement_mine
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        dataBinding.fragment = this
+        dataBinding.vm = bindViewModel(MineViewModel::class.java)
+    }
 
     fun update(userContainer: UserContainer?) {
         avatar.loadUrl(userContainer?.user?.avatar)
         name.text = userContainer?.user?.nickName
     }
 
-    fun onViewClick(v: View?) {
-        when (v?.id) {
-            R.id.settings -> {
-                AppRouter.with(context)
-                    .target(SettingsActivity::class.java)
-                    .start()
-            }
-
-            R.id.name -> {
-                AppRouter.with(context)
-                    .target(ModifyUserActivity::class.java)
-                    .start()
-            }
-        }
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden) dataBinding.vm?.resume()
     }
 
+    override fun onResume() {
+        super.onResume()
+        dataBinding.vm?.resume()
+    }
+
+    fun onViewClick(v: View?) {
+        when (v?.id) {
+            R.id.settings -> open(SettingsActivity::class.java)
+            R.id.userContainer -> open(ModifyUserActivity::class.java)
+        }
+    }
 
     companion object {
 

@@ -63,28 +63,6 @@ tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }
 
-ext {
-    //noinspection GroovyUnusedCatchParameter
-    try {
-        OKHTTP_VERSION = OKHTTP_VERSION
-    } catch (Exception e) {
-        OKHTTP_VERSION = OKHTTP_VERSION_COMMON
-    }
-
-    //noinspection GroovyUnusedCatchParameter
-    try {
-        FAST_JSON_VERSION = FAST_JSON_VERSION
-    } catch (Exception e) {
-        FAST_JSON_VERSION = FAST_JSON_VERSION_COMMON
-    }
-
-    //noinspection GroovyUnusedCatchParameter
-    try {
-        ANDROID_SUPPORT_VERSION = ANDROID_SUPPORT_VERSION
-    } catch (Exception e) {
-        ANDROID_SUPPORT_VERSION = ANDROID_SUPPORT_VERSION_COMMON
-    }
-}
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
@@ -95,6 +73,8 @@ dependencies {
     api "androidx.lifecycle:lifecycle-extensions:2.2.0-alpha03"
     api "androidx.recyclerview:recyclerview:1.0.0"
     api 'androidx.viewpager:viewpager:1.0.0'
+    api 'androidx.palette:palette:1.0.0'
+
     api "com.google.android.material:material:1.0.0"
 
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$KOTLIN_VERSION"
@@ -124,6 +104,5 @@ dependencies {
     api "com.ishow:pulltorefresh-v1:1.2.0"
 
     kapt "com.android.databinding:compiler:3.1.4"
-
     api "com.github.chrisbanes:PhotoView:2.3.0"
 }

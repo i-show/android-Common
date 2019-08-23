@@ -15,8 +15,8 @@ import java.io.File
 class AccountModel : AppBaseModel() {
     private val httpService = RetrofitManager.instance.appService
 
-    fun loginByToken(token: String?) {
-        httpService.loginByToken()
+    fun loginByToken(): AppHttpResponse<UserContainer> {
+        return httpService.loginByToken()
     }
 
     /**

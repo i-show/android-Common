@@ -21,6 +21,11 @@ class TaskManager private constructor() {
         return@async true
     }
 
+    internal fun clear(): TaskManager {
+        taskList.clear()
+        return this
+    }
+
     companion object {
         @Volatile
         private var manager: TaskManager? = null

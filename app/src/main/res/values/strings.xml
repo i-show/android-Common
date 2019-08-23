@@ -68,6 +68,7 @@
     <string name="agree">同意</string>
     <string name="register_timing_text">重新发送(%d)</string>
     <string name="reset_password_success">重置密码成功</string>
+    <string name="click_login">点击登录</string>
 
 
 </resources>
