@@ -1,5 +1,7 @@
 package com.ishow.noah.modules.main.home
 
+import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,7 +25,11 @@ class HomeFragment : AppBaseFragment() {
 
     private var mRootView: View? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         if (mRootView != null) {
             return mRootView
         }
@@ -32,6 +38,7 @@ class HomeFragment : AppBaseFragment() {
         return mRootView
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         topBar.setOnTopBarListener(this)
@@ -46,6 +53,9 @@ class HomeFragment : AppBaseFragment() {
         dataList.add("李四")
         dataList.add("王五")
         adapter.data = dataList
+
+        test.text =
+            Build.MANUFACTURER + " \n " + Build.VERSION.SDK_INT + " \n " + Build.MODEL + " \n " + Build.DISPLAY + " \n" + Build.PRODUCT
     }
 
 
