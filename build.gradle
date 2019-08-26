@@ -14,7 +14,7 @@ buildscript {
 allprojects {
     repositories {
         google()
-	jcenter()
+        jcenter()
         maven { url "https://jitpack.io" }
     }
 
@@ -23,6 +23,10 @@ allprojects {
         options.addStringOption('Xdoclint:none', '-quiet')
         options.addStringOption('encoding', 'UTF-8')
     }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }
 
 /**

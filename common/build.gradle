@@ -19,12 +19,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-repositories {
-    google()
-    jcenter()
-    maven { url "https://jitpack.io" }
-}
-
 android {
     compileSdkVersion COMPILE_SDK_VERSION as int
 
