@@ -30,6 +30,7 @@ import com.ishow.common.entries.status.Loading
 import com.ishow.common.entries.status.Success
 import com.ishow.common.extensions.dialog
 import com.ishow.common.extensions.toast
+import com.ishow.common.manager.CCacheManager
 import com.ishow.common.utils.permission.PermissionManager
 import com.ishow.common.widget.StatusView
 import com.ishow.common.widget.TopBar
@@ -37,8 +38,8 @@ import com.ishow.common.widget.loading.LoadingDialog
 
 
 abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListener,
-        IViewStatus,
-        TopBar.OnTopBarListener {
+    IViewStatus,
+    TopBar.OnTopBarListener {
     /**
      * Loading的Dialog
      */
@@ -93,7 +94,11 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
         mHandler = null
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         PermissionManager.onRequestPermissionsResult(this, requestCode, permissions, grantResults)
     }
@@ -237,6 +242,11 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
 
     override fun onStatusClick(v: View, which: StatusView.Which) {
 
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        CCacheManager.cache(this)
     }
 
     companion object {

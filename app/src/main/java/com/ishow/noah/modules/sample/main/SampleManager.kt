@@ -7,6 +7,7 @@ import com.ishow.noah.modules.sample.detail.edittextpro.SampleEditTextProFragmen
 import com.ishow.noah.modules.sample.detail.pickview.SamplePickerFragment
 import com.ishow.noah.modules.sample.entries.Sample
 import com.ishow.noah.modules.sample.detail.glide.SampleGlideCornerFragment
+import com.ishow.noah.modules.sample.detail.log.SampleLogFragment
 import com.ishow.noah.modules.sample.detail.permission.SamplePermissionFragment
 import com.ishow.noah.modules.sample.detail.photo.select.SampleSelectPhotoFragment
 import com.ishow.noah.modules.sample.detail.statusview.SampleStatusViewFragment
@@ -35,6 +36,7 @@ object SampleManager {
             list.add(Sample.instance("DashLine", SampleDashLineFragment::class.java))
             list.add(Sample.instance("Permission", SamplePermissionFragment::class.java))
             list.add(Sample.instance("SelectPhoto", SampleSelectPhotoFragment::class.java))
+            list.add(Sample.instance("Log", SampleLogFragment::class.java))
             return list
         }
 }

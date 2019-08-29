@@ -1,4 +1,4 @@
-package com.ishow.noah.utils.http.okhttp.interceptor
+package com.ishow.common.utils.http.okhttp.interceptor
 
 import com.ishow.common.utils.log.LogUtils
 import okhttp3.*

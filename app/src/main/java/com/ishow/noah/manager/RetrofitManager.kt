@@ -1,8 +1,9 @@
 package com.ishow.noah.manager
 
+import com.ishow.common.utils.http.okhttp.interceptor.OkHttpLogInterceptor
 import com.ishow.noah.data.retrofit.AppRestService
 import com.ishow.noah.utils.http.okhttp.interceptor.AppHttpInterceptor
-import com.ishow.noah.utils.http.okhttp.interceptor.OkHttpLogInterceptor
+import com.ishow.common.utils.http.retrofit.adapter.CallAdapterFactory
 import com.ishow.noah.utils.http.retrofit.adapter.AppCallAdapterFactory
 import com.ishow.noah.utils.http.retrofit.convert.AppConverterFactory
 import okhttp3.OkHttpClient
@@ -17,16 +18,16 @@ class RetrofitManager private constructor() {
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BASIC
 
         val okBuilder = OkHttpClient.Builder()
-                .retryOnConnectionFailure(true)
-                .addInterceptor(AppHttpInterceptor())
-                .addInterceptor(OkHttpLogInterceptor())
+            .retryOnConnectionFailure(true)
+            .addInterceptor(AppHttpInterceptor())
+            .addInterceptor(OkHttpLogInterceptor())
 
         val retrofit = Retrofit.Builder()
-                .baseUrl(AppRestService.BASE_URL)
-                .client(okBuilder.build())
-                .addConverterFactory(AppConverterFactory.create())
-                .addCallAdapterFactory(AppCallAdapterFactory())
-                .build()
+            .baseUrl(AppRestService.BASE_URL)
+            .client(okBuilder.build())
+            .addConverterFactory(AppConverterFactory.create())
+            .addCallAdapterFactory(AppCallAdapterFactory())
+            .build()
 
         retrofit.create(AppRestService::class.java)
     }

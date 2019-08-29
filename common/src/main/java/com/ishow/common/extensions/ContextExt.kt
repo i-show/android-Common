@@ -11,6 +11,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.*
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
@@ -60,7 +61,10 @@ fun Context.toast(@StringRes message: Int, duration: Int = Toast.LENGTH_SHORT) {
 /**
  * Dialog提示
  */
-fun Context.dialog(@StringRes message: Int, finishSelf: Boolean = false, cancelable: Boolean = true) {
+fun Context.dialog(
+    @StringRes message: Int, finishSelf: Boolean = false,
+    cancelable: Boolean = true
+) {
     dialog(getString(message), finishSelf, cancelable)
 }
 
@@ -73,16 +77,21 @@ fun Context.dialog(message: String, finishSelf: Boolean = false, cancelable: Boo
     }
     val activity = this
     BaseDialog.Builder(this)
-            .setMessage(message)
-            .setPositiveButton(R.string.yes) { _, _ -> if (finishSelf) activity.finish() }
-            .setCancelable(cancelable)
-            .show()
+        .setMessage(message)
+        .setPositiveButton(R.string.yes) { _, _ -> if (finishSelf) activity.finish() }
+        .setCancelable(cancelable)
+        .show()
 }
 
 /**
  * Dialog提示
  */
-fun Context.dialog(title: Int, message: String, finishSelf: Boolean = false, cancelable: Boolean = true) {
+fun Context.dialog(
+    title: Int,
+    message: String,
+    finishSelf: Boolean = false,
+    cancelable: Boolean = true
+) {
     dialog(getString(title), message, finishSelf, cancelable)
 }
 
@@ -90,21 +99,21 @@ fun Context.dialog(title: Int, message: String, finishSelf: Boolean = false, can
  * Dialog提示
  */
 fun Context.dialog(
-        title: String = StringUtils.EMPTY,
-        message: String,
-        finishSelf: Boolean = false,
-        cancelable: Boolean = true
+    title: String = StringUtils.EMPTY,
+    message: String,
+    finishSelf: Boolean = false,
+    cancelable: Boolean = true
 ) {
     if (this !is Activity) {
         return
     }
     val activity = this
     BaseDialog.Builder(this)
-            .setMessage(title)
-            .setMessage(message)
-            .setPositiveButton(R.string.yes) { _, _ -> if (finishSelf) activity.finish() }
-            .setCancelable(cancelable)
-            .show()
+        .setMessage(title)
+        .setMessage(message)
+        .setPositiveButton(R.string.yes) { _, _ -> if (finishSelf) activity.finish() }
+        .setCancelable(cancelable)
+        .show()
 }
 
 /**
@@ -238,9 +247,30 @@ fun Context.openApp(packageName: String) {
  */
 fun Context.open(cls: Class<*>, finishSelf: Boolean = false) {
     val router = AppRouter.with(this)
-            .target(cls)
+        .target(cls)
     if (finishSelf) {
         router.finishSelf()
     }
     router.start()
+}
+
+/**
+ * 获取APP的名称
+ */
+fun Context.appName(): String? {
+    return try {
+        val packageInfo = packageManager.getPackageInfo(packageName, 0)
+        getString(packageInfo.applicationInfo.labelRes)
+    } catch (e: PackageManager.NameNotFoundException) {
+        null
+    }
+}
+
+fun Context.versionName(): String {
+    return try {
+        packageManager.getPackageInfo(packageName, PackageManager.GET_META_DATA).versionName
+    } catch (e: PackageManager.NameNotFoundException) {
+        e.printStackTrace()
+        StringUtils.EMPTY
+    }
 }

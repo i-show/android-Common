@@ -25,13 +25,10 @@ import com.ishow.common.utils.AppUtils
 import com.ishow.common.utils.SpanUtils
 import com.ishow.common.utils.StorageUtils
 import com.ishow.common.utils.StringUtils
-import com.ishow.common.utils.http.rest.Http
-import com.ishow.common.utils.http.rest.HttpError
 import com.ishow.common.utils.log.LogUtils
 import com.ishow.noah.BuildConfig
 import com.ishow.noah.entries.Version
 import com.ishow.noah.modules.init.splash.SplashActivity
-import com.ishow.noah.utils.http.AppHttpCallBack
 
 /**
  * Created by yuhaiyang on 2018/8/8.
@@ -113,32 +110,22 @@ class VersionManager private constructor() {
         val version = Version()
         version.versionCode = BuildConfig.VERSION_CODE
         version.versionName = BuildConfig.VERSION_NAME
+        /**
+        val cache = StorageUtils.with(context)
+        .key(Version.Key.CACHE)
+        .get()
 
-        Http.post()
-                .url("http://10.0.2.55:8080/version/getVersion")
-                .params(JSON.toJSONString(version))
-                .execute(object : AppHttpCallBack<String>(context) {
-                    override fun onFailed(error: HttpError) {
+        if (!TextUtils.equals(cache, result)) {
+        StorageUtils.with(context)
+        .key(Version.Key.IGNORE_VERSION)
+        .remove()
+        }
 
-                    }
-
-                    override fun onSuccess(result: String) {
-                        val cache = StorageUtils.with(context)
-                                .key(Version.Key.CACHE)
-                                .get()
-
-                        if (!TextUtils.equals(cache, result)) {
-                            StorageUtils.with(context)
-                                    .key(Version.Key.IGNORE_VERSION)
-                                    .remove()
-                        }
-
-                        StorageUtils.with(context)
-                                .param(Version.Key.CACHE, result)
-                                .save()
-                        makeVersion(result)
-                    }
-                })
+        StorageUtils.with(context)
+        .param(Version.Key.CACHE, result)
+        .save()
+        makeVersion(result)
+         */
     }
 
     private fun cleanCache(context: Context) {

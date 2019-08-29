@@ -11,6 +11,7 @@
 
     <string name="sample_permission">权限设置</string>
     <string name="sample_permission_sdcard">SD卡读取权限</string>
+    <string name="sample_log">Log</string>
 
     <string name="sample_edittextpro">EditTextPro</string>
     <string name="sample_http">Http</string>
