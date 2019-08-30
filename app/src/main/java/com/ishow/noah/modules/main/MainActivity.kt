@@ -19,20 +19,14 @@
 
 package com.ishow.noah.modules.main
 
-import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.annotation.IdRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import com.ishow.common.extensions.*
+import com.ishow.common.extensions.fullWindow
+import com.ishow.common.extensions.normalWindow
 import com.ishow.common.utils.ToastUtils
 import com.ishow.common.widget.BottomBar
 import com.ishow.noah.R
@@ -87,8 +81,6 @@ class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
     override fun onSelectedChanged(parent: ViewGroup, @IdRes selectId: Int, index: Int) {
         selectFragment(selectId)
     }
-
-    override fun onClickChild(v: View, isSameView: Boolean) {}
 
 
     fun selectFragment(selectId: Int) {

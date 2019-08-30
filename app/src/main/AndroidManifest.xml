@@ -60,15 +60,10 @@
             android:name=".modules.account.password.forgot.ForgotPasswordActivity"
             android:screenOrientation="portrait" />
 
-
         <activity
             android:name=".modules.account.modify.ModifyUserActivity"
             android:screenOrientation="portrait" />
 
-        <!--只有一个测试图片的类-->
-        <activity
-            android:name=".modules.base.OnlyWebActivity"
-            android:screenOrientation="portrait" />
         <!--设置界面-->
         <activity
             android:name=".modules.settings.SettingsActivity"

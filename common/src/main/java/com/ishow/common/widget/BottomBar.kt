@@ -29,12 +29,20 @@ import com.ishow.common.utils.AppUtils
 /**
  * 最底部的一条对应TopBar
  */
-class BottomBar @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
-        LinearLayout(context, attrs, defStyleAttr), View.OnClickListener {
+class BottomBar @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) :
+    LinearLayout(context, attrs, defStyleAttr), View.OnClickListener {
     /**
      * 选中切换的监听
      */
     private var mBottomBarListener: OnBottomBarListener? = null
+    private var mBottomBarBlock: ((ViewGroup, Int, Int) -> Unit)? = null
+
+    private var mBottomBarClickListener: OnBottomBarClickListener? = null
+    private var mBottomBarClickBolck: ((View, Boolean) -> Unit)? = null
     /**
      * 选中的ID
      */
@@ -43,6 +51,9 @@ class BottomBar @JvmOverloads constructor(context: Context, attrs: AttributeSet?
      * 不能进行点选的ID 一般只有一个
      */
     private val mCanNotSelectedId: Int
+
+    private val canAnimation: Boolean
+    private val animationZoom: Float
 
     /**
      * 当前选中的ID
@@ -55,6 +66,8 @@ class BottomBar @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         val a = context.obtainStyledAttributes(attrs, R.styleable.BottomBar)
         mSelectedId = a.getResourceId(R.styleable.BottomBar_selectedChild, View.NO_ID)
         mCanNotSelectedId = a.getResourceId(R.styleable.BottomBar_cannotSelectedChild, View.NO_ID)
+        canAnimation = a.getBoolean(R.styleable.BottomBar_canAnimation, true)
+        animationZoom = a.getFloat(R.styleable.BottomBar_animationZoom, ZOOM)
         orientation = HORIZONTAL
         a.recycle()
         setOnHierarchyChangeListener(PassThroughHierarchyChangeListener())
@@ -95,6 +108,7 @@ class BottomBar @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 
         mSelectedId = id
         mBottomBarListener?.onSelectedChanged(this, mSelectedId, findSelectedChildIndex())
+        mBottomBarBlock?.let { it(this, mSelectedId, findSelectedChildIndex()) }
     }
 
     /**
@@ -125,7 +139,8 @@ class BottomBar @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 
     override fun onClick(v: View) {
         val id = v.id
-        mBottomBarListener?.onClickChild(v, id == mSelectedId)
+        mBottomBarClickListener?.onClickChild(v, id == mSelectedId)
+        mBottomBarClickBolck?.let { it(v, id == mSelectedId) }
         selectedId = id
     }
 
@@ -134,6 +149,29 @@ class BottomBar @JvmOverloads constructor(context: Context, attrs: AttributeSet?
      */
     fun setOnSelectedChangedListener(listener: OnBottomBarListener) {
         mBottomBarListener = listener
+    }
+
+    /**
+     *  ViewGroup   点击的View的父类
+     *  Int 选中View 的ID
+     *  选中View的位置
+     */
+    fun setOnSelectedChangedListener(listener: (ViewGroup, Int, Int) -> Unit) {
+        mBottomBarBlock = listener
+    }
+
+    /**
+     * 设置Child的点击事件
+     */
+    fun setOnChildClickListener(listener: OnBottomBarClickListener) {
+        mBottomBarClickListener = listener
+    }
+
+    /**
+     *  设置Child的点击事件
+     */
+    fun setOnChildClickListener(listener: (View, Boolean) -> Unit) {
+        mBottomBarClickBolck = listener
     }
 
     /**
@@ -146,7 +184,12 @@ class BottomBar @JvmOverloads constructor(context: Context, attrs: AttributeSet?
          * @param index    选中View的位置
          */
         fun onSelectedChanged(parent: ViewGroup, @IdRes selectId: Int, index: Int)
+    }
 
+    /**
+     * 切换事件
+     */
+    interface OnBottomBarClickListener {
         /**
          * 点击子View
          *
@@ -171,13 +214,13 @@ class BottomBar @JvmOverloads constructor(context: Context, attrs: AttributeSet?
     }
 
     private fun zoomView(view: View?, checked: Boolean) {
-        if (view == null) {
+        if (!canAnimation || view == null) {
             Log.i(TAG, "zoomView: view is null")
             return
         }
 
-        val start = if (checked) 1f else ZOOM
-        val end = if (checked) ZOOM else 1f
+        val start = if (checked) 1f else animationZoom
+        val end = if (checked) animationZoom else 1f
 
         view.clearAnimation()
         val animator = ValueAnimator.ofFloat(start, end)

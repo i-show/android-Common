@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,20 +11,22 @@
     <FrameLayout
         android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/bottom_bar_height" />
 
     <com.ishow.common.widget.BottomBar
         android:id="@+id/bottomBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_bar_height"
+        android:layout_gravity="bottom"
         android:background="@drawable/top_line_white_normal_bg"
-        android:paddingTop="@dimen/dp_1">
+        android:paddingTop="@dimen/dp_1"
+        app:canAnimation="true">
 
         <com.ishow.common.widget.ImageTextView
             android:id="@+id/tab_1"
             style="@style/ImageTextView.BottomBar"
-            app:image="@drawable/footer_tab_1"
+            app:image="@drawable/footer_tab_home"
             app:text="@string/tab_1"
             app:tint="@color/bottom_bar_tint" />
 
@@ -45,9 +47,9 @@
         <com.ishow.common.widget.ImageTextView
             android:id="@+id/tab_4"
             style="@style/ImageTextView.BottomBar"
-            app:image="@drawable/footer_tab_4"
+            app:image="@drawable/footer_tab_mine"
             app:text="@string/tab_4"
             app:tint="@color/bottom_bar_tint" />
 
     </com.ishow.common.widget.BottomBar>
-</LinearLayout>
+</FrameLayout>

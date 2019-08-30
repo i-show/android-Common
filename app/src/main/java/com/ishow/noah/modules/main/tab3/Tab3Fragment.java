@@ -35,7 +35,7 @@ public class Tab3Fragment extends AppBaseFragment {
             return mRootView;
         }
 
-        mRootView = inflater.inflate(R.layout.fragement_tab_3, container, false);
+        mRootView = inflater.inflate(R.layout.fragment_tab_3, container, false);
 
         StatusView statusView = (StatusView) mRootView.findViewById(R.id.status_view);
         statusView.showEmpty();

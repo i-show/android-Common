@@ -14,7 +14,7 @@ import com.ishow.noah.BR
 import com.ishow.noah.R
 import com.ishow.noah.modules.base.AppBaseFragment
 import com.ishow.noah.modules.sample.main.SampleMainActivity
-import kotlinx.android.synthetic.main.fragement_tab_1.*
+import kotlinx.android.synthetic.main.fragment_home.*
 
 /**
  * Created by yuhaiyang on 2017/4/21.
@@ -34,7 +34,7 @@ class HomeFragment : AppBaseFragment() {
             return mRootView
         }
 
-        mRootView = container?.inflate(R.layout.fragement_tab_1)
+        mRootView = container?.inflate(R.layout.fragment_home)
         return mRootView
     }
 

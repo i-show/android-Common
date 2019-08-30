@@ -643,6 +643,8 @@
     <!-- 是否可以编辑 -->
     <attr name="editable" format="boolean" />
 
+    <attr name="canAnimation" format="boolean" />
+    <attr name="animationZoom" format="float" />
     <attr name="selectedChild" format="reference" />
     <attr name="cannotSelectedChild" format="reference" />
 
@@ -782,6 +784,8 @@
     </declare-styleable>
 
     <declare-styleable name="BottomBar">
+        <attr name="canAnimation" />
+        <attr name="animationZoom" />
         <attr name="selectedChild" />
         <attr name="cannotSelectedChild" />
     </declare-styleable>
