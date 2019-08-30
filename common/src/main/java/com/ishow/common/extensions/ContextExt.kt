@@ -236,6 +236,7 @@ fun Context.openAppSettings() {
 fun Context.openApp(packageName: String) {
     try {
         val intent = packageManager.getLaunchIntentForPackage(packageName)
+        intent?.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
     } catch (e: Exception) {
         toast(R.string.exception_intent_open)

@@ -27,7 +27,7 @@
     <application>
         <!-- Android 7.0 Uri的共享机制-->
         <provider
-            android:name="androidx.core.content.FileProvider"
+            android:name=".app.provider.CommonFileProvider"
             android:authorities="${applicationId}.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
