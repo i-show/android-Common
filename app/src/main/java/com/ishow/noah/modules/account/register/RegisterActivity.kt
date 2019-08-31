@@ -20,6 +20,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import com.ishow.common.entries.status.Success
 import com.ishow.common.extensions.openBrowser
 import com.ishow.common.extensions.toast
 import com.ishow.common.utils.databinding.bus.Event
@@ -59,15 +60,15 @@ class RegisterActivity : AppBindActivity<ActivityRegisterBinding>() {
         super.initViews()
 
         mVerifyCodeWatcher = VerifyCodeTextWatcher()
-                .setEnableView(sendVerifyCode)
-                .addChecker(phone, PhoneNumberChecker())
+            .setEnableView(sendVerifyCode)
+            .addChecker(phone, PhoneNumberChecker())
 
         mSubmitWatcher = EnableTextWatcher()
-                .setEnableView(submit)
-                .addChecker(phone, PhoneNumberChecker())
-                .addChecker(verifyCode)
-                .addChecker(password, PasswordChecker(context))
-                .addChecker(ensurePassword, PasswordChecker(context))
+            .setEnableView(submit)
+            .addChecker(phone, PhoneNumberChecker())
+            .addChecker(verifyCode)
+            .addChecker(password, PasswordChecker(context))
+            .addChecker(ensurePassword, PasswordChecker(context))
     }
 
     fun onViewClick(v: View) {
@@ -77,7 +78,12 @@ class RegisterActivity : AppBindActivity<ActivityRegisterBinding>() {
                 mViewModel.sendVerifyCode(phone.inputText)
             }
             R.id.submit -> {
-                mViewModel.register(phone.inputText, verifyCode.inputText, password.inputText, ensurePassword.inputText)
+                mViewModel.register(
+                    phone.inputText,
+                    verifyCode.inputText,
+                    password.inputText,
+                    ensurePassword.inputText
+                )
             }
 
             R.id.agreement -> {
@@ -89,7 +95,6 @@ class RegisterActivity : AppBindActivity<ActivityRegisterBinding>() {
 
     private fun observeLiveData(vm: RegisterViewModel) = vm.run {
         verifyCodeStatus.observe(this@RegisterActivity, Observer { onVerifyCodeStatusChanged(it) })
-        registerState.observe(this@RegisterActivity, Observer { registerSuccess() })
     }
 
     private fun onVerifyCodeStatusChanged(status: Event<Boolean>) {
@@ -102,12 +107,13 @@ class RegisterActivity : AppBindActivity<ActivityRegisterBinding>() {
         }
     }
 
-    private fun registerSuccess() {
+    override fun showSuccess(success: Success) {
+        super.showSuccess(success)
         toast(R.string.register_success)
         AppRouter.with(context)
-                .target(MainActivity::class.java)
-                .flag(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                .finishSelf()
-                .start()
+            .target(MainActivity::class.java)
+            .flag(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            .finishSelf()
+            .start()
     }
 }

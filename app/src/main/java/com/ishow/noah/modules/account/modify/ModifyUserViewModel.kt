@@ -22,6 +22,9 @@ class ModifyUserViewModel(application: Application) : AppBaseViewModel(applicati
     fun uploadAvatar(path: String) = GlobalScope.launch {
         val accountModel = AccountModel()
         val result = request { accountModel.uploadAvatar(path) }
-        result?.let { mainThread { _avatarPath.value = it } }
+        result?.let {
+            UserManager.setAvatar(context, it)
+            mainThread { _avatarPath.value = it }
+        }
     }
 }

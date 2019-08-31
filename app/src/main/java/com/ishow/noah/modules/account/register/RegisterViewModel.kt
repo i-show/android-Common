@@ -9,6 +9,7 @@ import com.ishow.noah.R
 import com.ishow.noah.entries.UserContainer
 import com.ishow.noah.entries.http.AppHttpResponse
 import com.ishow.noah.entries.params.request.RegisterParams
+import com.ishow.noah.manager.UserManager
 import com.ishow.noah.modules.account.common.AccountModel
 import com.ishow.noah.modules.base.mvvm.AppBaseViewModel
 import kotlinx.coroutines.Dispatchers
@@ -22,10 +23,6 @@ class RegisterViewModel(application: Application) : AppBaseViewModel(application
     private val _verifyCodeStatus = MutableLiveData<Event<Boolean>>()
     val verifyCodeStatus: LiveData<Event<Boolean>>
         get() = _verifyCodeStatus
-
-    private val _registerState = MutableLiveData<Event<Boolean>>()
-    val registerState: LiveData<Event<Boolean>>
-        get() = _registerState
 
     fun sendVerifyCode(phone: String) = GlobalScope.launch(Dispatchers.Main) {
         delay(2000)
@@ -48,7 +45,8 @@ class RegisterViewModel(application: Application) : AppBaseViewModel(application
             val accountModel = AccountModel()
             val result: AppHttpResponse<UserContainer> = withLoading { accountModel.register(params) }
             if (result.isSuccess()) {
-                mainThread { _registerState.value = Event(true) }
+                UserManager.instance.setUserContainer(context, result.data)
+                showSuccess()
             } else {
                 toast(result.message)
             }

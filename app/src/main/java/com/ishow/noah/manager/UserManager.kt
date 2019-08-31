@@ -46,22 +46,25 @@ class UserManager private constructor() {
         mUserContainer = container
 
         StorageUtils.with(context)
-                .param(UserContainer.Key.CACHE, JSON.toJSONString(container))
-                .save()
+            .param(UserContainer.Key.CACHE, JSON.toJSONString(container))
+            .save()
     }
 
     /**
      * 获取用户信息
      */
-    fun getUserContainer(context: Context?): UserContainer? {
+    fun getUserContainer(
+        context: Context?,
+        block: ((UserContainer) -> Unit)? = null
+    ): UserContainer? {
         if (context == null) {
             return mUserContainer
         }
 
         if (mUserContainer == null) {
             val cache = StorageUtils.with(context)
-                    .key(UserContainer.Key.CACHE)
-                    .get(StringUtils.EMPTY)
+                .key(UserContainer.Key.CACHE)
+                .get(StringUtils.EMPTY)
 
             if (TextUtils.isEmpty(cache)) {
                 Log.i(TAG, "getUser: no user")
@@ -69,6 +72,11 @@ class UserManager private constructor() {
             }
             mUserContainer = Gson().fromJson(cache, UserContainer::class.java)
         }
+
+        if (mUserContainer != null) {
+            block?.let { it(mUserContainer!!) }
+        }
+
         return mUserContainer
     }
 
@@ -79,8 +87,8 @@ class UserManager private constructor() {
     fun getAvatar(context: Context): String? {
         if (mUserContainer == null) {
             val cache = StorageUtils.with(context)
-                    .key(UserContainer.Key.CACHE)
-                    .get()
+                .key(UserContainer.Key.CACHE)
+                .get()
 
             if (TextUtils.isEmpty(cache)) {
                 Log.i(TAG, "getUser: no user")
@@ -91,8 +99,8 @@ class UserManager private constructor() {
         return if (mUserContainer == null) {
             StringUtils.EMPTY
         } else mUserContainer!!.user?.avatar
-
     }
+
 
     /**
      * 获取AccessToken
@@ -114,7 +122,17 @@ class UserManager private constructor() {
             get() =
                 sInstance ?: synchronized(UserManager::class.java) {
                     sInstance
-                            ?: UserManager().also { sInstance = it }
+                        ?: UserManager().also { sInstance = it }
                 }
+
+        @JvmStatic
+        fun setAvatar(context: Context, avatar: String) {
+            val manager = instance
+            manager.getUserContainer(context) {
+                it.user?.avatar = avatar
+                manager.setUserContainer(context, it)
+            }
+        }
     }
+
 }

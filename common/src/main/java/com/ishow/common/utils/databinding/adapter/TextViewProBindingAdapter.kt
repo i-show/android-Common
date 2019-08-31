@@ -12,7 +12,7 @@ object TextViewProBindingAdapter {
     @BindingAdapter(value = ["image2Url", "image2Options", "image2Placeholder"], requireAll = false)
     fun rightImage2Url(
             view: TextViewPro,
-            url: String,
+            url: String?,
             options: RequestOptions = RequestOptions.centerCropTransform(),
             placeholder: Drawable
     ) {
