@@ -19,10 +19,26 @@ open class BindAdapter<T>(val context: Context) : RecyclerView.Adapter<BindAdapt
         get() = mData
         set(data) = setData(data, true)
 
+    /**
+     * item的layout记录
+     */
     private val layoutList = SparseIntArray()
+    /**
+     * dataBinding的BR的值
+     */
     private val variableList = SparseIntArray()
+    /**
+     * Item的点击事件
+     */
     private var itemClickListener: ((Int) -> Unit)? = null
-
+    /**
+     * 设置itemType的Block
+     */
+    private var itemTypeBlock: ((Int) -> Int)? = null
+    /**
+     * 终止掉本身的ClickListener
+     */
+    @Suppress("MemberVisibilityCanBePrivate")
     protected var disableOnItemClickListener = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindHolder {
@@ -41,6 +57,18 @@ open class BindAdapter<T>(val context: Context) : RecyclerView.Adapter<BindAdapt
     override fun getItemCount(): Int = mData.size
 
     fun getItem(position: Int): T = mData[position]
+
+    override fun getItemViewType(position: Int): Int {
+        return if (itemTypeBlock == null) {
+            super.getItemViewType(position)
+        } else {
+            itemTypeBlock!!(position)
+        }
+    }
+
+    fun setItemTypeBlock(block: ((Int) -> Int)? = null) {
+        itemTypeBlock = block
+    }
 
     /**
      * 添加布局文件
