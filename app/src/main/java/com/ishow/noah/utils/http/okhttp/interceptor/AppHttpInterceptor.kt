@@ -25,7 +25,7 @@ class AppHttpInterceptor : Interceptor {
         builder.add("device", "100")
 
         if(!token.isNullOrEmpty()){
-            builder.add("token", token)
+            builder.add("token", token!!)
         }
 
         return builder.build()

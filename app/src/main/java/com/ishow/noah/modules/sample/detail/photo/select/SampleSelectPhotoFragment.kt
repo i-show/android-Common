@@ -62,7 +62,7 @@ class SampleSelectPhotoFragment : AppBindFragment<FragmentSampleSelectPhotoBindi
 
         mAdapter = BindAdapter(context)
         mAdapter.setOnItemClickListener { showPhoto(it) }
-        mAdapter.addLayout(R.layout.item_sample_select_photo, BR.imgUrl)
+        mAdapter.addLayout(BR.imgUrl, R.layout.item_sample_select_photo)
 
         list.addItemDecoration(SpacingDecoration(context, R.dimen.photo_selector_item_gap))
         list.adapter = mAdapter

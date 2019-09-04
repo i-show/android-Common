@@ -43,7 +43,7 @@ class SelectDialog<T : IUnitSelect>(context: Context) : BaseDialog(context, R.st
         }
 
     init {
-        mAdapter.addLayout(R.layout.item_dialog_selet, BR.itemUnitSelect)
+        mAdapter.addLayout(BR.itemUnitSelect, R.layout.item_dialog_selet)
         mAdapter.setOnItemClickListener {
             notifySelectCityChanged(mAdapter.getItem(it))
             dismiss()

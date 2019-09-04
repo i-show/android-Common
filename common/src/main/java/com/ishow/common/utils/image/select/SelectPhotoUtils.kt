@@ -35,8 +35,7 @@ import androidx.fragment.app.Fragment
 import com.ishow.common.R
 import com.ishow.common.entries.Photo
 import com.ishow.common.modules.image.cutter.PhotoCutterActivity
-import com.ishow.common.modules.image.select.PhotoSelectorActivity
-import com.ishow.common.utils.StringUtils
+import com.ishow.common.modules.image.select.ImageSelectorActivity
 import com.ishow.common.utils.ToastUtils
 import com.ishow.common.utils.image.ImageUtils
 import com.ishow.common.utils.log.LogUtils
@@ -260,7 +259,7 @@ class SelectPhotoUtils(private val activity: Activity, @param:SelectMode private
      * 通过相册来选择图片
      */
     private fun selectPhotoByGallery() {
-        val intent = Intent(activity, PhotoSelectorActivity::class.java)
+        val intent = Intent(activity, ImageSelectorActivity::class.java)
         when (mSelectMode) {
             SelectMode.SINGLE -> {
                 intent.putExtra(Photo.Key.EXTRA_SELECT_MODE, Photo.Key.MODE_SINGLE)

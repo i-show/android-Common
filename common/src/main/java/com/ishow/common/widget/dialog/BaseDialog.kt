@@ -125,7 +125,7 @@ open class BaseDialog constructor(context: Context, theme: Int) : Dialog(context
         ownerActivity = context
     }
 
-    class Builder @JvmOverloads constructor(context: Context, private val mTheme: Int = R.style.Theme_Dialog) {
+    class Builder @JvmOverloads constructor(context: Context?, private val mTheme: Int = R.style.Theme_Dialog) {
         private val mParams: BaseController.Params = BaseController.Params(ContextThemeWrapper(context, mTheme))
 
         val context: Context

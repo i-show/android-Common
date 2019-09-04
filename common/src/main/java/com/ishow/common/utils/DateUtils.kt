@@ -209,7 +209,8 @@ object DateUtils {
      */
     @JvmStatic
     @JvmOverloads
-    fun formatFriendly(context: Context, time: Long, targetModel: String = FORMAT_YMD): String {
+    fun formatFriendly(context: Context?, time: Long, targetModel: String = FORMAT_YMD): String {
+        if (context == null) return StringUtils.EMPTY
         val now = System.currentTimeMillis()
         val today = removeHourMinSec(now)
         val yesterday = removeHourMinSec(now - DAY_1)

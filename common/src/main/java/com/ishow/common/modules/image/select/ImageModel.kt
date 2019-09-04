@@ -18,7 +18,7 @@ import io.reactivex.schedulers.Schedulers
 import java.util.ArrayList
 import java.util.concurrent.TimeUnit
 
-class PhotoModel(private val context: Context) {
+class ImageModel(private val context: Context) {
 
     private val photoList = ArrayList<Photo>()
     private val folderList = ArrayList<Folder>()

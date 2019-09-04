@@ -106,6 +106,7 @@ class VersionManager private constructor() {
     /**
      * 获取版本信息
      */
+    @Suppress("UNUSED_PARAMETER")
     private fun getVersionFromServer(context: Context) {
         val version = Version()
         version.versionCode = BuildConfig.VERSION_CODE

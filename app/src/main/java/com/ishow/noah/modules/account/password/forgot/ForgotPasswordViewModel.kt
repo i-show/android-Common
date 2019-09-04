@@ -28,6 +28,7 @@ class ForgotPasswordViewModel(application: Application) : AppBaseViewModel(appli
     val resetState: LiveData<Event<Boolean>>
         get() = _resetState
 
+    @Suppress("UNUSED_PARAMETER")
     fun sendVerifyCode(phone: String) = GlobalScope.launch(Dispatchers.Main) {
         delay(2000)
         val result = Random().nextInt() % 2 == 0

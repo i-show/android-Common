@@ -226,6 +226,11 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
         }
     }
 
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        CCacheManager.cache(this)
+    }
+
     override fun showSuccess() {
     }
 
@@ -244,10 +249,7 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
 
     }
 
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        CCacheManager.cache(this)
-    }
+
 
     companion object {
         /**

@@ -44,7 +44,7 @@ class HomeFragment : AppBaseFragment() {
         topBar.setOnTopBarListener(this)
 
         val adapter = BindAdapter<String>(context!!)
-        adapter.addLayout(R.layout.test_item, BR.item)
+        adapter.addLayout(BR.item, R.layout.test_item)
         adapter.setOnItemClickListener { ToastUtils.show(context, "it = $it") }
         recyclerView.adapter = adapter
 

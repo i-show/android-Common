@@ -26,15 +26,15 @@
             type="com.ishow.common.entries.Photo" />
 
         <variable
-            name="listener"
-            type="com.ishow.common.modules.image.select.PhotoActionListener" />
+            name="vm"
+            type="com.ishow.common.modules.image.select.ImageSelectorViewModel" />
     </data>
 
     <com.ishow.common.widget.framelayout.ScaleFrameLayout
         android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{()->listener.viewPhoto(root, photo)}"
+        android:onClick="@{()->vm.viewPhoto(root, photo)}"
         app:heightScale="1"
         app:widthScale="1">
 
@@ -60,7 +60,7 @@
             android:layout_gravity="top|end"
             android:minWidth="@dimen/dp_40"
             android:minHeight="@dimen/dp_40"
-            android:onClick="@{()->listener.onClickPhotoStatus(status, photo)}">
+            android:onClick="@{()->vm.selectPhoto(status, photo)}">
 
             <CheckBox
                 android:id="@+id/status"

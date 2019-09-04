@@ -38,7 +38,7 @@
 
         <!--选择图片的类-->
         <activity
-            android:name=".modules.image.select.PhotoSelectorActivity"
+            android:name=".modules.image.select.ImageSelectorActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.NoActionBar" />
 

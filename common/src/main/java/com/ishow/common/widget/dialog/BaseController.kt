@@ -38,7 +38,11 @@ import java.lang.ref.WeakReference
 import kotlin.math.max
 
 
-class BaseController(private val mContext: Context, private val mDialogInterface: DialogInterface, private val mWindow: Window) {
+class BaseController(
+    private val mContext: Context,
+    private val mDialogInterface: DialogInterface,
+    private val mWindow: Window
+) {
 
     private val mDialogLayout: Int
     internal var isFromBottom: Boolean = false
@@ -115,7 +119,10 @@ class BaseController(private val mContext: Context, private val mDialogInterface
      */
     internal fun installContent() {
         mWindow.requestFeature(Window.FEATURE_NO_TITLE)
-        mWindow.setFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM, WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
+        mWindow.setFlags(
+            WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM,
+            WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM
+        )
         mWindow.setContentView(mDialogLayout)
         setupView()
     }
@@ -162,7 +169,12 @@ class BaseController(private val mContext: Context, private val mDialogInterface
             mMessageView?.gravity = mMessageGravity
             if (!hasTitle) {
                 val paddingTop = (max(mMessageView!!.paddingStart, mMessageView!!.paddingEnd) * 0.8f).toInt()
-                mMessageView?.setPadding(mMessageView!!.paddingStart, paddingTop, mMessageView!!.paddingEnd, mMessageView!!.paddingBottom)
+                mMessageView?.setPadding(
+                    mMessageView!!.paddingStart,
+                    paddingTop,
+                    mMessageView!!.paddingEnd,
+                    mMessageView!!.paddingBottom
+                )
             }
         } else {
             mMessageView?.visibility = View.GONE
@@ -438,7 +450,7 @@ class BaseController(private val mContext: Context, private val mDialogInterface
                         mOnClickListener?.let { it(dialog.mDialogInterface, position) }
                         dialog.mDialogInterface.dismiss()
                     }
-                    adapter.addLayout(dialog.mListItemLayout, BR.text)
+                    adapter.addLayout(BR.text, dialog.mListItemLayout)
                     @Suppress("UNCHECKED_CAST")
                     adapter.data = mItems?.toList() as ArrayList<String>
                     dialog.mAdapter = adapter

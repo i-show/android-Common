@@ -55,4 +55,6 @@
     <string name="exception_intent_open">没有找到相关应用</string>
     <string name="permission_storage_select_photo">请提供内部存储权限，否则将无法选择图片</string>
     <string name="permission_denied_tip">一些权限被您拒绝，程序可能异常，请同意授权。</string>
+    <string name="preview_image">预览</string>
+    <string name="link_preview_image">预览(%d)</string>
 </resources>

@@ -27,7 +27,7 @@ class SampleListFragment : AppBindFragment<FragmentSampleListBinding>() {
 
         val adapter = BindAdapter<Sample>(view.context)
         adapter.setOnItemClickListener { gotoDetail(adapter.getItem(it)) }
-        adapter.addLayout(R.layout.item_sample_main, BR.item)
+        adapter.addLayout(BR.item, R.layout.item_sample_main)
         adapter.data = SampleManager.samples
         list.adapter = adapter
     }

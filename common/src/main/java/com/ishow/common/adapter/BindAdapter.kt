@@ -1,9 +1,12 @@
 package com.ishow.common.adapter
 
 import android.content.Context
+import android.util.SparseArray
 import android.util.SparseIntArray
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.util.forEach
+import androidx.core.util.set
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
@@ -24,9 +27,13 @@ open class BindAdapter<T>(val context: Context) : RecyclerView.Adapter<BindAdapt
      */
     private val layoutList = SparseIntArray()
     /**
-     * dataBinding的BR的值
+     * data模型数据dataBinding的BR的值
      */
-    private val variableList = SparseIntArray()
+    private val dataVariableList = SparseIntArray()
+    /**
+     * 成员数据的dataBinding值
+     */
+    private var memberVariableList: SparseArray<MutableList<Variable>>? = null
     /**
      * Item的点击事件
      */
@@ -44,14 +51,14 @@ open class BindAdapter<T>(val context: Context) : RecyclerView.Adapter<BindAdapt
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindHolder {
         val item = parent.inflate(layoutList[viewType])
         setItemListener(item)
-        return BindHolder(item, viewType)
+        return BindHolder(item, viewType, memberVariableList)
     }
 
     override fun onBindViewHolder(holder: BindHolder, position: Int) {
         val itemData = getItem(position)
         val viewType = getItemViewType(position)
         holder.item.setTag(R.id.tag_position, position)
-        holder.bind(variableList[viewType], itemData)
+        holder.bind(dataVariableList[viewType], itemData)
     }
 
     override fun getItemCount(): Int = mData.size
@@ -74,9 +81,28 @@ open class BindAdapter<T>(val context: Context) : RecyclerView.Adapter<BindAdapt
      * 添加布局文件
      */
     @JvmOverloads
-    fun addLayout(layoutRes: Int, variableId: Int, viewType: Int = 0) {
+    fun addLayout(variableId: Int, layoutRes: Int, viewType: Int = 0) {
         layoutList.put(viewType, layoutRes)
-        variableList.put(viewType, variableId)
+        dataVariableList.put(viewType, variableId)
+    }
+
+    /**
+     * 增加variable
+     */
+    @JvmOverloads
+    fun addVariable(variableId: Int, data: Any, viewType: Int = 0) {
+        if (memberVariableList == null) {
+            memberVariableList = SparseArray()
+        }
+
+        val variableList = memberVariableList!!
+
+        var list = variableList[viewType]
+        if (list == null) {
+            list = ArrayList()
+        }
+        list.add(Variable(variableId, data))
+        variableList[viewType] = list
     }
 
     /**
@@ -133,12 +159,33 @@ open class BindAdapter<T>(val context: Context) : RecyclerView.Adapter<BindAdapt
         }
     }
 
-    class BindHolder(val item: View, val viewType: Int) : RecyclerView.ViewHolder(item) {
+    class BindHolder(
+        val item: View,
+        val viewType: Int,
+        private val memberVariableList: SparseArray<MutableList<Variable>>?
+    ) : RecyclerView.ViewHolder(item) {
         val binding: ViewDataBinding? = DataBindingUtil.bind(item)
+
+        init {
+            initMemberVariable()
+        }
+
+        private fun initMemberVariable() {
+            if (memberVariableList == null) return
+            val data = memberVariableList[viewType]
+            if (data.isNullOrEmpty()) {
+                return
+            }
+
+            data.forEach { binding?.setVariable(it.variableId, it.data) }
+        }
 
         fun bind(variableId: Int, data: Any?) {
             binding?.setVariable(variableId, data)
             binding?.executePendingBindings()
         }
     }
+
+
+    class Variable(val variableId: Int, val data: Any)
 }

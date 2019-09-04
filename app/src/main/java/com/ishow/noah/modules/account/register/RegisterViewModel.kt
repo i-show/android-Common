@@ -24,6 +24,7 @@ class RegisterViewModel(application: Application) : AppBaseViewModel(application
     val verifyCodeStatus: LiveData<Event<Boolean>>
         get() = _verifyCodeStatus
 
+    @Suppress("UNUSED_PARAMETER")
     fun sendVerifyCode(phone: String) = GlobalScope.launch(Dispatchers.Main) {
         delay(2000)
         val result = Random().nextInt() % 2 == 0

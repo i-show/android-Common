@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2016 The yuhaiyang Android Source Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.ishow.common.modules.image.select.ImageSelectorViewModel" />
+
+        <variable
+            name="fragment"
+            type="com.ishow.common.modules.image.select.ImageListFragment" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:padding="@dimen/dp_1"
+            android:paddingBottom="?android:actionBarSize"
+            app:items="@{vm.photoList}"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="4" />
+
+        <TextView
+            android:id="@+id/timeLine"
+            style="@style/CommonTextView.PhotoSelector.TimeLine"
+            tools:text="2015年4月1日" />
+
+        <LinearLayout
+            android:id="@+id/bottomBar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:actionBarSize"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/top_line_white_normal_bg"
+            android:gravity="center_vertical">
+
+            <com.ishow.common.widget.ImageTextView
+                android:id="@+id/folderView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="?android:selectableItemBackground"
+                android:onClick="@{()->fragment.onViewClick(folderView)}"
+                android:paddingStart="@dimen/gap_grade_3"
+                android:paddingEnd="@dimen/gap_grade_3"
+                app:image="@drawable/ic_photo_selector_folder"
+                app:padding="@dimen/gap_grade_1"
+                app:position="left"
+                app:text="@string/all_photos"
+                app:textColor="@color/color_accent"
+                app:textSize="@dimen/I_title"
+                app:tint="@color/color_accent" />
+
+            <View
+                android:id="@+id/bottomLine"
+                style="@style/Line.Vertical"
+                android:layout_marginTop="@dimen/gap_grade_4"
+                android:layout_marginBottom="@dimen/gap_grade_4" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/preview"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="10dp"
+                android:gravity="center"
+                android:onClick="@{()->fragment.onViewClick(preview)}"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:text="@{vm.previewText}"
+                android:textColor="@color/color_accent"
+                android:textSize="@dimen/I_title" />
+
+        </LinearLayout>
+    </RelativeLayout>
+</layout>
