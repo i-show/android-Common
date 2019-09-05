@@ -37,11 +37,11 @@ public class Folder {
     /**
      * 封面
      */
-    public Photo cover;
+    public Image cover;
     /**
      * 包含的图片
      */
-    public List<Photo> photoList;
+    public List<Image> photoList;
 
     public int count;
     public boolean isSelected;
@@ -50,21 +50,21 @@ public class Folder {
 
     }
 
-    public Folder(String id, String name, Photo cover) {
+    public Folder(String id, String name, Image cover) {
         this.id = id;
         this.name = name;
         this.cover = cover;
         addPhoto(cover);
     }
 
-    public void addPhoto(Photo image) {
+    public void addPhoto(Image image) {
         if (photoList == null) {
             photoList = new ArrayList<>();
         }
         photoList.add(image);
     }
 
-    public void addAll(List<Photo> photos) {
+    public void addAll(List<Image> photos) {
         if (photos == null || photos.isEmpty()) {
             return;
         }
@@ -77,7 +77,7 @@ public class Folder {
         photoList.addAll(photos);
     }
 
-    public List<Photo> getPhotoList() {
+    public List<Image> getPhotoList() {
         if (photoList == null) {
             photoList = new ArrayList<>();
         }

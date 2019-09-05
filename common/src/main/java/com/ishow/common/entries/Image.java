@@ -16,12 +16,20 @@
 
 package com.ishow.common.entries;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.databinding.Bindable;
+import androidx.databinding.BindingMethod;
+
+import com.ishow.common.R;
+
+import java.util.Objects;
 
 /**
  * 图片实体
  */
-public class Photo {
+public class Image {
+    public long id;
     /**
      * 图片的绝对路径
      */
@@ -34,16 +42,17 @@ public class Photo {
      * 包含本图片的名字
      */
     public String folderName;
-
     /**
      * 修改时间
      */
     public long modifyDate;
 
     public boolean isSelected;
+    public boolean isUnSelected;
 
 
-    public Photo(String path, String name, long modifyDate, String folderName) {
+    public Image(long id, String path, String name, long modifyDate, String folderName) {
+        this.id = id;
         this.path = path;
         this.name = name;
         this.modifyDate = modifyDate;
@@ -60,24 +69,28 @@ public class Photo {
 
     @Override
     public boolean equals(Object o) {
-        try {
-            Photo other = (Photo) o;
-            return this.path.equalsIgnoreCase(other.path);
-        } catch (ClassCastException e) {
-            e.printStackTrace();
-        }
-        return super.equals(o);
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Image photo = (Image) o;
+        return id == photo.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @NonNull
     @Override
     public String toString() {
-        return "Photo{" +
-                "path='" + path + '\'' +
+        return "Image{" +
+                "id=" + id +
+                ", path='" + path + '\'' +
                 ", name='" + name + '\'' +
                 ", folderName='" + folderName + '\'' +
                 ", modifyDate=" + modifyDate +
                 ", isSelected=" + isSelected +
+                ", isUnSelected=" + isUnSelected +
                 '}';
     }
 

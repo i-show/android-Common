@@ -55,13 +55,6 @@ class SampleMainActivity : AppBindActivity<ActivitySampleMainBinding>() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        Log.i("yhy", "requestCode = $requestCode")
-        Log.i("yhy", "resultCode = $resultCode")
-        Log.i("yhy", "data = $data")
-    }
-
     fun showDetail(sample: Sample) {
         val fragment = sample.action.newInstance() as? Fragment ?: return
 

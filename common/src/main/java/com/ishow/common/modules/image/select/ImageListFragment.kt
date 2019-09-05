@@ -1,5 +1,7 @@
 package com.ishow.common.modules.image.select
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
@@ -10,12 +12,14 @@ import com.ishow.common.adapter.BindAdapter
 import com.ishow.common.app.mvvm.view.BindFragment
 import com.ishow.common.databinding.FragmentImageListCommonBinding
 import com.ishow.common.entries.Folder
-import com.ishow.common.entries.Photo
+import com.ishow.common.entries.Image
+import com.ishow.common.extensions.toast
 import com.ishow.common.utils.AnimatorUtils
 import com.ishow.common.utils.DateUtils
 import com.ishow.common.widget.dialog.BaseDialog
 import com.ishow.common.widget.recyclerview.itemdecoration.SpacingDecoration
 import kotlinx.android.synthetic.main.fragment_image_list_common.*
+import java.util.ArrayList
 
 /**
  * Created by yuhaiyang on 2019-09-04.
@@ -23,7 +27,7 @@ import kotlinx.android.synthetic.main.fragment_image_list_common.*
  */
 
 class ImageListFragment : BindFragment<FragmentImageListCommonBinding>() {
-    private lateinit var adapter: BindAdapter<Photo>
+    private lateinit var adapter: BindAdapter<Image>
 
     override fun getLayout(): Int = R.layout.fragment_image_list_common
 
@@ -33,8 +37,9 @@ class ImageListFragment : BindFragment<FragmentImageListCommonBinding>() {
         dataBinding.vm = activity.viewModel
         dataBinding.fragment = this
 
+        topBar.setOnTopBarListener(this)
         adapter = BindAdapter(activity)
-        adapter.addLayout(BR.photo, R.layout.item_photo_selector)
+        adapter.addLayout(BR.photo, R.layout.item_image_selector_list)
         adapter.addVariable(BR.vm, activity.viewModel)
 
         list.addItemDecoration(SpacingDecoration(activity, R.dimen.photo_selector_item_gap))
@@ -47,9 +52,54 @@ class ImageListFragment : BindFragment<FragmentImageListCommonBinding>() {
         list.removeOnScrollListener(scrollListener)
     }
 
+    override fun onLeftClick(v: View) {
+        super.onLeftClick(v)
+        activity?.onBackPressed()
+    }
+
+    override fun onRightClick(v: View) {
+        super.onRightClick(v)
+        setResult()
+    }
+
+    private fun setResult() {
+        val photoList = dataBinding.vm?.selectedImages?.value
+        if (photoList.isNullOrEmpty()) {
+            toast(R.string.please_select_image)
+            return
+        }
+
+        when (dataBinding.vm?.mode) {
+            Image.Key.MODE_SINGLE -> setSingleResult(photoList)
+            Image.Key.MODE_MULTI -> setMultiResult(photoList)
+        }
+    }
+
+
     fun onViewClick(v: View) {
         when (v.id) {
             R.id.folderView -> selectPhotoFolder()
+            R.id.preview -> preview()
+        }
+    }
+
+    private fun setSingleResult(photoList: MutableList<Image>) {
+        val photo = photoList[0]
+        activity?.let {
+            val intent = Intent()
+            intent.putExtra(Image.Key.EXTRA_RESULT, photo.getPath())
+            it.setResult(Activity.RESULT_OK, intent)
+            it.finish()
+        }
+    }
+
+    private fun setMultiResult(photoList: MutableList<Image>) {
+        val photoPaths: ArrayList<String> = photoList.map { it.path } as ArrayList<String>
+        activity?.let {
+            val intent = Intent()
+            intent.putStringArrayListExtra(Image.Key.EXTRA_RESULT, photoPaths)
+            it.setResult(Activity.RESULT_OK, intent)
+            it.finish()
         }
     }
 
@@ -58,7 +108,7 @@ class ImageListFragment : BindFragment<FragmentImageListCommonBinding>() {
      */
     private fun selectPhotoFolder() {
         val adapter = BindAdapter<Folder>(context!!)
-        adapter.addLayout(BR.folder, R.layout.item_photo_selector_folder)
+        adapter.addLayout(BR.folder, R.layout.item_image_selector_folder)
         adapter.data = dataBinding.vm?.folderList?.value!!
 
         BaseDialog.Builder(context, R.style.Theme_Dialog_Bottom2)
@@ -67,6 +117,12 @@ class ImageListFragment : BindFragment<FragmentImageListCommonBinding>() {
             .setAdapter(adapter) { _, which -> updatePhotos(adapter.getItem(which)) }
             .create()
             .show()
+    }
+
+
+    private fun preview() {
+        val activity = activity as ImageSelectorActivity
+        activity.showImagePreview()
     }
 
     private fun updatePhotos(folder: Folder) {

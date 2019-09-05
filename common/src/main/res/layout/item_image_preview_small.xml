@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.ishow.common.entries.Image" />
+
+        <variable
+            name="position"
+            type="Integer" />
+
+        <variable
+            name="vm"
+            type="com.ishow.common.modules.image.select.ImageSelectorViewModel" />
+
+        <variable
+            name="fragment"
+            type="com.ishow.common.modules.image.select.ImagePreviewFragment" />
+    </data>
+
+    <FrameLayout
+        android:id="@+id/root"
+        android:layout_width="62dp"
+        android:layout_height="62dp"
+        android:onClick="@{()->fragment.setCurrentItem(position)}"
+        app:current="@{item}"
+        app:preview="@{vm.previewCurrent}">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            app:actualImageScaleType="focusCrop"
+            app:frescoUrl="@{item.path}"
+            app:placeholderImage="@color/grey_alpha_0_5"
+            app:viewAspectRatio="1" />
+    </FrameLayout>
+</layout>

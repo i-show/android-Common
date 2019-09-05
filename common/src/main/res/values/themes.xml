@@ -67,6 +67,7 @@
         <item name="colorControlActivated">@color/color_accent</item>
     </style>
 
+
     <!-- ################ Dialog ################ -->
     <style name="Theme.Dialog" parent="@style/Theme.AppCompat.Light.Dialog">
         <item name="android:windowBackground">@drawable/base_dialog_bg</item>

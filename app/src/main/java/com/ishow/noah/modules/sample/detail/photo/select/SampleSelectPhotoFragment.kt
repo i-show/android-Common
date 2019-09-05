@@ -87,7 +87,7 @@ class SampleSelectPhotoFragment : AppBindFragment<FragmentSampleSelectPhotoBindi
             }
             R.id.multi -> {
                 mSelectPhotoUtils.setSelectMode(SelectPhotoUtils.SelectMode.MULTIPLE)
-                mSelectPhotoUtils.select(5, Bitmap.CompressFormat.WEBP)
+                mSelectPhotoUtils.select(9, Bitmap.CompressFormat.WEBP)
             }
         }
     }

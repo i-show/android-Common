@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -13,10 +14,71 @@
     </data>
 
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/black"
         android:orientation="vertical">
 
-    </LinearLayout>
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="?android:actionBarSize"
+            android:orientation="horizontal"
+            app:items="@{vm.selectedImages}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="?android:actionBarSize"
+            android:background="@color/color_accent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawableStart="@drawable/svg_top_back"
+                android:drawablePadding="@dimen/gap_grade_2"
+                android:gravity="center_vertical"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@{vm.previewTopText}"
+                android:textColor="@color/white"
+                android:textSize="@dimen/H_title" />
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:onClick="@{()->fragment.setUnSelectPhoto(vm.previewCurrent, statusCheck)}">
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/statusCheck"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:checked="@{vm.currentPreviewImageStatus}"
+                    android:clickable="false"
+                    android:scaleX="0.7"
+                    android:scaleY="0.7"
+                    android:text="@string/select_photo"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/E_title"
+                    android:theme="@style/CommonCheckBox.PreviewPhoto" />
+            </FrameLayout>
+        </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/previewList"
+            android:layout_width="match_parent"
+            android:layout_height="82dp"
+            android:layout_gravity="bottom"
+            android:background="@color/grey_alpha_0_6"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            app:items="@{vm.selectedImages}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+    </FrameLayout>
 </layout>

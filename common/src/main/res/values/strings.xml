@@ -57,4 +57,5 @@
     <string name="permission_denied_tip">一些权限被您拒绝，程序可能异常，请同意授权。</string>
     <string name="preview_image">预览</string>
     <string name="link_preview_image">预览(%d)</string>
+    <string name="select_photo">选择</string>
 </resources>

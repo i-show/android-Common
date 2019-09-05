@@ -24,7 +24,7 @@ import android.view.View
 import com.ishow.common.R
 import com.ishow.common.app.mvvm.view.BindActivity
 import com.ishow.common.databinding.ActivityPhotoSelectorBinding
-import com.ishow.common.entries.Photo
+import com.ishow.common.entries.Image
 import com.ishow.common.extensions.showFragment
 import com.ishow.common.extensions.toast
 import java.util.*
@@ -40,6 +40,7 @@ class ImageSelectorActivity : BindActivity<ActivityPhotoSelectorBinding>() {
     private var maxCount: Int = 0
     private var mode: Int = 0
     private val listFragment = ImageListFragment()
+    private val previewFragment by lazy { ImagePreviewFragment() }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +49,6 @@ class ImageSelectorActivity : BindActivity<ActivityPhotoSelectorBinding>() {
         bindContentView(R.layout.activity_photo_selector)
         bindViewModel(ImageSelectorViewModel::class.java) {
             it.init(mode, maxCount)
-            dataBinding.vm = it
             viewModel = it
             showFragment(listFragment)
         }
@@ -57,49 +57,17 @@ class ImageSelectorActivity : BindActivity<ActivityPhotoSelectorBinding>() {
     override fun initNecessaryData() {
         super.initNecessaryData()
         val intent: Intent = intent
-        maxCount = intent.getIntExtra(Photo.Key.EXTRA_SELECT_COUNT, Photo.Key.DEFAULT_MAX_COUNT)
-        mode = intent.getIntExtra(Photo.Key.EXTRA_SELECT_MODE, Photo.Key.MODE_MULTI)
-        if (mode == Photo.Key.MODE_SINGLE) maxCount = 1
+        maxCount = intent.getIntExtra(Image.Key.EXTRA_SELECT_COUNT, Image.Key.DEFAULT_MAX_COUNT)
+        mode = intent.getIntExtra(Image.Key.EXTRA_SELECT_MODE, Image.Key.MODE_MULTI)
+        if (mode == Image.Key.MODE_SINGLE) maxCount = 1
     }
 
-
-    override fun onRightClick(v: View) {
-        super.onRightClick(v)
-        setResult()
-    }
-
-    private fun setResult() {
-        val photoList: MutableList<Photo> = viewModel.selectedPhotos
-        if (photoList.isEmpty()) {
-            Log.i(TAG, "setResult: photoList is null or empty")
+    fun showImagePreview() {
+        val photoList = viewModel.selectedImages.value
+        if (photoList.isNullOrEmpty()) {
             toast(R.string.please_select_image)
             return
         }
-
-        when (mode) {
-            Photo.Key.MODE_SINGLE -> setSingleResult(photoList)
-            Photo.Key.MODE_MULTI -> setMultiResult(photoList)
-        }
+        showFragment(previewFragment, listFragment)
     }
-
-    private fun setSingleResult(photoList: MutableList<Photo>) {
-        val photo = photoList[0]
-        val intent = Intent()
-        intent.putExtra(Photo.Key.EXTRA_RESULT, photo.getPath())
-        setResult(Activity.RESULT_OK, intent)
-        finish()
-    }
-
-    private fun setMultiResult(photoList: MutableList<Photo>) {
-        val photoPaths: ArrayList<String> = photoList.map { it.path } as ArrayList<String>
-        val intent = Intent()
-        intent.putStringArrayListExtra(Photo.Key.EXTRA_RESULT, photoPaths)
-        setResult(Activity.RESULT_OK, intent)
-        finish()
-    }
-
-    companion object {
-        private const val TAG = "ImageSelectorActivity"
-    }
-
 }

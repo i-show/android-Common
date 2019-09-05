@@ -10,6 +10,7 @@ import androidx.core.util.set
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
+import com.ishow.common.BR
 import com.ishow.common.R
 import com.ishow.common.extensions.inflate
 import java.util.ArrayList
@@ -58,7 +59,7 @@ open class BindAdapter<T>(val context: Context) : RecyclerView.Adapter<BindAdapt
         val itemData = getItem(position)
         val viewType = getItemViewType(position)
         holder.item.setTag(R.id.tag_position, position)
-        holder.bind(dataVariableList[viewType], itemData)
+        holder.bind(dataVariableList[viewType], itemData, position)
     }
 
     override fun getItemCount(): Int = mData.size
@@ -73,6 +74,7 @@ open class BindAdapter<T>(val context: Context) : RecyclerView.Adapter<BindAdapt
         }
     }
 
+    @Suppress("unused")
     fun setItemTypeBlock(block: ((Int) -> Int)? = null) {
         itemTypeBlock = block
     }
@@ -180,7 +182,8 @@ open class BindAdapter<T>(val context: Context) : RecyclerView.Adapter<BindAdapt
             data.forEach { binding?.setVariable(it.variableId, it.data) }
         }
 
-        fun bind(variableId: Int, data: Any?) {
+        fun bind(variableId: Int, data: Any?, position: Int) {
+            binding?.setVariable(BR.position, position)
             binding?.setVariable(variableId, data)
             binding?.executePendingBindings()
         }

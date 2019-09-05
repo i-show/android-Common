@@ -250,4 +250,11 @@
         <item name="interruptTouchEvent">true</item>
     </style>
 
+    <style name="CommonCheckBox" parent="@android:style/Widget.Material.CompoundButton.CheckBox" />
+
+    <style name="CommonCheckBox.PreviewPhoto">
+        <item name="android:colorControlActivated">@color/white</item>
+        <item name="android:colorControlNormal">@color/white</item>
+    </style>
+
 </resources>

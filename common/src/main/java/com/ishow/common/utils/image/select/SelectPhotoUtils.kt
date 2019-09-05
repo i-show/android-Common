@@ -33,7 +33,7 @@ import androidx.annotation.IntRange
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.ishow.common.R
-import com.ishow.common.entries.Photo
+import com.ishow.common.entries.Image
 import com.ishow.common.modules.image.cutter.PhotoCutterActivity
 import com.ishow.common.modules.image.select.ImageSelectorActivity
 import com.ishow.common.utils.ToastUtils
@@ -262,7 +262,7 @@ class SelectPhotoUtils(private val activity: Activity, @param:SelectMode private
         val intent = Intent(activity, ImageSelectorActivity::class.java)
         when (mSelectMode) {
             SelectMode.SINGLE -> {
-                intent.putExtra(Photo.Key.EXTRA_SELECT_MODE, Photo.Key.MODE_SINGLE)
+                intent.putExtra(Image.Key.EXTRA_SELECT_MODE, Image.Key.MODE_SINGLE)
                 if (fragment == null) {
                     activity.startActivityForResult(intent, Request.REQUEST_SINGLE_PICK)
                 } else {
@@ -270,8 +270,8 @@ class SelectPhotoUtils(private val activity: Activity, @param:SelectMode private
                 }
             }
             SelectMode.MULTIPLE -> {
-                intent.putExtra(Photo.Key.EXTRA_SELECT_MODE, Photo.Key.MODE_MULTI)
-                intent.putExtra(Photo.Key.EXTRA_SELECT_COUNT, mMaxSelectCount)
+                intent.putExtra(Image.Key.EXTRA_SELECT_MODE, Image.Key.MODE_MULTI)
+                intent.putExtra(Image.Key.EXTRA_SELECT_COUNT, mMaxSelectCount)
                 if (fragment == null) {
                     activity.startActivityForResult(intent, Request.REQUEST_MULTI_PICK)
                 } else {
@@ -305,7 +305,7 @@ class SelectPhotoUtils(private val activity: Activity, @param:SelectMode private
                     LoadingDialog.dismiss(mLoadingDialog)
                     return
                 }
-                val path = intentData.getStringExtra(Photo.Key.EXTRA_RESULT)
+                val path = intentData.getStringExtra(Image.Key.EXTRA_RESULT)
                 resolveSingleResult(path)
             }
             Request.REQUEST_MULTI_PICK -> {
@@ -313,7 +313,7 @@ class SelectPhotoUtils(private val activity: Activity, @param:SelectMode private
                     LoadingDialog.dismiss(mLoadingDialog)
                     return
                 }
-                val pathList = intentData.getStringArrayListExtra(Photo.Key.EXTRA_RESULT)
+                val pathList = intentData.getStringArrayListExtra(Image.Key.EXTRA_RESULT)
                 resolveMultiResult(pathList)
             }
             Request.REQUEST_CROP_IMAGE -> {

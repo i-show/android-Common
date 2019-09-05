@@ -21,27 +21,39 @@ import android.graphics.Rect
 import android.util.Log
 import android.view.View
 import androidx.annotation.DimenRes
+import androidx.annotation.Dimension
+import androidx.annotation.Px
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.ishow.common.extensions.dp2px
 import com.ishow.common.extensions.getDimensionPixelSize
 import com.ishow.common.utils.log.LogUtils
 
 /**
  * 只进行增加空边距的
  */
-class SpacingDecoration constructor(context: Context, @DimenRes spacing: Int) :
-        RecyclerView.ItemDecoration() {
+class SpacingDecoration : RecyclerView.ItemDecoration {
+
+
     /**
      * Item间距
      */
-    private val mSpacing: Int = context.getDimensionPixelSize(spacing)
+    private val mSpacing: Int
 
     /**
      * 是否显示最后的Diver
      * 仅支持 LinearLayoutManager
      */
     var showLastDivider: Boolean = false
+
+    constructor(context: Context, @DimenRes spacing: Int) {
+        mSpacing = context.getDimensionPixelSize(spacing)
+    }
+
+    constructor(@Dimension spacing: Int) {
+        mSpacing = spacing.dp2px()
+    }
 
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {

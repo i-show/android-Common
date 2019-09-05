@@ -106,5 +106,6 @@
 
     <color name="line">#C2CADC</color>
     <color name="photo_border">#C2CADC</color>
+    <color name="preview_image_un_selected">#88FFFFFF</color>
 
 </resources>
