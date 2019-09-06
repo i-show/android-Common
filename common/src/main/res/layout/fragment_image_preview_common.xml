@@ -43,9 +43,10 @@
                 android:drawableStart="@drawable/svg_top_back"
                 android:drawablePadding="@dimen/gap_grade_2"
                 android:gravity="center_vertical"
+                android:onClick="@{()->fragment.onBack()}"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
-                android:text="@{vm.previewTopText}"
+                android:text="@{@string/select_photo_preview_left_top(vm.previewPosition + 1 , vm.previewTotal)}"
                 android:textColor="@color/white"
                 android:textSize="@dimen/H_title" />
 
@@ -58,7 +59,7 @@
                     android:id="@+id/statusCheck"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:checked="@{vm.currentPreviewImageStatus}"
+                    android:checked="@{vm.previewImageStatus}"
                     android:clickable="false"
                     android:scaleX="0.7"
                     android:scaleY="0.7"

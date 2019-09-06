@@ -58,4 +58,5 @@
     <string name="preview_image">预览</string>
     <string name="link_preview_image">预览(%d)</string>
     <string name="select_photo">选择</string>
+    <string name="select_photo_preview_left_top">%d/%d</string>
 </resources>

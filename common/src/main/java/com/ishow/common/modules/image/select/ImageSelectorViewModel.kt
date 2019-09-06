@@ -1,7 +1,6 @@
 package com.ishow.common.modules.image.select
 
 import android.app.Application
-import android.util.Log
 import android.view.View
 import android.widget.CheckBox
 import androidx.lifecycle.LiveData
@@ -11,8 +10,8 @@ import com.ishow.common.app.mvvm.viewmodel.BaseViewModel
 import com.ishow.common.entries.Folder
 import com.ishow.common.entries.Image
 import com.ishow.common.modules.image.show.ShowPhotoDialog
-import com.ishow.common.utils.StringUtils
 import com.ishow.common.utils.ToastUtils
+import com.ishow.common.utils.databinding.bus.Event
 
 class ImageSelectorViewModel(application: Application) : BaseViewModel(application) {
     /**
@@ -34,6 +33,13 @@ class ImageSelectorViewModel(application: Application) : BaseViewModel(applicati
     private val _imageList = MutableLiveData<List<Image>>()
     val imageList: LiveData<List<Image>>
         get() = _imageList
+
+    /**
+     * 图片列表
+     */
+    private val _imageListDataChanged = MutableLiveData<Event<Any>>()
+    val imageListDataChanged: LiveData<Event<Any>>
+        get() = _imageListDataChanged
 
     /**
      * 获取 选中照片
@@ -58,21 +64,22 @@ class ImageSelectorViewModel(application: Application) : BaseViewModel(applicati
     /**
      * 当前预览的照片
      */
-    private val _previewCurrent = MutableLiveData<Image>()
+    private val _previewImage = MutableLiveData<Image>()
     val previewCurrent: LiveData<Image>
-        get() = _previewCurrent
+        get() = _previewImage
 
-    private val _currentPreviewImageStatus = MutableLiveData<Boolean>()
-    val currentPreviewImageStatus: LiveData<Boolean>
-        get() = _currentPreviewImageStatus
+    private val _previewImageStatus = MutableLiveData<Boolean>()
+    val previewImageStatus: LiveData<Boolean>
+        get() = _previewImageStatus
 
 
-    /**
-     * 预览页-左上角Text
-     */
-    private val _previewTopText = MutableLiveData<String>()
-    val previewTopText: LiveData<String>
-        get() = _previewTopText
+    private val _previewTotal = MutableLiveData<Int>()
+    val previewTotal: LiveData<Int>
+        get() = _previewTotal
+
+    private val _previewPosition = MutableLiveData<Int>()
+    val previewPosition: LiveData<Int>
+        get() = _previewPosition
 
     internal var mode: Int = Image.Key.MODE_SINGLE
     private var maxCount: Int = 1
@@ -107,12 +114,11 @@ class ImageSelectorViewModel(application: Application) : BaseViewModel(applicati
         } else if (mode == Image.Key.MODE_SINGLE) {
             _topRightText.value = context.getString(R.string.complete)
             _previewText.value = context.getString(R.string.preview_image)
-            _previewTopText.value = "1/1"
         } else {
             _topRightText.value = context.getString(R.string.link_complete, selectCount, maxCount)
             _previewText.value = context.getString(R.string.link_preview_image, selectCount)
-            _previewTopText.value = "1/$selectCount"
         }
+        _previewTotal.value = selectCount
     }
 
     fun updateCurrentFolder(folder: Folder) {
@@ -123,7 +129,7 @@ class ImageSelectorViewModel(application: Application) : BaseViewModel(applicati
      * 选择照片
      */
     @JvmOverloads
-    fun selectPhoto(entry: Image, view: CheckBox? = null) {
+    fun selectImage(entry: Image, view: CheckBox? = null, mask: View? = null) {
         val photoList = _selectedImages.value!!
         val alreadyCount = photoList.size
         if (alreadyCount >= maxCount && !entry.isSelected) {
@@ -139,7 +145,7 @@ class ImageSelectorViewModel(application: Application) : BaseViewModel(applicati
             photoList.remove(entry)
         }
         view?.isChecked = entry.isSelected
-
+        mask?.visibility = if (entry.isSelected) View.VISIBLE else View.INVISIBLE
         onSelectChanged(photoList.size)
         _selectedImages.value = photoList
     }
@@ -148,7 +154,23 @@ class ImageSelectorViewModel(application: Application) : BaseViewModel(applicati
     fun setUnSelectPhoto(entry: Image, view: CheckBox? = null) {
         entry.isUnSelected = !entry.isUnSelected
         view?.isChecked = entry.isUnSelected
-        _currentPreviewImageStatus.value = entry.isSelected && !entry.isUnSelected
+        _previewImageStatus.value = entry.isSelected && !entry.isUnSelected
+    }
+
+    fun removeUnSelectPhoto() {
+        val list = _selectedImages.value!!
+        var dataChanged = false
+        for (i in list.size - 1 downTo 0) {
+            val item = list[i]
+            if (item.isUnSelected) {
+                list.removeAt(i)
+                item.isSelected = false
+                item.isUnSelected = false
+                dataChanged = true
+            }
+        }
+        onSelectChanged(list.size)
+        if (dataChanged) _imageListDataChanged.value = Event(true)
     }
 
     fun viewPhoto(v: View, photo: Image) {
@@ -158,8 +180,9 @@ class ImageSelectorViewModel(application: Application) : BaseViewModel(applicati
         dialog.show()
     }
 
-    internal fun setPreviewCurrent(image: Image) {
-        _previewCurrent.value = image
-        _currentPreviewImageStatus.value = image.isSelected && !image.isUnSelected
+    internal fun setPreviewImage(image: Image, position: Int) {
+        _previewPosition.value = position
+        _previewImage.value = image
+        _previewImageStatus.value = image.isSelected && !image.isUnSelected
     }
 }

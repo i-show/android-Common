@@ -16,18 +16,14 @@
 
 package com.ishow.common.modules.image.select
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import com.ishow.common.R
 import com.ishow.common.app.mvvm.view.BindActivity
 import com.ishow.common.databinding.ActivityPhotoSelectorBinding
 import com.ishow.common.entries.Image
 import com.ishow.common.extensions.showFragment
 import com.ishow.common.extensions.toast
-import java.util.*
 
 /**
  * Created by Bright.Yu on 2017/1/23.
@@ -41,7 +37,6 @@ class ImageSelectorActivity : BindActivity<ActivityPhotoSelectorBinding>() {
     private var mode: Int = 0
     private val listFragment = ImageListFragment()
     private val previewFragment by lazy { ImagePreviewFragment() }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

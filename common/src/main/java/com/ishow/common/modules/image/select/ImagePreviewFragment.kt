@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.CheckBox
-import android.widget.CompoundButton
-import android.widget.RadioGroup
 import com.ishow.common.R
 import com.ishow.common.app.mvvm.view.BindFragment
 import com.ishow.common.databinding.FragmentImagePreviewCommonBinding
@@ -25,6 +23,7 @@ class ImagePreviewFragment : BindFragment<FragmentImagePreviewCommonBinding>() {
 
     private lateinit var adapter: BindAdapter<Image>
     private lateinit var previewAdapter: BindAdapter<Image>
+    private var currentPosition = 0
 
     override fun getLayout(): Int = R.layout.fragment_image_preview_common
 
@@ -55,14 +54,26 @@ class ImagePreviewFragment : BindFragment<FragmentImagePreviewCommonBinding>() {
         val selectedImageList = dataBinding.vm?.selectedImages?.value
         selectedImageList?.let {
             list.setCurrentItem(position, false)
-            dataBinding.vm?.setPreviewCurrent(selectedImageList[position])
+            dataBinding.vm?.setPreviewImage(selectedImageList[position], position)
             previewAdapter.notifyDataSetChanged()
         }
     }
 
+    /**
+     * fragment_image_preview_common 中调用
+     */
     fun setUnSelectPhoto(entry: Image, view: CheckBox? = null) {
         dataBinding.vm?.setUnSelectPhoto(entry, view)
         previewAdapter.notifyDataSetChanged()
+    }
+
+    fun onBack() {
+        fragmentManager?.popBackStack()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        dataBinding.vm?.removeUnSelectPhoto()
     }
 
     private val pagerCallBack = object : ViewPager2.OnPageChangeCallback() {
@@ -71,8 +82,9 @@ class ImagePreviewFragment : BindFragment<FragmentImagePreviewCommonBinding>() {
             if (position >= adapter.itemCount) {
                 return
             }
+            currentPosition = position
             val current = adapter.getItem(position)
-            dataBinding.vm?.setPreviewCurrent(current)
+            dataBinding.vm?.setPreviewImage(current, position)
             previewAdapter.notifyDataSetChanged()
             previewList.scrollToPosition(position)
         }

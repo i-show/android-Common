@@ -43,6 +43,7 @@
             android:padding="@dimen/dp_1"
             app:items="@{vm.imageList}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:notifyDataSetChanged="@{vm.imageListDataChanged}"
             app:spanCount="4" />
 
         <TextView
