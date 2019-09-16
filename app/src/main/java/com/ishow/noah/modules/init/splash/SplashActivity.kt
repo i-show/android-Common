@@ -5,6 +5,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import com.ishow.common.utils.permission.PermissionDenied
 import com.ishow.common.utils.permission.PermissionGranted
+import com.ishow.noah.R
 import com.ishow.noah.databinding.ActivitySpalshBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindActivity
 
@@ -17,7 +18,7 @@ class SplashActivity : AppBindActivity<ActivitySpalshBinding, SplashViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        bindViewModel(SplashViewModel::class.java)
+        bindContentView(R.layout.activity_spalsh)
     }
 
     override fun initViewModel(vm: SplashViewModel) {

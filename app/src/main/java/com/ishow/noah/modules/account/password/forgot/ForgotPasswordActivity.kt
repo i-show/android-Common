@@ -56,7 +56,6 @@ class ForgotPasswordActivity : AppBindActivity<ActivityPasswordBinding, ForgotPa
         super.initViewModel(vm)
         observeLiveData(vm)
         mViewModel = vm
-        dataBinding.vm = vm
     }
 
     override fun initViews() {

@@ -27,11 +27,6 @@ class ModifyUserActivity : AppBindActivity<ActivityModifyUserInfoBinding, Modify
         mSelectPhotoUtils.setOnSelectPhotoListener(this)
     }
 
-    override fun initViewModel(vm: ModifyUserViewModel) {
-        super.initViewModel(vm)
-        dataBinding.vm = vm
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         mSelectPhotoUtils.onActivityResult(requestCode, resultCode, data)

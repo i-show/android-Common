@@ -49,7 +49,6 @@ class LoginActivity : AppBindActivity<ActivityLoginBinding, LoginViewModel>() {
 
     override fun initViewModel(vm: LoginViewModel) {
         super.initViewModel(vm)
-        dataBinding.vm = vm
         mLoginViewModel = vm
     }
 

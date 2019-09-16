@@ -15,7 +15,7 @@ import com.ishow.pulltorefresh.PullToRefreshView
  * Created by yuhaiyang on 2019-09-15.
  * 上拉加载更多下拉刷新的View
  */
-abstract class Pull2RefreshActivity<T : ViewDataBinding, VM : Pull2RefreshViewModel> : AppBindActivity<T, VM>(),
+abstract class Pull2RefreshActivity<T : ViewDataBinding, VM : Pull2RefreshViewModel<*>> : AppBindActivity<T, VM>(),
     OnPullToRefreshListener {
 
     private var pull2refresh: PullToRefreshView? = null

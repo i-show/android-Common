@@ -12,6 +12,7 @@ import com.ishow.common.entries.status.Loading
 import com.ishow.common.entries.status.Success
 import com.ishow.common.extensions.inflate
 import com.ishow.common.extensions.toast
+import com.ishow.common.utils.ReflectionUtils
 import com.ishow.common.utils.databinding.bus.Event
 import java.lang.reflect.ParameterizedType
 
@@ -49,6 +50,10 @@ abstract class BindActivity<T : ViewDataBinding, VM : BaseViewModel> : BaseActiv
 
     protected open fun initViewModel(vm: VM) {
         val activity = this@BindActivity
+
+        // dataBinding 设置vm参数
+        ReflectionUtils.invokeMethod(dataBinding, "setVm", vm, viewModelClass)
+
         vm.loadingStatus.observe(activity, Observer { changeLoadingStatus(it) })
         vm.errorStatus.observe(activity, Observer { changeErrorStatus(it) })
         vm.successStatus.observe(activity, Observer { changeSuccessStatus(it) })

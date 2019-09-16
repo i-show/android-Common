@@ -50,7 +50,6 @@ class SampleMainActivity : AppBindActivity<ActivitySampleMainBinding,SampleMainV
     override fun initViewModel(vm: SampleMainViewModel) {
         super.initViewModel(vm)
         viewModel = vm
-        dataBinding.vm = vm
         showFragment(lastFragment)
     }
 

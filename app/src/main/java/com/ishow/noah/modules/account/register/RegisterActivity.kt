@@ -57,7 +57,6 @@ class RegisterActivity : AppBindActivity<ActivityRegisterBinding, RegisterViewMo
         super.initViewModel(vm)
         observeLiveData(vm)
         mViewModel = vm
-        dataBinding.vm = vm
     }
 
     override fun initViews() {
