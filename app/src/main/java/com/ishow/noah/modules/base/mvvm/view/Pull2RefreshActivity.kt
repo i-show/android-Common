@@ -57,6 +57,9 @@ abstract class Pull2RefreshActivity<T : ViewDataBinding, VM : Pull2RefreshViewMo
                 Pull2RefreshStatus.LoadMoreFailed -> {
                     pull2refresh?.setLoadMoreFailed()
                 }
+                Pull2RefreshStatus.LoadMoreEnd -> {
+                    pull2refresh?.setLoadMoreEnd()
+                }
             }
         }
 
