@@ -32,7 +32,7 @@ import com.ishow.common.utils.watcher.checker.PhoneNumberChecker
 import com.ishow.noah.R
 import com.ishow.noah.databinding.ActivityPasswordBinding
 import com.ishow.noah.modules.account.login.LoginActivity
-import com.ishow.noah.modules.base.mvvm.AppBindActivity
+import com.ishow.noah.modules.base.mvvm.view.AppBindActivity
 import com.ishow.noah.utils.checker.PasswordChecker
 import kotlinx.android.synthetic.main.activity_password.*
 
@@ -41,7 +41,7 @@ import kotlinx.android.synthetic.main.activity_password.*
  * 修改密码和重置密码一系类的东西
  * 和注册分开预防后期业务更改
  */
-class ForgotPasswordActivity : AppBindActivity<ActivityPasswordBinding>() {
+class ForgotPasswordActivity : AppBindActivity<ActivityPasswordBinding, ForgotPasswordViewModel>() {
 
     private lateinit var mVerifyCodeWatcher: VerifyCodeTextWatcher
     private lateinit var mSubmitWatcher: EnableTextWatcher
@@ -50,25 +50,27 @@ class ForgotPasswordActivity : AppBindActivity<ActivityPasswordBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bindContentView(R.layout.activity_password)
-        bindViewModel(ForgotPasswordViewModel::class.java) {
-            observeLiveData(it)
-            mViewModel = it
-            dataBinding.vm = it
-        }
+    }
+
+    override fun initViewModel(vm: ForgotPasswordViewModel) {
+        super.initViewModel(vm)
+        observeLiveData(vm)
+        mViewModel = vm
+        dataBinding.vm = vm
     }
 
     override fun initViews() {
         super.initViews()
         mVerifyCodeWatcher = VerifyCodeTextWatcher()
-                .setEnableView(sendVerifyCode)
-                .addChecker(phone, PhoneNumberChecker())
+            .setEnableView(sendVerifyCode)
+            .addChecker(phone, PhoneNumberChecker())
 
         mSubmitWatcher = EnableTextWatcher()
-                .setEnableView(submit)
-                .addChecker(phone, PhoneNumberChecker())
-                .addChecker(verifyCode)
-                .addChecker(password, PasswordChecker(context))
-                .addChecker(ensurePassword, PasswordChecker(context))
+            .setEnableView(submit)
+            .addChecker(phone, PhoneNumberChecker())
+            .addChecker(verifyCode)
+            .addChecker(password, PasswordChecker(context))
+            .addChecker(ensurePassword, PasswordChecker(context))
     }
 
     fun onViewClick(v: View) {
@@ -78,7 +80,12 @@ class ForgotPasswordActivity : AppBindActivity<ActivityPasswordBinding>() {
                 mViewModel.sendVerifyCode(phone.inputText)
             }
             R.id.submit -> {
-                mViewModel.resetPassword(phone.inputText, verifyCode.inputText, password.inputText, ensurePassword.inputText)
+                mViewModel.resetPassword(
+                    phone.inputText,
+                    verifyCode.inputText,
+                    password.inputText,
+                    ensurePassword.inputText
+                )
             }
         }
     }
@@ -101,9 +108,9 @@ class ForgotPasswordActivity : AppBindActivity<ActivityPasswordBinding>() {
     private fun resetSuccess() {
         toast(R.string.reset_password_success)
         AppRouter.with(context)
-                .target(LoginActivity::class.java)
-                .flag(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                .finishSelf()
-                .start()
+            .target(LoginActivity::class.java)
+            .flag(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            .finishSelf()
+            .start()
     }
 }

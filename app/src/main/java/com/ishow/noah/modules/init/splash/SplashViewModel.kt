@@ -10,8 +10,7 @@ import com.ishow.common.utils.permission.PermissionManager
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.noah.manager.ConfigureManager
 import com.ishow.noah.manager.VersionManager
-import com.ishow.noah.modules.account.common.AccountModel
-import com.ishow.noah.modules.base.mvvm.AppBaseViewModel
+import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
 import com.ishow.noah.modules.init.splash.task.MinTimeTask
 import com.ishow.noah.modules.init.splash.task.TaskManager
 import com.ishow.noah.modules.init.splash.task.UserTask

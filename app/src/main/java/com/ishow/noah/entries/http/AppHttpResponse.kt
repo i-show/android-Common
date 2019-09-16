@@ -1,10 +1,9 @@
 package com.ishow.noah.entries.http
 
-class AppHttpResponse<T> {
+open class AppHttpResponse<T> {
     var code: Int = 0
     var message: String? = null
     var data: T? = null
-
 
     fun isSuccess() = code == Code.Success
 

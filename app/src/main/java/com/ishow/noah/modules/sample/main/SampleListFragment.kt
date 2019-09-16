@@ -6,7 +6,7 @@ import com.ishow.common.adapter.BindAdapter
 import com.ishow.noah.BR
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSampleListBinding
-import com.ishow.noah.modules.base.mvvm.AppBindFragment
+import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 import com.ishow.noah.modules.sample.SampleManager
 import com.ishow.noah.modules.sample.entries.Sample
 import kotlinx.android.synthetic.main.fragment_sample_list.*

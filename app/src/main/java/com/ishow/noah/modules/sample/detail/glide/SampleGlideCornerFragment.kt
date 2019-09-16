@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSampleGlideCornerBinding
-import com.ishow.noah.modules.base.mvvm.AppBindFragment
+import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 
 /**
  * Created by yuhaiyang on 2019-08-19.

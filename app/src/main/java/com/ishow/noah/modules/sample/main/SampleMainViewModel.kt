@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ishow.noah.R
-import com.ishow.noah.modules.base.mvvm.AppBaseViewModel
+import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
 
 /**
  * Created by yuhaiyang on 2019-08-20.

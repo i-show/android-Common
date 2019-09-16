@@ -21,7 +21,7 @@ import android.view.View
 import com.ishow.common.utils.WebViewUtils
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSampleLoadingWebviewBinding
-import com.ishow.noah.modules.base.mvvm.AppBindFragment
+import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 import kotlinx.android.synthetic.main.fragment_sample_loading_webview.*
 
 /**

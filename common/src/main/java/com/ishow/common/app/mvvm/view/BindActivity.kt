@@ -13,38 +13,55 @@ import com.ishow.common.entries.status.Success
 import com.ishow.common.extensions.inflate
 import com.ishow.common.extensions.toast
 import com.ishow.common.utils.databinding.bus.Event
+import java.lang.reflect.ParameterizedType
 
-abstract class BindActivity<T : ViewDataBinding> : BaseActivity() {
+abstract class BindActivity<T : ViewDataBinding, VM : BaseViewModel> : BaseActivity() {
     protected lateinit var dataBinding: T
+
+    @Suppress("UNCHECKED_CAST")
+    private val viewModelClass: Class<VM>
+        get() {
+            val type = (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[1]
+            return type as Class<VM>
+        }
 
     protected open fun bindContentView(layoutId: Int): T {
         val view = inflate(layoutId)
         setContentView(view)
         dataBinding = DataBindingUtil.bind(view)!!
         dataBinding.lifecycleOwner = this
+        bindViewModel()
         return dataBinding
     }
 
-    protected open fun <VM : BaseViewModel> bindViewModel(cls: Class<VM>, block: ((VM) -> Unit)? = null): VM {
+    private fun bindViewModel() {
+        val vm = ViewModelProvider(this).get(viewModelClass)
+        initViewModel(vm)
+        vm.init()
+    }
+
+    protected open fun bindViewModel(cls: Class<VM>): VM {
         val vm = ViewModelProvider(this).get(cls)
+        initViewModel(vm)
+        vm.init()
+        return vm
+    }
+
+    protected open fun initViewModel(vm: VM) {
         val activity = this@BindActivity
         vm.loadingStatus.observe(activity, Observer { changeLoadingStatus(it) })
         vm.errorStatus.observe(activity, Observer { changeErrorStatus(it) })
         vm.successStatus.observe(activity, Observer { changeSuccessStatus(it) })
         vm.emptyStatus.observe(activity, Observer { changeEmptyStatus(it) })
         vm.toastMessage.observe(activity, Observer { showToast(it) })
-        vm.init()
-        block?.let { it(vm) }
-        return vm
     }
 
 
     /**
      * 改变LoadingDialog的状态
      */
-    @Suppress("MemberVisibilityCanBePrivate")
     protected fun changeLoadingStatus(loading: Event<Loading>) {
-        loading.getContent()?.let {
+        loading.value?.let {
             if (it.status == Loading.Status.Show) {
                 showLoading(it)
             } else {
@@ -56,28 +73,27 @@ abstract class BindActivity<T : ViewDataBinding> : BaseActivity() {
     /**
      * 改变Error的状态
      */
-    @Suppress("MemberVisibilityCanBePrivate")
     protected fun changeErrorStatus(error: Event<Error>) {
-        error.getContent()?.let { showError(it) }
+        error.value?.let { showError(it) }
     }
 
     /**
      * 改变Success的状态
      */
-    @Suppress("MemberVisibilityCanBePrivate")
     protected fun changeSuccessStatus(success: Event<Success>) {
-        success.getContent()?.let { showSuccess(it) }
+        success.value?.let { showSuccess(it) }
     }
 
     /**
      * 改变Empty的状态
      */
-    @Suppress("MemberVisibilityCanBePrivate")
     protected fun changeEmptyStatus(empty: Event<Empty>) {
-        empty.getContent()?.let { showEmpty(it) }
+        empty.value?.let { showEmpty(it) }
     }
 
-    private fun showToast(event: Event<String>) {
-        event.getContent()?.let { toast(it) }
+    protected fun showToast(event: Event<String>) {
+        event.value?.let { toast(it) }
     }
+
+
 }

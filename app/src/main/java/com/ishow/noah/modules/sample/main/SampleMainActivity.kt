@@ -19,33 +19,25 @@
 
 package com.ishow.noah.modules.sample.main
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import com.ishow.common.extensions.showFragment
 import com.ishow.noah.R
 import com.ishow.noah.databinding.ActivitySampleMainBinding
-import com.ishow.noah.modules.base.mvvm.AppBindActivity
+import com.ishow.noah.modules.base.mvvm.view.AppBindActivity
 import com.ishow.noah.modules.sample.entries.Sample
 
 /**
  * 测试Demo
  */
-class SampleMainActivity : AppBindActivity<ActivitySampleMainBinding>() {
+class SampleMainActivity : AppBindActivity<ActivitySampleMainBinding,SampleMainViewModel>() {
     private lateinit var viewModel: SampleMainViewModel
-    private val mListFragment = SampleListFragment.newInstance()
-    private var mLastFragment: Fragment? = null
+    private val listFragment = SampleListFragment.newInstance()
+    private var lastFragment: Fragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bindContentView(R.layout.activity_sample_main)
-
-        bindViewModel(SampleMainViewModel::class.java) {
-            viewModel = it
-            dataBinding.vm = it
-            showFragment(mListFragment)
-        }
 
         val fragmentManager = supportFragmentManager
         fragmentManager.addOnBackStackChangedListener {
@@ -55,11 +47,18 @@ class SampleMainActivity : AppBindActivity<ActivitySampleMainBinding>() {
         }
     }
 
+    override fun initViewModel(vm: SampleMainViewModel) {
+        super.initViewModel(vm)
+        viewModel = vm
+        dataBinding.vm = vm
+        showFragment(lastFragment)
+    }
+
     fun showDetail(sample: Sample) {
         val fragment = sample.action.newInstance() as? Fragment ?: return
 
         viewModel.updateTitle(sample.name)
-        mLastFragment = fragment
-        showFragment(fragment, mListFragment)
+        lastFragment = fragment
+        showFragment(fragment, listFragment)
     }
 }

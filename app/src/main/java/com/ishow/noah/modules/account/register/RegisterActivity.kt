@@ -20,6 +20,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import com.ishow.common.entries.status.Error.Companion.toast
 import com.ishow.common.entries.status.Success
 import com.ishow.common.extensions.openBrowser
 import com.ishow.common.extensions.toast
@@ -30,7 +31,7 @@ import com.ishow.common.utils.watcher.VerifyCodeTextWatcher
 import com.ishow.common.utils.watcher.checker.PhoneNumberChecker
 import com.ishow.noah.R
 import com.ishow.noah.databinding.ActivityRegisterBinding
-import com.ishow.noah.modules.base.mvvm.AppBindActivity
+import com.ishow.noah.modules.base.mvvm.view.AppBindActivity
 import com.ishow.noah.modules.main.MainActivity
 import com.ishow.noah.utils.checker.PasswordChecker
 import kotlinx.android.synthetic.main.activity_register.*
@@ -39,7 +40,7 @@ import kotlinx.android.synthetic.main.activity_register.*
  * Created by yuhaiyang on 2018/8/8.
  * 注册界面
  */
-class RegisterActivity : AppBindActivity<ActivityRegisterBinding>() {
+class RegisterActivity : AppBindActivity<ActivityRegisterBinding, RegisterViewModel>() {
 
     private lateinit var mVerifyCodeWatcher: VerifyCodeTextWatcher
     private lateinit var mSubmitWatcher: EnableTextWatcher
@@ -49,11 +50,14 @@ class RegisterActivity : AppBindActivity<ActivityRegisterBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bindContentView(R.layout.activity_register)
-        bindViewModel(RegisterViewModel::class.java) {
-            observeLiveData(it)
-            mViewModel = it
-            dataBinding.vm = it
-        }
+
+    }
+
+    override fun initViewModel(vm: RegisterViewModel) {
+        super.initViewModel(vm)
+        observeLiveData(vm)
+        mViewModel = vm
+        dataBinding.vm = vm
     }
 
     override fun initViews() {

@@ -1,13 +1,12 @@
 package com.ishow.noah.modules.account.common
 
-import android.util.Log
 import com.ishow.noah.entries.UserContainer
 import com.ishow.noah.entries.http.AppHttpResponse
 import com.ishow.noah.entries.params.request.ForgotPasswordParams
 import com.ishow.noah.entries.params.request.LoginParams
 import com.ishow.noah.entries.params.request.RegisterParams
 import com.ishow.noah.manager.RetrofitManager
-import com.ishow.noah.modules.base.mvvm.AppBaseModel
+import com.ishow.noah.modules.base.mvvm.model.AppBaseModel
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import java.io.File

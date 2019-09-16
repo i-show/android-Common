@@ -22,7 +22,6 @@ package com.ishow.noah.modules.sample.detail.permission
 import android.Manifest
 import android.os.Bundle
 import android.view.View
-import androidx.databinding.DataBindingUtil.setContentView
 import com.ishow.common.extensions.toast
 
 import com.ishow.common.utils.permission.PermissionDenied
@@ -30,8 +29,7 @@ import com.ishow.common.utils.permission.PermissionGranted
 import com.ishow.common.utils.permission.PermissionManager
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSamplePermissionBinding
-import com.ishow.noah.modules.base.AppBaseActivity
-import com.ishow.noah.modules.base.mvvm.AppBindFragment
+import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 
 /**
  * Created by Bright.Yu on 2017/2/8.

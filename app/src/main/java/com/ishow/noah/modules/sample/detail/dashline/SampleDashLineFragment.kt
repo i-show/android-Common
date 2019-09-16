@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSampleDashLineBinding
-import com.ishow.noah.modules.base.mvvm.AppBindFragment
+import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 import kotlinx.android.synthetic.main.fragment_sample_dash_line.*
 
 

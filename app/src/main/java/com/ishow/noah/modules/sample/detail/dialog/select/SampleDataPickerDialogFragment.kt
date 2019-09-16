@@ -26,7 +26,7 @@ import com.ishow.common.widget.dialog.picker.PickerDialog
 import com.ishow.common.widget.dialog.select.SelectDialog
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSampleDataPickerBinding
-import com.ishow.noah.modules.base.mvvm.AppBindFragment
+import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 import kotlinx.android.synthetic.main.fragment_sample_data_picker.*
 import java.util.*
 

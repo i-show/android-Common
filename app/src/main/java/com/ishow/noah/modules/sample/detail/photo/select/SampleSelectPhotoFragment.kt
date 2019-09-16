@@ -20,11 +20,8 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
-import androidx.databinding.DataBindingUtil.setContentView
 import androidx.fragment.app.FragmentActivity
 
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.ishow.common.adapter.BindAdapter
 import com.ishow.common.modules.image.show.ShowPhotoDialog
 
@@ -34,8 +31,7 @@ import com.ishow.common.widget.recyclerview.itemdecoration.SpacingDecoration
 import com.ishow.noah.BR
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSampleSelectPhotoBinding
-import com.ishow.noah.modules.base.AppBaseActivity
-import com.ishow.noah.modules.base.mvvm.AppBindFragment
+import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 import kotlinx.android.synthetic.main.fragment_sample_select_photo.*
 
 /**

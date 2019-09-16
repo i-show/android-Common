@@ -7,7 +7,7 @@ import android.view.View
 import com.ishow.common.widget.dialog.BaseDialog
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSampleBaseDialogBinding
-import com.ishow.noah.modules.base.mvvm.AppBindFragment
+import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 
 class SampleBaseDialogFragment : AppBindFragment<FragmentSampleBaseDialogBinding>() {
     override fun getLayout(): Int = R.layout.fragment_sample_base_dialog

@@ -8,26 +8,28 @@ import com.ishow.common.utils.image.select.OnSelectPhotoListener
 import com.ishow.common.utils.image.select.SelectPhotoUtils
 import com.ishow.noah.R
 import com.ishow.noah.databinding.ActivityModifyUserInfoBinding
-import com.ishow.noah.modules.base.mvvm.AppBindActivity
+import com.ishow.noah.modules.base.mvvm.view.AppBindActivity
 
 /**
  * Created by yuhaiyang on 2018/8/8.
  * 修改用户信息
  */
-class ModifyUserActivity : AppBindActivity<ActivityModifyUserInfoBinding>(), OnSelectPhotoListener {
+class ModifyUserActivity : AppBindActivity<ActivityModifyUserInfoBinding, ModifyUserViewModel>(),
+    OnSelectPhotoListener {
 
     private lateinit var mSelectPhotoUtils: SelectPhotoUtils
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bindContentView(R.layout.activity_modify_user_info)
-        bindViewModel(ModifyUserViewModel::class.java) {
-            dataBinding.vm = it
-            it.init()
-        }
 
         mSelectPhotoUtils = SelectPhotoUtils(this, SelectPhotoUtils.SelectMode.SINGLE)
         mSelectPhotoUtils.setOnSelectPhotoListener(this)
+    }
+
+    override fun initViewModel(vm: ModifyUserViewModel) {
+        super.initViewModel(vm)
+        dataBinding.vm = vm
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -6,35 +6,27 @@ import androidx.lifecycle.Observer
 import com.ishow.common.utils.permission.PermissionDenied
 import com.ishow.common.utils.permission.PermissionGranted
 import com.ishow.noah.databinding.ActivitySpalshBinding
-import com.ishow.noah.modules.base.mvvm.AppBindActivity
+import com.ishow.noah.modules.base.mvvm.view.AppBindActivity
 
 /**
  * Created by yuhaiyang on 2018/3/27.
  * Splash
  */
-class SplashActivity : AppBindActivity<ActivitySpalshBinding>() {
+class SplashActivity : AppBindActivity<ActivitySpalshBinding, SplashViewModel>() {
     private lateinit var mSplashViewModel: SplashViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        bindViewModel(SplashViewModel::class.java) {
-            mSplashViewModel = it
-            // 注册状态
-            it.permissionStatus.observe(activity, Observer { permissionGranted() })
-            // 初始化
-            it.preInit(this@SplashActivity)
-        }
+        bindViewModel(SplashViewModel::class.java)
     }
 
-
-    override fun onResume() {
-        super.onResume()
-        /*
-        if (mPresenter.isInitFinished) {
-            // 稍微延迟一下,体验更好
-            nextDelay(800)
-        }
-        */
+    override fun initViewModel(vm: SplashViewModel) {
+        super.initViewModel(vm)
+        mSplashViewModel = vm
+        // 注册状态
+        vm.permissionStatus.observe(activity, Observer { permissionGranted() })
+        // 初始化
+        vm.preInit(this@SplashActivity)
     }
 
     /**

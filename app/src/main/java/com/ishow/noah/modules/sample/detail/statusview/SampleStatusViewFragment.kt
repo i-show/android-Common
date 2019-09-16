@@ -6,7 +6,7 @@ import com.ishow.common.utils.ToastUtils
 import com.ishow.common.widget.StatusView
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSampleStatusViewBinding
-import com.ishow.noah.modules.base.mvvm.AppBindFragment
+import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 import kotlinx.android.synthetic.main.fragment_sample_status_view.*
 
 /**

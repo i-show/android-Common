@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ishow.noah.manager.UserManager
 import com.ishow.noah.modules.account.common.AccountModel
-import com.ishow.noah.modules.base.mvvm.AppBaseViewModel
+import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 

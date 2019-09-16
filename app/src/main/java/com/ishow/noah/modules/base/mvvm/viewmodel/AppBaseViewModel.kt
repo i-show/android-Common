@@ -1,4 +1,4 @@
-package com.ishow.noah.modules.base.mvvm
+package com.ishow.noah.modules.base.mvvm.viewmodel
 
 import android.app.Application
 import com.ishow.common.app.mvvm.viewmodel.BaseViewModel
@@ -11,32 +11,33 @@ abstract class AppBaseViewModel(application: Application) : BaseViewModel(applic
      * 前后增加Loading处理数据
      * @param autoDismiss 是否自动取消Loading
      */
-    fun <T> withLoading(
-        toastError: Boolean = true,
+    fun <T> requestResponse(
+        loading: Boolean = true,
         autoDismiss: Boolean = true,
+        toastError: Boolean = true,
         block: () -> AppHttpResponse<T>
     ): AppHttpResponse<T> {
-        showLoading()
+        if (loading) showLoading()
         val result: AppHttpResponse<T> = block()
         if (autoDismiss) dismissLoading()
         if (toastError && !result.isSuccess()) showError(result.message)
         return result
     }
 
-
     /**
      * 前后增加Loading处理数据
      * @param autoDismiss 是否自动取消Loading
      */
-    fun <T> request(toastError: Boolean = true, autoDismiss: Boolean = true, block: () -> AppHttpResponse<T>): T? {
-        showLoading()
+    fun <T> request(loading: Boolean = true, autoDismiss: Boolean = true, toastError: Boolean = true, block: () -> AppHttpResponse<T>): T? {
+        if (loading) showLoading()
+
         val result: AppHttpResponse<T> = block()
         if (autoDismiss) dismissLoading()
 
         return if (result.isSuccess()) {
             result.data
         } else {
-            if (toastError) showError(result.message)
+            if (toastError) toast(result.message)
             null
         }
     }

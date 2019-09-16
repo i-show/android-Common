@@ -24,7 +24,7 @@ import android.view.View
 import com.ishow.common.manager.CCacheManager
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSampleLogBinding
-import com.ishow.noah.modules.base.mvvm.AppBindFragment
+import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 
 /**
  * Created by Bright.Yu on 2017/2/8.

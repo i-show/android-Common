@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ishow.common.extensions.getInteger
-import com.ishow.common.utils.databinding.bus.Event
 import com.ishow.common.utils.StorageUtils
 import com.ishow.common.utils.StringUtils
 import com.ishow.noah.R
@@ -12,7 +11,7 @@ import com.ishow.noah.entries.UserContainer
 import com.ishow.noah.entries.http.AppHttpResponse
 import com.ishow.noah.manager.UserManager
 import com.ishow.noah.modules.account.common.AccountModel
-import com.ishow.noah.modules.base.mvvm.AppBaseViewModel
+import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
 import com.ishow.noah.utils.http.okhttp.interceptor.AppHttpInterceptor
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -48,7 +47,7 @@ class LoginViewModel(application: Application) : AppBaseViewModel(application) {
      * 登录
      */
     fun login(phone: String, password: String) = GlobalScope.launch {
-        val result: AppHttpResponse<UserContainer> = withLoading { mAccountModel.login(phone, password) }
+        val result: AppHttpResponse<UserContainer> = requestResponse { mAccountModel.login(phone, password) }
         if (result.isSuccess()) {
             saveUserInfo(phone)
             UserManager.instance.setUserContainer(context, result.data)

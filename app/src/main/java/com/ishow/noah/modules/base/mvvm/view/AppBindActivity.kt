@@ -1,12 +1,14 @@
-package com.ishow.noah.modules.base.mvvm
+package com.ishow.noah.modules.base.mvvm.view
 
 import android.app.Dialog
 import androidx.databinding.ViewDataBinding
 import com.baidu.mobstat.StatService
 import com.ishow.common.app.mvvm.view.BindActivity
+import com.ishow.common.app.mvvm.viewmodel.BaseViewModel
 import com.ishow.common.widget.watermark.WaterMarkView
 import com.ishow.noah.AppApplication
 import com.ishow.noah.manager.VersionManager
+import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
 import com.ishow.noah.ui.widget.dialog.VersionDialog
 
 
@@ -14,7 +16,7 @@ import com.ishow.noah.ui.widget.dialog.VersionDialog
  * Created by yuhaiyang on 2018/8/8.
  * App层面的BaseActivity
  */
-abstract class AppBindActivity<T: ViewDataBinding> : BindActivity<T>() {
+abstract class AppBindActivity<T : ViewDataBinding, VM : AppBaseViewModel> : BindActivity<T, VM>() {
 
     /**
      * 检测升级的Dialog

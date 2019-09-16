@@ -30,7 +30,7 @@ import com.ishow.common.extensions.toast
  * 选择照片的Activity
  */
 
-class ImageSelectorActivity : BindActivity<ActivityPhotoSelectorBinding>() {
+class ImageSelectorActivity : BindActivity<ActivityPhotoSelectorBinding, ImageSelectorViewModel>() {
 
     lateinit var viewModel: ImageSelectorViewModel
     private var maxCount: Int = 0
@@ -42,11 +42,14 @@ class ImageSelectorActivity : BindActivity<ActivityPhotoSelectorBinding>() {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_PhotoSelector)
         bindContentView(R.layout.activity_photo_selector)
-        bindViewModel(ImageSelectorViewModel::class.java) {
-            it.init(mode, maxCount)
-            viewModel = it
-            showFragment(listFragment)
-        }
+    }
+
+
+    override fun initViewModel(vm: ImageSelectorViewModel) {
+        super.initViewModel(vm)
+        vm.init(mode, maxCount)
+        viewModel = vm
+        showFragment(listFragment)
     }
 
     override fun initNecessaryData() {

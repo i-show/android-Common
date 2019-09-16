@@ -26,7 +26,7 @@ import com.ishow.noah.R
 import com.ishow.noah.databinding.ActivityLoginBinding
 import com.ishow.noah.modules.account.password.forgot.ForgotPasswordActivity
 import com.ishow.noah.modules.account.register.RegisterActivity
-import com.ishow.noah.modules.base.mvvm.AppBindActivity
+import com.ishow.noah.modules.base.mvvm.view.AppBindActivity
 import com.ishow.noah.modules.main.MainActivity
 import com.ishow.noah.utils.checker.PasswordChecker
 import kotlinx.android.synthetic.main.activity_login.*
@@ -36,7 +36,7 @@ import kotlinx.android.synthetic.main.activity_login.*
  * Created by yuhaiyang on 2018/8/8.
  * 登录界面
  */
-class LoginActivity : AppBindActivity<ActivityLoginBinding>() {
+class LoginActivity : AppBindActivity<ActivityLoginBinding, LoginViewModel>() {
 
     private lateinit var mLoginViewModel: LoginViewModel
     private var mEnableWatcher = EnableTextWatcher()
@@ -45,11 +45,12 @@ class LoginActivity : AppBindActivity<ActivityLoginBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bindContentView(R.layout.activity_login)
-        bindViewModel(LoginViewModel::class.java) {
-            dataBinding.vm = it
-            mLoginViewModel = it
-            it.init()
-        }
+    }
+
+    override fun initViewModel(vm: LoginViewModel) {
+        super.initViewModel(vm)
+        dataBinding.vm = vm
+        mLoginViewModel = vm
     }
 
     override fun initViews() {

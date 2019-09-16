@@ -44,7 +44,6 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
     val successStatus: LiveData<Event<Success>>
         get() = _successStatus
 
-
     /**
      * 空数据状态
      */

@@ -1,4 +1,4 @@
-package com.ishow.noah.modules.base.mvvm
+package com.ishow.noah.modules.base.mvvm.model
 
 import android.util.Log
 import com.ishow.noah.entries.http.AppHttpResponse

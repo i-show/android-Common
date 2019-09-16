@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ishow.noah.R
 import com.ishow.noah.manager.UserManager
-import com.ishow.noah.modules.base.mvvm.AppBaseViewModel
+import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
 
 class MineViewModel(application: Application) : AppBaseViewModel(application) {
 
