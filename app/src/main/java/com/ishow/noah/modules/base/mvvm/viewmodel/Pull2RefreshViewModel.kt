@@ -80,7 +80,7 @@ open class Pull2RefreshViewModel<T>(app: Application) : AppBaseViewModel(app) {
      * 隐藏Pull2Refresh空数据之前的loading
      */
     @Suppress("MemberVisibilityCanBePrivate")
-    protected open fun dismissPull2RefreshLoading() = dismissLoading(Loading.view())
+    protected open fun dismissPull2RefreshLoading() = dismissLoading(Loading.dismissView())
 
 
     enum class Pull2RefreshStatus {

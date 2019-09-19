@@ -45,7 +45,7 @@ public class SampleJson {
     @Override
     public String toString() {
         return "SampleJson{" +
-                "status=" + status +
+                "FooterStatus=" + status +
                 ", message='" + message + '\'' +
                 ", entity=" + entity.toString() +
                 '}';

@@ -694,6 +694,10 @@
     <attr name="tabIndicatorPaddingStart" format="dimension" />
     <attr name="tabIndicatorPaddingEnd" format="dimension" />
 
+    <attr name="loadMoreEnable" format="boolean" />
+    <attr name="refreshEnable" format="boolean" />
+    <attr name="scrollViewId" format="reference" />
+
     <!--==========分割线==========-->
     <declare-styleable name="ImageTextView">
         <attr name="text" />
@@ -1344,5 +1348,11 @@
         <attr name="tabIconTintMode" />
         <attr name="tabRippleColor" />
         <attr name="tabUnboundedRipple" />
+    </declare-styleable>
+
+    <declare-styleable name="PullToRefreshView">
+        <attr name="loadMoreEnable" />
+        <attr name="refreshEnable" />
+        <attr name="scrollViewId" />
     </declare-styleable>
 </resources>

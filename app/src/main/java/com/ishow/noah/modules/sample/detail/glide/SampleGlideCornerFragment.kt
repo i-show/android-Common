@@ -5,12 +5,13 @@ import android.view.View
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSampleGlideCornerBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
+import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
 
 /**
  * Created by yuhaiyang on 2019-08-19.
  * GlideCornerSample
  */
-class SampleGlideCornerFragment : AppBindFragment<FragmentSampleGlideCornerBinding>() {
+class SampleGlideCornerFragment : AppBindFragment<FragmentSampleGlideCornerBinding, AppBaseViewModel>() {
 
     override fun getLayout(): Int = R.layout.fragment_sample_glide_corner
 

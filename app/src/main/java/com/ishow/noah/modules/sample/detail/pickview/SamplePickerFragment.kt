@@ -8,17 +8,17 @@ import com.ishow.common.widget.pickview.DateTimePickerDialog
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSamplePickviewBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
+import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
 import kotlinx.android.synthetic.main.fragment_sample_pickview.*
 
 /**
  * 选择View的Sample
  */
-class SamplePickerFragment : AppBindFragment<FragmentSamplePickviewBinding>() {
+class SamplePickerFragment : AppBindFragment<FragmentSamplePickviewBinding, AppBaseViewModel>() {
     override fun getLayout(): Int = R.layout.fragment_sample_pickview
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dataBinding.fragment = this
         pickerView.setAdapter(SamplePickerAdapter())
     }
 

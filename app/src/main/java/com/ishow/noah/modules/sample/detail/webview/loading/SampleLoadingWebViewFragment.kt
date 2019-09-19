@@ -22,6 +22,7 @@ import com.ishow.common.utils.WebViewUtils
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSampleLoadingWebviewBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
+import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
 import kotlinx.android.synthetic.main.fragment_sample_loading_webview.*
 
 /**
@@ -29,7 +30,7 @@ import kotlinx.android.synthetic.main.fragment_sample_loading_webview.*
  * LoadingWebView测试
  */
 
-class SampleLoadingWebViewFragment : AppBindFragment<FragmentSampleLoadingWebviewBinding>() {
+class SampleLoadingWebViewFragment : AppBindFragment<FragmentSampleLoadingWebviewBinding, AppBaseViewModel>() {
 
     override fun getLayout(): Int = R.layout.fragment_sample_loading_webview
 

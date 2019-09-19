@@ -10,6 +10,7 @@ import com.ishow.common.databinding.FragmentImagePreviewCommonBinding
 import androidx.viewpager2.widget.ViewPager2
 import com.ishow.common.BR
 import com.ishow.common.adapter.BindAdapter
+import com.ishow.common.app.mvvm.viewmodel.BaseViewModel
 import com.ishow.common.entries.Image
 import com.ishow.common.widget.recyclerview.itemdecoration.SpacingDecoration
 import kotlinx.android.synthetic.main.fragment_image_preview_common.*
@@ -19,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_image_preview_common.*
  * Created by yuhaiyang on 2019-09-04.
  * 照片预览
  */
-class ImagePreviewFragment : BindFragment<FragmentImagePreviewCommonBinding>() {
+class ImagePreviewFragment : BindFragment<FragmentImagePreviewCommonBinding, BaseViewModel>() {
 
     private lateinit var adapter: BindAdapter<Image>
     private lateinit var previewAdapter: BindAdapter<Image>

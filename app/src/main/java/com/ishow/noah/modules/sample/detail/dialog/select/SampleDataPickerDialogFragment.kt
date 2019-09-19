@@ -27,6 +27,7 @@ import com.ishow.common.widget.dialog.select.SelectDialog
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSampleDataPickerBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
+import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
 import kotlinx.android.synthetic.main.fragment_sample_data_picker.*
 import java.util.*
 
@@ -35,7 +36,7 @@ import java.util.*
  * 选择弹框和滚动选择额
  */
 
-class SampleDataPickerDialogFragment : AppBindFragment<FragmentSampleDataPickerBinding>() {
+class SampleDataPickerDialogFragment : AppBindFragment<FragmentSampleDataPickerBinding, AppBaseViewModel>() {
 
     private val dataList: MutableList<DemoEntry>
         get() {
@@ -48,11 +49,6 @@ class SampleDataPickerDialogFragment : AppBindFragment<FragmentSampleDataPickerB
 
     override fun getLayout(): Int {
         return R.layout.fragment_sample_data_picker
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        dataBinding.fragment = this
     }
 
     fun onViewClick(v: View) {

@@ -25,20 +25,16 @@ import android.view.View
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSampleReflectionBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
+import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
 
 /**
  * Created by Bright.Yu on 2017/2/8.
  * Log测试
  */
 
-class SampleReflectionFragment : AppBindFragment<FragmentSampleReflectionBinding>() {
+class SampleReflectionFragment : AppBindFragment<FragmentSampleReflectionBinding, AppBaseViewModel>() {
 
     override fun getLayout(): Int = R.layout.fragment_sample_reflection
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        dataBinding.fragment = this
-    }
 
     fun onViewClick(v: View) {
         when (v.id) {

@@ -204,7 +204,7 @@ public class SwitchButton extends CompoundButton {
         setFocusable(true);
         setClickable(true);
 
-        // sync checked status
+        // sync checked FooterStatus
         if (isChecked()) {
             setProcess(1);
         }
@@ -398,7 +398,7 @@ public class SwitchButton extends CompoundButton {
         float deltaX = event.getX() - mStartX;
         float deltaY = event.getY() - mStartY;
 
-        // status the view going to change to when finger released
+        // FooterStatus the view going to change to when finger released
         boolean nextStatus;
 
         switch (action) {
@@ -441,7 +441,7 @@ public class SwitchButton extends CompoundButton {
 
 
     /**
-     * return the status based on pos of thumb
+     * return the FooterStatus based on pos of thumb
      *
      * @return
      */

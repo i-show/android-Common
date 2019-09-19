@@ -4,7 +4,6 @@ import android.app.Dialog
 import androidx.databinding.ViewDataBinding
 import com.baidu.mobstat.StatService
 import com.ishow.common.app.mvvm.view.BindActivity
-import com.ishow.common.app.mvvm.viewmodel.BaseViewModel
 import com.ishow.common.widget.watermark.WaterMarkView
 import com.ishow.noah.AppApplication
 import com.ishow.noah.manager.VersionManager
@@ -21,7 +20,7 @@ abstract class AppBindActivity<T : ViewDataBinding, VM : AppBaseViewModel> : Bin
     /**
      * 检测升级的Dialog
      */
-    private var mVersionDialog: Dialog? = null
+    private var versionDialog: Dialog? = null
 
     /**
      * 获取应用的Application
@@ -69,12 +68,12 @@ abstract class AppBindActivity<T : ViewDataBinding, VM : AppBaseViewModel> : Bin
      * 显示升级Dialog
      */
     private fun showVersionDialog() {
-        if (mVersionDialog == null) {
-            mVersionDialog = VersionDialog(this)
+        if (versionDialog == null) {
+            versionDialog = VersionDialog(this)
         }
 
-        if (!mVersionDialog!!.isShowing) {
-            mVersionDialog!!.show()
+        if (!versionDialog!!.isShowing) {
+            versionDialog!!.show()
         }
     }
 
@@ -82,10 +81,10 @@ abstract class AppBindActivity<T : ViewDataBinding, VM : AppBaseViewModel> : Bin
      * 隐藏升级的Dialog
      */
     private fun dismissVersionDialog() {
-        if (mVersionDialog != null && mVersionDialog!!.isShowing) {
-            mVersionDialog!!.dismiss()
+        if (versionDialog != null && versionDialog!!.isShowing) {
+            versionDialog!!.dismiss()
         }
-        mVersionDialog = null
+        versionDialog = null
     }
 
 }

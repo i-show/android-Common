@@ -30,20 +30,16 @@ import com.ishow.common.utils.permission.PermissionManager
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSamplePermissionBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
+import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
 
 /**
  * Created by Bright.Yu on 2017/2/8.
  * 权限测试
  */
 
-class SamplePermissionFragment : AppBindFragment<FragmentSamplePermissionBinding>() {
+class SamplePermissionFragment : AppBindFragment<FragmentSamplePermissionBinding, AppBaseViewModel>() {
 
     override fun getLayout(): Int = R.layout.fragment_sample_permission
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        dataBinding.fragment = this
-    }
 
     fun onViewClick(v: View) {
         when (v.id) {

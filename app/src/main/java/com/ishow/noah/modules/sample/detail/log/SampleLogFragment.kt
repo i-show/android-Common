@@ -25,20 +25,16 @@ import com.ishow.common.manager.CCacheManager
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSampleLogBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
+import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
 
 /**
  * Created by Bright.Yu on 2017/2/8.
  * Log测试
  */
 
-class SampleLogFragment : AppBindFragment<FragmentSampleLogBinding>() {
+class SampleLogFragment : AppBindFragment<FragmentSampleLogBinding, AppBaseViewModel>() {
 
     override fun getLayout(): Int = R.layout.fragment_sample_log
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        dataBinding.fragment = this
-    }
 
     fun onViewClick(v: View) {
         when (v.id) {

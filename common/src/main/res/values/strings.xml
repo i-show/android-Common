@@ -59,4 +59,17 @@
     <string name="link_preview_image">预览(%d)</string>
     <string name="select_photo">选择</string>
     <string name="select_photo_preview_left_top">%d/%d</string>
+
+    <string name="pull2refresh_header_normal">下拉刷新</string>
+    <string name="pull2refresh_header_ready">松开刷新</string>
+    <string name="pull2refresh_header_loading">正在努力刷新中&#8230;</string>
+    <string name="pull2refresh_header_success">刷新成功</string>
+    <string name="pull2refresh_header_fail">刷新失败</string>
+
+    <string name="pull2refresh_footer_normal">上滑查看更多</string>
+    <string name="pull2refresh_footer_ready">松开载入更多</string>
+    <string name="pull2refresh_footer_loading">正在努力加载中&#8230;</string>
+    <string name="pull2refresh_footer_success">载入成功</string>
+    <string name="pull2refresh_footer_fail">加载失败，请重试</string>
+    <string name="pull2refresh_footer_end">已经全部加载完毕</string>
 </resources>

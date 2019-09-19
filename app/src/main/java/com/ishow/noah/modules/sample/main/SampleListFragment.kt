@@ -3,10 +3,12 @@ package com.ishow.noah.modules.sample.main
 import android.os.Bundle
 import android.view.View
 import com.ishow.common.adapter.BindAdapter
+import com.ishow.common.app.mvvm.viewmodel.BaseViewModel
 import com.ishow.noah.BR
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSampleListBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
+import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
 import com.ishow.noah.modules.sample.SampleManager
 import com.ishow.noah.modules.sample.entries.Sample
 import kotlinx.android.synthetic.main.fragment_sample_list.*
@@ -16,7 +18,7 @@ import kotlinx.android.synthetic.main.fragment_sample_list.*
  *
  */
 
-class SampleListFragment : AppBindFragment<FragmentSampleListBinding>() {
+class SampleListFragment : AppBindFragment<FragmentSampleListBinding, AppBaseViewModel>() {
 
 
     override fun getLayout(): Int = R.layout.fragment_sample_list

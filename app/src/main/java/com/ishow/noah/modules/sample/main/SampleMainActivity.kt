@@ -30,7 +30,7 @@ import com.ishow.noah.modules.sample.entries.Sample
 /**
  * 测试Demo
  */
-class SampleMainActivity : AppBindActivity<ActivitySampleMainBinding,SampleMainViewModel>() {
+class SampleMainActivity : AppBindActivity<ActivitySampleMainBinding, SampleMainViewModel>() {
     private lateinit var viewModel: SampleMainViewModel
     private val listFragment = SampleListFragment.newInstance()
     private var lastFragment: Fragment? = null
@@ -50,7 +50,7 @@ class SampleMainActivity : AppBindActivity<ActivitySampleMainBinding,SampleMainV
     override fun initViewModel(vm: SampleMainViewModel) {
         super.initViewModel(vm)
         viewModel = vm
-        showFragment(lastFragment)
+        showFragment(listFragment)
     }
 
     fun showDetail(sample: Sample) {

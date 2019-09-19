@@ -9,6 +9,7 @@ import com.ishow.noah.databinding.FragmentMineBinding
 import com.ishow.noah.entries.UserContainer
 import com.ishow.noah.modules.account.modify.ModifyUserActivity
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
+import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
 import com.ishow.noah.modules.settings.SettingsActivity
 import kotlinx.android.synthetic.main.fragment_mine.*
 
@@ -17,15 +18,9 @@ import kotlinx.android.synthetic.main.fragment_mine.*
  * Home Fragment
  */
 
-class MineFragment : AppBindFragment<FragmentMineBinding>() {
+class MineFragment : AppBindFragment<FragmentMineBinding, MineViewModel>() {
 
     override fun getLayout(): Int = R.layout.fragment_mine
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        dataBinding.fragment = this
-        dataBinding.vm = bindViewModel(MineViewModel::class.java)
-    }
 
     fun update(userContainer: UserContainer?) {
         avatar.loadUrl(userContainer?.user?.avatar)

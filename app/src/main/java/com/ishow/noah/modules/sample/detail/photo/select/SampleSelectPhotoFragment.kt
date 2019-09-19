@@ -32,6 +32,7 @@ import com.ishow.noah.BR
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSampleSelectPhotoBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
+import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
 import kotlinx.android.synthetic.main.fragment_sample_select_photo.*
 
 /**
@@ -39,7 +40,7 @@ import kotlinx.android.synthetic.main.fragment_sample_select_photo.*
  * 选择图片
  */
 
-class SampleSelectPhotoFragment : AppBindFragment<FragmentSampleSelectPhotoBinding>(),
+class SampleSelectPhotoFragment : AppBindFragment<FragmentSampleSelectPhotoBinding, AppBaseViewModel>(),
     OnSelectPhotoListener {
 
     private lateinit var mSelectPhotoUtils: SelectPhotoUtils
@@ -50,7 +51,6 @@ class SampleSelectPhotoFragment : AppBindFragment<FragmentSampleSelectPhotoBindi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val context = activity as FragmentActivity
-        dataBinding.fragment = this
 
         mSelectPhotoUtils = SelectPhotoUtils(context, SelectPhotoUtils.SelectMode.SINGLE)
         mSelectPhotoUtils.fragment = this

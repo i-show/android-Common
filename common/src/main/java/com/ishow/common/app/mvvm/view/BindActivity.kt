@@ -20,11 +20,10 @@ abstract class BindActivity<T : ViewDataBinding, VM : BaseViewModel> : BaseActiv
     protected lateinit var dataBinding: T
 
     @Suppress("UNCHECKED_CAST")
-    private val viewModelClass: Class<VM>
-        get() {
-            val type = (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[1]
-            return type as Class<VM>
-        }
+    private val viewModelClass: Class<VM> by lazy {
+        val type = (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[1]
+        type as Class<VM>
+    }
 
     protected open fun bindContentView(layoutId: Int): T {
         val view = inflate(layoutId)
@@ -41,6 +40,7 @@ abstract class BindActivity<T : ViewDataBinding, VM : BaseViewModel> : BaseActiv
         vm.init()
     }
 
+    @Suppress("unused")
     protected open fun bindViewModel(cls: Class<VM>): VM {
         val vm = ViewModelProvider(this).get(cls)
         initViewModel(vm)
@@ -50,7 +50,6 @@ abstract class BindActivity<T : ViewDataBinding, VM : BaseViewModel> : BaseActiv
 
     protected open fun initViewModel(vm: VM) {
         val activity = this@BindActivity
-
         // dataBinding 设置vm参数
         ReflectionUtils.invokeMethod(dataBinding, "setVm", vm, viewModelClass)
 

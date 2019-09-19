@@ -6,22 +6,22 @@ import com.ishow.common.utils.ToastUtils
 import com.ishow.common.widget.StatusView
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSampleStatusViewBinding
+import com.ishow.noah.modules.base.AppBaseFragment
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
+import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
 import kotlinx.android.synthetic.main.fragment_sample_status_view.*
 
 /**
  * Created by yuhaiyang on 2018-10-29.
  * StatusView
  */
-class SampleStatusViewFragment : AppBindFragment<FragmentSampleStatusViewBinding>() {
+class SampleStatusViewFragment : AppBindFragment<FragmentSampleStatusViewBinding, AppBaseViewModel>() {
     override fun getLayout(): Int = R.layout.fragment_sample_status_view
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dataBinding.fragment = this
         statusView.setOnStatusViewListener(this)
-
     }
 
     fun onViewClick(v: View) {

@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ishow.common.BR
 import com.ishow.common.R
 import com.ishow.common.adapter.BindAdapter
+import com.ishow.common.app.fragment.BaseFragment
 import com.ishow.common.app.mvvm.view.BindFragment
+import com.ishow.common.app.mvvm.viewmodel.BaseViewModel
 import com.ishow.common.databinding.FragmentImageListCommonBinding
 import com.ishow.common.entries.Folder
 import com.ishow.common.entries.Image
@@ -26,7 +28,7 @@ import java.util.ArrayList
  * 图片列表
  */
 
-class ImageListFragment : BindFragment<FragmentImageListCommonBinding>() {
+class ImageListFragment : BindFragment<FragmentImageListCommonBinding, BaseViewModel>() {
     private lateinit var adapter: BindAdapter<Image>
 
     override fun getLayout(): Int = R.layout.fragment_image_list_common

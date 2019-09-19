@@ -15,11 +15,18 @@ import com.ishow.common.entries.status.Error
 import com.ishow.common.entries.status.Loading
 import com.ishow.common.entries.status.Success
 import com.ishow.common.extensions.toast
+import com.ishow.common.utils.ReflectionUtils
 import com.ishow.common.utils.databinding.bus.Event
+import java.lang.reflect.ParameterizedType
 
-abstract class BindFragment<T : ViewDataBinding> : BaseFragment() {
+abstract class BindFragment<T : ViewDataBinding, VM : BaseViewModel> : BaseFragment() {
     protected lateinit var dataBinding: T
 
+    @Suppress("UNCHECKED_CAST")
+    protected val viewModelClass: Class<VM> by lazy {
+        val type = (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[1]
+        type as Class<VM>
+    }
 
     abstract fun getLayout(): Int
 
@@ -29,25 +36,45 @@ abstract class BindFragment<T : ViewDataBinding> : BaseFragment() {
 
     protected open fun bindContentView(container: ViewGroup?, layoutId: Int): View {
         dataBinding = DataBindingUtil.inflate(layoutInflater, layoutId, container, false)
+        dataBinding.lifecycleOwner = viewLifecycleOwner
+        bindFragment()
+        bindViewModel()
         return dataBinding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        dataBinding.lifecycleOwner = viewLifecycleOwner
+    private fun bindViewModel() {
+        if (canBindViewModel()) {
+            val vm = ViewModelProvider(this).get(viewModelClass)
+            initViewModel(vm)
+            vm.init()
+        }
     }
 
-    protected open fun <VM : BaseViewModel> bindViewModel(cls: Class<VM>, block: ((VM) -> Unit)? = null): VM {
+    @Suppress("unused")
+    protected open fun bindViewModel(cls: Class<VM>): VM {
         val vm = ViewModelProvider(this).get(cls)
+        initViewModel(vm)
+        vm.init()
+        return vm
+    }
+
+    protected open fun initViewModel(vm: VM) {
         val fragment = this@BindFragment
+        // dataBinding 设置vm参数
+        ReflectionUtils.invokeMethod(dataBinding, "setVm", vm, viewModelClass)
+
         vm.loadingStatus.observe(fragment, Observer { changeLoadingStatus(it) })
         vm.errorStatus.observe(fragment, Observer { changeErrorStatus(it) })
         vm.successStatus.observe(fragment, Observer { changeSuccessStatus(it) })
         vm.emptyStatus.observe(fragment, Observer { changeEmptyStatus(it) })
         vm.toastMessage.observe(fragment, Observer { showToast(it) })
-        vm.init()
-        block?.let { it(vm) }
-        return vm
+    }
+
+    /**
+     * 是否可以进行自动bindViewModel
+     */
+    protected open fun canBindViewModel(): Boolean {
+        return viewModelClass != BaseViewModel::class.java
     }
 
     /**
@@ -90,5 +117,10 @@ abstract class BindFragment<T : ViewDataBinding> : BaseFragment() {
 
     private fun showToast(event: Event<String>) {
         event.getContent()?.let { toast(it) }
+    }
+
+    @Suppress("MemberVisibilityCanBePrivate")
+    protected fun bindFragment() {
+        ReflectionUtils.invokeMethod(dataBinding, "setFragment", this, javaClass)
     }
 }

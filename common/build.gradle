@@ -99,9 +99,6 @@ dependencies {
     api "com.alibaba:fastjson:1.1.70.android"
     api "com.google.code.gson:gson:2.8.5"
 
-    // 上拉刷新下拉加载更多
-    api "com.ishow:pulltorefresh-v1:1.2.0"
-
     kapt "com.android.databinding:compiler:3.1.4"
     api "com.github.chrisbanes:PhotoView:2.3.0"
 }

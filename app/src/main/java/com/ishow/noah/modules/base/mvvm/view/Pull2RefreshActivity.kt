@@ -3,13 +3,12 @@ package com.ishow.noah.modules.base.mvvm.view
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
-import com.ishow.common.entries.status.Loading
 import com.ishow.common.utils.databinding.bus.Event
+import com.ishow.common.widget.pulltorefresh.OnPullToRefreshListener
+import com.ishow.common.widget.pulltorefresh.PullToRefreshView
 import com.ishow.noah.R
 import com.ishow.noah.modules.base.mvvm.viewmodel.Pull2RefreshViewModel
 import com.ishow.noah.modules.base.mvvm.viewmodel.Pull2RefreshViewModel.Pull2RefreshStatus
-import com.ishow.pulltorefresh.OnPullToRefreshListener
-import com.ishow.pulltorefresh.PullToRefreshView
 
 /**
  * Created by yuhaiyang on 2019-09-15.

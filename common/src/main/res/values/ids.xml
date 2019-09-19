@@ -25,6 +25,8 @@
     <!-- Loading Dialog Tag -->
     <item name="tag_loading_dialog" type="id" />
     <item name="tag_looping_viewpager_holder" type="id" />
+    <item name="tag_pull2refresh_moving_y" type="id" />
+    <item name="tag_pull2refresh_animation" type="id" />
     <!-- widget -->
     <item name="widget" type="id" />
     <!-- 左中右 -->
@@ -68,8 +70,10 @@
 
     <item name="topBar" type="id" />
     <item name="statusView" type="id" />
-    <item name="pull2refresh" type="id" />
     <item name="fragmentContainer" type="id" />
     <item name="water_mark_view" type="id" />
+
+    <item name="pull2refresh" type="id" />
+    <item name="pull2refresh_scroll_view" type="id" />
 
 </resources>

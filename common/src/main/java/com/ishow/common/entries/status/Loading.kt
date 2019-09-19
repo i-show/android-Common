@@ -52,6 +52,17 @@ class Loading {
             loading.status = Status.Dismiss
             return loading
         }
+
+        /**
+         * Dismiss
+         */
+        fun dismissView( message: String? = StringUtils.EMPTY): Loading {
+            val loading = Loading()
+            loading.type = Type.View
+            loading.message = message
+            loading.status = Status.Dismiss
+            return loading
+        }
     }
 
     object Type {

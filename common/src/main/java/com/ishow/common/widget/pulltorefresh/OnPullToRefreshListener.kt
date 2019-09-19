@@ -17,17 +17,14 @@
  * limitations under the License.
  */
 
-package com.ishow.noah.modules.sample.detail.edittextpro
-
-import com.ishow.noah.R
-import com.ishow.noah.databinding.FragmentSampleEdittextproBinding
-import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
-import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
+package com.ishow.common.widget.pulltorefresh
 
 /**
- * Created by Bright.Yu on 2017/2/10.
- * EditTextPro 的测试
+ * 下拉或者上拉刷新
  */
-class SampleEditTextProFragment : AppBindFragment<FragmentSampleEdittextproBinding, AppBaseViewModel>() {
-    override fun getLayout(): Int = R.layout.fragment_sample_edittextpro
+interface OnPullToRefreshListener {
+
+    fun onRefresh(view: PullToRefreshView)
+
+    fun onLoadMore(view: PullToRefreshView)
 }
