@@ -203,9 +203,9 @@ class PullToRefreshView @JvmOverloads constructor(context: Context, attrs: Attri
         mHandler = Handler()
         customFooterOrHeaderCount = 0
 
-        mRefreshingListener = PullToRefreshAnimatorListener(AnimatorType.RefreshNormal)
-        mRefreshingHeaderListener = PullToRefreshAnimatorListener(AnimatorType.Refreshing)
-        mSetRefreshNormalListener = PullToRefreshAnimatorListener(AnimatorType.HeaderRefreshing)
+        mRefreshingListener = PullToRefreshAnimatorListener(AnimatorType.Refreshing)
+        mRefreshingHeaderListener = PullToRefreshAnimatorListener(AnimatorType.HeaderRefreshing)
+        mSetRefreshNormalListener = PullToRefreshAnimatorListener(AnimatorType.RefreshNormal)
     }
 
     override fun onFinishInflate() {
@@ -493,6 +493,16 @@ class PullToRefreshView @JvmOverloads constructor(context: Context, attrs: Attri
         requestLayout()
     }
 
+    /**
+     * 正常加载状态
+     */
+    fun setLoadMoreNormal() {
+        if (mTargetView == null) {
+            return
+        }
+        notifyLoadMoreStatusChanged(IPullToRefreshFooter.STATUS_NORMAL)
+        requestLayout()
+    }
     private fun setRefreshing() {
         computeStatus()
         notifyRefresh()

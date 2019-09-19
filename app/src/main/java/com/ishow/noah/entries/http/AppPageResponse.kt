@@ -1,14 +1,17 @@
 package com.ishow.noah.entries.http
 
+/**
+ * 分页返回数据
+ */
 class AppPageResponse<T> : AppHttpResponse<Page<T>>() {
     val listData: MutableList<T>?
         get() = data?.list
 
     val isLastPage: Boolean?
-        get() = data?.isLastPage
+        get() = data?.lastPage
 }
 
 class Page<T> {
-    var isLastPage: Boolean? = null
+    var lastPage: Boolean? = null
     var list: MutableList<T>? = null
 }

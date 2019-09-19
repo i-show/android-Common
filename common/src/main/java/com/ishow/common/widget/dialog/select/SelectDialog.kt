@@ -36,7 +36,7 @@ class SelectDialog<T : IUnitSelect>(context: Context) : BaseDialog(context, R.st
     private val mAdapter = BindAdapter<T>(context)
     private var mSelectedListener: ((T) -> Unit)? = null
 
-    var data: MutableList<T>
+    var data: MutableList<T>?
         get() = mAdapter.data
         set(data) {
             mAdapter.data = data

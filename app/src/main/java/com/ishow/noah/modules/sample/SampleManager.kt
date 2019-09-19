@@ -12,7 +12,8 @@ import com.ishow.noah.modules.sample.detail.permission.SamplePermissionFragment
 import com.ishow.noah.modules.sample.detail.photo.select.SampleSelectPhotoFragment
 import com.ishow.noah.modules.sample.detail.statusview.SampleStatusViewFragment
 import com.ishow.noah.modules.sample.detail.utils.reflection.SampleReflectionFragment
-import com.ishow.noah.modules.sample.detail.webview.loading.SampleLoadingWebViewFragment
+import com.ishow.noah.modules.sample.detail.views.loading.SampleLoadingWebViewFragment
+import com.ishow.noah.modules.sample.detail.views.pull2refresh.SamplePull2RefreshFragment
 
 import java.util.ArrayList
 
@@ -39,6 +40,7 @@ object SampleManager {
             list.add(Sample.instance("SelectPhoto", SampleSelectPhotoFragment::class.java))
             list.add(Sample.instance("Log", SampleLogFragment::class.java))
             list.add(Sample.instance("反射", SampleReflectionFragment::class.java))
+            list.add(Sample.instance("Pull2Refresh", SamplePull2RefreshFragment::class.java))
             return list
         }
 }

@@ -3,15 +3,14 @@ package com.ishow.noah.data.retrofit
 import com.ishow.noah.BuildConfig
 import com.ishow.noah.entries.UserContainer
 import com.ishow.noah.entries.http.AppHttpResponse
+import com.ishow.noah.entries.http.AppPageResponse
 import com.ishow.noah.entries.params.request.ForgotPasswordParams
 import com.ishow.noah.entries.params.request.LoginParams
 import com.ishow.noah.entries.params.request.RegisterParams
+import com.ishow.noah.modules.sample.entries.SampleTestPage
 import okhttp3.RequestBody
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.Multipart
-import retrofit2.http.POST
-import retrofit2.http.Part
+import retrofit2.http.*
 
 interface AppRestService {
     companion object {
@@ -52,5 +51,11 @@ interface AppRestService {
 
     @Multipart
     @POST("account/uploadAvatar")
-    fun uploadAvatar( @Part("file\"; filename=\"image.jpg") file: RequestBody): AppHttpResponse<String>
+    fun uploadAvatar(@Part("file\"; filename=\"image.jpg") file: RequestBody): AppHttpResponse<String>
+
+    /**
+     * TestPage
+     */
+    @GET("test/page")
+    fun testPage(@Query("page") page: Int, @Query("pageSize") pageSize: Int): AppPageResponse<SampleTestPage>
 }

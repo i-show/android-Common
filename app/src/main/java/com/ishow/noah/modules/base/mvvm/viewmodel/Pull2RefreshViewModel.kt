@@ -1,6 +1,7 @@
 package com.ishow.noah.modules.base.mvvm.viewmodel
 
 import android.app.Application
+import android.webkit.WebChromeClient.FileChooserParams.parseResult
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ishow.common.entries.status.Loading
@@ -30,7 +31,7 @@ open class Pull2RefreshViewModel<T>(app: Application) : AppBaseViewModel(app) {
         val showLoading = loading && page == DEFAULT_START_PAGE
         if (showLoading) showPull2RefreshLoading()
         val result: AppPageResponse<T> = block()
-        parseResult(result, page)
+        mainThread { parseResult(result, page) }
         if (showLoading) dismissPull2RefreshLoading()
     }
 
@@ -47,7 +48,14 @@ open class Pull2RefreshViewModel<T>(app: Application) : AppBaseViewModel(app) {
         if (page == DEFAULT_START_PAGE) {
             _pull2refreshStatus.value = Event(Pull2RefreshStatus.RefreshSuccess)
             _pull2refreshData.value = result.listData
-            if (result.listData.isNullOrEmpty()) showEmpty()
+            if (result.listData.isNullOrEmpty()) {
+                showEmpty()
+            }
+            if (result.isLastPage == true) {
+                _pull2refreshStatus.value = Event(Pull2RefreshStatus.LoadMoreEnd)
+            } else {
+                _pull2refreshStatus.value = Event(Pull2RefreshStatus.LoadMoreNormal)
+            }
         } else {
             if (result.isLastPage == true) {
                 _pull2refreshStatus.value = Event(Pull2RefreshStatus.LoadMoreEnd)
@@ -86,6 +94,7 @@ open class Pull2RefreshViewModel<T>(app: Application) : AppBaseViewModel(app) {
     enum class Pull2RefreshStatus {
         RefreshSuccess,
         RefreshFailed,
+        LoadMoreNormal,
         LoadMoreSuccess,
         LoadMoreFailed,
         LoadMoreEnd,

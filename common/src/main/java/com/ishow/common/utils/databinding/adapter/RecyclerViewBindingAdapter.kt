@@ -4,16 +4,23 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ishow.common.adapter.BindAdapter
 import com.ishow.common.utils.databinding.bus.Event
+import com.ishow.common.widget.pulltorefresh.recycleview.LoadMoreAdapter
 
 object RecyclerViewBindingAdapter {
 
     @JvmStatic
     @Suppress("UNCHECKED_CAST")
     @BindingAdapter("items")
-    fun <T> setItems(listView: RecyclerView, items: MutableList<T>) {
-        if (listView.adapter is BindAdapter<*>) {
-            val adapter = listView.adapter as BindAdapter<T>
-            adapter.data = items
+    fun <T> setItems(listView: RecyclerView, items: MutableList<T>?) {
+
+        val adapter = listView.adapter
+
+        if (adapter is BindAdapter<*>) {
+            val bindingAdapter = adapter as BindAdapter<T>
+            bindingAdapter.data = items
+        } else if (adapter is LoadMoreAdapter) {
+            val bindingAdapter = adapter.innerAdapter as BindAdapter<T>
+            bindingAdapter.data = items
         }
     }
 

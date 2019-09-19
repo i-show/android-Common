@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ishow.noah.modules.sample.detail.webview.loading
+package com.ishow.noah.modules.sample.detail.views.loading
 
 import android.os.Bundle
 import android.view.View

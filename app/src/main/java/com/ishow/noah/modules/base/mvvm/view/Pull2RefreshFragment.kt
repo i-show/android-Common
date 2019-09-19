@@ -1,5 +1,6 @@
 package com.ishow.noah.modules.base.mvvm.view
 
+import android.os.Bundle
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
@@ -14,15 +15,15 @@ import com.ishow.noah.modules.base.mvvm.viewmodel.Pull2RefreshViewModel.Pull2Ref
  * Created by yuhaiyang on 2019-09-15.
  * 上拉加载更多下拉刷新的View
  */
-abstract class Pull2RefreshActivity<T : ViewDataBinding, VM : Pull2RefreshViewModel<*>> : AppBindActivity<T, VM>(),
+abstract class Pull2RefreshFragment<T : ViewDataBinding, VM : Pull2RefreshViewModel<*>> : AppBindFragment<T, VM>(),
     OnPullToRefreshListener {
 
     private var pull2refresh: PullToRefreshView? = null
     private var pager: Int = 1
 
-    override fun initViews() {
-        super.initViews()
-        pull2refresh = findViewById(R.id.pull2refresh)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        pull2refresh = view.findViewById(R.id.pull2refresh)
         pull2refresh?.setOnPullToRefreshListener(this)
     }
 

@@ -19,7 +19,7 @@ open class BindAdapter<T>(val context: Context) : RecyclerView.Adapter<BindAdapt
 
     private var mData: MutableList<T> = ArrayList()
 
-    var data: MutableList<T>
+    var data: MutableList<T>?
         get() = mData
         set(data) = setData(data, true)
 

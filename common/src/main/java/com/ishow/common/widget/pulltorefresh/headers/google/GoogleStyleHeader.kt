@@ -64,7 +64,6 @@ class GoogleStyleHeader(context: Context) : LinearLayout(context), IPullToRefres
         lp.topMargin = padding
         lp.bottomMargin = padding
 
-
         progressView = CircularProgressDrawable(context)
         progressView.setStyle(CircularProgressDrawable.DEFAULT)
         progressView.setColorSchemeColors(
