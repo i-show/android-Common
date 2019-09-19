@@ -3,6 +3,7 @@ package com.ishow.noah.modules.base.mvvm.viewmodel
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.ishow.common.entries.status.Loading
 import com.ishow.common.utils.databinding.bus.Event
 import com.ishow.noah.entries.http.AppPageResponse
 
@@ -39,7 +40,6 @@ open class Pull2RefreshViewModel<T>(app: Application) : AppBaseViewModel(app) {
             parseSuccessResult(result, page)
         } else {
             parseFailedResult(result, page)
-
         }
     }
 
@@ -47,15 +47,18 @@ open class Pull2RefreshViewModel<T>(app: Application) : AppBaseViewModel(app) {
         if (page == DEFAULT_START_PAGE) {
             _pull2refreshStatus.value = Event(Pull2RefreshStatus.RefreshSuccess)
             _pull2refreshData.value = result.listData
+            if (result.listData.isNullOrEmpty()) showEmpty()
         } else {
-            _pull2refreshStatus.value = Event(Pull2RefreshStatus.LoadMoreSuccess)
+            if (result.isLastPage == true) {
+                _pull2refreshStatus.value = Event(Pull2RefreshStatus.LoadMoreEnd)
+            } else {
+                _pull2refreshStatus.value = Event(Pull2RefreshStatus.LoadMoreSuccess)
+            }
             val data = _pull2refreshData.value
-            data?.addAll(result.listData!!)
+            result.listData?.let { data?.addAll(it) }
             _pull2refreshData.value = data
         }
-        if (result.isLastPage == true) {
-            _pull2refreshStatus.value = Event(Pull2RefreshStatus.LoadMoreEnd)
-        }
+
     }
 
     private fun parseFailedResult(result: AppPageResponse<T>, page: Int) {
@@ -71,13 +74,13 @@ open class Pull2RefreshViewModel<T>(app: Application) : AppBaseViewModel(app) {
      * 显示Pull2Refresh空数据之前的loading
      */
     @Suppress("MemberVisibilityCanBePrivate")
-    protected fun showPull2RefreshLoading() = showLoading()
+    protected open fun showPull2RefreshLoading() = showLoading(Loading.view())
 
     /**
      * 隐藏Pull2Refresh空数据之前的loading
      */
     @Suppress("MemberVisibilityCanBePrivate")
-    protected fun dismissPull2RefreshLoading() = dismissLoading()
+    protected open fun dismissPull2RefreshLoading() = dismissLoading(Loading.view())
 
 
     enum class Pull2RefreshStatus {
