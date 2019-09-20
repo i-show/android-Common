@@ -19,6 +19,7 @@ package com.ishow.common.app.activity
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
+import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -31,6 +32,7 @@ import com.ishow.common.entries.status.Success
 import com.ishow.common.extensions.dialog
 import com.ishow.common.extensions.toast
 import com.ishow.common.manager.CCacheManager
+import com.ishow.common.utils.DeviceUtils
 import com.ishow.common.utils.permission.PermissionManager
 import com.ishow.common.widget.StatusView
 import com.ishow.common.widget.TopBar
@@ -48,7 +50,8 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
     /**
      * 状态的View
      */
-    private var statusView: StatusView? = null
+    @Suppress("MemberVisibilityCanBePrivate")
+    protected var rootStatusView: StatusView? = null
     /**
      * 用来回收的Handler
      */
@@ -66,6 +69,19 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
 
     val activity: BaseActivity
         get() = this
+
+    val statusBarHeight: Int by lazy {
+        DeviceUtils.getStatusBarHeight(activity)
+    }
+
+    val topBarHeight: Int by lazy {
+        val typedValue = TypedValue()
+        if (theme.resolveAttribute(R.attr.actionBarSize, typedValue, true)) {
+            TypedValue.complexToDimensionPixelSize(typedValue.data, resources.displayMetrics)
+        } else {
+            0
+        }
+    }
 
     //************************ 生命周期 区域*********************** //
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -101,18 +117,21 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
     //************************ 初始化 区域*********************** //
     override fun setContentView(layoutResID: Int) {
         super.setContentView(layoutResID)
+        attachStatusView()
         initNecessaryData()
         initViews()
     }
 
     override fun setContentView(view: View) {
         super.setContentView(view)
+        attachStatusView()
         initNecessaryData()
         initViews()
     }
 
     override fun setContentView(view: View, params: ViewGroup.LayoutParams) {
         super.setContentView(view, params)
+        attachStatusView()
         initNecessaryData()
         initViews()
     }
@@ -132,8 +151,8 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
         // 主动设置statusView
         val statusView: View? = findViewById(R.id.statusView)
         if (statusView is StatusView) {
-            this.statusView = statusView
-            this.statusView?.setOnStatusViewListener(this)
+            this.rootStatusView = statusView
+            this.rootStatusView?.setOnStatusViewListener(this)
         }
     }
 
@@ -174,7 +193,7 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
                     loadingDialog = LoadingDialog.show(context, loadingDialog)
                 }
                 Loading.Type.View -> {
-                    statusView?.showLoading()
+                    rootStatusView?.showLoading()
                 }
             }
         }
@@ -191,7 +210,7 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
                     LoadingDialog.dismiss(loadingDialog)
                 }
                 Loading.Type.View -> {
-                    statusView?.dismiss()
+                    rootStatusView?.dismiss()
                 }
             }
         }
@@ -215,7 +234,7 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
                     }
                 }
                 Error.Type.View -> {
-                    statusView?.showError()
+                    rootStatusView?.showError()
                 }
             }
         }
@@ -237,13 +256,33 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
     }
 
     override fun showEmpty(empty: Empty) {
-        runOnUiThread { statusView?.showEmpty() }
+        runOnUiThread { rootStatusView?.showEmpty() }
     }
 
     override fun onStatusClick(v: View, which: StatusView.Which) {
 
     }
 
+    open fun attachStatusView() {
+        if (!hasStatusView()) {
+            return
+        }
+        StatusView.attachToActivity(activity, getStatusViewTopMargin())
+    }
+
+    /**
+     * 获取statusView的TopMargin
+     */
+    open fun getStatusViewTopMargin(): Int {
+        return statusBarHeight + topBarHeight
+    }
+
+    /**
+     * 获取statusView的TopMargin
+     */
+    open fun hasStatusView(): Boolean {
+        return false
+    }
 
     companion object {
         /**

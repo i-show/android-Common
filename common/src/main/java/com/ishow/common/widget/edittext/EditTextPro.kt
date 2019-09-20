@@ -992,7 +992,7 @@ class EditTextPro @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     /**
      * 设置是否可以输入
-     * @param statusView statusView 会变更状态
+     * @param statusView rootStatusView 会变更状态
      */
     fun setInputEnable(enable: Boolean, statusView: View? = null) {
         isInputEnable = enable

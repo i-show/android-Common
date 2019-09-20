@@ -36,11 +36,15 @@ abstract class BindFragment<T : ViewDataBinding, VM : BaseViewModel> : BaseFragm
         return bindContentView(container, getLayout())
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        bindDataBindingValues()
+        bindViewModel()
+    }
+
     protected open fun bindContentView(container: ViewGroup?, layoutId: Int): View {
         dataBinding = DataBindingUtil.inflate(layoutInflater, layoutId, container, false)
         dataBinding.lifecycleOwner = viewLifecycleOwner
-        bindDataBindingValues()
-        bindViewModel()
         return dataBinding.root
     }
 

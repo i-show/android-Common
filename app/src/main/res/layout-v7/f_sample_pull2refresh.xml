@@ -9,27 +9,20 @@
             type="com.ishow.noah.modules.sample.detail.views.pull2refresh.SamplePull2RefreshViewModel" />
     </data>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <com.ishow.common.widget.pulltorefresh.PullToRefreshView
-            android:id="@+id/pull2refresh"
+    <com.ishow.common.widget.pulltorefresh.PullToRefreshView
+        android:id="@+id/pull2refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            app:items="@{vm.pull2refreshData}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:items="@{vm.pull2refreshData}"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+    </com.ishow.common.widget.pulltorefresh.PullToRefreshView>
 
-        </com.ishow.common.widget.pulltorefresh.PullToRefreshView>
-
-        <com.ishow.common.widget.StatusView
-            android:id="@+id/statusView"
-            style="@style/AppStatusView" />
-    </FrameLayout>
 </layout>

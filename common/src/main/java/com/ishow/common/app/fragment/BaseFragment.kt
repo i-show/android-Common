@@ -18,7 +18,10 @@ package com.ishow.common.app.fragment
 
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
+import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.ishow.common.R
 import com.ishow.common.app.mvp.IViewStatus
@@ -42,11 +45,23 @@ abstract class BaseFragment : Fragment(), StatusView.OnStatusViewListener, IView
     /**
      * 状态的View
      */
-    private var statusView: StatusView? = null
+    @Suppress("MemberVisibilityCanBePrivate")
+    protected var rootStatusView: StatusView? = null
     /**
      * 用来回收的Handler
      */
     protected var handler: Handler? = null
+
+    val topBarHeight: Int by lazy {
+        val theme = activity?.theme ?: return@lazy 0
+
+        val typedValue = TypedValue()
+        if (theme.resolveAttribute(R.attr.actionBarSize, typedValue, true)) {
+            TypedValue.complexToDimensionPixelSize(typedValue.data, resources.displayMetrics)
+        } else {
+            0
+        }
+    }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -55,13 +70,18 @@ abstract class BaseFragment : Fragment(), StatusView.OnStatusViewListener, IView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        this.rootStatusView = attachStatusView()
         val statusView: View? = view.findViewById(R.id.statusView)
         if (statusView is StatusView) {
-            this.statusView = statusView
-            this.statusView?.setOnStatusViewListener(this)
+            this.rootStatusView = statusView
         }
+        this.rootStatusView?.setOnStatusViewListener(this)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        detachStatusView()
+    }
     //************************ 重写 各种事件区域*********************** //
 
     /**
@@ -101,7 +121,7 @@ abstract class BaseFragment : Fragment(), StatusView.OnStatusViewListener, IView
                     loadingDialog = LoadingDialog.show(activity, loadingDialog)
                 }
                 Loading.Type.View -> {
-                    statusView?.showLoading()
+                    rootStatusView?.showLoading()
                 }
             }
         }
@@ -118,7 +138,7 @@ abstract class BaseFragment : Fragment(), StatusView.OnStatusViewListener, IView
                     LoadingDialog.dismiss(loadingDialog)
                 }
                 Loading.Type.View -> {
-                    statusView?.dismiss()
+                    rootStatusView?.dismiss()
                 }
             }
         }
@@ -135,7 +155,7 @@ abstract class BaseFragment : Fragment(), StatusView.OnStatusViewListener, IView
                     }
                 }
                 Error.Type.View -> {
-                    statusView?.showError()
+                    rootStatusView?.showError()
                 }
             }
         }
@@ -152,6 +172,44 @@ abstract class BaseFragment : Fragment(), StatusView.OnStatusViewListener, IView
     }
 
     override fun showEmpty(empty: Empty) {
-        activity?.runOnUiThread { statusView?.showEmpty() }
+        activity?.runOnUiThread { rootStatusView?.showEmpty() }
+    }
+
+
+    open fun attachStatusView(): StatusView? {
+        if (!hasStatusView()) {
+            return null
+        }
+
+        val viewParent = view?.parent
+        return if (viewParent is ViewGroup) {
+            StatusView.attach(viewParent, getStatusViewTopMargin())
+        } else {
+            null
+        }
+    }
+
+    open fun detachStatusView() {
+        if (!hasStatusView()) {
+            return
+        }
+        val viewParent = view?.parent
+        if (viewParent is ViewGroup) {
+            StatusView.detach(viewParent)
+        }
+    }
+
+    /**
+     * 获取statusView的TopMargin
+     */
+    open fun getStatusViewTopMargin(): Int {
+        return 0
+    }
+
+    /**
+     * 获取statusView的TopMargin
+     */
+    open fun hasStatusView(): Boolean {
+        return false
     }
 }

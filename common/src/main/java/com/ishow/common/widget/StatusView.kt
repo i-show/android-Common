@@ -17,8 +17,10 @@
 package com.ishow.common.widget
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.text.TextUtils
 import android.util.AttributeSet
@@ -26,6 +28,7 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -34,13 +37,16 @@ import androidx.annotation.FloatRange
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import com.ishow.common.R
+import com.ishow.common.utils.DeviceUtils
+import com.ishow.common.utils.log.LogUtils
+import com.ishow.common.widget.watermark.WaterMarkView
 import kotlinx.android.synthetic.main.widget_status_view.view.*
 
 /**
  * 一个状态显示的View
  */
 class StatusView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
-        FrameLayout(context, attrs, defStyleAttr), View.OnClickListener {
+    FrameLayout(context, attrs, defStyleAttr), View.OnClickListener {
 
     private val mLoadingText: String?
     private var mLoadingTextColor: ColorStateList? = null
@@ -118,7 +124,12 @@ class StatusView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     }
 
     init {
-        val a = context.obtainStyledAttributes(attrs, R.styleable.StatusView, R.attr.statusStyle, R.style.Default_StatusView)
+        val a = context.obtainStyledAttributes(
+            attrs,
+            R.styleable.StatusView,
+            R.attr.statusStyle,
+            R.style.Default_StatusView
+        )
 
         mTopWeight = a.getFloat(R.styleable.StatusView_topWeight, 2.6F)
         mBottomWeight = a.getFloat(R.styleable.StatusView_bottomWeight, 5F)
@@ -201,7 +212,12 @@ class StatusView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     }
 
     @JvmOverloads
-    fun showError(reload: String? = mReloadText, title: String? = mErrorText, subTitle: String? = mErrorSubText, icon: Int = mErrorDrawableId) {
+    fun showError(
+        reload: String? = mReloadText,
+        title: String? = mErrorText,
+        subTitle: String? = mErrorSubText,
+        icon: Int = mErrorDrawableId
+    ) {
         visibility = View.VISIBLE
         imageView.setImageResource(icon)
         imageView.visibility = View.VISIBLE
@@ -250,7 +266,10 @@ class StatusView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     }
 
     @JvmOverloads
-    fun showEmpty(title: String? = mEmptyText, subTitle: String? = mEmptySubText, @DrawableRes icon: Int = mEmptyDrawableId) {
+    fun showEmpty(
+        title: String? = mEmptyText,
+        subTitle: String? = mEmptySubText, @DrawableRes icon: Int = mEmptyDrawableId
+    ) {
         visibility = View.VISIBLE
         imageView.setImageResource(icon)
         imageView.visibility = View.VISIBLE
@@ -337,6 +356,7 @@ class StatusView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         updateWeight(bottomWeightView, mBottomWeight)
     }
 
+
     interface OnStatusViewListener {
         /**
          * 点击了副标题标题
@@ -345,6 +365,7 @@ class StatusView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     }
 
     companion object {
+        private const val TAG = "StatusView"
         /**
          * 正在加载
          */
@@ -357,5 +378,57 @@ class StatusView @JvmOverloads constructor(context: Context, attrs: AttributeSet
          * 加载为空
          */
         const val STATUS_EMPTY = STATUS_LOADING + 2
+
+
+        /**
+         * 添加到attachView
+         */
+        fun attachToActivity(activity: Activity?, topMargin: Int, color: Int = Color.WHITE): StatusView? {
+            if (activity == null || activity.isFinishing) {
+                return null
+            }
+            val view: StatusView? = activity.findViewById(R.id.statusView)
+            if (view != null) {
+                LogUtils.i(TAG, "already add")
+                return view
+            }
+
+            val statusView = StatusView(activity)
+            statusView.setBackgroundColor(color)
+            statusView.id = R.id.statusView
+            val root = activity.findViewById<ViewGroup>(android.R.id.content)
+
+            val layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+            layoutParams.topMargin = topMargin
+            root.addView(statusView, layoutParams)
+            return statusView
+        }
+
+
+        /**
+         * 添加到attachView
+         */
+        fun attach(view: ViewGroup, topMargin: Int, color: Int = Color.WHITE): StatusView? {
+            val status: StatusView? = view.findViewById(R.id.statusView)
+            if (status != null) {
+                LogUtils.i(TAG, "already add")
+                return status
+            }
+
+            val statusView = StatusView(view.context)
+            statusView.setBackgroundColor(color)
+            statusView.id = R.id.statusView
+
+            val layoutParams =
+                MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+            layoutParams.topMargin = topMargin
+            view.addView(statusView, layoutParams)
+            return statusView
+        }
+
+        fun detach(view: ViewGroup) {
+            val status: StatusView? = view.findViewById(R.id.statusView)
+            status?.let { view.removeView(it) }
+        }
     }
 }
