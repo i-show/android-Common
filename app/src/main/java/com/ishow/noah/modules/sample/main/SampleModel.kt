@@ -13,8 +13,7 @@ class SampleModel : AppBaseModel() {
      * testPage
      */
     fun testPage(page: Int): AppPageResponse<SampleTestPage> {
-        return httpService.testPage(page, 10)
+        return httpService.testPage(page, 20)
     }
-
 
 }

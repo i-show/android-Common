@@ -16,15 +16,17 @@
 
 package com.ishow.common.app.fragment
 
+import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import androidx.fragment.app.Fragment
+import com.ishow.common.R
+import com.ishow.common.app.mvp.IViewStatus
 import com.ishow.common.entries.status.Empty
 import com.ishow.common.entries.status.Error
 import com.ishow.common.entries.status.Loading
 import com.ishow.common.entries.status.Success
 import com.ishow.common.extensions.dialog
-import com.ishow.common.app.mvp.IViewStatus
 import com.ishow.common.utils.permission.PermissionManager
 import com.ishow.common.widget.StatusView
 import com.ishow.common.widget.TopBar
@@ -35,19 +37,24 @@ abstract class BaseFragment : Fragment(), StatusView.OnStatusViewListener, IView
     /**
      * Loading的Dialog
      */
-    protected var mLoadingDialog: LoadingDialog? = null
+    protected var loadingDialog: LoadingDialog? = null
     /**
      * 状态的View
      */
-    protected var mStatusView: StatusView? = null
+    private var statusView: StatusView? = null
     /**
      * 用来回收的Handler
      */
-    protected var mHandler: Handler? = null
+    protected var handler: Handler? = null
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         PermissionManager.onRequestPermissionsResult(this, requestCode, permissions, grantResults)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        statusView = view.findViewById(R.id.statusView)
     }
 
     //************************ 重写 各种事件区域*********************** //
@@ -70,8 +77,8 @@ abstract class BaseFragment : Fragment(), StatusView.OnStatusViewListener, IView
 
     override fun onDestroy() {
         super.onDestroy()
-        mHandler?.removeCallbacksAndMessages(null)
-        mHandler = null
+        handler?.removeCallbacksAndMessages(null)
+        handler = null
     }
 
 
@@ -86,10 +93,10 @@ abstract class BaseFragment : Fragment(), StatusView.OnStatusViewListener, IView
         activity?.runOnUiThread {
             when (loading.type) {
                 Loading.Type.Dialog -> {
-                    mLoadingDialog = LoadingDialog.show(activity, mLoadingDialog)
+                    loadingDialog = LoadingDialog.show(activity, loadingDialog)
                 }
                 Loading.Type.View -> {
-                    mStatusView?.showLoading()
+                    statusView?.showLoading()
                 }
             }
         }
@@ -103,10 +110,10 @@ abstract class BaseFragment : Fragment(), StatusView.OnStatusViewListener, IView
         activity?.runOnUiThread {
             when (loading.type) {
                 Loading.Type.Dialog -> {
-                    LoadingDialog.dismiss(mLoadingDialog)
+                    LoadingDialog.dismiss(loadingDialog)
                 }
                 Loading.Type.View -> {
-                    mStatusView?.dismiss()
+                    statusView?.dismiss()
                 }
             }
         }
@@ -123,7 +130,7 @@ abstract class BaseFragment : Fragment(), StatusView.OnStatusViewListener, IView
                     }
                 }
                 Error.Type.View -> {
-                    mStatusView?.showError()
+                    statusView?.showError()
                 }
             }
         }
@@ -140,6 +147,6 @@ abstract class BaseFragment : Fragment(), StatusView.OnStatusViewListener, IView
     }
 
     override fun showEmpty(empty: Empty) {
-        activity?.runOnUiThread { mStatusView?.showEmpty() }
+        activity?.runOnUiThread { statusView?.showEmpty() }
     }
 }

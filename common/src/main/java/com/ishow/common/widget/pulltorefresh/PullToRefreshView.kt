@@ -71,9 +71,9 @@ class PullToRefreshView @JvmOverloads constructor(context: Context, attrs: Attri
      */
     var customFooterOrHeaderCount: Int = 0
 
-    private var mRefreshingListener: AbsAnimatorListener? = null
-    private var mRefreshingHeaderListener: AbsAnimatorListener? = null
-    private var mSetRefreshNormalListener: AbsAnimatorListener? = null
+    private var refreshingListener: AbsAnimatorListener? = null
+    private var refreshingHeaderListener: AbsAnimatorListener? = null
+    private var refreshNormalListener: AbsAnimatorListener? = null
 
     /**
      * 是否已经加载完毕
@@ -203,9 +203,9 @@ class PullToRefreshView @JvmOverloads constructor(context: Context, attrs: Attri
         mHandler = Handler()
         customFooterOrHeaderCount = 0
 
-        mRefreshingListener = PullToRefreshAnimatorListener(AnimatorType.Refreshing)
-        mRefreshingHeaderListener = PullToRefreshAnimatorListener(AnimatorType.HeaderRefreshing)
-        mSetRefreshNormalListener = PullToRefreshAnimatorListener(AnimatorType.RefreshNormal)
+        refreshingListener = PullToRefreshAnimatorListener(AnimatorType.Refreshing)
+        refreshingHeaderListener = PullToRefreshAnimatorListener(AnimatorType.HeaderRefreshing)
+        refreshNormalListener = PullToRefreshAnimatorListener(AnimatorType.RefreshNormal)
     }
 
     override fun onFinishInflate() {
@@ -369,12 +369,12 @@ class PullToRefreshView @JvmOverloads constructor(context: Context, attrs: Attri
 
         if (mHeader!!.isEffectiveDistance) {
             notifyRefreshStatusChanged(IPullToRefreshHeader.STATUS_REFRESHING)
-            val offset = mHeader!!.refreshing(this, mRefreshingHeaderListener)
+            val offset = mHeader!!.refreshing(this, refreshingHeaderListener)
             mHeaderMovingDistance = mHeader!!.movingDistance
-            ViewHelper.movingY(mTargetView!!, offset, mRefreshingListener)
+            ViewHelper.movingY(mTargetView!!, offset, refreshingListener)
         } else {
             val offset = mHeader!!.cancelRefresh(this)
-            ViewHelper.movingY(mTargetView!!, offset, mSetRefreshNormalListener)
+            ViewHelper.movingY(mTargetView!!, offset, refreshNormalListener)
         }
     }
 
@@ -414,7 +414,7 @@ class PullToRefreshView @JvmOverloads constructor(context: Context, attrs: Attri
         }
         mHandler.postDelayed({
             val offset = -mHeader!!.movingDistance
-            ViewHelper.movingY(mTargetView!!, offset, mSetRefreshNormalListener)
+            ViewHelper.movingY(mTargetView!!, offset, refreshNormalListener)
         }, ANI_INTERVAL.toLong())
     }
 
@@ -429,7 +429,7 @@ class PullToRefreshView @JvmOverloads constructor(context: Context, attrs: Attri
         notifyRefreshStatusChanged(IPullToRefreshHeader.STATUS_SUCCESS)
         mHandler.postDelayed({
             val offset = mHeader!!.refreshSuccess(this@PullToRefreshView)
-            ViewHelper.movingY(mTargetView!!, offset, mSetRefreshNormalListener)
+            ViewHelper.movingY(mTargetView!!, offset, refreshNormalListener)
         }, ANI_INTERVAL.toLong())
     }
 
@@ -445,7 +445,7 @@ class PullToRefreshView @JvmOverloads constructor(context: Context, attrs: Attri
         notifyRefreshStatusChanged(IPullToRefreshHeader.STATUS_FAILED)
         mHandler.postDelayed({
             val offset = mHeader!!.refreshFailed(this@PullToRefreshView)
-            ViewHelper.movingY(mTargetView!!, offset, mSetRefreshNormalListener)
+            ViewHelper.movingY(mTargetView!!, offset, refreshNormalListener)
         }, ANI_INTERVAL.toLong())
     }
 

@@ -1,9 +1,9 @@
 package com.ishow.noah.modules.base.mvvm.viewmodel
 
 import android.app.Application
-import android.webkit.WebChromeClient.FileChooserParams.parseResult
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.ishow.common.entries.status.Error
 import com.ishow.common.entries.status.Loading
 import com.ishow.common.utils.databinding.bus.Event
 import com.ishow.noah.entries.http.AppPageResponse
@@ -31,31 +31,37 @@ open class Pull2RefreshViewModel<T>(app: Application) : AppBaseViewModel(app) {
         val showLoading = loading && page == DEFAULT_START_PAGE
         if (showLoading) showPull2RefreshLoading()
         val result: AppPageResponse<T> = block()
-        mainThread { parseResult(result, page) }
-        if (showLoading) dismissPull2RefreshLoading()
+
+        mainThread { parseResult(result, page, showLoading) }
     }
 
 
-    private fun parseResult(result: AppPageResponse<T>, page: Int) {
+    private fun parseResult(result: AppPageResponse<T>, page: Int, showLoading: Boolean = false) {
         if (result.isSuccess()) {
-            parseSuccessResult(result, page)
+            parseSuccessResult(result, page, showLoading)
         } else {
-            parseFailedResult(result, page)
+            parseFailedResult(result, page, showLoading)
         }
     }
 
-    private fun parseSuccessResult(result: AppPageResponse<T>, page: Int) {
-        if (page == DEFAULT_START_PAGE) {
+    private fun parseSuccessResult(result: AppPageResponse<T>, page: Int, showLoading: Boolean = false) {
+        val isRefresh = page == DEFAULT_START_PAGE
+        if (isRefresh) {
             _pull2refreshStatus.value = Event(Pull2RefreshStatus.RefreshSuccess)
             _pull2refreshData.value = result.listData
-            if (result.listData.isNullOrEmpty()) {
-                showEmpty()
-            }
+
             if (result.isLastPage == true) {
                 _pull2refreshStatus.value = Event(Pull2RefreshStatus.LoadMoreEnd)
             } else {
                 _pull2refreshStatus.value = Event(Pull2RefreshStatus.LoadMoreNormal)
             }
+
+            if (result.listData.isNullOrEmpty()) {
+                showEmpty()
+            } else if (showLoading) {
+                dismissPull2RefreshLoading()
+            }
+
         } else {
             if (result.isLastPage == true) {
                 _pull2refreshStatus.value = Event(Pull2RefreshStatus.LoadMoreEnd)
@@ -69,9 +75,10 @@ open class Pull2RefreshViewModel<T>(app: Application) : AppBaseViewModel(app) {
 
     }
 
-    private fun parseFailedResult(result: AppPageResponse<T>, page: Int) {
+    private fun parseFailedResult(result: AppPageResponse<T>, page: Int, showLoading: Boolean = false) {
         if (page == DEFAULT_START_PAGE) {
             _pull2refreshStatus.value = Event(Pull2RefreshStatus.RefreshFailed)
+            if(showLoading) showError(Error.view())
         } else {
             _pull2refreshStatus.value = Event(Pull2RefreshStatus.LoadMoreFailed)
         }

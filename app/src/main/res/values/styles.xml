@@ -1,5 +1,7 @@
 <resources>
 
+    <style name="AppStatusView" parent="StatusView" />
+
     <style name="AppEditText" parent="CommonEditText" />
 
     <style name="AppEditText.Login">
@@ -120,11 +122,11 @@
         <item name="inputLines">1</item>
     </style>
 
-    <style name="AppEditTextPro.Account.Login"/>
+    <style name="AppEditTextPro.Account.Login" />
 
-    <style name="AppEditTextPro.Account.Register"/>
+    <style name="AppEditTextPro.Account.Register" />
 
-    <style name="AppEditTextPro.Account.ForgotPassword"/>
+    <style name="AppEditTextPro.Account.ForgotPassword" />
 
 
     <style name="AppEditTextPro.Item">

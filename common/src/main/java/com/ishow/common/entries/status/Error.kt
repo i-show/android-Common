@@ -57,7 +57,7 @@ class Error {
         /**
          * View展示
          */
-        fun view(message: String?, errorType: Int = 0): Error {
+        fun view(message: String? = StringUtils.EMPTY, errorType: Int = 0): Error {
             val error = Error()
             error.showType = Type.View
             error.errorType = errorType
