@@ -55,6 +55,7 @@ abstract class BaseFragment : Fragment(), StatusView.OnStatusViewListener, IView
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         statusView = view.findViewById(R.id.statusView)
+        statusView?.setOnStatusViewListener(this)
     }
 
     //************************ 重写 各种事件区域*********************** //

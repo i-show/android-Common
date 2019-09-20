@@ -21,4 +21,9 @@ class SamplePull2RefreshViewModel(app: Application) : Pull2RefreshViewModel<Samp
     fun getData(page: Int = 1, loading: Boolean = false) = GlobalScope.launch {
         pull2refresh(page, loading) { sampleModel.testPage(page) }
     }
+
+    override fun retryRequest() {
+        super.retryRequest()
+        getData(loading = true)
+    }
 }

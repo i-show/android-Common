@@ -43,19 +43,17 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
     /**
      * Loading的Dialog
      */
-    protected var mLoadingDialog: LoadingDialog? = null
+    protected var loadingDialog: LoadingDialog? = null
     /**
      * 状态的View
      */
-    protected var mStatusView: StatusView? = null
+    private var statusView: StatusView? = null
     /**
      * 用来回收的Handler
      */
-    protected var mHandler: Handler? = null
+    protected var handler: Handler? = null
 
     protected var isActivityPaused: Boolean = false
-
-
     /**
      * Activity
      * isResumed 已经被占用..
@@ -90,15 +88,11 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
     override fun onDestroy() {
         super.onDestroy()
         // 清除Handler预防内存泄露
-        mHandler?.removeCallbacksAndMessages(null)
-        mHandler = null
+        handler?.removeCallbacksAndMessages(null)
+        handler = null
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         PermissionManager.onRequestPermissionsResult(this, requestCode, permissions, grantResults)
     }
@@ -137,8 +131,8 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
         // 主动设置statusView
         val statusView: View? = findViewById(R.id.statusView)
         if (statusView is StatusView) {
-            mStatusView = statusView
-            mStatusView?.setOnStatusViewListener(this)
+            this.statusView = statusView
+            this.statusView?.setOnStatusViewListener(this)
         }
     }
 
@@ -176,10 +170,10 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
         runOnUiThread {
             when (loading.type) {
                 Loading.Type.Dialog -> {
-                    mLoadingDialog = LoadingDialog.show(context, mLoadingDialog)
+                    loadingDialog = LoadingDialog.show(context, loadingDialog)
                 }
                 Loading.Type.View -> {
-                    mStatusView?.showLoading()
+                    statusView?.showLoading()
                 }
             }
         }
@@ -193,10 +187,10 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
         runOnUiThread {
             when (loading.type) {
                 Loading.Type.Dialog -> {
-                    LoadingDialog.dismiss(mLoadingDialog)
+                    LoadingDialog.dismiss(loadingDialog)
                 }
                 Loading.Type.View -> {
-                    mStatusView?.dismiss()
+                    statusView?.dismiss()
                 }
             }
         }
@@ -220,7 +214,7 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
                     }
                 }
                 Error.Type.View -> {
-                    mStatusView?.showError()
+                    statusView?.showError()
                 }
             }
         }
@@ -242,13 +236,12 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
     }
 
     override fun showEmpty(empty: Empty) {
-        runOnUiThread { mStatusView?.showEmpty() }
+        runOnUiThread { statusView?.showEmpty() }
     }
 
     override fun onStatusClick(v: View, which: StatusView.Which) {
 
     }
-
 
 
     companion object {

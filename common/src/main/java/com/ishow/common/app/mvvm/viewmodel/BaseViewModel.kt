@@ -61,6 +61,13 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
     open fun init() {}
 
     /**
+     * 重试
+     */
+    open fun retryRequest() {
+
+    }
+
+    /**
      * 显示加载动画
      */
     fun showLoading() {

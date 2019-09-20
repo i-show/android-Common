@@ -1,5 +1,6 @@
 package com.ishow.common.app.mvvm.view
 
+import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
@@ -14,10 +15,13 @@ import com.ishow.common.extensions.inflate
 import com.ishow.common.extensions.toast
 import com.ishow.common.utils.ReflectionUtils
 import com.ishow.common.utils.databinding.bus.Event
+import com.ishow.common.widget.StatusView
 import java.lang.reflect.ParameterizedType
 
 abstract class BindActivity<T : ViewDataBinding, VM : BaseViewModel> : BaseActivity() {
+
     protected lateinit var dataBinding: T
+    private var viewModel: VM? = null
 
     @Suppress("UNCHECKED_CAST")
     private val viewModelClass: Class<VM> by lazy {
@@ -30,12 +34,24 @@ abstract class BindActivity<T : ViewDataBinding, VM : BaseViewModel> : BaseActiv
         setContentView(view)
         dataBinding = DataBindingUtil.bind(view)!!
         dataBinding.lifecycleOwner = this
+        bindDataBindingValues()
         bindViewModel()
         return dataBinding
     }
 
+    /**
+     * 扩展方法：后面可以添加固定内容
+     */
+    @Suppress("MemberVisibilityCanBePrivate")
+    protected fun bindDataBindingValues() {
+    }
+
+    /**
+     * ViewModel绑定
+     */
     private fun bindViewModel() {
         val vm = ViewModelProvider(this).get(viewModelClass)
+        viewModel = vm
         initViewModel(vm)
         vm.init()
     }
@@ -43,11 +59,15 @@ abstract class BindActivity<T : ViewDataBinding, VM : BaseViewModel> : BaseActiv
     @Suppress("unused")
     protected open fun bindViewModel(cls: Class<VM>): VM {
         val vm = ViewModelProvider(this).get(cls)
+        viewModel = vm
         initViewModel(vm)
         vm.init()
         return vm
     }
 
+    /**
+     * 初始化ViewModel
+     */
     protected open fun initViewModel(vm: VM) {
         val activity = this@BindActivity
         // dataBinding 设置vm参数
@@ -64,6 +84,7 @@ abstract class BindActivity<T : ViewDataBinding, VM : BaseViewModel> : BaseActiv
     /**
      * 改变LoadingDialog的状态
      */
+    @Suppress("MemberVisibilityCanBePrivate")
     protected fun changeLoadingStatus(loading: Event<Loading>) {
         loading.value?.let {
             if (it.status == Loading.Status.Show) {
@@ -77,6 +98,7 @@ abstract class BindActivity<T : ViewDataBinding, VM : BaseViewModel> : BaseActiv
     /**
      * 改变Error的状态
      */
+    @Suppress("MemberVisibilityCanBePrivate")
     protected fun changeErrorStatus(error: Event<Error>) {
         error.value?.let { showError(it) }
     }
@@ -84,6 +106,7 @@ abstract class BindActivity<T : ViewDataBinding, VM : BaseViewModel> : BaseActiv
     /**
      * 改变Success的状态
      */
+    @Suppress("MemberVisibilityCanBePrivate")
     protected fun changeSuccessStatus(success: Event<Success>) {
         success.value?.let { showSuccess(it) }
     }
@@ -91,13 +114,19 @@ abstract class BindActivity<T : ViewDataBinding, VM : BaseViewModel> : BaseActiv
     /**
      * 改变Empty的状态
      */
+    @Suppress("MemberVisibilityCanBePrivate")
     protected fun changeEmptyStatus(empty: Event<Empty>) {
         empty.value?.let { showEmpty(it) }
     }
 
+    @Suppress("MemberVisibilityCanBePrivate")
     protected fun showToast(event: Event<String>) {
         event.value?.let { toast(it) }
     }
 
+    override fun onStatusClick(v: View, which: StatusView.Which) {
+        super.onStatusClick(v, which)
+        viewModel?.retryRequest()
+    }
 
 }

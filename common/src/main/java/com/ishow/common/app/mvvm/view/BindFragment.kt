@@ -17,10 +17,12 @@ import com.ishow.common.entries.status.Success
 import com.ishow.common.extensions.toast
 import com.ishow.common.utils.ReflectionUtils
 import com.ishow.common.utils.databinding.bus.Event
+import com.ishow.common.widget.StatusView
 import java.lang.reflect.ParameterizedType
 
 abstract class BindFragment<T : ViewDataBinding, VM : BaseViewModel> : BaseFragment() {
     protected lateinit var dataBinding: T
+    private var viewModel: VM? = null
 
     @Suppress("UNCHECKED_CAST")
     protected val viewModelClass: Class<VM> by lazy {
@@ -37,22 +39,33 @@ abstract class BindFragment<T : ViewDataBinding, VM : BaseViewModel> : BaseFragm
     protected open fun bindContentView(container: ViewGroup?, layoutId: Int): View {
         dataBinding = DataBindingUtil.inflate(layoutInflater, layoutId, container, false)
         dataBinding.lifecycleOwner = viewLifecycleOwner
-        bindFragment()
+        bindDataBindingValues()
         bindViewModel()
         return dataBinding.root
     }
 
+    @Suppress("MemberVisibilityCanBePrivate")
+    protected fun bindDataBindingValues() {
+        ReflectionUtils.invokeMethod(dataBinding, "setFragment", this, javaClass)
+    }
+
+    /**
+     * ViewModel绑定
+     */
     private fun bindViewModel() {
-        if (canBindViewModel()) {
-            val vm = ViewModelProvider(this).get(viewModelClass)
-            initViewModel(vm)
-            vm.init()
+        if (!canBindViewModel()) {
+            return
         }
+        val vm = ViewModelProvider(this).get(viewModelClass)
+        viewModel = vm
+        initViewModel(vm)
+        vm.init()
     }
 
     @Suppress("unused")
     protected open fun bindViewModel(cls: Class<VM>): VM {
         val vm = ViewModelProvider(this).get(cls)
+        viewModel = vm
         initViewModel(vm)
         vm.init()
         return vm
@@ -82,7 +95,7 @@ abstract class BindFragment<T : ViewDataBinding, VM : BaseViewModel> : BaseFragm
      */
     @Suppress("MemberVisibilityCanBePrivate")
     protected fun changeLoadingStatus(loading: Event<Loading>) {
-        loading.getContent()?.let {
+        loading.value?.let {
             if (it.status == Loading.Status.Show) {
                 showLoading(it)
             } else {
@@ -95,32 +108,32 @@ abstract class BindFragment<T : ViewDataBinding, VM : BaseViewModel> : BaseFragm
      * 改变Error的状态
      */
     @Suppress("MemberVisibilityCanBePrivate")
-    protected fun changeErrorStatus(error: Event<Error>) {
-        error.getContent()?.let { showError(it) }
+    protected fun changeErrorStatus(event: Event<Error>) {
+        event.value?.let { showError(it) }
     }
 
     /**
      * 改变Success的状态
      */
     @Suppress("MemberVisibilityCanBePrivate")
-    protected fun changeSuccessStatus(success: Event<Success>) {
-        success.getContent()?.let { showSuccess(it) }
+    protected fun changeSuccessStatus(event: Event<Success>) {
+        event.value?.let { showSuccess(it) }
     }
 
     /**
      * 改变Empty的状态
      */
     @Suppress("MemberVisibilityCanBePrivate")
-    protected fun changeEmptyStatus(empty: Event<Empty>) {
-        empty.getContent()?.let { showEmpty(it) }
+    protected fun changeEmptyStatus(event: Event<Empty>) {
+        event.value?.let { showEmpty(it) }
     }
 
     private fun showToast(event: Event<String>) {
-        event.getContent()?.let { toast(it) }
+        event.value?.let { toast(it) }
     }
 
-    @Suppress("MemberVisibilityCanBePrivate")
-    protected fun bindFragment() {
-        ReflectionUtils.invokeMethod(dataBinding, "setFragment", this, javaClass)
+    override fun onStatusClick(v: View, which: StatusView.Which) {
+        super.onStatusClick(v, which)
+        viewModel?.retryRequest()
     }
 }
