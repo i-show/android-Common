@@ -43,6 +43,7 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
     /**
      * Loading的Dialog
      */
+    @Suppress("MemberVisibilityCanBePrivate")
     protected var loadingDialog: LoadingDialog? = null
     /**
      * 状态的View

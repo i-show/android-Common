@@ -37,6 +37,7 @@ abstract class BaseFragment : Fragment(), StatusView.OnStatusViewListener, IView
     /**
      * Loading的Dialog
      */
+    @Suppress("MemberVisibilityCanBePrivate")
     protected var loadingDialog: LoadingDialog? = null
     /**
      * 状态的View
@@ -54,8 +55,11 @@ abstract class BaseFragment : Fragment(), StatusView.OnStatusViewListener, IView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        statusView = view.findViewById(R.id.statusView)
-        statusView?.setOnStatusViewListener(this)
+        val statusView: View? = view.findViewById(R.id.statusView)
+        if (statusView is StatusView) {
+            this.statusView = statusView
+            this.statusView?.setOnStatusViewListener(this)
+        }
     }
 
     //************************ 重写 各种事件区域*********************** //

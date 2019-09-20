@@ -2,7 +2,6 @@ package com.ishow.common.widget.watermark
 
 import android.app.Activity
 import android.content.Context
-import android.content.res.TypedArray
 import android.graphics.Canvas
 import android.os.Build
 import android.util.AttributeSet
