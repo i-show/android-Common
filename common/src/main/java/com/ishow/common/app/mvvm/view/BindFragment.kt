@@ -1,6 +1,7 @@
 package com.ishow.common.app.mvvm.view
 
 import android.os.Bundle
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,9 @@ import com.ishow.common.extensions.toast
 import com.ishow.common.utils.ReflectionUtils
 import com.ishow.common.utils.databinding.bus.Event
 import com.ishow.common.widget.StatusView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.lang.reflect.ParameterizedType
 
 abstract class BindFragment<T : ViewDataBinding, VM : BaseViewModel> : BaseFragment() {

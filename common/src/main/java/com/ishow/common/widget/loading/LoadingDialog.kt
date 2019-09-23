@@ -20,12 +20,15 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.text.TextUtils
+import android.util.Log
 import android.view.KeyEvent
 import com.ishow.common.R
 import com.ishow.common.utils.DeviceUtils
 
 
-class LoadingDialog private constructor(context: Context, themeResId: Int = R.style.Theme_Dialog_Semipermeable) : Dialog(context, themeResId) {
+class LoadingDialog private constructor(context: Context, themeResId: Int = R.style.Theme_Dialog_Semipermeable) :
+    Dialog(context, themeResId) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +57,9 @@ class LoadingDialog private constructor(context: Context, themeResId: Int = R.st
     }
 
     companion object {
+        private var loadingTagList: MutableList<String>? = null
+
+        private var lastContext: String? = null
 
         private fun show(context: Context?): LoadingDialog? {
             if (context !is Activity) {
@@ -64,28 +70,46 @@ class LoadingDialog private constructor(context: Context, themeResId: Int = R.st
                 return null
             }
 
+            val contextClass = context.javaClass.toString()
+            if (!TextUtils.equals(contextClass, lastContext)) {
+                loadingTagList?.clear()
+            }
+            lastContext = contextClass
+
             val loadingDialog = LoadingDialog(context)
             loadingDialog.show()
             return loadingDialog
         }
 
         @JvmStatic
-        fun show(context: Context?, dialog: LoadingDialog?): LoadingDialog? {
+        fun show(context: Context?, dialog: LoadingDialog?, loadingTag: String? = null): LoadingDialog? {
+
             if (dialog == null) {
                 return show(context)
             }
             if (!dialog.isShowing) {
                 dialog.show()
             }
+
+            loadingTag?.let {
+                if (loadingTagList == null) {
+                    loadingTagList = mutableListOf()
+                }
+                loadingTagList?.add(loadingTag)
+            }
+
             return dialog
         }
 
         @JvmStatic
-        fun dismiss(dialog: LoadingDialog?) {
+        fun dismiss(dialog: LoadingDialog?, loadingTag: String? = null) {
             if (dialog == null) {
                 return
             }
-            dialog.dismiss()
+            loadingTagList?.remove(loadingTag)
+            if (loadingTag == null || loadingTagList.isNullOrEmpty()) {
+                dialog.dismiss()
+            }
         }
     }
 }

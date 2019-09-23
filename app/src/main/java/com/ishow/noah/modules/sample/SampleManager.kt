@@ -12,6 +12,7 @@ import com.ishow.noah.modules.sample.detail.permission.SamplePermissionFragment
 import com.ishow.noah.modules.sample.detail.photo.select.SampleSelectPhotoFragment
 import com.ishow.noah.modules.sample.detail.statusview.SampleStatusViewFragment
 import com.ishow.noah.modules.sample.detail.utils.reflection.SampleReflectionFragment
+import com.ishow.noah.modules.sample.detail.views.loading.SampleLoadingDialogFragment
 import com.ishow.noah.modules.sample.detail.views.loading.SampleLoadingWebViewFragment
 import com.ishow.noah.modules.sample.detail.views.pull2refresh.SamplePull2RefreshFragment
 
@@ -35,6 +36,7 @@ object SampleManager {
             list.add(Sample.instance("PickerData", SampleDataPickerDialogFragment::class.java))
             list.add(Sample.instance("EditTextPro", SampleEditTextProFragment::class.java))
             list.add(Sample.instance("LoadingWebView", SampleLoadingWebViewFragment::class.java))
+            list.add(Sample.instance("LoadingDialog", SampleLoadingDialogFragment::class.java))
             list.add(Sample.instance("DashLine", SampleDashLineFragment::class.java))
             list.add(Sample.instance("Permission", SamplePermissionFragment::class.java))
             list.add(Sample.instance("SelectPhoto", SampleSelectPhotoFragment::class.java))

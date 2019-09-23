@@ -19,6 +19,7 @@ package com.ishow.common.app.activity
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -37,6 +38,9 @@ import com.ishow.common.utils.permission.PermissionManager
 import com.ishow.common.widget.StatusView
 import com.ishow.common.widget.TopBar
 import com.ishow.common.widget.loading.LoadingDialog
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListener,
@@ -282,6 +286,18 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
      */
     open fun hasStatusView(): Boolean {
         return false
+    }
+
+    /**
+     * 判断是否在主线程
+     */
+    fun isMainThread(): Boolean = Looper.myLooper() == Looper.getMainLooper()
+
+    /**
+     * 通过协程  在主线程上运行
+     */
+    fun mainThread(block: () -> Unit) = GlobalScope.launch(Dispatchers.Main) {
+        block()
     }
 
     companion object {
