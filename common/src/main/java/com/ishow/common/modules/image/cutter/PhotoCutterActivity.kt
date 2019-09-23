@@ -35,7 +35,7 @@ import kotlinx.android.synthetic.main.activity_crop_image.*
  */
 class PhotoCutterActivity : BaseActivity() {
 
-    private lateinit var mCompressFormat: Bitmap.CompressFormat
+    private lateinit var compressFormat: Bitmap.CompressFormat
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +52,7 @@ class PhotoCutterActivity : BaseActivity() {
     override fun initNecessaryData() {
         super.initNecessaryData()
         val format = intent.getSerializableExtra(KEY_FORMAT)
-        mCompressFormat = if (format == null) {
+        compressFormat = if (format == null) {
             Bitmap.CompressFormat.JPEG
         } else {
             format as Bitmap.CompressFormat
@@ -62,7 +62,7 @@ class PhotoCutterActivity : BaseActivity() {
     override fun onRightClick(v: View) {
         super.onRightClick(v)
         val dialog = LoadingDialog.show(this, null)
-        val cachePath = cropView.croppedBitmap.compress(mCompressFormat).save(context, mCompressFormat)
+        val cachePath = cropView.croppedBitmap.compress(compressFormat).save(context, compressFormat)
         val intent = Intent()
         intent.putExtra(KEY_RESULT_PATH, cachePath)
         setResult(SelectPhotoUtils.Request.REQUEST_CROP_IMAGE, intent)

@@ -143,11 +143,7 @@ object ImageUtils {
         context: Context,
         format: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG
     ): File {
-        var folder = context.externalCacheDir
-        if (null == folder) {
-            val target = Environment.getExternalStorageDirectory()
-            folder = File(target, AppUtils.getAppName(context))
-        }
+        val folder = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
 
         if (!folder.exists()) {
             folder.mkdirs()

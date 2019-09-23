@@ -122,7 +122,7 @@ open class BaseDialog constructor(context: Context, theme: Int) : Dialog(context
             Log.i(TAG, "setActivity: context is not activity")
             return
         }
-        ownerActivity = context
+        setOwnerActivity(context)
     }
 
     class Builder @JvmOverloads constructor(context: Context?, private val mTheme: Int = R.style.Theme_Dialog) {
