@@ -5,7 +5,7 @@
 
         <variable
             name="fragment"
-            type="com.ishow.noah.modules.sample.detail.statusview.SampleStatusViewFragment" />
+            type="com.ishow.noah.modules.sample.detail.views.statusview.SampleStatusViewFragment" />
     </data>
 
     <LinearLayout

@@ -90,6 +90,7 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
     }
 
     fun dismissLoading(loading: Loading) {
+        loading.status = Loading.Status.Dismiss
         if (isMainThread()) {
             _loadingStatus.value = Event(loading)
         } else {
@@ -172,6 +173,7 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
     /**
      * 判断是否在主线程
      */
+    @Suppress("MemberVisibilityCanBePrivate")
     fun isMainThread(): Boolean = Looper.myLooper() == Looper.getMainLooper()
 
     /**

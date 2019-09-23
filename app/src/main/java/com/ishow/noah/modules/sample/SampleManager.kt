@@ -10,7 +10,7 @@ import com.ishow.noah.modules.sample.detail.glide.SampleGlideCornerFragment
 import com.ishow.noah.modules.sample.detail.log.SampleLogFragment
 import com.ishow.noah.modules.sample.detail.permission.SamplePermissionFragment
 import com.ishow.noah.modules.sample.detail.photo.select.SampleSelectPhotoFragment
-import com.ishow.noah.modules.sample.detail.statusview.SampleStatusViewFragment
+import com.ishow.noah.modules.sample.detail.views.statusview.SampleStatusViewFragment
 import com.ishow.noah.modules.sample.detail.utils.reflection.SampleReflectionFragment
 import com.ishow.noah.modules.sample.detail.views.loading.SampleLoadingDialogFragment
 import com.ishow.noah.modules.sample.detail.views.loading.SampleLoadingWebViewFragment

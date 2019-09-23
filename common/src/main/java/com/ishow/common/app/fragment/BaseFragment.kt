@@ -122,10 +122,10 @@ abstract class BaseFragment : Fragment(), StatusView.OnStatusViewListener, IView
         activity?.runOnUiThread {
             when (loading.type) {
                 Loading.Type.Dialog -> {
-                    loadingDialog = LoadingDialog.show(activity, loadingDialog)
+                    loadingDialog = LoadingDialog.show(activity, loadingDialog, loading.tag)
                 }
                 Loading.Type.View -> {
-                    rootStatusView?.showLoading()
+                    rootStatusView?.showLoading(loading.tag)
                 }
             }
         }
@@ -139,10 +139,10 @@ abstract class BaseFragment : Fragment(), StatusView.OnStatusViewListener, IView
         activity?.runOnUiThread {
             when (loading.type) {
                 Loading.Type.Dialog -> {
-                    LoadingDialog.dismiss(loadingDialog)
+                    LoadingDialog.dismiss(loadingDialog, loading.tag)
                 }
                 Loading.Type.View -> {
-                    rootStatusView?.dismiss()
+                    rootStatusView?.dismiss(loading.tag)
                 }
             }
         }

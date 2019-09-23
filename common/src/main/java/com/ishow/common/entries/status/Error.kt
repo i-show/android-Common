@@ -35,7 +35,7 @@ class Error {
         /**
          * Toast展示
          */
-        fun toast(message: String?, errorType: Int = 0): Error {
+        fun toast(message: String? = StringUtils.EMPTY, errorType: Int = 0): Error {
             val error = Error()
             error.showType = Type.Toast
             error.errorType = errorType

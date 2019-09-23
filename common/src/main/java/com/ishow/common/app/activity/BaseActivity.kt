@@ -194,10 +194,10 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
         runOnUiThread {
             when (loading.type) {
                 Loading.Type.Dialog -> {
-                    loadingDialog = LoadingDialog.show(context, loadingDialog)
+                    loadingDialog = LoadingDialog.show(context, loadingDialog, loading.tag)
                 }
                 Loading.Type.View -> {
-                    rootStatusView?.showLoading()
+                    rootStatusView?.showLoading(loading.tag)
                 }
             }
         }
@@ -211,10 +211,10 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
         runOnUiThread {
             when (loading.type) {
                 Loading.Type.Dialog -> {
-                    LoadingDialog.dismiss(loadingDialog)
+                    LoadingDialog.dismiss(loadingDialog, loading.tag)
                 }
                 Loading.Type.View -> {
-                    rootStatusView?.dismiss()
+                    rootStatusView?.dismiss(loading.tag)
                 }
             }
         }

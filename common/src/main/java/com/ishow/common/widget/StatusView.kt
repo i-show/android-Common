@@ -32,9 +32,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.annotation.DrawableRes
 import androidx.annotation.FloatRange
-import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import com.ishow.common.R
 import com.ishow.common.utils.log.LogUtils
@@ -46,31 +44,34 @@ import kotlinx.android.synthetic.main.widget_status_view.view.*
 class StatusView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
     FrameLayout(context, attrs, defStyleAttr), View.OnClickListener {
 
-    private val loadingText: String?
-    private var loadingTextColor: ColorStateList? = null
-    private val loadingTextSize: Int
+    var loadingText: String?
+    var loadingTextColor: ColorStateList? = null
+    var loadingTextSize: Int
 
-    private val emptyDrawableId: Int
-    private val emptyText: String?
-    private var emptyTextColor: ColorStateList? = null
-    private val emptyTextSize: Int
-    private val emptySubText: String?
-    private var emptySubTextColor: ColorStateList? = null
-    private val emptySubTextSize: Int
+    @Suppress("MemberVisibilityCanBePrivate")
+    var emptyDrawableId: Int
+    var emptyText: String?
+    var emptyTextColor: ColorStateList? = null
+    var emptyTextSize: Int
+    var emptySubText: String?
+    var emptySubTextColor: ColorStateList? = null
+    var emptySubTextSize: Int
 
-    private val errorDrawableId: Int
-    private val errorText: String?
-    private var errorTextColor: ColorStateList? = null
-    private val errorTextSize: Int
+    @Suppress("MemberVisibilityCanBePrivate")
+    var errorDrawableId: Int
+    var errorText: String?
+    var errorTextColor: ColorStateList? = null
+    var errorTextSize: Int
 
-    private val errorSubText: String?
-    private var errorSubTextColor: ColorStateList? = null
-    private val errorSubTextSize: Int
+    var errorSubText: String?
+    var errorSubTextColor: ColorStateList? = null
+    var errorSubTextSize: Int
 
-    private val reloadTextBackground: Drawable?
-    private val reloadText: String?
-    private var reloadTextColor: ColorStateList? = null
-    private val reloadTextSize: Int
+    @Suppress("MemberVisibilityCanBePrivate")
+    var reloadTextBackground: Drawable?
+    var reloadText: String?
+    var reloadTextColor: ColorStateList? = null
+    var reloadTextSize: Int
 
     private val isInterruptTouchEvent: Boolean
     private val isTitleClickable: Boolean
@@ -81,6 +82,9 @@ class StatusView @JvmOverloads constructor(context: Context, attrs: AttributeSet
 
     private var statusViewListener: OnStatusViewListener? = null
     private var statusViewBlock: ((v: View, which: Which) -> Unit)? = null
+
+    private var loadingTagList: MutableList<String>? = null
+    private var hasError: Boolean = false
     /**
      * 默认字体大小
      */
@@ -188,104 +192,77 @@ class StatusView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         if (reloadTextColor == null) reloadTextColor = defaultReloadTextColor
     }
 
-    fun showError(@StringRes title: Int, @DrawableRes drawable: Int) {
-        val context = context
-        val titleString = context.getString(title)
-        showError(reloadText, titleString, errorSubText, drawable)
-    }
 
-    fun showError(@StringRes title: Int, @StringRes subTitle: Int, @DrawableRes icon: Int) {
-        val context = context
-        val titleString = context.getString(title)
-        val subTitleString = context.getString(subTitle)
-        showError(reloadText, titleString, subTitleString, icon)
-    }
+    fun showError() {
+        hasError = true
+        if (loadingTagList != null && loadingTagList!!.isNotEmpty()) {
+            return
+        }
 
-    fun showError(@StringRes reload: Int, @StringRes title: Int, @StringRes subTitle: Int, icon: Int) {
-        val context = context
-        val reloadString = context.getString(reload)
-        val titleString = context.getString(title)
-        val subTitleString = context.getString(subTitle)
-        showError(reloadString, titleString, subTitleString, icon)
-    }
-
-    @JvmOverloads
-    fun showError(
-        reload: String? = reloadText,
-        title: String? = errorText,
-        subTitle: String? = errorSubText,
-        icon: Int = errorDrawableId
-    ) {
         visibility = View.VISIBLE
-        imageView.setImageResource(icon)
+        imageView.setImageResource(errorDrawableId)
         imageView.visibility = View.VISIBLE
         loadingView.visibility = View.GONE
         loadingView.visibility = View.GONE
 
         titleView.setTextColor(errorTextColor)
         titleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, errorTextSize.toFloat())
-        setText(titleView, title)
+        setText(titleView, errorText)
         subTitleView.setTextColor(errorSubTextColor)
         subTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, errorSubTextSize.toFloat())
-        setText(subTitleView, subTitle)
+        setText(subTitleView, errorSubText)
         reloadButton.setTextColor(reloadTextColor)
         reloadButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, reloadTextSize.toFloat())
         reloadButton.background = reloadTextBackground
-        setText(reloadButton, reload)
+        setText(reloadButton, reloadText)
     }
 
-    fun showLoading(@StringRes text: Int) {
-        showLoading(context.getString(text))
-    }
+    fun showLoading(loadingTag: String? = null) {
+        loadingTag?.let {
+            if (loadingTagList == null) {
+                loadingTagList = mutableListOf()
+            }
+            loadingTagList?.add(loadingTag)
+        }
 
-    @JvmOverloads
-    fun showLoading(title: String? = loadingText) {
         visibility = View.VISIBLE
         imageView.visibility = View.GONE
         loadingView.visibility = View.VISIBLE
 
         titleView.setTextColor(loadingTextColor)
         titleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, loadingTextSize.toFloat())
-        setText(titleView, title)
+        setText(titleView, loadingText)
 
         subTitleView.visibility = View.GONE
         reloadButton.visibility = View.GONE
     }
 
-    fun showEmpty(@StringRes text: Int, @DrawableRes icon: Int) {
-        val title = context.getString(text)
-        showEmpty(title, emptySubText, icon)
-    }
-
-    fun showEmpty(@StringRes text: Int, @StringRes subText: Int, @DrawableRes icon: Int) {
-        val title = context.getString(text)
-        val subTitle = context.getString(subText)
-        showEmpty(title, subTitle, icon)
-    }
-
-    @JvmOverloads
-    fun showEmpty(
-        title: String? = emptyText,
-        subTitle: String? = emptySubText, @DrawableRes icon: Int = emptyDrawableId
-    ) {
+    fun showEmpty() {
         visibility = View.VISIBLE
-        imageView.setImageResource(icon)
+        imageView.setImageResource(emptyDrawableId)
         imageView.visibility = View.VISIBLE
         loadingView.visibility = View.GONE
 
         titleView.setTextColor(emptyTextColor)
         titleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, emptyTextSize.toFloat())
-        setText(titleView, title)
+        setText(titleView, emptyText)
 
         subTitleView.setTextColor(emptySubTextColor)
         subTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, emptySubTextSize.toFloat())
-        setText(subTitleView, subTitle)
+        setText(subTitleView, emptySubText)
 
         reloadButton.visibility = View.GONE
     }
 
-    fun dismiss() {
-        visibility = View.GONE
+    fun dismiss(loadingTag: String? = null) {
+        loadingTagList?.remove(loadingTag)
+        if (loadingTag == null || loadingTagList.isNullOrEmpty()) {
+            if (hasError) {
+                showError()
+            } else {
+                visibility = View.GONE
+            }
+        }
     }
 
     private fun setText(view: TextView?, text: String?) {
@@ -318,6 +295,7 @@ class StatusView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         statusViewListener = callBack
     }
 
+    @Suppress("unused")
     fun setOnStatusViewBlock(block: ((v: View, which: Which) -> Unit)?) {
         statusViewBlock = block
     }
