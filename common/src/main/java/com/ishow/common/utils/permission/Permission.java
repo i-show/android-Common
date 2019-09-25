@@ -56,8 +56,6 @@ public interface Permission {
 
     /**
      * 提示消息
-     *
-     * @return
      */
     Permission message(@StringRes int message);
 

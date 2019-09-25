@@ -42,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:actualImageScaleType="focusCrop"
-            app:frescoUrl="@{photo.path}"
+            app:imageUrl="@{photo.path}"
             app:placeholderImage="@color/grey_alpha_0_5"
             app:viewAspectRatio="1" />
 
