@@ -14,7 +14,7 @@ object ImageViewBindingAdapter {
 
     @JvmStatic
     @BindingAdapter(
-        value = ["imageUrl", "placeholder", "glideCorner", "glideCornerPosition"],
+        value = ["imageUrl", "placeholder", "glideCorner", "glideCornerPosition", "glideOptions"],
         requireAll = false
     )
     fun loadImage(
@@ -22,7 +22,8 @@ object ImageViewBindingAdapter {
         imageUrl: String?,
         placeholder: Drawable?,
         corner: Int?,
-        position: GlideCorner.Position? = GlideCorner.Position.All
+        position: GlideCorner.Position? = GlideCorner.Position.All,
+        requestOptions: RequestOptions? = RequestOptions.centerCropTransform()
     ) {
 
         val glidePosition = position ?: GlideCorner.Position.All
@@ -31,6 +32,8 @@ object ImageViewBindingAdapter {
         } else {
             RequestOptions().transform(CenterCrop(), GlideCorner(corner, glidePosition))
         }
+
+        requestOptions?.let { options.apply(it) }
 
         view.loadUrl(imageUrl, options, placeholder)
     }
