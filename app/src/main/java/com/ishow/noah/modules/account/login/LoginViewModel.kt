@@ -26,10 +26,10 @@ class LoginViewModel(application: Application) : AppBaseViewModel(application) {
     val passwordHint: LiveData<String>
         get() = _passwordHint
 
-    private lateinit var mAccountModel: AccountModel
+    private lateinit var accountModel: AccountModel
 
     override fun init() {
-        mAccountModel = AccountModel()
+        accountModel = AccountModel()
 
         val account = StorageUtils.with(context)
             .key(UserContainer.Key.ACCOUNT)
@@ -47,7 +47,7 @@ class LoginViewModel(application: Application) : AppBaseViewModel(application) {
      * 登录
      */
     fun login(phone: String, password: String) = GlobalScope.launch {
-        val result: AppHttpResponse<UserContainer> = requestResponse { mAccountModel.login(phone, password) }
+        val result: AppHttpResponse<UserContainer> = requestResponse { accountModel.login(phone, password) }
         if (result.isSuccess()) {
             saveUserInfo(phone)
             UserManager.instance.setUserContainer(context, result.data)
@@ -67,7 +67,6 @@ class LoginViewModel(application: Application) : AppBaseViewModel(application) {
             .key(UserContainer.Key.CACHE)
             .remove()
     }
-
 
     /**
      * 保存用户信息

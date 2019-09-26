@@ -38,37 +38,31 @@ import kotlinx.android.synthetic.main.activity_login.*
  */
 class LoginActivity : AppBindActivity<ActivityLoginBinding, LoginViewModel>() {
 
-    private lateinit var mLoginViewModel: LoginViewModel
-    private var mEnableWatcher = EnableTextWatcher()
-    private var mType = TYPE_FINISHED
+    private var enableWatcher = EnableTextWatcher()
+    private var type = TYPE_FINISHED
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bindContentView(R.layout.activity_login)
     }
 
-    override fun initViewModel(vm: LoginViewModel) {
-        super.initViewModel(vm)
-        mLoginViewModel = vm
-    }
-
     override fun initViews() {
         super.initViews()
-        mEnableWatcher.setEnableView(login)
+        enableWatcher.setEnableView(login)
             .addChecker(account, PhoneNumberChecker())
             .addChecker(password, PasswordChecker(context))
     }
 
     override fun initNecessaryData() {
         super.initNecessaryData()
-        mType = intent.getIntExtra(KEY_TYPE, TYPE_FINISHED)
+        type = intent.getIntExtra(KEY_TYPE, TYPE_FINISHED)
     }
 
     fun onViewClick(v: View) {
         when (v.id) {
 
             R.id.login -> {
-                mLoginViewModel.login(account.inputText, password.inputText)
+                dataBinding.vm?.login(account.inputText, password.inputText)
             }
 
             R.id.register -> {
@@ -87,7 +81,7 @@ class LoginActivity : AppBindActivity<ActivityLoginBinding, LoginViewModel>() {
     }
 
     override fun onBackPressed() {
-        if (mType == TYPE_FINISHED) {
+        if (type == TYPE_FINISHED) {
             finish()
         } else {
             open(MainActivity::class.java, true)
