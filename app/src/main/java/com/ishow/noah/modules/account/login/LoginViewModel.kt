@@ -30,7 +30,6 @@ class LoginViewModel(application: Application) : AppBaseViewModel(application) {
 
     override fun init() {
         accountModel = AccountModel()
-
         val account = StorageUtils.with(context)
             .key(UserContainer.Key.ACCOUNT)
             .get(StringUtils.EMPTY)

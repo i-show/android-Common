@@ -10,6 +10,7 @@ import com.ishow.common.entries.Location
 interface OnLocationListener {
     /**
      * 获取到了位置信息
+     *  @param status 0成功 1 失败
      */
-    fun onReceiveLocation(location: Location)
+    fun onStatusChanged(status: Int, location: Location?)
 }

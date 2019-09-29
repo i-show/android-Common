@@ -14,6 +14,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
+import android.location.LocationManager
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.provider.Settings
@@ -25,6 +26,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.*
 import androidx.core.content.ContextCompat
+import androidx.core.location.LocationManagerCompat
 import com.ishow.common.R
 import com.ishow.common.utils.StringUtils
 import com.ishow.common.utils.ToastUtils
@@ -167,7 +169,8 @@ inline val Context.alarmManager: AlarmManager
 
 inline val Context.clipboardManager: ClipboardManager
     get() = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-
+inline val Context.locationManager: LocationManager
+    get() = getSystemService(LOCATION_SERVICE) as LocationManager
 
 /**
  * 跳转浏览器

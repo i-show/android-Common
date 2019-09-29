@@ -1,6 +1,6 @@
 package com.ishow.common.entries
 
-import com.baidu.location.Address
+import android.location.Address
 
 /**
  * Created by yuhaiyang on 2018/6/22.

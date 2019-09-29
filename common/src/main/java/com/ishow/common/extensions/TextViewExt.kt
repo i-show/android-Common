@@ -44,3 +44,10 @@ fun TextView.setDrawableTop(drawable: Int) {
 fun TextView.setDrawableTop(drawable: Drawable) {
     this.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null)
 }
+
+/**
+ * 半加粗
+ */
+fun TextView.fakeBoldText() {
+    this.paint.isFakeBoldText = true
+}
