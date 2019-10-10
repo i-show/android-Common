@@ -18,10 +18,13 @@ package com.ishow.common.utils
 
 import android.app.Activity
 import android.content.Context
-import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.StringRes
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 /**
@@ -34,7 +37,7 @@ object ToastUtils {
     @JvmStatic
     @JvmOverloads
     fun show(context: Context?, @StringRes text: Int, duration: Int = Toast.LENGTH_SHORT) {
-        if (context == null) {
+        if (context == null || text == 0) {
             Log.i(TAG, "makeText: context is null")
             return
         }
@@ -58,6 +61,24 @@ object ToastUtils {
             }
         }
 
-        Handler().post { Toast.makeText(context, text, duration).show() }
+        if (isMainThread()) {
+            Toast.makeText(context, text, duration).show()
+        } else {
+            mainThread { Toast.makeText(context, text, duration).show() }
+        }
+    }
+
+
+    /**
+     * 判断是否在主线程
+     */
+    @Suppress("MemberVisibilityCanBePrivate")
+    private fun isMainThread(): Boolean = Looper.myLooper() == Looper.getMainLooper()
+
+    /**
+     * 通过协程  在主线程上运行
+     */
+    private fun mainThread(block: () -> Unit) = GlobalScope.launch(Dispatchers.Main) {
+        block()
     }
 }
