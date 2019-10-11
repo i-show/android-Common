@@ -119,14 +119,9 @@ class BaseController(
      */
     internal fun installContent() {
         mWindow.requestFeature(Window.FEATURE_NO_TITLE)
-        mWindow.setFlags(
-            WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM,
-            WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM
-        )
         mWindow.setContentView(mDialogLayout)
         setupView()
     }
-
 
     private fun setupView() {
         if (isFromBottom) {
