@@ -78,6 +78,7 @@ object StringUtils {
     /**
      * 字符传Float
      */
+    @JvmStatic
     fun format2Float(value: String): Float {
         return try {
             value.toFloat()
@@ -93,6 +94,7 @@ object StringUtils {
      * @param data 要转换的字节数组。
      * @return 转换后的结果。
      */
+    @JvmStatic
     fun byteArrayToHexString(data: ByteArray): String {
         val sb = StringBuilder(data.size * 2)
         for (b in data) {
@@ -111,6 +113,7 @@ object StringUtils {
      * @param s 16进制表示的字符串
      * @return byte[] 字节数组
      */
+    @JvmStatic
     fun hexStringToByteArray(s: String): ByteArray {
         val len = s.length
         val d = ByteArray(len / 2)

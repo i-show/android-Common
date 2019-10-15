@@ -20,6 +20,7 @@ object StorageUtils {
      */
     private const val EXPIRE_SUFFIX = "_enter_port_expire_ee"
 
+    @JvmStatic
     fun with(context: Context): Executor {
         return Executor(context)
     }

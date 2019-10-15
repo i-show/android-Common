@@ -447,7 +447,7 @@ class BaseController(
                     }
                     adapter.addLayout(BR.text, dialog.mListItemLayout)
                     @Suppress("UNCHECKED_CAST")
-                    adapter.data = mItems?.toList() as ArrayList<String>
+                    adapter.data = mItems?.toList() as MutableList<String>
                     dialog.mAdapter = adapter
                 }
                 is BindAdapter<*> -> {

@@ -26,7 +26,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.*
 import androidx.core.content.ContextCompat
-import androidx.core.location.LocationManagerCompat
 import com.ishow.common.R
 import com.ishow.common.utils.StringUtils
 import com.ishow.common.utils.ToastUtils
@@ -63,22 +62,19 @@ fun Context.toast(@StringRes message: Int, duration: Int = Toast.LENGTH_SHORT) {
 /**
  * Dialog提示
  */
-fun Context.dialog(
-    @StringRes message: Int, finishSelf: Boolean = false,
-    cancelable: Boolean = true
-) {
-    dialog(getString(message), finishSelf, cancelable)
+fun Context.dialog(@StringRes message: Int, finishSelf: Boolean = false, cancelable: Boolean = true): BaseDialog? {
+    return dialog(getString(message), finishSelf, cancelable)
 }
 
 /**
  * Dialog提示
  */
-fun Context.dialog(message: String, finishSelf: Boolean = false, cancelable: Boolean = true) {
+fun Context.dialog(message: String, finishSelf: Boolean = false, cancelable: Boolean = true): BaseDialog? {
     if (this !is Activity) {
-        return
+        return null
     }
     val activity = this
-    BaseDialog.Builder(this)
+    return BaseDialog.Builder(this)
         .setMessage(message)
         .setPositiveButton(R.string.yes) { _, _ -> if (finishSelf) activity.finish() }
         .setCancelable(cancelable)
@@ -88,13 +84,8 @@ fun Context.dialog(message: String, finishSelf: Boolean = false, cancelable: Boo
 /**
  * Dialog提示
  */
-fun Context.dialog(
-    title: Int,
-    message: String,
-    finishSelf: Boolean = false,
-    cancelable: Boolean = true
-) {
-    dialog(getString(title), message, finishSelf, cancelable)
+fun Context.dialog(title: Int, message: String, finishSelf: Boolean = false, cancelable: Boolean = true): BaseDialog? {
+    return dialog(getString(title), message, finishSelf, cancelable)
 }
 
 /**
@@ -105,12 +96,12 @@ fun Context.dialog(
     message: String,
     finishSelf: Boolean = false,
     cancelable: Boolean = true
-) {
+): BaseDialog? {
     if (this !is Activity) {
-        return
+        return null
     }
     val activity = this
-    BaseDialog.Builder(this)
+    return BaseDialog.Builder(this)
         .setMessage(title)
         .setMessage(message)
         .setPositiveButton(R.string.yes) { _, _ -> if (finishSelf) activity.finish() }
