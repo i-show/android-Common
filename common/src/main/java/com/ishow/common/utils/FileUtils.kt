@@ -29,21 +29,6 @@ object FileUtils {
      */
     private const val GB_1 = (1024 * 1024 * 1024).toLong()
 
-
-    /**
-     * 获取SDCard路径
-     */
-    val sdPath: String?
-        get() {
-            val sdCardExist = Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED
-            return if (sdCardExist) {
-                Environment.getExternalStorageDirectory().absolutePath
-            } else {
-                null
-            }
-
-        }
-
     /**
      * 转换文件大小
      *
@@ -73,12 +58,13 @@ object FileUtils {
      */
     @Suppress("MemberVisibilityCanBePrivate")
     fun getFileList(dir: File): Long {
-        var count: Long
-        val files = dir.listFiles()
+        var count: Long = 0
+        val files = dir.listFiles() ?: return count
         count = files.size.toLong()
-        for (file in files) {
-            if (file.isDirectory) {
-                count += getFileList(file)
+
+        files.forEach {
+            if (it.isDirectory) {
+                count += getFileList(it)
                 count--
             }
         }
@@ -133,9 +119,10 @@ object FileUtils {
             return filePath.delete()
         }
 
-        for (file in filePath.listFiles()) {
-            delete(file)
+        filePath.listFiles()?.forEach {
+            delete(it)
         }
+
         return true
     }
 
@@ -214,9 +201,7 @@ object FileUtils {
             LogUtils.e(TAG, "copy: oldPath or newPath is empty")
             return
         }
-        if (isChild(oldPathStr, newPathStr)) {
-            throw IllegalStateException("newPath must not oldPath child")
-        }
+        check(!isChild(oldPathStr, newPathStr)) { "newPath must not oldPath child" }
 
         val oldPath = File(oldPathStr)
         if (oldPath.isFile) {

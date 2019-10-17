@@ -21,12 +21,14 @@ package com.ishow.noah.modules.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.ishow.common.extensions.fullWindow
 import com.ishow.common.extensions.normalWindow
+import com.ishow.common.utils.StorageUtils
 import com.ishow.common.utils.ToastUtils
 import com.ishow.common.widget.BottomBar
 import com.ishow.noah.R

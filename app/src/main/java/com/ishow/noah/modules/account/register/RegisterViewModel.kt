@@ -46,7 +46,7 @@ class RegisterViewModel(application: Application) : AppBaseViewModel(application
             val accountModel = AccountModel()
             val result: AppHttpResponse<UserContainer> = requestResponse { accountModel.register(params) }
             if (result.isSuccess()) {
-                UserManager.instance.setUserContainer(context, result.data)
+                UserManager.instance.setUserContainer(result.data)
                 showSuccess()
             } else {
                 toast(result.message)

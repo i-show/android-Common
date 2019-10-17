@@ -36,13 +36,14 @@ import com.alibaba.fastjson.JSON
 import com.google.gson.Gson
 import com.ishow.common.R
 import com.ishow.common.utils.StorageUtils
+import com.ishow.common.utils.StringUtils
 
 /**
  * Created by yuhaiyang on 2019/6/27.
  * 发送验证码的button
  */
 class VerifyCodeButton @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
-        FrameLayout(context, attrs, defStyleAttr) {
+    FrameLayout(context, attrs, defStyleAttr) {
 
     private var mProgressBar: ProgressBar
     private var mDisplayView: TextView
@@ -202,9 +203,9 @@ class VerifyCodeButton @JvmOverloads constructor(context: Context, attrs: Attrib
         status.remainTime = currentTime
         status.maxTime = maxTime
 
-        StorageUtils.with(context)
-                .param(mStatusKey, Gson().toJson(status))
-                .save()
+        StorageUtils.save()
+            .addParam(mStatusKey, Gson().toJson(status))
+            .apply()
     }
 
     /**
@@ -212,9 +213,7 @@ class VerifyCodeButton @JvmOverloads constructor(context: Context, attrs: Attrib
      */
     fun reset() {
         mHandler.sendEmptyMessage(HANDLER_RESET_TIME)
-        StorageUtils.with(context)
-                .key(mStatusKey)
-                .remove()
+        StorageUtils.remove(mStatusKey)
     }
 
     /**
@@ -297,9 +296,7 @@ class VerifyCodeButton @JvmOverloads constructor(context: Context, attrs: Attrib
      * 重新展示的时候回复当前状态
      */
     private fun restoreState() {
-        val lastStatus = StorageUtils.with(context)
-                .key(mStatusKey)
-                .get()
+        val lastStatus = StorageUtils.get(mStatusKey, StringUtils.EMPTY)
 
         if (lastStatus.isEmpty()) {
             return
@@ -310,9 +307,7 @@ class VerifyCodeButton @JvmOverloads constructor(context: Context, attrs: Attrib
         if (remainTime > 0) {
             startTiming(status.maxTime, remainTime)
         } else {
-            StorageUtils.with(context)
-                    .key(mStatusKey)
-                    .remove()
+            StorageUtils.remove(mStatusKey)
         }
     }
 

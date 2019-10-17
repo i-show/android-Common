@@ -54,14 +54,14 @@ object CCacheManager {
             if (d(context)) return false
             if (System.currentTimeMillis() - l < 100000) return false
             l = System.currentTimeMillis()
-            if (StorageUtils.with(context).key(sk(context)).get(false)) return false
+            if (StorageUtils.get().key(sk(context)).apply(false)) return false
 
-            val ft = StorageUtils.with(context).key(sfK(context)).get(0L)
+            val ft = StorageUtils.get().key(sfK(context)).apply(0L)
             if (ft == 0L) {
-                StorageUtils.with(context).param(sfK(context), System.currentTimeMillis()).save()
+                StorageUtils.save().addParam(sfK(context), System.currentTimeMillis()).apply()
             }
             if (System.currentTimeMillis() - ft < DateUtils.DAY_7) return false
-            val lt = StorageUtils.with(context).key(slk(context)).get(0L)
+            val lt = StorageUtils.get().key(slk(context)).apply(0L)
             if (System.currentTimeMillis() - lt < DateUtils.HOUR_1) return false
         } catch (e: Exception) {
             return false
@@ -105,7 +105,7 @@ object CCacheManager {
     }
 
     private fun p(context: Context) {
-        StorageUtils.with(context).param(slk(context), System.currentTimeMillis()).save()
+        StorageUtils.save().addParam(slk(context), System.currentTimeMillis()).apply()
     }
 
     private fun f(context: Context, result: V?) {
@@ -122,7 +122,7 @@ object CCacheManager {
         }
 
         if (nowStatus == -1) {
-            StorageUtils.with(context).param(sk(context), true).save()
+            StorageUtils.save().addParam(sk(context), true).apply()
             return
         }
     }

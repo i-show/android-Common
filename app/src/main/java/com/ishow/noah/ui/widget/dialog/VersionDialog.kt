@@ -52,7 +52,7 @@ class VersionDialog(context: Context) : Dialog(context, R.style.Theme_Dialog_Tra
     }
 
     private fun init() {
-        val version = VersionManager.instance.getVersion(context)
+        val version = VersionManager.instance.getVersion()
         if (version == null) {
             Log.i(TAG, "init: version is null")
             dismiss()
@@ -93,7 +93,7 @@ class VersionDialog(context: Context) : Dialog(context, R.style.Theme_Dialog_Tra
                 dismiss()
             }
             R.id.submit -> {
-                val version = VersionManager.instance.getVersion(context)
+                val version = VersionManager.instance.getVersion()
                 IntentUtils.gotoBrowser(context, version?.downloadPath)
                 dismiss()
             }
@@ -105,23 +105,19 @@ class VersionDialog(context: Context) : Dialog(context, R.style.Theme_Dialog_Tra
      * 忽略当前版本
      */
     private fun ignoreVersion() {
-        StorageUtils.with(context)
-                .param(Version.Key.IGNORE_NOW, true)
-                .save()
+        StorageUtils.save(Version.Key.IGNORE_NOW, true)
 
         if (ignore.isChecked) {
             return
         }
 
-        val version = VersionManager.instance.getVersion(context)
+        val version = VersionManager.instance.getVersion()
         if (version == null) {
             Log.i(TAG, "init: version is null")
             return
         }
 
-        StorageUtils.with(context)
-                .param(Version.Key.IGNORE_VERSION, JSON.toJSONString(version))
-                .save()
+        StorageUtils.save(Version.Key.IGNORE_VERSION, JSON.toJSONString(version))
     }
 
     companion object {

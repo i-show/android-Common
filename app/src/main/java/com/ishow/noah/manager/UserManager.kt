@@ -17,15 +17,13 @@
 package com.ishow.noah.manager
 
 
-import android.content.Context
 import android.text.TextUtils
 import android.util.Log
 import com.alibaba.fastjson.JSON
 import com.google.gson.Gson
-import com.ishow.common.utils.RegexValidateUtils
+import com.ishow.common.extensions.toJson
 import com.ishow.common.utils.StorageUtils
 import com.ishow.common.utils.StringUtils
-import com.ishow.noah.R
 import com.ishow.noah.entries.UserContainer
 import com.ishow.noah.utils.http.okhttp.interceptor.AppHttpInterceptor
 
@@ -35,80 +33,55 @@ import com.ishow.noah.utils.http.okhttp.interceptor.AppHttpInterceptor
  */
 class UserManager private constructor() {
 
-    private var mUserContainer: UserContainer? = null
+    private var userContainer: UserContainer? = null
 
 
     /**
      * 设置UserContainer
      */
-    fun setUserContainer(context: Context, container: UserContainer?) {
+    fun setUserContainer(container: UserContainer?) {
+        userContainer = container
         AppHttpInterceptor.token = container?.token?.accessToken
-        mUserContainer = container
-
-        StorageUtils.with(context)
-            .param(UserContainer.Key.CACHE, JSON.toJSONString(container))
-            .save()
+        StorageUtils.save(UserContainer.Key.CACHE, container?.toJson())
     }
 
     /**
      * 获取用户信息
      */
-    fun getUserContainer(
-        context: Context?,
-        block: ((UserContainer) -> Unit)? = null
-    ): UserContainer? {
-        if (context == null) {
-            return mUserContainer
-        }
-
-        if (mUserContainer == null) {
-            val cache = StorageUtils.with(context)
-                .key(UserContainer.Key.CACHE)
-                .get(StringUtils.EMPTY)
+    fun getUserContainer(block: ((UserContainer) -> Unit)? = null): UserContainer? {
+        if (userContainer == null) {
+            val cache = StorageUtils.get(UserContainer.Key.CACHE, StringUtils.EMPTY)
 
             if (TextUtils.isEmpty(cache)) {
                 Log.i(TAG, "getUser: no user")
                 return null
             }
-            mUserContainer = Gson().fromJson(cache, UserContainer::class.java)
+            userContainer = Gson().fromJson(cache, UserContainer::class.java)
         }
 
-        if (mUserContainer != null) {
-            block?.let { it(mUserContainer!!) }
+        if (userContainer != null) {
+            block?.let { it(userContainer!!) }
         }
 
-        return mUserContainer
+        return userContainer
     }
 
 
     /**
      * 获取头像
      */
-    fun getAvatar(context: Context): String? {
-        if (mUserContainer == null) {
-            val cache = StorageUtils.with(context)
-                .key(UserContainer.Key.CACHE)
-                .get()
-
-            if (TextUtils.isEmpty(cache)) {
-                Log.i(TAG, "getUser: no user")
-                return null
-            }
-            mUserContainer = JSON.parseObject(cache, UserContainer::class.java)
-        }
-        return if (mUserContainer == null) {
-            StringUtils.EMPTY
-        } else mUserContainer!!.user?.avatar
+    fun getAvatar(): String? {
+        getUserContainer()
+        return userContainer?.user?.avatar
     }
 
 
     /**
      * 获取AccessToken
      */
-    fun getAccessToken(context: Context): String? {
-        val userContainer = getUserContainer(context) ?: return StringUtils.EMPTY
-        val token = userContainer.token ?: return StringUtils.EMPTY
-        return token.accessToken
+    fun getAccessToken(): String? {
+        getUserContainer()
+        return userContainer?.token?.accessToken
     }
 
     companion object {
@@ -121,16 +94,15 @@ class UserManager private constructor() {
         val instance: UserManager
             get() =
                 sInstance ?: synchronized(UserManager::class.java) {
-                    sInstance
-                        ?: UserManager().also { sInstance = it }
+                    sInstance ?: UserManager().also { sInstance = it }
                 }
 
         @JvmStatic
-        fun setAvatar(context: Context, avatar: String) {
+        fun setAvatar(avatar: String) {
             val manager = instance
-            manager.getUserContainer(context) {
+            manager.getUserContainer {
                 it.user?.avatar = avatar
-                manager.setUserContainer(context, it)
+                manager.setUserContainer(it)
             }
         }
     }

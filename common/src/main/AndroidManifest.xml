@@ -37,6 +37,12 @@
                 android:resource="@xml/file_provider_configure" />
         </provider>
 
+        <provider
+            android:name=".app.provider.InitCommonProvider"
+            android:authorities="${applicationId}.ishow.initprovider"
+            android:exported="false"
+            android:initOrder="999" />
+
         <!--选择图片的类-->
         <activity
             android:name=".modules.image.select.ImageSelectorActivity"

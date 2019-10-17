@@ -10,7 +10,7 @@ import kotlinx.coroutines.async
 
 class UserTask(val context: Context) : ITask {
     override fun startAsync() = GlobalScope.async {
-        val accessToken = UserManager.instance.getAccessToken(context)
+        val accessToken = UserManager.instance.getAccessToken()
         if (TextUtils.isEmpty(accessToken)) {
             status = Status.None
             return@async
@@ -19,7 +19,7 @@ class UserTask(val context: Context) : ITask {
         val result = AccountModel().loginByToken()
 
         status = if (result.isSuccess()) {
-            UserManager.instance.setUserContainer(context, result.data)
+            UserManager.instance.setUserContainer(result.data)
             Status.LoginSuccess
         } else {
             Status.LoginFailed

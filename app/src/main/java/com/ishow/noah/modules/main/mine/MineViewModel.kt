@@ -18,7 +18,7 @@ class MineViewModel(application: Application) : AppBaseViewModel(application) {
         get() = _userName
 
     fun resume() {
-        val userContainer = UserManager.instance.getUserContainer(context)
+        val userContainer = UserManager.instance.getUserContainer()
 
         if (userContainer == null) {
             _avatarUrl.value = null
@@ -29,6 +29,4 @@ class MineViewModel(application: Application) : AppBaseViewModel(application) {
         }
 
     }
-
-
 }

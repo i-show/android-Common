@@ -38,17 +38,15 @@ class VersionManager private constructor() {
     /**
      * 从服务器中获取到的版本信息
      */
-    private var mVersion: Version? = null
+    private var version: Version? = null
 
 
-    fun hasNewVersion(context: Context): Boolean {
+    fun hasNewVersion(): Boolean {
         SpanUtils.Builder()
-                .body("Hello")
-                .add(RelativeSizeSpan(1.0F), "111")
+            .body("Hello")
+            .add(RelativeSizeSpan(1.0F), "111")
 
-        val ignore = StorageUtils.with(context)
-                .key(Version.Key.IGNORE_NOW)
-                .get(false)
+        val ignore = StorageUtils.get(Version.Key.IGNORE_NOW, false)
 
         if (ignore) {
             Log.i(TAG, "hasNewVersion: already ignore")
@@ -56,38 +54,34 @@ class VersionManager private constructor() {
         }
 
         // 获取当前版本号
-        val version = getVersion(context)
+        val version = getVersion()
         if (version == null) {
             Log.i(TAG, "hasNewVersion: version is null")
             return false
         }
 
         // 如果当前要升级的版本 比忽略的版本还要低就不进行升级
-        val ignoreVersion = getIgnoreVersion(context)
+        val ignoreVersion = getIgnoreVersion()
         if (ignoreVersion != null && ignoreVersion.versionCode >= version.versionCode) {
             Log.i(TAG, "hasNewVersion: ignore this version")
             return false
         }
 
-        val versionCode = AppUtils.getVersionCode(context)
+        val versionCode = BuildConfig.VERSION_CODE
         return version.versionCode > versionCode
     }
 
-    fun getVersion(context: Context): Version? {
-        if (mVersion == null) {
-            val cache = StorageUtils.with(context)
-                    .key(Version.Key.CACHE)
-                    .get(StringUtils.EMPTY)
+    fun getVersion(): Version? {
+        if (version == null) {
+            val cache = StorageUtils.get(Version.Key.CACHE)
             makeVersion(cache)
         }
-        return mVersion
+        return version
     }
 
 
-    private fun getIgnoreVersion(context: Context): Version? {
-        val cache = StorageUtils.with(context)
-                .key(Version.Key.IGNORE_VERSION)
-                .get(StringUtils.EMPTY)
+    private fun getIgnoreVersion(): Version? {
+        val cache = StorageUtils.get(Version.Key.IGNORE_VERSION)
         return if (TextUtils.isEmpty(cache)) {
             null
         } else {
@@ -100,7 +94,7 @@ class VersionManager private constructor() {
             LogUtils.i(TAG, "makeVersion: version is empty")
             return
         }
-        mVersion = JSON.parseObject(versionJson, Version::class.java)
+        version = JSON.parseObject(versionJson, Version::class.java)
     }
 
     /**
@@ -133,7 +127,7 @@ class VersionManager private constructor() {
         if (!isFirstEnterThisVersion) {
             return
         }
-        CacheManager.instance!!.clearCache(context)
+        CacheManager.instance.clearCache(context)
     }
 
     companion object {
@@ -164,8 +158,8 @@ class VersionManager private constructor() {
             }
 
         fun init(context: SplashActivity) {
-            val manager:VersionManager = instance
-            clear(context.applicationContext)
+            val manager: VersionManager = instance
+            clear()
             isFirstEnterThisVersion = checkIsFirstEnterThisVersion(context.applicationContext)
             manager.getVersionFromServer(context.applicationContext)
             manager.cleanCache(context)
@@ -176,13 +170,8 @@ class VersionManager private constructor() {
          */
         private fun checkIsFirstEnterThisVersion(context: Context): Boolean {
             // 获取之前保存的版本信息
-            val versionCode = StorageUtils.with(context)
-                    .key(AppUtils.VERSION_CODE)
-                    .get(0L)
-
-            val versionName = StorageUtils.with(context)
-                    .key(AppUtils.VERSION_NAME)
-                    .get()
+            val versionCode = StorageUtils.get(AppUtils.VERSION_CODE, 0L)
+            val versionName = StorageUtils.get(AppUtils.VERSION_NAME)
 
             // 获取当前版本号
             val currentCode = AppUtils.getVersionCode(context)
@@ -191,13 +180,8 @@ class VersionManager private constructor() {
             Log.d(TAG, "originVersionName = $versionName ,localVersionName = $currentName")
 
             // 保存现在的版本号
-            StorageUtils.with(context)
-                    .param(AppUtils.VERSION_CODE, currentCode)
-                    .save()
-
-            StorageUtils.with(context)
-                    .param(AppUtils.VERSION_NAME, currentName)
-                    .save()
+            StorageUtils.save(AppUtils.VERSION_CODE, currentCode)
+            StorageUtils.save(AppUtils.VERSION_NAME, currentName)
 
             // 如果当前版本比保存的版本大，说明APP更新了
             // 版本名称不相等且版本code比上一个版本大 才进行走ViewPager
@@ -207,13 +191,9 @@ class VersionManager private constructor() {
         /**
          * 清除缓存
          */
-        private fun clear(context: Context) {
-            StorageUtils.with(context)
-                    .key(Version.Key.CACHE)
-                    .remove()
-            StorageUtils.with(context)
-                    .key(Version.Key.IGNORE_NOW)
-                    .remove()
+        private fun clear() {
+            StorageUtils.remove(Version.Key.CACHE)
+            StorageUtils.remove(Version.Key.IGNORE_NOW)
         }
     }
 }

@@ -34,25 +34,16 @@ class ConfigureManager private constructor() {
         private var sInstance: ConfigureManager? = null
 
         val instance: ConfigureManager
-            get() {
-
-                if (sInstance == null) {
-                    synchronized(ConfigureManager::class.java) {
-                        if (sInstance == null) {
-                            sInstance = ConfigureManager()
-                        }
-                    }
-                }
-
-                return sInstance!!
+            get() = sInstance ?: synchronized(ConfigureManager::class.java) {
+                sInstance ?: ConfigureManager().also { sInstance = it }
             }
-
 
         fun init() {
             WaterMarkHelp.show(BuildConfig.VERSION_TYPE != BuildConfig.VERSION_PROD)
             WaterMarkHelp.defaultText(BuildConfig.VERSION_DESCRIPTION)
         }
     }
+
 
 
 }

@@ -30,9 +30,7 @@ class LoginViewModel(application: Application) : AppBaseViewModel(application) {
 
     override fun init() {
         accountModel = AccountModel()
-        val account = StorageUtils.with(context)
-            .key(UserContainer.Key.ACCOUNT)
-            .get(StringUtils.EMPTY)
+        val account = StorageUtils.get(UserContainer.Key.ACCOUNT, StringUtils.EMPTY)
         _phoneNumber.value = account
 
         val min = context.getInteger(R.integer.min_password)
@@ -49,7 +47,7 @@ class LoginViewModel(application: Application) : AppBaseViewModel(application) {
         val result: AppHttpResponse<UserContainer> = requestResponse { accountModel.login(phone, password) }
         if (result.isSuccess()) {
             saveUserInfo(phone)
-            UserManager.instance.setUserContainer(context, result.data)
+            UserManager.instance.setUserContainer(result.data)
             showSuccess()
         } else {
             toast(result.message)
@@ -62,17 +60,13 @@ class LoginViewModel(application: Application) : AppBaseViewModel(application) {
     private fun clear() {
         AppHttpInterceptor.token = null
 
-        StorageUtils.with(context)
-            .key(UserContainer.Key.CACHE)
-            .remove()
+        StorageUtils.remove(UserContainer.Key.CACHE)
     }
 
     /**
      * 保存用户信息
      */
     private fun saveUserInfo(account: String) {
-        StorageUtils.with(context)
-            .param(UserContainer.Key.ACCOUNT, account)
-            .save()
+        StorageUtils.save(UserContainer.Key.ACCOUNT, account)
     }
 }

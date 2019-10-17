@@ -39,7 +39,7 @@ abstract class AppBaseActivity : BaseActivity() {
         // 百度统计
         StatService.onResume(this)
 
-        if (needShowUpdateVersionDialog() && VersionManager.instance.hasNewVersion(context)) {
+        if (needShowUpdateVersionDialog() && VersionManager.instance.hasNewVersion()) {
             showVersionDialog()
         }
     }

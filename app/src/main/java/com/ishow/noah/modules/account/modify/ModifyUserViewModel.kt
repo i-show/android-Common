@@ -16,14 +16,14 @@ class ModifyUserViewModel(application: Application) : AppBaseViewModel(applicati
 
 
     override fun init() {
-        _avatarPath.value = UserManager.instance.getAvatar(context)
+        _avatarPath.value = UserManager.instance.getAvatar()
     }
 
     fun uploadAvatar(path: String) = GlobalScope.launch {
         val accountModel = AccountModel()
         val result = request { accountModel.uploadAvatar(path) }
         result?.let {
-            UserManager.setAvatar(context, it)
+            UserManager.setAvatar(it)
             mainThread { _avatarPath.value = it }
         }
     }

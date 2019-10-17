@@ -12,12 +12,6 @@ object Url {
     private val baseUrl: String
         get() = "http://192.168.202.134:8080"
 
-    /**
-     * 登录
-     */
-    fun login(): String {
-        return StringUtils.plusString(baseUrl, "/account/login")
-    }
 
     /**
      * 登录

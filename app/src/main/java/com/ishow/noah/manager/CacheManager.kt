@@ -23,18 +23,9 @@ class CacheManager private constructor() {
         @Volatile
         private var sInstance: CacheManager? = null
 
-        val instance: CacheManager?
-            get() {
-
-                if (sInstance == null) {
-                    synchronized(CacheManager::class.java) {
-                        if (sInstance == null) {
-                            sInstance = CacheManager()
-                        }
-                    }
-                }
-
-                return sInstance
+        val instance: CacheManager
+            get() = sInstance ?: synchronized(CacheManager::class.java) {
+                sInstance ?: CacheManager().also { sInstance = it }
             }
     }
 }
