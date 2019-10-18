@@ -36,7 +36,7 @@ class SplashViewModel(app: Application) : AppBaseViewModel(app) {
 
     fun init(activity: SplashActivity) {
         ConfigureManager.init()
-        VersionManager.init(activity)
+        VersionManager.init()
         val taskManager = TaskManager.instance
             .clear()
             .addTask(MinTimeTask())

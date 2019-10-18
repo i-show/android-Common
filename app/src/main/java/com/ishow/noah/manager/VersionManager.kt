@@ -100,8 +100,7 @@ class VersionManager private constructor() {
     /**
      * 获取版本信息
      */
-    @Suppress("UNUSED_PARAMETER")
-    private fun getVersionFromServer(context: Context) {
+    private fun getVersionFromServer() {
         val version = Version()
         version.versionCode = BuildConfig.VERSION_CODE
         version.versionName = BuildConfig.VERSION_NAME
@@ -123,11 +122,11 @@ class VersionManager private constructor() {
          */
     }
 
-    private fun cleanCache(context: Context) {
+    private fun cleanCache() {
         if (!isFirstEnterThisVersion) {
             return
         }
-        CacheManager.instance.clearCache(context)
+        CacheManager.instance.clearCache()
     }
 
     companion object {
@@ -157,27 +156,25 @@ class VersionManager private constructor() {
                 return sInstance!!
             }
 
-        fun init(context: SplashActivity) {
+        fun init() {
             val manager: VersionManager = instance
             clear()
-            isFirstEnterThisVersion = checkIsFirstEnterThisVersion(context.applicationContext)
-            manager.getVersionFromServer(context.applicationContext)
-            manager.cleanCache(context)
+            isFirstEnterThisVersion = checkIsFirstEnterThisVersion()
+            manager.getVersionFromServer()
+            manager.cleanCache()
         }
 
         /**
          * 检测是否是第一次登录这个版本
          */
-        private fun checkIsFirstEnterThisVersion(context: Context): Boolean {
+        private fun checkIsFirstEnterThisVersion(): Boolean {
             // 获取之前保存的版本信息
             val versionCode = StorageUtils.get(AppUtils.VERSION_CODE, 0L)
             val versionName = StorageUtils.get(AppUtils.VERSION_NAME)
 
             // 获取当前版本号
-            val currentCode = AppUtils.getVersionCode(context)
-            val currentName = AppUtils.getVersionName(context)
-            Log.d(TAG, "originVersion = $versionCode ,localVersion = $currentCode")
-            Log.d(TAG, "originVersionName = $versionName ,localVersionName = $currentName")
+            val currentCode = BuildConfig.VERSION_CODE
+            val currentName = BuildConfig.VERSION_NAME
 
             // 保存现在的版本号
             StorageUtils.save(AppUtils.VERSION_CODE, currentCode)

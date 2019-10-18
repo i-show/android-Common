@@ -10,8 +10,7 @@ import java.lang.ref.WeakReference
  */
 class CacheManager private constructor() {
 
-    @Suppress("UNUSED_PARAMETER")
-    fun clearCache(context: Context) {
+    fun clearCache() {
         // TODO
     }
 
