@@ -1,6 +1,5 @@
 package com.ishow.common.utils
 
-import android.os.Environment
 import android.text.TextUtils
 import android.util.Log
 import com.ishow.common.utils.log.LogUtils

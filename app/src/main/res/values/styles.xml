@@ -6,7 +6,7 @@
 
     <style name="AppEditText.Login">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/girdle_min_h</item>
+        <item name="android:layout_height">@dimen/dp_50</item>
         <item name="android:textColor">@color/text_grey</item>
         <item name="android:textSize">@dimen/H_title</item>
         <item name="android:textColorHint">@color/text_grey_hint</item>
