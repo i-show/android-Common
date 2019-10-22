@@ -3,6 +3,7 @@
 package com.ishow.bluetoothcommon.manager
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.bluetooth.*
 import android.bluetooth.le.ScanCallback
@@ -17,7 +18,6 @@ import android.location.LocationManager
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import com.ishow.bluetoothcommon.compat.ScanCallbackCompat
 import com.ishow.common.utils.log.LogUtils
 import com.ishow.common.utils.permission.PermissionManager
 import java.util.*
@@ -121,6 +121,7 @@ class BLEManager private constructor() {
         }
     }
 
+    @SuppressLint("MissingPermission")
     @Suppress("MemberVisibilityCanBePrivate")
     fun startScan(callback: ScanCallback, filter: List<ScanFilter>, settings: ScanSettings? = null) {
         val adapter = BluetoothAdapter.getDefaultAdapter()
@@ -131,6 +132,7 @@ class BLEManager private constructor() {
         }
     }
 
+    @SuppressLint("MissingPermission")
     fun stopScan(callback: ScanCallback) {
         val adapter = BluetoothAdapter.getDefaultAdapter()
         adapter.bluetoothLeScanner.stopScan(callback)
