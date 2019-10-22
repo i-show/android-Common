@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.ishow.bluetoothcommon.manager
+package com.ishow.common.manager
 
 import android.Manifest
 import android.annotation.SuppressLint
