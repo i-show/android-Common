@@ -33,6 +33,7 @@ object StorageUtils {
     @JvmStatic
     fun save() = SaveExecutor(app.applicationContext)
 
+    @JvmStatic
     fun save(key: String, value: Any?) {
         if (value == null) {
             remove(key)
