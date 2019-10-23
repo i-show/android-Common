@@ -3,6 +3,7 @@ package com.ishow.noah.modules.init.splash
 import android.Manifest
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.baidu.mobstat.StatService
@@ -17,6 +18,7 @@ import com.ishow.noah.modules.init.splash.task.UserTask
 import com.ishow.noah.modules.main.MainActivity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+
 
 class SplashViewModel(app: Application) : AppBaseViewModel(app) {
 
@@ -37,6 +39,7 @@ class SplashViewModel(app: Application) : AppBaseViewModel(app) {
     fun init(activity: SplashActivity) {
         ConfigureManager.init()
         VersionManager.init()
+
         val taskManager = TaskManager.instance
             .clear()
             .addTask(MinTimeTask())

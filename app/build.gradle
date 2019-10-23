@@ -69,9 +69,8 @@ android {
         debug {
             debuggable true
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-            versionNameSuffix DEV_VERSION_NAME
 
             applicationIdSuffix DEV_APPLICATION_ID_SUFFIX
             // AndroidManifest 中配置的文件
@@ -95,9 +94,8 @@ android {
         sit {
             debuggable false
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-            versionNameSuffix SIT_VERSION_NAME
 
             applicationIdSuffix SIT_APPLICATION_ID_SUFFIX
             // AndroidManifest 中配置的文件
@@ -123,9 +121,8 @@ android {
         uat {
             debuggable false
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-            versionNameSuffix UAT_VERSION_NAME
 
             applicationIdSuffix UAT_APPLICATION_ID_SUFFIX
             // AndroidManifest 中配置的文件
@@ -150,9 +147,10 @@ android {
         release {
             debuggable false
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            shrinkResources true
+
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-            versionNameSuffix PROD_VERSION_NAME
 
             applicationIdSuffix PROD_APPLICATION_ID_SUFFIX
 
@@ -216,7 +214,6 @@ dependencies {
 
     //  百度统计
     implementation 'com.baidu.mobstat:mtj-sdk:3.8.0.6'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
     kapt "com.android.databinding:compiler:3.1.4"
 }
 

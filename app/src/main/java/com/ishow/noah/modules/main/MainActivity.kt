@@ -21,14 +21,12 @@ package com.ishow.noah.modules.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.ishow.common.extensions.fullWindow
 import com.ishow.common.extensions.normalWindow
-import com.ishow.common.utils.StorageUtils
 import com.ishow.common.utils.ToastUtils
 import com.ishow.common.widget.BottomBar
 import com.ishow.noah.R
@@ -41,13 +39,13 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
 
-    private var mBeforeFragment: Fragment? = null
-    private var mTab1Fragment: HomeFragment? = null
-    private var mTab2Fragment: Tab2Fragment? = null
-    private var mTab3Fragment: Tab3Fragment? = null
-    private var mTab4Fragment: MineFragment? = null
+    private var beforeFragment: Fragment? = null
+    private var tab1Fragment: HomeFragment? = null
+    private var tab2Fragment: Tab2Fragment? = null
+    private var tab3Fragment: Tab3Fragment? = null
+    private var tab4Fragment: MineFragment? = null
 
-    private var mLastTime: Long = 0
+    private var lastTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,10 +69,10 @@ class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
 
     override fun onBackPressed() {
         val nowTime = System.currentTimeMillis()
-        if (nowTime - mLastTime < 2000) {
+        if (nowTime - lastTime < 2000) {
             super.onBackPressed()
         } else {
-            mLastTime = nowTime
+            lastTime = nowTime
             ToastUtils.show(this, R.string.click_again_to_exit)
         }
     }
@@ -88,32 +86,32 @@ class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
     fun selectFragment(selectId: Int) {
         when (selectId) {
             R.id.tab_1 -> {
-                if (mTab1Fragment == null) {
-                    mTab1Fragment = HomeFragment.newInstance()
+                if (tab1Fragment == null) {
+                    tab1Fragment = HomeFragment.newInstance()
                 }
-                replaceFragment(mTab1Fragment, mBeforeFragment)
+                replaceFragment(tab1Fragment, beforeFragment)
                 normalWindow()
             }
             R.id.tab_2 -> {
-                if (mTab2Fragment == null) {
-                    mTab2Fragment = Tab2Fragment.newInstance()
+                if (tab2Fragment == null) {
+                    tab2Fragment = Tab2Fragment.newInstance()
                 }
 
-                replaceFragment(mTab2Fragment, mBeforeFragment)
+                replaceFragment(tab2Fragment, beforeFragment)
                 fullWindow(true)
             }
             R.id.tab_3 -> {
-                if (mTab3Fragment == null) {
-                    mTab3Fragment = Tab3Fragment.newInstance()
+                if (tab3Fragment == null) {
+                    tab3Fragment = Tab3Fragment.newInstance()
                 }
-                replaceFragment(mTab3Fragment, mBeforeFragment)
+                replaceFragment(tab3Fragment, beforeFragment)
                 fullWindow()
             }
             R.id.tab_4 -> {
-                if (mTab4Fragment == null) {
-                    mTab4Fragment = MineFragment.newInstance()
+                if (tab4Fragment == null) {
+                    tab4Fragment = MineFragment.newInstance()
                 }
-                replaceFragment(mTab4Fragment, mBeforeFragment)
+                replaceFragment(tab4Fragment, beforeFragment)
                 normalWindow()
             }
         }
@@ -141,7 +139,7 @@ class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
             transaction.add(R.id.fragmentContainer, showFragment)
         }
         transaction.commit()
-        mBeforeFragment = showFragment
+        beforeFragment = showFragment
     }
 
 

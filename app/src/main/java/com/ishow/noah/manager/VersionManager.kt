@@ -169,7 +169,7 @@ class VersionManager private constructor() {
          */
         private fun checkIsFirstEnterThisVersion(): Boolean {
             // 获取之前保存的版本信息
-            val versionCode = StorageUtils.get(AppUtils.VERSION_CODE, 0L)
+            val versionCode = StorageUtils.get(AppUtils.VERSION_CODE, 0)
             val versionName = StorageUtils.get(AppUtils.VERSION_NAME)
 
             // 获取当前版本号
