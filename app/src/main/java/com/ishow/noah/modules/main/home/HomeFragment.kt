@@ -42,21 +42,7 @@ class HomeFragment : AppBaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         topBar.setOnTopBarListener(this)
-
-        val adapter = BindAdapter<String>(context!!)
-        adapter.addLayout(BR.item, R.layout.test_item)
-        adapter.setOnItemClickListener { ToastUtils.show(context, "it = $it") }
-        recyclerView.adapter = adapter
-
-        val dataList = ArrayList<String>()
-        dataList.add("张三")
-        dataList.add("李四")
-        dataList.add("王五")
-        adapter.data = dataList
-
-        test.text =
-            Build.MANUFACTURER + " \n " + Build.VERSION.SDK_INT + " \n " + Build.MODEL + " \n " + Build.DISPLAY + " \n" + Build.PRODUCT
-    }
+   }
 
 
     override fun onRightClick(v: View) {

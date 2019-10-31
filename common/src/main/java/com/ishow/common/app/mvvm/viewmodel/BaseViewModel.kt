@@ -3,10 +3,9 @@ package com.ishow.common.app.mvvm.viewmodel
 import android.app.Application
 import android.content.Context
 import android.os.Looper
+import android.util.Log
 import androidx.annotation.StringRes
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
 import com.ishow.common.entries.status.Empty
 import com.ishow.common.entries.status.Error
 import com.ishow.common.entries.status.Loading
@@ -17,7 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-abstract class BaseViewModel(application: Application) : AndroidViewModel(application) {
+abstract class BaseViewModel(application: Application) : AndroidViewModel(application), LifecycleObserver {
 
     /**
      * 注意这里用的是ApplicationContext
@@ -60,12 +59,34 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
      */
     open fun init() {}
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    protected fun onCreate() {
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    protected fun onResume() {
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    protected fun onStart() {
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    protected fun onPause() {
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    protected fun onStop() {
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    protected fun onDestroy() {
+    }
+
     /**
      * 重试
      */
-    open fun retryRequest() {
-
-    }
+    open fun retryRequest() {}
 
     /**
      * 显示加载动画

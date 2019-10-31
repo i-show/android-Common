@@ -80,7 +80,7 @@ abstract class BindFragment<T : ViewDataBinding, VM : BaseViewModel> : BaseFragm
     }
 
     protected open fun initViewModel(vm: VM) {
-        val fragment = this@BindFragment
+        val fragment = viewLifecycleOwner
         // dataBinding 设置vm参数
         ReflectionUtils.invokeMethod(dataBinding, "setVm", vm, viewModelClass)
 

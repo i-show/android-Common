@@ -1,5 +1,6 @@
 package com.ishow.common.app.mvvm.view
 
+import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -73,6 +74,7 @@ abstract class BindActivity<T : ViewDataBinding, VM : BaseViewModel> : BaseActiv
         // dataBinding 设置vm参数
         ReflectionUtils.invokeMethod(dataBinding, "setVm", vm, viewModelClass)
 
+        lifecycle.addObserver(vm)
         vm.loadingStatus.observe(activity, Observer { changeLoadingStatus(it) })
         vm.errorStatus.observe(activity, Observer { changeErrorStatus(it) })
         vm.successStatus.observe(activity, Observer { changeSuccessStatus(it) })
@@ -80,6 +82,10 @@ abstract class BindActivity<T : ViewDataBinding, VM : BaseViewModel> : BaseActiv
         vm.toastMessage.observe(activity, Observer { showToast(it) })
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel?.let { lifecycle.removeObserver(it) }
+    }
 
     /**
      * 改变LoadingDialog的状态
