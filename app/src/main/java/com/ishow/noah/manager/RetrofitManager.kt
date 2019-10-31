@@ -3,19 +3,14 @@ package com.ishow.noah.manager
 import com.ishow.common.utils.http.okhttp.interceptor.OkHttpLogInterceptor
 import com.ishow.noah.data.retrofit.AppRestService
 import com.ishow.noah.utils.http.okhttp.interceptor.AppHttpInterceptor
-import com.ishow.common.utils.http.retrofit.adapter.CallAdapterFactory
 import com.ishow.noah.utils.http.retrofit.adapter.AppCallAdapterFactory
 import com.ishow.noah.utils.http.retrofit.convert.AppConverterFactory
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 
 class RetrofitManager private constructor() {
 
     val appService: AppRestService by lazy {
-
-        val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.level = HttpLoggingInterceptor.Level.BASIC
 
         val okBuilder = OkHttpClient.Builder()
             .retryOnConnectionFailure(true)

@@ -6,6 +6,7 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.net.Uri
 import android.util.Log
+import com.facebook.drawee.backends.pipeline.Fresco
 import com.ishow.common.manager.AppStatusManager
 import com.ishow.common.utils.StorageUtils
 
@@ -20,6 +21,7 @@ class InitCommonProvider : ContentProvider() {
         if (context is Application) {
             AppStatusManager.instance.registerListener(context)
             StorageUtils.init(context)
+            Fresco.initialize(context)
         } else {
             Log.i("yhy", "InitCommonProvider not application")
         }

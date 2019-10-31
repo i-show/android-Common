@@ -9,7 +9,6 @@ import com.ishow.noah.databinding.FragmentMineBinding
 import com.ishow.noah.entries.UserContainer
 import com.ishow.noah.modules.account.modify.ModifyUserActivity
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
-import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
 import com.ishow.noah.modules.settings.SettingsActivity
 import kotlinx.android.synthetic.main.fragment_mine.*
 

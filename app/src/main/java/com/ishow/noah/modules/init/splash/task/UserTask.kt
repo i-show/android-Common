@@ -1,6 +1,5 @@
 package com.ishow.noah.modules.init.splash.task
 
-import android.content.Context
 import android.text.TextUtils
 import com.ishow.noah.manager.UserManager
 import com.ishow.noah.modules.account.common.AccountModel
@@ -8,7 +7,7 @@ import com.ishow.noah.utils.http.okhttp.interceptor.AppHttpInterceptor
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 
-class UserTask(val context: Context) : ITask {
+class UserTask : ITask {
     override fun startAsync() = GlobalScope.async {
         val accessToken = UserManager.instance.getAccessToken()
         if (TextUtils.isEmpty(accessToken)) {

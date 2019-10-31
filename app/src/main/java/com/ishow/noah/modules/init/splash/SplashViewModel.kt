@@ -36,18 +36,19 @@ class SplashViewModel(app: Application) : AppBaseViewModel(app) {
         checkPermission(activity)
     }
 
-    fun init(activity: SplashActivity) {
+
+    fun start() {
         ConfigureManager.init()
         VersionManager.init()
 
         val taskManager = TaskManager.instance
             .clear()
             .addTask(MinTimeTask())
-            .addTask(UserTask(activity))
+            .addTask(UserTask())
 
         GlobalScope.launch {
             taskManager.startAsync().await()
-            gotoTarget(activity)
+            showSuccess()
         }
     }
 
@@ -64,14 +65,6 @@ class SplashViewModel(app: Application) : AppBaseViewModel(app) {
                 .requestCode(REQUEST_PERMISSION_CODE)
                 .send()
         }
-    }
-
-
-    private fun gotoTarget(context: Context) {
-        AppRouter.with(context)
-            .target(MainActivity::class.java)
-            .finishSelf()
-            .start()
     }
 
     companion object {

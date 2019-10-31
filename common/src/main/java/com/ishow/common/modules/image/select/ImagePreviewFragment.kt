@@ -69,7 +69,7 @@ class ImagePreviewFragment : BindFragment<FragmentImagePreviewCommonBinding, Bas
     }
 
     fun onBack() {
-        fragmentManager?.popBackStack()
+        parentFragmentManager.popBackStack()
     }
 
     override fun onDestroyView() {

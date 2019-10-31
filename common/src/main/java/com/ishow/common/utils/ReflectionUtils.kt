@@ -368,7 +368,7 @@ object ReflectionUtils {
      * @param index 元素在数组中的位置
      * @return 数组中的这个元素
      */
-    fun getObjectInArray(array: Any, index: Int): Any {
+    fun getObjectInArray(array: Any, index: Int): Any? {
         return java.lang.reflect.Array.get(array, index)
     }
 
