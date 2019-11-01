@@ -71,7 +71,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-
+            
             applicationIdSuffix DEV_APPLICATION_ID_SUFFIX
             // AndroidManifest 中配置的文件
             manifestPlaceholders = [

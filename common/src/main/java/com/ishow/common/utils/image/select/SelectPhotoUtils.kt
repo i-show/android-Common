@@ -431,10 +431,10 @@ class SelectPhotoUtils(private val activity: Activity, @param:SelectMode private
     /**
      * 提示已经选了多少图片
      */
-    private fun notifySelectPhoto(singlePath: String) {
-        val multiPath = ArrayList<String>()
-        multiPath.add(singlePath)
-        notifySelectPhoto(multiPath, singlePath)
+    private fun notifySelectPhoto(singlePath: String?) {
+        singlePath?.let {
+            notifySelectPhoto(mutableListOf(it), singlePath)
+        }
     }
 
     /**

@@ -26,7 +26,7 @@ android {
         minSdkVersion MIN_SDK_VERSION as int
         targetSdkVersion TARGET_SDK_VERSION as int
 
-        buildConfigField "String", "VERSION", "\"${PROD_VERSION_NAME}\""
+        buildConfigField "String", "VERSION", "\"${VERSION_NAME}\""
         buildConfigField "String", "ARTIFACT_ID", "\"${COMMON_ARTIFACT_ID}\""
     }
 
@@ -69,10 +69,12 @@ dependencies {
     api "androidx.core:core-ktx:1.1.0"
     api "androidx.lifecycle:lifecycle-extensions:2.2.0-rc01"
     api 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0'
+    api 'androidx.lifecycle:lifecycle-livedata-ktx:2.1.0'
     api "androidx.recyclerview:recyclerview:1.0.0"
     api "androidx.viewpager:viewpager:1.0.0"
     api "androidx.viewpager2:viewpager2:1.0.0-rc01"
     api "androidx.palette:palette:1.0.0"
+    api "androidx.work:work-runtime-ktx:2.2.0"
 
     api "com.google.android.material:material:1.0.0"
 

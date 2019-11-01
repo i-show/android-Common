@@ -88,11 +88,11 @@ object DataCleanUtils {
      * 删除方法 这里只会删除某个文件夹下的文件，如果传入的directory是个文件，将不做处理 * * @param directory
      */
     private fun deleteFilesByDirectory(directory: File?) {
-        if (directory != null && directory.exists() && directory.isDirectory) {
-            for (item in directory.listFiles()) {
-                item.delete()
-            }
+        if (directory == null || !directory.exists()) {
+            return
         }
+
+        directory.listFiles()?.forEach { it.delete() }
     }
 
     /**
@@ -143,21 +143,17 @@ object DataCleanUtils {
     fun getFolderSize(file: File): Long {
         var size: Long = 0
         try {
-            val fileList = file.listFiles()
-            for (child in fileList) {
-                size += if (child.isDirectory) {
-                    getFolderSize(child)
+            file.listFiles()?.forEach {
+                size += if (it.isDirectory) {
+                    getFolderSize(it)
                 } else {
-                    child.length()
+                    it.length()
                 }
             }
-
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
         return size
     }
-
 
 }

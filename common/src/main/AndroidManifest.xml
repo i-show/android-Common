@@ -41,7 +41,7 @@
             android:name=".app.provider.InitCommonProvider"
             android:authorities="${applicationId}.ishow.initprovider"
             android:exported="false"
-            android:initOrder="999" />
+            android:initOrder="800" />
 
         <!--选择图片的类-->
         <activity

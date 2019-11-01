@@ -7,7 +7,7 @@ import android.database.Cursor
 import android.net.Uri
 import android.util.Log
 import com.facebook.drawee.backends.pipeline.Fresco
-import com.ishow.common.manager.AppStatusManager
+import com.ishow.common.manager.LogManager
 import com.ishow.common.utils.StorageUtils
 
 /**
@@ -18,10 +18,11 @@ class InitCommonProvider : ContentProvider() {
 
     override fun onCreate(): Boolean {
         val context = context
+
         if (context is Application) {
-            AppStatusManager.instance.registerListener(context)
             StorageUtils.init(context)
             Fresco.initialize(context)
+            LogManager.init(context)
         } else {
             Log.i("yhy", "InitCommonProvider not application")
         }

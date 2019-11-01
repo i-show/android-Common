@@ -264,7 +264,7 @@ fun Context.appName(): String? {
 fun Context.versionName(): String {
     return try {
         packageManager.getPackageInfo(packageName, PackageManager.GET_META_DATA).versionName
-    } catch (e: PackageManager.NameNotFoundException) {
+    } catch (e: Exception) {
         e.printStackTrace()
         StringUtils.EMPTY
     }

@@ -32,7 +32,6 @@ import com.ishow.common.entries.status.Loading
 import com.ishow.common.entries.status.Success
 import com.ishow.common.extensions.dialog
 import com.ishow.common.extensions.toast
-import com.ishow.common.manager.CCacheManager
 import com.ishow.common.utils.DeviceUtils
 import com.ishow.common.utils.permission.PermissionManager
 import com.ishow.common.widget.StatusView
@@ -242,11 +241,6 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
                 }
             }
         }
-    }
-
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        CCacheManager.cache(this)
     }
 
     override fun showSuccess() {

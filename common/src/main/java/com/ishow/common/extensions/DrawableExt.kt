@@ -29,7 +29,7 @@ fun Drawable.toBitmap(): Bitmap {
     val w = intrinsicWidth
     val h = intrinsicHeight
 
-    val config = if (opacity != PixelFormat.OPAQUE) Bitmap.Config.ARGB_8888 else Bitmap.Config.RGB_565
+    val config = Bitmap.Config.ARGB_8888
     val bitmap = Bitmap.createBitmap(w, h, config)
     val canvas = Canvas(bitmap)
     setBounds(0, 0, w, h)

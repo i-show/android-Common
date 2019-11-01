@@ -19,9 +19,8 @@
 
 package com.ishow.noah.modules.sample.detail.log
 
-import android.os.Bundle
 import android.view.View
-import com.ishow.common.manager.CCacheManager
+import com.ishow.common.modules.log.InitLogWorker
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSampleLogBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
@@ -43,7 +42,10 @@ class SampleLogFragment : AppBindFragment<FragmentSampleLogBinding, AppBaseViewM
     }
 
     private fun requestLog() {
-        CCacheManager.cache(context)
+        context?.let {
+            InitLogWorker().work(it)
+        }
+
     }
 
 }

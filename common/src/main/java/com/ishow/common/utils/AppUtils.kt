@@ -100,7 +100,7 @@ object AppUtils {
     fun getVersionName(context: Context, packageName: String): String {
         return try {
             context.packageManager.getPackageInfo(packageName, PackageManager.GET_META_DATA).versionName
-        } catch (e: PackageManager.NameNotFoundException) {
+        } catch (e: Exception) {
             e.printStackTrace()
             StringUtils.EMPTY
         }
@@ -115,7 +115,7 @@ object AppUtils {
             val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
             val labelRes = packageInfo.applicationInfo.labelRes
             return context.getString(labelRes)
-        } catch (e: PackageManager.NameNotFoundException) {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
         return null

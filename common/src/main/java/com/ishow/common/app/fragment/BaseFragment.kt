@@ -73,6 +73,10 @@ abstract class BaseFragment : Fragment(), StatusView.OnStatusViewListener, IView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val topBar: TopBar? = view.findViewById(R.id.topBar)
+        topBar?.setOnTopBarListener(this)
+
         this.rootStatusView = attachStatusView()
         val statusView: View? = view.findViewById(R.id.statusView)
         if (statusView is StatusView) {

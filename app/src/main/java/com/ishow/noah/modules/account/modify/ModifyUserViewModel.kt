@@ -3,6 +3,7 @@ package com.ishow.noah.modules.account.modify
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.ishow.common.extensions.mainThread
 import com.ishow.noah.manager.UserManager
 import com.ishow.noah.modules.account.common.AccountModel
 import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel

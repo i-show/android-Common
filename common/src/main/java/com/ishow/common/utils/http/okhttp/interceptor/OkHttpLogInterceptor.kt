@@ -10,6 +10,8 @@ import java.util.concurrent.TimeUnit
 
 class OkHttpLogInterceptor @JvmOverloads constructor(var level: Level = Level.Body) : Interceptor {
 
+    var logTag = LOG_TAG
+
     override fun intercept(chain: Interceptor.Chain): Response {
         val level = this.level
         val request: Request = chain.request()
@@ -20,7 +22,7 @@ class OkHttpLogInterceptor @JvmOverloads constructor(var level: Level = Level.Bo
 
         val connection = chain.connection()
         val requestId = genRequestId()
-        LogUtils.i(LOG_TAG, "**************** $requestId ****************")
+        LogUtils.i(logTag, "**************** $requestId ****************")
         logRequest(requestId, request, connection)
 
         val startNs = System.nanoTime()
@@ -28,7 +30,7 @@ class OkHttpLogInterceptor @JvmOverloads constructor(var level: Level = Level.Bo
         try {
             response = chain.proceed(request)
         } catch (e: Exception) {
-            LogUtils.i(LOG_TAG, "$requestId FAILED: $e")
+            LogUtils.i(logTag, "$requestId FAILED: $e")
             throw e
         }
 
@@ -50,7 +52,7 @@ class OkHttpLogInterceptor @JvmOverloads constructor(var level: Level = Level.Bo
         if (requestBody != null) {
             requestLog += " (${requestBody.contentLength()}byte)"
         }
-        LogUtils.i(LOG_TAG, requestLog)
+        LogUtils.i(logTag, requestLog)
 
         if (logRequestHeader) {
             logRequestHeaders(requestId, request)
@@ -68,9 +70,9 @@ class OkHttpLogInterceptor @JvmOverloads constructor(var level: Level = Level.Bo
         contentType?.let { charset = it.charset(UTF8) }
 
         if (isPlaintext(buffer)) {
-            LogUtils.i(LOG_TAG, "$requestId PARAMS: ${buffer.readString(charset!!)}")
+            LogUtils.i(logTag, "$requestId PARAMS: ${buffer.readString(charset!!)}")
         } else {
-            LogUtils.i(LOG_TAG, "$requestId PARAMS: $contentType  (${requestBody.contentLength()}byte)")
+            LogUtils.i(logTag, "$requestId PARAMS: $contentType  (${requestBody.contentLength()}byte)")
         }
     }
 
@@ -96,7 +98,7 @@ class OkHttpLogInterceptor @JvmOverloads constructor(var level: Level = Level.Bo
             if (checkHeaderName(name)) {
                 val log = "$name: ${headers.value(i)} $HEADER_SPACER"
                 if (logHeader.length + log.length > MAX_LENGTH) {
-                    LogUtils.i(LOG_TAG, logHeader)
+                    LogUtils.i(logTag, logHeader)
                     logHeader = logHeaderPrefix + log
                 } else {
                     logHeader += log
@@ -104,13 +106,13 @@ class OkHttpLogInterceptor @JvmOverloads constructor(var level: Level = Level.Bo
             }
         }
 
-        LogUtils.i(LOG_TAG, logHeader)
+        LogUtils.i(logTag, logHeader)
     }
 
     private fun logResponse(requestId: String, response: Response, tookMs: Long) {
         val responseBody = response.body()
         if (responseBody == null) {
-            LogUtils.i(LOG_TAG, "$requestId No data")
+            LogUtils.i(logTag, "$requestId No data")
             return
         }
 
@@ -123,19 +125,19 @@ class OkHttpLogInterceptor @JvmOverloads constructor(var level: Level = Level.Bo
         val logMessage = if (message.isNullOrBlank()) "" else ", message: $message"
         val logBodySize = if (contentLength != -1L) " size: $contentLength byte" else " size: unknown"
         val logResponseInfo = "$requestId INFO: code: ${response.code()}$logMessage, time: ${tookMs}ms,$logBodySize"
-        LogUtils.i(LOG_TAG, logResponseInfo)
+        LogUtils.i(logTag, logResponseInfo)
 
         if (logHeaders) {
             logResponseHeader(requestId, headers)
         }
 
         if (!logBody || !HttpHeaders.hasBody(response)) {
-            LogUtils.i(LOG_TAG, "$requestId END")
+            LogUtils.i(logTag, "$requestId END")
             return
         }
 
         if (bodyHasUnknownEncoding(headers)) {
-            LogUtils.i(LOG_TAG, "$requestId END (encoded body omitted)\"")
+            LogUtils.i(logTag, "$requestId END (encoded body omitted)\"")
             return
         }
 
@@ -150,13 +152,13 @@ class OkHttpLogInterceptor @JvmOverloads constructor(var level: Level = Level.Bo
         }
 
         if (!isPlaintext(buffer)) {
-            LogUtils.i(LOG_TAG, "$requestId RESULT ${buffer.size()} byte body omitted")
+            LogUtils.i(logTag, "$requestId RESULT ${buffer.size()} byte body omitted")
             return
         }
 
         if (contentLength != 0L) {
             val result = buffer.clone().readString(charset!!)
-            LogUtils.i(LOG_TAG, "$requestId RESULT: $result ")
+            LogUtils.i(logTag, "$requestId RESULT: $result ")
         }
 
     }
@@ -172,13 +174,13 @@ class OkHttpLogInterceptor @JvmOverloads constructor(var level: Level = Level.Bo
             val name = headers.name(i)
             val log = "$name: ${headers.value(i)} $HEADER_SPACER"
             if (logHeader.length + log.length > MAX_LENGTH) {
-                LogUtils.i(LOG_TAG, logHeader)
+                LogUtils.i(logTag, logHeader)
                 logHeader = logHeaderPrefix + log
             } else {
                 logHeader += log
             }
         }
-        LogUtils.i(LOG_TAG, logHeader)
+        LogUtils.i(logTag, logHeader)
     }
 
 

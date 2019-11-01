@@ -1,10 +1,10 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <string name="app_name">AndroidCommon</string>
-    <string name="app_name_dev">AndroidCommon(DEV)</string>
-    <string name="app_name_sit">AndroidCommon(SIT)</string>
-    <string name="app_name_uat">AndroidCommon(UAT)</string>
-    <string name="app_name_prod">AndroidCommon</string>
+    <string name="app_name">Common</string>
+    <string name="app_name_dev">Common(DEV)</string>
+    <string name="app_name_sit">Common(SIT)</string>
+    <string name="app_name_uat">Common(UAT)</string>
+    <string name="app_name_prod">Common</string>
 
     <string name="tab_1">TAB1</string>
     <string name="tab_2">TAB2</string>

@@ -10,6 +10,8 @@ import com.ishow.common.entries.status.Empty
 import com.ishow.common.entries.status.Error
 import com.ishow.common.entries.status.Loading
 import com.ishow.common.entries.status.Success
+import com.ishow.common.extensions.isMainThread
+import com.ishow.common.extensions.mainThread
 import com.ishow.common.utils.databinding.bus.Event
 import com.ishow.common.utils.StringUtils
 import kotlinx.coroutines.Dispatchers
@@ -191,16 +193,6 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
         toast(context.getString(message))
     }
 
-    /**
-     * 判断是否在主线程
-     */
-    @Suppress("MemberVisibilityCanBePrivate")
-    fun isMainThread(): Boolean = Looper.myLooper() == Looper.getMainLooper()
 
-    /**
-     * 通过协程  在主线程上运行
-     */
-    fun mainThread(block: () -> Unit) = GlobalScope.launch(Dispatchers.Main) {
-        block()
-    }
+
 }

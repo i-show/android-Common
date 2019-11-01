@@ -223,6 +223,7 @@ object DateUtils {
         todayCalendar.timeInMillis = now
         targetCalendar.timeInMillis = time
 
+        @Suppress("CascadeIf")
         return if (current == today) {
             context.getString(R.string.today)
         } else if (current == yesterday) {

@@ -4,6 +4,7 @@ import android.app.Application
 import android.text.TextUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.ishow.common.extensions.mainThread
 import com.ishow.common.utils.databinding.bus.Event
 import com.ishow.common.utils.StorageUtils
 import com.ishow.noah.R
