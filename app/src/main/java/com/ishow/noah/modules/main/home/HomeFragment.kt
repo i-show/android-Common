@@ -1,6 +1,7 @@
 package com.ishow.noah.modules.main.home
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -41,23 +42,7 @@ class HomeFragment : AppBaseFragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        test.setOnClickListener {
-            val testText =
-                "你好吗？Hello，World...网上有许多代理ip，免费的、付费的。大多数公司爬虫会买这些专业版，对于普通人来说，免费的基本满足我们需要了，不过免费有一个弊端，时效性不强，不稳定，所以我们就需要对采集的ip进行一个简单的验证。".toCharArray()
-            setText(testText, 1, testText.size)
-        }
     }
-
-
-    private fun setText(text: CharArray, len: Int, size: Int) {
-        if (len - 1 >= size) return
-        display.setText(text, 0, len)
-        GlobalScope.launch(Dispatchers.Main) {
-            delay(50)
-            setText(text, len + 1, size)
-        }
-    }
-
 
     override fun onRightClick(v: View) {
         super.onRightClick(v)

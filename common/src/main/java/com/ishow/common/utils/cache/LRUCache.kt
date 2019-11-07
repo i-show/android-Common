@@ -14,7 +14,7 @@ class LRUCache<K, V>(private val MAX_SIZE: Int) : LinkedHashMap<K, V>(MAX_SIZE, 
     }
 
     companion object {
-        private val serialVersionUID = 5853563362972200456L
+        private const val serialVersionUID = 5853563362972200456L
     }
 }
 
