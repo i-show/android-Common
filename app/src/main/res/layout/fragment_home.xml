@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText">
 
     <data>
 
@@ -20,14 +22,26 @@
             app:rightImage="@drawable/svg_test" />
 
         <TextView
-            android:id="@+id/test"
+            android:id="@+id/send"
             style="@style/AppTextView.Sample"
-            android:text="@string/app_name" />
+            android:text="Send" />
+
 
         <TextView
-            android:id="@+id/display"
+            android:id="@+id/reset"
+            style="@style/AppTextView.Sample"
+            android:text="Reset" />
+
+        <TextView
+            android:id="@+id/show"
+            style="@style/AppTextView.Sample"
+            android:text="Show" />
+
+        <com.ishow.common.widget.PrintView
+            android:id="@+id/printView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="200dp"
+            android:minHeight="200dp" />
 
 
     </LinearLayout>
