@@ -42,6 +42,7 @@ output.json
 .project
 .settings
 .vscode
+.classpath
 seeds.txt
 mapping.txt
 unused.txt
