@@ -21,13 +21,15 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.KeyEvent
 import com.ishow.common.R
 import com.ishow.common.utils.DeviceUtils
 
 
-class LoadingDialog private constructor(context: Context, themeResId: Int = R.style.Theme_Dialog_Semipermeable) :
+class LoadingDialog private constructor(
+    context: Context,
+    themeResId: Int = R.style.Theme_Dialog_Semipermeable
+) :
     Dialog(context, themeResId) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +63,7 @@ class LoadingDialog private constructor(context: Context, themeResId: Int = R.st
 
         private var lastContext: String? = null
 
-        private fun show(context: Context?): LoadingDialog? {
+        private fun create(context: Context?, loadingTag: String?): LoadingDialog? {
             if (context !is Activity) {
                 return null
             }
@@ -75,6 +77,7 @@ class LoadingDialog private constructor(context: Context, themeResId: Int = R.st
                 loadingTagList?.clear()
             }
             lastContext = contextClass
+            addLoadingTag(loadingTag)
 
             val loadingDialog = LoadingDialog(context)
             loadingDialog.show()
@@ -82,20 +85,17 @@ class LoadingDialog private constructor(context: Context, themeResId: Int = R.st
         }
 
         @JvmStatic
-        fun show(context: Context?, dialog: LoadingDialog?, loadingTag: String? = null): LoadingDialog? {
-
+        fun show(
+            context: Context?,
+            dialog: LoadingDialog?,
+            loadingTag: String? = null
+        ): LoadingDialog? {
             if (dialog == null) {
-                return show(context)
+                return create(context, loadingTag)
             }
+            addLoadingTag(loadingTag)
             if (!dialog.isShowing) {
                 dialog.show()
-            }
-
-            loadingTag?.let {
-                if (loadingTagList == null) {
-                    loadingTagList = mutableListOf()
-                }
-                loadingTagList?.add(loadingTag)
             }
 
             return dialog
@@ -109,6 +109,15 @@ class LoadingDialog private constructor(context: Context, themeResId: Int = R.st
             loadingTagList?.remove(loadingTag)
             if (loadingTag == null || loadingTagList.isNullOrEmpty()) {
                 dialog.dismiss()
+            }
+        }
+
+        private fun addLoadingTag(loadingTag: String?) {
+            loadingTag?.let {
+                if (loadingTagList == null) {
+                    loadingTagList = mutableListOf()
+                }
+                loadingTagList?.add(loadingTag)
             }
         }
     }
