@@ -25,6 +25,10 @@ class NoScrollLinearLayoutManager : LinearLayoutManager {
         defStyleRes
     )
 
+    override fun isAutoMeasureEnabled(): Boolean {
+        return true;
+    }
+
     override fun canScrollVertically(): Boolean {
         return false
     }

@@ -26,6 +26,10 @@ class NoScrollGridLayoutManager : GridLayoutManager {
         reverseLayout
     )
 
+    override fun isAutoMeasureEnabled(): Boolean {
+        return true
+    }
+
     override fun canScrollHorizontally(): Boolean {
         return false
     }
