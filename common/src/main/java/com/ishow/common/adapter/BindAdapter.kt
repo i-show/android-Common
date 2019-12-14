@@ -5,7 +5,6 @@ import android.util.SparseArray
 import android.util.SparseIntArray
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.util.forEach
 import androidx.core.util.set
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -13,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ishow.common.BR
 import com.ishow.common.R
 import com.ishow.common.extensions.inflate
-import java.util.ArrayList
+import java.util.*
 
 open class BindAdapter<T>(val context: Context) : RecyclerView.Adapter<BindAdapter.BindHolder>() {
 
@@ -65,6 +64,10 @@ open class BindAdapter<T>(val context: Context) : RecyclerView.Adapter<BindAdapt
     override fun getItemCount(): Int = mData.size
 
     fun getItem(position: Int): T = mData[position]
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
 
     override fun getItemViewType(position: Int): Int {
         return if (itemTypeBlock == null) {
