@@ -7,10 +7,12 @@ import android.graphics.Rect
 import android.graphics.RectF
 import android.text.TextUtils
 import android.view.View
+import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.core.content.ContextCompat
 import com.ishow.common.R
+import com.ishow.common.extensions.dp2px
 import kotlin.math.max
 import kotlin.math.min
 
@@ -68,7 +70,10 @@ class PromptHelper {
             }
             IPrompt.PromptPosition.RIGHT -> {
                 usedRectF.set(recordRectF)
-                usedRectF.offset(width * (1 - paddingWidth) - recordRectF.width(), height * paddingHeight)
+                usedRectF.offset(
+                    width * (1 - paddingWidth) - recordRectF.width(),
+                    height * paddingHeight
+                )
             }
         }
     }
@@ -85,7 +90,8 @@ class PromptHelper {
         canvas.drawRoundRect(usedRectF, 999f, 999f, backgroundPaint)
         if (mode == IPrompt.PromptMode.TEXT && !TextUtils.isEmpty(text)) {
             val fontMetrics = textPaint.fontMetricsInt
-            val baseline = usedRectF.top + (usedRectF.bottom - usedRectF.top - fontMetrics.bottom.toFloat() + fontMetrics.top) / 2 - fontMetrics.top
+            val baseline =
+                usedRectF.top + (usedRectF.bottom - usedRectF.top - fontMetrics.bottom.toFloat() + fontMetrics.top) / 2 - fontMetrics.top
             textPaint.textAlign = Paint.Align.CENTER
             canvas.drawText(text!!, usedRectF.centerX(), baseline, textPaint)
         }
@@ -110,34 +116,63 @@ class PromptHelper {
         return prompt
     }
 
-    fun setPromptTextColor(@ColorRes colorRes: Int): IPrompt {
+    fun setPromptTextColor(@ColorInt color: Int): IPrompt {
+        this.textColor = color
+        textPaint.color = color
+        return prompt
+    }
+
+    fun setPromptTextColorResource(@ColorRes colorRes: Int): IPrompt {
         val color = ContextCompat.getColor(context, colorRes)
         this.textColor = color
         textPaint.color = color
         return prompt
     }
 
-    fun setPromptTextSize(@DimenRes sizeRes: Int): IPrompt {
+    fun setPromptTextSize(size: Int): IPrompt {
+        textSize = size.dp2px()
+        textPaint.textSize = textSize.toFloat()
+        return prompt
+    }
+
+    fun setPromptTextSizeResource(@DimenRes sizeRes: Int): IPrompt {
         val size = context.resources.getDimensionPixelSize(sizeRes)
         textSize = size
         textPaint.textSize = textSize.toFloat()
         return prompt
     }
 
-    fun setPromptBackgroundColor(@ColorRes colorRes: Int): IPrompt {
+    fun setPromptBackgroundColor(@ColorInt color: Int): IPrompt {
+        this.backgroundColor = color
+        backgroundPaint.color = color
+        return prompt
+    }
+
+    fun setPromptBackgroundColorResource(@ColorRes colorRes: Int): IPrompt {
         val color = ContextCompat.getColor(context, colorRes)
         this.backgroundColor = color
         backgroundPaint.color = color
         return prompt
     }
 
-    fun setPromptRadius(@DimenRes radiusRes: Int): IPrompt {
+    fun setPromptRadius(_radius: Int): IPrompt {
+        val radius = _radius.dp2px()
+        this.radius = radius
+        return prompt
+    }
+
+    fun setPromptRadiusResource(@DimenRes radiusRes: Int): IPrompt {
         val radius = context.resources.getDimensionPixelSize(radiusRes)
         this.radius = radius
         return prompt
     }
 
-    fun setPromptPadding(@DimenRes paddingRes: Int): IPrompt {
+    fun setPromptPadding(padding: Int): IPrompt {
+        this.padding = padding.dp2px()
+        return prompt
+    }
+
+    fun setPromptPaddingResource(@DimenRes paddingRes: Int): IPrompt {
         val padding = context.resources.getDimensionPixelSize(paddingRes)
         this.padding = padding
         return prompt
@@ -170,7 +205,12 @@ class PromptHelper {
                     textRect.right = textRect.left + textRect.height() + 1
                 }
                 recordRectF.set(textRect)
-                recordRectF.set(recordRectF.left - padding, recordRectF.top - padding, recordRectF.right + padding, recordRectF.bottom + padding)
+                recordRectF.set(
+                    recordRectF.left - padding,
+                    recordRectF.top - padding,
+                    recordRectF.right + padding,
+                    recordRectF.bottom + padding
+                )
                 recordRectF.offset(padding.toFloat(), (textRect.height() + padding).toFloat())
             }
             IPrompt.PromptMode.GRAPH -> recordRectF.set(0f, 0f, radius.toFloat(), radius.toFloat())

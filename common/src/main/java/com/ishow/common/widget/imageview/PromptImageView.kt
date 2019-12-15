@@ -20,6 +20,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.util.AttributeSet
+import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.annotation.FloatRange
@@ -32,81 +33,101 @@ import com.ishow.common.widget.prompt.PromptHelper
  * 角标提示的TextView
  */
 class PromptImageView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : AppCompatImageView(context, attrs, defStyle), IPrompt {
-    private val prompt = PromptHelper()
+    private val helper = PromptHelper()
     init {
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.PromptImageView)
-        prompt.mode = a.getInt(R.styleable.PromptImageView_promptMode, IPrompt.PromptMode.GRAPH)
-        prompt.text = a.getString(R.styleable.PromptImageView_promptText)
-        prompt.textColor = a.getColor(R.styleable.PromptImageView_promptTextColor, Color.WHITE)
-        prompt.textSize = a.getDimensionPixelSize(R.styleable.PromptImageView_promptTextSize, PromptHelper.getDefaultTextSize(context))
-        prompt.padding = a.getDimensionPixelSize(R.styleable.PromptImageView_promptPadding, PromptHelper.getDefaultPadding(context))
-        prompt.radius = a.getDimensionPixelSize(R.styleable.PromptImageView_promptRadius, PromptHelper.getDefaultRadius(context))
-        prompt.position = a.getInt(R.styleable.PromptImageView_promptPosition, IPrompt.PromptPosition.LEFT)
-        prompt.backgroundColor = a.getColor(R.styleable.PromptImageView_promptBackground, Color.RED)
-        prompt.paddingWidth = a.getFloat(R.styleable.PromptImageView_widthPaddingScale, IPrompt.DEFAULT_PADDING_SCALE)
-        prompt.paddingHeight = a.getFloat(R.styleable.PromptImageView_heightPaddingScale, IPrompt.DEFAULT_PADDING_SCALE)
+        helper.mode = a.getInt(R.styleable.PromptImageView_promptMode, IPrompt.PromptMode.GRAPH)
+        helper.text = a.getString(R.styleable.PromptImageView_promptText)
+        helper.textColor = a.getColor(R.styleable.PromptImageView_promptTextColor, Color.WHITE)
+        helper.textSize = a.getDimensionPixelSize(R.styleable.PromptImageView_promptTextSize, PromptHelper.getDefaultTextSize(context))
+        helper.padding = a.getDimensionPixelSize(R.styleable.PromptImageView_promptPadding, PromptHelper.getDefaultPadding(context))
+        helper.radius = a.getDimensionPixelSize(R.styleable.PromptImageView_promptRadius, PromptHelper.getDefaultRadius(context))
+        helper.position = a.getInt(R.styleable.PromptImageView_promptPosition, IPrompt.PromptPosition.LEFT)
+        helper.backgroundColor = a.getColor(R.styleable.PromptImageView_promptBackground, Color.RED)
+        helper.paddingWidth = a.getFloat(R.styleable.PromptImageView_widthPaddingScale, IPrompt.DEFAULT_PADDING_SCALE)
+        helper.paddingHeight = a.getFloat(R.styleable.PromptImageView_heightPaddingScale, IPrompt.DEFAULT_PADDING_SCALE)
         a.recycle()
 
-        prompt.init(this)
+        helper.init(this)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        prompt.onMeasure(measuredWidth, measuredHeight)
+        helper.onMeasure(measuredWidth, measuredHeight)
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        prompt.onDraw(canvas)
+        helper.onDraw(canvas)
     }
 
     override fun setPromptMode(@IPrompt.PromptMode mode: Int): IPrompt {
-        return prompt.setPromptMode(mode)
+        return helper.setPromptMode(mode)
     }
 
     override fun setPromptText(text: String): IPrompt {
-        return prompt.setPromptText(text)
+        return helper.setPromptText(text)
     }
 
     override fun setPromptText(text: Int): IPrompt {
-        return prompt.setPromptText(text)
+        return helper.setPromptText(text)
     }
 
-    override fun setPromptTextColor(@ColorRes color: Int): IPrompt {
-        return prompt.setPromptTextColor(color)
+    override fun setPromptTextColor(@ColorInt color: Int): IPrompt {
+        return helper.setPromptTextColor(color)
     }
 
-    override fun setPromptTextSize(@DimenRes size: Int): IPrompt {
-        return prompt.setPromptTextSize(size)
+    override fun setPromptTextColorResource(@ColorRes color: Int): IPrompt {
+        return helper.setPromptTextColorResource(color)
     }
 
-    override fun setPromptBackgroundColor(@ColorRes color: Int): IPrompt {
-        return prompt.setPromptBackgroundColor(color)
+    override fun setPromptTextSize(size: Int): IPrompt {
+        return helper.setPromptTextSize(size)
     }
 
-    override fun setPromptRadius(@DimenRes radius: Int): IPrompt {
-        return prompt.setPromptRadius(radius)
+    override fun setPromptTextSizeResource(@DimenRes size: Int): IPrompt {
+        return helper.setPromptTextSizeResource(size)
     }
 
-    override fun setPromptPadding(@DimenRes padding: Int): IPrompt {
-        return prompt.setPromptPadding(padding)
+    override fun setPromptBackgroundColor(@ColorInt color: Int): IPrompt {
+        return helper.setPromptBackgroundColor(color)
+    }
+
+    override fun setPromptBackgroundColorResource(@ColorRes color: Int): IPrompt {
+        return helper.setPromptBackgroundColorResource(color)
+    }
+
+    override fun setPromptRadius(radius: Int): IPrompt {
+        return helper.setPromptRadius(radius)
+    }
+
+    override fun setPromptRadiusResource(@DimenRes radius: Int): IPrompt {
+        return helper.setPromptRadiusResource(radius)
+    }
+
+    override fun setPromptPadding(padding: Int): IPrompt {
+        return helper.setPromptPadding(padding)
+    }
+
+    override fun setPromptPaddingResource(@DimenRes padding: Int): IPrompt {
+        return helper.setPromptPaddingResource(padding)
     }
 
     override fun setPromptPosition(@IPrompt.PromptPosition position: Int): IPrompt {
-        return prompt.setPromptPosition(position)
+        return helper.setPromptPosition(position)
     }
 
     override fun setPromptWidthPaddingScale(@FloatRange(from = 0.0, to = 1.0) scale: Float): IPrompt {
-        return prompt.setPromptWidthPaddingScale(scale)
+        return helper.setPromptWidthPaddingScale(scale)
     }
 
     override fun setPromptHeightPaddingScale(@FloatRange(from = 0.0, to = 1.0) scale: Float): IPrompt {
-        return prompt.setPromptHeightPaddingScale(scale)
+        return helper.setPromptHeightPaddingScale(scale)
     }
 
     override fun commit(): IPrompt {
-        prompt.commit()
+        helper.commit()
         requestLayout()
         return this
     }

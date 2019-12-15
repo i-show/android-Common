@@ -16,12 +16,7 @@
 
 package com.ishow.common.widget.prompt
 
-import androidx.annotation.ColorRes
-import androidx.annotation.DimenRes
-import androidx.annotation.FloatRange
-import androidx.annotation.IntDef
-
-import java.lang.annotation.RetentionPolicy
+import androidx.annotation.*
 
 /**
  * 接口类
@@ -74,15 +69,20 @@ interface IPrompt {
 
     fun setPromptText(text: Int): IPrompt
 
-    fun setPromptTextColor(@ColorRes color: Int): IPrompt
+    fun setPromptTextColor(@ColorInt color: Int): IPrompt
+    fun setPromptTextColorResource(@ColorRes color: Int): IPrompt
 
-    fun setPromptTextSize(@DimenRes size: Int): IPrompt
+    fun setPromptTextSize(size: Int): IPrompt
+    fun setPromptTextSizeResource(@DimenRes size: Int): IPrompt
 
-    fun setPromptBackgroundColor(@ColorRes color: Int): IPrompt
+    fun setPromptBackgroundColor(@ColorInt color: Int): IPrompt
+    fun setPromptBackgroundColorResource(@ColorRes color: Int): IPrompt
 
-    fun setPromptRadius(@DimenRes radius: Int): IPrompt
+    fun setPromptRadius(radius: Int): IPrompt
+    fun setPromptRadiusResource(@DimenRes radius: Int): IPrompt
 
-    fun setPromptPadding(@DimenRes padding: Int): IPrompt
+    fun setPromptPadding(padding: Int): IPrompt
+    fun setPromptPaddingResource(@DimenRes padding: Int): IPrompt
 
     fun setPromptPosition(@PromptPosition position: Int): IPrompt
 
