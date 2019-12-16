@@ -32,7 +32,7 @@ class MarqueeTextView @JvmOverloads constructor(context: Context, attrs: Attribu
 
         marqueeRepeatLimit = -1
         setHorizontallyScrolling(true)
-        setSingleLine(true)
+        isSingleLine = true
     }
 
 
