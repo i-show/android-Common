@@ -9,7 +9,6 @@ import com.ishow.noah.entries.params.request.LoginParams
 import com.ishow.noah.entries.params.request.RegisterParams
 import com.ishow.noah.modules.sample.entries.SampleTestPage
 import okhttp3.RequestBody
-import retrofit2.Call
 import retrofit2.http.*
 
 interface AppRestService {
@@ -29,7 +28,7 @@ interface AppRestService {
      * 登录
      */
     @POST("account/login")
-    suspend fun login(@Body params: LoginParams): AppHttpResponse<UserContainer>
+    fun login(@Body params: LoginParams): AppHttpResponse<UserContainer>
 
     /**
      * 通过Token来处理
