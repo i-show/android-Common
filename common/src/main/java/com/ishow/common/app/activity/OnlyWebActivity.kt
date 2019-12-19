@@ -18,11 +18,13 @@ package com.ishow.common.app.activity
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.webkit.*
+import androidx.annotation.RequiresApi
 import com.ishow.common.R
 import com.ishow.common.utils.WebViewUtils
-import com.ishow.common.widget.TopBar
+import com.ishow.common.widget.webview.WebViewClientWrapper
 import kotlinx.android.synthetic.main.activity_base_only_web.*
 
 
@@ -30,67 +32,95 @@ import kotlinx.android.synthetic.main.activity_base_only_web.*
  * 只有一个Webview的 Activity
  * Created by yuhaiyang on 2016/8/9.
  */
-class OnlyWebActivity : BaseActivity() {
+open class OnlyWebActivity : BaseActivity() {
 
-    private var mTitleString: String? = null
-    private var mUrl: String? = null
-    private var mOnErrorUrl: Boolean = false
+    private var title: String? = null
+    private var url: String? = null
+    private var isError: Boolean = false
 
+    private var webView: WebView? = null
+    private lateinit var webClient: WebClient
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_base_only_web)
+        setContentView(getLayout())
     }
 
     override fun initNecessaryData() {
         super.initNecessaryData()
         val intent = intent
-        mTitleString = intent.getStringExtra(KEY_TITLE)
-        mUrl = intent.getStringExtra(KEY_CONTENT)
+        title = intent.getStringExtra(KEY_TITLE)
+        url = intent.getStringExtra(KEY_CONTENT)
     }
 
     override fun initViews() {
         super.initViews()
         topBar.setOnTopBarListener(this)
-        topBar.setText(mTitleString)
+        topBar.setText(title)
+        webClient = WebClient()
 
-        WebViewUtils.init(web)
-        //载入js
-        web.loadUrl(mUrl)
-        //载入js
-        web.webViewClient = WebClient()
+        initWebView()
+        webView = findViewById(R.id.webView)
+        webView?.apply {
+            loadUrl(url)
+            webViewClient = webClient
 
-        web.setDownloadListener { url, _, _, _, _ ->
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.addCategory(Intent.CATEGORY_BROWSABLE)
-            intent.data = Uri.parse(url)
-            startActivity(intent)
+            setDownloadListener { url, _, _, _, _ ->
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.addCategory(Intent.CATEGORY_BROWSABLE)
+                intent.data = Uri.parse(url)
+                startActivity(intent)
+            }
         }
+    }
+
+    /**
+     * 获取当前的Layout
+     */
+    open fun getLayout() = R.layout.activity_base_only_web
+
+    /**
+     * 初始化
+     */
+    open fun initWebView() {
+        WebViewUtils.init(webView)
+    }
+
+    open fun setWebClient(client: WebViewClient?) {
+        webClient.client = client
     }
 
     override fun onResume() {
         super.onResume()
-        web.onResume()
+        webView?.onResume()
     }
 
     override fun onPause() {
         super.onPause()
-        web.onPause()
+        webView?.onPause()
     }
 
-    private inner class WebClient : WebViewClient() {
+
+    private inner class WebClient : WebViewClientWrapper() {
+
         override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
             view.loadUrl(url)
-            return true
+            return if (client == null) {
+                true
+            } else {
+                client!!.shouldOverrideUrlLoading(view, url)
+            }
         }
 
+        @RequiresApi(Build.VERSION_CODES.M)
         override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
             super.onReceivedError(view, request, error)
             if (request == null || !request.isForMainFrame) {
                 return
             }
-            mOnErrorUrl = true
+            isError = true
         }
 
+        @RequiresApi(Build.VERSION_CODES.M)
         override fun onReceivedHttpError(
             view: WebView?,
             request: WebResourceRequest?,
@@ -102,13 +132,13 @@ class OnlyWebActivity : BaseActivity() {
                 return
             }
 
-            mOnErrorUrl = true
+            isError = true
         }
     }
 
     override fun onBackPressed() {
-        if (web != null && web.canGoBack() && !mOnErrorUrl) {
-            web.goBack()
+        if (webView?.canGoBack() == true && !isError) {
+            webView?.goBack()
         } else {
             super.onBackPressed()
         }

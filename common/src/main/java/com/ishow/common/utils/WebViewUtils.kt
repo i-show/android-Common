@@ -17,8 +17,6 @@
 package com.ishow.common.utils
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.os.Build
 import android.webkit.WebSettings
 import android.webkit.WebView
 
@@ -26,7 +24,10 @@ object WebViewUtils {
     @JvmStatic
     @JvmOverloads
     @SuppressLint("SetJavaScriptEnabled")
-    fun init(webView: WebView, fitWindow: Boolean = true) {
+    fun init(webView: WebView?, fitWindow: Boolean = true) {
+        if (webView == null) {
+            return
+        }
 
         val settings = webView.settings
         // 自适应屏幕大小
