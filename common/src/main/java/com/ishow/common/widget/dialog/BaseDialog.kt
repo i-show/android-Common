@@ -26,13 +26,14 @@ import android.util.Log
 import android.view.ContextThemeWrapper
 import android.view.Gravity
 import android.view.KeyEvent
-import androidx.annotation.ArrayRes
-import androidx.annotation.ColorInt
-import androidx.annotation.FloatRange
-import androidx.annotation.StringRes
+import androidx.annotation.*
+import androidx.annotation.IntRange
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.ishow.common.R
 import com.ishow.common.adapter.BindAdapter
+import com.ishow.common.extensions.dp2px
+import com.ishow.common.extensions.getDimensionPixelSize
 import com.ishow.common.utils.DeviceUtils
 
 
@@ -125,6 +126,7 @@ open class BaseDialog constructor(context: Context, theme: Int) : Dialog(context
         setOwnerActivity(context)
     }
 
+    @Suppress("unused")
     class Builder @JvmOverloads constructor(context: Context?, private val mTheme: Int = R.style.Theme_Dialog) {
         private val mParams: BaseController.Params = BaseController.Params(ContextThemeWrapper(context, mTheme))
 
@@ -171,6 +173,29 @@ open class BaseDialog constructor(context: Context, theme: Int) : Dialog(context
             return this
         }
 
+        /**
+         * 设置Message的最小高度
+         */
+        fun setMessageMinHeight(height: Int): Builder {
+            mParams.mMessageMinHeight = height.dp2px()
+            return this
+        }
+
+        /**
+         * 设置Message的最小高度
+         */
+        fun setMessageMinHeightResource(@DimenRes height: Int): Builder {
+            mParams.mMessageMinHeight = context.getDimensionPixelSize(height)
+            return this
+        }
+
+        /**
+         * 设置Message的最大行数
+         */
+        fun setMessageMaxLines(@IntRange(from = 0) lines: Int): Builder {
+            mParams.mMessageMaxLines = lines;
+            return this
+        }
 
         /**
          * 设置确认按钮信息
@@ -190,6 +215,14 @@ open class BaseDialog constructor(context: Context, theme: Int) : Dialog(context
         fun setPositiveButton(text: CharSequence, listener: ((DialogInterface, Int) -> Unit)? = null): Builder {
             mParams.mPositiveText = text
             mParams.mPositiveListener = listener
+            return this
+        }
+
+        /**
+         * 设置字体颜色
+         */
+        fun setPositiveButtonTextColorResource(@ColorRes color: Int): Builder {
+            mParams.mPositiveTextColor = ContextCompat.getColorStateList(context, color)
             return this
         }
 
@@ -229,6 +262,15 @@ open class BaseDialog constructor(context: Context, theme: Int) : Dialog(context
         fun setNegativeButton(text: CharSequence, listener: ((DialogInterface, Int) -> Unit)? = null): Builder {
             mParams.mNegativeText = text
             mParams.mNegativeListener = listener
+            return this
+        }
+
+
+        /**
+         * 设置字体颜色
+         */
+        fun setNegativeButtonTextColorResource(@ColorRes color: Int): Builder {
+            mParams.mNegativeTextColor = ContextCompat.getColorStateList(context, color)
             return this
         }
 

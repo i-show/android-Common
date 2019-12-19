@@ -55,6 +55,8 @@ class BaseController(
     private var mMessageView: TextView? = null
     private var mMessage: CharSequence? = null
     private var mMessageGravity: Int = Gravity.CENTER
+    private var mMessageMinHeight: Int = 0
+    private var mMessageMaxLines: Int = Int.MAX_VALUE
 
     private var mListView: RecyclerViewPro? = null
     private var mAdapter: RecyclerView.Adapter<*>? = null
@@ -130,10 +132,10 @@ class BaseController(
             parent.setPadding(0, 0, 0, 0)
         }
 
-        val topPanel = mWindow.findViewById<LinearLayout>(R.id.topPanel)
+        val topPanel: View = mWindow.findViewById(R.id.topPanel)
         val hasTitle = setupTitle(topPanel)
 
-        val contentPanel = mWindow.findViewById<LinearLayout>(R.id.contentPanel)
+        val contentPanel: ViewGroup = mWindow.findViewById(R.id.contentPanel)
         setupList()
         setupContent(contentPanel, hasTitle)
 
@@ -141,7 +143,7 @@ class BaseController(
         setupButtons(buttonPanel)
     }
 
-    private fun setupTitle(topPanel: LinearLayout): Boolean {
+    private fun setupTitle(topPanel: View): Boolean {
         return if (mTitle.isNullOrEmpty()) {
             topPanel.visibility = View.GONE
             false
@@ -153,7 +155,7 @@ class BaseController(
     }
 
 
-    private fun setupContent(contentPanel: LinearLayout, hasTitle: Boolean) {
+    private fun setupContent(contentPanel: ViewGroup, hasTitle: Boolean) {
         mScrollView = mWindow.findViewById(R.id.scrollView)
         mScrollView?.isFocusable = false
 
@@ -162,6 +164,9 @@ class BaseController(
         if (mMessage != null) {
             mMessageView?.text = mMessage
             mMessageView?.gravity = mMessageGravity
+            mMessageView?.maxLines = mMessageMaxLines
+            mMessageView?.minHeight = mMessageMinHeight
+            
             if (!hasTitle) {
                 val paddingTop = (max(mMessageView!!.paddingStart, mMessageView!!.paddingEnd) * 0.8f).toInt()
                 mMessageView?.setPadding(
@@ -255,24 +260,18 @@ class BaseController(
     }
 
     private fun setupList() {
-        if (mAdapter != null) {
-            mListView?.adapter = mAdapter
-        }
+        mAdapter?.let { mListView?.adapter = it }
     }
 
     /**
      * 设置Dialog从底部弹出
      */
     private fun setFromBottom(bottom: Boolean?) {
-        bottom?.let {
-            isFromBottom = bottom
-        }
+        bottom?.let { isFromBottom = it }
     }
 
     private fun setWidthProportion(value: Float?) {
-        value?.let {
-            mWidthProportion = it
-        }
+        value?.let { mWidthProportion = it }
     }
 
     fun setTitle(title: CharSequence?) {
@@ -293,6 +292,27 @@ class BaseController(
     private fun setMessageGravity(gravity: Int) {
         mMessageGravity = gravity
         mMessageView?.gravity = mMessageGravity
+    }
+
+    /**
+     * 设置文本的最小高度
+     *
+     * @param gravity [Gravity.CENTER]
+     */
+    private fun setMessageMinHeight(minHeight: Int) {
+        mMessageMinHeight = minHeight
+        mMessageView?.minHeight = minHeight
+    }
+
+
+    /**
+     * 设置文本的最小高度
+     *
+     * @param gravity [Gravity.CENTER]
+     */
+    private fun setMessageMaxLines(maxLines: Int) {
+        mMessageMaxLines = maxLines
+        mMessageView?.maxLines = maxLines
     }
 
     /**
@@ -381,7 +401,7 @@ class BaseController(
 
 
     class Params internal constructor(val mContext: Context) {
-        internal val mInflater: LayoutInflater
+        private val mInflater: LayoutInflater
 
         internal var mOnCancelListener: DialogInterface.OnCancelListener? = null
         internal var mOnDismissListener: DialogInterface.OnDismissListener? = null
@@ -393,6 +413,8 @@ class BaseController(
         internal var mTitle: CharSequence? = null
         internal var mMessage: CharSequence? = null
         internal var mMessageGravity: Int = Gravity.CENTER
+        internal var mMessageMinHeight: Int = 0
+        internal var mMessageMaxLines: Int = 0
 
         internal var mPositiveText: CharSequence? = null
         internal var mPositiveTextColor: ColorStateList? = null

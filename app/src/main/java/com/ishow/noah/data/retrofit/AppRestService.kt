@@ -29,7 +29,7 @@ interface AppRestService {
      * 登录
      */
     @POST("account/login")
-    fun login(@Body params: LoginParams): AppHttpResponse<UserContainer>
+    suspend fun login(@Body params: LoginParams): AppHttpResponse<UserContainer>
 
     /**
      * 通过Token来处理

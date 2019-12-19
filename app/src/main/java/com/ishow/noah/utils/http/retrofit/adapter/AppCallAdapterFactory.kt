@@ -10,11 +10,7 @@ import java.lang.reflect.Type
 class AppCallAdapterFactory : CallAdapter.Factory() {
 
 
-    override fun get(
-        returnType: Type,
-        annotations: Array<Annotation>,
-        retrofit: Retrofit
-    ): CallAdapter<*, *>? {
+    override fun get(returnType: Type, annotations: Array<Annotation>, retrofit: Retrofit): CallAdapter<*, *>? {
         val rawType: Class<*> = getRawType(returnType)
         if (rawType != AppHttpResponse::class.java &&
             rawType != AppListResponse::class.java &&
@@ -24,8 +20,6 @@ class AppCallAdapterFactory : CallAdapter.Factory() {
     }
 
     companion object {
-        fun create(): AppCallAdapterFactory {
-            return AppCallAdapterFactory()
-        }
+        fun create(): AppCallAdapterFactory = AppCallAdapterFactory()
     }
 }
