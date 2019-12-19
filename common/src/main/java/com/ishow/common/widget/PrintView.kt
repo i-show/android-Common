@@ -3,7 +3,6 @@ package com.ishow.common.widget
 import android.content.Context
 import android.text.method.ScrollingMovementMethod
 import android.util.AttributeSet
-import android.util.Log
 import android.widget.TextView
 import com.ishow.common.utils.log.LogUtils
 import kotlinx.coroutines.*
@@ -34,7 +33,7 @@ class PrintView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         movementMethod = ScrollingMovementMethod.getInstance()
     }
 
-    fun reset() {
+    private fun reset() {
         showJob?.let {
             if (it.isActive) it.cancel()
         }
@@ -95,11 +94,19 @@ class PrintView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
     companion object {
         private const val TAG = "PrintView"
 
-        var printer: PrintView? = null
+        var worker: PrintView? = null
+
+        fun init(worker: PrintView?) {
+            this.worker = worker
+        }
 
         fun print(log: String?) {
-            printer?.add(log)
+            worker?.add(log)
             LogUtils.i(TAG, log)
+        }
+
+        fun reset() {
+            worker?.reset()
         }
     }
 }
