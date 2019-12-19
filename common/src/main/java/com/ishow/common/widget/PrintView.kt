@@ -1,9 +1,15 @@
 package com.ishow.common.widget
 
 import android.content.Context
-import android.text.method.ScrollingMovementMethod
+import android.graphics.Typeface
 import android.util.AttributeSet
+import android.util.TypedValue
+import android.view.View
 import android.widget.TextView
+import com.ishow.common.R
+import com.ishow.common.extensions.dp2px
+import com.ishow.common.extensions.findColor
+import com.ishow.common.extensions.sp2px
 import com.ishow.common.utils.log.LogUtils
 import kotlinx.coroutines.*
 
@@ -12,7 +18,7 @@ import kotlinx.coroutines.*
  * 输出log的View
  */
 class PrintView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
-    TextView(context, attrs, defStyleAttr) {
+    ScrollViewPro(context, attrs, defStyleAttr) {
 
     private var showJob: Job? = null
     /**
@@ -28,10 +34,22 @@ class PrintView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
      */
     private var isPrinting = false
 
+    private val textView: TextView = TextView(context)
 
     init {
-        movementMethod = ScrollingMovementMethod.getInstance()
+
+        val a = context.obtainStyledAttributes(attrs, R.styleable.PrintView)
+        val textSize = a.getDimensionPixelSize(R.styleable.PrintView_textSize, 14.sp2px())
+        val textColor = a.getColor(R.styleable.PrintView_textColor, context.findColor(R.color.text_grey))
+        val textStyle = a.getInt(R.styleable.PrintView_textStyle, 0)
+        a.recycle()
+
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize.toFloat())
+        textView.setTextColor(textColor)
+        textView.typeface = Typeface.defaultFromStyle(textStyle)
+        addView(textView)
     }
+
 
     private fun reset() {
         showJob?.let {
@@ -41,7 +59,7 @@ class PrintView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         textQueue.clear()
         lastLog = null
         isPrinting = false
-        text = null
+        textView.text = null
     }
 
     private fun next() {
@@ -78,7 +96,9 @@ class PrintView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             return
         }
 
-        setText(text, 0, len)
+        textView.setText(text, 0, len)
+        post { fullScroll(View.FOCUS_DOWN) }
+
         showJob = GlobalScope.launch(Dispatchers.Main) {
             delay(50)
             print(text, len + 1, size)
@@ -94,7 +114,7 @@ class PrintView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
     companion object {
         private const val TAG = "PrintView"
 
-        var worker: PrintView? = null
+        private var worker: PrintView? = null
 
         fun init(worker: PrintView?) {
             this.worker = worker

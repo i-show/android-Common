@@ -40,8 +40,9 @@
         <com.ishow.common.widget.PrintView
             android:id="@+id/printView"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:minHeight="200dp" />
+            android:layout_height="wrap_content"
+            android:minHeight="200dp"
+            app:maxHeight="@dimen/dp_300" />
 
 
     </LinearLayout>

@@ -1355,4 +1355,10 @@
         <attr name="refreshEnable" />
         <attr name="scrollViewId" />
     </declare-styleable>
+
+    <declare-styleable name="PrintView">
+        <attr name="textSize" />
+        <attr name="textColor" />
+        <attr name="textStyle" />
+    </declare-styleable>
 </resources>

@@ -24,8 +24,12 @@ import android.widget.ScrollView
 import com.ishow.common.R
 
 
-class ScrollViewPro @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
-        ScrollView(context, attrs, defStyleAttr) {
+open class ScrollViewPro @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) :
+    ScrollView(context, attrs, defStyleAttr) {
     private var mMaxHeight: Int = 0
     private var mMaxWidth: Int = 0
 
@@ -46,5 +50,15 @@ class ScrollViewPro @JvmOverloads constructor(context: Context, attrs: Attribute
 
     private fun getAtMostSpec(size: Int): Int {
         return MeasureSpec.makeMeasureSpec(size, MeasureSpec.AT_MOST)
+    }
+
+    fun setMaxHeight(height: Int) {
+        mMaxHeight = height
+        requestLayout()
+    }
+
+    fun setMaxWidth(size: Int) {
+        mMaxWidth = size
+        requestLayout()
     }
 }

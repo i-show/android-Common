@@ -43,7 +43,7 @@ class HomeFragment : AppBaseFragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        PrintView.worker = printView
+        PrintView.init(printView)
 
         send.setOnClickListener {
             PrintView.print("第 $count 次启动")
@@ -51,8 +51,7 @@ class HomeFragment : AppBaseFragment() {
             count++
         }
 
-        reset.setOnClickListener { printView.reset() }
-
+        reset.setOnClickListener { PrintView.reset() }
 
         show.setOnClickListener {
             GlobalScope.launch(Dispatchers.Main) {
