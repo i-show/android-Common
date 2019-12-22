@@ -34,7 +34,7 @@
             android:layout_height="60dp"
             android:layout_gravity="center"
             app:actualImageScaleType="focusCrop"
-            app:imageUrl="@{item.path}"
+            app:imageUrl="@{item.uri}"
             app:placeholderImage="@color/grey_alpha_0_5"
             app:viewAspectRatio="1" />
     </FrameLayout>

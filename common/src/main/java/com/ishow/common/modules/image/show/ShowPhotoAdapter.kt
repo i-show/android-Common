@@ -44,10 +44,7 @@ import kotlin.math.min
 class ShowPhotoAdapter internal constructor(mContext: Context) : PagerAdapter() {
     private val mLayoutInflater: LayoutInflater
     private var mUrls: List<String>
-    /**
-     * 点击的View 用来获取大小
-     */
-    private var mBeforeView: View? = null
+
     /**
      * 缩略图的配置
      */
@@ -90,22 +87,6 @@ class ShowPhotoAdapter internal constructor(mContext: Context) : PagerAdapter() 
         isShowThumb = showThumb
     }
 
-    fun setBeforeView(image: View?) {
-        mBeforeView = image
-        if (mBeforeView != null) {
-            var width = mBeforeView!!.width
-            var height = mBeforeView!!.height
-            val screen = DeviceUtils.screenSize
-            mThumbLayoutParams.width = width
-            mThumbLayoutParams.height = height
-
-            width = min(screen[0] / 6, width * 3 / 7)
-            height = min(screen[1] / 6, height * 3 / 7)
-
-            mProgressParams.width = width
-            mProgressParams.height = height
-        }
-    }
 
     override fun getCount(): Int {
         return mUrls.size
@@ -127,10 +108,6 @@ class ShowPhotoAdapter internal constructor(mContext: Context) : PagerAdapter() 
         imageThumb.isEnabled = false
         imageThumb.setOnPhotoTapListener { _, _, _ -> dismiss() }
         imageThumb.layoutParams = mThumbLayoutParams
-        if (mBeforeView is ImageView) {
-            val image = mBeforeView as ImageView?
-            imageThumb.scaleType = image!!.scaleType
-        }
 
         val progress = root.findViewById<ProgressBar>(R.id.progress)
         progress.layoutParams = mProgressParams

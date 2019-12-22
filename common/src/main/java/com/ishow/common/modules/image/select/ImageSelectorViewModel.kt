@@ -175,8 +175,7 @@ class ImageSelectorViewModel(application: Application) : BaseViewModel(applicati
 
     fun viewPhoto(v: View, photo: Image) {
         val dialog = ShowPhotoDialog(v.context)
-        dialog.setData(photo.path)
-        dialog.setBeforeView(v)
+        dialog.setData(photo.uri)
         dialog.show()
     }
 

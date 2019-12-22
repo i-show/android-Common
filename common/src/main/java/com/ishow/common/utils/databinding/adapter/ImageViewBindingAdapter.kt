@@ -1,6 +1,7 @@
 package com.ishow.common.utils.databinding.adapter
 
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -38,6 +39,31 @@ object ImageViewBindingAdapter {
         view.loadUrl(imageUrl, options, placeholder)
     }
 
+    @JvmStatic
+    @BindingAdapter(
+        value = ["imageUrl", "placeholder", "glideCorner", "glideCornerPosition", "glideOptions"],
+        requireAll = false
+    )
+    fun loadImage(
+        view: ImageView,
+        uri: Uri?,
+        placeholder: Drawable?,
+        corner: Int?,
+        position: GlideCorner.Position? = GlideCorner.Position.All,
+        requestOptions: RequestOptions? = RequestOptions.centerCropTransform()
+    ) {
+
+        val glidePosition = position ?: GlideCorner.Position.All
+        val options = if (corner == null) {
+            RequestOptions.centerCropTransform()
+        } else {
+            RequestOptions().transform(CenterCrop(), GlideCorner(corner, glidePosition))
+        }
+
+        requestOptions?.let { options.apply(it) }
+
+        view.loadUrl(uri, options, placeholder)
+    }
 
     @JvmStatic
     @BindingAdapter("imageUrl")
@@ -47,5 +73,11 @@ object ImageViewBindingAdapter {
         } else {
             view.setImageURI("file://$imageUrl")
         }
+    }
+
+    @JvmStatic
+    @BindingAdapter("imageUrl")
+    fun loadImage(view: SimpleDraweeView, imageUrl: Uri) {
+        view.setImageURI(imageUrl.toString())
     }
 }

@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ishow.common.BR
 import com.ishow.common.R
 import com.ishow.common.adapter.BindAdapter
-import com.ishow.common.app.fragment.BaseFragment
 import com.ishow.common.app.mvvm.view.BindFragment
 import com.ishow.common.app.mvvm.viewmodel.BaseViewModel
 import com.ishow.common.databinding.FragmentImageListCommonBinding
@@ -21,7 +20,7 @@ import com.ishow.common.utils.DateUtils
 import com.ishow.common.widget.dialog.BaseDialog
 import com.ishow.common.widget.recyclerview.itemdecoration.SpacingDecoration
 import kotlinx.android.synthetic.main.fragment_image_list_common.*
-import java.util.ArrayList
+import java.util.*
 
 /**
  * Created by yuhaiyang on 2019-09-04.
@@ -89,14 +88,14 @@ class ImageListFragment : BindFragment<FragmentImageListCommonBinding, BaseViewM
         val photo = photoList[0]
         activity?.let {
             val intent = Intent()
-            intent.putExtra(Image.Key.EXTRA_RESULT, photo.getPath())
+            intent.putExtra(Image.Key.EXTRA_RESULT, photo.uri)
             it.setResult(Activity.RESULT_OK, intent)
             it.finish()
         }
     }
 
     private fun setMultiResult(photoList: MutableList<Image>) {
-        val photoPaths: ArrayList<String> = photoList.map { it.path } as ArrayList<String>
+        val photoPaths: ArrayList<String> = photoList.map { it.uri.toString() } as ArrayList<String>
         activity?.let {
             val intent = Intent()
             intent.putStringArrayListExtra(Image.Key.EXTRA_RESULT, photoPaths)
@@ -137,8 +136,8 @@ class ImageListFragment : BindFragment<FragmentImageListCommonBinding, BaseViewM
         currentFolder?.isSelected = false
         dataBinding.vm?.updateCurrentFolder(folder)
 
-        adapter.data = folder.getPhotoList()
-        folderView.setText(folder.getName())
+        adapter.data = folder.photoList
+        folderView.setText(folder.name)
         list.scrollToPosition(0)
     }
 

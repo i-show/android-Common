@@ -1,6 +1,7 @@
 package com.ishow.common.modules.image.select
 
 import android.annotation.SuppressLint
+import android.content.ContentUris
 import android.content.Context
 import android.provider.MediaStore
 import android.text.TextUtils
@@ -29,7 +30,7 @@ class ImageModel(private val context: Context) {
             folderList.clear()
             while (cursor.moveToNext()) {
                 val id = cursor.getLong(INDEX_ID)
-                val path = cursor.getString(INDEX_PATH)
+                val uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
                 val name = cursor.getString(INDEX_NAME)
                 val folderId = cursor.getString(INDEX_FOLDER_ID)
                 val folderName = cursor.getString(INDEX_FOLDER_NAME)
@@ -39,7 +40,7 @@ class ImageModel(private val context: Context) {
                 if (size < MIN_PHOTO_SIZE) {
                     continue
                 }
-                val photo = Image(id, path, name, modifyDate, folderName)
+                val photo = Image(id, uri, name, modifyDate, folderName)
                 photoList.add(photo)
 
                 resolvePhotoFolder(photo, folderId, folderName)
@@ -83,7 +84,7 @@ class ImageModel(private val context: Context) {
     /**
      * 增加所有照片选项
      */
-    private fun addAllPhotoFolder(folderList: MutableList<Folder>, photoList: List<Image>) {
+    private fun addAllPhotoFolder(folderList: MutableList<Folder>, photoList: MutableList<Image>) {
         val folderName = context.getString(R.string.all_photos)
         val all = Folder("all", folderName, if (photoList.isEmpty()) null else photoList[0])
         all.addAll(photoList)
@@ -101,20 +102,19 @@ class ImageModel(private val context: Context) {
          * 搜索的列
          */
         private val IMAGE_PROJECTION = arrayOf(
-            MediaStore.Images.Media.DATA,
+            MediaStore.Images.Media._ID,
             MediaStore.Images.Media.DISPLAY_NAME,
             MediaStore.Images.Media.SIZE,
             MediaStore.Images.Media.DATE_MODIFIED,
             MediaStore.Images.Media.BUCKET_ID,
-            MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
-
-            MediaStore.Images.Media._ID
+            MediaStore.Images.Media.BUCKET_DISPLAY_NAME
         )
 
         /**
-         * 路径的index
+         * ID
          */
-        private const val INDEX_PATH = 0
+        private const val INDEX_ID = 0
+
         /**
          * 名称的index
          */
@@ -135,9 +135,6 @@ class ImageModel(private val context: Context) {
          * 文件夹 名称
          */
         private const val INDEX_FOLDER_NAME = 5
-        /**
-         * ID
-         */
-        private const val INDEX_ID = 6
+
     }
 }

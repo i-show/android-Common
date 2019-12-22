@@ -514,7 +514,7 @@ class ImageTextView(context: Context, attrs: AttributeSet) : View(context, attrs
         setText(context.getString(resId))
     }
 
-    fun setText(text: CharSequence) {
+    fun setText(text: CharSequence?) {
         if (TextUtils.equals(text, mText)) {
             return
         }

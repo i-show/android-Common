@@ -20,7 +20,7 @@ import android.graphics.PathMeasure;
 import android.view.animation.Interpolator;
 
 /**
- * A path interpolator implementation compatible with API 4+.
+ * A uri interpolator implementation compatible with API 4+.
  */
 class PathInterpolatorDonut implements Interpolator {
 

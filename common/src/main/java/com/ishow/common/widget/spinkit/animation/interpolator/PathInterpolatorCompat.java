@@ -21,7 +21,7 @@ import android.os.Build;
 import android.view.animation.Interpolator;
 
 /**
- * Helper for creating path-based {@link Interpolator} instances. On API 21 or newer, the
+ * Helper for creating uri-based {@link Interpolator} instances. On API 21 or newer, the
  * platform implementation will be used and on older platforms a compatible alternative
  * implementation will be used.
  */

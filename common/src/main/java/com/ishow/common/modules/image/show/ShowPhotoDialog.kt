@@ -17,8 +17,8 @@
 package com.ishow.common.modules.image.show
 
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import com.ishow.common.R
@@ -30,8 +30,14 @@ import kotlinx.android.synthetic.main.widget_show_photo.*
  * 查看大图的Dialog
  */
 class ShowPhotoDialog(context: Context) : BaseDialog(context, R.style.Theme_Dialog_Black) {
-    private var mUrls: MutableList<String> = ArrayList()
-    private var mBeforeView: View? = null
+    /**
+     * String格式的Url
+     */
+    private var urlList: MutableList<String> = mutableListOf()
+    /**
+     * Android 10以后的Uri
+     */
+    private var uriList: MutableList<Uri> = mutableListOf()
     private var mCurrentPosition: Int = 0
     private var isShowThumb = true
 
@@ -40,8 +46,7 @@ class ShowPhotoDialog(context: Context) : BaseDialog(context, R.style.Theme_Dial
         resetStatusBar()
         setContentView(R.layout.widget_show_photo)
         val adapter = ShowPhotoAdapter(context)
-        adapter.setBeforeView(mBeforeView)
-        adapter.setData(mUrls)
+        adapter.setData(urlList)
         adapter.setDialog(this)
         adapter.setShowThumb(isShowThumb)
 
@@ -50,31 +55,31 @@ class ShowPhotoDialog(context: Context) : BaseDialog(context, R.style.Theme_Dial
 
         indicator.setViewPager(pager)
         // 只有一张图片的时候不需要显示指示器
-        if (mUrls.size == 1) {
+        if (urlList.size == 1) {
             indicator.visibility = View.GONE
         }
     }
 
     fun setData(url: String?) {
         if (!url.isNullOrEmpty()) {
-            mUrls.add(url)
+            urlList.add(url)
         }
     }
 
     fun setData(urls: MutableList<String>?) {
         if (urls == null) {
-            mUrls.clear()
+            urlList.clear()
         } else {
-            mUrls = urls
+            urlList = urls
         }
     }
 
-    /**
-     * 如果不需要 显示缩略图就不要设置
-     */
-    fun setBeforeView(view: View) {
-        mBeforeView = view
+    fun setData(uri: Uri?) {
+        uri?.let { uriList.add(uri) }
     }
+
+
+
 
     fun setShowThumb(showThumb: Boolean) {
         isShowThumb = showThumb
@@ -102,7 +107,9 @@ class ShowPhotoDialog(context: Context) : BaseDialog(context, R.style.Theme_Dial
                         or View.SYSTEM_UI_FLAG_FULLSCREEN
                         or View.SYSTEM_UI_FLAG_IMMERSIVE)
 
-        window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+            WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+        )
     }
 }

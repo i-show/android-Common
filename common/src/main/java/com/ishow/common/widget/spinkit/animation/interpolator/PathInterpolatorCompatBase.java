@@ -20,7 +20,7 @@ import android.graphics.Path;
 import android.view.animation.Interpolator;
 
 /**
- * Base implementation for path interpolator compatibility.
+ * Base implementation for uri interpolator compatibility.
  */
 class PathInterpolatorCompatBase {
 

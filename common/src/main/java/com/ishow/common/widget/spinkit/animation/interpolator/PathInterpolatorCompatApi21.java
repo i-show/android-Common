@@ -23,7 +23,7 @@ import android.view.animation.Interpolator;
 import android.view.animation.PathInterpolator;
 
 /**
- * API 21+ implementation for path interpolator compatibility.
+ * API 21+ implementation for uri interpolator compatibility.
  */
 class PathInterpolatorCompatApi21 {
 

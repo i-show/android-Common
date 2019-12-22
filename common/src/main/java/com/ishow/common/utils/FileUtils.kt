@@ -134,7 +134,7 @@ object FileUtils {
 
         val root = File(path)
         if (!root.exists()) {
-            LogUtils.e(TAG, "getFileList: path is not exists")
+            LogUtils.e(TAG, "getFileList: uri is not exists")
             return result
         }
 
@@ -160,7 +160,7 @@ object FileUtils {
 
         val root = File(path)
         if (!root.exists()) {
-            LogUtils.e(TAG, "getFileList: path is not exists")
+            LogUtils.e(TAG, "getFileList: uri is not exists")
             return result
         }
 
@@ -204,7 +204,7 @@ object FileUtils {
 
         val oldPath = File(oldPathStr)
         if (oldPath.isFile) {
-            LogUtils.e(TAG, "copy: oldPath is a file not a path")
+            LogUtils.e(TAG, "copy: oldPath is a file not a uri")
             return
         }
 
