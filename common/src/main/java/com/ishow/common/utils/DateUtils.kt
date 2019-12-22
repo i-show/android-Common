@@ -17,15 +17,11 @@
 package com.ishow.common.utils
 
 import android.content.Context
-
 import com.ishow.common.R
-
 import java.io.File
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
+import java.util.*
 
 /**
  * 时间工具类
@@ -103,7 +99,7 @@ object DateUtils {
         try {
             val nowFormatter = SimpleDateFormat(nowModel, locale)
             val targetFormatter = SimpleDateFormat(targetModel, locale)
-            val data = nowFormatter.parse(time)
+            val data = nowFormatter.parse(time)!!
             return targetFormatter.format(data)
         } catch (e: ParseException) {
             e.printStackTrace()
@@ -122,7 +118,7 @@ object DateUtils {
     @JvmOverloads
     fun formatToLong(time: String, nowModel: String, locale: Locale = Locale.getDefault()): Long {
         try {
-            return formatToDate(time, nowModel, locale).time
+            return formatToDate(time, nowModel, locale)?.time ?: 0L
         } catch (e: ParseException) {
             e.printStackTrace()
         }
@@ -137,7 +133,7 @@ object DateUtils {
      * @param locale   区域
      */
     @JvmOverloads
-    fun formatToDate(time: String, nowModel: String, locale: Locale = Locale.getDefault()): Date {
+    fun formatToDate(time: String, nowModel: String, locale: Locale = Locale.getDefault()): Date? {
         return SimpleDateFormat(nowModel, locale).parse(time)
     }
 

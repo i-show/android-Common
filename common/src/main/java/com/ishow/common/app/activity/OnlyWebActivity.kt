@@ -107,6 +107,7 @@ open class OnlyWebActivity : BaseActivity() {
             return if (client == null) {
                 true
             } else {
+                @Suppress("DEPRECATION")
                 client!!.shouldOverrideUrlLoading(view, url)
             }
         }
