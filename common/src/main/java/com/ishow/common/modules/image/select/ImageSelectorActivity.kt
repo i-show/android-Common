@@ -18,6 +18,7 @@ package com.ishow.common.modules.image.select
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import com.ishow.common.R
 import com.ishow.common.app.mvvm.view.BindActivity
 import com.ishow.common.databinding.ActivityPhotoSelectorBinding
@@ -36,7 +37,7 @@ class ImageSelectorActivity : BindActivity<ActivityPhotoSelectorBinding, ImageSe
     private var maxCount: Int = 0
     private var mode: Int = 0
     private val listFragment = ImageListFragment()
-    private val previewFragment by lazy { ImagePreviewFragment() }
+    private var previewFragment: ImagePreviewFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,12 +61,61 @@ class ImageSelectorActivity : BindActivity<ActivityPhotoSelectorBinding, ImageSe
         if (mode == Image.Key.MODE_SINGLE) maxCount = 1
     }
 
-    fun showImagePreview() {
-        val photoList = viewModel.selectedImages.value
-        if (photoList.isNullOrEmpty()) {
+    /**
+     * 预览当前选中的图片
+     */
+    fun previewSelected() {
+        val imageList = viewModel.selectedImages.value
+        if (imageList.isNullOrEmpty()) {
             toast(R.string.please_select_image)
             return
         }
-        showFragment(previewFragment, listFragment)
+        viewModel.setPreviewImage(imageList.get(0), 0)
+        preview(-1)
+    }
+
+    fun preview(position: Int) {
+        if (previewFragment == null) {
+            previewFragment = ImagePreviewFragment.newInstance(position)
+        }
+
+        if (position != -1) {
+            previewFragment?.setCurrentItem(position)
+        }
+
+        replaceFragment(previewFragment, listFragment)
+    }
+
+    override fun onBackPressed() {
+        if (previewFragment?.isVisible == true) {
+            viewModel.removeCancelSelectImage()
+            replaceFragment(listFragment, previewFragment)
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+
+    /**
+     * 显示Fragment
+     */
+    private fun replaceFragment(showFragment: Fragment?, hideFragment: Fragment? = null) {
+        val transaction = supportFragmentManager.beginTransaction()
+
+        if (hideFragment != null) {
+            transaction.hide(hideFragment)
+        }
+
+        if (showFragment == null) {
+            transaction.commit()
+            return
+        }
+
+        if (showFragment.isAdded) {
+            transaction.show(showFragment)
+        } else {
+            transaction.add(R.id.fragmentContainer, showFragment)
+        }
+        transaction.commit()
     }
 }

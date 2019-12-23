@@ -58,7 +58,7 @@
     <string name="preview_image">预览</string>
     <string name="link_preview_image">预览(%d)</string>
     <string name="select_photo">选择</string>
-    <string name="select_photo_preview_left_top">%d/%d</string>
+    <string name="select_photo_preview_left_top" formatted="false">%d/%d</string>
 
     <string name="pull2refresh_header_normal">下拉刷新</string>
     <string name="pull2refresh_header_ready">松开刷新</string>

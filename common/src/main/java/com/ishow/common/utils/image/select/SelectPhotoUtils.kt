@@ -388,6 +388,7 @@ class SelectPhotoUtils(private val activity: Activity, @param:SelectMode private
      * 处理返回的图片-通过压缩图片的方式
      */
     private fun resolveResultPhotosForCompress(photos: List<String>) {
+        Log.i("yhy", "photos = $photos")
         isAlreadyOk = false
         // 设置最多线程同时上传图片
         executorService = Executors.newFixedThreadPool(MAX_THREAD)

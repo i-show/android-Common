@@ -108,7 +108,8 @@
                 android:paddingEnd="5dp"
                 android:text="@{vm.previewText}"
                 android:textColor="@color/color_accent"
-                android:textSize="@dimen/I_title" />
+                android:textSize="@dimen/I_title"
+                tools:text="预览（1）" />
 
         </LinearLayout>
     </FrameLayout>

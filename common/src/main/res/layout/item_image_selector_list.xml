@@ -26,15 +26,23 @@
             type="com.ishow.common.entries.Image" />
 
         <variable
+            name="position"
+            type="Integer" />
+
+        <variable
             name="vm"
             type="com.ishow.common.modules.image.select.ImageSelectorViewModel" />
+
+        <variable
+            name="fragment"
+            type="com.ishow.common.modules.image.select.ImageListFragment" />
     </data>
 
     <com.ishow.common.widget.framelayout.ScaleFrameLayout
         android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{()->vm.viewPhoto(root, photo)}"
+        android:onClick="@{()->fragment.previewPhoto(position)}"
         app:heightScale="1"
         app:widthScale="1">
 
@@ -51,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/grey_alpha_0_6"
-            android:visibility="@{photo.isSelected?View.VISIBLE:View.INVISIBLE}" />
+            android:visibility="@{photo.selected?View.VISIBLE:View.INVISIBLE}" />
 
         <FrameLayout
             android:id="@+id/statusContainer"
@@ -67,7 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|end"
-                android:checked="@{photo.isSelected}"
+                android:checked="@{photo.selected}"
                 android:clickable="false"
                 android:scaleX="0.8"
                 android:scaleY="0.8" />

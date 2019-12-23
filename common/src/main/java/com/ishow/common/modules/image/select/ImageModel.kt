@@ -12,7 +12,7 @@ import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import java.util.ArrayList
+import java.util.*
 
 class ImageModel(private val context: Context) {
 
@@ -28,6 +28,7 @@ class ImageModel(private val context: Context) {
         cursor?.let {
             photoList.clear()
             folderList.clear()
+            var postion = 0
             while (cursor.moveToNext()) {
                 val id = cursor.getLong(INDEX_ID)
                 val uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
@@ -40,8 +41,9 @@ class ImageModel(private val context: Context) {
                 if (size < MIN_PHOTO_SIZE) {
                     continue
                 }
-                val photo = Image(id, uri, name, modifyDate, folderName)
+                val photo = Image(id, uri, name, modifyDate, folderName, postion)
                 photoList.add(photo)
+                postion++
 
                 resolvePhotoFolder(photo, folderId, folderName)
             }

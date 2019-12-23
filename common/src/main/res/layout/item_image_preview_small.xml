@@ -25,7 +25,7 @@
         android:id="@+id/root"
         android:layout_width="62dp"
         android:layout_height="62dp"
-        android:onClick="@{()->fragment.setCurrentItem(position)}"
+        android:onClick="@{()->fragment.setCurrentItem(vm.previewGlobal?item.position:position, true)}"
         app:current="@{item}"
         app:preview="@{vm.previewCurrent}">
 

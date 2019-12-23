@@ -38,11 +38,22 @@ class Image(
     /**
      * 包含本图片的名字
      */
-    var folderName: String
+    var folderName: String,
+    /**
+     * 图片的位置
+     */
+    var position: Int
 ) {
+    /**
+     * 是否选中
+     */
     @JvmField
-    var isSelected = false
-    var isUnSelected = false
+    var selected = false
+
+    /**
+     * 是否取消选中
+     */
+    var cancelSelected = false
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -80,6 +91,8 @@ class Image(
          * 默认最大选择数量
          */
         const val DEFAULT_MAX_COUNT = 9
+
+        const val POSITION = "key_position"
     }
 
 }

@@ -9,7 +9,6 @@ import com.ishow.common.R
 import com.ishow.common.app.mvvm.viewmodel.BaseViewModel
 import com.ishow.common.entries.Folder
 import com.ishow.common.entries.Image
-import com.ishow.common.modules.image.show.ShowPhotoDialog
 import com.ishow.common.utils.ToastUtils
 import com.ishow.common.utils.databinding.bus.Event
 
@@ -30,8 +29,8 @@ class ImageSelectorViewModel(application: Application) : BaseViewModel(applicati
     /**
      * 图片列表
      */
-    private val _imageList = MutableLiveData<List<Image>>()
-    val imageList: LiveData<List<Image>>
+    private val _imageList = MutableLiveData<MutableList<Image>>()
+    val imageList: LiveData<MutableList<Image>>
         get() = _imageList
 
     /**
@@ -47,6 +46,7 @@ class ImageSelectorViewModel(application: Application) : BaseViewModel(applicati
     private val _selectedImages = MutableLiveData<MutableList<Image>>()
     val selectedImages: LiveData<MutableList<Image>>
         get() = _selectedImages
+
     /**
      * 列表页TopBar右侧计数信息
      */
@@ -68,18 +68,34 @@ class ImageSelectorViewModel(application: Application) : BaseViewModel(applicati
     val previewCurrent: LiveData<Image>
         get() = _previewImage
 
+    /**
+     * 当前预览照片是否被选中
+     */
     private val _previewImageStatus = MutableLiveData<Boolean>()
     val previewImageStatus: LiveData<Boolean>
         get() = _previewImageStatus
 
-
+    /**
+     * 当前预览的总数
+     */
     private val _previewTotal = MutableLiveData<Int>()
     val previewTotal: LiveData<Int>
         get() = _previewTotal
 
+    /**
+     * 当前预览的是第几张
+     */
     private val _previewPosition = MutableLiveData<Int>()
     val previewPosition: LiveData<Int>
         get() = _previewPosition
+
+    /**
+     * 是否是全局预览
+     * 当点击单个图片的时候为全局预览
+     */
+    private val _previewGlobal = MutableLiveData<Boolean>()
+    val previewGlobal: LiveData<Boolean>
+        get() = _previewGlobal
 
     internal var mode: Int = Image.Key.MODE_SINGLE
     private var maxCount: Int = 1
@@ -118,11 +134,16 @@ class ImageSelectorViewModel(application: Application) : BaseViewModel(applicati
             _topRightText.value = context.getString(R.string.link_complete, selectCount, maxCount)
             _previewText.value = context.getString(R.string.link_preview_image, selectCount)
         }
-        _previewTotal.value = selectCount
+        // 只有在非全局模式下才会动态改变
+        if (_previewGlobal.value != true) {
+            _previewTotal.value = selectCount
+        }
     }
 
     fun updateCurrentFolder(folder: Folder) {
         _currentFolder.value = folder
+        folder.photoList.forEachIndexed { index, image -> image.position = index }
+        _imageList.value = folder.photoList
     }
 
     /**
@@ -132,56 +153,64 @@ class ImageSelectorViewModel(application: Application) : BaseViewModel(applicati
     fun selectImage(entry: Image, view: CheckBox? = null, mask: View? = null) {
         val photoList = _selectedImages.value!!
         val alreadyCount = photoList.size
-        if (alreadyCount >= maxCount && !entry.isSelected) {
+        if (alreadyCount >= maxCount && !entry.selected) {
             val tip = context.getString(R.string.already_select_max, maxCount)
             ToastUtils.show(context, tip)
             return
         }
 
-        entry.isSelected = !entry.isSelected
-        if (entry.isSelected) {
+        entry.selected = !entry.selected
+        if (entry.selected) {
             photoList.add(entry)
         } else {
             photoList.remove(entry)
         }
-        view?.isChecked = entry.isSelected
-        mask?.visibility = if (entry.isSelected) View.VISIBLE else View.INVISIBLE
+        view?.isChecked = entry.selected
+        mask?.visibility = if (entry.selected) View.VISIBLE else View.INVISIBLE
         onSelectChanged(photoList.size)
         _selectedImages.value = photoList
     }
 
-
-    fun setUnSelectPhoto(entry: Image, view: CheckBox? = null) {
-        entry.isUnSelected = !entry.isUnSelected
-        view?.isChecked = entry.isUnSelected
-        _previewImageStatus.value = entry.isSelected && !entry.isUnSelected
+    /**
+     * 取消选中状态
+     */
+    fun cancelSelectPhoto(entry: Image, view: CheckBox? = null) {
+        entry.cancelSelected = !entry.cancelSelected
+        view?.isChecked = entry.cancelSelected
+        _previewImageStatus.value = entry.selected && !entry.cancelSelected
     }
 
-    fun removeUnSelectPhoto() {
+    fun removeCancelSelectImage() {
         val list = _selectedImages.value!!
-        var dataChanged = false
         for (i in list.size - 1 downTo 0) {
             val item = list[i]
-            if (item.isUnSelected) {
+            if (item.cancelSelected) {
                 list.removeAt(i)
-                item.isSelected = false
-                item.isUnSelected = false
-                dataChanged = true
+                item.selected = false
+                item.cancelSelected = false
             }
         }
         onSelectChanged(list.size)
-        if (dataChanged) _imageListDataChanged.value = Event(true)
+        _imageListDataChanged.value = Event(true)
     }
 
-    fun viewPhoto(v: View, photo: Image) {
-        val dialog = ShowPhotoDialog(v.context)
-        dialog.setData(photo.uri)
-        dialog.show()
+
+    fun changePreviewGlobalStatus(status: Boolean) {
+        _previewGlobal.value = status
+
+        if (status) {
+            _previewTotal.value = _imageList.value?.size ?: 0
+        } else {
+            _previewTotal.value = _selectedImages.value?.size ?: 0
+        }
     }
 
+    /**
+     * 设置当前预览图片
+     */
     internal fun setPreviewImage(image: Image, position: Int) {
         _previewPosition.value = position
         _previewImage.value = image
-        _previewImageStatus.value = image.isSelected && !image.isUnSelected
+        _previewImageStatus.value = image.selected && !image.cancelSelected
     }
 }

@@ -42,6 +42,7 @@ class ImageListFragment : BindFragment<FragmentImageListCommonBinding, BaseViewM
         adapter = BindAdapter(activity)
         adapter.addLayout(BR.photo, R.layout.item_image_selector_list)
         adapter.addVariable(BR.vm, activity.viewModel)
+        adapter.addVariable(BR.fragment, this)
 
         list.addItemDecoration(SpacingDecoration(activity, R.dimen.photo_selector_item_gap))
         list.adapter = adapter
@@ -80,7 +81,7 @@ class ImageListFragment : BindFragment<FragmentImageListCommonBinding, BaseViewM
     fun onViewClick(v: View) {
         when (v.id) {
             R.id.folderView -> selectPhotoFolder()
-            R.id.preview -> preview()
+            R.id.preview -> previewSelected()
         }
     }
 
@@ -110,7 +111,7 @@ class ImageListFragment : BindFragment<FragmentImageListCommonBinding, BaseViewM
     private fun selectPhotoFolder() {
         val adapter = BindAdapter<Folder>(context!!)
         adapter.addLayout(BR.folder, R.layout.item_image_selector_folder)
-        adapter.data = dataBinding.vm?.folderList?.value!!
+        adapter.data = dataBinding.vm?.folderList?.value
 
         BaseDialog.Builder(context, R.style.Theme_Dialog_Bottom2)
             .fromBottom(true)
@@ -120,10 +121,23 @@ class ImageListFragment : BindFragment<FragmentImageListCommonBinding, BaseViewM
             .show()
     }
 
-
-    private fun preview() {
+    /**
+     * 预览选中图片
+     */
+    private fun previewSelected() {
+        dataBinding.vm?.changePreviewGlobalStatus(false)
         val activity = activity as ImageSelectorActivity
-        activity.showImagePreview()
+        activity.previewSelected()
+    }
+
+    /**
+     * 预览大图
+     * 点击单个图片
+     */
+    fun previewPhoto(position: Int) {
+        dataBinding.vm?.changePreviewGlobalStatus(true)
+        val activity = activity as ImageSelectorActivity
+        activity.preview(position)
     }
 
     private fun updatePhotos(folder: Folder) {
@@ -136,7 +150,6 @@ class ImageListFragment : BindFragment<FragmentImageListCommonBinding, BaseViewM
         currentFolder?.isSelected = false
         dataBinding.vm?.updateCurrentFolder(folder)
 
-        adapter.data = folder.photoList
         folderView.setText(folder.name)
         list.scrollToPosition(0)
     }

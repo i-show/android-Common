@@ -15,13 +15,13 @@ object ImageSelectorBindingAdapter {
         val context = view.context
         val isCurrent = preview == current
         if (isCurrent) {
-            if (current.isUnSelected) {
+            if (current.cancelSelected) {
                 view.foreground = context.findDrawable(R.drawable.shape_preview_image_current_unselected)
             } else {
                 view.foreground = context.findDrawable(R.drawable.shape_preview_image_current_selected)
             }
         } else {
-            if (current.isUnSelected) {
+            if (current.cancelSelected) {
                 view.foreground = context.findDrawable(R.drawable.shape_preview_image_not_current_unselected)
             } else {
                 view.foreground = context.findDrawable(R.drawable.shape_transparent)
