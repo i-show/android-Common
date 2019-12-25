@@ -462,7 +462,7 @@ class BaseController(
             listView.addItemDecoration(ColorDecoration())
             when (mAdapter) {
                 null -> {
-                    val adapter = BindAdapter<String>(mContext)
+                    val adapter = BindAdapter<String>()
                     adapter.setOnItemClickListener { position ->
                         mOnClickListener?.let { it(dialog.mDialogInterface, position) }
                         dialog.mDialogInterface.dismiss()

@@ -48,7 +48,7 @@ class PrintView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 
         minimumHeight = minHeight
         setMaxHeight(maxHeight)
-        
+
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize.toFloat())
         textView.setTextColor(textColor)
         textView.typeface = Typeface.defaultFromStyle(textStyle)
@@ -120,7 +120,6 @@ class PrintView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         private const val TAG = "PrintView"
 
         private var worker: PrintView? = null
-        private
         fun init(worker: PrintView?) {
             this.worker = worker
         }

@@ -23,7 +23,7 @@ class SamplePull2RefreshFragment : Pull2RefreshFragment<FSamplePull2refreshBindi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val context = view.context
-        val adapter = BindAdapter<SampleTestPage>(view.context)
+        val adapter = BindAdapter<SampleTestPage>()
         adapter.addLayout(BR.item, R.layout.i_sample_pull2refresh)
         val footer = LoadMoreAdapter(adapter)
         list.adapter = footer

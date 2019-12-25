@@ -39,7 +39,7 @@ class ImageListFragment : BindFragment<FragmentImageListCommonBinding, BaseViewM
         dataBinding.fragment = this
 
         topBar.setOnTopBarListener(this)
-        adapter = BindAdapter(activity)
+        adapter = BindAdapter()
         adapter.addLayout(BR.photo, R.layout.item_image_selector_list)
         adapter.addVariable(BR.vm, activity.viewModel)
         adapter.addVariable(BR.fragment, this)
@@ -109,7 +109,7 @@ class ImageListFragment : BindFragment<FragmentImageListCommonBinding, BaseViewM
      * 选择图片文件夹
      */
     private fun selectPhotoFolder() {
-        val adapter = BindAdapter<Folder>(context!!)
+        val adapter = BindAdapter<Folder>()
         adapter.addLayout(BR.folder, R.layout.item_image_selector_folder)
         adapter.data = dataBinding.vm?.folderList?.value
 

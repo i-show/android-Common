@@ -229,7 +229,11 @@ class Tsar private constructor(builder: Builder) {
         }
 
         private fun getSaveFile(info: ImageInfo): File {
-            val folder = File(context.externalCacheDir!!, savePath)
+            val folder = if (savePath.isNullOrEmpty()) {
+                context.externalCacheDir!!
+            } else {
+                File(context.externalCacheDir!!, savePath)
+            }
             if (!folder.exists()) {
                 folder.mkdirs()
             }

@@ -14,8 +14,8 @@ import com.ishow.common.R
 import com.ishow.common.extensions.inflate
 import java.util.*
 
-open class BindAdapter<T>(val context: Context) : RecyclerView.Adapter<BindAdapter.BindHolder>() {
-
+open class BindAdapter<T> : RecyclerView.Adapter<BindAdapter.BindHolder>() {
+    private lateinit var context: Context
     private var mData: MutableList<T> = ArrayList()
 
     var data: MutableList<T>?
@@ -47,6 +47,11 @@ open class BindAdapter<T>(val context: Context) : RecyclerView.Adapter<BindAdapt
      */
     @Suppress("MemberVisibilityCanBePrivate")
     protected var disableOnItemClickListener = false
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        context = recyclerView.context
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindHolder {
         val item = parent.inflate(layoutList[viewType])

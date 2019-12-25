@@ -33,7 +33,7 @@ import kotlinx.android.synthetic.main.dialog_unit_select.*
  */
 
 class SelectDialog<T : IUnitSelect>(context: Context) : BaseDialog(context, R.style.Theme_Dialog_Bottom_Transparent) {
-    private val mAdapter = BindAdapter<T>(context)
+    private val mAdapter = BindAdapter<T>()
     private var mSelectedListener: ((T) -> Unit)? = null
 
     var data: MutableList<T>?

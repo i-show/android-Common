@@ -43,6 +43,7 @@ class ShowPhotoDialog(context: Context) : BaseDialog(context, R.style.Theme_Dial
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         resetStatusBar()
         setContentView(R.layout.widget_show_photo)
         val adapter = ShowPhotoAdapter(context)
@@ -77,8 +78,6 @@ class ShowPhotoDialog(context: Context) : BaseDialog(context, R.style.Theme_Dial
     fun setData(uri: Uri?) {
         uri?.let { uriList.add(uri) }
     }
-
-
 
 
     fun setShowThumb(showThumb: Boolean) {

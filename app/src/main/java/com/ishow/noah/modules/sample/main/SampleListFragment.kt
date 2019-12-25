@@ -3,7 +3,6 @@ package com.ishow.noah.modules.sample.main
 import android.os.Bundle
 import android.view.View
 import com.ishow.common.adapter.BindAdapter
-import com.ishow.common.app.mvvm.viewmodel.BaseViewModel
 import com.ishow.noah.BR
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSampleListBinding
@@ -27,7 +26,7 @@ class SampleListFragment : AppBindFragment<FragmentSampleListBinding, AppBaseVie
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = BindAdapter<Sample>(view.context)
+        val adapter = BindAdapter<Sample>()
         adapter.setOnItemClickListener { gotoDetail(adapter.getItem(it)) }
         adapter.addLayout(BR.item, R.layout.item_sample_main)
         adapter.data = SampleManager.samples

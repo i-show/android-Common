@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import com.ishow.common.extensions.inflate
 import com.ishow.common.utils.image.compress.Tsar
 import com.ishow.common.utils.image.compress.adapter.RenameDateTimeAdapter
-import com.ishow.common.utils.image.compress.filter.MinSizeFilter
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.widget.PrintView
 import com.ishow.noah.R
@@ -73,8 +72,15 @@ class HomeFragment : AppBaseFragment() {
         }
 
         show.setOnClickListener {
+            test(1)
+            test("2")
         }
 
+    }
+
+
+    fun <T> test(t: T) {
+        PrintView.print("T = $t")
     }
 
     override fun onRightClick(v: View) {

@@ -56,7 +56,7 @@ class SampleSelectPhotoFragment : AppBindFragment<FragmentSampleSelectPhotoBindi
         mSelectPhotoUtils.fragment = this
         mSelectPhotoUtils.setOnSelectPhotoListener(this)
 
-        mAdapter = BindAdapter(context)
+        mAdapter = BindAdapter()
         mAdapter.setOnItemClickListener { showPhoto(it) }
         mAdapter.addLayout(BR.imgUrl, R.layout.item_sample_select_photo)
 

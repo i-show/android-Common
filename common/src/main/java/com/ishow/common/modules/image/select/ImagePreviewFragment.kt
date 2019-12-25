@@ -43,11 +43,11 @@ class ImagePreviewFragment : BindFragment<FragmentImagePreviewCommonBinding, Bas
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val activity = activity as ImageSelectorActivity
-        adapter = BindAdapter(activity)
+        adapter = BindAdapter()
         adapter.addLayout(BR.item, R.layout.item_image_preview_big)
         list.adapter = adapter
 
-        previewAdapter = BindAdapter(activity)
+        previewAdapter = BindAdapter()
         previewAdapter.addLayout(BR.item, R.layout.item_image_preview_small)
         previewAdapter.addVariable(BR.vm, activity.viewModel)
         previewAdapter.addVariable(BR.fragment, this@ImagePreviewFragment)
