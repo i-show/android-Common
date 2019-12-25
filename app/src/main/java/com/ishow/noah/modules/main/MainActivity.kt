@@ -28,6 +28,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.ishow.common.extensions.fullWindow
 import com.ishow.common.extensions.normalWindow
 import com.ishow.common.utils.ToastUtils
+import com.ishow.common.utils.image.compress.Tsar
 import com.ishow.common.widget.BottomBar
 import com.ishow.noah.R
 import com.ishow.noah.modules.base.AppBaseActivity
@@ -83,7 +84,7 @@ class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
     }
 
 
-    fun selectFragment(selectId: Int) {
+    private fun selectFragment(selectId: Int) {
         when (selectId) {
             R.id.tab_1 -> {
                 if (tab1Fragment == null) {

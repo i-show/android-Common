@@ -1,21 +1,21 @@
 package com.ishow.noah.modules.main.home
 
 import android.annotation.SuppressLint
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ishow.common.extensions.inflate
+import com.ishow.common.utils.image.compress.Tsar
+import com.ishow.common.utils.image.compress.filter.MinSizeFilter
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.widget.PrintView
 import com.ishow.noah.R
 import com.ishow.noah.modules.base.AppBaseFragment
 import com.ishow.noah.modules.sample.main.SampleMainActivity
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 /**
  * Created by yuhaiyang on 2017/4/21.
@@ -47,17 +47,29 @@ class HomeFragment : AppBaseFragment() {
 
         send.setOnClickListener {
             PrintView.print("第 $count 次启动")
-            PrintView.print("发动机盖塑料袋款房管局施蒂利克房管局开发了叫得分李可佳")
+            PrintView.print("sdfgsdfg")
             count++
         }
 
-        reset.setOnClickListener { PrintView.reset() }
+        reset.setOnClickListener {
+            Log.i("yhy", "reset")
+            Tsar.with(context!!)
+                .compress(Uri.parse("content://media/external/images/media/67745"))
+                .addFilter(MinSizeFilter(MinSizeFilter.Unit.KB, 600))
+                .renameAdapter { it.position.toString() }
+                .setOnCompressListener {
+                    if (it.isSuccess()) {
+                        PrintView.print("压缩成功")
+                        PrintView.print("压缩后的路径为${it.image?.absolutePath}")
+                    } else {
+                        PrintView.print("压缩失败")
+                        PrintView.print("压缩错误：${it.errorList}")
+                    }
+                }
+                .start()
+        }
 
         show.setOnClickListener {
-            GlobalScope.launch(Dispatchers.Main) {
-                delay(3000)
-                PrintView.print("年底要找工作了，不知道好不好找工作，加油")
-            }
         }
 
     }

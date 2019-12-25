@@ -3,8 +3,10 @@ package com.ishow.common.modules.image.select
 import android.annotation.SuppressLint
 import android.content.ContentUris
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.provider.MediaStore
 import android.text.TextUtils
+import android.util.Log
 import com.ishow.common.R
 import com.ishow.common.entries.Folder
 import com.ishow.common.entries.Image
@@ -12,6 +14,7 @@ import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.io.File
 import java.util.*
 
 class ImageModel(private val context: Context) {
@@ -28,7 +31,7 @@ class ImageModel(private val context: Context) {
         cursor?.let {
             photoList.clear()
             folderList.clear()
-            var postion = 0
+            var position = 0
             while (cursor.moveToNext()) {
                 val id = cursor.getLong(INDEX_ID)
                 val uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
@@ -41,9 +44,13 @@ class ImageModel(private val context: Context) {
                 if (size < MIN_PHOTO_SIZE) {
                     continue
                 }
-                val photo = Image(id, uri, name, modifyDate, folderName, postion)
+                val photo = Image(id, uri, name, modifyDate, folderName, position)
                 photoList.add(photo)
-                postion++
+                position++
+
+                Log.i("yhy", "===========================")
+                Log.i("yhy", "name = $name")
+                Log.i("yhy", "uri = $uri")
 
                 resolvePhotoFolder(photo, folderId, folderName)
             }
@@ -122,7 +129,7 @@ class ImageModel(private val context: Context) {
          */
         private const val INDEX_NAME = 1
         /**
-         * 时间的index
+         * 图片大小
          */
         private const val INDEX_SIZE = 2
         /**

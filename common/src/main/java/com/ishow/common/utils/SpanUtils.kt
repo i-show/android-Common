@@ -90,11 +90,11 @@ object SpanUtils {
             }
 
             val resultString = when (type) {
-                SpanUtils.Type.FORMAT -> {
+                Type.FORMAT -> {
                     getFormatBody()
                 }
 
-                SpanUtils.Type.PLUS -> {
+                Type.PLUS -> {
                     getPlusBody()
                 }
             }

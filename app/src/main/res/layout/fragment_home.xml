@@ -24,24 +24,29 @@
         <TextView
             android:id="@+id/send"
             style="@style/AppTextView.Sample"
+            android:layout_margin="10dp"
             android:text="Send" />
 
 
         <TextView
             android:id="@+id/reset"
             style="@style/AppTextView.Sample"
+            android:layout_margin="10dp"
             android:text="Reset" />
 
         <TextView
             android:id="@+id/show"
             style="@style/AppTextView.Sample"
+            android:layout_margin="10dp"
             android:text="Show" />
 
         <com.ishow.common.widget.PrintView
             android:id="@+id/printView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:minHeight="200dp"
+            android:background="@drawable/base_dialog_bg"
             app:maxHeight="@dimen/dp_300" />
 
 
