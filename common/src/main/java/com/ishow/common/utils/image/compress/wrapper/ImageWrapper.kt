@@ -1,7 +1,6 @@
 package com.ishow.common.utils.image.compress.wrapper
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
 import java.io.File
@@ -12,7 +11,7 @@ import java.io.InputStream
  * Created by yuhaiyang on 2019-12-24.
  *
  */
-abstract class ImageWrapper : IImageWrapper {
+abstract class ImageWrapper {
     companion object {
         private const val TAG = "ImageWrapper"
 
@@ -27,13 +26,13 @@ abstract class ImageWrapper : IImageWrapper {
 
     private var inputStream: InputStream? = null
 
-    final override fun open(): InputStream? {
+    fun open(): InputStream? {
         close()
         inputStream = openStream()
         return inputStream
     }
 
-    override fun close() {
+    fun close() {
         try {
             inputStream?.close()
         } catch (ex: IOException) {
@@ -43,6 +42,9 @@ abstract class ImageWrapper : IImageWrapper {
         }
     }
 
+
     @Throws(IOException::class)
     abstract fun openStream(): InputStream?
+
+    abstract fun getDescription(): String
 }

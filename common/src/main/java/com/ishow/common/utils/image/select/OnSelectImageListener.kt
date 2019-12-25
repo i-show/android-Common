@@ -16,15 +16,17 @@
 
 package com.ishow.common.utils.image.select
 
+import java.io.File
+
 /**
  * Created by Bright.Yu on 2017/1/15.
  * 选择图片的监听
  */
 
-interface OnSelectPhotoListener {
+interface OnSelectImageListener {
     /**
-     * @param multiPath  多选图片的路径
-     * @param singlePath 单选图片
+     * @param imageList  多选图片的路径
+     * @param image 单选图片
      */
-    fun onSelectedPhoto(multiPath: MutableList<String>, singlePath: String)
+    fun onSelectedPhoto(imageList: MutableList<File?>, image: File?)
 }

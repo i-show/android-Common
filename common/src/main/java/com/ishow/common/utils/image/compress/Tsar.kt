@@ -13,7 +13,6 @@ import com.ishow.common.extensions.rotate
 import com.ishow.common.utils.image.compress.adapter.IRenameAdapter
 import com.ishow.common.utils.image.compress.filter.ICompressFilter
 import com.ishow.common.utils.image.compress.listener.OnCompleteListener
-import com.ishow.common.utils.image.compress.wrapper.IImageWrapper
 import com.ishow.common.utils.image.compress.wrapper.ImageWrapper
 import java.io.File
 import java.io.FileOutputStream
@@ -35,7 +34,7 @@ class Tsar private constructor(builder: Builder) {
     /**
      * 图片列表
      */
-    private val imageList: MutableList<IImageWrapper>
+    private val imageList: MutableList<ImageWrapper>
 
     private val resultList: Array<File?>
     /**
@@ -155,7 +154,7 @@ class Tsar private constructor(builder: Builder) {
     }
 
 
-    private inner class CompressRunnable(val image: IImageWrapper, val position: Int) : Runnable {
+    private inner class CompressRunnable(val image: ImageWrapper, val position: Int) : Runnable {
         override fun run() {
             val info = ImageInfo(position)
             val inputStream = image.open()
@@ -230,7 +229,7 @@ class Tsar private constructor(builder: Builder) {
         }
 
         private fun getSaveFile(info: ImageInfo): File {
-            val folder = context.getExternalFilesDir(savePath)!!
+            val folder = File(context.externalCacheDir!!, savePath)
             if (!folder.exists()) {
                 folder.mkdirs()
             }
@@ -302,7 +301,7 @@ class Tsar private constructor(builder: Builder) {
         /**
          * 图片列表
          */
-        internal val imageList: MutableList<IImageWrapper> = mutableListOf()
+        internal val imageList: MutableList<ImageWrapper> = mutableListOf()
         /**
          * 图片过滤器的List
          */
@@ -351,11 +350,19 @@ class Tsar private constructor(builder: Builder) {
         }
 
         /**
+         * listUri
+         */
+        fun compress(listUri: List<Uri>): Builder {
+            listUri.forEach { imageList.add(ImageWrapper.uri(context, it)) }
+            return this
+        }
+
+        /**
          * 压缩后保存的路径
-         * 保存的相对路径
+         * 保存的相对路径 例如："XXXCache"
          */
         fun savePath(path: String): Builder {
-            this.savePath = path
+            this.savePath = path.trim()
             return this
         }
 
@@ -413,7 +420,7 @@ class Tsar private constructor(builder: Builder) {
         /**
          * 设置压缩监听
          */
-        fun setOnCompressListener(listener: OnCompleteListener): Builder {
+        fun compressListener(listener: OnCompleteListener): Builder {
             completeListener = listener
             return this
         }
@@ -421,7 +428,7 @@ class Tsar private constructor(builder: Builder) {
         /**
          * 设置压缩监听
          */
-        fun setOnCompressListener(function: (CompressResult) -> Unit): Builder {
+        fun compressListener(function: (CompressResult) -> Unit): Builder {
             completeFunction = function
             return this
         }

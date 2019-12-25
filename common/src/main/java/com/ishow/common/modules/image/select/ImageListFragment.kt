@@ -89,7 +89,7 @@ class ImageListFragment : BindFragment<FragmentImageListCommonBinding, BaseViewM
         val photo = photoList[0]
         activity?.let {
             val intent = Intent()
-            intent.putExtra(Image.Key.EXTRA_RESULT, photo.uri)
+            intent.putExtra(Image.Key.EXTRA_RESULT, photo.uri.toString())
             it.setResult(Activity.RESULT_OK, intent)
             it.finish()
         }

@@ -9,7 +9,6 @@ import com.ishow.common.widget.PrintView
  */
 class MinSizeFilter(val unit: Unit, val size: Long) : ICompressFilter {
     override fun filter(info: ImageInfo): Boolean {
-        PrintView.print("filter: $info")
         // 因为某些时候byteCount 获取的可能为O
         if (info.byteCount == 0L) {
             return false

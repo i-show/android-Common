@@ -48,10 +48,6 @@ class ImageModel(private val context: Context) {
                 photoList.add(photo)
                 position++
 
-                Log.i("yhy", "===========================")
-                Log.i("yhy", "name = $name")
-                Log.i("yhy", "uri = $uri")
-
                 resolvePhotoFolder(photo, folderId, folderName)
             }
             addAllPhotoFolder(folderList, photoList)

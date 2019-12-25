@@ -14,4 +14,6 @@ internal class ImageUriWrapper(val context: Context, val uri: Uri) : ImageWrappe
     override fun openStream(): InputStream? {
         return context.contentResolver.openInputStream(uri)
     }
+
+    override fun getDescription(): String = uri.toString()
 }

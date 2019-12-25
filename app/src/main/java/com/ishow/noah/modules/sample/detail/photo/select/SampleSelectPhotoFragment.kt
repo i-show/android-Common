@@ -21,11 +21,10 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.FragmentActivity
-
 import com.ishow.common.adapter.BindAdapter
 import com.ishow.common.modules.image.show.ShowPhotoDialog
-
-import com.ishow.common.utils.image.select.OnSelectPhotoListener
+import com.ishow.common.utils.StringUtils
+import com.ishow.common.utils.image.select.OnSelectImageListener
 import com.ishow.common.utils.image.select.SelectPhotoUtils
 import com.ishow.common.widget.recyclerview.itemdecoration.SpacingDecoration
 import com.ishow.noah.BR
@@ -34,6 +33,7 @@ import com.ishow.noah.databinding.FragmentSampleSelectPhotoBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
 import kotlinx.android.synthetic.main.fragment_sample_select_photo.*
+import java.io.File
 
 /**
  * Created by Bright.Yu on 2017/1/15.
@@ -41,7 +41,7 @@ import kotlinx.android.synthetic.main.fragment_sample_select_photo.*
  */
 
 class SampleSelectPhotoFragment : AppBindFragment<FragmentSampleSelectPhotoBinding, AppBaseViewModel>(),
-    OnSelectPhotoListener {
+    OnSelectImageListener {
 
     private lateinit var mSelectPhotoUtils: SelectPhotoUtils
     private lateinit var mAdapter: BindAdapter<String>
@@ -88,14 +88,14 @@ class SampleSelectPhotoFragment : AppBindFragment<FragmentSampleSelectPhotoBindi
         }
     }
 
-    override fun onSelectedPhoto(multiPath: MutableList<String>, singlePath: String) {
-        mAdapter.data = multiPath
-    }
-
     private fun showPhoto(position: Int) {
         val path = mAdapter.getItem(position)
         val dialog = ShowPhotoDialog(context!!)
         dialog.setData(path)
         dialog.show()
+    }
+
+    override fun onSelectedPhoto(imageList: MutableList<File?>, image: File?) {
+        mAdapter.data = imageList.map { it?.absolutePath ?: StringUtils.EMPTY }.toMutableList()
     }
 }

@@ -17,16 +17,12 @@
 package com.ishow.common.utils.image.select
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Handler
-import android.os.Message
 import android.provider.MediaStore
-import android.text.TextUtils
 import android.util.Log
 import androidx.annotation.IntDef
 import androidx.annotation.IntRange
@@ -38,26 +34,19 @@ import com.ishow.common.modules.image.cutter.PhotoCutterActivity
 import com.ishow.common.modules.image.select.ImageSelectorActivity
 import com.ishow.common.utils.ToastUtils
 import com.ishow.common.utils.image.ImageUtils
+import com.ishow.common.utils.image.compress.Tsar
 import com.ishow.common.utils.log.LogUtils
 import com.ishow.common.utils.permission.PermissionManager
 import com.ishow.common.utils.permission.PermissionManager.hasPermission
 import com.ishow.common.widget.dialog.BaseDialog
 import com.ishow.common.widget.loading.LoadingDialog
 import java.io.File
-import java.util.*
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 
 /**
  * 基类
  */
 class SelectPhotoUtils(private val activity: Activity, @param:SelectMode private var mSelectMode: Int) :
     DialogInterface.OnClickListener, DialogInterface.OnDismissListener {
-
-    /**
-     * 保存图片的地址的
-     */
-    private val photoList = Collections.synchronizedList(ArrayList<String>())
 
     /**
      * Camera拍照输出的地址
@@ -73,7 +62,7 @@ class SelectPhotoUtils(private val activity: Activity, @param:SelectMode private
     /**
      * 选择图片的Listener
      */
-    private var selectPhotoListener: OnSelectPhotoListener? = null
+    private var selectPhotoListener: OnSelectImageListener? = null
     /**
      * 图片选择后是 压缩还是剪切
      */
@@ -90,15 +79,6 @@ class SelectPhotoUtils(private val activity: Activity, @param:SelectMode private
      * 可以选择的最大数量
      */
     private var maxSelectCount: Int = 0
-
-    /**
-     * 数据是否已经完成
-     */
-    private var isAlreadyOk: Boolean = false
-    /**
-     * 压缩图片的线程池
-     */
-    private var executorService: ExecutorService? = null
     /**
      * Format
      */
@@ -106,20 +86,6 @@ class SelectPhotoUtils(private val activity: Activity, @param:SelectMode private
 
     var fragment: Fragment? = null
 
-    @SuppressLint("HandlerLeak")
-    private val mHandler = object : Handler() {
-        override fun handleMessage(msg: Message) {
-            if (selectPhotoListener == null) {
-                LoadingDialog.dismiss(loadingDialog)
-                return
-            }
-
-            if (executorService?.isTerminated!! && !isAlreadyOk) {
-                isAlreadyOk = true
-                notifySelectPhoto(photoList, photoList[0])
-            }
-        }
-    }
 
     /**
      * 设置选择模式
@@ -131,11 +97,6 @@ class SelectPhotoUtils(private val activity: Activity, @param:SelectMode private
     @JvmOverloads
     fun select(format: Bitmap.CompressFormat = Bitmap.CompressFormat.WEBP) {
         compressFormat = format
-
-        if (!checkPermission()) {
-            Log.i(TAG, "select: no permission")
-            return
-        }
 
         if (mSelectMode == SelectMode.SINGLE) {
             resultMode = ResultMode.COMPRESS
@@ -153,11 +114,6 @@ class SelectPhotoUtils(private val activity: Activity, @param:SelectMode private
     @JvmOverloads
     fun select(@IntRange(from = 1) maxCount: Int, format: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG) {
         compressFormat = format
-
-        if (!checkPermission()) {
-            Log.i(TAG, "select: no permission")
-            return
-        }
 
         if (mSelectMode == SelectMode.SINGLE) {
             throw IllegalStateException("only multiple selection use")
@@ -177,11 +133,6 @@ class SelectPhotoUtils(private val activity: Activity, @param:SelectMode private
     @JvmOverloads
     fun select(@IntRange(from = 1) scaleX: Int, @IntRange(from = 1) scaleY: Int, format: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG) {
         compressFormat = format
-
-        if (!checkPermission()) {
-            Log.i(TAG, "select: no permission")
-            return
-        }
 
         if (mSelectMode == SelectMode.MULTIPLE) {
             throw IllegalStateException("only single select SelectMode can set scaleX and scaleY")
@@ -229,6 +180,9 @@ class SelectPhotoUtils(private val activity: Activity, @param:SelectMode private
      */
     @Suppress("SpellCheckingInspection")
     private fun selectPhotoByCamera(file: File? = null) {
+        if (!requestCameraPermission()) {
+            return
+        }
         var resultFile = file
         val authority = activity.packageName + ".fileprovider"
         if (resultFile == null) resultFile = ImageUtils.genImageFile(activity)
@@ -283,7 +237,6 @@ class SelectPhotoUtils(private val activity: Activity, @param:SelectMode private
 
     override fun onDismiss(dialog: DialogInterface) {
         selectDialog = null
-        mHandler.removeCallbacksAndMessages(null)
     }
 
     /**
@@ -322,7 +275,7 @@ class SelectPhotoUtils(private val activity: Activity, @param:SelectMode private
                     return
                 }
                 val picPath = intentData.getStringExtra(PhotoCutterActivity.KEY_RESULT_PATH)
-                notifySelectPhoto(picPath)
+                picPath?.let { notifySelectPhoto(File(it)) }
             }
             else -> LogUtils.i(TAG, "requestCode = $requestCode")
         }
@@ -346,24 +299,14 @@ class SelectPhotoUtils(private val activity: Activity, @param:SelectMode private
      * onActivityResult 处理 单选
      */
     private fun resolveSingleResult(picPath: String?) {
-        if (TextUtils.isEmpty(picPath)) {
+        if (picPath.isNullOrEmpty()) {
             Log.i(TAG, "resolveSingleResult: picPath is empty")
             return
         }
 
-        loadingDialog = LoadingDialog.show(activity, loadingDialog)
-
-        val photos = ArrayList<String>()
-        photos.add(picPath!!)
-
-        photoList.clear()
-        photoList.add("single")
-
+        val photos = mutableListOf(picPath)
         when (resultMode) {
-            ResultMode.COMPRESS -> {
-                loadingDialog = LoadingDialog.show(activity, loadingDialog)
-                resolveResultPhotosForCompress(photos)
-            }
+            ResultMode.COMPRESS -> resolveResultPhotosForCompress(photos)
             ResultMode.CROP -> gotoCrop(picPath)
         }
     }
@@ -376,9 +319,6 @@ class SelectPhotoUtils(private val activity: Activity, @param:SelectMode private
             Log.i(TAG, "resolveMultiResult: pathList is empty")
             return
         }
-        // 把没有压缩前添加进入当占位符
-        photoList.clear()
-        photoList.addAll(pathList)
 
         loadingDialog = LoadingDialog.show(activity, loadingDialog)
         resolveResultPhotosForCompress(pathList)
@@ -388,16 +328,12 @@ class SelectPhotoUtils(private val activity: Activity, @param:SelectMode private
      * 处理返回的图片-通过压缩图片的方式
      */
     private fun resolveResultPhotosForCompress(photos: List<String>) {
-        Log.i("yhy", "photos = $photos")
-        isAlreadyOk = false
-        // 设置最多线程同时上传图片
-        executorService = Executors.newFixedThreadPool(MAX_THREAD)
-        for (i in photos.indices) {
-            val photo = photos[i]
-            executorService!!.execute(CompressRunnable(photo, i))
-        }
-        // 关闭线程池
-        executorService!!.shutdown()
+        loadingDialog = LoadingDialog.show(activity, loadingDialog)
+        Tsar.with(activity)
+            .compress(photos.map { Uri.parse(it) })
+            .savePath("select")
+            .compressListener { notifySelectPhoto(it.imageList, it.image) }
+            .start()
     }
 
     /**
@@ -417,47 +353,35 @@ class SelectPhotoUtils(private val activity: Activity, @param:SelectMode private
         }
     }
 
-    private inner class CompressRunnable internal constructor(
-        internal var path: String,
-        internal var key: Int
-    ) : Runnable {
-        override fun run() {
-            val resultPath = ImageUtils.compressImage(activity, path, compressFormat)
-            photoList[key] = resultPath
-            mHandler.sendEmptyMessageDelayed(0, 100)
-        }
-    }
-
 
     /**
      * 提示已经选了多少图片
      */
-    private fun notifySelectPhoto(singlePath: String?) {
-        singlePath?.let {
-            notifySelectPhoto(mutableListOf(it), singlePath)
+    private fun notifySelectPhoto(image: File?) {
+        image?.let {
+            notifySelectPhoto(mutableListOf(it), image)
         }
     }
 
     /**
      * 提示已经选了多少图片
      */
-    private fun notifySelectPhoto(multiPath: MutableList<String>, singlePath: String) {
+    private fun notifySelectPhoto(imageList: MutableList<File?>, image: File?) {
         LoadingDialog.dismiss(loadingDialog)
-        selectPhotoListener?.onSelectedPhoto(multiPath, singlePath)
+        selectPhotoListener?.onSelectedPhoto(imageList, image)
     }
 
     /**
      * 设置选择图片的监听
      */
-    fun setOnSelectPhotoListener(listener: OnSelectPhotoListener) {
+    fun setOnSelectPhotoListener(listener: OnSelectImageListener) {
         selectPhotoListener = listener
     }
 
 
-    private fun checkPermission(): Boolean {
+    private fun requestCameraPermission(): Boolean {
         val permissions = arrayOf(
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE
+            Manifest.permission.CAMERA
         )
         if (!hasPermission(activity, *permissions)) {
             PermissionManager.with(activity)
@@ -535,10 +459,7 @@ class SelectPhotoUtils(private val activity: Activity, @param:SelectMode private
          * 多选模式下最多可以选多少张图片
          */
         private const val MAX_SELECT_COUNT = 9
-        /**
-         * 最多几个线程进行同时压缩
-         */
-        private const val MAX_THREAD = 3
+
         /**
          * 通过拍照 来选择
          */

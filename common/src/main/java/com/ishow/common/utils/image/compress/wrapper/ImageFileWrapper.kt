@@ -14,4 +14,6 @@ internal class ImageFileWrapper(val file: File) : ImageWrapper() {
     override fun openStream(): InputStream? {
         return FileInputStream(file)
     }
+
+    override fun getDescription(): String = file.absolutePath
 }

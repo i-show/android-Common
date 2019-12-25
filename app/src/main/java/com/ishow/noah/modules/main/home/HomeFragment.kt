@@ -1,6 +1,7 @@
 package com.ishow.noah.modules.main.home
 
 import android.annotation.SuppressLint
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.ishow.common.extensions.inflate
 import com.ishow.common.utils.image.compress.Tsar
+import com.ishow.common.utils.image.compress.adapter.RenameDateTimeAdapter
 import com.ishow.common.utils.image.compress.filter.MinSizeFilter
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.widget.PrintView
@@ -55,9 +57,10 @@ class HomeFragment : AppBaseFragment() {
             Log.i("yhy", "reset")
             Tsar.with(context!!)
                 .compress(Uri.parse("content://media/external/images/media/67745"))
-                .addFilter(MinSizeFilter(MinSizeFilter.Unit.KB, 600))
-                .renameAdapter { it.position.toString() }
-                .setOnCompressListener {
+                .renameAdapter(RenameDateTimeAdapter())
+                .compressFormat(Bitmap.CompressFormat.WEBP)
+                .savePath("/test/te")
+                .compressListener {
                     if (it.isSuccess()) {
                         PrintView.print("压缩成功")
                         PrintView.print("压缩后的路径为${it.image?.absolutePath}")

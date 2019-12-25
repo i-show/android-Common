@@ -4,18 +4,19 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
-import com.ishow.common.utils.image.select.OnSelectPhotoListener
+import com.ishow.common.utils.image.select.OnSelectImageListener
 import com.ishow.common.utils.image.select.SelectPhotoUtils
 import com.ishow.noah.R
 import com.ishow.noah.databinding.ActivityModifyUserInfoBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindActivity
+import java.io.File
 
 /**
  * Created by yuhaiyang on 2018/8/8.
  * 修改用户信息
  */
 class ModifyUserActivity : AppBindActivity<ActivityModifyUserInfoBinding, ModifyUserViewModel>(),
-    OnSelectPhotoListener {
+    OnSelectImageListener {
 
     private lateinit var mSelectPhotoUtils: SelectPhotoUtils
 
@@ -44,7 +45,10 @@ class ModifyUserActivity : AppBindActivity<ActivityModifyUserInfoBinding, Modify
         mSelectPhotoUtils.select(1, 1, Bitmap.CompressFormat.JPEG)
     }
 
-    override fun onSelectedPhoto(multiPath: MutableList<String>, singlePath: String) {
-        dataBinding.vm?.uploadAvatar(singlePath)
+    override fun onSelectedPhoto(imageList: MutableList<File?>, image: File?) {
+        image?.let {
+            dataBinding.vm?.uploadAvatar(it.absolutePath)
+        }
+
     }
 }
