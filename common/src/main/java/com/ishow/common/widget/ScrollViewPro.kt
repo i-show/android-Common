@@ -30,20 +30,20 @@ open class ScrollViewPro @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) :
     ScrollView(context, attrs, defStyleAttr) {
-    private var mMaxHeight: Int = 0
-    private var mMaxWidth: Int = 0
+    private var maxHeight: Int = 0
+    private var maxWidth: Int = 0
 
     init {
         val a = context.obtainStyledAttributes(attrs, R.styleable.ScrollViewPro)
-        mMaxHeight = a.getDimensionPixelSize(R.styleable.ScrollViewPro_maxHeight, -1)
-        mMaxWidth = a.getDimensionPixelSize(R.styleable.ScrollViewPro_maxWidth, -1)
+        maxHeight = a.getDimensionPixelSize(R.styleable.ScrollViewPro_maxHeight, -1)
+        maxWidth = a.getDimensionPixelSize(R.styleable.ScrollViewPro_maxWidth, -1)
         a.recycle()
     }
 
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val widthSpec = if (mMaxWidth == -1) widthMeasureSpec else getAtMostSpec(mMaxWidth)
-        val heightSpec = if (mMaxHeight == -1) heightMeasureSpec else getAtMostSpec(mMaxHeight)
+        val widthSpec = if (maxWidth == -1) widthMeasureSpec else getAtMostSpec(maxWidth)
+        val heightSpec = if (maxHeight == -1) heightMeasureSpec else getAtMostSpec(maxHeight)
         super.onMeasure(widthSpec, heightSpec)
     }
 
@@ -53,12 +53,12 @@ open class ScrollViewPro @JvmOverloads constructor(
     }
 
     fun setMaxHeight(height: Int) {
-        mMaxHeight = height
+        maxHeight = height
         requestLayout()
     }
 
     fun setMaxWidth(size: Int) {
-        mMaxWidth = size
+        maxWidth = size
         requestLayout()
     }
 }

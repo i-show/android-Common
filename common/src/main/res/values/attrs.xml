@@ -1357,6 +1357,8 @@
     </declare-styleable>
 
     <declare-styleable name="PrintView">
+        <attr name="android:minHeight" />
+        <attr name="maxHeight" />
         <attr name="textSize" />
         <attr name="textColor" />
         <attr name="textStyle" />

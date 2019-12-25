@@ -39,11 +39,16 @@ class PrintView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
     init {
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.PrintView)
+        val minHeight = a.getDimensionPixelSize(R.styleable.PrintView_android_minHeight, 200.dp2px())
+        val maxHeight = a.getDimensionPixelSize(R.styleable.PrintView_maxHeight, 300.dp2px())
         val textSize = a.getDimensionPixelSize(R.styleable.PrintView_textSize, 14.sp2px())
         val textColor = a.getColor(R.styleable.PrintView_textColor, context.findColor(R.color.text_grey))
         val textStyle = a.getInt(R.styleable.PrintView_textStyle, 0)
         a.recycle()
 
+        minimumHeight = minHeight
+        setMaxHeight(maxHeight)
+        
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize.toFloat())
         textView.setTextColor(textColor)
         textView.typeface = Typeface.defaultFromStyle(textStyle)
@@ -100,7 +105,7 @@ class PrintView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         post { fullScroll(View.FOCUS_DOWN) }
 
         showJob = GlobalScope.launch(Dispatchers.Main) {
-            delay(50)
+            delay(30)
             print(text, len + 1, size)
         }
     }
@@ -115,14 +120,18 @@ class PrintView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         private const val TAG = "PrintView"
 
         private var worker: PrintView? = null
-
+        private
         fun init(worker: PrintView?) {
             this.worker = worker
         }
 
         fun print(log: String?) {
+            print(TAG, log)
+        }
+
+        fun print(tag: String, log: String?) {
             worker?.add(log)
-            LogUtils.i(TAG, log)
+            LogUtils.i(tag, log)
         }
 
         fun reset() {
