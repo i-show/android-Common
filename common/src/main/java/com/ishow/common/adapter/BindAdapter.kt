@@ -15,11 +15,11 @@ import com.ishow.common.extensions.inflate
 import java.util.*
 
 open class BindAdapter<T> : RecyclerView.Adapter<BindAdapter.BindHolder>() {
-    private lateinit var context: Context
-    private var mData: MutableList<T> = ArrayList()
+    protected lateinit var context: Context
 
+    private var _data: MutableList<T> = ArrayList()
     var data: MutableList<T>?
-        get() = mData
+        get() = _data
         set(data) = setData(data, true)
 
     /**
@@ -66,9 +66,9 @@ open class BindAdapter<T> : RecyclerView.Adapter<BindAdapter.BindHolder>() {
         holder.bind(dataVariableList[viewType], itemData, position)
     }
 
-    override fun getItemCount(): Int = mData.size
+    override fun getItemCount(): Int = _data.size
 
-    fun getItem(position: Int): T = mData[position]
+    fun getItem(position: Int): T = _data[position]
 
     override fun getItemId(position: Int): Long {
         return position.toLong()
@@ -121,11 +121,11 @@ open class BindAdapter<T> : RecyclerView.Adapter<BindAdapter.BindHolder>() {
      */
     fun setData(data: MutableList<T>?, force: Boolean) {
         if (data != null) {
-            mData = data
+            _data = data
             notifyDataSetChanged()
         } else if (force) {
-            val size = mData.size
-            mData.clear()
+            val size = _data.size
+            _data.clear()
             notifyItemRangeRemoved(0, size)
         }
     }
@@ -135,8 +135,8 @@ open class BindAdapter<T> : RecyclerView.Adapter<BindAdapter.BindHolder>() {
      */
     fun plusData(data: List<T>?) {
         if (data != null) {
-            val lastIndex = mData.size
-            mData.addAll(data)
+            val lastIndex = _data.size
+            _data.addAll(data)
             notifyItemRangeInserted(lastIndex, data.size)
         }
     }
@@ -146,7 +146,7 @@ open class BindAdapter<T> : RecyclerView.Adapter<BindAdapter.BindHolder>() {
      * 清空数据
      */
     fun clear() {
-        mData.clear()
+        _data.clear()
         notifyDataSetChanged()
     }
 
@@ -159,13 +159,11 @@ open class BindAdapter<T> : RecyclerView.Adapter<BindAdapter.BindHolder>() {
             return
         }
 
-        item.setOnClickListener {
-            if (itemClickListener == null) {
-                return@setOnClickListener
+        item.setOnClickListener { view ->
+            itemClickListener?.let {
+                val position = view.getTag(R.id.tag_position) as Int
+                it(position)
             }
-
-            val position = it.getTag(R.id.tag_position) as Int
-            itemClickListener!!(position)
         }
     }
 

@@ -20,10 +20,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager.LayoutParams
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 import com.ishow.common.R
-import com.ishow.common.adapter.BindAdapter
 import kotlinx.android.synthetic.main.dialog_preview_image.*
+
 
 /**
  * 查看大图的Dialog
@@ -31,25 +33,37 @@ import kotlinx.android.synthetic.main.dialog_preview_image.*
 class PreviewImageDialog<T> : DialogFragment() {
 
     var dataList: MutableList<T>? = null
+    val adapter = PreviewImageAdapter<T>(this)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NORMAL, R.style.Theme_Dialog_Black)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.dialog_preview_image, container, false)
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        dialog?.window?.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val adapter = BindAdapter<T>()
+        list.adapter = adapter
         adapter.data = dataList
-
-        pager.adapter = adapter
     }
 
 
     fun setData(data: T) {
         dataList = mutableListOf(data)
-        pager?.let { it.adapter?.notifyDataSetChanged() }
     }
 
+    fun show(fragmentManager: FragmentManager?) {
+        fragmentManager?.let {
+            show(it, "preview image")
+        }
+    }
 
 }

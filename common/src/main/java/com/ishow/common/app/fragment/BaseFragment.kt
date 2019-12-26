@@ -55,6 +55,9 @@ abstract class BaseFragment : Fragment(), StatusView.OnStatusViewListener, IView
      */
     protected var handler: Handler? = null
 
+    protected val supportFragmentManager
+        get() = activity?.supportFragmentManager
+
     val topBarHeight: Int by lazy {
         val theme = activity?.theme ?: return@lazy 0
 

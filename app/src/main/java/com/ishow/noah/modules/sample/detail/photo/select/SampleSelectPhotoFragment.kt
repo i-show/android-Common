@@ -22,7 +22,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.FragmentActivity
 import com.ishow.common.adapter.BindAdapter
-import com.ishow.common.modules.image.show.ShowPhotoDialog
+import com.ishow.common.modules.image.show.PreviewImageDialog
 import com.ishow.common.utils.StringUtils
 import com.ishow.common.utils.image.select.OnSelectImageListener
 import com.ishow.common.utils.image.select.SelectPhotoUtils
@@ -90,9 +90,9 @@ class SampleSelectPhotoFragment : AppBindFragment<FragmentSampleSelectPhotoBindi
 
     private fun showPhoto(position: Int) {
         val path = mAdapter.getItem(position)
-        val dialog = ShowPhotoDialog(context!!)
+        val dialog = PreviewImageDialog<String>()
         dialog.setData(path)
-        dialog.show()
+        dialog.show(supportFragmentManager)
     }
 
     override fun onSelectedPhoto(imageList: MutableList<File?>, image: File?) {
