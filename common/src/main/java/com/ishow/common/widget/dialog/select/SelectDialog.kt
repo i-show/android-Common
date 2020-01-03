@@ -19,6 +19,7 @@ package com.ishow.common.widget.dialog.select
 
 import android.content.Context
 import android.os.Bundle
+import androidx.recyclerview.widget.RecyclerView
 import com.ishow.common.BR
 import com.ishow.common.R
 import com.ishow.common.adapter.BindAdapter
@@ -32,20 +33,23 @@ import kotlinx.android.synthetic.main.dialog_unit_select.*
  * 一个统一的从底下弹出的Dialog选择
  */
 
-class SelectDialog<T : IUnitSelect>(context: Context) : BaseDialog(context, R.style.Theme_Dialog_Bottom_Transparent) {
-    private val mAdapter = BindAdapter<T>()
-    private var mSelectedListener: ((T) -> Unit)? = null
+class SelectDialog<T>(context: Context) : BaseDialog(context, R.style.Theme_Dialog_Bottom_Transparent) {
+    private var selectBlock: ((T) -> Unit)? = null
 
+    val adapter = BindAdapter<T>()
     var data: MutableList<T>?
-        get() = mAdapter.data
+        get() = adapter.data
         set(data) {
-            mAdapter.data = data
+            adapter.data = data
         }
 
+    @Suppress("MemberVisibilityCanBePrivate")
+    var itemDecoration: RecyclerView.ItemDecoration = ColorDecoration(context)
+
     init {
-        mAdapter.addLayout(BR.itemUnitSelect, R.layout.item_dialog_selet)
-        mAdapter.setOnItemClickListener {
-            notifySelectCityChanged(mAdapter.getItem(it))
+        adapter.addLayout(BR.itemUnitSelect, R.layout.item_dialog_selet)
+        adapter.setOnItemClickListener {
+            notifySelectCityChanged(adapter.getItem(it))
             dismiss()
         }
         fromBottom(bottom = true)
@@ -56,23 +60,23 @@ class SelectDialog<T : IUnitSelect>(context: Context) : BaseDialog(context, R.st
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_unit_select)
 
-        val decoration = ColorDecoration(context)
-        decoration.showLastDivider = false
-
-        list.addItemDecoration(ColorDecoration(context))
-        list.adapter = mAdapter
+        list.addItemDecoration(itemDecoration)
+        list.adapter = adapter
     }
 
+    fun addLayout(variableId: Int, layoutRes: Int, viewType: Int = 0) {
+        adapter.addLayout(variableId, layoutRes, viewType)
+    }
 
     private fun notifySelectCityChanged(selected: T) {
-        mSelectedListener?.let { it(selected) }
+        selectBlock?.let { it(selected) }
     }
 
     fun setOnSelectedListener(listener: ((T) -> Unit)?) {
-        mSelectedListener = listener
+        selectBlock = listener
     }
 
-    interface OnSelectedListener<T : IUnitSelect> {
+    interface OnSelectedListener<T> {
         fun onSelected(t: T)
     }
 }

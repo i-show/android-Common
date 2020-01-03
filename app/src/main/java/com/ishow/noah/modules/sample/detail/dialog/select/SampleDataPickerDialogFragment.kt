@@ -24,6 +24,8 @@ import com.ishow.common.entries.utils.IUnitPicker
 import com.ishow.common.entries.utils.IUnitSelect
 import com.ishow.common.widget.dialog.picker.PickerDialog
 import com.ishow.common.widget.dialog.select.SelectDialog
+import com.ishow.common.widget.recyclerview.itemdecoration.ColorDecoration
+import com.ishow.noah.BR
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSampleDataPickerBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
@@ -60,7 +62,12 @@ class SampleDataPickerDialogFragment : AppBindFragment<FragmentSampleDataPickerB
 
     private fun testSelect() {
         val context = context!!
+        val itemDecoration = ColorDecoration(context)
+        itemDecoration.setPadding(20, 20)
+
         val dialog = SelectDialog<DemoEntry>(context)
+        dialog.itemDecoration = itemDecoration
+        dialog.adapter.addLayout(BR.item, R.layout.item_sample_dialog_selet)
         dialog.data = dataList
         dialog.setOnSelectedListener {
             select.text = it.getTitle(context)
@@ -78,22 +85,21 @@ class SampleDataPickerDialogFragment : AppBindFragment<FragmentSampleDataPickerB
 
         dialog.show()
     }
+}
 
-
-    //偷懒Entry 写在这里
-    private inner class DemoEntry internal constructor(internal var day: Int) : IUnitSelect,
-        IUnitPicker {
-        override fun gravity(): Int {
-            return Gravity.START and Gravity.CENTER_VERTICAL
-        }
-
-        override fun getTitle(context: Context): String {
-            return "$day 天"
-        }
-
-        override fun getSubTitle(context: Context): String? {
-            return null
-        }
+//偷懒Entry 写在这里
+class DemoEntry(var day: Int) : IUnitSelect,
+    IUnitPicker {
+    override fun gravity(): Int {
+        return Gravity.START and Gravity.CENTER_VERTICAL
     }
 
+    override fun getTitle(context: Context): String {
+        return "$day 天"
+    }
+
+    override fun getSubTitle(context: Context): String? {
+        return null
+    }
 }
+

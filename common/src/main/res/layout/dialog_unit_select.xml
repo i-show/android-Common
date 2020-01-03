@@ -15,19 +15,16 @@
   -->
 
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/top_line_white_normal_bg"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
     <com.ishow.common.widget.recyclerview.RecyclerViewPro
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/dp_20"
-        android:paddingEnd="@dimen/dp_20"
+        android:background="@drawable/top_line_white_normal_bg"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:maxHeight="@dimen/dp_300" />
-</LinearLayout>
+        app:maxHeight="280dp" />
+</FrameLayout>
