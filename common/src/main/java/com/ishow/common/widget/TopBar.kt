@@ -19,6 +19,7 @@ package com.ishow.common.widget
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.Insets
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.text.Layout
@@ -30,6 +31,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
+import android.view.WindowInsets
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
@@ -135,6 +137,9 @@ class TopBar(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs),
     private var mRightBackground: Int = 0
     private val mItemBackground: Int
 
+    private var fitTopSize: Int = 0
+    private val isFitSystemWindow: Boolean
+    private val isConsumeSystemWindowInsets: Boolean
     /**
      * TopBar的高度
      */
@@ -152,6 +157,7 @@ class TopBar(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs),
      */
     private var mExactlyWidthSpec: Int = 0
     private var mExactlyHeightSpec: Int = 0
+    private var mExactlyViewHeightSpec: Int = 0
     private var mAtMostHeightSpec: Int = 0
 
     private var mGapSize: Int = 0
@@ -238,7 +244,8 @@ class TopBar(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs),
         mRightImage2Visibility = a.getInt(R.styleable.TopBar_rightImage2Visibility, View.VISIBLE)
 
         mTitleClickable = a.getBoolean(R.styleable.TopBar_clickable, false)
-
+        isFitSystemWindow = a.getBoolean(R.styleable.TopBar_android_fitsSystemWindows, false)
+        isConsumeSystemWindowInsets = a.getBoolean(R.styleable.TopBar_consumeSystemWindowInsets, true)
         a.recycle()
 
         initNecessaryParams()
@@ -247,7 +254,7 @@ class TopBar(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs),
 
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec, mExactlyHeightSpec)
+        super.onMeasure(widthMeasureSpec, mExactlyViewHeightSpec)
         val width = measuredWidth - paddingStart - paddingEnd
 
         if (mLeftImageVisibility != View.GONE && mLeftImageView != null) {
@@ -303,25 +310,27 @@ class TopBar(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs),
 
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, bottom: Int) {
+        val childTop = fitTopSize
+        val childBottom = fitTopSize + mHeight
         var left = l + paddingStart
         var right = r - paddingEnd
         val width = right - left
         if (mLeftImageVisibility != View.GONE && mLeftImageView != null) {
-            mLeftImageView!!.layout(left, 0, left + mLeftImageWidth, mHeight)
+            mLeftImageView!!.layout(left, childTop, left + mLeftImageWidth, childBottom)
             left += mLeftImageWidth
         }
 
         if (mLeftImage2Visibility != View.GONE && mLeftImageView2 != null) {
-            mLeftImageView2!!.layout(left, 0, left + mLeftImage2Width, mHeight)
+            mLeftImageView2!!.layout(left, childTop, left + mLeftImage2Width, childBottom)
             left += mLeftImage2Width
         }
 
         if (mLeftTextVisibility != View.GONE && mLeftTextView != null) {
             if (mLeftTextBackground == null) {
-                mLeftTextView!!.layout(left, 0, left + mLeftTextViewWidth, mHeight)
+                mLeftTextView!!.layout(left, childTop, left + mLeftTextViewWidth, childBottom)
             } else {
                 val tmpHeight = mLeftTextView!!.measuredHeight
-                val tmpTop = (mHeight - tmpHeight) / 2
+                val tmpTop = (mHeight - tmpHeight) / 2 + childTop
                 if (left == 0) left = mGapSize
                 mLeftTextView!!.layout(left, tmpTop, left + mLeftTextViewWidth, tmpTop + tmpHeight)
             }
@@ -329,10 +338,10 @@ class TopBar(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs),
 
         if (mRightTextVisibility != View.GONE && mRightTextView != null) {
             if (mRightTextBackground == null) {
-                mRightTextView!!.layout(right - mRightTextWidth, 0, right, mHeight)
+                mRightTextView!!.layout(right - mRightTextWidth, childTop, right, childBottom)
             } else {
                 val tmpHeight = mRightTextView!!.measuredHeight
-                val tempTop = (mHeight - tmpHeight) / 2
+                val tempTop = (mHeight - tmpHeight) / 2 + childTop
                 if (right == width) {
                     right -= mGapSize
                 }
@@ -341,12 +350,12 @@ class TopBar(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs),
             right -= mRightTextWidth
         }
         if (mRightImageVisibility != View.GONE && mRightImageView != null) {
-            mRightImageView!!.layout(right - mRightImageWidth, 0, right, mHeight)
+            mRightImageView!!.layout(right - mRightImageWidth, childTop, right, childBottom)
             right -= mRightImageWidth
         }
 
         if (mRightImage2Visibility != View.GONE && mRightImageView2 != null) {
-            mRightImageView2!!.layout(right - mRightImage2Width, 0, right, mHeight)
+            mRightImageView2!!.layout(right - mRightImage2Width, childTop, right, childBottom)
         }
 
         val titleHeight = if (mTitleVisibility == View.GONE) 0 else mTitleView!!.measuredHeight
@@ -354,7 +363,7 @@ class TopBar(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs),
         val rightTotal = mRightImageWidth + mRightImage2Width + mRightTextWidth
         val leftTotal = mLeftImageWidth + mLeftImage2Width + mLeftTextViewWidth
 
-        var top = (mHeight - titleHeight - subTitleHeight) / 2
+        var top = (mHeight - titleHeight - subTitleHeight) / 2 + childTop
         if (mTitleVisibility != View.GONE && mTitleView != null) {
             mTitleView!!.layout(0, top, width, top + titleHeight)
             top += titleHeight
@@ -365,6 +374,34 @@ class TopBar(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs),
             mSubTitleView!!.layout(0, top, width, top + subTitleHeight)
             resetSubTitlePadding(width, leftTotal, rightTotal)
         }
+    }
+
+    override fun dispatchApplyWindowInsets(insets: WindowInsets?): WindowInsets {
+        if (!isFitSystemWindow || insets == null) {
+            return super.dispatchApplyWindowInsets(insets)
+        }
+
+        fitTopSize = insets.systemWindowInsetTop
+        mExactlyViewHeightSpec = MeasureSpec.makeMeasureSpec(mHeight + fitTopSize, MeasureSpec.EXACTLY)
+
+        if (!isConsumeSystemWindowInsets) {
+            return super.dispatchApplyWindowInsets(insets)
+        }
+
+        val nowSystemWindow = consumeSystemWindowTopInsets(insets.systemWindowInsets)
+
+        val windowInsets = WindowInsets.Builder(insets)
+            .setSystemWindowInsets(nowSystemWindow)
+            .build()
+
+        return super.dispatchApplyWindowInsets(windowInsets)
+    }
+
+    /**
+     * 消费掉顶部的高度
+     */
+    private fun consumeSystemWindowTopInsets(old: Insets): Insets {
+        return Insets.of(old.left, 0, old.right, old.bottom)
     }
 
     override fun onClick(v: View?) {
@@ -388,6 +425,8 @@ class TopBar(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs),
     private fun initNecessaryParams() {
         mUnitWidth = (mHeight * UNIT_WIDTH_RADIO).toInt()
         mExactlyHeightSpec = MeasureSpec.makeMeasureSpec(mHeight, MeasureSpec.EXACTLY)
+        mExactlyViewHeightSpec = MeasureSpec.makeMeasureSpec(mHeight, MeasureSpec.EXACTLY)
+
         mExactlyWidthSpec = MeasureSpec.makeMeasureSpec(mUnitWidth, MeasureSpec.EXACTLY)
         mLeftImageWidthSpec = MeasureSpec.makeMeasureSpec(max(mLeftImageMinWidth, mUnitWidth), MeasureSpec.EXACTLY)
         mRightImageWidthSpec = MeasureSpec.makeMeasureSpec(max(mRightImageMinWidth, mUnitWidth), MeasureSpec.EXACTLY)

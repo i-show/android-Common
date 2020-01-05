@@ -17,9 +17,8 @@
 <resources>
 
     <style name="AppBaseTheme" parent="Theme.NoActionBar">
-        <item name="android:overScrollMode">never</item>
-        <item name="android:divider">@color/line</item>
-        <item name="android:dividerHeight">1px</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">false</item>
         <!--  TopBar 的style -->
         <item name="topBarStyle">@style/AppTheme.Widget.TopBar</item>
         <item name="editTextProStyle">@style/AppTheme.Widget.EditTextPro</item>
@@ -53,6 +52,7 @@
     <style name="AppTheme.Widget" />
 
     <style name="AppTheme.Widget.TopBar">
+        <item name="android:fitsSystemWindows">true</item>
         <item name="android:background">@color/color_accent</item>
         <item name="textSize">18sp</item>
         <item name="textColor">@color/white</item>
