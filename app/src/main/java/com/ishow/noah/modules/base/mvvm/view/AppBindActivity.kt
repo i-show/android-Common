@@ -4,6 +4,7 @@ import android.app.Dialog
 import androidx.databinding.ViewDataBinding
 import com.baidu.mobstat.StatService
 import com.ishow.common.app.mvvm.view.BindActivity
+import com.ishow.common.extensions.fullWindow
 import com.ishow.common.widget.watermark.WaterMarkView
 import com.ishow.noah.AppApplication
 import com.ishow.noah.manager.VersionManager
@@ -62,6 +63,11 @@ abstract class AppBindActivity<T : ViewDataBinding, VM : AppBaseViewModel> : Bin
      */
     protected open fun needShowUpdateVersionDialog(): Boolean {
         return true
+    }
+
+    override fun resetStatusBar() {
+        super.resetStatusBar()
+        fullWindow()
     }
 
     /**

@@ -22,6 +22,7 @@ import android.graphics.Color
 import android.graphics.Insets
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.text.Layout
 import android.text.TextUtils
 import android.util.AttributeSet
@@ -388,11 +389,16 @@ class TopBar(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs),
             return super.dispatchApplyWindowInsets(insets)
         }
 
-        val nowSystemWindow = consumeSystemWindowTopInsets(insets.systemWindowInsets)
+        val nowSystemWindow = consumeSystemWindowTopInsets(insets)
 
-        val windowInsets = WindowInsets.Builder(insets)
-            .setSystemWindowInsets(nowSystemWindow)
-            .build()
+        val windowInsets = if (Build.VERSION.SDK_INT >= 29) {
+            WindowInsets.Builder(insets)
+                .setSystemWindowInsets(nowSystemWindow)
+                .build()
+        } else {
+            insets.consumeSystemWindowInsets()
+            insets.replaceSystemWindowInsets(insets.systemWindowInsetLeft, 0, insets.systemWindowInsetRight, insets.systemWindowInsetBottom)
+        }
 
         return super.dispatchApplyWindowInsets(windowInsets)
     }
@@ -400,8 +406,8 @@ class TopBar(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs),
     /**
      * 消费掉顶部的高度
      */
-    private fun consumeSystemWindowTopInsets(old: Insets): Insets {
-        return Insets.of(old.left, 0, old.right, old.bottom)
+    private fun consumeSystemWindowTopInsets(old: WindowInsets): Insets {
+        return Insets.of(old.systemWindowInsetLeft, 0, old.systemWindowInsetRight, old.systemWindowInsetBottom)
     }
 
     override fun onClick(v: View?) {

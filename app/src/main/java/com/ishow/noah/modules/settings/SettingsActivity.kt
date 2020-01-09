@@ -16,17 +16,21 @@
 
 package com.ishow.noah.modules.settings
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.Gravity
+import android.util.Log
 import android.view.View
+import com.ishow.common.extensions.loadUrl
 import com.ishow.common.utils.AppUtils
-import com.ishow.common.utils.router.AppRouter
-import com.ishow.common.widget.dialog.BaseDialog
 import com.ishow.noah.R
-import com.ishow.noah.modules.account.login.LoginActivity
 import com.ishow.noah.modules.base.AppBaseActivity
 import kotlinx.android.synthetic.main.activity_settings.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
+import java.util.concurrent.TimeUnit
+
 
 /**
  * Created by yuhaiyang on 2017/4/24.
@@ -43,6 +47,8 @@ class SettingsActivity : AppBaseActivity(), View.OnClickListener {
         super.initViews()
         logout.setOnClickListener(this)
         version.setText(AppUtils.getVersionName(this))
+
+        image.loadUrl("https://img.yuhaiyang.net/common/avatar/default_avatar.jpg")
     }
 
     override fun onClick(v: View) {
@@ -52,19 +58,20 @@ class SettingsActivity : AppBaseActivity(), View.OnClickListener {
     }
 
     private fun logout() {
-        BaseDialog.Builder(this)
-            .setMessage(R.string.ensure_logout)
-            .setMessageGravity(Gravity.CENTER)
-            .setNegativeButton(R.string.cancel)
-            .setPositiveButton(R.string.yes) { _, _ ->
-                AppRouter.with(this)
-                    .target(LoginActivity::class.java)
-                    .flag(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                    .addParam(KEY_TYPE, LoginActivity.TYPE_GOTO_MAIN)
-                    .finishSelf()
-                    .start()
-            }
-            .show()
+        val client =  OkHttpClient.Builder()
+            .connectTimeout(4000, TimeUnit.MILLISECONDS)
+            .readTimeout(4000, TimeUnit.MILLISECONDS)
+            .writeTimeout(4000, TimeUnit.MILLISECONDS)
+            .build()
+        val request: Request = Request.Builder()
+            .url("https://www.baidu.com/?tn=simple")
+            .build()
+
+        GlobalScope.launch {
+            val response: Response = client.newCall(request).execute()
+            Log.i("yhy", "!!! re = " + response.code())
+        }
+
 
     }
 }

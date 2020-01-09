@@ -10,6 +10,8 @@ import com.ishow.noah.R;
 import com.ishow.noah.modules.base.AppBaseFragment;
 import com.ishow.common.widget.StatusView;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Created by yuhaiyang on 2017/4/21.
  * Home Fragment
@@ -40,5 +42,10 @@ public class Tab3Fragment extends AppBaseFragment {
         StatusView statusView = (StatusView) mRootView.findViewById(R.id.status_view);
         statusView.showEmpty();
         return mRootView;
+    }
+
+    @Override
+    public void onViewCreated(@NotNull View view, @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 }

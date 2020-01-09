@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.baidu.mobstat.StatService
 import com.ishow.common.app.activity.BaseActivity
+import com.ishow.common.extensions.fullWindow
 import com.ishow.common.widget.watermark.WaterMarkView
 import com.ishow.noah.AppApplication
 import com.ishow.noah.manager.VersionManager
@@ -61,6 +62,11 @@ abstract class AppBaseActivity : BaseActivity() {
      */
     protected open fun needShowUpdateVersionDialog(): Boolean {
         return true
+    }
+
+    override fun resetStatusBar() {
+        super.resetStatusBar()
+        fullWindow()
     }
 
     /**

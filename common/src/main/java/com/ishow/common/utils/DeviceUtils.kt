@@ -45,20 +45,9 @@ object DeviceUtils {
      * 获取手机的deviceId
      */
     @Suppress("DEPRECATION")
-    @SuppressLint("HardwareIds", "MissingPermission")
     fun deviceId(context: Context): String {
-        val manager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-        var id = StringUtils.EMPTY
-        try {
-            id = manager.deviceId
-        } catch (e: Exception) {
-            Log.i(TAG, "deviceId: e = $e")
-        }
 
-        if (!TextUtils.isEmpty(id)) {
-            return id
-        }
-
+        var id: String = StringUtils.EMPTY
         try {
             id = Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
         } catch (e: Exception) {
