@@ -9,8 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ishow.common.extensions.inflate
-import com.ishow.common.utils.image.compress.Tsar
+import com.ishow.common.utils.image.compress.ImageCompress
 import com.ishow.common.utils.image.compress.adapter.RenameDateTimeAdapter
+import com.ishow.common.utils.image.compress.filter.MinSizeFilter
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.widget.PrintView
 import com.ishow.noah.R
@@ -54,10 +55,10 @@ class HomeFragment : AppBaseFragment() {
 
         reset.setOnClickListener {
             Log.i("yhy", "reset")
-            Tsar.with(context!!)
-                .compress(Uri.parse("content://media/external/images/media/67745"))
+            ImageCompress.with(context!!)
+                .compress(Uri.parse("content://media/external/images/media/90125"))
                 .renameAdapter(RenameDateTimeAdapter())
-                .compressFormat(Bitmap.CompressFormat.WEBP)
+                .addFilter(MinSizeFilter(MinSizeFilter.Unit.MB, 5))
                 .savePath("/test/te")
                 .compressListener {
                     if (it.isSuccess()) {

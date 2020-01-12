@@ -9,6 +9,7 @@ import android.os.Handler
 import android.os.Message
 import android.util.Log
 import androidx.annotation.IntRange
+import com.ishow.common.utils.MimeType
 import com.ishow.common.extensions.rotate
 import com.ishow.common.utils.image.compress.adapter.IRenameAdapter
 import com.ishow.common.utils.image.compress.filter.ICompressFilter
@@ -29,7 +30,7 @@ import kotlin.math.min
  * 图片压缩工具命名为沙皇
  * 其实就是LuBan压缩工具的Kotlin版本
  */
-class Tsar private constructor(builder: Builder) {
+class ImageCompress private constructor(builder: Builder) {
     private val context: Context
     /**
      * 图片列表
@@ -69,7 +70,6 @@ class Tsar private constructor(builder: Builder) {
      */
     private val completeListener: OnCompleteListener?
     private val completeFunction: ((CompressResult) -> Unit)?
-
 
     /**
      * 重命名的Adapter
@@ -157,6 +157,8 @@ class Tsar private constructor(builder: Builder) {
     private inner class CompressRunnable(val image: ImageWrapper, val position: Int) : Runnable {
         override fun run() {
             val info = ImageInfo(position)
+            info.mimeType = image.mimeType
+
             val inputStream = image.open()
             if (inputStream == null) {
                 handler.sendMessage(handler.obtainMessage(HANDLER_COMPRESS_ERROR, ErrorInfo(position, "图片不存在")))
@@ -204,7 +206,23 @@ class Tsar private constructor(builder: Builder) {
         }
 
         private fun saveInput(input: InputStream?, info: ImageInfo) {
-            saveBitmap(BitmapFactory.decodeStream(input), info)
+            val targetMimeType = compressFormat2MimeType()
+            if (targetMimeType == info.mimeType) {
+                saveFile(input, info)
+            } else {
+                saveBitmap(BitmapFactory.decodeStream(input), info)
+            }
+        }
+
+        private fun saveFile(input: InputStream?, info: ImageInfo) {
+            val fileStream = getSaveFile(info).outputStream()
+            try {
+                input?.copyTo(fileStream, 2048)
+            } finally {
+                input?.close()
+                fileStream.flush()
+                fileStream.close()
+            }
         }
 
         /**
@@ -282,6 +300,14 @@ class Tsar private constructor(builder: Builder) {
             }
         }
 
+        private fun compressFormat2MimeType(): String {
+            return when (compressFormat) {
+                Bitmap.CompressFormat.JPEG -> MimeType.Image.JPEG
+                Bitmap.CompressFormat.PNG -> MimeType.Image.PNG
+                Bitmap.CompressFormat.WEBP -> MimeType.Image.WEBP
+            }
+
+        }
 
     }
 
@@ -457,7 +483,7 @@ class Tsar private constructor(builder: Builder) {
          * 开始压缩
          */
         fun start() {
-            Tsar(this).start()
+            ImageCompress(this).start()
         }
     }
 }

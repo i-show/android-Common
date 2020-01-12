@@ -11,7 +11,7 @@ import java.io.InputStream
  * Created by yuhaiyang on 2019-12-24.
  *
  */
-abstract class ImageWrapper {
+internal abstract class ImageWrapper {
     companion object {
         private const val TAG = "ImageWrapper"
 
@@ -25,6 +25,8 @@ abstract class ImageWrapper {
     }
 
     private var inputStream: InputStream? = null
+
+    internal var mimeType: String? = null
 
     fun open(): InputStream? {
         close()

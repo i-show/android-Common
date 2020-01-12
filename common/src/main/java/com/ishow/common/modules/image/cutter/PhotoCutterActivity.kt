@@ -25,7 +25,7 @@ import com.ishow.common.app.activity.BaseActivity
 import com.ishow.common.extensions.compress
 import com.ishow.common.extensions.loadUrl
 import com.ishow.common.extensions.save
-import com.ishow.common.utils.image.select.SelectPhotoUtils
+import com.ishow.common.utils.image.select.SelectImageUtils
 import com.ishow.common.widget.loading.LoadingDialog
 import kotlinx.android.synthetic.main.activity_crop_image.*
 
@@ -65,7 +65,7 @@ class PhotoCutterActivity : BaseActivity() {
         val cachePath = cropView.croppedBitmap.compress(compressFormat).save(context, compressFormat)
         val intent = Intent()
         intent.putExtra(KEY_RESULT_PATH, cachePath)
-        setResult(SelectPhotoUtils.Request.REQUEST_CROP_IMAGE, intent)
+        setResult(SelectImageUtils.Request.REQUEST_CROP_IMAGE, intent)
         LoadingDialog.dismiss(dialog)
         finish()
     }

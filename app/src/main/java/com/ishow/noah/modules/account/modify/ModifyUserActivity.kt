@@ -5,7 +5,7 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
 import com.ishow.common.utils.image.select.OnSelectImageListener
-import com.ishow.common.utils.image.select.SelectPhotoUtils
+import com.ishow.common.utils.image.select.SelectImageUtils
 import com.ishow.noah.R
 import com.ishow.noah.databinding.ActivityModifyUserInfoBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindActivity
@@ -18,13 +18,13 @@ import java.io.File
 class ModifyUserActivity : AppBindActivity<ActivityModifyUserInfoBinding, ModifyUserViewModel>(),
     OnSelectImageListener {
 
-    private lateinit var mSelectPhotoUtils: SelectPhotoUtils
+    private lateinit var mSelectPhotoUtils: SelectImageUtils
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bindContentView(R.layout.activity_modify_user_info)
 
-        mSelectPhotoUtils = SelectPhotoUtils(this, SelectPhotoUtils.SelectMode.SINGLE)
+        mSelectPhotoUtils = SelectImageUtils(this, SelectImageUtils.SelectMode.SINGLE)
         mSelectPhotoUtils.setOnSelectPhotoListener(this)
     }
 
@@ -41,7 +41,7 @@ class ModifyUserActivity : AppBindActivity<ActivityModifyUserInfoBinding, Modify
     }
 
     private fun selectPhoto() {
-        mSelectPhotoUtils.setSelectMode(SelectPhotoUtils.SelectMode.SINGLE)
+        mSelectPhotoUtils.setSelectMode(SelectImageUtils.SelectMode.SINGLE)
         mSelectPhotoUtils.select(1, 1, Bitmap.CompressFormat.JPEG)
     }
 

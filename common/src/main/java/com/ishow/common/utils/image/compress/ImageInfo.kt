@@ -17,6 +17,10 @@ class ImageInfo(val position: Int) {
      * 图片高度
      */
     var height: Int = 0
+    /**
+     * 图片的mimeType  image/jpeg  image/png
+     */
+    var mimeType: String? = null
 
     override fun toString(): String {
         return "ImageInfo(byteCount=$byteCount, width=$width, height=$height)"

@@ -10,6 +10,10 @@ import java.io.InputStream
  */
 
 internal class ImageUriWrapper(val context: Context, val uri: Uri) : ImageWrapper() {
+    
+    init {
+        mimeType = context.contentResolver.getType(uri)
+    }
 
     override fun openStream(): InputStream? {
         return context.contentResolver.openInputStream(uri)

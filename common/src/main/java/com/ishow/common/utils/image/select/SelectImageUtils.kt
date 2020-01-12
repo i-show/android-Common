@@ -34,7 +34,7 @@ import com.ishow.common.modules.image.cutter.PhotoCutterActivity
 import com.ishow.common.modules.image.select.ImageSelectorActivity
 import com.ishow.common.utils.ToastUtils
 import com.ishow.common.utils.image.ImageUtils
-import com.ishow.common.utils.image.compress.Tsar
+import com.ishow.common.utils.image.compress.ImageCompress
 import com.ishow.common.utils.log.LogUtils
 import com.ishow.common.utils.permission.PermissionManager
 import com.ishow.common.utils.permission.PermissionManager.hasPermission
@@ -45,7 +45,7 @@ import java.io.File
 /**
  * 基类
  */
-class SelectPhotoUtils(private val activity: Activity, @param:SelectMode private var mSelectMode: Int) :
+class SelectImageUtils(private val activity: Activity, @param:SelectMode private var mSelectMode: Int) :
     DialogInterface.OnClickListener, DialogInterface.OnDismissListener {
 
     /**
@@ -95,7 +95,7 @@ class SelectPhotoUtils(private val activity: Activity, @param:SelectMode private
     }
 
     @JvmOverloads
-    fun select(format: Bitmap.CompressFormat = Bitmap.CompressFormat.WEBP) {
+    fun select(format: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG) {
         compressFormat = format
 
         if (mSelectMode == SelectMode.SINGLE) {
@@ -329,7 +329,7 @@ class SelectPhotoUtils(private val activity: Activity, @param:SelectMode private
      */
     private fun resolveResultPhotosForCompress(photos: List<String>) {
         loadingDialog = LoadingDialog.show(activity, loadingDialog)
-        Tsar.with(activity)
+        ImageCompress.with(activity)
             .compress(photos.map { Uri.parse(it) })
             .savePath("select")
             .compressListener { notifySelectPhoto(it.imageList, it.image) }

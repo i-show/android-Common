@@ -25,7 +25,7 @@ import com.ishow.common.adapter.BindAdapter
 import com.ishow.common.modules.image.show.PreviewImageDialog
 import com.ishow.common.utils.StringUtils
 import com.ishow.common.utils.image.select.OnSelectImageListener
-import com.ishow.common.utils.image.select.SelectPhotoUtils
+import com.ishow.common.utils.image.select.SelectImageUtils
 import com.ishow.common.widget.recyclerview.itemdecoration.SpacingDecoration
 import com.ishow.noah.BR
 import com.ishow.noah.R
@@ -43,7 +43,7 @@ import java.io.File
 class SampleSelectPhotoFragment : AppBindFragment<FragmentSampleSelectPhotoBinding, AppBaseViewModel>(),
     OnSelectImageListener {
 
-    private lateinit var mSelectPhotoUtils: SelectPhotoUtils
+    private lateinit var mSelectPhotoUtils: SelectImageUtils
     private lateinit var mAdapter: BindAdapter<String>
 
     override fun getLayout(): Int = R.layout.fragment_sample_select_photo
@@ -52,7 +52,7 @@ class SampleSelectPhotoFragment : AppBindFragment<FragmentSampleSelectPhotoBindi
         super.onViewCreated(view, savedInstanceState)
         val context = activity as FragmentActivity
 
-        mSelectPhotoUtils = SelectPhotoUtils(context, SelectPhotoUtils.SelectMode.SINGLE)
+        mSelectPhotoUtils = SelectImageUtils(context, SelectImageUtils.SelectMode.SINGLE)
         mSelectPhotoUtils.fragment = this
         mSelectPhotoUtils.setOnSelectPhotoListener(this)
 
@@ -74,15 +74,15 @@ class SampleSelectPhotoFragment : AppBindFragment<FragmentSampleSelectPhotoBindi
     fun onViewClick(v: View) {
         when (v.id) {
             R.id.singleCompress -> {
-                mSelectPhotoUtils.setSelectMode(SelectPhotoUtils.SelectMode.SINGLE)
+                mSelectPhotoUtils.setSelectMode(SelectImageUtils.SelectMode.SINGLE)
                 mSelectPhotoUtils.select(Bitmap.CompressFormat.PNG)
             }
             R.id.singleCrop -> {
-                mSelectPhotoUtils.setSelectMode(SelectPhotoUtils.SelectMode.SINGLE)
+                mSelectPhotoUtils.setSelectMode(SelectImageUtils.SelectMode.SINGLE)
                 mSelectPhotoUtils.select(1, 1, Bitmap.CompressFormat.JPEG)
             }
             R.id.multi -> {
-                mSelectPhotoUtils.setSelectMode(SelectPhotoUtils.SelectMode.MULTIPLE)
+                mSelectPhotoUtils.setSelectMode(SelectImageUtils.SelectMode.MULTIPLE)
                 mSelectPhotoUtils.select(9)
             }
         }

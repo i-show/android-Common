@@ -20,12 +20,16 @@
 package com.ishow.noah.modules.main
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.ViewGroup
+import android.webkit.MimeTypeMap
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.ishow.common.extensions.fullWindow
+import com.ishow.common.extensions.mimeType
 import com.ishow.common.extensions.normalWindow
 import com.ishow.common.utils.ToastUtils
 import com.ishow.common.widget.BottomBar
@@ -36,6 +40,7 @@ import com.ishow.noah.modules.main.mine.MineFragment
 import com.ishow.noah.modules.main.tab2.Tab2Fragment
 import com.ishow.noah.modules.main.tab3.Tab3Fragment
 import kotlinx.android.synthetic.main.activity_main.*
+import java.io.File
 
 class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
 
@@ -53,6 +58,7 @@ class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
         val intent = intent
         val type = intent.getIntExtra(KEY_TYPE, TAB_FIRST)
         bottomBar.setSelectedId(type, true)
+
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -83,7 +89,19 @@ class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
     }
 
 
+
+
     private fun selectFragment(selectId: Int) {
+        var file = context.externalCacheDir
+        file = File(file, "select/1.jpg")
+        Log.i("yhy", "file =${file.exists()} ")
+        if(file.exists()){
+            Log.i("yhy", "type1 = " + context.contentResolver.getType(Uri.fromFile(file)))
+            Log.i("yhy", "type2 = " + file.mimeType)
+            Log.i("yhy", "type3 = " + MimeTypeMap.getSingleton().getMimeTypeFromExtension(null))
+        }
+
+
         when (selectId) {
             R.id.tab_1 -> {
                 if (tab1Fragment == null) {
