@@ -41,7 +41,6 @@ class BLEManager private constructor() {
     private var btStatusListeners: MutableList<OnStatusChangedListener>? = null
     private var btStatusBlocks: MutableList<(status: Int) -> Unit>? = null
 
-    private var bluetoothGatt: BluetoothGatt? = null
     private var innerGattCallback = GattCallBack()
     private var gattCallbackList: MutableList<BluetoothGattCallback> = mutableListOf()
     /**
@@ -148,8 +147,7 @@ class BLEManager private constructor() {
             return null
         }
         addGattCallBack(callback)
-        bluetoothGatt = device.connectGatt(context.applicationContext, false, innerGattCallback)
-        return bluetoothGatt
+        return device.connectGatt(context.applicationContext, false, innerGattCallback)
     }
 
     fun addGattCallBack(callback: BluetoothGattCallback) {
@@ -167,33 +165,32 @@ class BLEManager private constructor() {
     /**
      * 断开当前连接
      */
-    fun disconnectGatt() = bluetoothGatt?.disconnect()
+    fun disconnectGatt(bluetoothGatt: BluetoothGatt?) = bluetoothGatt?.disconnect()
 
     /**
      * 关闭当前连接， 如果连接不关闭 那么后面会导致一段时间连接不上设备
      */
-    fun closeGatt() {
+    fun closeGatt(bluetoothGatt: BluetoothGatt?) {
         bluetoothGatt?.close()
-        bluetoothGatt = null
     }
 
-    fun readCharacteristic(characteristic: BluetoothGattCharacteristic) {
+    fun readCharacteristic(gatt: BluetoothGatt?, characteristic: BluetoothGattCharacteristic) {
         if (characteristic.properties and BluetoothGattCharacteristic.PROPERTY_READ == 0) {
             LogUtils.i(TAG, "readCharacteristic: false")
         }
 
-        val result = bluetoothGatt?.readCharacteristic(characteristic)
+        val result = gatt?.readCharacteristic(characteristic)
         LogUtils.i(TAG, "readCharacteristic: result = $result")
     }
 
-    fun writeCharacteristic(characteristic: BluetoothGattCharacteristic) {
+    fun writeCharacteristic(gatt: BluetoothGatt?, characteristic: BluetoothGattCharacteristic) {
         if (characteristic.properties and BluetoothGattCharacteristic.PROPERTY_WRITE == 0) {
             Log.i(TAG, "writeCharacteristic: writeCharacteristic false")
         } else {
             Log.i(TAG, "writeCharacteristic: writeCharacteristic ok")
         }
 
-        val result = bluetoothGatt?.writeCharacteristic(characteristic)
+        val result = gatt?.writeCharacteristic(characteristic)
         Log.i(TAG, "writeCharacteristic: result = $result")
     }
 
@@ -203,13 +200,12 @@ class BLEManager private constructor() {
      * @param characteristic Characteristic to act on.
      * @param enabled        If true, enable notification.  False otherwise.
      */
-    fun setCharacteristicNotification(characteristic: BluetoothGattCharacteristic, enabled: Boolean) {
-        if (bluetoothGatt == null) {
+    fun setCharacteristicNotification(gatt: BluetoothGatt?, characteristic: BluetoothGattCharacteristic, enabled: Boolean) {
+        if (gatt == null) {
             Log.w(TAG, "BluetoothAdapter not initialized")
             return
         }
 
-        val gatt = bluetoothGatt!!
         val result = gatt.setCharacteristicNotification(characteristic, enabled)
         val parentWriteType = characteristic.writeType
         characteristic.writeType = BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT
@@ -222,8 +218,8 @@ class BLEManager private constructor() {
         characteristic.writeType = parentWriteType
     }
 
-    fun getCharacteristic(sUUID: String, cUUID: String): BluetoothGattCharacteristic? {
-        val service = bluetoothGatt?.getService(UUID.fromString(sUUID))
+    fun getCharacteristic(gatt: BluetoothGatt?, sUUID: String, cUUID: String): BluetoothGattCharacteristic? {
+        val service = gatt?.getService(UUID.fromString(sUUID))
         if (service == null) {
             Log.i(TAG, "getCharacteristic:  service is null")
             return null
