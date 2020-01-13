@@ -58,7 +58,7 @@ class HomeFragment : AppBaseFragment() {
             ImageCompress.with(context!!)
                 .compress(Uri.parse("content://media/external/images/media/90125"))
                 .renameAdapter(RenameDateTimeAdapter())
-                .addFilter(MinSizeFilter(MinSizeFilter.Unit.MB, 5))
+                .addFilter(MinSizeFilter(500))
                 .savePath("/test/te")
                 .compressListener {
                     if (it.isSuccess()) {

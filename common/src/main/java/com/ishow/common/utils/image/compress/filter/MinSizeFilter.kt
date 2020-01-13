@@ -7,7 +7,7 @@ import com.ishow.common.widget.PrintView
  * Created by yuhaiyang on 2019-12-25.
  *
  */
-class MinSizeFilter(val unit: Unit, val size: Long) : ICompressFilter {
+class MinSizeFilter(val size: Long, val unit: Unit = Unit.KB) : ICompressFilter {
     override fun filter(info: ImageInfo): Boolean {
         // 因为某些时候byteCount 获取的可能为O
         if (info.byteCount == 0L) {
