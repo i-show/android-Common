@@ -17,29 +17,36 @@
 package com.ishow.common.widget.recyclerview
 
 import android.content.Context
-import android.content.res.TypedArray
 import android.util.AttributeSet
-import android.widget.ScrollView
 
 import androidx.recyclerview.widget.RecyclerView
 import com.ishow.common.R
 
 
 class RecyclerViewPro @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
-        RecyclerView(context, attrs, defStyleAttr) {
-    private var mMaxHeight: Int = 0
-    private var mMaxWidth: Int = 0
+    RecyclerView(context, attrs, defStyleAttr) {
+
+    var maxHeight: Int = 0
+        set(value) {
+            field = value
+            requestLayout()
+        }
+    var maxWidth: Int = 0
+        set(value) {
+            field = value
+            requestLayout()
+        }
 
     init {
         val a = context.obtainStyledAttributes(attrs, R.styleable.RecyclerViewPro)
-        mMaxHeight = a.getDimensionPixelSize(R.styleable.RecyclerViewPro_maxHeight, -1)
-        mMaxWidth = a.getDimensionPixelSize(R.styleable.RecyclerViewPro_maxWidth, -1)
+        maxHeight = a.getDimensionPixelSize(R.styleable.RecyclerViewPro_maxHeight, -1)
+        maxWidth = a.getDimensionPixelSize(R.styleable.RecyclerViewPro_maxWidth, -1)
         a.recycle()
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val widthSpec = if (mMaxWidth == -1) widthMeasureSpec else getAtMostSpec(mMaxWidth)
-        val heightSpec = if (mMaxHeight == -1) heightMeasureSpec else getAtMostSpec(mMaxHeight)
+        val widthSpec = if (maxWidth == -1) widthMeasureSpec else getAtMostSpec(maxWidth)
+        val heightSpec = if (maxHeight == -1) heightMeasureSpec else getAtMostSpec(maxHeight)
         super.onMeasure(widthSpec, heightSpec)
     }
 

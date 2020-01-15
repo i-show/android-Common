@@ -24,6 +24,7 @@ import com.ishow.common.BR
 import com.ishow.common.R
 import com.ishow.common.adapter.BindAdapter
 import com.ishow.common.entries.utils.IUnitSelect
+import com.ishow.common.extensions.dp2px
 import com.ishow.common.widget.dialog.BaseDialog
 import com.ishow.common.widget.recyclerview.itemdecoration.ColorDecoration
 import kotlinx.android.synthetic.main.dialog_unit_select.*
@@ -42,7 +43,7 @@ class SelectDialog<T>(context: Context) : BaseDialog(context, R.style.Theme_Dial
         set(data) {
             adapter.data = data
         }
-
+    var maxHeight = 300.dp2px()
     @Suppress("MemberVisibilityCanBePrivate")
     var itemDecoration: RecyclerView.ItemDecoration = ColorDecoration(context)
 
@@ -60,6 +61,7 @@ class SelectDialog<T>(context: Context) : BaseDialog(context, R.style.Theme_Dial
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_unit_select)
 
+        list.maxHeight = maxHeight
         list.addItemDecoration(itemDecoration)
         list.adapter = adapter
     }

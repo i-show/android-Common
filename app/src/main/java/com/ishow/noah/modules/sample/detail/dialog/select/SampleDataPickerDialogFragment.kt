@@ -22,6 +22,7 @@ import android.view.Gravity
 import android.view.View
 import com.ishow.common.entries.utils.IUnitPicker
 import com.ishow.common.entries.utils.IUnitSelect
+import com.ishow.common.extensions.dp2px
 import com.ishow.common.widget.dialog.picker.PickerDialog
 import com.ishow.common.widget.dialog.select.SelectDialog
 import com.ishow.common.widget.recyclerview.itemdecoration.ColorDecoration
@@ -66,6 +67,7 @@ class SampleDataPickerDialogFragment : AppBindFragment<FragmentSampleDataPickerB
         itemDecoration.setPadding(20, 20)
 
         val dialog = SelectDialog<DemoEntry>(context)
+        dialog.maxHeight = 200.dp2px()
         dialog.itemDecoration = itemDecoration
         dialog.adapter.addLayout(BR.item, R.layout.item_sample_dialog_selet)
         dialog.data = dataList
