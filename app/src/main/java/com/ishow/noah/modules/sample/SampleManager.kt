@@ -10,6 +10,7 @@ import com.ishow.noah.modules.sample.detail.glide.SampleGlideCornerFragment
 import com.ishow.noah.modules.sample.detail.log.SampleLogFragment
 import com.ishow.noah.modules.sample.detail.permission.SamplePermissionFragment
 import com.ishow.noah.modules.sample.detail.photo.select.SampleSelectPhotoFragment
+import com.ishow.noah.modules.sample.detail.utils.json.SampleJsonFragment
 import com.ishow.noah.modules.sample.detail.views.statusview.SampleStatusViewFragment
 import com.ishow.noah.modules.sample.detail.utils.reflection.SampleReflectionFragment
 import com.ishow.noah.modules.sample.detail.views.loading.SampleLoadingDialogFragment
@@ -43,6 +44,7 @@ object SampleManager {
             list.add(Sample.instance("Log", SampleLogFragment::class.java))
             list.add(Sample.instance("反射", SampleReflectionFragment::class.java))
             list.add(Sample.instance("Pull2Refresh", SamplePull2RefreshFragment::class.java))
+            list.add(Sample.instance("Json", SampleJsonFragment::class.java))
             return list
         }
 }

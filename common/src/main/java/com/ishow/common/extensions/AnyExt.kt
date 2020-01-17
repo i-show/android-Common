@@ -2,12 +2,13 @@ package com.ishow.common.extensions
 
 import android.os.Looper
 import com.google.gson.Gson
+import com.ishow.common.utils.JsonUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 
-fun Any.toJson(): String? = Gson().toJson(this)
+fun Any.toJSON(): String? = JsonUtils.gson.toJson(this)
 
 /**
  * 判断是否在主线程

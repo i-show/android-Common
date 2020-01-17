@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Build
 import com.ishow.common.BuildConfig
 import com.ishow.common.extensions.appName
-import com.ishow.common.extensions.toJson
+import com.ishow.common.extensions.toJSON
 import com.ishow.common.extensions.versionName
 import com.ishow.common.manager.LogManager
 import com.ishow.common.utils.DeviceUtils
@@ -64,7 +64,7 @@ class InitLogWorker {
         params["dateTime"] = System.currentTimeMillis()
         val response = ss.init(params)
         if (response.isSuccess()) {
-            StorageUtils.save(LogManager.initKey(context), response.data?.toJson())
+            StorageUtils.save(LogManager.initKey(context), response.data?.toJSON())
         }
     }
 }

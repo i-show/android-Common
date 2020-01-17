@@ -5,6 +5,9 @@ package com.ishow.common.extensions
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.*
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.ishow.common.utils.JsonUtils
 import com.ishow.common.utils.MathUtils
 import com.ishow.common.utils.StringUtils
 
@@ -75,7 +78,7 @@ fun String.isPhone(): Boolean {
  * 是否是邮箱
  */
 fun String.isEmail(): Boolean {
-    if(!contains("@")){
+    if (!contains("@")) {
         return false
     }
     if (split("@").size != 2) {
@@ -85,3 +88,7 @@ fun String.isEmail(): Boolean {
     return matches(p)
 }
 
+/**
+ * 解析JSON转换成对象
+ */
+inline fun <reified T> String.parseJSON(): T = JsonUtils.gson.parseJson(this)

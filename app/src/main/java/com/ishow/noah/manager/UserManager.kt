@@ -19,9 +19,8 @@ package com.ishow.noah.manager
 
 import android.text.TextUtils
 import android.util.Log
-import com.alibaba.fastjson.JSON
 import com.google.gson.Gson
-import com.ishow.common.extensions.toJson
+import com.ishow.common.extensions.toJSON
 import com.ishow.common.utils.StorageUtils
 import com.ishow.common.utils.StringUtils
 import com.ishow.noah.entries.UserContainer
@@ -42,7 +41,7 @@ class UserManager private constructor() {
     fun setUserContainer(container: UserContainer?) {
         userContainer = container
         AppHttpInterceptor.token = container?.token?.accessToken
-        StorageUtils.save(UserContainer.Key.CACHE, container?.toJson())
+        StorageUtils.save(UserContainer.Key.CACHE, container?.toJSON())
     }
 
     /**
