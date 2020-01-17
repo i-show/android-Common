@@ -91,4 +91,4 @@ fun String.isEmail(): Boolean {
 /**
  * 解析JSON转换成对象
  */
-inline fun <reified T> String.parseJSON(): T = JsonUtils.gson.parseJson(this)
+inline fun <reified T> String.parseJSON(): T = JsonUtils.gson.parseJSON(this)
