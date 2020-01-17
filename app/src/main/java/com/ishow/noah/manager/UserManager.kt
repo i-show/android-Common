@@ -86,15 +86,7 @@ class UserManager private constructor() {
     companion object {
         private const val TAG = "UserManager"
 
-        @Volatile
-        private var sInstance: UserManager? = null
-
-
-        val instance: UserManager
-            get() =
-                sInstance ?: synchronized(UserManager::class.java) {
-                    sInstance ?: UserManager().also { sInstance = it }
-                }
+        val instance: UserManager by lazy(LazyThreadSafetyMode.SYNCHRONIZED) { UserManager() }
 
         @JvmStatic
         fun setAvatar(avatar: String) {

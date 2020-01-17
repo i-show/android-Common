@@ -62,27 +62,27 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
     open fun init() {}
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    protected fun onCreate() {
+    protected open fun onCreate() {
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    protected fun onResume() {
+    protected open fun onResume() {
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    protected fun onStart() {
+    protected open fun onStart() {
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    protected fun onPause() {
+    protected open fun onPause() {
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    protected fun onStop() {
+    protected open fun onStop() {
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    protected fun onDestroy() {
+    protected open fun onDestroy() {
     }
 
     /**
