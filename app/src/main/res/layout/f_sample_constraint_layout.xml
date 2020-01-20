@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.ishow.noah.modules.sample.detail.views.constraint.SampleConstraintLayoutViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:ignore="HardcodedText">
+
+
+        <Button
+            android:id="@+id/bias"
+            style="@style/AppTextView.Sample"
+            android:text="Bias"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/chain1"
+            style="@style/AppTextView.Sample"
+            android:layout_marginTop="20dp"
+            android:text="Chain1"
+            app:layout_constraintEnd_toStartOf="@id/chain2"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bias" />
+
+        <TextView
+            android:id="@+id/chain2"
+            style="@style/AppTextView.Sample"
+            android:text="Chain2"
+            app:layout_constraintEnd_toStartOf="@id/chain3"
+            app:layout_constraintStart_toEndOf="@id/chain1"
+            app:layout_constraintTop_toTopOf="@id/chain1" />
+
+        <TextView
+            android:id="@+id/chain3"
+            style="@style/AppTextView.Sample"
+            android:text="Chain3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/chain2"
+            app:layout_constraintTop_toTopOf="@id/chain1" />
+
+
+        <TextView
+            android:id="@+id/chain_a"
+            style="@style/AppTextView.Sample"
+            android:layout_width="0dp"
+            android:layout_marginTop="20dp"
+            android:text="ChainA"
+            app:layout_constraintEnd_toStartOf="@id/chain_b"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/chain1" />
+
+        <TextView
+            android:id="@+id/chain_b"
+            style="@style/AppTextView.Sample"
+            android:layout_width="0dp"
+            android:text="ChainB"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/chain_a"
+            app:layout_constraintTop_toTopOf="@id/chain_a" />
+
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Button"
+            app:layout_constraintEnd_toStartOf="@+id/button5"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/chain_a" />
+
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button"
+            app:layout_constraintBottom_toBottomOf="@+id/button4"
+            app:layout_constraintEnd_toStartOf="@+id/button6"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/button4"
+            app:layout_constraintTop_toTopOf="@+id/button4" />
+
+        <Button
+            android:id="@+id/button6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button"
+            app:layout_constraintBottom_toBottomOf="@+id/button5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/button5"
+            app:layout_constraintTop_toTopOf="@+id/button5" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="button4,button5,button6" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="20dp"
+            android:src="@mipmap/icon_launcher"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/button4"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="张三"
+            app:layout_constraintBottom_toTopOf="@+id/textView2"
+            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:layout_constraintTop_toTopOf="@+id/imageView2" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="男"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+            app:layout_constraintStart_toStartOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="测试BarrierBarrierBarrier"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageView2" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Barrier"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constrainedWidth=""
+            app:layout_constraintTop_toBottomOf="@id/textView3" />
+
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="end"
+            app:constraint_referenced_ids="textView3,textView4" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Barrier END END"
+            app:layout_constraintStart_toEndOf="@id/barrier"
+            app:layout_constraintTop_toBottomOf="@id/imageView2" />
+
+
+
+        <TextView
+            android:layout_width="0dp"
+            style="@style/AppTextView.Sample"
+            android:text="Width"
+            app:layout_constraintTop_toBottomOf="@id/textView4"
+            android:layout_marginTop="20dp"
+            app:layout_constraintBottom_creator="1111"
+            app:layout_constraintWidth_percent="0.5"
+            app:barrierAllowsGoneWidgets=""/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
