@@ -49,6 +49,7 @@ open class BaseDialog constructor(context: Context, theme: Int) : Dialog(context
 
     init {
         setActivity(context)
+        @Suppress("LeakingThis")
         mController = BaseController(getContext(), this, window!!)
     }
 
@@ -193,7 +194,7 @@ open class BaseDialog constructor(context: Context, theme: Int) : Dialog(context
          * 设置Message的最大行数
          */
         fun setMessageMaxLines(@IntRange(from = 0) lines: Int): Builder {
-            mParams.mMessageMaxLines = lines;
+            mParams.mMessageMaxLines = lines
             return this
         }
 
@@ -202,7 +203,7 @@ open class BaseDialog constructor(context: Context, theme: Int) : Dialog(context
          * @param listener [DialogInterface.OnClickListener] 的kotlin高阶实现函数
          */
         @JvmOverloads
-        fun setPositiveButton(textId: Int, listener: ((DialogInterface, Int) -> Unit)? = null): Builder {
+        fun setPositiveButton(textId: Int, listener: BaseDialogClickListener? = null): Builder {
             mParams.mPositiveText = mParams.mContext.getText(textId)
             mParams.mPositiveListener = listener
             return this
@@ -212,7 +213,7 @@ open class BaseDialog constructor(context: Context, theme: Int) : Dialog(context
          * 设置确认按钮信息
          */
         @JvmOverloads
-        fun setPositiveButton(text: CharSequence, listener: ((DialogInterface, Int) -> Unit)? = null): Builder {
+        fun setPositiveButton(text: CharSequence, listener: BaseDialogClickListener? = null): Builder {
             mParams.mPositiveText = text
             mParams.mPositiveListener = listener
             return this
@@ -249,7 +250,7 @@ open class BaseDialog constructor(context: Context, theme: Int) : Dialog(context
          * 增加右侧按钮
          */
         @JvmOverloads
-        fun setNegativeButton(@StringRes textId: Int, listener: ((DialogInterface, Int) -> Unit)? = null): Builder {
+        fun setNegativeButton(@StringRes textId: Int, listener: BaseDialogClickListener? = null): Builder {
             mParams.mNegativeText = mParams.mContext.getText(textId)
             mParams.mNegativeListener = listener
             return this
@@ -259,7 +260,7 @@ open class BaseDialog constructor(context: Context, theme: Int) : Dialog(context
          * 增加右侧按钮
          */
         @JvmOverloads
-        fun setNegativeButton(text: CharSequence, listener: ((DialogInterface, Int) -> Unit)? = null): Builder {
+        fun setNegativeButton(text: CharSequence, listener: BaseDialogClickListener? = null): Builder {
             mParams.mNegativeText = text
             mParams.mNegativeListener = listener
             return this
@@ -334,7 +335,7 @@ open class BaseDialog constructor(context: Context, theme: Int) : Dialog(context
          * Set a list of items to be displayed in the dialog as the content, you will be notified of the
          */
         @JvmOverloads
-        fun setItems(@ArrayRes itemsId: Int, listener: ((DialogInterface, Int) -> Unit)? = null): Builder {
+        fun setItems(@ArrayRes itemsId: Int, listener: BaseDialogClickListener? = null): Builder {
             mParams.mItems = mParams.mContext.resources.getTextArray(itemsId)
             mParams.mOnClickListener = listener
             return this
@@ -344,7 +345,7 @@ open class BaseDialog constructor(context: Context, theme: Int) : Dialog(context
          * Set a list of items to be displayed in the dialog as the content, you will be notified of the
          */
         @JvmOverloads
-        fun setItems(items: Array<CharSequence>, listener: ((DialogInterface, Int) -> Unit)? = null): Builder {
+        fun setItems(items: Array<CharSequence>, listener: BaseDialogClickListener? = null): Builder {
             mParams.mItems = items
             mParams.mOnClickListener = listener
             return this
@@ -362,7 +363,7 @@ open class BaseDialog constructor(context: Context, theme: Int) : Dialog(context
          * 设置Adapter
          */
         @JvmOverloads
-        fun setAdapter(adapter: BindAdapter<*>, listener: ((DialogInterface, Int) -> Unit)? = null): Builder {
+        fun setAdapter(adapter: BindAdapter<*>, listener: BaseDialogClickListener? = null): Builder {
             mParams.mAdapter = adapter
             mParams.mOnClickListener = listener
             return this
@@ -406,3 +407,5 @@ open class BaseDialog constructor(context: Context, theme: Int) : Dialog(context
         private const val TAG = "BaseDialog"
     }
 }
+
+typealias BaseDialogClickListener = (dialog: DialogInterface, which: Int) -> Unit

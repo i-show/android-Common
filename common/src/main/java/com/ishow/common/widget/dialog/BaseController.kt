@@ -418,16 +418,16 @@ class BaseController(
 
         internal var mPositiveText: CharSequence? = null
         internal var mPositiveTextColor: ColorStateList? = null
-        internal var mPositiveListener: ((DialogInterface, Int) -> Unit)? = null
+        internal var mPositiveListener: BaseDialogClickListener? = null
 
         internal var mNegativeText: CharSequence? = null
         internal var mNegativeTextColor: ColorStateList? = null
-        internal var mNegativeListener: ((DialogInterface, Int) -> Unit)? = null
+        internal var mNegativeListener: BaseDialogClickListener? = null
 
         internal var mButtonLineColor: Int? = null
 
         internal var mAdapter: RecyclerView.Adapter<*>? = null
-        internal var mOnClickListener: ((DialogInterface, Int) -> Unit)? = null
+        internal var mOnClickListener: BaseDialogClickListener? = null
         internal var mItems: Array<CharSequence>? = null
         internal var mCancelable: Boolean = false
 
