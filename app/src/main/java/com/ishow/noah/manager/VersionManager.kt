@@ -16,7 +16,6 @@
 
 package com.ishow.noah.manager
 
-import android.content.Context
 import android.text.TextUtils
 import android.text.style.RelativeSizeSpan
 import android.util.Log
@@ -24,11 +23,9 @@ import com.alibaba.fastjson.JSON
 import com.ishow.common.utils.AppUtils
 import com.ishow.common.utils.SpanUtils
 import com.ishow.common.utils.StorageUtils
-import com.ishow.common.utils.StringUtils
 import com.ishow.common.utils.log.LogUtils
 import com.ishow.noah.BuildConfig
 import com.ishow.noah.entries.Version
-import com.ishow.noah.modules.init.splash.SplashActivity
 
 /**
  * Created by yuhaiyang on 2018/8/8.

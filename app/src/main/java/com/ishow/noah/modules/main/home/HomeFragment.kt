@@ -1,13 +1,13 @@
 package com.ishow.noah.modules.main.home
 
 import android.annotation.SuppressLint
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.ishow.common.extensions.delayInThread
 import com.ishow.common.extensions.inflate
 import com.ishow.common.utils.image.compress.ImageCompress
 import com.ishow.common.utils.image.compress.adapter.RenameDateTimeAdapter
@@ -73,12 +73,21 @@ class HomeFragment : AppBaseFragment() {
         }
 
         show.setOnClickListener {
-            test(1)
-            test("2")
+            test()
         }
 
     }
 
+
+    fun test() {
+        Log.i("yhy", "11111: ")
+
+        val list = mutableListOf("1", "2", "3", "4", "5", "6", "6", "8")
+
+        delayInThread(5000) {
+            Log.i("yhy", "test: ${isMainThread()}")
+        }
+    }
 
     fun <T> test(t: T) {
         PrintView.print("T = $t")

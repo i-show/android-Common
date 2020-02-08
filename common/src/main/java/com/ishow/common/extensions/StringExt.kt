@@ -4,9 +4,10 @@ package com.ishow.common.extensions
 
 import android.text.SpannableString
 import android.text.Spanned
-import android.text.style.*
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import android.text.style.AbsoluteSizeSpan
+import android.text.style.RelativeSizeSpan
+import android.text.style.StyleSpan
+import android.text.style.UnderlineSpan
 import com.ishow.common.utils.JsonUtils
 import com.ishow.common.utils.MathUtils
 import com.ishow.common.utils.StringUtils
@@ -32,7 +33,7 @@ fun String.format2Money(scale: Int = -1, force: Boolean = false): String {
 /**
  * 通过Span来 修改字体大小
  */
-fun String.spanSize(start: Int, end: Int, size: Int, dip: Boolean = false): SpannableString {
+fun String.spanSize(size: Int, start: Int, end: Int, dip: Boolean = false): SpannableString {
     val span = SpannableString(this)
     span.setSpan(AbsoluteSizeSpan(size, dip), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
     return span
@@ -41,7 +42,7 @@ fun String.spanSize(start: Int, end: Int, size: Int, dip: Boolean = false): Span
 /**
  * 通过Span来 修改字体 相对大小
  */
-fun String.spanSize(start: Int, end: Int, size: Float): SpannableString {
+fun String.spanSize(size: Float, start: Int, end: Int): SpannableString {
     val span = SpannableString(this)
     span.setSpan(RelativeSizeSpan(size), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
     return span
@@ -51,7 +52,7 @@ fun String.spanSize(start: Int, end: Int, size: Float): SpannableString {
  * 通过Span来 设置字体类型
  * 字体类型：字体样式 Typeface.NORMAL正常 Typeface.BOLD粗体 Typeface.ITALIC斜体  Typeface.BOLD_ITALIC粗斜体
  */
-fun String.spanStyle(start: Int, end: Int, style: Int): SpannableString {
+fun String.spanStyle(style: Int, start: Int, end: Int): SpannableString {
     val span = SpannableString(this)
     span.setSpan(StyleSpan(style), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
     return span
