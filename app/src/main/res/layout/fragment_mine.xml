@@ -55,7 +55,7 @@
             android:id="@+id/settings"
             style="@style/AppTextViewPro.Mine"
             android:onClick="@{()->fragment.onViewClick(settings)}"
-            app:leftImage="@drawable/mine_settings_svg"
+            app:leftImage="@drawable/svg_mine_settings"
             app:leftText="@string/settings" />
 
     </LinearLayout>

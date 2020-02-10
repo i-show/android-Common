@@ -54,7 +54,7 @@
         <item name="android:background">@color/color_accent</item>
         <item name="textSize">18sp</item>
         <item name="textColor">@color/white</item>
-        <item name="leftImage">@drawable/top_back_white_svg</item>
+        <item name="leftImage">@drawable/svg_top_back_white</item>
     </style>
 
 

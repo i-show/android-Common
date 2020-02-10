@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:editable="false"
-            app:leftImage="@drawable/ic_develop_svg"
+            app:leftImage="@drawable/svg_develop"
             app:leftText="@string/forgot_password_tip_password" />
 
 
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             app:inputEnable="false"
             app:inputType="textPassword"
-            app:leftImage="@drawable/ic_develop_svg"
+            app:leftImage="@drawable/svg_develop"
             app:leftText="@string/forgot_password_tip_password"
             app:leftTextMarginEnd="15dp"
             app:rightImage="@drawable/ic_password_visibility"
@@ -66,7 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            app:leftImage="@drawable/ic_develop_svg"
+            app:leftImage="@drawable/svg_develop"
             app:leftText="@string/forgot_password_tip_password"
             app:rightText="提示"
             app:rightTextVisibility="visible" />

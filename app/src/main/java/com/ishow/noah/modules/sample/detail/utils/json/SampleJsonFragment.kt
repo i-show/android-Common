@@ -1,9 +1,7 @@
 package com.ishow.noah.modules.sample.detail.utils.json
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import com.google.gson.Gson
 import com.ishow.common.extensions.parseJSON
 import com.ishow.common.extensions.toJSON
 import com.ishow.common.widget.PrintView
