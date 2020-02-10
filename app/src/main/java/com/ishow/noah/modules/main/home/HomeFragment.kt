@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.ishow.common.extensions.delayInThread
 import com.ishow.common.extensions.inflate
+import com.ishow.common.utils.StorageUtils
 import com.ishow.common.utils.image.compress.ImageCompress
 import com.ishow.common.utils.image.compress.adapter.RenameDateTimeAdapter
 import com.ishow.common.utils.image.compress.filter.MinSizeFilter
@@ -80,13 +81,9 @@ class HomeFragment : AppBaseFragment() {
 
 
     fun test() {
-        Log.i("yhy", "11111: ")
-
-        val list = mutableListOf("1", "2", "3", "4", "5", "6", "6", "8")
-
-        delayInThread(5000) {
-            Log.i("yhy", "test: ${isMainThread()}")
-        }
+        StorageUtils.save("key", "123")
+        val result = StorageUtils.get("key", null)
+        Log.i("yhy", "test: result = $result")
     }
 
     fun <T> test(t: T) {
