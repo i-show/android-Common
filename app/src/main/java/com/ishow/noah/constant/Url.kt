@@ -1,7 +1,6 @@
 package com.ishow.noah.constant
 
 import com.ishow.common.utils.StringUtils
-import com.ishow.noah.data.retrofit.AppRestService
 
 /**
  * Created by yuhaiyang on 2018/3/22.
