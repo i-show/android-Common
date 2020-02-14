@@ -1,16 +1,13 @@
 package com.ishow.noah.modules.sample.detail.views.statusview
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import com.ishow.common.utils.ToastUtils
 import com.ishow.common.widget.StatusView
-import com.ishow.common.widget.loading.LoadingDialog
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSampleStatusViewBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
-import com.ishow.noah.modules.sample.detail.views.loading.SampleLoadingDialogFragment
 import kotlinx.android.synthetic.main.fragment_sample_status_view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay

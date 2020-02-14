@@ -35,7 +35,11 @@ class LoadingDialog private constructor(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTitle("dialog_loading")
-        setContentView(R.layout.dialog_loading)
+        if (customLayout != null && customLayout != 0) {
+            setContentView(customLayout!!)
+        } else {
+            setContentView(R.layout.dialog_loading)
+        }
     }
 
     override fun show() {
@@ -62,6 +66,8 @@ class LoadingDialog private constructor(
         private var loadingTagList: MutableList<String>? = null
 
         private var lastContext: String? = null
+
+        var customLayout: Int? = null
 
         private fun create(context: Context?, loadingTag: String?): LoadingDialog? {
             if (context !is Activity) {

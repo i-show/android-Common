@@ -14,13 +14,14 @@
   limitations under the License.
   -->
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="fragment"
-            type="com.ishow.noah.modules.sample.detail.views.loading.SampleLoadingDialogFragment" />
+            type="com.ishow.noah.modules.sample.detail.dialog.loading.SampleLoadingDialogFragment" />
     </data>
 
     <LinearLayout
@@ -36,5 +37,12 @@
             android:onClick="@{()->fragment.onViewClick(request1)}"
             android:text="@string/sample_request" />
 
+
+        <TextView
+            android:id="@+id/custom"
+            style="@style/AppTextView.Sample"
+            android:onClick="@{()->fragment.onViewClick(custom)}"
+            android:text="Custom"
+            tools:ignore="HardcodedText" />
     </LinearLayout>
 </layout>

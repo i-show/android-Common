@@ -17,10 +17,11 @@
  * limitations under the License.
  */
 
-package com.ishow.noah.modules.sample.detail.views.loading
+package com.ishow.noah.modules.sample.detail.dialog.loading
 
 import android.util.Log
 import android.view.View
+import com.ishow.common.extensions.delay
 import com.ishow.common.widget.loading.LoadingDialog
 
 import com.ishow.noah.R
@@ -43,11 +44,24 @@ class SampleLoadingDialogFragment : AppBindFragment<FSampleLoadingDialogBinding,
     fun onViewClick(v: View) {
         when (v.id) {
             R.id.request1 -> requestLoading()
+            R.id.custom -> showCustomLoading()
 
         }
     }
 
+    private fun showCustomLoading() {
+        LoadingDialog.customLayout = R.layout.dialog_custom_loading
+        loadingDialog = LoadingDialog.show(context, loadingDialog, "tag1")
+
+        delay(5000) {
+            LoadingDialog.dismiss(loadingDialog, "tag1")
+        }
+
+    }
+
     private fun requestLoading() {
+        LoadingDialog.customLayout = null
+
         requestLoading1()
         requestLoading2()
         requestLoading3()

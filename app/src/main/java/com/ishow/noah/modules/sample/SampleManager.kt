@@ -13,7 +13,7 @@ import com.ishow.noah.modules.sample.detail.recycle.adapter.SampleBindAdapterFra
 import com.ishow.noah.modules.sample.detail.utils.json.SampleJsonFragment
 import com.ishow.noah.modules.sample.detail.utils.reflection.SampleReflectionFragment
 import com.ishow.noah.modules.sample.detail.views.constraint.SampleConstraintLayoutFragment
-import com.ishow.noah.modules.sample.detail.views.loading.SampleLoadingDialogFragment
+import com.ishow.noah.modules.sample.detail.dialog.loading.SampleLoadingDialogFragment
 import com.ishow.noah.modules.sample.detail.views.loading.SampleLoadingWebViewFragment
 import com.ishow.noah.modules.sample.detail.views.pull2refresh.SamplePull2RefreshFragment
 import com.ishow.noah.modules.sample.detail.views.statusview.SampleStatusViewFragment
@@ -34,11 +34,13 @@ object SampleManager {
             list.add(Sample.instance("PickerView", SamplePickerFragment::class.java))
             list.add(Sample.instance("GlideCorner", SampleGlideCornerFragment::class.java))
             list.add(Sample.instance("StatusView", SampleStatusViewFragment::class.java))
+            // Dialog
             list.add(Sample.instance("BaseDialog", SampleBaseDialogFragment::class.java))
+            list.add(Sample.instance("LoadingDialog", SampleLoadingDialogFragment::class.java))
             list.add(Sample.instance("PickerData", SampleDataPickerDialogFragment::class.java))
+
             list.add(Sample.instance("EditTextPro", SampleEditTextProFragment::class.java))
             list.add(Sample.instance("LoadingWebView", SampleLoadingWebViewFragment::class.java))
-            list.add(Sample.instance("LoadingDialog", SampleLoadingDialogFragment::class.java))
             list.add(Sample.instance("DashLine", SampleDashLineFragment::class.java))
             list.add(Sample.instance("Permission", SamplePermissionFragment::class.java))
             list.add(Sample.instance("SelectPhoto", SampleSelectPhotoFragment::class.java))
