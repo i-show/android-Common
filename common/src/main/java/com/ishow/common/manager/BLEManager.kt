@@ -18,6 +18,7 @@ import android.location.LocationManager
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import com.ishow.common.extensions.mainThread
 import com.ishow.common.utils.log.LogUtils
 import com.ishow.common.utils.permission.PermissionManager
 import java.util.*
@@ -137,17 +138,18 @@ class BLEManager private constructor() {
         adapter.bluetoothLeScanner.stopScan(callback)
     }
 
-    fun connectGatt(context: Context, address: String?, callback: BluetoothGattCallback): BluetoothGatt? {
-        if (address.isNullOrEmpty()) return null
+    fun connectGatt(context: Context, address: String?, callback: BluetoothGattCallback? = null) {
+        if (address.isNullOrEmpty()) return
         // 暂时不考虑多设备连接情况
         val adapter = BluetoothAdapter.getDefaultAdapter()
         val device = adapter.getRemoteDevice(address)
         if (device == null) {
             LogUtils.i(TAG, "connect: device not found")
-            return null
+            return
         }
-        addGattCallBack(callback)
-        return device.connectGatt(context.applicationContext, false, innerGattCallback)
+        callback?.let { addGattCallBack(it) }
+
+        mainThread { device.connectGatt(context.applicationContext, false, innerGattCallback) }
     }
 
     fun addGattCallBack(callback: BluetoothGattCallback) {
@@ -165,13 +167,13 @@ class BLEManager private constructor() {
     /**
      * 断开当前连接
      */
-    fun disconnectGatt(bluetoothGatt: BluetoothGatt?) = bluetoothGatt?.disconnect()
+    fun disconnectGatt(bluetoothGatt: BluetoothGatt?) = mainThread { bluetoothGatt?.disconnect() }
 
     /**
      * 关闭当前连接， 如果连接不关闭 那么后面会导致一段时间连接不上设备
      */
     fun closeGatt(bluetoothGatt: BluetoothGatt?) {
-        bluetoothGatt?.close()
+        mainThread { bluetoothGatt?.close() }
     }
 
     fun readCharacteristic(gatt: BluetoothGatt?, characteristic: BluetoothGattCharacteristic) {
@@ -179,8 +181,11 @@ class BLEManager private constructor() {
             LogUtils.i(TAG, "readCharacteristic: false")
         }
 
-        val result = gatt?.readCharacteristic(characteristic)
-        LogUtils.i(TAG, "readCharacteristic: result = $result")
+        mainThread {
+            val result = gatt?.readCharacteristic(characteristic)
+            LogUtils.i(TAG, "readCharacteristic: result = $result")
+        }
+
     }
 
     fun writeCharacteristic(gatt: BluetoothGatt?, characteristic: BluetoothGattCharacteristic) {
@@ -190,8 +195,10 @@ class BLEManager private constructor() {
             Log.i(TAG, "writeCharacteristic: writeCharacteristic ok")
         }
 
-        val result = gatt?.writeCharacteristic(characteristic)
-        Log.i(TAG, "writeCharacteristic: result = $result")
+        mainThread {
+            val result = gatt?.writeCharacteristic(characteristic)
+            Log.i(TAG, "writeCharacteristic: result = $result")
+        }
     }
 
     /**
@@ -200,10 +207,10 @@ class BLEManager private constructor() {
      * @param characteristic Characteristic to act on.
      * @param enabled        If true, enable notification.  False otherwise.
      */
-    fun setCharacteristicNotification(gatt: BluetoothGatt?, characteristic: BluetoothGattCharacteristic, enabled: Boolean) {
+    fun setCharacteristicNotification(gatt: BluetoothGatt?, characteristic: BluetoothGattCharacteristic, enabled: Boolean) = mainThread {
         if (gatt == null) {
             Log.w(TAG, "BluetoothAdapter not initialized")
-            return
+            return@mainThread
         }
 
         val result = gatt.setCharacteristicNotification(characteristic, enabled)
