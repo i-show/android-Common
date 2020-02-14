@@ -1,15 +1,17 @@
 package com.ishow.noah.modules.main.home
 
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ishow.common.extensions.delayInThread
 import com.ishow.common.extensions.inflate
-import com.ishow.common.utils.StorageUtils
 import com.ishow.common.utils.image.compress.ImageCompress
 import com.ishow.common.utils.image.compress.adapter.RenameDateTimeAdapter
 import com.ishow.common.utils.image.compress.filter.MinSizeFilter
@@ -81,9 +83,21 @@ class HomeFragment : AppBaseFragment() {
 
 
     fun test() {
-        StorageUtils.save("key", "123")
-        val result = StorageUtils.get("key", null)
-        Log.i("yhy", "test: result = $result")
+        Log.i("yhy", "test: register")
+        val filter = IntentFilter()
+        filter.addAction("com.huawei.cloudserive.loginSuccess")
+        filter.addAction("com.huawei.cloudserive.loginFailed")
+        filter.addAction("com.huawei.cloudserive.loginCancel")
+
+        activity?.registerReceiver(broadcastReceiver, filter)
+    }
+
+
+    val broadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent) {
+            Log.i("yhy", "onReceive: action = ${intent.action}")
+        }
+
     }
 
     fun <T> test(t: T) {

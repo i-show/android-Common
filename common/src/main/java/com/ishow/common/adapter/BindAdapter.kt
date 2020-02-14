@@ -5,6 +5,7 @@ import android.util.SparseArray
 import android.util.SparseIntArray
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.util.forEach
 import androidx.core.util.set
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -37,7 +38,9 @@ open class BindAdapter<T> : RecyclerView.Adapter<BindAdapter.BindHolder>() {
     /**
      * Item的点击事件
      */
-    private var itemClickListener: ((Int) -> Unit)? = null
+    private var itemClickListener: OnItemClickListener? = null
+
+    private var childItemClickListener = SparseArray<OnItemChildClickListener>()
     /**
      * 设置itemType的Block
      */
@@ -56,6 +59,7 @@ open class BindAdapter<T> : RecyclerView.Adapter<BindAdapter.BindHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindHolder {
         val item = parent.inflate(layoutList[viewType])
         setItemListener(item)
+        setItemChildListener(item)
         return BindHolder(item, viewType, memberVariableList)
     }
 
@@ -133,6 +137,15 @@ open class BindAdapter<T> : RecyclerView.Adapter<BindAdapter.BindHolder>() {
     /**
      * 增加数据
      */
+    fun plusData(data: T) {
+        val lastIndex = _data.size
+        _data.add(data)
+        notifyItemRangeInserted(lastIndex, 1)
+    }
+
+    /**
+     * 增加数据
+     */
     fun plusData(data: List<T>?) {
         if (data != null) {
             val lastIndex = _data.size
@@ -140,7 +153,6 @@ open class BindAdapter<T> : RecyclerView.Adapter<BindAdapter.BindHolder>() {
             notifyItemRangeInserted(lastIndex, data.size)
         }
     }
-
 
     /**
      * 清空数据
@@ -150,19 +162,36 @@ open class BindAdapter<T> : RecyclerView.Adapter<BindAdapter.BindHolder>() {
         notifyDataSetChanged()
     }
 
-    fun setOnItemClickListener(listener: ((Int) -> Unit)?) {
+    fun setOnItemClickListener(listener: OnItemClickListener?) {
         itemClickListener = listener
     }
 
-    private fun setItemListener(item: View) {
+    fun setOnItemChildClickListener(viewId: Int, listener: OnItemChildClickListener? = null) {
+        childItemClickListener.put(viewId, listener)
+    }
+
+    protected open fun setItemListener(item: View) {
         if (disableOnItemClickListener) {
             return
         }
 
-        item.setOnClickListener { view ->
-            itemClickListener?.let {
-                val position = view.getTag(R.id.tag_position) as Int
-                it(position)
+        item.setOnClickListener { _ ->
+            val position = item.getTag(R.id.tag_position) as Int
+            itemClickListener?.let { it(position) }
+        }
+    }
+
+
+    protected open fun setItemChildListener(item: View) {
+        if (disableOnItemClickListener) {
+            return
+        }
+
+        childItemClickListener.forEach { key, value ->
+            val view: View? = item.findViewById(key)
+            view?.setOnClickListener {
+                val position = item.getTag(R.id.tag_position) as Int
+                value(position, key)
             }
         }
     }
@@ -198,3 +227,13 @@ open class BindAdapter<T> : RecyclerView.Adapter<BindAdapter.BindHolder>() {
 
     class Variable(val variableId: Int, val data: Any)
 }
+
+/**
+ * Item的点击事件
+ */
+typealias OnItemClickListener = ((position: Int) -> Unit)
+
+/**
+ * ItemChild的点击事件
+ */
+typealias OnItemChildClickListener = ((position: Int, viewId: Int) -> Unit)

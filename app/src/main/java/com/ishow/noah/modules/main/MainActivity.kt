@@ -40,6 +40,10 @@ import com.ishow.noah.modules.main.mine.MineFragment
 import com.ishow.noah.modules.main.tab2.Tab2Fragment
 import com.ishow.noah.modules.main.tab3.Tab3Fragment
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 
 class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
@@ -70,6 +74,8 @@ class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
     override fun initViews() {
         super.initViews()
         bottomBar.setOnSelectedChangedListener(this)
+
+
     }
 
 

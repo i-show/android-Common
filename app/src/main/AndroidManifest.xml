@@ -80,6 +80,19 @@
         <activity
             android:name=".modules.base.ExitAppActivity"
             android:launchMode="singleTask" />
+
+        <activity
+            android:name="com.huawei.hwid.ui.common.login.LoginActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="true"
+            android:label="登录"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Holo.Light"
+            android:windowSoftInputMode="stateVisible">
+            <meta-data
+                android:name="hwc-theme"
+                android:value="1" />
+        </activity>
         <!--++++++++++++++++++++控件或者工具的Demo区域（init）++++++++++++++++++++++++++-->
         <!--Demo的主类-->
         <activity
