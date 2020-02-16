@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.ishow.common.manager
+package com.ishow.common.utils.ble
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -19,9 +19,12 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.ishow.common.extensions.mainThread
+import com.ishow.common.utils.ble.job.CommandJob
+import com.ishow.common.utils.ble.job.ConnectJob
 import com.ishow.common.utils.log.LogUtils
 import com.ishow.common.utils.permission.PermissionManager
 import java.util.*
+import java.util.concurrent.Executors
 
 
 /**
@@ -44,6 +47,12 @@ class BLEManager private constructor() {
 
     private var innerGattCallback = GattCallBack()
     private var gattCallbackList: MutableList<BluetoothGattCallback> = mutableListOf()
+
+    /**
+     * 线程池
+     */
+    private val executorService by lazy { Executors.newSingleThreadExecutor() }
+
     /**
      * 注册监听状态改变广播
      */
@@ -111,6 +120,17 @@ class BLEManager private constructor() {
         btStatusBlocks?.clear()
     }
 
+    fun addJob(job: CommandJob) {
+        executorService.execute(job)
+    }
+
+    fun addConnectJob(context: Context, address: String?){
+        if(address.isNullOrEmpty()){
+            return
+        }
+
+        executorService.execute(ConnectJob(context, address))
+    }
 
     fun startScan(callback: ScanCallback, filter: ScanFilter? = null, settings: ScanSettings? = null) {
         if (filter == null) {
@@ -140,7 +160,6 @@ class BLEManager private constructor() {
 
     fun connectGatt(context: Context, address: String?, callback: BluetoothGattCallback? = null) {
         if (address.isNullOrEmpty()) return
-        // 暂时不考虑多设备连接情况
         val adapter = BluetoothAdapter.getDefaultAdapter()
         val device = adapter.getRemoteDevice(address)
         if (device == null) {
@@ -358,9 +377,11 @@ class BLEManager private constructor() {
          */
         val instance: BLEManager
             get() =
-                sInstance ?: synchronized(BLEManager::class.java) {
-                    sInstance ?: BLEManager().also { sInstance = it }
-                }
+                sInstance
+                    ?: synchronized(BLEManager::class.java) {
+                        sInstance
+                            ?: BLEManager().also { sInstance = it }
+                    }
 
         /**
          * 是否支持Ble
