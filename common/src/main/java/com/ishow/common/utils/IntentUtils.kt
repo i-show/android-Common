@@ -26,10 +26,9 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.ContactsContract
 import android.provider.Settings
-import androidx.annotation.StringRes
 import android.text.TextUtils
 import android.widget.Toast
-
+import androidx.annotation.StringRes
 import com.ishow.common.R
 
 /**
@@ -167,10 +166,11 @@ object IntentUtils {
      * 跳转 App应用设置界面
      */
     @JvmStatic
-    fun gotoAppSettings(context: Context) {
+    @JvmOverloads
+    fun gotoAppSettings(context: Context, packageName: String = context.packageName) {
         try {
             val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            val uri = Uri.fromParts("package", context.packageName, null)
+            val uri = Uri.fromParts("package", packageName, null)
             intent.data = uri
             context.startActivity(intent)
         } catch (e: Exception) {
