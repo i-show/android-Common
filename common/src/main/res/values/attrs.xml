@@ -653,6 +653,7 @@
 
     <attr name="fadeBack" format="boolean" />
     <attr name="animationDuration" format="integer" />
+    <attr name="maxWidth" format="dimension" />
     <attr name="maxHeight" format="dimension" />
     <attr name="actionMinWidth" format="dimension" />
 
@@ -691,6 +692,7 @@
     <attr name="delayTime" format="integer" />
 
     <attr name="tabTextSize" format="dimension" />
+    <attr name="tabIndicatorWidth" format="dimension" />
     <attr name="tabIndicatorRound" format="boolean" />
     <attr name="tabIndicatorPaddingStart" format="dimension" />
     <attr name="tabIndicatorPaddingEnd" format="dimension" />
@@ -698,6 +700,7 @@
     <attr name="loadMoreEnable" format="boolean" />
     <attr name="refreshEnable" format="boolean" />
     <attr name="scrollViewId" format="reference" />
+    <attr name="minFrameSize" format="dimension" />
 
     <!--==========分割线==========-->
     <declare-styleable name="ImageTextView">

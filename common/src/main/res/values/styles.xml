@@ -221,8 +221,10 @@
     <style name="Default" />
 
     <style name="Default.StatusView">
+        <!--
         <item name="loadingImage" />
         <item name="loadingText" />
+        -->
         <item name="loadingTextSize">@dimen/status_view_title_size</item>
         <item name="loadingTextColor">@color/status_view_title_color</item>
 
@@ -238,7 +240,7 @@
         <item name="emptyText">@string/nothing</item>
         <item name="emptyTextSize">@dimen/status_view_title_size</item>
         <item name="emptyTextColor">@color/status_view_title_color</item>
-        <item name="emptySubText" />
+        <!--<item name="emptySubText" />-->
         <item name="emptySubTextSize">@dimen/status_view_sub_title_size</item>
         <item name="emptySubTextColor">@color/status_view_sub_title_color</item>
         <item name="emptyImage">@drawable/svg_status_empty</item>
