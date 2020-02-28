@@ -1,31 +1,19 @@
 package com.ishow.noah.modules.main.home
 
 import android.annotation.SuppressLint
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ishow.common.extensions.dialog
 import com.ishow.common.extensions.inflate
-import com.ishow.common.utils.FileUtils
-import com.ishow.common.utils.IntentUtils
-import com.ishow.common.utils.image.compress.ImageCompress
-import com.ishow.common.utils.image.compress.adapter.RenameDateTimeAdapter
-import com.ishow.common.utils.image.compress.filter.MinSizeFilter
+import com.ishow.common.extensions.toast
+import com.ishow.common.utils.DeviceUtils
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.widget.PrintView
 import com.ishow.noah.R
 import com.ishow.noah.modules.base.AppBaseFragment
 import com.ishow.noah.modules.sample.main.SampleMainActivity
 import kotlinx.android.synthetic.main.fragment_home.*
-import java.io.File
-import java.util.*
 
 /**
  * Created by yuhaiyang on 2017/4/21.
@@ -56,6 +44,7 @@ class HomeFragment : AppBaseFragment() {
         PrintView.init(printView)
 
         send.setOnClickListener {
+            toast(DeviceUtils.deviceId(context!!))
         }
         reset.setOnClickListener {
         }

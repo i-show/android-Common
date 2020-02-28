@@ -46,7 +46,7 @@ class SplashActivity : AppBindActivity<ActivitySpalshBinding, SplashViewModel>()
      */
     @PermissionDenied(SplashViewModel.REQUEST_PERMISSION_CODE)
     fun permissionDenied() {
-        finish()
+        dataBinding.vm?.start()
     }
 
     override fun showSuccess(success: Success) {
