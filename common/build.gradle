@@ -26,6 +26,8 @@ android {
         minSdkVersion MIN_SDK_VERSION as int
         targetSdkVersion TARGET_SDK_VERSION as int
 
+        consumerProguardFiles 'consumer-rules.pro'
+
         buildConfigField "String", "VERSION", "\"${VERSION_NAME}\""
         buildConfigField "String", "ARTIFACT_ID", "\"${COMMON_ARTIFACT_ID}\""
     }
