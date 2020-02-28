@@ -11,7 +11,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.ishow.common.extensions.dialog
 import com.ishow.common.extensions.inflate
+import com.ishow.common.utils.FileUtils
+import com.ishow.common.utils.IntentUtils
 import com.ishow.common.utils.image.compress.ImageCompress
 import com.ishow.common.utils.image.compress.adapter.RenameDateTimeAdapter
 import com.ishow.common.utils.image.compress.filter.MinSizeFilter
@@ -21,6 +24,8 @@ import com.ishow.noah.R
 import com.ishow.noah.modules.base.AppBaseFragment
 import com.ishow.noah.modules.sample.main.SampleMainActivity
 import kotlinx.android.synthetic.main.fragment_home.*
+import java.io.File
+import java.util.*
 
 /**
  * Created by yuhaiyang on 2017/4/21.
@@ -51,57 +56,15 @@ class HomeFragment : AppBaseFragment() {
         PrintView.init(printView)
 
         send.setOnClickListener {
-            PrintView.print("第 $count 次启动")
-            PrintView.print("sdfgsdfg")
-            count++
         }
-
         reset.setOnClickListener {
-            Log.i("yhy", "reset")
-            ImageCompress.with(context!!)
-                .compress(Uri.parse("content://media/external/images/media/90125"))
-                .renameAdapter(RenameDateTimeAdapter())
-                .addFilter(MinSizeFilter(500))
-                .savePath("/test/te")
-                .compressListener {
-                    if (it.isSuccess()) {
-                        PrintView.print("压缩成功")
-                        PrintView.print("压缩后的路径为${it.image?.absolutePath}")
-                    } else {
-                        PrintView.print("压缩失败")
-                        PrintView.print("压缩错误：${it.errorList}")
-                    }
-                }
-                .start()
         }
-
         show.setOnClickListener {
-            test()
         }
-
     }
 
 
     fun test() {
-        Log.i("yhy", "test: register")
-        val filter = IntentFilter()
-        filter.addAction("com.huawei.cloudserive.loginSuccess")
-        filter.addAction("com.huawei.cloudserive.loginFailed")
-        filter.addAction("com.huawei.cloudserive.loginCancel")
-
-        activity?.registerReceiver(broadcastReceiver, filter)
-    }
-
-
-    val broadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent) {
-            Log.i("yhy", "onReceive: action = ${intent.action}")
-        }
-
-    }
-
-    fun <T> test(t: T) {
-        PrintView.print("T = $t")
     }
 
     override fun onRightClick(v: View) {
