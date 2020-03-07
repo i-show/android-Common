@@ -31,30 +31,37 @@ object DateUtils {
      * 1秒
      */
     const val SECOND_1 = 1000L
+
     /**
      * 30秒
      */
     const val SECOND_30 = 30L * SECOND_1
+
     /**
      * 1 分钟
      */
     const val MINUTE_1 = 60L * SECOND_1
+
     /**
      * 1 小时
      */
     const val HOUR_1 = 60L * MINUTE_1
+
     /**
      * 1 天
      */
     const val DAY_1 = 24L * HOUR_1
+
     /**
      * 7 天
      */
     const val DAY_7 = 7L * DAY_1
+
     /**
      * 一月
      */
     const val ONE_MONTH = 30L * DAY_1
+
     /**
      * 一年
      */
@@ -85,6 +92,17 @@ object DateUtils {
      */
     const val FORMAT_YMDHMS = "yyyy-MM-dd HH:mm:ss"
 
+
+    /**
+     * format 时间字符串
+     *
+     * @param model    当前时间模型 例如: MM-dd
+     * @param locale      区域
+     */
+    @JvmOverloads
+    fun now( model: String = FORMAT_YMDHMS, locale: Locale = Locale.getDefault()): String {
+        return format(System.currentTimeMillis(), model, locale)
+    }
 
     /**
      * format 时间字符串

@@ -2,18 +2,22 @@ package com.ishow.noah.modules.main.home
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ishow.common.extensions.inflate
-import com.ishow.common.extensions.toast
-import com.ishow.common.utils.DeviceUtils
+import com.ishow.common.utils.DateUtils
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.widget.PrintView
 import com.ishow.noah.R
 import com.ishow.noah.modules.base.AppBaseFragment
 import com.ishow.noah.modules.sample.main.SampleMainActivity
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.launch
+import kotlin.system.measureTimeMillis
 
 /**
  * Created by yuhaiyang on 2017/4/21.
@@ -38,20 +42,40 @@ class HomeFragment : AppBaseFragment() {
     }
 
     var count = 1
+
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         PrintView.init(printView)
 
         send.setOnClickListener {
-            toast(DeviceUtils.deviceId(context!!))
+            channelTest()
         }
+
         reset.setOnClickListener {
+            GlobalScope.launch {
+                channel1.send("Hello")
+            }
+
         }
         show.setOnClickListener {
+            GlobalScope.launch {
+                channel2.send("world")
+            }
         }
     }
 
+    private val channel1 = Channel<String>()
+    private val channel2 = Channel<String>()
+    private fun channelTest() {
+        GlobalScope.launch {
+            Log.i("yhy", "channelTest: start = " + DateUtils.now())
+            val result = channel1.receive()
+            Log.i("yhy", "channelTest: mid = " + DateUtils.now() + " result = $result")
+            val result2 = channel2.receive()
+            Log.i("yhy", "channelTest: end = " + DateUtils.now() + " result = $result2")
+        }
+    }
 
     fun test() {
     }

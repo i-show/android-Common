@@ -1,11 +1,23 @@
 package com.ishow.common.utils.download
 
-import com.ishow.common.utils.download.DownloadTask
-import java.io.File
+import okhttp3.OkHttpClient
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 
 
-class DownloadManager {
+class DownloadManager private constructor() {
 
+    /**
+     * 线城池
+     */
+    private val threadPoll = Executors.newFixedThreadPool(10)
+
+    private val client by lazy {
+        OkHttpClient.Builder()
+            .retryOnConnectionFailure(true)
+            .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+            .build()
+    }
 
     /**
      * 进度监听
@@ -18,25 +30,25 @@ class DownloadManager {
         fun progress(current: Long, total: Long)
     }
 
+    /**
+     * 状态改变
+     */
+    interface OnStatusChangedListener {
+        fun onStatusChanged(info: DownloadStatusInfo)
+    }
 
-    interface OnStatusChangedListener{
-        /**
-         * @param status 1：下载开始； 2：下载完成  3：下载失败
-         * @param message 下载提示语
-         */
-        fun onFailed(status: Int, message: String)
-
-        /**
-         * 下载完成
-         */
-        fun onComplete(file: File)
+    internal fun addDownloadJob(job: DownloadJob) {
+        threadPoll.execute(job)
     }
 
     companion object {
+        val instance by lazy(LazyThreadSafetyMode.SYNCHRONIZED) { DownloadManager() }
+
+        private const val DEFAULT_TIMEOUT = 60L
 
         @JvmStatic
         fun newTask(): DownloadTask {
-            return DownloadTask()
+            return DownloadTask(instance.client)
         }
     }
 }

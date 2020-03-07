@@ -1,51 +1,62 @@
 package com.ishow.common.utils.download
 
-import android.content.Context
+import androidx.annotation.IntRange
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 import java.io.IOException
+import java.io.RandomAccessFile
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicLong
 
 /**
  * 下载的任务
  */
-class DownloadTask {
-    private var context: Context? = null
+class DownloadTask(private var httpClient: OkHttpClient) : DownloadJob.OnCallBack {
     private var url: String? = null
+
+    /**
+     * 保存的路径
+     */
     private var savePath: String? = null
+
+    /**
+     * 保存的名称
+     */
     private var saveName: String? = null
+
+    /**
+     * 下载的线程数
+     */
+    private var threadNumber: Int = 3
+
+    private val progress = AtomicLong(0)
+
+    /**
+     * 进度监听
+     */
     private var onProgressListener: DownloadManager.OnProgressListener? = null
+    private var onProgressBlock: OnDownloadProgressBlock? = null
+
+    /**
+     * 状态改变
+     */
     private var onStatusChangedListener: DownloadManager.OnStatusChangedListener? = null
+    private var onStatusChangedBlock: OnDownloadStatusChangedBlock? = null
+
     /**
      * 是否终止
      */
     private var isIntercept: Boolean = false
 
-    private lateinit var mDownloadService: DownloadService
+    private var totalLength = 0L
+    private val jobList = mutableListOf<DownloadJob>()
 
     private fun init() {
-        val okBuilder = OkHttpClient.Builder()
-            .retryOnConnectionFailure(true)
-            .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-
-        onProgressListener?.let {
-            okBuilder.addInterceptor(DownloadInterceptor(onProgressListener))
-        }
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://www.ishow.club/")
-            .client(okBuilder.build())
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        mDownloadService = retrofit.create(DownloadService::class.java)
     }
 
 
@@ -60,41 +71,58 @@ class DownloadTask {
         val finalUrl = url!!
 
         GlobalScope.launch(Dispatchers.IO) {
-            val response = mDownloadService.download(finalUrl).execute()
+            val request = Request.Builder()
+                .url(finalUrl)
+                .get()
+                .build()
+
+            val response = httpClient.newCall(request).execute()
             val body = response.body()
             // 1. 检测是否请求成功
             if (!response.isSuccessful) {
-                onStatusChangedListener?.onFailed(DownloadError.REQUEST_ERROR, response.message())
+                notifyDownloadFailed(DownloadError.REQUEST_ERROR, response.message())
                 return@launch
             }
 
             if (body == null) {
-                onStatusChangedListener?.onFailed(DownloadError.REQUEST_BODY_EMPTY, response.message())
+                notifyDownloadFailed(DownloadError.REQUEST_BODY_EMPTY, response.message())
                 return@launch
             }
+            jobList.clear()
+            val file = getSaveFile(response)
+            totalLength = body.contentLength()
+            if (totalLength > 0) {
+                val randOut = RandomAccessFile(file, "rw")
+                randOut.setLength(totalLength)
+                randOut.close()
+            }
 
-            // 2. 创建文件，准备保存
-            val file = getSaveFile(response.raw())
-            val buffer = ByteArray(8192)
-            val inputStream = body.byteStream()
-            val outputStream = file.outputStream()
+            val distance: Long = (totalLength + threadNumber) / threadNumber
+            val manager = DownloadManager.instance
+            for (i in 0..threadNumber) {
+                val info = DownloadInfo(i, finalUrl, file)
+                info.start = i * distance
+                info.end = info.start + distance
 
-            // 3. 开始保存文件
-            do {
-                val length = inputStream.read(buffer)
-                if (length < 0) {
-                    withContext(Dispatchers.Main) {
-                        onStatusChangedListener?.onComplete(file)
-                    }
-                    break
-                }
-                outputStream.write(buffer, 0, length)
-            } while (!isIntercept)
-
-            inputStream.close()
-            outputStream.flush()
-            outputStream.close()
+                val job = DownloadJob(httpClient, info, this@DownloadTask)
+                jobList.add(job)
+                manager.addDownloadJob(job)
+            }
         }
+    }
+
+
+    override fun onLengthChanged(length: Int) {
+        val now = progress.addAndGet(length.toLong())
+        notifyProgressChanged(now)
+    }
+
+    override fun onFinished(info: DownloadInfo) {
+        for (job in jobList){
+            if(!job.isFinished) return
+        }
+
+        notifyDownloadComplete(info.saveFile)
     }
 
     /**
@@ -112,12 +140,24 @@ class DownloadTask {
         return this
     }
 
+
     /**
-     * context
+     * 线程池中最多多少个线程
      */
-    fun context(context: Context): DownloadTask {
-        this.context = context
+    fun threadNumber(@IntRange(from = 1) number: Int): DownloadTask {
+        this.threadNumber = number
         return this
+    }
+
+    /**
+     * 超时时间设置
+     */
+    fun timeOut(long: Long, unit: TimeUnit) {
+        httpClient = httpClient.newBuilder()
+            .connectTimeout(long, unit)
+            .writeTimeout(long, unit)
+            .readTimeout(long, unit)
+            .build()
     }
 
     fun savePath(savePath: String): DownloadTask {
@@ -135,11 +175,20 @@ class DownloadTask {
         return this
     }
 
+    fun setOnProgressListener(listener: OnDownloadProgressBlock): DownloadTask {
+        onProgressBlock = listener
+        return this
+    }
+
     fun setOnStatusChangedListener(listener: DownloadManager.OnStatusChangedListener): DownloadTask {
         onStatusChangedListener = listener
         return this
     }
 
+    fun setOnStatusChangedListener(listener: OnDownloadStatusChangedBlock): DownloadTask {
+        onStatusChangedBlock = listener
+        return this
+    }
 
     /**
      * 检测必要参数是否有效
@@ -201,12 +250,29 @@ class DownloadTask {
     }
 
 
-    companion object {
-        /**
-         * 默认 超时时间
-         */
-        const val DEFAULT_TIMEOUT = 60L
+    private fun notifyDownloadFailed(code: Int, message: String) {
+        val info = DownloadStatusInfo(DownloadStatus.Failed)
+        info.errorCode = code
+        info.errorMessage = message
 
+        onStatusChangedBlock?.let { it(info) }
+        onStatusChangedListener?.onStatusChanged(info)
+    }
+
+    private fun notifyDownloadComplete(file: File) {
+        val info = DownloadStatusInfo(DownloadStatus.Complete)
+        info.file = file
+
+        onStatusChangedBlock?.let { it(info) }
+        onStatusChangedListener?.onStatusChanged(info)
+    }
+
+    private fun notifyProgressChanged(progress: Long) {
+        onProgressBlock?.invoke(progress, totalLength)
+        onProgressListener?.progress(progress, totalLength)
+    }
+
+    companion object {
         /**
          * 通过返回值来获取文件名称
          */
@@ -234,4 +300,6 @@ class DownloadTask {
             return url.substring(url.lastIndexOf("/") + 1)
         }
     }
+
+
 }

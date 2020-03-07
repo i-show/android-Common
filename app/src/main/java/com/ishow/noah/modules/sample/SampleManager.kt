@@ -1,9 +1,11 @@
 package com.ishow.noah.modules.sample
 
 import com.ishow.noah.modules.sample.detail.dashline.SampleDashLineFragment
+import com.ishow.noah.modules.sample.detail.dialog.loading.SampleLoadingDialogFragment
 import com.ishow.noah.modules.sample.detail.dialog.normal.SampleBaseDialogFragment
 import com.ishow.noah.modules.sample.detail.dialog.select.SampleDataPickerDialogFragment
 import com.ishow.noah.modules.sample.detail.edittextpro.SampleEditTextProFragment
+import com.ishow.noah.modules.sample.detail.extend.download.SampleDownloadFragment
 import com.ishow.noah.modules.sample.detail.glide.SampleGlideCornerFragment
 import com.ishow.noah.modules.sample.detail.log.SampleLogFragment
 import com.ishow.noah.modules.sample.detail.permission.SamplePermissionFragment
@@ -13,7 +15,6 @@ import com.ishow.noah.modules.sample.detail.recycle.adapter.SampleBindAdapterFra
 import com.ishow.noah.modules.sample.detail.utils.json.SampleJsonFragment
 import com.ishow.noah.modules.sample.detail.utils.reflection.SampleReflectionFragment
 import com.ishow.noah.modules.sample.detail.views.constraint.SampleConstraintLayoutFragment
-import com.ishow.noah.modules.sample.detail.dialog.loading.SampleLoadingDialogFragment
 import com.ishow.noah.modules.sample.detail.views.loading.SampleLoadingWebViewFragment
 import com.ishow.noah.modules.sample.detail.views.pull2refresh.SamplePull2RefreshFragment
 import com.ishow.noah.modules.sample.detail.views.statusview.SampleStatusViewFragment
@@ -50,6 +51,7 @@ object SampleManager {
             list.add(Sample.instance("Json", SampleJsonFragment::class.java))
             list.add(Sample.instance("ConstraintLayout", SampleConstraintLayoutFragment::class.java))
             list.add(Sample.instance("BindAdapter", SampleBindAdapterFragment::class.java))
+            list.add(Sample.instance("下载", SampleDownloadFragment::class.java))
             return list
         }
 }
