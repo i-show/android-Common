@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ishow.common.extensions.inflate
+import com.ishow.common.extensions.isEmail
+import com.ishow.common.extensions.toast
 import com.ishow.common.utils.DateUtils
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.widget.PrintView
@@ -17,7 +19,6 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
-import kotlin.system.measureTimeMillis
 
 /**
  * Created by yuhaiyang on 2017/4/21.
@@ -58,11 +59,12 @@ class HomeFragment : AppBaseFragment() {
             }
 
         }
-        show.setOnClickListener {
-            GlobalScope.launch {
-                channel2.send("world")
-            }
-        }
+        show.setOnClickListener(this::test3)
+    }
+
+
+    private fun test3(v: View) {
+        toast("hello" + "781245638@qq.com".isEmail())
     }
 
     private val channel1 = Channel<String>()
