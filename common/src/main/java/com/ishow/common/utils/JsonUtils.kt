@@ -6,7 +6,7 @@ object JsonUtils {
     /**
      * 实例化一个对象
      */
-    val gson = Gson()
+    val gson by lazy { Gson() }
 
     fun <T> prase(json: String?, cls: Class<T>?): T? {
         return gson.fromJson<T>(json, cls)

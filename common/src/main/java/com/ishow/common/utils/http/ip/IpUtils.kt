@@ -3,6 +3,7 @@ package com.ishow.common.utils.http.ip
 import android.content.Context
 import android.util.Log
 import com.alibaba.fastjson.JSON
+import com.ishow.common.extensions.parseJSON
 import com.ishow.common.utils.http.ip.entries.IpSource
 import com.ishow.common.utils.http.ip.executor.FSExecutor
 import com.ishow.common.utils.http.ip.executor.IFYExecutor
@@ -34,8 +35,7 @@ class IpUtils private constructor() {
         val sp = context.getSharedPreferences("ip", Context.MODE_PRIVATE)
         val cache = sp.getString(KEY_CACHE, null)
         if (cache.isNullOrEmpty()) return null
-        ipInfo = JSON.parseObject(cache, IpInfo::class.java)
-        Log.i("yhy", "getCache: ipInfo = " + JSON.toJSON(ipInfo))
+        ipInfo = cache.parseJSON()
         return ipInfo
     }
 
