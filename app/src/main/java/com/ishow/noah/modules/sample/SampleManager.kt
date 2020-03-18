@@ -12,6 +12,7 @@ import com.ishow.noah.modules.sample.detail.permission.SamplePermissionFragment
 import com.ishow.noah.modules.sample.detail.photo.select.SampleSelectPhotoFragment
 import com.ishow.noah.modules.sample.detail.pickview.SamplePickerFragment
 import com.ishow.noah.modules.sample.detail.recycle.adapter.SampleBindAdapterFragment
+import com.ishow.noah.modules.sample.detail.utils.info.BaseInfoFragment
 import com.ishow.noah.modules.sample.detail.utils.json.SampleJsonFragment
 import com.ishow.noah.modules.sample.detail.utils.reflection.SampleReflectionFragment
 import com.ishow.noah.modules.sample.detail.views.constraint.SampleConstraintLayoutFragment
@@ -32,6 +33,8 @@ object SampleManager {
     val samples: MutableList<Sample>
         get() {
             val list = ArrayList<Sample>()
+            list.add(Sample.instance("BaseInfo", BaseInfoFragment::class.java))
+
             list.add(Sample.instance("PickerView", SamplePickerFragment::class.java))
             list.add(Sample.instance("GlideCorner", SampleGlideCornerFragment::class.java))
             list.add(Sample.instance("StatusView", SampleStatusViewFragment::class.java))
