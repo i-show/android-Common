@@ -6,15 +6,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.ishow.common.extensions.findDrawable
 import com.ishow.common.extensions.inflate
-import com.ishow.common.extensions.isEmail
-import com.ishow.common.extensions.toast
 import com.ishow.common.utils.DateUtils
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.widget.PrintView
 import com.ishow.noah.R
 import com.ishow.noah.modules.base.AppBaseFragment
 import com.ishow.noah.modules.sample.main.SampleMainActivity
+import com.ishow.common.utils.http.ip.IpUtils
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
@@ -54,17 +54,17 @@ class HomeFragment : AppBaseFragment() {
         }
 
         reset.setOnClickListener {
-            GlobalScope.launch {
-                channel1.send("Hello")
-            }
-
+           val ipInfo = IpUtils.getIp(context)
         }
         show.setOnClickListener(this::test3)
     }
 
 
     private fun test3(v: View) {
-        toast("hello" + "781245638@qq.com".isEmail())
+        val drawable = context?.findDrawable(R.drawable.footer_tab_1_normal) ?: return
+
+        drawable.setTint(0x33FF0000.toInt())
+        imageView3.setImageDrawable(drawable)
     }
 
     private val channel1 = Channel<String>()
