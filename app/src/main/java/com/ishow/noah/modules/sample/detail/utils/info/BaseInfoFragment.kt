@@ -38,7 +38,7 @@ class BaseInfoFragment : AppBindFragment<FBaseInfoBinding, BaseInfoViewModel>() 
 
     private fun copy(str: String) :Boolean{
         val manager = context?.clipboardManager
-        val data = ClipData.newPlainText("BaseInfo", "这里是要复制的文字")
+        val data = ClipData.newPlainText("BaseInfo", str)
         manager?.setPrimaryClip(data)
         Log.i(TAG, "BaseInfo: $str ")
         toast("已经复制到剪切板")
