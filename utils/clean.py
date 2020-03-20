@@ -4,7 +4,7 @@ import os
 import sys
 import shutil
 
-path = sys.path[0]
+path = os.path.abspath(os.path.dirname(sys.path[0]))
 
 
 def delet_dir(path):
