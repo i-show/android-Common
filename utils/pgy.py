@@ -14,7 +14,7 @@ WORKSPACE = ""
 APK_PATH = ""
 
 def upload_apk():
-    apk_list=glob.glob(APK_PATH)
+    apk_list=glob.glob(APK_PATH, recursive=True)
     apk_len=len(apk_list)
 
     if apk_len <= 0 :
