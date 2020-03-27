@@ -8,8 +8,8 @@ import json
 import time
 import shutil
 
-PGYER_AKEY = "281255327d620717e61cb1415a5fbafe" 
-PGYER_UKEY = "eb1bf2fbd7dd2f7500c314ce7972c3b9"
+PGYER_AKEY = "1423174f786fcc390e8f8a80e0ac7d3d"
+PGYER_UKEY = "f76df97fb9a4bb30a099593cd9c63aae"
 # 工作内容
 WORKSPACE = ""
 # APK 路径
