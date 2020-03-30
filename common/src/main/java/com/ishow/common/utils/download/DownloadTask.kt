@@ -8,7 +8,6 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 import java.io.File
-import java.io.IOException
 import java.io.RandomAccessFile
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicLong
@@ -60,7 +59,7 @@ class DownloadTask(private var httpClient: OkHttpClient) : DownloadJob.OnCallBac
     }
 
 
-    @Throws(IOException::class)
+    @Throws(Exception::class)
     fun start() {
         if (!checkParams()) {
             return
@@ -68,49 +67,55 @@ class DownloadTask(private var httpClient: OkHttpClient) : DownloadJob.OnCallBac
 
         init()
         isIntercept = false
-        val finalUrl = url!!
-
-        GlobalScope.launch(Dispatchers.IO) {
-            val request = Request.Builder()
-                .url(finalUrl)
-                .get()
-                .build()
-
-            val response = httpClient.newCall(request).execute()
-            val body = response.body()
-            // 1. 检测是否请求成功
-            if (!response.isSuccessful) {
-                notifyDownloadFailed(DownloadError.REQUEST_ERROR, response.message())
-                return@launch
-            }
-
-            if (body == null) {
-                notifyDownloadFailed(DownloadError.REQUEST_BODY_EMPTY, response.message())
-                return@launch
-            }
-            jobList.clear()
-            val file = getSaveFile(response)
-            totalLength = body.contentLength()
-            if (totalLength > 0) {
-                val randOut = RandomAccessFile(file, "rw")
-                randOut.setLength(totalLength)
-                randOut.close()
-            }
-
-            val distance: Long = (totalLength + threadNumber) / threadNumber
-            val manager = DownloadManager.instance
-            for (i in 0..threadNumber) {
-                val info = DownloadInfo(i, finalUrl, file)
-                info.start = i * distance
-                info.end = info.start + distance
-
-                val job = DownloadJob(httpClient, info, this@DownloadTask)
-                jobList.add(job)
-                manager.addDownloadJob(job)
-            }
-        }
+        download(url!!)
     }
 
+
+    private fun download(url: String) = GlobalScope.launch(Dispatchers.IO) {
+        val request = Request.Builder()
+            .url(url)
+            .get()
+            .build()
+
+        val response = try {
+            httpClient.newCall(request).execute()
+        } catch (e: Exception) {
+            notifyDownloadFailed(DownloadError.REQUEST_ERROR, e.toString())
+            return@launch
+        }
+
+        val body = response.body()
+        // 1. 检测是否请求成功
+        if (!response.isSuccessful) {
+            notifyDownloadFailed(DownloadError.REQUEST_ERROR, response.message())
+            return@launch
+        }
+
+        if (body == null) {
+            notifyDownloadFailed(DownloadError.REQUEST_BODY_EMPTY, response.message())
+            return@launch
+        }
+        jobList.clear()
+        val file = getSaveFile(response)
+        totalLength = body.contentLength()
+        if (totalLength > 0) {
+            val randOut = RandomAccessFile(file, "rw")
+            randOut.setLength(totalLength)
+            randOut.close()
+        }
+
+        val distance: Long = (totalLength + threadNumber) / threadNumber
+        val manager = DownloadManager.instance
+        for (i in 0..threadNumber) {
+            val info = DownloadInfo(i, url, file)
+            info.start = i * distance
+            info.end = info.start + distance
+
+            val job = DownloadJob(httpClient, info, this@DownloadTask)
+            jobList.add(job)
+            manager.addDownloadJob(job)
+        }
+    }
 
     override fun onLengthChanged(length: Int) {
         val now = progress.addAndGet(length.toLong())
@@ -118,8 +123,8 @@ class DownloadTask(private var httpClient: OkHttpClient) : DownloadJob.OnCallBac
     }
 
     override fun onFinished(info: DownloadInfo) {
-        for (job in jobList){
-            if(!job.isFinished) return
+        for (job in jobList) {
+            if (!job.isFinished) return
         }
 
         notifyDownloadComplete(info.saveFile)

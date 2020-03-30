@@ -21,29 +21,10 @@
             app:leftImage="@drawable/svg_top_back"
             app:rightImage="@drawable/svg_test" />
 
-        <TextView
-            android:id="@+id/send"
-            style="@style/AppTextView.Sample"
-            android:layout_margin="10dp"
-            android:text="Send" />
-
-
-        <TextView
-            android:id="@+id/reset"
-            style="@style/AppTextView.Sample"
-            android:layout_margin="10dp"
-            android:text="Reset" />
-
-        <TextView
-            android:id="@+id/show"
-            style="@style/AppTextView.Sample"
-            android:layout_margin="10dp"
-            android:text="Show" />
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/footer_tab_1_normal" />
+        <EditText
+            android:id="@+id/input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <com.ishow.common.widget.PrintView
             android:id="@+id/printView"
@@ -52,10 +33,7 @@
             android:layout_margin="10dp"
             android:minHeight="200dp"
             android:background="@drawable/base_dialog_bg"
-            app:maxHeight="@dimen/dp_300" >
-
-
-        </com.ishow.common.widget.PrintView>
+            app:maxHeight="@dimen/dp_300" />
 
 
     </LinearLayout>

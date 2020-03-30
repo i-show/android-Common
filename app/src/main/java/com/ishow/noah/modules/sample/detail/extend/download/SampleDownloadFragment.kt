@@ -27,15 +27,19 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
     private fun download1() {
 
         val start = System.currentTimeMillis()
+        try {
+            DownloadManager.newTask()
+                .url("https://imtt.dd.qq.com/16891/apk/A9CF9330B8F98FDA0702745A0EA2BDFC.apk")
+                .threadNumber(1)
+                .saveName("weixin1.apk")
+                .savePath(requireContext().getExternalFilesDir("apk")!!.absolutePath)
+                .setOnProgressListener { current, total -> update1(current, total, start) }
+                .setOnStatusChangedListener { Log.i("yhy", "info1 = $it") }
+                .start()
+        }catch (e:Exception){
+            Log.e("yhy", "download1: e = $e")
+        }
 
-        DownloadManager.newTask()
-            .url("https://imtt.dd.qq.com/16891/apk/A9CF9330B8F98FDA0702745A0EA2BDFC.apk")
-            .threadNumber(1)
-            .saveName("weixin1.apk")
-            .savePath(requireContext().getExternalFilesDir("apk")!!.absolutePath)
-            .setOnProgressListener { current, total -> update1(current, total, start) }
-            .setOnStatusChangedListener { Log.i("yhy", "info1 = $it") }
-            .start()
     }
 
     private fun update1(current: Long, total: Long, startTime: Long) {

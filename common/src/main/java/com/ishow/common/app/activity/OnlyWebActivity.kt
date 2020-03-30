@@ -24,6 +24,7 @@ import android.os.Bundle
 import android.webkit.*
 import androidx.annotation.RequiresApi
 import com.ishow.common.R
+import com.ishow.common.extensions.fullWindow
 import com.ishow.common.utils.WebViewUtils
 import com.ishow.common.widget.webview.WebViewClientWrapper
 import kotlinx.android.synthetic.main.activity_base_only_web.*
@@ -95,6 +96,24 @@ open class OnlyWebActivity : BaseActivity() {
         webView?.onPause()
     }
 
+    override fun resetStatusBar() {
+        super.resetStatusBar()
+        fullWindow()
+    }
+
+    override fun onBackPressed() {
+        if (webView?.canGoBack() == true && !isError) {
+            webView?.goBack()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+    companion object {
+        const val KEY_TITLE = "key_title"
+        const val KEY_CONTENT = "key_content"
+    }
+
     private inner class WebClient : WebViewClientWrapper() {
         @RequiresApi(Build.VERSION_CODES.M)
         override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
@@ -120,16 +139,4 @@ open class OnlyWebActivity : BaseActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        if (webView?.canGoBack() == true && !isError) {
-            webView?.goBack()
-        } else {
-            super.onBackPressed()
-        }
-    }
-
-    companion object {
-        const val KEY_TITLE = "key_title"
-        const val KEY_CONTENT = "key_content"
-    }
 }

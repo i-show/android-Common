@@ -2,10 +2,14 @@ package com.ishow.noah.modules.main.home
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
+import com.ishow.common.app.activity.OnlyWebActivity
 import com.ishow.common.extensions.findDrawable
 import com.ishow.common.extensions.inflate
 import com.ishow.common.utils.DateUtils
@@ -14,7 +18,6 @@ import com.ishow.common.widget.PrintView
 import com.ishow.noah.R
 import com.ishow.noah.modules.base.AppBaseFragment
 import com.ishow.noah.modules.sample.main.SampleMainActivity
-import com.ishow.common.utils.http.ip.IpUtils
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
@@ -42,29 +45,10 @@ class HomeFragment : AppBaseFragment() {
         return mRootView
     }
 
-    var count = 1
-
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         PrintView.init(printView)
-
-        send.setOnClickListener {
-            channelTest()
-        }
-
-        reset.setOnClickListener {
-           val ipInfo = IpUtils.getIp(context)
-        }
-        show.setOnClickListener(this::test3)
-    }
-
-
-    private fun test3(v: View) {
-        val drawable = context?.findDrawable(R.drawable.footer_tab_1_normal) ?: return
-
-        drawable.setTint(0x33FF0000.toInt())
-        imageView3.setImageDrawable(drawable)
     }
 
     private val channel1 = Channel<String>()

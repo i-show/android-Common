@@ -1,8 +1,13 @@
 package com.ishow.common.utils.download
 
+import android.util.Log
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okio.Buffer
+import okio.Okio
+import java.io.FileOutputStream
 import java.io.RandomAccessFile
+
 
 class DownloadJob(val client: OkHttpClient, val info: DownloadInfo, val callback: OnCallBack) : Runnable {
     private var _isFinished: Boolean = false
@@ -13,30 +18,41 @@ class DownloadJob(val client: OkHttpClient, val info: DownloadInfo, val callback
         val request = Request.Builder()
             .url(info.url)
             .addHeader("Range", "bytes=${info.start}-${info.end}")
+            .addHeader("Connection", "Keep-Alive")
             .get()
             .build()
 
-        val response = client.newCall(request).execute()
+        val response = try {
+            client.newCall(request).execute()
+        } catch (e: Exception) {
+            return
+        }
         val body = response.body() ?: return
 
         val accessFile = RandomAccessFile(info.saveFile, "rwd")
         accessFile.seek(info.start)
 
-        val buffer = ByteArray(1024 * 1024)
-        val inputStream = body.byteStream()
+        val source = Okio.source(body.byteStream())
+        val sink = Okio.sink(FileOutputStream(accessFile.fd))
+        val buf = Buffer()
 
-        // 3. 开始保存文件
-        do {
-            val length = inputStream.read(buffer)
-            if (length < 0) {
-                break
-            }
-            accessFile.write(buffer, 0, length)
-            callback.onLengthChanged(length)
-        } while (true)
+        try {
+            do {
+                val len = source.read(buf, 1024 * 1024)
+                if (len < 0) break
+                sink.write(buf, len)
+                callback.onLengthChanged(len.toInt())
+            } while (true)
+        } catch (e: Exception) {
+            Log.i("yhy", "DownloadJob e = $e")
+        } finally {
+            sink.flush()
+            sink.close()
+            source.close()
+        }
 
-        inputStream.close()
-        accessFile.close()
+
+
         _isFinished = true
         callback.onFinished(info)
     }
