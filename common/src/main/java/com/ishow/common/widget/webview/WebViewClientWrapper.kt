@@ -25,7 +25,7 @@ open class WebViewClientWrapper : WebViewClient() {
         return if (client == null) {
             super.shouldInterceptRequest(view, url)
         } else {
-            client!!.shouldInterceptRequest(view, url)
+            client?.shouldInterceptRequest(view, url)
         }
     }
 
@@ -33,7 +33,7 @@ open class WebViewClientWrapper : WebViewClient() {
         return if (client == null) {
             super.shouldInterceptRequest(view, request)
         } else {
-            client!!.shouldInterceptRequest(view, request)
+            client?.shouldInterceptRequest(view, request)
         }
     }
 
@@ -46,12 +46,7 @@ open class WebViewClientWrapper : WebViewClient() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O_MR1)
-    override fun onSafeBrowsingHit(
-        view: WebView?,
-        request: WebResourceRequest?,
-        threatType: Int,
-        callback: SafeBrowsingResponse?
-    ) {
+    override fun onSafeBrowsingHit(view: WebView?, request: WebResourceRequest?, threatType: Int, callback: SafeBrowsingResponse?) {
         super.onSafeBrowsingHit(view, request, threatType, callback)
         client?.onSafeBrowsingHit(view, request, threatType, callback)
     }

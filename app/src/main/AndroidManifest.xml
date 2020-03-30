@@ -81,6 +81,8 @@
             android:name=".modules.base.ExitAppActivity"
             android:launchMode="singleTask" />
 
+        <activity android:name="com.ishow.common.app.activity.OnlyWebActivity"
+            android:screenOrientation="portrait" />
         <!--++++++++++++++++++++控件或者工具的Demo区域（init）++++++++++++++++++++++++++-->
         <!--Demo的主类-->
         <activity

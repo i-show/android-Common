@@ -18,6 +18,7 @@ package com.ishow.common.app.activity
 
 import android.content.Intent
 import android.net.Uri
+import android.net.http.SslError
 import android.os.Build
 import android.os.Bundle
 import android.webkit.*
@@ -33,7 +34,6 @@ import kotlinx.android.synthetic.main.activity_base_only_web.*
  * Created by yuhaiyang on 2016/8/9.
  */
 open class OnlyWebActivity : BaseActivity() {
-
     private var title: String? = null
     private var url: String? = null
     private var isError: Boolean = false
@@ -57,19 +57,15 @@ open class OnlyWebActivity : BaseActivity() {
         topBar.setOnTopBarListener(this)
         topBar.setText(title)
         webClient = WebClient()
-
-        initWebView()
         webView = findViewById(R.id.webView)
-        webView?.apply {
-            loadUrl(url)
-            webViewClient = webClient
-
-            setDownloadListener { url, _, _, _, _ ->
-                val intent = Intent(Intent.ACTION_VIEW)
-                intent.addCategory(Intent.CATEGORY_BROWSABLE)
-                intent.data = Uri.parse(url)
-                startActivity(intent)
-            }
+        initWebView()
+        webView?.webViewClient = webClient
+        webView?.loadUrl(url)
+        webView?.setDownloadListener { url, _, _, _, _ ->
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.addCategory(Intent.CATEGORY_BROWSABLE)
+            intent.data = Uri.parse(url)
+            startActivity(intent)
         }
     }
 
@@ -99,19 +95,7 @@ open class OnlyWebActivity : BaseActivity() {
         webView?.onPause()
     }
 
-
     private inner class WebClient : WebViewClientWrapper() {
-
-        override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-            view.loadUrl(url)
-            return if (client == null) {
-                true
-            } else {
-                @Suppress("DEPRECATION")
-                client!!.shouldOverrideUrlLoading(view, url)
-            }
-        }
-
         @RequiresApi(Build.VERSION_CODES.M)
         override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
             super.onReceivedError(view, request, error)
@@ -122,18 +106,17 @@ open class OnlyWebActivity : BaseActivity() {
         }
 
         @RequiresApi(Build.VERSION_CODES.M)
-        override fun onReceivedHttpError(
-            view: WebView?,
-            request: WebResourceRequest?,
-            errorResponse: WebResourceResponse?
-        ) {
+        override fun onReceivedHttpError(view: WebView?, request: WebResourceRequest?, errorResponse: WebResourceResponse?) {
             super.onReceivedHttpError(view, request, errorResponse)
-
             if (request == null || !request.isForMainFrame) {
                 return
             }
-
             isError = true
+        }
+
+        override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
+            super.onReceivedSslError(view, handler, error)
+            handler?.proceed()
         }
     }
 
