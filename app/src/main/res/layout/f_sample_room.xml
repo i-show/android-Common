@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.ishow.noah.modules.sample.detail.utils.db.room.SampleRoomViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:ignore="HardcodedText">
+
+        <TextView
+            android:id="@+id/get"
+            style="@style/AppTextView.Sample"
+            android:text="GET" />
+
+        <TextView
+            android:id="@+id/insert"
+            style="@style/AppTextView.Sample"
+            android:text="Insert" />
+
+        <TextView
+            android:id="@+id/update"
+            style="@style/AppTextView.Sample"
+            android:text="Update" />
+
+        <TextView
+            android:id="@+id/delete"
+            style="@style/AppTextView.Sample"
+            android:text="Delete" />
+
+
+        <com.ishow.common.widget.PrintView
+            android:id="@+id/printView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/base_dialog_bg" />
+    </LinearLayout>
+</layout>

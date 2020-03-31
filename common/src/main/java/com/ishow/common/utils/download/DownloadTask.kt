@@ -1,6 +1,11 @@
 package com.ishow.common.utils.download
 
+import android.content.Context
+import android.util.Log
 import androidx.annotation.IntRange
+import com.ishow.common.extensions.delay
+import com.ishow.common.utils.download.db.DownloadDB
+import com.ishow.common.utils.download.db.DownloadData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -9,13 +14,14 @@ import okhttp3.Request
 import okhttp3.Response
 import java.io.File
 import java.io.RandomAccessFile
+import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicLong
 
 /**
  * 下载的任务
  */
-class DownloadTask(private var httpClient: OkHttpClient) : DownloadJob.OnCallBack {
+class DownloadTask(context: Context, private var httpClient: OkHttpClient) : DownloadJob.OnCallBack {
     private var url: String? = null
 
     /**
@@ -32,7 +38,6 @@ class DownloadTask(private var httpClient: OkHttpClient) : DownloadJob.OnCallBac
      * 下载的线程数
      */
     private var threadNumber: Int = 3
-
     private val progress = AtomicLong(0)
 
     /**
@@ -47,31 +52,106 @@ class DownloadTask(private var httpClient: OkHttpClient) : DownloadJob.OnCallBac
     private var onStatusChangedListener: DownloadManager.OnStatusChangedListener? = null
     private var onStatusChangedBlock: OnDownloadStatusChangedBlock? = null
 
-    /**
-     * 是否终止
-     */
-    private var isIntercept: Boolean = false
-
     private var totalLength = 0L
     private val jobList = mutableListOf<DownloadJob>()
 
-    private fun init() {
-    }
-
+    private val savePull by lazy { Executors.newSingleThreadExecutor() }
+    private val downloadDao by lazy { DownloadDB.get(context).getDownloadDao() }
+    private var _isDownloading = false
+    val isDownloading
+        get() = _isDownloading
 
     @Throws(Exception::class)
-    fun start() {
+    fun start(): DownloadTask {
+        if (isDownloading) return this
         if (!checkParams()) {
-            return
+            return this
         }
-
-        init()
-        isIntercept = false
         download(url!!)
+        return this
+    }
+
+    fun resume(): DownloadTask {
+        if (isDownloading) return this
+
+        if (!checkParams()) {
+            return this
+        }
+        resumeDownload(url!!)
+        return this
+    }
+
+    /**
+     * 终止下载
+     */
+    fun intercept() {
+        jobList.forEach { it.intercept = true }
+    }
+
+    fun pause() {
+        jobList.forEach { it.intercept = true }
     }
 
 
+    private fun resumeDownload(url: String) = GlobalScope.launch(Dispatchers.IO) {
+        val file = prepareDownload(url, true) ?: return@launch
+        if (file.length() <= 0) {
+            download(url)
+            return@launch
+        }
+
+        val dataList = downloadDao.getData()
+        val manager = DownloadManager.instance
+
+        _isDownloading = true
+
+        progress.set(0)
+        dataList?.forEach {
+            progress.addAndGet(it.downloadLength)
+
+            Log.i("yhy", "resumeDownload: progress = " + progress.get())
+            val info = DownloadInfo(it.id, url, file)
+            info.start = it.start
+            info.end = it.end
+            info.downloadLength = it.downloadLength
+
+            val job = DownloadJob(httpClient, info, this@DownloadTask)
+            jobList.add(job)
+            manager.addDownloadJob(job)
+        }
+
+        Log.i("yhy", "resumeDownload: progress22 = " + progress.get())
+        Log.i("yhy", "resumeDownload: totalLength = $totalLength")
+        Log.i("yhy", "resumeDownload: % = ${progress.get() / totalLength.toFloat()}")
+
+    }
+
     private fun download(url: String) = GlobalScope.launch(Dispatchers.IO) {
+        val file = prepareDownload(url) ?: return@launch
+
+        if (totalLength > 0) {
+            val randOut = RandomAccessFile(file, "rw")
+            randOut.setLength(totalLength)
+            randOut.close()
+        }
+
+        val distance: Long = (totalLength + threadNumber) / threadNumber
+        val manager = DownloadManager.instance
+
+        jobList.clear()
+        for (i in 0 until threadNumber) {
+            val info = DownloadInfo(i, url, file)
+            info.start = i * distance
+            info.end = info.start + distance
+            insertData(i, info, file)
+
+            val job = DownloadJob(httpClient, info, this@DownloadTask)
+            jobList.add(job)
+            manager.addDownloadJob(job)
+        }
+    }
+
+    private fun prepareDownload(url: String, resume: Boolean = false): File? {
         val request = Request.Builder()
             .url(url)
             .get()
@@ -81,61 +161,84 @@ class DownloadTask(private var httpClient: OkHttpClient) : DownloadJob.OnCallBac
             httpClient.newCall(request).execute()
         } catch (e: Exception) {
             notifyDownloadFailed(DownloadError.REQUEST_ERROR, e.toString())
-            return@launch
+            return null
         }
 
         val body = response.body()
         // 1. 检测是否请求成功
         if (!response.isSuccessful) {
             notifyDownloadFailed(DownloadError.REQUEST_ERROR, response.message())
-            return@launch
+            return null
         }
 
         if (body == null) {
             notifyDownloadFailed(DownloadError.REQUEST_BODY_EMPTY, response.message())
-            return@launch
+            return null
         }
-        jobList.clear()
-        val file = getSaveFile(response)
+
         totalLength = body.contentLength()
-        if (totalLength > 0) {
-            val randOut = RandomAccessFile(file, "rw")
-            randOut.setLength(totalLength)
-            randOut.close()
-        }
+        return getSaveFile(response, resume)
+    }
 
-        val distance: Long = (totalLength + threadNumber) / threadNumber
-        val manager = DownloadManager.instance
-        for (i in 0..threadNumber) {
-            val info = DownloadInfo(i, url, file)
-            info.start = i * distance
-            info.end = info.start + distance
-
-            val job = DownloadJob(httpClient, info, this@DownloadTask)
-            jobList.add(job)
-            manager.addDownloadJob(job)
+    private fun updateData(info: DownloadInfo, length: Long) {
+        savePull.execute {
+            val data = DownloadData()
+            data.id = info.id
+            data.url = info.url
+            data.start = info.start
+            data.end = info.end
+            data.downloadLength = info.downloadLength
+            downloadDao.update(data)
         }
     }
 
-    override fun onLengthChanged(length: Int) {
-        val now = progress.addAndGet(length.toLong())
+    private fun insertData(id: Int, info: DownloadInfo, file: File) {
+        savePull.execute {
+            val data = DownloadData()
+            data.id = id
+            data.url = info.url
+            data.start = info.start
+            data.end = info.end
+            data.downloadLength = 0L
+            data.file = file.absolutePath
+            downloadDao.insert(data)
+        }
+    }
+
+    override fun onLengthChanged(info: DownloadInfo, length: Long) {
+        updateData(info, length)
+        val now = progress.addAndGet(length)
         notifyProgressChanged(now)
     }
 
-    override fun onFinished(info: DownloadInfo) {
+
+    @Suppress("NON_EXHAUSTIVE_WHEN")
+    override fun onStatusChanged(job: DownloadJob, info: DownloadInfo, msg: String?) {
+        Log.i("yhy", "onStatusChanged: job ${job.info.id}= " + job.status)
+        when (job.status) {
+            DownloadJob.Status.Finished -> onDownloadFinished(info)
+            DownloadJob.Status.Error -> onDownloadError(job)
+        }
+    }
+
+    private fun onDownloadError(job: DownloadJob) {
+        delay(2000) {
+            val manager = DownloadManager.instance
+            if (job.status == DownloadJob.Status.Error) {
+                manager.addDownloadJob(job)
+            }
+        }
+    }
+
+    private fun onDownloadFinished(info: DownloadInfo) {
         for (job in jobList) {
-            if (!job.isFinished) return
+            if (job.status != DownloadJob.Status.Finished) return
         }
 
+        downloadDao.delete(info.url)
         notifyDownloadComplete(info.saveFile)
     }
 
-    /**
-     * 终止下载
-     */
-    fun intercept() {
-        isIntercept = true
-    }
 
     /**
      * 下载url
@@ -215,11 +318,11 @@ class DownloadTask(private var httpClient: OkHttpClient) : DownloadJob.OnCallBac
     /**
      * 获取保存的文件
      */
-    private fun getSaveFile(response: Response): File {
+    private fun getSaveFile(response: Response, resume: Boolean): File {
         val path = getFinalFilePath()
         val name = getFinalFileName(response)
         val file = File(path, name)
-        if (file.exists()) {
+        if (file.exists() && !resume) {
             file.renameTo(File(path, "$name.bak"))
         }
         return file
@@ -256,6 +359,8 @@ class DownloadTask(private var httpClient: OkHttpClient) : DownloadJob.OnCallBac
 
 
     private fun notifyDownloadFailed(code: Int, message: String) {
+        _isDownloading = false
+
         val info = DownloadStatusInfo(DownloadStatus.Failed)
         info.errorCode = code
         info.errorMessage = message
@@ -265,6 +370,8 @@ class DownloadTask(private var httpClient: OkHttpClient) : DownloadJob.OnCallBac
     }
 
     private fun notifyDownloadComplete(file: File) {
+        _isDownloading = false
+
         val info = DownloadStatusInfo(DownloadStatus.Complete)
         info.file = file
 

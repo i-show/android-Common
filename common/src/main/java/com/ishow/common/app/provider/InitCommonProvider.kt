@@ -9,6 +9,7 @@ import android.util.Log
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.ishow.common.manager.LogManager
 import com.ishow.common.utils.StorageUtils
+import com.ishow.common.utils.download.DownloadManager
 
 /**
  * Created by yuhaiyang on 2019-10-17.
@@ -23,8 +24,9 @@ class InitCommonProvider : ContentProvider() {
             StorageUtils.init(context)
             Fresco.initialize(context)
             LogManager.init(context)
+            DownloadManager.init(context)
         } else {
-            Log.i("yhy", "InitCommonProvider not application")
+            Log.i(TAG, "InitCommonProvider not application")
         }
         return true
     }
@@ -54,6 +56,10 @@ class InitCommonProvider : ContentProvider() {
 
     override fun getType(uri: Uri): String? {
         throw Exception("unimplemented")
+    }
+
+    companion object {
+        private const val TAG = "InitCommonProvider"
     }
 
 }

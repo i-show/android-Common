@@ -12,6 +12,7 @@ import com.ishow.noah.modules.sample.detail.permission.SamplePermissionFragment
 import com.ishow.noah.modules.sample.detail.photo.select.SampleSelectPhotoFragment
 import com.ishow.noah.modules.sample.detail.pickview.SamplePickerFragment
 import com.ishow.noah.modules.sample.detail.recycle.adapter.SampleBindAdapterFragment
+import com.ishow.noah.modules.sample.detail.utils.db.room.SampleRoomFragment
 import com.ishow.noah.modules.sample.detail.utils.info.BaseInfoFragment
 import com.ishow.noah.modules.sample.detail.utils.json.SampleJsonFragment
 import com.ishow.noah.modules.sample.detail.utils.reflection.SampleReflectionFragment
@@ -55,6 +56,7 @@ object SampleManager {
             list.add(Sample.instance("ConstraintLayout", SampleConstraintLayoutFragment::class.java))
             list.add(Sample.instance("BindAdapter", SampleBindAdapterFragment::class.java))
             list.add(Sample.instance("下载", SampleDownloadFragment::class.java))
+            list.add(Sample.instance("Room", SampleRoomFragment::class.java))
             return list
         }
 }

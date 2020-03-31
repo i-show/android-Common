@@ -94,20 +94,7 @@ class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
         selectFragment(selectId)
     }
 
-
-
-
     private fun selectFragment(selectId: Int) {
-        var file = context.externalCacheDir
-        file = File(file, "select/1.jpg")
-        Log.i("yhy", "file =${file.exists()} ")
-        if(file.exists()){
-            Log.i("yhy", "type1 = " + context.contentResolver.getType(Uri.fromFile(file)))
-            Log.i("yhy", "type2 = " + file.mimeType)
-            Log.i("yhy", "type3 = " + MimeTypeMap.getSingleton().getMimeTypeFromExtension(null))
-        }
-
-
         when (selectId) {
             R.id.tab_1 -> {
                 if (tab1Fragment == null) {

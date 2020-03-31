@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import com.ishow.common.utils.download.DownloadManager
+import com.ishow.common.utils.download.DownloadTask
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FSampleDownloadBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 import kotlinx.android.synthetic.main.f_sample_download.*
+
 
 /**
  * Created by yuhaiyang on 2020-03-05.
@@ -36,7 +38,7 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
                 .setOnProgressListener { current, total -> update1(current, total, start) }
                 .setOnStatusChangedListener { Log.i("yhy", "info1 = $it") }
                 .start()
-        }catch (e:Exception){
+        } catch (e: Exception) {
             Log.e("yhy", "download1: e = $e")
         }
 
@@ -49,28 +51,38 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
     }
 
 
+    private var task2: DownloadTask? = null
     private fun download2() {
         val start = System.currentTimeMillis()
-        DownloadManager.newTask()
+        if (task2 != null) {
+            task2?.pause()
+            return
+        }
+
+        task2 = DownloadManager.newTask()
             .url("https://imtt.dd.qq.com/16891/apk/A9CF9330B8F98FDA0702745A0EA2BDFC.apk")
-            .threadNumber(2)
-            .saveName("weixin2.apk")
+            .threadNumber(3)
+            .saveName("weixin3.apk")
             .savePath(requireContext().getExternalFilesDir("apk")!!.absolutePath)
             .setOnProgressListener { current, total -> update2(current, total, start) }
             .setOnStatusChangedListener { Log.i("yhy", "info2 = $it") }
-            .start()
+            .resume()
     }
 
     private fun update2(current: Long, total: Long, startTime: Long) {
         val time = (System.currentTimeMillis() - startTime) / 1000
-        val text = "下载进度：$current / $total, 耗时：$time"
+        val text = "下载进度：${current / total.toFloat()}, 耗时：$time"
         mainThread { status2.text = text }
     }
 
-
+    private var task3: DownloadTask? = null
     private fun download3() {
         val start = System.currentTimeMillis()
-        DownloadManager.newTask()
+        if (task3 != null) {
+            task3?.pause()
+            return
+        }
+        task3 = DownloadManager.newTask()
             .url("https://imtt.dd.qq.com/16891/apk/A9CF9330B8F98FDA0702745A0EA2BDFC.apk")
             .threadNumber(3)
             .saveName("weixin3.apk")
@@ -82,7 +94,7 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
 
     private fun update3(current: Long, total: Long, startTime: Long) {
         val time = (System.currentTimeMillis() - startTime) / 1000
-        val text = "下载进度：$current / $total, 耗时：$time"
+        val text = "下载进度：${current / total.toFloat()}, 耗时：$time"
         mainThread { status3.text = text }
     }
 
@@ -101,7 +113,7 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
 
     private fun update4(current: Long, total: Long, startTime: Long) {
         val time = (System.currentTimeMillis() - startTime) / 1000
-        val text = "下载进度：$current / $total, 耗时：$time"
+        val text = "下载进度：${current / total.toFloat()}, 耗时：$time"
         mainThread { status4.text = text }
     }
 }
