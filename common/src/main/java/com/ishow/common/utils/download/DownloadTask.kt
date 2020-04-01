@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.annotation.IntRange
 import com.ishow.common.extensions.delay
+import com.ishow.common.extensions.mainThread
 import com.ishow.common.utils.download.db.DownloadDB
 import com.ishow.common.utils.download.db.DownloadData
 import kotlinx.coroutines.Dispatchers
@@ -214,7 +215,6 @@ class DownloadTask(context: Context, private var httpClient: OkHttpClient) : Dow
 
     @Suppress("NON_EXHAUSTIVE_WHEN")
     override fun onStatusChanged(job: DownloadJob, info: DownloadInfo, msg: String?) {
-        Log.i("yhy", "onStatusChanged: job ${job.info.id}= " + job.status)
         when (job.status) {
             DownloadJob.Status.Finished -> onDownloadFinished(info)
             DownloadJob.Status.Error -> onDownloadError(job)
@@ -358,7 +358,7 @@ class DownloadTask(context: Context, private var httpClient: OkHttpClient) : Dow
     }
 
 
-    private fun notifyDownloadFailed(code: Int, message: String) {
+    private fun notifyDownloadFailed(code: Int, message: String) = mainThread {
         _isDownloading = false
 
         val info = DownloadStatusInfo(DownloadStatus.Failed)
@@ -369,7 +369,7 @@ class DownloadTask(context: Context, private var httpClient: OkHttpClient) : Dow
         onStatusChangedListener?.onStatusChanged(info)
     }
 
-    private fun notifyDownloadComplete(file: File) {
+    private fun notifyDownloadComplete(file: File) = mainThread {
         _isDownloading = false
 
         val info = DownloadStatusInfo(DownloadStatus.Complete)
@@ -379,7 +379,7 @@ class DownloadTask(context: Context, private var httpClient: OkHttpClient) : Dow
         onStatusChangedListener?.onStatusChanged(info)
     }
 
-    private fun notifyProgressChanged(progress: Long) {
+    private fun notifyProgressChanged(progress: Long) = mainThread {
         onProgressBlock?.invoke(progress, totalLength)
         onProgressListener?.progress(progress, totalLength)
     }
