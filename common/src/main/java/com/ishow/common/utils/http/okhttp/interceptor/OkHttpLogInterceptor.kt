@@ -83,7 +83,7 @@ class OkHttpLogInterceptor @JvmOverloads constructor(var level: Level = Level.Bo
         val requestBody = request.body()
         val hasRequestBody = requestBody != null
 
-        val logHeaderPrefix = "$requestId HEADER："
+        val logHeaderPrefix = "$requestId HEADER: "
 
         var logHeader = logHeaderPrefix
         if (hasRequestBody) {
@@ -123,8 +123,8 @@ class OkHttpLogInterceptor @JvmOverloads constructor(var level: Level = Level.Bo
         val message = response.message()
         val contentLength = responseBody.contentLength()
         val logMessage = if (message.isNullOrBlank()) "" else ", message: $message"
-        val logBodySize = if (contentLength != -1L) " size: $contentLength byte" else " size: unknown"
-        val logResponseInfo = "$requestId INFO: code: ${response.code()}$logMessage, time: ${tookMs}ms,$logBodySize"
+        val logBodySize = if (contentLength != -1L) ", size: $contentLength byte" else ""
+        val logResponseInfo = "$requestId INFO: code: ${response.code()}$logMessage, time: ${tookMs}ms$logBodySize"
         LogUtils.i(logTag, logResponseInfo)
 
         if (logHeaders) {
@@ -158,9 +158,20 @@ class OkHttpLogInterceptor @JvmOverloads constructor(var level: Level = Level.Bo
 
         if (contentLength != 0L) {
             val result = buffer.clone().readString(charset!!)
-            LogUtils.i(logTag, "$requestId RESULT: $result ")
+            logLongBody("$requestId RESULT: ", result)
         }
+    }
 
+    private fun logLongBody(prefix: String, log: String) {
+        if (prefix.length + log.length > MAX_LENGTH) {
+            val printLog = log.substring(0, MAX_LENGTH - prefix.length)
+            LogUtils.i(logTag, "$prefix$printLog")
+
+            val nextLog = log.substring(MAX_LENGTH - prefix.length)
+            logLongBody(prefix, nextLog)
+        } else {
+            LogUtils.i(logTag, "$prefix$log")
+        }
     }
 
     /**

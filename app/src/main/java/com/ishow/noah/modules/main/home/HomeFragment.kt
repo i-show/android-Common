@@ -1,16 +1,12 @@
 package com.ishow.noah.modules.main.home
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.doOnTextChanged
-import com.ishow.common.app.activity.OnlyWebActivity
-import com.ishow.common.extensions.findDrawable
 import com.ishow.common.extensions.inflate
 import com.ishow.common.utils.DateUtils
 import com.ishow.common.utils.router.AppRouter
@@ -49,6 +45,19 @@ class HomeFragment : AppBaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         PrintView.init(printView)
+
+        text1.setOnClickListener {
+            val intent = Intent("com.android.settings.TRUSTED_CREDENTIALS_USER")
+            startActivity(intent)
+        }
+
+
+        text2.setOnClickListener {
+            val str1 = "1234567890"
+            val str2 = "12345"
+            PrintView.print("str1 = " + str1.substring(0, str2.length))
+            PrintView.print("str2 = " + str1.substring(str2.length))
+        }
     }
 
     private val channel1 = Channel<String>()

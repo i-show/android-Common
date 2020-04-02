@@ -21,18 +21,23 @@
             app:leftImage="@drawable/svg_top_back"
             app:rightImage="@drawable/svg_test" />
 
-        <EditText
-            android:id="@+id/input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/text1"
+            style="@style/AppTextView.Sample"
+            android:text="证书界面" />
+
+        <TextView
+            android:id="@+id/text2"
+            style="@style/AppTextView.Sample"
+            android:text="设置界面" />
 
         <com.ishow.common.widget.PrintView
             android:id="@+id/printView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:minHeight="200dp"
             android:background="@drawable/base_dialog_bg"
+            android:minHeight="200dp"
             app:maxHeight="@dimen/dp_300" />
 
 
