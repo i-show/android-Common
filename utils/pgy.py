@@ -114,7 +114,7 @@ def upload_apk():
     # response = requests.post(url, data=data, headers=header)
     
 def build_apk(build_type):
-    apk_list=glob.glob(APK_PATH)
+    apk_list=glob.glob(APK_PATH, recursive=True)
     for apk in apk_list :
         os.remove(apk)
 
