@@ -8,6 +8,7 @@ import okio.Okio
 import okio.Sink
 import okio.Source
 import java.io.FileOutputStream
+import java.io.InputStream
 import java.io.RandomAccessFile
 
 class DownloadJob(val client: OkHttpClient, val info: DownloadInfo, val callback: OnCallBack) : Runnable {
@@ -39,39 +40,39 @@ class DownloadJob(val client: OkHttpClient, val info: DownloadInfo, val callback
             .get()
             .build()
 
-        var source: Source? = null
-        var sink: Sink? = null
+        var accessFile: RandomAccessFile? = null
+        var inputStream: InputStream? = null
 
         try {
             val response = client.newCall(request).execute()
             val body = response.body() ?: return
 
-            val accessFile = RandomAccessFile(info.saveFile, "rwd")
+            accessFile = RandomAccessFile(info.saveFile, "rwd")
             accessFile.seek(info.start + downloadLength)
 
-            source = Okio.source(body.byteStream())
-            sink = Okio.sink(FileOutputStream(accessFile.fd))
-            val buf = Buffer()
+            val buffer = ByteArray(1024 * 1024)
+            inputStream = body.byteStream()
 
+            // 3. 开始保存文件
             do {
-                val len = source.read(buf, 1024 * 1024)
-                if (len < 0) {
+                val length = inputStream.read(buffer)
+                if (length < 0) {
                     _status = Status.Finished
                     break
                 }
-                _downloadLength += len
-                sink.write(buf, len)
-                info.downloadLength += len
-                callback.onLengthChanged(info, len)
+                accessFile.write(buffer, 0, length)
+                callback.onLengthChanged(info, length.toLong())
             } while (!intercept)
 
         } catch (e: Exception) {
             _status = Status.Error
             callback.onStatusChanged(this, info, e.toString())
         } finally {
-            sink?.flush()
-            sink?.close()
-            source?.close()
+            inputStream?.close()
+            accessFile?.close()
+            if (status != Status.Error) {
+                callback.onStatusChanged(this, info, null)
+            }
 
             if (status != Status.Error) {
                 callback.onStatusChanged(this, info, null)

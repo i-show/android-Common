@@ -1,14 +1,19 @@
 package com.ishow.noah.modules.sample.detail.extend.download
 
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.core.content.FileProvider
 import com.ishow.common.utils.download.DownloadManager
 import com.ishow.common.utils.download.DownloadTask
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FSampleDownloadBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 import kotlinx.android.synthetic.main.f_sample_download.*
+import java.io.File
 
 
 /**
@@ -36,7 +41,7 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
                 .saveName("weixin1.apk")
                 .savePath(requireContext().getExternalFilesDir("apk")!!.absolutePath)
                 .setOnProgressListener { current, total -> update1(current, total, start) }
-                .setOnStatusChangedListener { Log.i("yhy", "info1 = $it") }
+                .setOnStatusChangedListener { installApp(it.file) }
                 .start()
         } catch (e: Exception) {
             Log.e("yhy", "download1: e = $e")
@@ -65,7 +70,7 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
             .saveName("weixin3.apk")
             .savePath(requireContext().getExternalFilesDir("apk")!!.absolutePath)
             .setOnProgressListener { current, total -> update2(current, total, start) }
-            .setOnStatusChangedListener { Log.i("yhy", "info2 = $it") }
+            .setOnStatusChangedListener { installApp(it.file) }
             .resume()
     }
 
@@ -88,7 +93,7 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
             .saveName("weixin3.apk")
             .savePath(requireContext().getExternalFilesDir("apk")!!.absolutePath)
             .setOnProgressListener { current, total -> update3(current, total, start) }
-            .setOnStatusChangedListener { Log.i("yhy", "info3 = $it") }
+            .setOnStatusChangedListener { installApp(it.file) }
             .start()
     }
 
@@ -107,7 +112,7 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
             .saveName("weixin4.apk")
             .savePath(requireContext().getExternalFilesDir("apk")!!.absolutePath)
             .setOnProgressListener { current, total -> update4(current, total, start) }
-            .setOnStatusChangedListener { Log.i("yhy", "info4 = $it") }
+            .setOnStatusChangedListener { installApp(it.file) }
             .start()
     }
 
@@ -115,5 +120,21 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
         val time = (System.currentTimeMillis() - startTime) / 1000
         val text = "下载进度：${current / total.toFloat()}, 耗时：$time"
         mainThread { status4.text = text }
+    }
+
+    private fun installApp(file: File?) {
+        if (file == null) return
+        val context = context ?: return
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        //判断是否是AndroidN以及更高的版本
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            val contentUri = FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
+            intent.setDataAndType(contentUri, "application/vnd.android.package-archive")
+        } else {
+            intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive")
+        }
+        context.startActivity(intent)
     }
 }

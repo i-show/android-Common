@@ -18,9 +18,13 @@ package com.ishow.noah.ui.widget.dialog
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.core.content.FileProvider
 import com.alibaba.fastjson.JSON
 import com.ishow.common.utils.DeviceUtils
 import com.ishow.common.utils.IntentUtils
@@ -30,6 +34,7 @@ import com.ishow.noah.R
 import com.ishow.noah.entries.Version
 import com.ishow.noah.manager.VersionManager
 import kotlinx.android.synthetic.main.dialog_version.*
+import java.io.File
 
 /**
  * Created by yuhaiyang on 2017/8/1.
@@ -122,5 +127,22 @@ class VersionDialog(context: Context) : Dialog(context, R.style.Theme_Dialog_Tra
 
     companion object {
         private const val TAG = "VersionDialog"
+
+        fun installApp(context: Context, file: File) {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+
+            val apkUri: Uri
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                apkUri = FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
+                intent.setDataAndType(apkUri, "application/vnd.android.package-archive")
+            } else {
+                apkUri = Uri.fromFile(file)
+                intent.setDataAndType(apkUri, "application/vnd.android.package-archive")
+            }
+
+            context.startActivity(intent)
+        }
     }
 }
