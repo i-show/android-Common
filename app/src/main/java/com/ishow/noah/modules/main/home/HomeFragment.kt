@@ -1,7 +1,6 @@
 package com.ishow.noah.modules.main.home
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,6 +17,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
+import java.util.regex.Pattern
 
 /**
  * Created by yuhaiyang on 2017/4/21.
@@ -47,8 +47,19 @@ class HomeFragment : AppBaseFragment() {
         PrintView.init(printView)
 
         text1.setOnClickListener {
-            val intent = Intent("com.android.settings.TRUSTED_CREDENTIALS_USER")
-            startActivity(intent)
+            val url = "http://agn.aty.sohu.com/m"
+
+            val p = """.*?agn\.aty\.sohu\.com/.*?"""
+            val p1 = p.toRegex()
+            val p2 = Pattern.compile(p)
+            val m = p2.matcher(url)
+
+            val phone = "18366257771"
+            val p5 = """^((1[3-9][0-9])\d{8})${'$'}""".toRegex()
+
+            PrintView.print("find = ${url.matches(p1)}")
+            PrintView.print("phone2 = ${m.find()}")
+            PrintView.print("phone = ${phone.matches(p5)}")
         }
 
 
