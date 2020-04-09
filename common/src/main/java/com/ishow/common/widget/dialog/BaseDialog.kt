@@ -34,14 +34,17 @@ import com.ishow.common.R
 import com.ishow.common.adapter.BindAdapter
 import com.ishow.common.extensions.dp2px
 import com.ishow.common.extensions.getDimensionPixelSize
+import com.ishow.common.manager.DialogManager
 import com.ishow.common.utils.DeviceUtils
 
 
 /**
  * BaseDialog
  */
-open class BaseDialog constructor(context: Context, theme: Int) : Dialog(context, theme), DialogInterface {
+open class BaseDialog constructor(context: Context, theme: Int) : Dialog(context, theme), DialogInterface, DialogManager.Dismissible {
     private val mController: BaseController
+
+    private var dismissListener: DialogManager.IDismissListener? = null
 
     constructor(context: Context) : this(context, R.style.Theme_Dialog) {
         setActivity(context)
@@ -64,6 +67,11 @@ open class BaseDialog constructor(context: Context, theme: Int) : Dialog(context
 
     override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
         return if (mController.onKeyUp(event)) true else super.onKeyUp(keyCode, event)
+    }
+
+    override fun dismiss() {
+        super.dismiss()
+        dismissListener?.onDismiss()
     }
 
     /**
@@ -405,6 +413,10 @@ open class BaseDialog constructor(context: Context, theme: Int) : Dialog(context
 
     companion object {
         private const val TAG = "BaseDialog"
+    }
+
+    override fun addDismissListener(listener: DialogManager.IDismissListener) {
+        dismissListener = listener
     }
 }
 

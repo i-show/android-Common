@@ -56,6 +56,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.NoActionBar.Fullscreen" />
 
+        <!--请求权限的Activity-->
+        <activity
+            android:name=".utils.permission.RequestPermissionActivity"
+            android:theme="@style/Theme.NoActionBar.Transparent" />
+
     </application>
 
 </manifest>

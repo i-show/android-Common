@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ishow.common.extensions.inflate
+import com.ishow.common.manager.DialogManager
 import com.ishow.common.utils.DateUtils
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.widget.PrintView
+import com.ishow.common.widget.dialog.BaseDialog
 import com.ishow.noah.R
 import com.ishow.noah.modules.base.AppBaseFragment
 import com.ishow.noah.modules.sample.main.SampleMainActivity
@@ -64,10 +66,25 @@ class HomeFragment : AppBaseFragment() {
 
 
         text2.setOnClickListener {
-            val str1 = "1234567890"
-            val str2 = "12345"
-            PrintView.print("str1 = " + str1.substring(0, str2.length))
-            PrintView.print("str2 = " + str1.substring(str2.length))
+            val dialog = BaseDialog.Builder(activity)
+                .setMessage("11213")
+                .setPositiveButton(R.string.register_timing_text)
+                .create()
+
+            DialogManager.instance.addDialog(activity, dialog)
+
+            testDialog()
+        }
+    }
+
+    private fun testDialog() {
+        repeat(10) {
+            val dialog = BaseDialog.Builder(activity)
+                .setMessage("这是第${it}次弹窗")
+                .setPositiveButton(R.string.register_timing_text)
+                .create()
+
+            DialogManager.instance.addDialog(activity, dialog)
         }
     }
 

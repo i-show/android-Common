@@ -1,74 +1,99 @@
 package com.ishow.common.manager
 
 import android.app.Dialog
+import android.util.Log
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
+import com.ishow.common.extensions.delay
 import java.util.*
+import kotlin.collections.HashMap
 
 class DialogManager private constructor() {
-    private val map = HashMap<LifecycleOwner, LinkedList<Dismissible>>()
+    private val dialogMap = HashMap<LifecycleOwner, LinkedList<Dismissible>>()
 
-    fun addDialog(owner: LifecycleOwner, dialog: Dismissible) {
-        var dialogs = map[owner]
+    private val currentDialogMap = HashMap<LifecycleOwner, Dismissible?>()
+
+    fun addDialog(owner: FragmentActivity?, dialog: Dismissible) {
+        if (owner == null) return
+
+        var dialogs = dialogMap[owner]
         if (dialogs == null) {
             dialogs = LinkedList()
-            map[owner] = dialogs
+            dialogMap[owner] = dialogs
 
-            owner.lifecycle.addObserver(Ob())
+            owner.lifecycle.addObserver(Observer())
         }
         dialogs.offer(dialog)
-
-
+        show(owner)
     }
 
+    private fun show(owner: FragmentActivity) {
+        val currentDialog = currentDialogMap[owner]
+        if (currentDialog == null) {
+            val dialogList = dialogMap[owner]
+            val dialog = dialogList?.poll() ?: return
 
-    private fun showDialog(_dialog: Dismissible) {
-        val dialog = _dialog as Dialog
+            if (checkOwnerStatus(owner)) {
+                Log.i(TAG, "show: currentStatus = " + owner.lifecycle.currentState)
+                return
+            }
+
+            currentDialogMap[owner] = dialog
+
+            if (dialog is Dialog) {
+                showDialog(owner, dialog)
+            } else if (dialog is DialogFragment) {
+                showDialogFragment(owner, dialog)
+            }
+        }
+    }
+
+    private fun showDialog(owner: FragmentActivity, _dialog: Dismissible) = delay(200) {
         _dialog.addDismissListener(object : IDismissListener {
             override fun onDismiss() {
-                dialog.ownerActivity
+                onDismissDialog(owner)
             }
         })
 
+        val dialog = _dialog as Dialog
         dialog.show()
-
     }
 
 
-    private fun showDialogFragment(_dialog: Dismissible) {
+    private fun showDialogFragment(owner: FragmentActivity, _dialog: Dismissible) = delay(200) {
+        _dialog.addDismissListener(object : IDismissListener {
+            override fun onDismiss() {
+                onDismissDialog(owner)
+            }
+        })
+
         val dialog = _dialog as DialogFragment
-        val currentState = dialog.activity?.lifecycle?.currentState
-        if (currentState != Lifecycle.State.CREATED) {
-            return
-        }
-
+        dialog.show(owner.supportFragmentManager, "dialog")
     }
 
+    private fun onDismissDialog(owner: FragmentActivity) {
+        currentDialogMap[owner] = null
+        show(owner)
+    }
+
+    private fun checkOwnerStatus(owner: LifecycleOwner): Boolean {
+        return owner.lifecycle.currentState != Lifecycle.State.RESUMED
+    }
 
     companion object {
+        private const val TAG = "DialogManager"
         val instance by lazy(LazyThreadSafetyMode.SYNCHRONIZED) { DialogManager() }
     }
 
-
-    inner class Ob() : LifecycleObserver {
-        @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-        fun onStop(owner: LifecycleOwner) {
-
-        }
-
-
+    internal inner class Observer : LifecycleObserver {
         @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
         fun onDestroy(owner: LifecycleOwner) {
-            val dialogQueue = map[owner]
+            val dialogQueue = dialogMap[owner]
             dialogQueue?.clear()
-        }
-
-        @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
-        fun onLifecycleChanged(owner: LifecycleOwner, event: Lifecycle.Event) {
-
         }
     }
 
@@ -79,6 +104,5 @@ class DialogManager private constructor() {
     interface IDismissListener {
         fun onDismiss()
     }
-
 
 }
