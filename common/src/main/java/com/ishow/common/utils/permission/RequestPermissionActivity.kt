@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.ishow.common.app.activity.BaseActivity
+import com.ishow.common.extensions.toJSON
 
 /**
  * 请求权限的Activity
@@ -14,22 +15,26 @@ class RequestPermissionActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val permissions = intent.getStringArrayExtra(KEY_PERMISSIONS)
-        requestPermission(permissions)
+        val permissions = intent.getStringArrayExtra(PermissionTask.KEY_PERMISSIONS)
+        val taskId = intent.getIntExtra(PermissionTask.KEY_TASK_ID, 0)
+        requestPermission(taskId, permissions)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         parseResult(requestCode, permissions, grantResults)
-        PermissionManager.onRequestPermissionsResult(this, requestCode, permissions, grantResults)
     }
 
-    private fun requestPermission(permissions: Array<String>) {
-        ActivityCompat.requestPermissions(this, permissions, REQUEST_PERMISSION_CODE)
+    private fun requestPermission(taskId: Int, permissions: Array<String>?) {
+        if (permissions == null) {
+            requestPermissionFailed(taskId)
+            return
+        }
+        ActivityCompat.requestPermissions(this, permissions, REQUEST_PERMISSION_CODE + taskId)
     }
 
     private fun parseResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        if (requestCode != REQUEST_PERMISSION_CODE) return
+        val taskId = requestCode - REQUEST_PERMISSION_CODE
         val granted = arrayListOf<String>()
         val denied = arrayListOf<String>()
 
@@ -41,9 +46,19 @@ class RequestPermissionActivity : BaseActivity() {
             }
         }
 
-        val intent = Intent(PermissionManager2.ACTION_PERMISSION_RESULT)
-        intent.putExtra("g", granted.toArray())
-        intent.putExtra("d", denied.toArray())
+        if (denied.size <= 0) {
+            requestPermissionSuccess(taskId, granted)
+        } else {
+            requestPermissionFailed(taskId, granted, denied)
+        }
+    }
+
+    private fun requestPermissionSuccess(taskId: Int, granted: ArrayList<String>? = null) {
+        val info = PermissionInfo(PermissionInfo.Status.Success)
+        info.granted = granted
+
+        val intent = Intent(PermissionManager2.ACTION_PERMISSION_RESULT + taskId)
+        intent.putExtra(PermissionManager2.KEY_PERMISSION_DETAIL, info.toJSON())
 
         val manager = LocalBroadcastManager.getInstance(this)
         manager.sendBroadcast(intent)
@@ -51,9 +66,20 @@ class RequestPermissionActivity : BaseActivity() {
         finish()
     }
 
+    private fun requestPermissionFailed(taskId: Int, granted: ArrayList<String>? = null, denied: ArrayList<String>? = null) {
+        val info = PermissionInfo(PermissionInfo.Status.Failed)
+        info.granted = granted
+        info.denied = denied
+
+        val intent = Intent(PermissionManager2.ACTION_PERMISSION_RESULT + taskId)
+        intent.putExtra(PermissionManager2.KEY_PERMISSION_DETAIL, info.toJSON())
+
+        val manager = LocalBroadcastManager.getInstance(this)
+        manager.sendBroadcast(intent)
+        finish()
+    }
 
     companion object {
         private const val REQUEST_PERMISSION_CODE = 2020
-        internal const val KEY_PERMISSIONS = "key_permissions"
     }
 }

@@ -20,13 +20,14 @@
 package com.ishow.noah.modules.sample.detail.permission
 
 import android.Manifest
-import android.os.Bundle
 import android.view.View
+import com.ishow.common.extensions.dialog
+import com.ishow.common.extensions.toJSON
 import com.ishow.common.extensions.toast
-
 import com.ishow.common.utils.permission.PermissionDenied
 import com.ishow.common.utils.permission.PermissionGranted
 import com.ishow.common.utils.permission.PermissionManager
+import com.ishow.common.utils.permission.PermissionManager2
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSamplePermissionBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
@@ -43,7 +44,7 @@ class SamplePermissionFragment : AppBindFragment<FragmentSamplePermissionBinding
 
     fun onViewClick(v: View) {
         when (v.id) {
-            R.id.request -> requestReadingSdcardPermission()
+            R.id.request -> requestReadingSdcardPermission2()
         }
     }
 
@@ -54,17 +55,15 @@ class SamplePermissionFragment : AppBindFragment<FragmentSamplePermissionBinding
             .send()
     }
 
-    @Suppress("unused")
-    @PermissionGranted(REQUEST_READING_SDCARD_PERMISSION)
-    private fun hasReadingSdcardPermission() {
-        toast("已经获取到权限")
+
+    private fun requestReadingSdcardPermission2() {
+        PermissionManager2.newTask(context)
+            .permissions(Manifest.permission.READ_EXTERNAL_STORAGE)
+            .callback { dialog(it.toJSON()) }
+            .request()
     }
 
-    @Suppress("unused")
-    @PermissionDenied(REQUEST_READING_SDCARD_PERMISSION)
-    private fun readingSdcardPermissionDenied() {
-        toast("权限已经被拒绝")
-    }
+
 
     companion object {
         /**

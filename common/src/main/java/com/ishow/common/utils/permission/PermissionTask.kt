@@ -1,23 +1,87 @@
 package com.ishow.common.utils.permission
 
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.ishow.common.extensions.parseJSON
 
-class PermissionTask {
+class PermissionTask internal constructor(val id: Int, val context: Context?) {
 
-    fun with(activity: AppCompatActivity): PermissionTask {
+    private var permissions: Array<out String>? = null
+    private var callback: RequestPermissionCallback? = null
+
+    private val receiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent?) {
+            val manager = LocalBroadcastManager.getInstance(context)
+            manager.unregisterReceiver(this)
+
+            if (intent == null) {
+                callback?.invoke(PermissionInfo(PermissionInfo.Status.Failed))
+                return
+            }
+
+            val infoStr = intent.getStringExtra(PermissionManager2.KEY_PERMISSION_DETAIL)
+            if (infoStr.isNullOrEmpty()) {
+                callback?.invoke(PermissionInfo(PermissionInfo.Status.Failed))
+                return
+            }
+
+            val info: PermissionInfo = infoStr.parseJSON()
+            callback?.invoke(info)
+        }
+    }
+
+    init {
+
+        context?.let {
+            val filter = IntentFilter(PermissionManager2.ACTION_PERMISSION_RESULT + id)
+
+            val manager = LocalBroadcastManager.getInstance(context)
+            manager.registerReceiver(receiver, filter)
+        }
+
+    }
+
+    fun permissions(vararg permissions: String): PermissionTask {
+        this.permissions = permissions
         return this
     }
 
-    fun with(fragment: Fragment): PermissionTask {
-        return this
-    }
-
-    fun permissions(vararg permissions: String?): PermissionTask {
+    fun callback(callback: RequestPermissionCallback?): PermissionTask {
+        this.callback = callback
         return this
     }
 
     fun request(): PermissionTask {
+        if (context == null || permissions == null) {
+            callback?.invoke(PermissionInfo(PermissionInfo.Status.Failed))
+            return this
+        }
+
+        val permissionArray = permissions!!
+
+        if (PermissionManager2.hasPermission(context, *permissionArray)) {
+            val info = PermissionInfo(PermissionInfo.Status.Success)
+            info.granted = permissionArray.toList()
+            callback?.invoke(info)
+            return this
+        }
+
+        val intent = Intent(context, RequestPermissionActivity::class.java)
+        intent.putExtra(KEY_TASK_ID, id)
+        intent.putExtra(KEY_PERMISSIONS, permissionArray)
+        context.startActivity(intent)
         return this
     }
+
+
+    companion object {
+        internal const val KEY_TASK_ID = "key_request_permission_id"
+        internal const val KEY_PERMISSIONS = "key_request_permissions"
+    }
+
 }
+
+typealias RequestPermissionCallback = ((info: PermissionInfo) -> Unit)
