@@ -36,9 +36,9 @@ object LocationUtils {
 
     fun getLocation(context: Activity, listener: OnLocationListener? = null) {
         if (!PermissionManager.hasPermission(context, *permissions)) {
-            PermissionManager.with(context)
-                .permission(*permissions)
-                .send()
+            PermissionManager.newTask(context)
+                .permissions(*permissions)
+                .request()
             return
         }
         requestLocation(context, listener)
@@ -51,9 +51,9 @@ object LocationUtils {
         }
         val context = fragment.context!!
         if (!PermissionManager.hasPermission(context, *permissions)) {
-            PermissionManager.with(fragment)
-                .permission(*permissions)
-                .send()
+            PermissionManager.newTask(context)
+                .permissions(*permissions)
+                .request()
             return
         }
         requestLocation(context, listener)

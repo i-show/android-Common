@@ -33,7 +33,6 @@ import com.ishow.common.entries.status.Success
 import com.ishow.common.extensions.dialog
 import com.ishow.common.extensions.toast
 import com.ishow.common.utils.DeviceUtils
-import com.ishow.common.utils.permission.PermissionManager
 import com.ishow.common.widget.StatusView
 import com.ishow.common.widget.TopBar
 import com.ishow.common.widget.loading.LoadingDialog
@@ -110,11 +109,6 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
         // 清除Handler预防内存泄露
         handler?.removeCallbacksAndMessages(null)
         handler = null
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        PermissionManager.onRequestPermissionsResult(this, requestCode, permissions, grantResults)
     }
 
     //************************ 初始化 区域*********************** //

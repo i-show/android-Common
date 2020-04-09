@@ -37,7 +37,6 @@ import com.ishow.common.utils.image.ImageUtils
 import com.ishow.common.utils.image.compress.ImageCompress
 import com.ishow.common.utils.log.LogUtils
 import com.ishow.common.utils.permission.PermissionManager
-import com.ishow.common.utils.permission.PermissionManager.hasPermission
 import com.ishow.common.widget.dialog.BaseDialog
 import com.ishow.common.widget.loading.LoadingDialog
 import java.io.File
@@ -52,6 +51,7 @@ class SelectImageUtils(private val activity: Activity, @param:SelectMode private
      * Camera拍照输出的地址
      */
     private var cameraFileUri: Uri? = null
+
     /**
      * 选择方式的Dialog
      */
@@ -63,22 +63,27 @@ class SelectImageUtils(private val activity: Activity, @param:SelectMode private
      * 选择图片的Listener
      */
     private var selectPhotoListener: OnSelectImageListener? = null
+
     /**
      * 图片选择后是 压缩还是剪切
      */
     private var resultMode: Int = 0
+
     /**
      * 剪切模式-X轴比例
      */
     private var scaleX: Int = 0
+
     /**
      * 剪切模式-Y轴比例
      */
     private var scaleY: Int = 0
+
     /**
      * 可以选择的最大数量
      */
     private var maxSelectCount: Int = 0
+
     /**
      * Format
      */
@@ -383,10 +388,10 @@ class SelectImageUtils(private val activity: Activity, @param:SelectMode private
         val permissions = arrayOf(
             Manifest.permission.CAMERA
         )
-        if (!hasPermission(activity, *permissions)) {
-            PermissionManager.with(activity)
-                .permission(*permissions)
-                .send()
+        if (!PermissionManager.hasPermission(activity, *permissions)) {
+            PermissionManager.newTask(activity)
+                .permissions(*permissions)
+                .request()
             return false
         }
         return true
@@ -404,6 +409,7 @@ class SelectImageUtils(private val activity: Activity, @param:SelectMode private
              * 单选
              */
             const val SINGLE = 1
+
             /**
              * 多选
              */
@@ -417,6 +423,7 @@ class SelectImageUtils(private val activity: Activity, @param:SelectMode private
          * 压缩
          */
         const val COMPRESS = 1
+
         /**
          * 剪切
          */
@@ -432,18 +439,22 @@ class SelectImageUtils(private val activity: Activity, @param:SelectMode private
          * 单选调用摄像头
          */
         internal const val REQUEST_SINGLE_CAMERA = 1 shl 8
+
         /**
          * 多选调用摄像头
          */
         internal const val REQUEST_MULTI_CAMERA = REQUEST_SINGLE_CAMERA + 1
+
         /**
          * 单选图片
          */
         internal const val REQUEST_SINGLE_PICK = REQUEST_SINGLE_CAMERA + 2
+
         /**
          * 多选图片
          */
         internal const val REQUEST_MULTI_PICK = REQUEST_SINGLE_CAMERA + 3
+
         /**
          * 剪切图片
          */
@@ -464,6 +475,7 @@ class SelectImageUtils(private val activity: Activity, @param:SelectMode private
          * 通过拍照 来选择
          */
         private const val SELECT_PHOTO_CAMERA = 0
+
         /**
          * 通过画廊来选择
          */

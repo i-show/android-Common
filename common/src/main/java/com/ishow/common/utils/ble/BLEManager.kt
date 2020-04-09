@@ -417,10 +417,9 @@ class BLEManager private constructor() {
          * 请求权限
          */
         fun requestPermission(activity: Activity, requestCode: Int = REQUEST_BT_PERMISSION) {
-            PermissionManager.with(activity)
-                .requestCode(requestCode)
-                .permission(*PERMISSION)
-                .send()
+            PermissionManager.newTask(activity)
+                .permissions(*PERMISSION)
+                .request()
         }
 
         /**

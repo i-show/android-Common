@@ -57,8 +57,8 @@ class RequestPermissionActivity : BaseActivity() {
         val info = PermissionInfo(PermissionInfo.Status.Success)
         info.granted = granted
 
-        val intent = Intent(PermissionManager2.ACTION_PERMISSION_RESULT + taskId)
-        intent.putExtra(PermissionManager2.KEY_PERMISSION_DETAIL, info.toJSON())
+        val intent = Intent(PermissionManager.ACTION_PERMISSION_RESULT + taskId)
+        intent.putExtra(PermissionManager.KEY_PERMISSION_DETAIL, info.toJSON())
 
         val manager = LocalBroadcastManager.getInstance(this)
         manager.sendBroadcast(intent)
@@ -71,8 +71,8 @@ class RequestPermissionActivity : BaseActivity() {
         info.granted = granted
         info.denied = denied
 
-        val intent = Intent(PermissionManager2.ACTION_PERMISSION_RESULT + taskId)
-        intent.putExtra(PermissionManager2.KEY_PERMISSION_DETAIL, info.toJSON())
+        val intent = Intent(PermissionManager.ACTION_PERMISSION_RESULT + taskId)
+        intent.putExtra(PermissionManager.KEY_PERMISSION_DETAIL, info.toJSON())
 
         val manager = LocalBroadcastManager.getInstance(this)
         manager.sendBroadcast(intent)

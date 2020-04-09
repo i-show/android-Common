@@ -5,7 +5,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.content.ContextCompat
 
-class PermissionManager2 {
+class PermissionManager {
 
     companion object {
         internal const val ACTION_PERMISSION_RESULT = "com.ishow.permission.ACTION_PERMISSION"

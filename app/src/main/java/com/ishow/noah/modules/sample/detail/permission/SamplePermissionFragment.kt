@@ -23,11 +23,7 @@ import android.Manifest
 import android.view.View
 import com.ishow.common.extensions.dialog
 import com.ishow.common.extensions.toJSON
-import com.ishow.common.extensions.toast
-import com.ishow.common.utils.permission.PermissionDenied
-import com.ishow.common.utils.permission.PermissionGranted
 import com.ishow.common.utils.permission.PermissionManager
-import com.ishow.common.utils.permission.PermissionManager2
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSamplePermissionBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
@@ -48,16 +44,11 @@ class SamplePermissionFragment : AppBindFragment<FragmentSamplePermissionBinding
         }
     }
 
-    private fun requestReadingSdcardPermission() {
-        PermissionManager.with(this)
-            .requestCode(REQUEST_READING_SDCARD_PERMISSION)
-            .permission(Manifest.permission.READ_EXTERNAL_STORAGE)
-            .send()
-    }
+
 
 
     private fun requestReadingSdcardPermission2() {
-        PermissionManager2.newTask(context)
+        PermissionManager.newTask(context)
             .permissions(Manifest.permission.READ_EXTERNAL_STORAGE)
             .callback { dialog(it.toJSON()) }
             .request()

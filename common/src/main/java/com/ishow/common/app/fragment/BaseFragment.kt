@@ -30,7 +30,6 @@ import com.ishow.common.entries.status.Error
 import com.ishow.common.entries.status.Loading
 import com.ishow.common.entries.status.Success
 import com.ishow.common.extensions.dialog
-import com.ishow.common.utils.permission.PermissionManager
 import com.ishow.common.widget.StatusView
 import com.ishow.common.widget.TopBar
 import com.ishow.common.widget.loading.LoadingDialog
@@ -45,11 +44,13 @@ abstract class BaseFragment : Fragment(), StatusView.OnStatusViewListener, IView
      */
     @Suppress("MemberVisibilityCanBePrivate")
     protected var loadingDialog: LoadingDialog? = null
+
     /**
      * 状态的View
      */
     @Suppress("MemberVisibilityCanBePrivate")
     protected var rootStatusView: StatusView? = null
+
     /**
      * 用来回收的Handler
      */
@@ -69,10 +70,6 @@ abstract class BaseFragment : Fragment(), StatusView.OnStatusViewListener, IView
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        PermissionManager.onRequestPermissionsResult(this, requestCode, permissions, grantResults)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

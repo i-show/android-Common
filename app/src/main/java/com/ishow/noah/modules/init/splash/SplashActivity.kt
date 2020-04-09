@@ -1,12 +1,9 @@
 package com.ishow.noah.modules.init.splash
 
 import android.os.Bundle
-import android.view.View
 import androidx.lifecycle.Observer
 import com.ishow.common.entries.status.Success
 import com.ishow.common.extensions.fullWindow
-import com.ishow.common.utils.permission.PermissionDenied
-import com.ishow.common.utils.permission.PermissionGranted
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.noah.R
 import com.ishow.noah.databinding.ActivitySpalshBinding
@@ -28,26 +25,12 @@ class SplashActivity : AppBindActivity<ActivitySpalshBinding, SplashViewModel>()
     override fun initViewModel(vm: SplashViewModel) {
         super.initViewModel(vm)
         // 注册状态
-        vm.permissionStatus.observe(activity, Observer { permissionGranted() })
+        vm.permissionStatus.observe(activity, Observer { })
         // 初始化
         vm.preInit(this@SplashActivity)
     }
 
-    /**
-     * 权限已经获取到
-     */
-    @PermissionGranted(SplashViewModel.REQUEST_PERMISSION_CODE)
-    fun permissionGranted() {
-        dataBinding.vm?.start()
-    }
 
-    /**
-     * 权限已经被拒绝
-     */
-    @PermissionDenied(SplashViewModel.REQUEST_PERMISSION_CODE)
-    fun permissionDenied() {
-        dataBinding.vm?.start()
-    }
 
     override fun showSuccess(success: Success) {
         super.showSuccess(success)

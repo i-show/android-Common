@@ -22,7 +22,7 @@ class PermissionTask internal constructor(val id: Int, val context: Context?) {
                 return
             }
 
-            val infoStr = intent.getStringExtra(PermissionManager2.KEY_PERMISSION_DETAIL)
+            val infoStr = intent.getStringExtra(PermissionManager.KEY_PERMISSION_DETAIL)
             if (infoStr.isNullOrEmpty()) {
                 callback?.invoke(PermissionInfo(PermissionInfo.Status.Failed))
                 return
@@ -36,7 +36,7 @@ class PermissionTask internal constructor(val id: Int, val context: Context?) {
     init {
 
         context?.let {
-            val filter = IntentFilter(PermissionManager2.ACTION_PERMISSION_RESULT + id)
+            val filter = IntentFilter(PermissionManager.ACTION_PERMISSION_RESULT + id)
 
             val manager = LocalBroadcastManager.getInstance(context)
             manager.registerReceiver(receiver, filter)
@@ -62,7 +62,7 @@ class PermissionTask internal constructor(val id: Int, val context: Context?) {
 
         val permissionArray = permissions!!
 
-        if (PermissionManager2.hasPermission(context, *permissionArray)) {
+        if (PermissionManager.hasPermission(context, *permissionArray)) {
             val info = PermissionInfo(PermissionInfo.Status.Success)
             info.granted = permissionArray.toList()
             callback?.invoke(info)
