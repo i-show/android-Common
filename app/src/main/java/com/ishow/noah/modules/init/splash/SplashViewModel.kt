@@ -5,6 +5,7 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.baidu.mobstat.StatService
+import com.ishow.common.utils.permission.PermissionInfo
 import com.ishow.common.utils.permission.PermissionManager
 import com.ishow.noah.manager.ConfigureManager
 import com.ishow.noah.manager.VersionManager
@@ -57,6 +58,7 @@ class SplashViewModel(app: Application) : AppBaseViewModel(app) {
         } else {
             PermissionManager.newTask(activity)
                 .permissions(*PERMISSIONS)
+                .callback { _permissionStatus.value = it.status == PermissionInfo.Status.Success }
                 .request()
         }
     }
@@ -66,6 +68,7 @@ class SplashViewModel(app: Application) : AppBaseViewModel(app) {
          * 请求权限的Code
          */
         const val REQUEST_PERMISSION_CODE = 1001
+
         /**
          * 请求的权限
          */

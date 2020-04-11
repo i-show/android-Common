@@ -22,14 +22,24 @@
             app:rightImage="@drawable/svg_test" />
 
         <TextView
-            android:id="@+id/text1"
+            android:id="@+id/qq"
             style="@style/AppTextView.Sample"
-            android:text="证书界面" />
+            android:text="QQ" />
 
         <TextView
-            android:id="@+id/text2"
+            android:id="@+id/youku"
             style="@style/AppTextView.Sample"
-            android:text="设置界面" />
+            android:text="优酷" />
+
+        <TextView
+            android:id="@+id/iqiyi"
+            style="@style/AppTextView.Sample"
+            android:text="爱奇艺" />
+
+        <TextView
+            android:id="@+id/mago"
+            style="@style/AppTextView.Sample"
+            android:text="芒果" />
 
         <com.ishow.common.widget.PrintView
             android:id="@+id/printView"

@@ -36,6 +36,7 @@ import android.view.WindowInsets
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
+import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import com.ishow.common.R
@@ -377,6 +378,11 @@ class TopBar(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs),
         }
     }
 
+    override fun onWindowSystemUiVisibilityChanged(visible: Int) {
+        super.onWindowSystemUiVisibilityChanged(visible)
+        if(visible == 0 && isFitSystemWindow ) fitTopSize = 0
+    }
+
     override fun dispatchApplyWindowInsets(insets: WindowInsets?): WindowInsets {
         if (!isFitSystemWindow || insets == null) {
             return super.dispatchApplyWindowInsets(insets)
@@ -389,9 +395,8 @@ class TopBar(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs),
             return super.dispatchApplyWindowInsets(insets)
         }
 
-        val nowSystemWindow = consumeSystemWindowTopInsets(insets)
-
-        val windowInsets = if (Build.VERSION.SDK_INT >= 29) {
+        val windowInsets = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val nowSystemWindow = consumeSystemWindowTopInsets(insets)
             WindowInsets.Builder(insets)
                 .setSystemWindowInsets(nowSystemWindow)
                 .build()
@@ -406,6 +411,7 @@ class TopBar(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs),
     /**
      * 消费掉顶部的高度
      */
+    @RequiresApi(Build.VERSION_CODES.Q)
     private fun consumeSystemWindowTopInsets(old: WindowInsets): Insets {
         return Insets.of(old.systemWindowInsetLeft, 0, old.systemWindowInsetRight, old.systemWindowInsetBottom)
     }

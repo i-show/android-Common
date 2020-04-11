@@ -25,12 +25,15 @@ class SplashActivity : AppBindActivity<ActivitySpalshBinding, SplashViewModel>()
     override fun initViewModel(vm: SplashViewModel) {
         super.initViewModel(vm)
         // 注册状态
-        vm.permissionStatus.observe(activity, Observer { })
+        vm.permissionStatus.observe(activity, Observer { onPermission()})
         // 初始化
         vm.preInit(this@SplashActivity)
     }
 
 
+    private fun onPermission() {
+        dataBinding.vm?.start()
+    }
 
     override fun showSuccess(success: Success) {
         super.showSuccess(success)

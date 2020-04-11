@@ -1,6 +1,8 @@
 package com.ishow.noah.modules.main.home
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -48,33 +50,62 @@ class HomeFragment : AppBaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         PrintView.init(printView)
 
-        text1.setOnClickListener {
-            val url = "http://agn.aty.sohu.com/m"
-
-            val p = """.*?agn\.aty\.sohu\.com/.*?"""
-            val p1 = p.toRegex()
-            val p2 = Pattern.compile(p)
-            val m = p2.matcher(url)
-
-            val phone = "18366257771"
-            val p5 = """^((1[3-9][0-9])\d{8})${'$'}""".toRegex()
-
-            PrintView.print("find = ${url.matches(p1)}")
-            PrintView.print("phone2 = ${m.find()}")
-            PrintView.print("phone = ${phone.matches(p5)}")
+        youku.setOnClickListener {
+           gotoYouku()
         }
 
 
-        text2.setOnClickListener {
-            val dialog = BaseDialog.Builder(activity)
-                .setMessage("11213")
-                .setPositiveButton(R.string.register_timing_text)
-                .create()
-
-            DialogManager.instance.addDialog(activity, dialog)
-
-            testDialog()
+        qq.setOnClickListener {
+            gotoTenvideo()
         }
+
+        iqiyi.setOnClickListener { gotoIQiYi() }
+
+        mago.setOnClickListener { gotoMago() }
+    }
+
+    private fun gotoTenvideo() {
+        // h0033co604b
+        // mzc00200r5zvu2q
+        // n0033rr1tsn
+        // g00330i69rb
+        // 每一集的ID是不同的，根据ID来播放是哪一集
+        val uriStr = "tenvideo2://?action=5&video_id=n0033rr1tsn"
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(uriStr)
+        startActivity(intent)
+    }
+
+    private fun gotoYouku() {
+        // XNTgwNzI5OTky
+        // XNDU3MDY3NjQ3Mg
+        // XNDQ1OTc1MDcwMA==
+
+        val uriStr = "youku://play?vid=XNDQ1OTc1MDcwMA=="
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(uriStr)
+        startActivity(intent)
+    }
+
+
+    private fun gotoIQiYi() {
+        // 13195166700 天心法师3
+        // 13195183200 天心法师3
+        val uriStr = "iqiyi://mobile/player?tvid=13195183200"
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(uriStr)
+        startActivity(intent)
+    }
+
+
+    private fun gotoMago() {
+        // 13195166700 天心法师3
+        // 7824898 天心法师3
+        // 7739188 天心法师3
+        val uriStr = "imgotv://player?videoId=7739188"
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(uriStr)
+        startActivity(intent)
     }
 
     private fun testDialog() {
