@@ -30,7 +30,9 @@ def get_file_modify_time(file_path):
     return timestamp_to_time(t)
 
 def jia_gu(apk):
-    # shutil.rmtree(OUR_JIAGU_APK_PATH)
+    if os.path.exists(OUR_JIAGU_APK_PATH):
+        shutil.rmtree(OUR_JIAGU_APK_PATH)
+
     if not os.path.exists(OUR_JIAGU_APK_PATH):
         os.makedirs(OUR_JIAGU_APK_PATH)
     
@@ -114,6 +116,9 @@ def upload_apk():
     # response = requests.post(url, data=data, headers=header)
     
 def build_apk(build_type):
+    if os.path.exists(OUR_PATH):
+        shutil.rmtree(OUR_PATH)
+
     apk_list=glob.glob(APK_PATH, recursive=True)
     for apk in apk_list :
         os.remove(apk)
