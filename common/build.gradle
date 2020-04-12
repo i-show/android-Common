@@ -101,15 +101,9 @@ dependencies {
     api "com.github.bumptech.glide:okhttp3-integration:4.9.0"
     kapt "com.github.bumptech.glide:compiler:4.10.0"
 
-    api "io.reactivex.rxjava2:rxandroid:2.1.1"
-
     api "com.squareup.retrofit2:retrofit:2.7.0"
     api "com.squareup.retrofit2:converter-gson:2.7.0"
 
-    //  网络请求框架
-    // api "com.squareup.okhttp3:okhttp:3.14.1"
-    // JSON 解析工具
-    api "com.alibaba:fastjson:1.1.71.android"
     api "com.google.code.gson:gson:2.8.6"
 
     kapt "com.android.databinding:compiler:3.1.4"

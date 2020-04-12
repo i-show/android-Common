@@ -25,7 +25,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.core.content.FileProvider
-import com.alibaba.fastjson.JSON
+import com.ishow.common.extensions.toJSON
 import com.ishow.common.utils.DeviceUtils
 import com.ishow.common.utils.IntentUtils
 import com.ishow.common.utils.StorageUtils
@@ -122,7 +122,7 @@ class VersionDialog(context: Context) : Dialog(context, R.style.Theme_Dialog_Tra
             return
         }
 
-        StorageUtils.save(Version.Key.IGNORE_VERSION, JSON.toJSONString(version))
+        StorageUtils.save(Version.Key.IGNORE_VERSION, version.toJSON())
     }
 
     companion object {

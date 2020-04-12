@@ -18,8 +18,6 @@ package com.ishow.noah.entries;
 
 import android.content.Context;
 
-import com.alibaba.fastjson.annotation.JSONField;
-
 /**
  * Created by Bright.Yu on 2017/1/20.
  * 版本信息
@@ -61,7 +59,6 @@ public class Version {
     /**
      * 是否强制升级
      */
-    @JSONField(serialize = false, deserialize = false)
     public boolean isForceUpdate() {
         return status == Key.STATUS_FORCE_UPDATE;
     }
@@ -69,7 +66,6 @@ public class Version {
     /**
      * 下载路径
      */
-    @JSONField(serialize = false, deserialize = false)
     public String getDownloadPath() {
         return address;
     }
@@ -77,7 +73,6 @@ public class Version {
     /**
      * 获取描述
      */
-    @JSONField(serialize = false, deserialize = false)
     public String getDescription(Context context) {
         return description;
     }

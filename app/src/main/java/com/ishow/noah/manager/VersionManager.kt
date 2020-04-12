@@ -19,7 +19,7 @@ package com.ishow.noah.manager
 import android.text.TextUtils
 import android.text.style.RelativeSizeSpan
 import android.util.Log
-import com.alibaba.fastjson.JSON
+import com.ishow.common.extensions.parseJSON
 import com.ishow.common.utils.AppUtils
 import com.ishow.common.utils.SpanUtils
 import com.ishow.common.utils.StorageUtils
@@ -82,7 +82,7 @@ class VersionManager private constructor() {
         return if (TextUtils.isEmpty(cache)) {
             null
         } else {
-            JSON.parseObject(cache, Version::class.java)
+            cache.parseJSON<Version>()
         }
     }
 
@@ -91,7 +91,7 @@ class VersionManager private constructor() {
             LogUtils.i(TAG, "makeVersion: version is empty")
             return
         }
-        version = JSON.parseObject(versionJson, Version::class.java)
+        version = versionJson?.parseJSON()
     }
 
     /**

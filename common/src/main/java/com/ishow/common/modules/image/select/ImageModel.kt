@@ -3,25 +3,25 @@ package com.ishow.common.modules.image.select
 import android.annotation.SuppressLint
 import android.content.ContentUris
 import android.content.Context
-import android.graphics.BitmapFactory
 import android.provider.MediaStore
 import android.text.TextUtils
-import android.util.Log
 import com.ishow.common.R
 import com.ishow.common.entries.Folder
 import com.ishow.common.entries.Image
-import io.reactivex.Observable
-import io.reactivex.ObservableOnSubscribe
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import java.io.File
+import com.ishow.common.extensions.mainThread
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.*
 
 class ImageModel(private val context: Context) {
 
     private val photoList = ArrayList<Image>()
     private val folderList = ArrayList<Folder>()
-    private val getPhotoTask = ObservableOnSubscribe<Any> {
+
+    @SuppressLint("CheckResult")
+    fun getPhotos(listener: ((MutableList<Folder>, MutableList<Image>) -> Unit)?) = GlobalScope.launch (Dispatchers.IO){
+
         val cursor = context.contentResolver.query(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
             IMAGE_PROJECTION, null, null,
@@ -53,17 +53,8 @@ class ImageModel(private val context: Context) {
             addAllPhotoFolder(folderList, photoList)
             cursor.close()
         }
-        it.onNext(true)
-    }
 
-    @SuppressLint("CheckResult")
-    fun getPhotos(listener: ((MutableList<Folder>, MutableList<Image>) -> Unit)?) {
-        Observable.create(getPhotoTask)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                listener?.let { it(folderList, photoList) }
-            }
+        mainThread { listener?.invoke(folderList, photoList) }
     }
 
     /**
