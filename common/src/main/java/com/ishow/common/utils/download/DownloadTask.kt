@@ -1,7 +1,6 @@
 package com.ishow.common.utils.download
 
 import android.content.Context
-import android.util.Log
 import androidx.annotation.IntRange
 import com.ishow.common.extensions.delay
 import com.ishow.common.extensions.mainThread

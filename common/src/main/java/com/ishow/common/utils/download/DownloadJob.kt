@@ -1,13 +1,7 @@
 package com.ishow.common.utils.download
 
-import android.util.Log
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okio.Buffer
-import okio.Okio
-import okio.Sink
-import okio.Source
-import java.io.FileOutputStream
 import java.io.InputStream
 import java.io.RandomAccessFile
 

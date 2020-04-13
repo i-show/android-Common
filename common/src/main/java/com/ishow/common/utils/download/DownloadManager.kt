@@ -43,10 +43,10 @@ class DownloadManager private constructor() {
     }
 
     companion object {
-        private var appContext: Context? = null
         val instance by lazy(LazyThreadSafetyMode.SYNCHRONIZED) { DownloadManager() }
-
+        
         private const val DEFAULT_TIMEOUT = 60L
+        private var appContext: Context? = null
 
         fun init(context: Context) {
             appContext = context.applicationContext
