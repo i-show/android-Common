@@ -19,12 +19,9 @@ package com.ishow.common.widget
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
-import android.net.http.SslCertificate.restoreState
 import android.os.Handler
 import android.os.Message
-import android.text.TextUtils
 import android.util.AttributeSet
-import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
@@ -32,7 +29,6 @@ import android.widget.FrameLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import com.alibaba.fastjson.JSON
 import com.google.gson.Gson
 import com.ishow.common.R
 import com.ishow.common.utils.StorageUtils

@@ -1,9 +1,8 @@
 package com.ishow.common.utils.http.ip
 
 import android.content.Context
-import android.util.Log
-import com.alibaba.fastjson.JSON
 import com.ishow.common.extensions.parseJSON
+import com.ishow.common.extensions.toJSON
 import com.ishow.common.utils.http.ip.entries.IpSource
 import com.ishow.common.utils.http.ip.executor.FSExecutor
 import com.ishow.common.utils.http.ip.executor.IFYExecutor
@@ -26,7 +25,7 @@ class IpUtils private constructor() {
         if (context == null) return
         val sp = context.getSharedPreferences("ip", Context.MODE_PRIVATE)
         sp.edit()
-            .putString(KEY_CACHE, JSON.toJSONString(info))
+            .putString(KEY_CACHE, info.toJSON())
             .apply()
     }
 

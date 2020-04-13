@@ -12,7 +12,6 @@ class AppApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        Fresco.initialize(this)
         AppRouter.setConfigure(AppRouterConfigure())
     }
 }

@@ -110,7 +110,6 @@ class DownloadTask(context: Context, private var httpClient: OkHttpClient) : Dow
         dataList?.forEach {
             progress.addAndGet(it.downloadLength)
 
-            Log.i("yhy", "resumeDownload: progress = " + progress.get())
             val info = DownloadInfo(it.id, url, file)
             info.start = it.start
             info.end = it.end
@@ -120,11 +119,6 @@ class DownloadTask(context: Context, private var httpClient: OkHttpClient) : Dow
             jobList.add(job)
             manager.addDownloadJob(job)
         }
-
-        Log.i("yhy", "resumeDownload: progress22 = " + progress.get())
-        Log.i("yhy", "resumeDownload: totalLength = $totalLength")
-        Log.i("yhy", "resumeDownload: % = ${progress.get() / totalLength.toFloat()}")
-
     }
 
     private fun download(url: String) = GlobalScope.launch(Dispatchers.IO) {
@@ -234,7 +228,6 @@ class DownloadTask(context: Context, private var httpClient: OkHttpClient) : Dow
         for (job in jobList) {
             if (job.status != DownloadJob.Status.Finished) return
         }
-
         downloadDao.delete(info.url)
         notifyDownloadComplete(info.saveFile)
     }

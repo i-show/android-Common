@@ -7,7 +7,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.core.content.FileProvider
+import com.ishow.common.extensions.toJSON
 import com.ishow.common.utils.download.DownloadManager
+import com.ishow.common.utils.download.DownloadStatusInfo
 import com.ishow.common.utils.download.DownloadTask
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FSampleDownloadBinding
@@ -41,7 +43,8 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
                 .saveName("weixin1.apk")
                 .savePath(requireContext().getExternalFilesDir("apk")!!.absolutePath)
                 .setOnProgressListener { current, total -> update1(current, total, start) }
-                .setOnStatusChangedListener { installApp(it.file) }
+                .setOnStatusChangedListener {
+                    installApp(it) }
                 .start()
         } catch (e: Exception) {
             Log.e("yhy", "download1: e = $e")
@@ -70,7 +73,7 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
             .saveName("weixin3.apk")
             .savePath(requireContext().getExternalFilesDir("apk")!!.absolutePath)
             .setOnProgressListener { current, total -> update2(current, total, start) }
-            .setOnStatusChangedListener { installApp(it.file) }
+            .setOnStatusChangedListener { installApp(it) }
             .resume()
     }
 
@@ -93,7 +96,7 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
             .saveName("weixin3.apk")
             .savePath(requireContext().getExternalFilesDir("apk")!!.absolutePath)
             .setOnProgressListener { current, total -> update3(current, total, start) }
-            .setOnStatusChangedListener { installApp(it.file) }
+            .setOnStatusChangedListener { installApp(it) }
             .start()
     }
 
@@ -112,7 +115,7 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
             .saveName("weixin4.apk")
             .savePath(requireContext().getExternalFilesDir("apk")!!.absolutePath)
             .setOnProgressListener { current, total -> update4(current, total, start) }
-            .setOnStatusChangedListener { installApp(it.file) }
+            .setOnStatusChangedListener { installApp(it) }
             .start()
     }
 
@@ -122,7 +125,10 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
         mainThread { status4.text = text }
     }
 
-    private fun installApp(file: File?) {
+    private fun installApp(info: DownloadStatusInfo) {
+        val file = info.file
+        Log.i(TAG, "installApp: info = " + info.toJSON())
+        Log.i(TAG, "installApp: file = " + file?.absoluteFile)
         if (file == null) return
         val context = context ?: return
         val intent = Intent(Intent.ACTION_VIEW)
@@ -135,6 +141,12 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
         } else {
             intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive")
         }
+        Log.i(TAG, "installApp: start ===" + isMainThread())
         context.startActivity(intent)
+    }
+
+
+    companion object {
+        private const val TAG = "SampleDownloadFragment"
     }
 }

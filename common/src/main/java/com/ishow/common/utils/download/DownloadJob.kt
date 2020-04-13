@@ -50,7 +50,7 @@ class DownloadJob(val client: OkHttpClient, val info: DownloadInfo, val callback
             accessFile = RandomAccessFile(info.saveFile, "rwd")
             accessFile.seek(info.start + downloadLength)
 
-            val buffer = ByteArray(1024 * 1024)
+            val buffer = ByteArray(8 * 1024)
             inputStream = body.byteStream()
 
             // 3. 开始保存文件
@@ -70,10 +70,6 @@ class DownloadJob(val client: OkHttpClient, val info: DownloadInfo, val callback
         } finally {
             inputStream?.close()
             accessFile?.close()
-            if (status != Status.Error) {
-                callback.onStatusChanged(this, info, null)
-            }
-
             if (status != Status.Error) {
                 callback.onStatusChanged(this, info, null)
             }
