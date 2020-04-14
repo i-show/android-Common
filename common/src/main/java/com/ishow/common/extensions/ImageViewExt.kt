@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 
@@ -15,9 +16,10 @@ import com.bumptech.glide.request.RequestOptions
 fun ImageView.loadUrl(
     url: String?,
     options: RequestOptions = RequestOptions.centerCropTransform(),
-    placeHolder: Int = -1
+    placeHolder: Int = -1,
+    cacheMode: DiskCacheStrategy = DiskCacheStrategy.AUTOMATIC
 ) {
-    loadUrl(url, options, context.findDrawable(placeHolder))
+    loadUrl(url, options, context.findDrawable(placeHolder), cacheMode = cacheMode)
 }
 
 /**
@@ -27,23 +29,10 @@ fun ImageView.loadUrl(
 fun ImageView.loadUrl(
     url: String?,
     options: RequestOptions = RequestOptions.centerCropTransform(),
-    placeHolder: Drawable?
+    placeHolder: Drawable?,
+    cacheMode: DiskCacheStrategy = DiskCacheStrategy.AUTOMATIC
 ) {
-    loadUrl(url, null, options, placeHolder)
-}
-
-
-/**
- * 加载图片Url
- */
-@SuppressLint("CheckResult")
-fun ImageView.loadUrl(
-    url: String?,
-    listener: RequestListener<Drawable>? = null,
-    options: RequestOptions = RequestOptions.centerCropTransform(),
-    placeHolder: Int = -1
-) {
-    loadUrl(url, listener, options, context.findDrawable(placeHolder))
+    loadUrl(url, null, options, placeHolder, cacheMode)
 }
 
 
@@ -55,7 +44,23 @@ fun ImageView.loadUrl(
     url: String?,
     listener: RequestListener<Drawable>? = null,
     options: RequestOptions = RequestOptions.centerCropTransform(),
-    placeHolder: Drawable?
+    placeHolder: Int = -1,
+    cacheMode: DiskCacheStrategy = DiskCacheStrategy.AUTOMATIC
+) {
+    loadUrl(url, listener, options, context.findDrawable(placeHolder), cacheMode)
+}
+
+
+/**
+ * 加载图片Url
+ */
+@SuppressLint("CheckResult")
+fun ImageView.loadUrl(
+    url: String?,
+    listener: RequestListener<Drawable>? = null,
+    options: RequestOptions = RequestOptions.centerCropTransform(),
+    placeHolder: Drawable? = null,
+    cacheMode: DiskCacheStrategy = DiskCacheStrategy.AUTOMATIC
 ) {
     if (url.isNullOrEmpty()) {
         return
@@ -69,6 +74,7 @@ fun ImageView.loadUrl(
 
     Glide.with(context)
         .load(url)
+        .diskCacheStrategy(cacheMode)
         .apply(finalOptions)
         .listener(listener)
         .into(this)
@@ -82,9 +88,10 @@ fun ImageView.loadUrl(
 fun ImageView.loadUrl(
     uri: Uri?,
     options: RequestOptions = RequestOptions.centerCropTransform(),
-    placeHolder: Int = -1
+    placeHolder: Int = -1,
+    cacheMode: DiskCacheStrategy = DiskCacheStrategy.AUTOMATIC
 ) {
-    loadUrl(uri, options, context.findDrawable(placeHolder))
+    loadUrl(uri, options, context.findDrawable(placeHolder), cacheMode = cacheMode)
 }
 
 /**
@@ -94,23 +101,10 @@ fun ImageView.loadUrl(
 fun ImageView.loadUrl(
     uri: Uri?,
     options: RequestOptions = RequestOptions.centerCropTransform(),
-    placeHolder: Drawable?
+    placeHolder: Drawable? = null,
+    cacheMode: DiskCacheStrategy = DiskCacheStrategy.AUTOMATIC
 ) {
-    loadUrl(uri, null, options, placeHolder)
-}
-
-
-/**
- * 加载图片Url
- */
-@SuppressLint("CheckResult")
-fun ImageView.loadUrl(
-    uri: Uri?,
-    listener: RequestListener<Drawable>? = null,
-    options: RequestOptions = RequestOptions.centerCropTransform(),
-    placeHolder: Int = -1
-) {
-    loadUrl(uri, listener, options, context.findDrawable(placeHolder))
+    loadUrl(uri, null, options, placeHolder, cacheMode = cacheMode)
 }
 
 
@@ -122,7 +116,23 @@ fun ImageView.loadUrl(
     uri: Uri?,
     listener: RequestListener<Drawable>? = null,
     options: RequestOptions = RequestOptions.centerCropTransform(),
-    placeHolder: Drawable?
+    placeHolder: Int = -1,
+    cacheMode: DiskCacheStrategy = DiskCacheStrategy.AUTOMATIC
+) {
+    loadUrl(uri, listener, options, context.findDrawable(placeHolder), cacheMode = cacheMode)
+}
+
+
+/**
+ * 加载图片Url
+ */
+@SuppressLint("CheckResult")
+fun ImageView.loadUrl(
+    uri: Uri?,
+    listener: RequestListener<Drawable>? = null,
+    options: RequestOptions = RequestOptions.centerCropTransform(),
+    placeHolder: Drawable? = null,
+    cacheMode: DiskCacheStrategy = DiskCacheStrategy.AUTOMATIC
 ) {
     if (uri == null) {
         return
@@ -136,6 +146,7 @@ fun ImageView.loadUrl(
 
     Glide.with(context)
         .load(uri)
+        .diskCacheStrategy(cacheMode)
         .apply(finalOptions)
         .listener(listener)
         .into(this)
