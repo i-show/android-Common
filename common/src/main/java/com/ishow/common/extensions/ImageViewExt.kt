@@ -59,7 +59,7 @@ fun ImageView.loadUrl(
     url: String?,
     listener: RequestListener<Drawable>? = null,
     options: RequestOptions = RequestOptions.centerCropTransform(),
-    placeHolder: Drawable? = null,
+    placeHolder: Drawable?,
     cacheMode: DiskCacheStrategy = DiskCacheStrategy.AUTOMATIC
 ) {
     if (url.isNullOrEmpty()) {
@@ -101,7 +101,7 @@ fun ImageView.loadUrl(
 fun ImageView.loadUrl(
     uri: Uri?,
     options: RequestOptions = RequestOptions.centerCropTransform(),
-    placeHolder: Drawable? = null,
+    placeHolder: Drawable?,
     cacheMode: DiskCacheStrategy = DiskCacheStrategy.AUTOMATIC
 ) {
     loadUrl(uri, null, options, placeHolder, cacheMode = cacheMode)
@@ -131,7 +131,7 @@ fun ImageView.loadUrl(
     uri: Uri?,
     listener: RequestListener<Drawable>? = null,
     options: RequestOptions = RequestOptions.centerCropTransform(),
-    placeHolder: Drawable? = null,
+    placeHolder: Drawable?,
     cacheMode: DiskCacheStrategy = DiskCacheStrategy.AUTOMATIC
 ) {
     if (uri == null) {

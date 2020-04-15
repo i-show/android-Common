@@ -174,7 +174,7 @@ class DownloadTask(context: Context, private var httpClient: OkHttpClient) : Dow
         return getSaveFile(response, resume)
     }
 
-    private fun updateData(info: DownloadInfo, length: Long) {
+    private fun updateData(info: DownloadInfo) {
         savePull.execute {
             val data = DownloadData()
             data.id = info.id
@@ -200,7 +200,7 @@ class DownloadTask(context: Context, private var httpClient: OkHttpClient) : Dow
     }
 
     override fun onLengthChanged(info: DownloadInfo, length: Long) {
-        updateData(info, length)
+        updateData(info)
         val now = progress.addAndGet(length)
         notifyProgressChanged(now)
     }
