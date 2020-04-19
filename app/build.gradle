@@ -19,14 +19,15 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion COMPILE_SDK_VERSION as int
-    buildToolsVersion BUILD_TOOLS_VERSION
+    compileSdkVersion build_versions.compile_sdk
+    buildToolsVersion build_versions.build_tools
 
     defaultConfig {
         // 注意这里只是设置了appId的前缀 在buildTypes里面有设置后缀
         applicationId APPLICATION_ID
-        minSdkVersion MIN_SDK_VERSION as int
-        targetSdkVersion TARGET_SDK_VERSION as int
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+
         versionCode generateVersionCode() as int
         versionName VERSION_NAME
 
@@ -153,7 +154,6 @@ android {
             signingConfig signingConfigs.release
 
             applicationIdSuffix PROD_APPLICATION_ID_SUFFIX
-
             // AndroidManifest 中配置的文件
             manifestPlaceholders = [
                     // App的名字

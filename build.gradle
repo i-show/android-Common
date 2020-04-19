@@ -1,4 +1,6 @@
 buildscript {
+    apply from: 'config.gradle'
+
     repositories {
         google()
         jcenter()
@@ -7,7 +9,7 @@ buildscript {
     dependencies {
         //  Android 默认的编译工具库插件
         classpath 'com.android.tools.build:gradle:3.6.2'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VERSION"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin.sdk"
     }
 }
 

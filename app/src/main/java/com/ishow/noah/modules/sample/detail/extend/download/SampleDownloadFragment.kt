@@ -22,7 +22,9 @@ import java.io.File
  * Created by yuhaiyang on 2020-03-05.
  */
 class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDownloadViewModel>() {
-
+    private val url = "http://file.hiqidi.com/version-update/guanwang/adunpai.apk"
+    //private val url = "https://adunpai.com/version-update1/1.1.1/guanwang/adunpai.apk"
+    private val url2 = "https://imtt.dd.qq.com/16891/apk/A9CF9330B8F98FDA0702745A0EA2BDFC.apk"
     override fun getLayout(): Int = R.layout.f_sample_download
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -38,7 +40,7 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
         val start = System.currentTimeMillis()
         try {
             DownloadManager.newTask()
-                .url("https://imtt.dd.qq.com/16891/apk/A9CF9330B8F98FDA0702745A0EA2BDFC.apk")
+                .url(url)
                 .threadNumber(1)
                 .saveName("weixin1.apk")
                 .savePath(requireContext().getExternalFilesDir("apk")!!.absolutePath)
@@ -68,7 +70,7 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
         }
 
         task2 = DownloadManager.newTask()
-            .url("https://imtt.dd.qq.com/16891/apk/A9CF9330B8F98FDA0702745A0EA2BDFC.apk")
+            .url(url)
             .threadNumber(3)
             .saveName("weixin3.apk")
             .savePath(requireContext().getExternalFilesDir("apk")!!.absolutePath)
@@ -91,7 +93,7 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
             return
         }
         task3 = DownloadManager.newTask()
-            .url("https://imtt.dd.qq.com/16891/apk/A9CF9330B8F98FDA0702745A0EA2BDFC.apk")
+            .url(url)
             .threadNumber(3)
             .saveName("weixin3.apk")
             .savePath(requireContext().getExternalFilesDir("apk")!!.absolutePath)
@@ -110,7 +112,7 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
     private fun download4() {
         val start = System.currentTimeMillis()
         DownloadManager.newTask()
-            .url("https://imtt.dd.qq.com/16891/apk/A9CF9330B8F98FDA0702745A0EA2BDFC.apk")
+            .url(url)
             .threadNumber(4)
             .saveName("weixin4.apk")
             .savePath(requireContext().getExternalFilesDir("apk")!!.absolutePath)
@@ -127,7 +129,6 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
 
     private fun installApp(info: DownloadStatusInfo) {
         val file = info.file
-        Log.i(TAG, "installApp: info = " + info.toJSON())
         Log.i(TAG, "installApp: file = " + file?.absoluteFile)
         if (file == null) return
         val context = context ?: return

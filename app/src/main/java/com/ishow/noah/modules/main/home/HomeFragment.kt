@@ -21,7 +21,9 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
-import java.util.regex.Pattern
+import okhttp3.*
+import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by yuhaiyang on 2017/4/21.
@@ -51,9 +53,30 @@ class HomeFragment : AppBaseFragment() {
         PrintView.init(printView)
 
         youku.setOnClickListener {
-           gotoYouku()
-        }
+            val okHttpClient = OkHttpClient.Builder()
+                .connectTimeout(500, TimeUnit.MILLISECONDS)
+                .readTimeout(500, TimeUnit.MILLISECONDS)
+                .writeTimeout(500, TimeUnit.MILLISECONDS)
+                .build()
 
+            val request = Request.Builder()
+                .url("http://pv.sohu.com/cityjson")
+                .build()
+
+            Log.i("yhy", "Test -> request baidu: ")
+            okHttpClient.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    Log.i("yhy", "Test -> onFailure: = $e")
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    Log.i("yhy", "Test -> onResponse 1: " + response.code())
+                    Log.i("yhy", "Test -> onResponse 2: " + response.body()?.string())
+                }
+
+            })
+
+        }
 
         qq.setOnClickListener {
             gotoTenvideo()
@@ -102,8 +125,12 @@ class HomeFragment : AppBaseFragment() {
         // 13195166700 天心法师3
         // 7824898 天心法师3
         // 7739188 天心法师3
-        val uriStr = "imgotv://player?videoId=7739188"
+        // val uriStr = "imgotv://player?videoId=7739188"
+        //val uriStr = "bilibili://bangumi/season/29358"
+        // val uriStr = "https://www.bilibili.com/bangumi/play/ss31809"
+        val uriStr = "https://www.bilibili.com/bangumi/play/ep267856"
         val intent = Intent(Intent.ACTION_VIEW)
+        intent.setPackage("tv.danmaku.bili")
         intent.data = Uri.parse(uriStr)
         startActivity(intent)
     }

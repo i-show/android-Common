@@ -20,11 +20,11 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion COMPILE_SDK_VERSION as int
+    compileSdkVersion build_versions.compile_sdk
 
     defaultConfig {
-        minSdkVersion MIN_SDK_VERSION as int
-        targetSdkVersion TARGET_SDK_VERSION as int
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
 
         consumerProguardFiles 'consumer-rules.pro'
 
@@ -74,43 +74,39 @@ tasks.withType(JavaCompile) {
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
+    kapt "com.android.databinding:compiler:3.1.4"
 
-    api "androidx.appcompat:appcompat:1.1.0"
-    api "androidx.cardview:cardview:1.0.0"
-    api "androidx.core:core-ktx:1.2.0"
-    api "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    api 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
-    api 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
-    api "androidx.recyclerview:recyclerview:1.1.0"
-    api "androidx.viewpager:viewpager:1.0.0"
-    api "androidx.viewpager2:viewpager2:1.0.0"
-    api "androidx.palette:palette:1.0.0"
-    api "androidx.work:work-runtime-ktx:2.3.4"
-    api "androidx.constraintlayout:constraintlayout:1.1.3"
-    api "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
-    api "com.google.android.material:material:1.1.0"
+    api "com.google.android.material:material:$versions.androidx.material"
+    api "androidx.appcompat:appcompat:$versions.androidx.appcompat"
+    api "androidx.core:core-ktx:$versions.androidx.core_ktx"
+    api "androidx.lifecycle:lifecycle-extensions:$versions.androidx.lifecycle"
+    api "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.androidx.lifecycle"
+    api "androidx.lifecycle:lifecycle-livedata-ktx:$versions.androidx.lifecycle"
+    api "androidx.room:room-runtime:$versions.androidx.room"
+    api "androidx.room:room-ktx:$versions.androidx.room"
+    kapt "androidx.room:room-compiler:$versions.androidx.room"
 
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$KOTLIN_VERSION"
-    api "org.jetbrains.kotlin:kotlin-reflect:$KOTLIN_VERSION"
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3"
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.3"
+    api "androidx.recyclerview:recyclerview:$versions.androidx.recyclerview"
+    api "androidx.viewpager:viewpager:$versions.androidx.viewpager"
+    api "androidx.viewpager2:viewpager2:$versions.androidx.viewpager2"
+    api "androidx.palette:palette:$versions.androidx.palette"
+    api "androidx.constraintlayout:constraintlayout:$versions.androidx.constraintlayout"
+    api "androidx.swiperefreshlayout:swiperefreshlayout:$versions.androidx.swiperefreshlayout"
+
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin.sdk"
+    api "org.jetbrains.kotlin:kotlin-reflect:$versions.kotlin.sdk"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.kotlin.coroutines"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.kotlin.coroutines"
 
     // 图片加载框架
-    api "com.facebook.fresco:fresco:2.0.0"
-    api "com.github.bumptech.glide:glide:4.10.0"
-    api "com.github.bumptech.glide:okhttp3-integration:4.9.0"
-    kapt "com.github.bumptech.glide:compiler:4.10.0"
+    api "com.facebook.fresco:fresco:$versions.fresco"
+    api "com.github.bumptech.glide:glide:$versions.glide"
+    api "com.github.bumptech.glide:okhttp3-integration:$versions.glide"
+    kapt "com.github.bumptech.glide:compiler:$versions.glide"
+    api "com.github.chrisbanes:PhotoView:$versions.photo_view"
 
-    api "com.squareup.retrofit2:retrofit:2.7.0"
-    api "com.squareup.retrofit2:converter-gson:2.7.0"
+    api "com.squareup.retrofit2:retrofit:$versions.retrofit"
+    api "com.squareup.retrofit2:converter-gson:$versions.retrofit"
 
-    api "com.google.code.gson:gson:2.8.6"
-
-    kapt "com.android.databinding:compiler:3.1.4"
-    api "com.github.chrisbanes:PhotoView:2.3.0"
-
-    def room_version = "2.2.5"
-    api "androidx.room:room-runtime:$room_version"
-    api "androidx.room:room-ktx:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
+    api "com.google.code.gson:gson:$versions.gson"
 }
