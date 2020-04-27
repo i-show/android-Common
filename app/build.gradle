@@ -73,7 +73,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
             
-            applicationIdSuffix DEV_APPLICATION_ID_SUFFIX
             // AndroidManifest 中配置的文件
             manifestPlaceholders = [
                     // App的名字
@@ -97,8 +96,6 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-
-            applicationIdSuffix SIT_APPLICATION_ID_SUFFIX
             // AndroidManifest 中配置的文件
             manifestPlaceholders = [
                     // App的名字
@@ -125,7 +122,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
 
-            applicationIdSuffix UAT_APPLICATION_ID_SUFFIX
             // AndroidManifest 中配置的文件
             manifestPlaceholders = [
                     // App的名字
@@ -153,7 +149,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
 
-            applicationIdSuffix PROD_APPLICATION_ID_SUFFIX
             // AndroidManifest 中配置的文件
             manifestPlaceholders = [
                     // App的名字
@@ -218,6 +213,8 @@ dependencies {
     //  百度统计
     implementation 'com.baidu.mobstat:mtj-sdk:3.8.0.6'
     kapt "com.android.databinding:compiler:3.1.4"
+
+    api 'com.tencent.tbs.tbssdk:sdk:43903'
 
     def camerax_version = "1.0.0-beta02"
     implementation "androidx.camera:camera-core:${camerax_version}"

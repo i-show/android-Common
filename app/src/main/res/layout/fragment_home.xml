@@ -18,6 +18,7 @@
             android:id="@+id/topBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
             app:leftImage="@drawable/svg_top_back"
             app:rightImage="@drawable/svg_test" />
 
@@ -50,6 +51,11 @@
             android:minHeight="200dp"
             app:maxHeight="@dimen/dp_300" />
 
+        <com.ishow.common.widget.tablayout.TabLayoutPro
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
 
     </LinearLayout>
 </layout>

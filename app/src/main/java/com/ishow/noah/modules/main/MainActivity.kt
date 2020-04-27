@@ -20,17 +20,12 @@
 package com.ishow.noah.modules.main
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.ViewGroup
-import android.webkit.MimeTypeMap
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import com.ishow.common.extensions.fullWindow
-import com.ishow.common.extensions.mimeType
-import com.ishow.common.extensions.normalWindow
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.ishow.common.utils.ToastUtils
 import com.ishow.common.widget.BottomBar
 import com.ishow.noah.R
@@ -40,28 +35,23 @@ import com.ishow.noah.modules.main.mine.MineFragment
 import com.ishow.noah.modules.main.tab2.Tab2Fragment
 import com.ishow.noah.modules.main.tab3.Tab3Fragment
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.io.File
 
 class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
 
-    private var beforeFragment: Fragment? = null
     private var tab1Fragment: HomeFragment? = null
     private var tab2Fragment: Tab2Fragment? = null
     private var tab3Fragment: Tab3Fragment? = null
     private var tab4Fragment: MineFragment? = null
-
+    private val fragmentList = mutableListOf<Fragment>()
     private var lastTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val intent = intent
-        val type = intent.getIntExtra(KEY_TYPE, TAB_FIRST)
-        bottomBar.setSelectedId(type, true)
+    }
+
+    override fun initNecessaryData() {
+        super.initNecessaryData()
 
     }
 
@@ -73,8 +63,28 @@ class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
 
     override fun initViews() {
         super.initViews()
-        bottomBar.setOnSelectedChangedListener(this)
 
+        tab1Fragment = HomeFragment.newInstance()
+        fragmentList.add(tab1Fragment!!)
+        tab2Fragment = Tab2Fragment.newInstance()
+        fragmentList.add(tab2Fragment!!)
+        tab3Fragment = Tab3Fragment.newInstance()
+        fragmentList.add(tab3Fragment!!)
+        tab4Fragment = MineFragment.newInstance()
+        fragmentList.add(tab4Fragment!!)
+
+        viewPager.isUserInputEnabled = false
+        viewPager.offscreenPageLimit = 3
+        viewPager.adapter = object : FragmentStateAdapter(this) {
+            override fun getItemCount(): Int = 4
+
+            override fun createFragment(position: Int): Fragment {
+                return fragmentList[position]
+            }
+
+        }
+
+        bottomBar.setOnSelectedChangedListener(this)
 
     }
 
@@ -91,67 +101,9 @@ class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
 
 
     override fun onSelectedChanged(parent: ViewGroup, @IdRes selectId: Int, index: Int) {
-        selectFragment(selectId)
+        viewPager.setCurrentItem(index, false)
     }
 
-    private fun selectFragment(selectId: Int) {
-        when (selectId) {
-            R.id.tab_1 -> {
-                if (tab1Fragment == null) {
-                    tab1Fragment = HomeFragment.newInstance()
-                }
-                replaceFragment(tab1Fragment, beforeFragment)
-                normalWindow()
-            }
-            R.id.tab_2 -> {
-                if (tab2Fragment == null) {
-                    tab2Fragment = Tab2Fragment.newInstance()
-                }
-
-                replaceFragment(tab2Fragment, beforeFragment)
-                fullWindow(true)
-            }
-            R.id.tab_3 -> {
-                if (tab3Fragment == null) {
-                    tab3Fragment = Tab3Fragment.newInstance()
-                }
-                replaceFragment(tab3Fragment, beforeFragment)
-                fullWindow()
-            }
-            R.id.tab_4 -> {
-                if (tab4Fragment == null) {
-                    tab4Fragment = MineFragment.newInstance()
-                }
-                replaceFragment(tab4Fragment, beforeFragment)
-                normalWindow()
-            }
-        }
-    }
-
-    /**
-     * 显示Fragment
-     */
-    private fun replaceFragment(showFragment: Fragment?, hideFragment: Fragment? = null) {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-
-        if (hideFragment != null) {
-            transaction.hide(hideFragment)
-        }
-
-        if (showFragment == null) {
-            transaction.commit()
-            return
-        }
-
-        if (showFragment.isAdded) {
-            transaction.show(showFragment)
-        } else {
-            transaction.add(R.id.fragmentContainer, showFragment)
-        }
-        transaction.commit()
-        beforeFragment = showFragment
-    }
 
 
     companion object {
