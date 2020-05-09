@@ -15,6 +15,7 @@ import com.ishow.noah.modules.sample.detail.recycle.adapter.SampleBindAdapterFra
 import com.ishow.noah.modules.sample.detail.utils.db.room.SampleRoomFragment
 import com.ishow.noah.modules.sample.detail.utils.info.BaseInfoFragment
 import com.ishow.noah.modules.sample.detail.utils.json.SampleJsonFragment
+import com.ishow.noah.modules.sample.detail.utils.okhttp.cache.OkHttpCacheFragment
 import com.ishow.noah.modules.sample.detail.utils.reflection.SampleReflectionFragment
 import com.ishow.noah.modules.sample.detail.views.constraint.SampleConstraintLayoutFragment
 import com.ishow.noah.modules.sample.detail.views.loading.SampleLoadingWebViewFragment
@@ -57,6 +58,7 @@ object SampleManager {
             list.add(Sample.instance("BindAdapter", SampleBindAdapterFragment::class.java))
             list.add(Sample.instance("下载", SampleDownloadFragment::class.java))
             list.add(Sample.instance("Room", SampleRoomFragment::class.java))
+            list.add(Sample.instance("OkHttpCache", OkHttpCacheFragment::class.java))
             return list
         }
 }

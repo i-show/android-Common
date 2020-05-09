@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.ishow.noah.modules.sample.detail.utils.okhttp.cache.OkHttpCacheViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/get"
+            style="@style/AppTextView.Sample"
+            android:text="GET"
+            tools:ignore="HardcodedText" />
+
+
+        <com.ishow.common.widget.PrintView
+            android:id="@+id/printView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</layout>

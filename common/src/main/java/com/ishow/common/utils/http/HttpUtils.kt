@@ -27,6 +27,12 @@ import com.ishow.common.extensions.connectivityManager
 
 object HttpUtils {
 
+    val isConnected: Boolean
+        get() {
+            val connectivityManager = InitCommonProvider.app.connectivityManager
+            val networkInfo = connectivityManager.activeNetworkInfo
+            return networkInfo?.isConnected ?: false
+        }
 
     fun getNetType(): String {
         val app = InitCommonProvider.app
