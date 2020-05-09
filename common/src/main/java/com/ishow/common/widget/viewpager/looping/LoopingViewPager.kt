@@ -29,6 +29,7 @@ import androidx.viewpager.widget.ViewPager
 import com.ishow.common.R
 import com.ishow.common.utils.log.LogUtils
 import com.ishow.common.widget.viewpager.looping.indicator.DefaultLoopingIndicator
+import com.ishow.common.widget.viewpager.looping.indicator.RoundedRectIndicator
 
 /**
  * 轮播图
@@ -117,7 +118,7 @@ class LoopingViewPager @JvmOverloads constructor(context: Context, attrs: Attrib
         addOnPageChangeListener(onPageChangeListener)
         isAutoLooping = true
         mLoopingTime = DEFAULT_LOOPING_TIME
-        mLoopingIndicator = DefaultLoopingIndicator()
+        mLoopingIndicator = RoundedRectIndicator()
         mPositionOffset = -1F
     }
 

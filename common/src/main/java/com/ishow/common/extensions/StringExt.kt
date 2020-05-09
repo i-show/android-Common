@@ -4,6 +4,7 @@ package com.ishow.common.extensions
 
 import android.text.SpannableString
 import android.text.Spanned
+import android.text.TextUtils
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
@@ -73,6 +74,22 @@ fun String.spanUnderLine(start: Int, end: Int): SpannableString {
 fun String.isPhone(): Boolean {
     val p = "^((1[3-9][0-9])\\d{8})\$".toRegex()
     return matches(p)
+}
+
+fun String.phoneDesensitization(): String {
+    return if (TextUtils.isEmpty(this) || this.length != 11) {
+        this
+    } else {
+        this.replace("(\\d{3})\\d{4}(\\d{4})".toRegex(), "$1****$2")
+    }
+}
+
+fun String.phoneFormat(): String {
+    return if (TextUtils.isEmpty(this) || this.length != 11) {
+        this
+    } else {
+        this.replace("(\\d{3})(\\d{0,4})(\\d{0,4})".toRegex(), "$1 $2 $3")
+    }
 }
 
 /**

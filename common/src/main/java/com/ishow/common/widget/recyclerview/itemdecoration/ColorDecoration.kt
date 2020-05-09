@@ -39,6 +39,7 @@ class ColorDecoration : RecyclerView.ItemDecoration {
 
     private var mPaddingStart: Int = 0
     private var mPaddingEnd: Int = 0
+
     /**
      * 是否显示最后的Diver
      * 仅支持 LinearLayoutManager
@@ -48,6 +49,7 @@ class ColorDecoration : RecyclerView.ItemDecoration {
     @JvmOverloads
     constructor(context: Context, @ColorRes color: Int = R.color.line, @Px height: Int = 1) {
         mDividerPaint.color = context.findColor(color)
+        mDividerPaint.strokeWidth = height.toFloat()
         mDividerHeight = height
     }
 
@@ -55,6 +57,7 @@ class ColorDecoration : RecyclerView.ItemDecoration {
     @JvmOverloads
     constructor(color: Int = 0XFFC2CADC.toInt(), @Px height: Int = 1) {
         mDividerPaint.color = color
+        mDividerPaint.strokeWidth = height.toFloat()
         mDividerHeight = height
     }
 

@@ -667,7 +667,7 @@ class TextViewPro @JvmOverloads constructor(context: Context, attrs: AttributeSe
         setRightText(text)
     }
 
-    fun setRightText(text: String) {
+    fun setRightText(text: String?) {
         mRightTextString = text
         mRightTextView?.text = text
         mRightTextVisibility = View.VISIBLE

@@ -31,7 +31,7 @@
                 app:glideCorner="@{50}"
                 app:glideCornerPosition="@{Position.All}"
                 app:imageUrl="@{imgUrl}"
-                app:placeholder="@{@drawable/splash}" />
+                app:placeHolder="@{@drawable/splash}" />
 
             <ImageView
                 android:layout_width="300dp"
@@ -43,7 +43,7 @@
                 app:glideCorner="@{50}"
                 app:glideCornerPosition="@{Position.Top}"
                 app:imageUrl="@{imgUrl}"
-                app:placeholder="@{@drawable/splash}" />
+                app:placeHolder="@{@drawable/splash}" />
 
             <ImageView
                 android:layout_width="300dp"
@@ -55,7 +55,7 @@
                 app:glideCorner="@{50}"
                 app:glideCornerPosition="@{Position.Bottom}"
                 app:imageUrl="@{imgUrl}"
-                app:placeholder="@{@drawable/splash}" />
+                app:placeHolder="@{@drawable/splash}" />
 
             <ImageView
                 android:layout_width="300dp"
@@ -67,7 +67,7 @@
                 app:glideCorner="@{90}"
                 app:glideCornerPosition="@{Position.Start}"
                 app:imageUrl="@{imgUrl}"
-                app:placeholder="@{@drawable/splash}" />
+                app:placeHolder="@{@drawable/splash}" />
 
 
             <ImageView
@@ -80,7 +80,7 @@
                 app:glideCorner="@{50}"
                 app:glideCornerPosition="@{Position.End}"
                 app:imageUrl="@{imgUrl}"
-                app:placeholder="@{@drawable/splash}" />
+                app:placeHolder="@{@drawable/splash}" />
 
             <ImageView
                 android:layout_width="300dp"
@@ -92,7 +92,7 @@
                 app:glideCorner="@{50}"
                 app:glideCornerPosition="@{Position.TopStart}"
                 app:imageUrl="@{imgUrl}"
-                app:placeholder="@{@drawable/splash}" />
+                app:placeHolder="@{@drawable/splash}" />
 
             <ImageView
                 android:layout_width="300dp"
@@ -104,7 +104,7 @@
                 app:glideCorner="@{50}"
                 app:glideCornerPosition="@{Position.TopEnd}"
                 app:imageUrl="@{imgUrl}"
-                app:placeholder="@{@drawable/splash}" />
+                app:placeHolder="@{@drawable/splash}" />
 
             <ImageView
                 android:layout_width="300dp"
@@ -116,7 +116,7 @@
                 app:glideCorner="@{50}"
                 app:glideCornerPosition="@{Position.BottomStart}"
                 app:imageUrl="@{imgUrl}"
-                app:placeholder="@{@drawable/splash}" />
+                app:placeHolder="@{@drawable/splash}" />
 
             <ImageView
                 android:layout_width="300dp"
@@ -128,7 +128,7 @@
                 app:glideCorner="@{50}"
                 app:glideCornerPosition="@{Position.BottomEnd}"
                 app:imageUrl="@{imgUrl}"
-                app:placeholder="@{@drawable/splash}" />
+                app:placeHolder="@{@drawable/splash}" />
 
             <View
                 android:layout_width="match_parent"

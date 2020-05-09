@@ -45,6 +45,7 @@ import com.ishow.common.extensions.setPadding
 import com.ishow.common.extensions.setPaddingHorizontal
 import com.ishow.common.extensions.setPaddingVertical
 import com.ishow.common.utils.AppUtils
+import com.ishow.common.utils.DeviceUtils
 import com.ishow.common.widget.imageview.PromptImageView
 import com.ishow.common.widget.prompt.IPrompt
 import com.ishow.common.widget.textview.MarqueeTextView
@@ -248,6 +249,8 @@ class TopBar(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs),
         mTitleClickable = a.getBoolean(R.styleable.TopBar_clickable, false)
         isFitSystemWindow = a.getBoolean(R.styleable.TopBar_android_fitsSystemWindows, false)
         isConsumeSystemWindowInsets = a.getBoolean(R.styleable.TopBar_consumeSystemWindowInsets, true)
+
+        fitTopSize = if(isFitSystemWindow) DeviceUtils.getStatusBarHeight(context) else 0
         a.recycle()
 
         initNecessaryParams()
@@ -378,44 +381,6 @@ class TopBar(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs),
         }
     }
 
-    override fun onWindowSystemUiVisibilityChanged(visible: Int) {
-        super.onWindowSystemUiVisibilityChanged(visible)
-        if(visible == 0 && isFitSystemWindow ) fitTopSize = 0
-    }
-
-    override fun dispatchApplyWindowInsets(insets: WindowInsets?): WindowInsets {
-        if (!isFitSystemWindow || insets == null) {
-            return super.dispatchApplyWindowInsets(insets)
-        }
-
-        fitTopSize = insets.systemWindowInsetTop
-        mExactlyViewHeightSpec = MeasureSpec.makeMeasureSpec(mHeight + fitTopSize, MeasureSpec.EXACTLY)
-
-        if (!isConsumeSystemWindowInsets) {
-            return super.dispatchApplyWindowInsets(insets)
-        }
-
-        val windowInsets = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val nowSystemWindow = consumeSystemWindowTopInsets(insets)
-            WindowInsets.Builder(insets)
-                .setSystemWindowInsets(nowSystemWindow)
-                .build()
-        } else {
-            insets.consumeSystemWindowInsets()
-            insets.replaceSystemWindowInsets(insets.systemWindowInsetLeft, 0, insets.systemWindowInsetRight, insets.systemWindowInsetBottom)
-        }
-
-        return super.dispatchApplyWindowInsets(windowInsets)
-    }
-
-    /**
-     * 消费掉顶部的高度
-     */
-    @RequiresApi(Build.VERSION_CODES.Q)
-    private fun consumeSystemWindowTopInsets(old: WindowInsets): Insets {
-        return Insets.of(old.systemWindowInsetLeft, 0, old.systemWindowInsetRight, old.systemWindowInsetBottom)
-    }
-
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.leftText,
@@ -437,7 +402,7 @@ class TopBar(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs),
     private fun initNecessaryParams() {
         mUnitWidth = (mHeight * UNIT_WIDTH_RADIO).toInt()
         mExactlyHeightSpec = MeasureSpec.makeMeasureSpec(mHeight, MeasureSpec.EXACTLY)
-        mExactlyViewHeightSpec = MeasureSpec.makeMeasureSpec(mHeight, MeasureSpec.EXACTLY)
+        mExactlyViewHeightSpec = MeasureSpec.makeMeasureSpec(mHeight + fitTopSize, MeasureSpec.EXACTLY)
 
         mExactlyWidthSpec = MeasureSpec.makeMeasureSpec(mUnitWidth, MeasureSpec.EXACTLY)
         mLeftImageWidthSpec = MeasureSpec.makeMeasureSpec(max(mLeftImageMinWidth, mUnitWidth), MeasureSpec.EXACTLY)

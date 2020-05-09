@@ -21,7 +21,7 @@ class InitCommonProvider : ContentProvider() {
         val context = context
 
         if (context is Application) {
-            StorageUtils.init(context)
+            _app = context
             Fresco.initialize(context)
             LogManager.init(context)
             DownloadManager.init(context)
@@ -60,6 +60,10 @@ class InitCommonProvider : ContentProvider() {
 
     companion object {
         private const val TAG = "InitCommonProvider"
+
+        private lateinit var _app: Application
+        val app
+            get() = _app
     }
 
 }

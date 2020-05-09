@@ -90,8 +90,9 @@ class PromptHelper {
         canvas.drawRoundRect(usedRectF, 999f, 999f, backgroundPaint)
         if (mode == IPrompt.PromptMode.TEXT && !TextUtils.isEmpty(text)) {
             val fontMetrics = textPaint.fontMetricsInt
-            val baseline =
-                usedRectF.top + (usedRectF.bottom - usedRectF.top - fontMetrics.bottom.toFloat() + fontMetrics.top) / 2 - fontMetrics.top
+
+            val distance = (fontMetrics.bottom - fontMetrics.top) / 2 - fontMetrics.bottom
+            val baseline = usedRectF.centerY() + distance
             textPaint.textAlign = Paint.Align.CENTER
             canvas.drawText(text!!, usedRectF.centerX(), baseline, textPaint)
         }

@@ -1,6 +1,5 @@
 package com.ishow.common.app.mvvm.view
 
-import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding

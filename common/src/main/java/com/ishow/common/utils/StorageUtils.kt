@@ -1,13 +1,12 @@
 package com.ishow.common.utils
 
-import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.SharedPreferences.Editor
 import android.system.Os.remove
 import androidx.annotation.IntRange
+import com.ishow.common.app.provider.InitCommonProvider
 import java.util.concurrent.TimeUnit
-import kotlin.properties.Delegates.notNull
 
 /**
  * Created by yuhaiyang on 2017/12/12.
@@ -24,11 +23,7 @@ object StorageUtils {
      */
     private const val EXPIRE_SUFFIX = "_enter_port_expire_ee"
 
-    private lateinit var app: Application
-
-    fun init(application: Application) {
-        app = application
-    }
+    private val app by lazy { InitCommonProvider.app }
 
     @JvmStatic
     fun save() = SaveExecutor(app.applicationContext)

@@ -68,6 +68,8 @@
     <color name="white_alpha_0_5">#7FFFFFFF</color>
     <color name="white_alpha_0_4">#66FFFFFF</color>
     <color name="white_alpha_0_3">#4cFFFFFF</color>
+    <color name="white_alpha_0_2">#14FFFFFF</color>
+    <color name="white_alpha_0_1">#0aFFFFFF</color>
 
     <!--黑色透明度-->
     <color name="grey_alpha_1">#FF000000</color>

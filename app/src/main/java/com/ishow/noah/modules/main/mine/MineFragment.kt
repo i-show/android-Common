@@ -22,8 +22,6 @@ class MineFragment : AppBindFragment<FragmentMineBinding, MineViewModel>() {
     override fun getLayout(): Int = R.layout.fragment_mine
 
     fun update(userContainer: UserContainer?) {
-        avatar.loadUrl(userContainer?.user?.avatar)
-        name.text = userContainer?.user?.nickName
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
@@ -37,10 +35,7 @@ class MineFragment : AppBindFragment<FragmentMineBinding, MineViewModel>() {
     }
 
     fun onViewClick(v: View?) {
-        when (v?.id) {
-            R.id.settings -> open(SettingsActivity::class.java)
-            R.id.userContainer -> open(ModifyUserActivity::class.java)
-        }
+
     }
 
     companion object {

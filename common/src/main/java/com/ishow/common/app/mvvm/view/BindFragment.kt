@@ -79,12 +79,18 @@ abstract class BindFragment<T : ViewDataBinding, VM : BaseViewModel> : BaseFragm
         val fragment = viewLifecycleOwner
         // dataBinding 设置vm参数
         ReflectionUtils.invokeMethod(dataBinding, "setVm", vm, viewModelClass)
+        lifecycle.addObserver(vm)
 
         vm.loadingStatus.observe(fragment, Observer { changeLoadingStatus(it) })
         vm.errorStatus.observe(fragment, Observer { changeErrorStatus(it) })
         vm.successStatus.observe(fragment, Observer { changeSuccessStatus(it) })
         vm.emptyStatus.observe(fragment, Observer { changeEmptyStatus(it) })
         vm.toastMessage.observe(fragment, Observer { showToast(it) })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel?.let { lifecycle.removeObserver(it) }
     }
 
     /**

@@ -20,22 +20,24 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import androidx.recyclerview.widget.RecyclerView
 import com.ishow.common.R
-
-import java.util.ArrayList
+import java.util.*
 
 /**
  * 封装后的RecycleAdapter
  */
-abstract class RecyclerAdapter<DATA, HOLDER : RecyclerAdapter.Holder>(protected var mContext: Context) : RecyclerView.Adapter<HOLDER>() {
+abstract class RecyclerAdapter<DATA, HOLDER : RecyclerAdapter.Holder> : RecyclerView.Adapter<HOLDER>() {
 
-    protected var mLayoutInflater: LayoutInflater = LayoutInflater.from(mContext)
+    protected lateinit var context: Context
+
+    protected lateinit var layoutInflater: LayoutInflater
+
     protected var disableOnItemClickListener = false
 
     private var mData: MutableList<DATA> = ArrayList()
-    private var mOnItemClickListener: ((Int) -> Unit)? = null
+    private var mOnItemClickListener: ((view: View, position: Int) -> Unit)? = null
+
     /**
      * 当前绑定的RecycleView
      * [.onAttachedToRecyclerView] 中进行赋值操作
@@ -64,7 +66,7 @@ abstract class RecyclerAdapter<DATA, HOLDER : RecyclerAdapter.Holder>(protected 
      * @param data  设定的值
      * @param force 是否强制添加值
      */
-    fun setData(data: MutableList<DATA>?, force: Boolean) {
+    open fun setData(data: MutableList<DATA>?, force: Boolean) {
         if (data != null) {
             val canAni = mData.isEmpty()
             mData = data
@@ -111,7 +113,7 @@ abstract class RecyclerAdapter<DATA, HOLDER : RecyclerAdapter.Holder>(protected 
     override fun onBindViewHolder(holder: HOLDER, position: Int) {
         holder.itemView.setTag(R.id.tag_view_holder_recycle_item_click, position)
         if (!disableOnItemClickListener) {
-            holder.itemView.setOnClickListener(ItemViewClickListener())
+            holder.itemView.setOnClickListener(this::onItemClick)
         }
         onBindViewHolder(holder, position, holder.itemViewType)
     }
@@ -119,11 +121,22 @@ abstract class RecyclerAdapter<DATA, HOLDER : RecyclerAdapter.Holder>(protected 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
         mRecyclerView = recyclerView
+        context = recyclerView.context
+        layoutInflater = LayoutInflater.from(context)
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         super.onDetachedFromRecyclerView(recyclerView)
         mRecyclerView = null
+    }
+
+    private fun onItemClick(view: View) {
+        val position = view.getTag(R.id.tag_view_holder_recycle_item_click) as Int
+        onItemClick(view, position)
+    }
+
+    open fun onItemClick(view: View, position: Int) {
+        mOnItemClickListener?.invoke(view, position)
     }
 
     /**
@@ -135,20 +148,7 @@ abstract class RecyclerAdapter<DATA, HOLDER : RecyclerAdapter.Holder>(protected 
 
     abstract class Holder(val item: View, val type: Int) : RecyclerView.ViewHolder(item)
 
-
-    interface OnItemClickListener {
-        fun onItemClick(position: Int)
-    }
-
-    fun setOnItemClickListener(listener: ((Int) -> Unit)?) {
+    fun setOnItemClickListener(listener: ((view: View, position: Int) -> Unit)?) {
         mOnItemClickListener = listener
     }
-
-    private inner class ItemViewClickListener : View.OnClickListener {
-        override fun onClick(v: View) {
-            val position = v.getTag(R.id.tag_view_holder_recycle_item_click) as Int
-            mOnItemClickListener?.let { it(position) }
-        }
-    }
-
 }

@@ -62,10 +62,6 @@ fun ImageView.loadUrl(
     placeHolder: Drawable?,
     cacheMode: DiskCacheStrategy = DiskCacheStrategy.AUTOMATIC
 ) {
-    if (url.isNullOrEmpty()) {
-        return
-    }
-
     val finalOptions = if (placeHolder == null) {
         RequestOptions().apply(options)
     } else {

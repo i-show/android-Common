@@ -60,10 +60,9 @@ object DeviceUtils {
     /**
      * 获取状态栏高度
      */
-    fun getStatusBarHeight(context: Activity): Int {
-        val rect = Rect()
-        context.window.decorView.getWindowVisibleDisplayFrame(rect)
-        return rect.top
+    fun getStatusBarHeight(context: Context): Int {
+        val resourceId = context.resources.getIdentifier("status_bar_height", "dimen", "android")
+        return context.resources.getDimensionPixelSize(resourceId)
     }
 
     /**

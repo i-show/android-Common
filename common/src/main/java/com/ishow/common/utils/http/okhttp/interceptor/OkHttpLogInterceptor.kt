@@ -158,7 +158,7 @@ class OkHttpLogInterceptor @JvmOverloads constructor(var level: Level = Level.Bo
 
         if (contentLength != 0L) {
             val result = buffer.clone().readString(charset!!)
-            logLongBody("$requestId RESULT: ", result)
+            LogUtils.i(logTag, "$requestId RESULT: $result")
         }
     }
 
