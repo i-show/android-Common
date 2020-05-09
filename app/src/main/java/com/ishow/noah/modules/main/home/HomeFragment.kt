@@ -1,13 +1,13 @@
 package com.ishow.noah.modules.main.home
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.ishow.common.utils.router.AppRouter
 import com.ishow.noah.R
 import com.ishow.noah.modules.base.AppBaseFragment
+import com.ishow.noah.modules.sample.main.SampleMainActivity
 
 /**
  * Created by yuhaiyang on 2017/4/21.
@@ -22,13 +22,9 @@ class HomeFragment : AppBaseFragment() {
 
     override fun onRightClick(v: View) {
         super.onRightClick(v)
-        val intent = Intent(Intent.ACTION_VIEW)
-        // intent.setPackage("com.qiyi.video")
-        // intent.data = Uri.parse("https://www.iqiyi.com/v_19rqvnet8k.html")
-        // intent.setPackage("com.tencent.qqlive")
-        intent.data = Uri.parse("http://v.youku.com/v_show/id_XNDMxNDkwMTg2MA==.html?tpa=dW5pb25faWQ9MzAwMDA4XzEwMDAwMl8wMl8wMQ&refer=esfhz_operation.xuka.xj_00003036_000000_FNZfau_19010900")
-        startActivity(intent)
-
+        AppRouter.with(context)
+            .target(SampleMainActivity::class.java)
+            .start()
     }
 
     companion object {
