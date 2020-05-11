@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.ishow.common.extensions.dialog
+import com.ishow.common.utils.DeviceUuidUtils
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.noah.R
 import com.ishow.noah.modules.base.AppBaseFragment
@@ -25,6 +27,9 @@ class HomeFragment : AppBaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        dialog(DeviceUuidUtils.uuid)
+
         iqiyi.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse("iqiyi://mobile/player?aid=15461875900&tvid=15461875900")

@@ -22,7 +22,7 @@ import java.lang.reflect.ParameterizedType
 
 abstract class BindFragment<T : ViewDataBinding, VM : BaseViewModel> : BaseFragment() {
     protected lateinit var dataBinding: T
-    private var viewModel: VM? = null
+    protected var vm: VM? = null
 
     @Suppress("UNCHECKED_CAST")
     protected val viewModelClass: Class<VM> by lazy {
@@ -61,7 +61,7 @@ abstract class BindFragment<T : ViewDataBinding, VM : BaseViewModel> : BaseFragm
             return
         }
         val vm = ViewModelProvider(this).get(viewModelClass)
-        viewModel = vm
+        this.vm = vm
         initViewModel(vm)
         vm.init()
     }
@@ -69,7 +69,7 @@ abstract class BindFragment<T : ViewDataBinding, VM : BaseViewModel> : BaseFragm
     @Suppress("unused")
     protected open fun bindViewModel(cls: Class<VM>): VM {
         val vm = ViewModelProvider(this).get(cls)
-        viewModel = vm
+        this.vm = vm
         initViewModel(vm)
         vm.init()
         return vm
@@ -90,7 +90,7 @@ abstract class BindFragment<T : ViewDataBinding, VM : BaseViewModel> : BaseFragm
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel?.let { lifecycle.removeObserver(it) }
+        vm?.let { lifecycle.removeObserver(it) }
     }
 
     /**
@@ -144,6 +144,6 @@ abstract class BindFragment<T : ViewDataBinding, VM : BaseViewModel> : BaseFragm
 
     override fun onStatusClick(v: View, which: StatusView.Which) {
         super.onStatusClick(v, which)
-        viewModel?.retryRequest()
+        vm?.retryRequest()
     }
 }

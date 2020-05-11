@@ -29,8 +29,7 @@ class DeviceUuidUtils @SuppressLint("HardwareIds") private constructor() {
         private fun save(fileName: String, value: String) {
             if (!hasWriteStoragePermission()) return
 
-            val app = InitCommonProvider.app
-            val dirPath = app.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
+            val dirPath = Environment.getExternalStorageDirectory()
             if (dirPath?.exists() == false) {
                 dirPath.mkdirs()
             }
@@ -44,8 +43,7 @@ class DeviceUuidUtils @SuppressLint("HardwareIds") private constructor() {
         private fun read(fileName: String): String? {
             if (!hasReadStoragePermission()) return null
 
-            val app = InitCommonProvider.app
-            val dirPath = app.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
+            val dirPath = Environment.getExternalStorageDirectory()
             val targetFile = File(dirPath, fileName)
             return if (targetFile.exists()) targetFile.readText() else null
         }
