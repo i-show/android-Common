@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.request.RequestOptions
 import com.facebook.drawee.view.SimpleDraweeView
@@ -15,7 +16,7 @@ object ImageViewBindingAdapter {
 
     @JvmStatic
     @BindingAdapter(
-        value = ["imageUrl", "placeHolder", "glideCorner", "glideCornerPosition", "glideOptions"],
+        value = ["imageUrl", "placeHolder", "glideCorner", "glideCornerPosition", "glideOptions", "cacheMode"],
         requireAll = false
     )
     fun loadImage(
@@ -24,7 +25,8 @@ object ImageViewBindingAdapter {
         placeholder: Drawable?,
         corner: Int?,
         position: GlideCorner.Position? = GlideCorner.Position.All,
-        requestOptions: RequestOptions? = RequestOptions.centerCropTransform()
+        requestOptions: RequestOptions? = RequestOptions.centerCropTransform(),
+        cacheMode: DiskCacheStrategy? = DiskCacheStrategy.AUTOMATIC
     ) {
         val glidePosition = position ?: GlideCorner.Position.All
         val options = if (corner == null) {
@@ -32,15 +34,18 @@ object ImageViewBindingAdapter {
         } else {
             RequestOptions().transform(CenterCrop(), GlideCorner(corner, glidePosition))
         }
-
         requestOptions?.let { options.apply(it) }
 
-        view.loadUrl(imageUrl, options, placeholder)
+        if (cacheMode == null) {
+            view.loadUrl(imageUrl, options, placeholder, DiskCacheStrategy.AUTOMATIC)
+        } else {
+            view.loadUrl(imageUrl, options, placeholder, cacheMode)
+        }
     }
 
     @JvmStatic
     @BindingAdapter(
-        value = ["imageUrl", "placeHolder", "glideCorner", "glideCornerPosition", "glideOptions"],
+        value = ["imageUrl", "placeHolder", "glideCorner", "glideCornerPosition", "glideOptions", "cacheMode"],
         requireAll = false
     )
     fun loadImage(
@@ -49,7 +54,8 @@ object ImageViewBindingAdapter {
         placeholder: Drawable?,
         corner: Int?,
         position: GlideCorner.Position? = GlideCorner.Position.All,
-        requestOptions: RequestOptions? = RequestOptions.centerCropTransform()
+        requestOptions: RequestOptions? = RequestOptions.centerCropTransform(),
+        cacheMode: DiskCacheStrategy? = DiskCacheStrategy.AUTOMATIC
     ) {
 
         val glidePosition = position ?: GlideCorner.Position.All
@@ -61,7 +67,7 @@ object ImageViewBindingAdapter {
 
         requestOptions?.let { options.apply(it) }
 
-        view.loadUrl(uri, options, placeholder)
+        view.loadUrl(uri, options, placeholder, cacheMode ?: DiskCacheStrategy.AUTOMATIC)
     }
 
     @JvmStatic
