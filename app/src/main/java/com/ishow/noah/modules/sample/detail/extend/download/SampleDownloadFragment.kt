@@ -7,7 +7,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.core.content.FileProvider
-import com.ishow.common.extensions.toJSON
+import com.arialyy.annotations.Download
+import com.arialyy.aria.core.Aria
+import com.ishow.common.extensions.toast
 import com.ishow.common.utils.download.DownloadManager
 import com.ishow.common.utils.download.DownloadStatusInfo
 import com.ishow.common.utils.download.DownloadTask
@@ -22,9 +24,10 @@ import java.io.File
  * Created by yuhaiyang on 2020-03-05.
  */
 class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDownloadViewModel>() {
-    private val url = "http://file.hiqidi.com/version-update/guanwang/adunpai.apk"
+    private val url2 = "http://file.hiqidi.com/version-update/guanwang/adunpai.apk"
+
     //private val url = "https://adunpai.com/version-update1/1.1.1/guanwang/adunpai.apk"
-    private val url2 = "https://imtt.dd.qq.com/16891/apk/A9CF9330B8F98FDA0702745A0EA2BDFC.apk"
+    private val url = "https://imtt.dd.qq.com/16891/apk/A9CF9330B8F98FDA0702745A0EA2BDFC.apk"
     override fun getLayout(): Int = R.layout.f_sample_download
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -33,6 +36,10 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
         download2.setOnClickListener { download2() }
         download3.setOnClickListener { download3() }
         download4.setOnClickListener { download4() }
+        downloadOthers.setOnClickListener { downloadOthers() }
+
+        // 进行注册
+        Aria.download(this).register()
     }
 
     private fun download1() {
@@ -46,7 +53,8 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
                 .savePath(requireContext().getExternalFilesDir("apk")!!.absolutePath)
                 .setOnProgressListener { current, total -> update1(current, total, start) }
                 .setOnStatusChangedListener {
-                    installApp(it) }
+                    installApp(it)
+                }
                 .start()
         } catch (e: Exception) {
             Log.e("yhy", "download1: e = $e")
@@ -62,21 +70,22 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
 
 
     private var task2: DownloadTask? = null
+
+    @Synchronized
     private fun download2() {
         val start = System.currentTimeMillis()
-        if (task2 != null) {
-            task2?.pause()
-            return
+        if (task2?.isDownloading == true) {
+            toast("task2 is downloading")
         }
 
         task2 = DownloadManager.newTask()
             .url(url)
-            .threadNumber(3)
-            .saveName("weixin3.apk")
+            .threadNumber(2)
+            .saveName("weixin2.apk")
             .savePath(requireContext().getExternalFilesDir("apk")!!.absolutePath)
             .setOnProgressListener { current, total -> update2(current, total, start) }
             .setOnStatusChangedListener { installApp(it) }
-            .resume()
+            .start()
     }
 
     private fun update2(current: Long, total: Long, startTime: Long) {
@@ -88,10 +97,10 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
     private var task3: DownloadTask? = null
     private fun download3() {
         val start = System.currentTimeMillis()
-        if (task3 != null) {
-            task3?.pause()
+        if (task3?.isDownloading == true) {
             return
         }
+
         task3 = DownloadManager.newTask()
             .url(url)
             .threadNumber(3)
@@ -121,11 +130,45 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
             .start()
     }
 
-    private fun update4(current: Long, total: Long, startTime: Long) {
+    private fun update4(current: Long, total: Long, startTime: Long) = mainThread {
         val time = (System.currentTimeMillis() - startTime) / 1000
         val text = "下载进度：${current / total.toFloat()}, 耗时：$time"
         mainThread { status4.text = text }
     }
+
+
+    private var downloadOthersStart = 0L
+    private fun downloadOthers() {
+        downloadOthersStart = System.currentTimeMillis()
+
+        val path = requireContext().getExternalFilesDir("apk")!!
+        val file = File(path, "wx_others_${System.currentTimeMillis()}.apk")
+
+        Aria.download(this)
+            .load(url) //读取下载地址
+            .setFilePath(file.absolutePath)
+            .create()
+    }
+
+    @Download.onTaskRunning
+    protected fun running(task: com.arialyy.aria.core.task.DownloadTask) {
+        Log.i(TAG, "running: task = " + task.percent)
+
+        updateOthers(task.percent)
+    }
+
+    @Download.onTaskComplete
+    protected fun comlete(task: com.arialyy.aria.core.task.DownloadTask) {
+        Log.i(TAG, "comlete: ------")
+        updateOthers(100)
+    }
+
+    private fun updateOthers(current: Int) = mainThread {
+        val time = (System.currentTimeMillis() - downloadOthersStart) / 1000
+        val text = "下载进度：${current}, 耗时：$time"
+        mainThread { statusOthers.text = text }
+    }
+
 
     private fun installApp(info: DownloadStatusInfo) {
         val file = info.file

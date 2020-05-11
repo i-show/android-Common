@@ -76,5 +76,20 @@
             android:text="@string/agree"
             android:textColor="@color/blue_500"
             android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/downloadOthers"
+            style="@style/AppTextView.Sample"
+            android:layout_marginTop="20dp"
+            android:text="其他下载框架" />
+
+        <TextView
+            android:id="@+id/statusOthers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/agree"
+            android:textColor="@color/blue_500"
+            android:textSize="14sp" />
     </LinearLayout>
 </layout>
