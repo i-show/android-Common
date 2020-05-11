@@ -151,14 +151,13 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
     }
 
     @Download.onTaskRunning
-    protected fun running(task: com.arialyy.aria.core.task.DownloadTask) {
+    fun running(task: com.arialyy.aria.core.task.DownloadTask) {
         Log.i(TAG, "running: task = " + task.percent)
-
         updateOthers(task.percent)
     }
 
     @Download.onTaskComplete
-    protected fun comlete(task: com.arialyy.aria.core.task.DownloadTask) {
+    fun complete(task: com.arialyy.aria.core.task.DownloadTask) {
         Log.i(TAG, "comlete: ------")
         updateOthers(100)
     }
