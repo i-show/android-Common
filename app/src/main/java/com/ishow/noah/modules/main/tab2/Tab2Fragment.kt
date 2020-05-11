@@ -1,31 +1,17 @@
 package com.ishow.noah.modules.main.tab2
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-
 import com.ishow.noah.R
-import com.ishow.noah.modules.base.AppBaseFragment
-import com.ishow.common.widget.StatusView
-import kotlinx.android.synthetic.main.fragment_tab_2.*
+import com.ishow.noah.databinding.FTab2Binding
+import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 
 /**
- * Created by yuhaiyang on 2017/4/21.
- * Home Fragment
+ * Created by yuhaiyang on 2020-05-11.
  */
+class Tab2Fragment : AppBindFragment<FTab2Binding, Tab2ViewModel>() {
 
-class Tab2Fragment : AppBaseFragment() {
+    override fun getLayout(): Int = R.layout.f_tab2
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_tab_2, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        statusView.showLoading()
-        set.setOnClickListener { test.text = System.currentTimeMillis().toString() }
-    }
 
     companion object {
 

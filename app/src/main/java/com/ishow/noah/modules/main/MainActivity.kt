@@ -24,7 +24,6 @@ import android.os.Bundle
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.ishow.common.utils.ToastUtils
 import com.ishow.common.widget.BottomBar
@@ -66,6 +65,7 @@ class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
 
         tab1Fragment = HomeFragment.newInstance()
         fragmentList.add(tab1Fragment!!)
+
         tab2Fragment = Tab2Fragment.newInstance()
         fragmentList.add(tab2Fragment!!)
         tab3Fragment = Tab3Fragment.newInstance()
@@ -76,7 +76,7 @@ class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
         viewPager.isUserInputEnabled = false
         viewPager.offscreenPageLimit = 3
         viewPager.adapter = object : FragmentStateAdapter(this) {
-            override fun getItemCount(): Int = 4
+            override fun getItemCount(): Int = fragmentList.size
 
             override fun createFragment(position: Int): Fragment {
                 return fragmentList[position]
