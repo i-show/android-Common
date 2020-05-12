@@ -15,7 +15,7 @@
     <!--请求安装APK-->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <application
-        android:name=".AppApplication"
+        android:name=".App"
         android:allowBackup="true"
         android:icon="${APP_ICON}"
         android:label="${APP_NAME}"

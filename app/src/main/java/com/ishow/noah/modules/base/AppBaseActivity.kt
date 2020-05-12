@@ -1,13 +1,11 @@
 package com.ishow.noah.modules.base
 
 import android.app.Dialog
-import android.view.View
-import android.view.ViewGroup
 import com.baidu.mobstat.StatService
 import com.ishow.common.app.activity.BaseActivity
 import com.ishow.common.extensions.fullWindow
 import com.ishow.common.widget.watermark.WaterMarkView
-import com.ishow.noah.AppApplication
+import com.ishow.noah.App
 import com.ishow.noah.manager.VersionManager
 import com.ishow.noah.ui.widget.dialog.VersionDialog
 
@@ -26,8 +24,8 @@ abstract class AppBaseActivity : BaseActivity() {
      * 获取应用的Application
      */
     @Suppress("unused")
-    protected val appApplication: AppApplication
-        get() = application as AppApplication
+    protected val appApplication: App
+        get() = application as App
 
 
     override fun initViews() {
