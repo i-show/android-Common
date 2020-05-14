@@ -45,7 +45,7 @@ class RegisterViewModel(application: Application) : AppBaseViewModel(application
         GlobalScope.launch {
             val accountModel = AccountModel()
             val result: AppHttpResponse<UserContainer> = requestResponse { accountModel.register(params) }
-            if (result.isSuccess()) {
+            if (result.isSuccess) {
                 UserManager.instance.setUserContainer(result.data)
                 showSuccess()
             } else {

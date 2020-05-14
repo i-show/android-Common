@@ -50,7 +50,7 @@ class ForgotPasswordViewModel(application: Application) : AppBaseViewModel(appli
         GlobalScope.launch {
             val accountModel = AccountModel()
             val result: AppHttpResponse<Any> = requestResponse { accountModel.forgotPassword(params) }
-            if (result.isSuccess()) {
+            if (result.isSuccess) {
                 mainThread { _resetState.value = Event(true) }
                 StorageUtils.save(UserContainer.Key.ACCOUNT, phone)
             } else {

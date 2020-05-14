@@ -38,7 +38,7 @@ open class Pull2RefreshViewModel<T>(app: Application) : AppBaseViewModel(app) {
 
 
     private fun parseResult(result: AppPageResponse<T>, page: Int, showLoading: Boolean = false) {
-        if (result.isSuccess()) {
+        if (result.isSuccess) {
             parseSuccessResult(result, page, showLoading)
         } else {
             parseFailedResult(result, page, showLoading)

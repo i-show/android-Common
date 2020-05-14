@@ -5,11 +5,8 @@ open class AppHttpResponse<T> {
     var message: String? = null
     var data: T? = null
 
-    fun isSuccess() = code == Code.Success
-
-    override fun toString(): String {
-        return "AppHttpResponse(code=$code, message=$message, data=$data)"
-    }
+    val isSuccess: Boolean
+        get() = code == Code.Success
 
     companion object {
 

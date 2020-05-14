@@ -17,7 +17,7 @@ class UserTask : ITask {
         AppHttpInterceptor.token = accessToken
         val result = AccountModel().loginByToken()
 
-        status = if (result.isSuccess()) {
+        status = if (result.isSuccess) {
             UserManager.instance.setUserContainer(result.data)
             Status.LoginSuccess
         } else {

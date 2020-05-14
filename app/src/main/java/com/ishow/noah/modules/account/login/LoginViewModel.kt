@@ -45,7 +45,7 @@ class LoginViewModel(application: Application) : AppBaseViewModel(application) {
      */
     fun login(phone: String, password: String) = GlobalScope.launch {
         val result: AppHttpResponse<UserContainer> = requestResponse { accountModel.login(phone, password) }
-        if (result.isSuccess()) {
+        if (result.isSuccess) {
             saveUserInfo(phone)
             UserManager.instance.setUserContainer(result.data)
             showSuccess()

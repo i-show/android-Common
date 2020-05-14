@@ -29,7 +29,7 @@ abstract class AppBaseViewModel(application: Application) : BaseViewModel(applic
         
         if (autoDismiss) loading?.let { dismissLoading(it) }
 
-        if (!result.isSuccess()) {
+        if (!result.isSuccess) {
             error?.let {
                 it.message = result.message
                 showError(it)
@@ -53,7 +53,7 @@ abstract class AppBaseViewModel(application: Application) : BaseViewModel(applic
         val result: AppHttpResponse<T> = block()
         if (autoDismiss) dismissLoading()
 
-        return if (result.isSuccess()) {
+        return if (result.isSuccess) {
             result.data
         } else {
             if (toastError) toast(result.message)
