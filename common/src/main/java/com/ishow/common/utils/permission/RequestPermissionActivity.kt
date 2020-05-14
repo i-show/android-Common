@@ -3,9 +3,11 @@ package com.ishow.common.utils.permission
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.ishow.common.app.activity.BaseActivity
+import com.ishow.common.extensions.fullWindow
 import com.ishow.common.extensions.toJSON
 
 /**
@@ -77,6 +79,12 @@ class RequestPermissionActivity : BaseActivity() {
         val manager = LocalBroadcastManager.getInstance(this)
         manager.sendBroadcast(intent)
         finish()
+    }
+
+    override fun resetStatusBar() {
+        super.resetStatusBar()
+        val result = window.decorView.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        fullWindow(result != 0)
     }
 
     companion object {

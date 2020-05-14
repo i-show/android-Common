@@ -34,11 +34,15 @@ import com.ishow.common.extensions.getDimensionPixelSize
 
 class ColorDecoration : RecyclerView.ItemDecoration {
 
-    private var mDividerPaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.DITHER_FLAG)
-    private var mDividerHeight: Int
+    private var dividerPaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.DITHER_FLAG)
+    private var dividerHeight: Int
 
-    private var mPaddingStart: Int = 0
-    private var mPaddingEnd: Int = 0
+    private var paddingStart: Int = 0
+    private var paddingEnd: Int = 0
+
+    // only for grid
+    private var paddingTop: Int = 0
+    private var paddingBottom: Int = 0
 
     /**
      * 是否显示最后的Diver
@@ -48,34 +52,50 @@ class ColorDecoration : RecyclerView.ItemDecoration {
 
     @JvmOverloads
     constructor(context: Context, @ColorRes color: Int = R.color.line, @Px height: Int = 1) {
-        mDividerPaint.color = context.findColor(color)
-        mDividerPaint.strokeWidth = height.toFloat()
-        mDividerHeight = height
+        dividerPaint.color = context.findColor(color)
+        dividerPaint.strokeWidth = height.toFloat()
+        dividerHeight = height
     }
 
 
     @JvmOverloads
     constructor(color: Int = 0XFFC2CADC.toInt(), @Px height: Int = 1) {
-        mDividerPaint.color = color
-        mDividerPaint.strokeWidth = height.toFloat()
-        mDividerHeight = height
+        dividerPaint.color = color
+        dividerPaint.strokeWidth = height.toFloat()
+        dividerHeight = height
     }
 
     /**
      * 设置Padding的值
      * @param start dp值
      * @param end dp值
-     * 注意：Padding只对LinearLayout有效
      */
     fun setPadding(start: Int, end: Int) {
-        mPaddingStart = start.dp2px()
-        mPaddingEnd = end.dp2px()
+        paddingStart = start.dp2px()
+        paddingEnd = end.dp2px()
     }
 
     fun setPaddingRes(context: Context, start: Int, end: Int) {
-        mPaddingStart = context.getDimensionPixelSize(start)
-        mPaddingEnd = context.getDimensionPixelSize(end)
+        paddingStart = context.getDimensionPixelSize(start)
+        paddingEnd = context.getDimensionPixelSize(end)
     }
+
+
+    /**
+     * 设置Padding的值
+     * @param start dp值
+     * @param end dp值
+     */
+    fun setPaddingVertical(top: Int, bottom: Int) {
+        paddingTop = top.dp2px()
+        paddingBottom = bottom.dp2px()
+    }
+
+    fun setPaddingVerticalRes(context: Context, top: Int, bottom: Int) {
+        paddingTop = context.getDimensionPixelSize(top)
+        paddingBottom = context.getDimensionPixelSize(bottom)
+    }
+
 
     override fun onDraw(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         super.onDraw(canvas, parent, state)
@@ -110,7 +130,7 @@ class ColorDecoration : RecyclerView.ItemDecoration {
      */
     private fun offsetGridLayout(parent: RecyclerView, child: View, outRect: Rect) {
         val adapter = parent.adapter ?: return
-        val spacing = mDividerHeight
+        val spacing = dividerHeight
         val position = parent.getChildAdapterPosition(child)
         val spanCount = getSpanCount(parent)
         val childCount = adapter.itemCount
@@ -143,9 +163,9 @@ class ColorDecoration : RecyclerView.ItemDecoration {
         if (!showLastDivider && position == count - 1) {
             outRect.set(0, 0, 0, 0)
         } else if (layoutManager.orientation == LinearLayoutManager.VERTICAL) {
-            outRect.set(0, 0, 0, mDividerHeight)
+            outRect.set(0, 0, 0, dividerHeight)
         } else {
-            outRect.set(0, 0, mDividerHeight, 0)
+            outRect.set(0, 0, dividerHeight, 0)
         }
     }
 
@@ -160,29 +180,29 @@ class ColorDecoration : RecyclerView.ItemDecoration {
     }
 
     private fun drawLinearLayoutHorizontal(canvas: Canvas, parent: RecyclerView) {
-        val top = parent.paddingTop + mPaddingStart
-        val bottom = parent.height - parent.paddingBottom - mPaddingEnd
+        val top = parent.paddingTop + paddingStart
+        val bottom = parent.height - parent.paddingBottom - paddingEnd
 
         val childCount = if (showLastDivider) parent.childCount else parent.childCount - 1
         for (i in 0 until childCount) {
             val child = parent.getChildAt(i)
             val params = child.layoutParams as RecyclerView.LayoutParams
-            val x = child.right + params.rightMargin + mDividerHeight / 2F
-            canvas.drawLine(x, top.toFloat(), x, bottom.toFloat(), mDividerPaint)
+            val x = child.right + params.rightMargin + dividerHeight / 2F
+            canvas.drawLine(x, top.toFloat(), x, bottom.toFloat(), dividerPaint)
         }
     }
 
     private fun drawLinearLayoutVertical(canvas: Canvas, parent: RecyclerView) {
-        val left = parent.paddingLeft + mPaddingStart
-        val right = parent.width - parent.paddingRight - mPaddingEnd
+        val left = parent.paddingLeft + paddingStart
+        val right = parent.width - parent.paddingRight - paddingEnd
 
         val childCount = if (showLastDivider) parent.childCount else parent.childCount - 1
         for (i in 0 until childCount) {
             val child = parent.getChildAt(i)
             val params = child.layoutParams as RecyclerView.LayoutParams
             val top = child.bottom + params.bottomMargin
-            val y = top + mDividerHeight / 2F
-            canvas.drawLine(left.toFloat(), y, right.toFloat(), y, mDividerPaint)
+            val y = top + dividerHeight / 2F
+            canvas.drawLine(left.toFloat(), y, right.toFloat(), y, dividerPaint)
         }
     }
 
@@ -191,35 +211,35 @@ class ColorDecoration : RecyclerView.ItemDecoration {
      */
     private fun drawGridLayout(canvas: Canvas, parent: RecyclerView) {
         parent.adapter ?: return
-        drawGridLayoutHorizontal(canvas, parent)
         drawGridLayoutVertical(canvas, parent)
+        drawGridLayoutHorizontal(canvas, parent)
     }
 
-    private fun drawGridLayoutHorizontal(canvas: Canvas, parent: RecyclerView) {
-        val spacing = mDividerHeight / 2F
+    private fun drawGridLayoutVertical(canvas: Canvas, parent: RecyclerView) {
+        val spacing = dividerHeight / 2F
         val childCount = parent.childCount
         for (i in 0 until childCount) {
             val child = parent.getChildAt(i)
             val params = child.layoutParams as RecyclerView.LayoutParams
             val x = child.right + params.rightMargin + spacing
-            val top = child.top - params.topMargin
-            val bottom = child.bottom + params.bottomMargin
-            canvas.drawLine(x, top.toFloat(), x, bottom.toFloat(), mDividerPaint)
+            val top = child.top - params.topMargin + paddingTop
+            val bottom = child.bottom + params.bottomMargin - paddingBottom
+            canvas.drawLine(x, top.toFloat(), x, bottom.toFloat(), dividerPaint)
         }
     }
 
-    private fun drawGridLayoutVertical(canvas: Canvas, parent: RecyclerView) {
-        val spacing = mDividerHeight / 2F
+    private fun drawGridLayoutHorizontal(canvas: Canvas, parent: RecyclerView) {
+        val spacing = dividerHeight / 2F
         val childCount = parent.childCount
         for (i in 0 until childCount) {
             val child = parent.getChildAt(i)
 
             val params = child.layoutParams as RecyclerView.LayoutParams
-            val left = child.left - params.leftMargin
-            val right = child.right + params.rightMargin
+            val left = child.left - params.leftMargin + paddingStart
+            val right = child.right + params.rightMargin - paddingEnd
             val y = child.bottom + params.bottomMargin + spacing
 
-            canvas.drawLine(left.toFloat(), y, right.toFloat(), y, mDividerPaint)
+            canvas.drawLine(left.toFloat(), y, right.toFloat(), y, dividerPaint)
         }
     }
 

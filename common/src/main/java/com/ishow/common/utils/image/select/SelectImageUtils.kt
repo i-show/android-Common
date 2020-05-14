@@ -161,7 +161,7 @@ class SelectImageUtils(private val activity: Activity, @param:SelectMode private
     private fun showSelectDialog() {
         if (selectDialog == null) {
             selectDialog = BaseDialog.Builder(activity, R.style.Theme_Dialog_Bottom)
-                .setNegativeButton(R.string.cancel, null)
+                .setNegativeButton(R.string.cancel)
                 .fromBottom(true)
                 .setItems(R.array.select_photos) { dialog, which -> onClick(dialog, which) }
                 .setOnDismissListener(this)
