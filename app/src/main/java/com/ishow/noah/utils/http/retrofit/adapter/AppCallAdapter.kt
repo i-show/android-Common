@@ -13,7 +13,7 @@ import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
 @Suppress("UNCHECKED_CAST")
-class AppCallAdapter<R>(private val type: Type, private val rawType: Class<*>) : CallAdapter<R, R> {
+class AppCallAdapter<R :AppHttpResponse<*>>(private val type: Type, private val rawType: Class<*>) : CallAdapter<R, R> {
 
     override fun responseType() = type
 

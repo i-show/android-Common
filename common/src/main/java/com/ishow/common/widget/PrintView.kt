@@ -9,6 +9,7 @@ import android.widget.TextView
 import com.ishow.common.R
 import com.ishow.common.extensions.dp2px
 import com.ishow.common.extensions.findColor
+import com.ishow.common.extensions.mainThread
 import com.ishow.common.extensions.sp2px
 import com.ishow.common.utils.log.LogUtils
 import kotlinx.coroutines.*
@@ -21,14 +22,17 @@ class PrintView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
     ScrollViewPro(context, attrs, defStyleAttr) {
 
     private var showJob: Job? = null
+
     /**
      * TextQueue 队列
      */
     private var textQueue = mutableListOf<String>()
+
     /**
      * 上一次展示的Log
      */
     private var lastLog: String? = null
+
     /**
      * 是否在打印
      */
@@ -124,11 +128,11 @@ class PrintView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             this.worker = worker
         }
 
-        fun print(log: String?) {
+        fun print(log: String?) = mainThread {
             print(TAG, log)
         }
 
-        fun print(tag: String, log: String?) {
+        fun print(tag: String, log: String?) = mainThread {
             worker?.add(log)
             LogUtils.i(tag, log)
         }

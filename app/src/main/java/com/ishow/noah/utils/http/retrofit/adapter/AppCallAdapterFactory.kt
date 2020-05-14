@@ -9,14 +9,16 @@ import java.lang.reflect.Type
 
 class AppCallAdapterFactory : CallAdapter.Factory() {
 
-
+    @Suppress("MoveVariableDeclarationIntoWhen")
     override fun get(returnType: Type, annotations: Array<Annotation>, retrofit: Retrofit): CallAdapter<*, *>? {
-        val rawType: Class<*> = getRawType(returnType)
-        if (rawType != AppHttpResponse::class.java &&
-            rawType != AppListResponse::class.java &&
-            rawType != AppPageResponse::class.java
-        ) return null
-        return AppCallAdapter<Any>(returnType, rawType)
+        val rawType = getRawType(returnType)
+        return when (rawType) {
+            AppHttpResponse::class.java,
+            AppListResponse::class.java,
+            AppPageResponse::class.java -> AppCallAdapter<AppHttpResponse<*>>(returnType, rawType)
+            else -> null
+        }
+
     }
 
     companion object {
