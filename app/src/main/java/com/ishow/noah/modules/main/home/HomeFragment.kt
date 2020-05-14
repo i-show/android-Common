@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import com.ishow.common.extensions.toJSON
+import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.widget.PrintView
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FHomeBinding
-import com.ishow.noah.entries.User
 import com.ishow.noah.modules.account.common.AccountModel
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 import kotlinx.android.synthetic.main.f_home.*
@@ -40,6 +40,13 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
     override fun initViewModel(vm: HomeViewModel) {
         super.initViewModel(vm)
         vm.test2.observe(this, Observer { PrintView.print(it.toString()) })
+    }
+
+    override fun onRightClick(v: View) {
+        super.onRightClick(v)
+        AppRouter.with(context)
+            .action("com.yuhaiyang.androidcommon.Test")
+            .start()
     }
 
     companion object {

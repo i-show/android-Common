@@ -71,14 +71,6 @@
         <activity
             android:name=".modules.settings.SettingsActivity"
             android:screenOrientation="portrait" />
-        <!--菜单界面-->
-        <activity
-            android:name=".modules.egg.EggActivity"
-            android:screenOrientation="portrait" />
-        <!--菜单界面-->
-        <activity
-            android:name=".modules.egg.detail.EggAppInfoActivity"
-            android:screenOrientation="portrait" />
 
         <activity
             android:name=".modules.base.ExitAppActivity"

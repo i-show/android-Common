@@ -32,7 +32,7 @@ class SamplePull2RefreshFragment : Pull2RefreshFragment<FSamplePull2refreshBindi
         pull2refresh.setFooter(footer)
     }
 
-    override fun loadData(v: View, pager: Int, refresh: Boolean) {
+    override fun onLoadData(v: View, pager: Int, refresh: Boolean) {
         dataBinding.vm?.getData(pager)
     }
 

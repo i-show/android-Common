@@ -302,7 +302,6 @@ class AppRouter private constructor() {
          */
         private val sRouteTime = LRUCache<String, Long>(MAX_ROUTER_CACHE_SIZE)
 
-
         fun setConfigure(custom: AbsRouterConfigure) {
             config = custom
         }

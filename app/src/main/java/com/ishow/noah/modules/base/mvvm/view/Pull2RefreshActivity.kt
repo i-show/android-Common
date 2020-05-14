@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import com.ishow.common.utils.databinding.bus.Event
 import com.ishow.common.widget.pulltorefresh.OnPullToRefreshListener
 import com.ishow.common.widget.pulltorefresh.PullToRefreshView
+import com.ishow.common.widget.pulltorefresh.headers.google.GoogleStyleHeader
 import com.ishow.noah.R
 import com.ishow.noah.modules.base.mvvm.viewmodel.Pull2RefreshViewModel
 import com.ishow.noah.modules.base.mvvm.viewmodel.Pull2RefreshViewModel.Pull2RefreshStatus
@@ -14,8 +15,7 @@ import com.ishow.noah.modules.base.mvvm.viewmodel.Pull2RefreshViewModel.Pull2Ref
  * Created by yuhaiyang on 2019-09-15.
  * 上拉加载更多下拉刷新的View
  */
-abstract class Pull2RefreshActivity<T : ViewDataBinding, VM : Pull2RefreshViewModel<*>> : AppBindActivity<T, VM>(),
-    OnPullToRefreshListener {
+abstract class Pull2RefreshActivity<T : ViewDataBinding, VM : Pull2RefreshViewModel<*>> : AppBindActivity<T, VM>(), OnPullToRefreshListener {
 
     private var pull2refresh: PullToRefreshView? = null
     private var pager: Int = 1
@@ -23,6 +23,7 @@ abstract class Pull2RefreshActivity<T : ViewDataBinding, VM : Pull2RefreshViewMo
     override fun initViews() {
         super.initViews()
         pull2refresh = findViewById(R.id.pull2refresh)
+        pull2refresh?.setHeader(GoogleStyleHeader(this))
         pull2refresh?.setOnPullToRefreshListener(this)
     }
 
@@ -32,11 +33,11 @@ abstract class Pull2RefreshActivity<T : ViewDataBinding, VM : Pull2RefreshViewMo
     }
 
     override fun onRefresh(view: PullToRefreshView) {
-        loadData(view, 1, true)
+        onLoadData(view, 1, true)
     }
 
     override fun onLoadMore(view: PullToRefreshView) {
-        loadData(view, pager + 1, false)
+        onLoadData(view, pager + 1, false)
     }
 
     open fun onPull2RefreshStatusChanged(event: Event<Pull2RefreshStatus>) {
@@ -67,5 +68,7 @@ abstract class Pull2RefreshActivity<T : ViewDataBinding, VM : Pull2RefreshViewMo
 
     }
 
-    protected abstract fun loadData(v: View, pager: Int, refresh: Boolean)
+    protected open fun onLoadData(v: View, pager: Int, refresh: Boolean) {
+        vm?.onLoadData(v, pager, refresh)
+    }
 }

@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import com.ishow.common.utils.databinding.bus.Event
 import com.ishow.common.widget.pulltorefresh.OnPullToRefreshListener
 import com.ishow.common.widget.pulltorefresh.PullToRefreshView
+import com.ishow.common.widget.pulltorefresh.headers.google.GoogleStyleHeader
 import com.ishow.noah.R
 import com.ishow.noah.modules.base.mvvm.viewmodel.Pull2RefreshViewModel
 import com.ishow.noah.modules.base.mvvm.viewmodel.Pull2RefreshViewModel.Pull2RefreshStatus
@@ -24,6 +25,7 @@ abstract class Pull2RefreshFragment<T : ViewDataBinding, VM : Pull2RefreshViewMo
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         pull2refresh = view.findViewById(R.id.pull2refresh)
+        pull2refresh?.setHeader(GoogleStyleHeader(view.context))
         pull2refresh?.setOnPullToRefreshListener(this)
     }
 
@@ -33,11 +35,11 @@ abstract class Pull2RefreshFragment<T : ViewDataBinding, VM : Pull2RefreshViewMo
     }
 
     override fun onRefresh(view: PullToRefreshView) {
-        loadData(view, 1, true)
+        onLoadData(view, 1, true)
     }
 
     override fun onLoadMore(view: PullToRefreshView) {
-        loadData(view, pager + 1, false)
+        onLoadData(view, pager + 1, false)
     }
 
     open fun onPull2RefreshStatusChanged(event: Event<Pull2RefreshStatus>) {
@@ -68,5 +70,7 @@ abstract class Pull2RefreshFragment<T : ViewDataBinding, VM : Pull2RefreshViewMo
 
     }
 
-    protected abstract fun loadData(v: View, pager: Int, refresh: Boolean)
+    protected open fun onLoadData(v: View, pager: Int, refresh: Boolean) {
+        vm?.onLoadData(v, pager, refresh)
+    }
 }

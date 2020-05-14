@@ -1,6 +1,7 @@
 package com.ishow.noah.modules.base.mvvm.viewmodel
 
 import android.app.Application
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ishow.common.entries.status.Error
@@ -27,6 +28,10 @@ open class Pull2RefreshViewModel<T>(app: Application) : AppBaseViewModel(app) {
     private val _pull2refreshData = MutableLiveData<MutableList<T>>()
     val pull2refreshData: LiveData<MutableList<T>>
         get() = _pull2refreshData
+
+    open fun onLoadData(v: View, pager: Int, refresh: Boolean) {
+
+    }
 
     fun pull2refresh(page: Int = DEFAULT_START_PAGE, loading: Boolean = true, block: () -> AppPageResponse<T>) {
         val showLoading = loading && page == DEFAULT_START_PAGE
@@ -79,7 +84,7 @@ open class Pull2RefreshViewModel<T>(app: Application) : AppBaseViewModel(app) {
     private fun parseFailedResult(result: AppPageResponse<T>, page: Int, showLoading: Boolean = false) {
         if (page == DEFAULT_START_PAGE) {
             _pull2refreshStatus.value = Event(Pull2RefreshStatus.RefreshFailed)
-            if(showLoading) showError(Error.view())
+            if (showLoading) showError(Error.view())
         } else {
             _pull2refreshStatus.value = Event(Pull2RefreshStatus.LoadMoreFailed)
         }
