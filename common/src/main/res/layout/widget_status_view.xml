@@ -31,7 +31,6 @@
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/gap_grade_3"
         android:contentDescription="@null"
         android:scaleType="centerInside" />
 
@@ -40,7 +39,6 @@
         style="@style/SpinKitView.Wave"
         android:layout_width="@dimen/dp_48"
         android:layout_height="@dimen/dp_48"
-        android:layout_marginBottom="@dimen/gap_grade_3"
         android:contentDescription="@null"
         app:spinKitColor="@color/color_accent" />
 
@@ -60,8 +58,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:paddingTop="@dimen/gap_grade_1"
-        android:paddingBottom="@dimen/gap_grade_4"
         android:text="@string/load_data_failed_tip"
         android:textColor="@color/text_grey_light_more"
         android:textSize="@dimen/J_title" />

@@ -24,6 +24,14 @@ fun View.setPaddingVertical(value: Int) {
     setPadding(paddingStart, value, paddingEnd, value)
 }
 
+fun View.setMarginTop(value: Int) {
+    val layoutParams = layoutParams
+    if (layoutParams is ViewGroup.MarginLayoutParams) {
+        layoutParams.topMargin = value
+        this.layoutParams = layoutParams
+    }
+}
+
 /**
  * 获取字符串
  */

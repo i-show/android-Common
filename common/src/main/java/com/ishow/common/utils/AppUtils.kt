@@ -24,15 +24,18 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.text.TextUtils
 import androidx.annotation.RequiresApi
+import com.ishow.common.app.provider.InitCommonProvider
 
 import java.util.HashMap
 
 object AppUtils {
     private const val TAG = "AppUtils"
+
     /**
      * 缓存的version code 的key值
      */
     const val VERSION_CODE = "cache_saved_version_code"
+
     /**
      * 缓存的version name 的key值
      */
@@ -157,5 +160,19 @@ object AppUtils {
             apps[resolveInfo.activityInfo.packageName] = title
         }
         return apps
+    }
+
+    fun isInstall(pkgName: String?): Boolean {
+        if (pkgName == null || pkgName.isEmpty()) {
+            return false
+        }
+
+        return try {
+            InitCommonProvider.app.packageManager.getPackageInfo(pkgName, 0)
+            true
+        } catch (e: PackageManager.NameNotFoundException) {
+            false
+
+        }
     }
 }

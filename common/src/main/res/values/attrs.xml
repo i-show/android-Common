@@ -407,27 +407,41 @@
     <attr name="loadingText" format="string" />
     <attr name="loadingTextSize" format="dimension" />
     <attr name="loadingTextColor" format="color" />
+    <attr name="loadingTextMarginTop" format="dimension" />
     <attr name="loadingImage" format="reference" />
 
     <attr name="errorText" format="string" />
     <attr name="errorTextSize" format="dimension" />
     <attr name="errorTextColor" format="color" />
+    <attr name="errorTextMarginTop" format="dimension" />
+
     <attr name="errorSubText" format="string" />
     <attr name="errorSubTextSize" format="dimension" />
     <attr name="errorSubTextColor" format="color" />
+    <attr name="errorSubTextMarginTop" format="dimension" />
+    <attr name="errorSubTextVisibility">
+        <enum name="visible" value="0" />
+        <enum name="invisible" value="4" />
+        <enum name="gone" value="8" />
+    </attr>
+
     <attr name="errorImage" format="reference" />
 
     <attr name="emptyText" format="string" />
     <attr name="emptyTextColor" format="color" />
     <attr name="emptyTextSize" format="dimension" />
+    <attr name="emptyTextMarginTop" format="dimension" />
+
     <attr name="emptySubText" format="string" />
     <attr name="emptySubTextColor" format="color" />
     <attr name="emptySubTextSize" format="dimension" />
+    <attr name="emptySubTextMarginTop" format="dimension" />
     <attr name="emptyImage" format="reference" />
 
     <attr name="reloadText" format="string" />
     <attr name="reloadTextColor" format="color" />
     <attr name="reloadTextSize" format="dimension" />
+    <attr name="reloadTextMarginTop" format="dimension" />
     <attr name="reloadBackground" format="reference|color" />
 
     <attr name="promptText" format="string" />
@@ -822,27 +836,36 @@
         <attr name="loadingText" />
         <attr name="loadingTextSize" />
         <attr name="loadingTextColor" />
+        <attr name="loadingTextMarginTop" />
         <attr name="loadingImage" />
 
         <attr name="errorText" />
         <attr name="errorTextSize" />
         <attr name="errorTextColor" />
+        <attr name="errorTextMarginTop" />
+
         <attr name="errorSubText" />
         <attr name="errorSubTextSize" />
         <attr name="errorSubTextColor" />
+        <attr name="errorSubTextMarginTop" />
+        <attr name="errorSubTextVisibility" />
         <attr name="errorImage" />
 
         <attr name="emptyText" />
         <attr name="emptyTextColor" />
         <attr name="emptyTextSize" />
+        <attr name="emptyTextMarginTop" />
+
         <attr name="emptySubText" />
         <attr name="emptySubTextColor" />
         <attr name="emptySubTextSize" />
+        <attr name="emptySubTextMarginTop" />
         <attr name="emptyImage" />
 
         <attr name="reloadText" />
         <attr name="reloadTextColor" />
         <attr name="reloadTextSize" />
+        <attr name="reloadTextMarginTop" />
         <attr name="reloadBackground" />
 
         <attr name="interruptTouchEvent" />

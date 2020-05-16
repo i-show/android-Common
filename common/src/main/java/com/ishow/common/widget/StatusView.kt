@@ -35,6 +35,7 @@ import android.widget.TextView
 import androidx.annotation.FloatRange
 import androidx.core.content.ContextCompat
 import com.ishow.common.R
+import com.ishow.common.extensions.setMarginTop
 import com.ishow.common.utils.log.LogUtils
 import kotlinx.android.synthetic.main.widget_status_view.view.*
 
@@ -47,31 +48,39 @@ class StatusView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     var loadingText: String?
     var loadingTextColor: ColorStateList? = null
     var loadingTextSize: Int
+    var loadingTextMarginTop: Int
 
     @Suppress("MemberVisibilityCanBePrivate")
     var emptyDrawableId: Int
     var emptyText: String?
     var emptyTextColor: ColorStateList? = null
     var emptyTextSize: Int
+    var emptyTextMarginTop: Int
+
     var emptySubText: String?
     var emptySubTextColor: ColorStateList? = null
     var emptySubTextSize: Int
+    var emptySubTextMarginTop: Int
 
     @Suppress("MemberVisibilityCanBePrivate")
     var errorDrawableId: Int
     var errorText: String?
     var errorTextColor: ColorStateList? = null
     var errorTextSize: Int
+    var errorTextMarginTop: Int
 
     var errorSubText: String?
     var errorSubTextColor: ColorStateList? = null
     var errorSubTextSize: Int
+    var errorSubTextMarginTop: Int
+    var errorSubTextVisibility: Int
 
     @Suppress("MemberVisibilityCanBePrivate")
     var reloadTextBackground: Drawable?
     var reloadText: String?
     var reloadTextColor: ColorStateList? = null
     var reloadTextSize: Int
+    var reloadTextMarginTop: Int
 
     private val isInterruptTouchEvent: Boolean
     private val isTitleClickable: Boolean
@@ -85,6 +94,7 @@ class StatusView @JvmOverloads constructor(context: Context, attrs: AttributeSet
 
     private var loadingTagList: MutableList<String>? = null
     private var hasError: Boolean = false
+
     /**
      * 默认字体大小
      */
@@ -121,6 +131,9 @@ class StatusView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     private val defaultReloadTextColor: ColorStateList?
         get() = ContextCompat.getColorStateList(context, R.color.text_grey)
 
+
+    private val defaultReloadTextMarginTop = 0
+
     enum class Which {
         Title, SubTitle, Reload
     }
@@ -139,27 +152,36 @@ class StatusView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         loadingText = a.getString(R.styleable.StatusView_loadingText)
         loadingTextColor = a.getColorStateList(R.styleable.StatusView_loadingTextColor)
         loadingTextSize = a.getDimensionPixelSize(R.styleable.StatusView_loadingTextSize, defaultTextSize)
+        loadingTextMarginTop = a.getDimensionPixelSize(R.styleable.StatusView_loadingTextMarginTop, 0)
 
         emptyDrawableId = a.getResourceId(R.styleable.StatusView_emptyImage, -1)
         emptyText = a.getString(R.styleable.StatusView_emptyText)
         emptyTextColor = a.getColorStateList(R.styleable.StatusView_emptyTextColor)
         emptyTextSize = a.getDimensionPixelSize(R.styleable.StatusView_emptyTextSize, defaultTextSize)
+        emptyTextMarginTop = a.getDimensionPixelSize(R.styleable.StatusView_emptySubTextMarginTop, 0)
+
         emptySubText = a.getString(R.styleable.StatusView_emptySubText)
         emptySubTextColor = a.getColorStateList(R.styleable.StatusView_emptySubTextColor)
         emptySubTextSize = a.getDimensionPixelSize(R.styleable.StatusView_emptySubTextSize, defaultSubTextSize)
+        emptySubTextMarginTop = a.getDimensionPixelSize(R.styleable.StatusView_emptySubTextMarginTop, 0)
 
         errorDrawableId = a.getResourceId(R.styleable.StatusView_errorImage, -1)
         errorText = a.getString(R.styleable.StatusView_errorText)
         errorTextColor = a.getColorStateList(R.styleable.StatusView_errorTextColor)
         errorTextSize = a.getDimensionPixelSize(R.styleable.StatusView_errorTextSize, defaultTextSize)
+        errorTextMarginTop = a.getDimensionPixelSize(R.styleable.StatusView_errorTextMarginTop, 0)
+
         errorSubText = a.getString(R.styleable.StatusView_errorSubText)
         errorSubTextColor = a.getColorStateList(R.styleable.StatusView_errorSubTextColor)
         errorSubTextSize = a.getDimensionPixelSize(R.styleable.StatusView_errorSubTextSize, defaultSubTextSize)
+        errorSubTextMarginTop = a.getDimensionPixelSize(R.styleable.StatusView_errorSubTextMarginTop, 0)
+        errorSubTextVisibility = a.getInt(R.styleable.StatusView_errorSubTextVisibility, View.VISIBLE)
 
         reloadText = a.getString(R.styleable.StatusView_reloadText)
         reloadTextColor = a.getColorStateList(R.styleable.StatusView_reloadTextColor)
         reloadTextSize = a.getDimensionPixelSize(R.styleable.StatusView_reloadTextSize, defaultReloadTextSize)
         reloadTextBackground = a.getDrawable(R.styleable.StatusView_reloadBackground)
+        reloadTextMarginTop = a.getDimensionPixelSize(R.styleable.StatusView_reloadTextMarginTop, 0)
 
         isInterruptTouchEvent = a.getBoolean(R.styleable.StatusView_interruptTouchEvent, true)
         isTitleClickable = a.getBoolean(R.styleable.StatusView_titleClickable, false)
@@ -207,17 +229,25 @@ class StatusView @JvmOverloads constructor(context: Context, attrs: AttributeSet
 
         titleView.setTextColor(errorTextColor)
         titleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, errorTextSize.toFloat())
+        titleView.setMarginTop(errorTextMarginTop)
         setText(titleView, errorText)
+
         subTitleView.setTextColor(errorSubTextColor)
         subTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, errorSubTextSize.toFloat())
+        subTitleView.setMarginTop(errorSubTextMarginTop)
         setText(subTitleView, errorSubText)
+        subTitleView.visibility = errorSubTextVisibility
+
         reloadButton.setTextColor(reloadTextColor)
         reloadButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, reloadTextSize.toFloat())
         reloadButton.background = reloadTextBackground
+        reloadButton.setMarginTop(reloadTextMarginTop)
+
         setText(reloadButton, reloadText)
     }
 
     fun showLoading(loadingTag: String? = null) {
+        hasError = false
         loadingTag?.let {
             if (loadingTagList == null) {
                 loadingTagList = mutableListOf()
@@ -231,6 +261,7 @@ class StatusView @JvmOverloads constructor(context: Context, attrs: AttributeSet
 
         titleView.setTextColor(loadingTextColor)
         titleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, loadingTextSize.toFloat())
+        titleView.setMarginTop(loadingTextMarginTop)
         setText(titleView, loadingText)
 
         subTitleView.visibility = View.GONE
@@ -245,10 +276,12 @@ class StatusView @JvmOverloads constructor(context: Context, attrs: AttributeSet
 
         titleView.setTextColor(emptyTextColor)
         titleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, emptyTextSize.toFloat())
+        titleView.setMarginTop(emptyTextMarginTop)
         setText(titleView, emptyText)
 
         subTitleView.setTextColor(emptySubTextColor)
         subTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, emptySubTextSize.toFloat())
+        subTitleView.setMarginTop(emptySubTextMarginTop)
         setText(subTitleView, emptySubText)
 
         reloadButton.visibility = View.GONE
@@ -349,14 +382,17 @@ class StatusView @JvmOverloads constructor(context: Context, attrs: AttributeSet
 
     companion object {
         private const val TAG = "StatusView"
+
         /**
          * 正在加载
          */
         const val STATUS_LOADING = 1 shl 1
+
         /**
          * 加载失败
          */
         const val STATUS_ERROR = STATUS_LOADING + 1
+
         /**
          * 加载为空
          */
