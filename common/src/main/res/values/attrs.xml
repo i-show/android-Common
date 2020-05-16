@@ -1232,6 +1232,11 @@
         <attr name="strokeColor" />
     </declare-styleable>
 
+    <declare-styleable name="X5LoadingWebView">
+        <attr name="strokeHeight" />
+        <attr name="strokeColor" />
+    </declare-styleable>
+
     <declare-styleable name="LoopingViewPager">
         <attr name="widthRatio" />
         <attr name="heightRatio" />

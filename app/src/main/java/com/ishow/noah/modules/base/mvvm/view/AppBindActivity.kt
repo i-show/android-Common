@@ -1,6 +1,7 @@
 package com.ishow.noah.modules.base.mvvm.view
 
 import android.app.Dialog
+import android.view.View
 import androidx.databinding.ViewDataBinding
 import com.baidu.mobstat.StatService
 import com.ishow.common.app.mvvm.view.BindActivity
@@ -27,7 +28,7 @@ abstract class AppBindActivity<T : ViewDataBinding, VM : AppBaseViewModel> : Bin
      * 获取应用的Application
      */
     @Suppress("unused")
-    protected val appApplication: App
+    protected val app: App
         get() = application as App
 
 
@@ -67,7 +68,8 @@ abstract class AppBindActivity<T : ViewDataBinding, VM : AppBaseViewModel> : Bin
 
     override fun resetStatusBar() {
         super.resetStatusBar()
-        fullWindow()
+        val result = window.decorView.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        fullWindow(result != 0)
     }
 
     /**

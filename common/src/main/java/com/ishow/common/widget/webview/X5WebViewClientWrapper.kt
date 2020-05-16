@@ -1,20 +1,21 @@
 package com.ishow.common.widget.webview
 
 import android.graphics.Bitmap
-import android.net.http.SslError
 import android.os.Build
 import android.os.Message
 import android.view.KeyEvent
-import android.webkit.*
 import androidx.annotation.RequiresApi
+import com.tencent.smtt.export.external.interfaces.*
+import com.tencent.smtt.sdk.WebView
+import com.tencent.smtt.sdk.WebViewClient
 
 /**
  * Created by yuhaiyang on 2019-12-19.
  *
  */
 @Suppress("DEPRECATION")
-open class WebViewClientWrapper : WebViewClient() {
-    public var client: WebViewClient? = null
+open class X5WebViewClientWrapper : WebViewClient() {
+    var client: WebViewClient? = null
 
     override fun onPageFinished(view: WebView?, url: String?) {
         super.onPageFinished(view, url)
@@ -45,11 +46,6 @@ open class WebViewClientWrapper : WebViewClient() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O_MR1)
-    override fun onSafeBrowsingHit(view: WebView?, request: WebResourceRequest?, threatType: Int, callback: SafeBrowsingResponse?) {
-        super.onSafeBrowsingHit(view, request, threatType, callback)
-        client?.onSafeBrowsingHit(view, request, threatType, callback)
-    }
 
     override fun doUpdateVisitedHistory(view: WebView?, url: String?, isReload: Boolean) {
         super.doUpdateVisitedHistory(view, url, isReload)
@@ -67,14 +63,6 @@ open class WebViewClientWrapper : WebViewClient() {
         client?.onReceivedError(view, request, error)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun onRenderProcessGone(view: WebView?, detail: RenderProcessGoneDetail?): Boolean {
-        return if (client != null) {
-            client!!.onRenderProcessGone(view, detail)
-        } else {
-            return super.onRenderProcessGone(view, detail)
-        }
-    }
 
     override fun onReceivedLoginRequest(view: WebView?, realm: String?, account: String?, args: String?) {
         super.onReceivedLoginRequest(view, realm, account, args)
@@ -139,10 +127,12 @@ open class WebViewClientWrapper : WebViewClient() {
         client?.onReceivedHttpAuthRequest(view, handler, host, realm)
     }
 
+
     override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
         super.onReceivedSslError(view, handler, error)
         client?.onReceivedSslError(view, handler, error)
     }
+
 
     override fun onTooManyRedirects(view: WebView?, cancelMsg: Message?, continueMsg: Message?) {
         super.onTooManyRedirects(view, cancelMsg, continueMsg)

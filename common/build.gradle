@@ -109,4 +109,6 @@ dependencies {
     api "com.squareup.retrofit2:converter-gson:$versions.retrofit"
 
     api "com.google.code.gson:gson:$versions.gson"
+
+    api 'com.tencent.tbs.tbssdk:sdk:43903'
 }

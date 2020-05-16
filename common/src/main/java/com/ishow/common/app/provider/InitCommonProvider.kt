@@ -8,8 +8,7 @@ import android.net.Uri
 import android.util.Log
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.ishow.common.manager.LogManager
-import com.ishow.common.utils.StorageUtils
-import com.ishow.common.utils.download.DownloadManager
+import com.tencent.smtt.sdk.QbSdk
 
 /**
  * Created by yuhaiyang on 2019-10-17.
@@ -24,7 +23,7 @@ class InitCommonProvider : ContentProvider() {
             _app = context
             Fresco.initialize(context)
             LogManager.init(context)
-            DownloadManager.init(context)
+            QbSdk.initX5Environment(context, null)
         } else {
             Log.i(TAG, "InitCommonProvider not application")
         }
@@ -62,7 +61,7 @@ class InitCommonProvider : ContentProvider() {
         private const val TAG = "InitCommonProvider"
 
         private lateinit var _app: Application
-        val app
+        val app: Application
             get() = _app
     }
 

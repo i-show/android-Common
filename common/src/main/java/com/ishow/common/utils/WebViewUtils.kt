@@ -18,13 +18,15 @@ package com.ishow.common.utils
 
 import android.annotation.SuppressLint
 import android.webkit.WebSettings
-import android.webkit.WebView
+import com.tencent.smtt.sdk.WebView
 
 object WebViewUtils {
+
+
     @JvmStatic
     @JvmOverloads
     @SuppressLint("SetJavaScriptEnabled")
-    fun init(webView: WebView?, fitWindow: Boolean = true) {
+    fun init(webView: android.webkit.WebView?, fitWindow: Boolean = true) {
         if (webView == null) {
             return
         }
@@ -37,7 +39,7 @@ object WebViewUtils {
         // WebView 可以加载JavaScript
         settings.javaScriptEnabled = true
         //支持js
-        settings.javaScriptCanOpenWindowsAutomatically = true
+        // settings.javaScriptCanOpenWindowsAutomatically = true
         //设置编码
         settings.defaultTextEncodingName = "utf-8"
 
@@ -60,5 +62,46 @@ object WebViewUtils {
         // settings.useWideViewPort = fitWindow
 
         settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+    }
+
+    @JvmStatic
+    @JvmOverloads
+    @SuppressLint("SetJavaScriptEnabled")
+    fun init(webView: WebView?, fitWindow: Boolean = true) {
+        if (webView == null) {
+            return
+        }
+
+        val settings = webView.settings
+        // 自适应屏幕大小
+        settings.useWideViewPort = fitWindow
+        settings.loadWithOverviewMode = fitWindow
+
+        // WebView 可以加载JavaScript
+        settings.javaScriptEnabled = true
+        //支持js
+        // settings.javaScriptCanOpenWindowsAutomatically = true
+        //设置编码
+        settings.defaultTextEncodingName = "utf-8"
+
+        // 放大缩小
+        // settings.domStorageEnabled = fitWindow
+
+        // WebView 可以使用数据库
+        // settings.databaseEnabled = true
+        // settings.databasePath = databasePath
+
+        // 应用可以有缓存
+        // settings.setAppCacheEnabled(true);
+        // settings.setAppCachePath(cachePath);
+
+        // 设置可以支持缩放
+        // settings.setSupportZoom(fitWindow)
+        // 设置出现缩放工具
+        // settings.builtInZoomControls = fitWindow
+        // 为图片添加放大缩小功能
+        // settings.useWideViewPort = fitWindow
+
+        // settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
     }
 }

@@ -1,6 +1,7 @@
 package com.ishow.common.utils.download
 
 import android.content.Context
+import com.ishow.common.app.provider.InitCommonProvider
 import okhttp3.OkHttpClient
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
@@ -46,11 +47,7 @@ class DownloadManager private constructor() {
         val instance by lazy(LazyThreadSafetyMode.SYNCHRONIZED) { DownloadManager() }
         
         private const val DEFAULT_TIMEOUT = 60L
-        private var appContext: Context? = null
-
-        fun init(context: Context) {
-            appContext = context.applicationContext
-        }
+        private val appContext by lazy { InitCommonProvider.app.applicationContext }
 
         @JvmStatic
         fun newTask(): DownloadTask {

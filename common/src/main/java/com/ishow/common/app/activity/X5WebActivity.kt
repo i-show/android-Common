@@ -19,23 +19,24 @@ package com.ishow.common.app.activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.webkit.WebView
+import android.view.View
 import com.ishow.common.R
 import com.ishow.common.extensions.fullWindow
 import com.ishow.common.utils.WebViewUtils
+import com.tencent.smtt.sdk.WebView
 import kotlinx.android.synthetic.main.activity_base_only_web.*
 
 
 /**
  * 只有一个Webview的 Activity
- * Created by yuhaiyang on 2016/8/9.
+ * Created by yuhaiyang on 2020/05/16.
  */
-open class OnlyWebActivity : BaseActivity() {
+open class X5WebActivity : BaseActivity() {
     private var title: String? = null
     private var url: String? = null
-    private var isError: Boolean = false
 
     private var webView: WebView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(getLayout())
@@ -66,7 +67,7 @@ open class OnlyWebActivity : BaseActivity() {
     /**
      * 获取当前的Layout
      */
-    open fun getLayout() = R.layout.activity_base_only_web
+    open fun getLayout() = R.layout.activity_base_x5_web
 
     /**
      * 初始化
@@ -87,11 +88,12 @@ open class OnlyWebActivity : BaseActivity() {
 
     override fun resetStatusBar() {
         super.resetStatusBar()
-        fullWindow()
+        val result = window.decorView.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        fullWindow(result != 0)
     }
 
     override fun onBackPressed() {
-        if (webView?.canGoBack() == true && !isError) {
+        if (webView?.canGoBack() == true) {
             webView?.goBack()
         } else {
             super.onBackPressed()
@@ -102,7 +104,4 @@ open class OnlyWebActivity : BaseActivity() {
         const val KEY_TITLE = "key_title"
         const val KEY_CONTENT = "key_content"
     }
-
-
-
 }

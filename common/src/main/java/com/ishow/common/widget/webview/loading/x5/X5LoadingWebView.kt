@@ -14,24 +14,23 @@
  * limitations under the License.
  */
 
-package com.ishow.common.widget.webview.loading
+package com.ishow.common.widget.webview.loading.x5
 
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
-import android.webkit.WebChromeClient
-import android.webkit.WebView
 import androidx.core.content.ContextCompat
-
 import com.ishow.common.R
+import com.tencent.smtt.sdk.WebChromeClient
+import com.tencent.smtt.sdk.WebView
 
 
-class LoadingWebView : WebView {
-    private lateinit var mLoadingWebChromeClient: LoadingWebChromeClient
-    private var mLoadingPaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.DITHER_FLAG)
-    private var mProgress: Int = 0
-    private var mLoadingHeight: Int = 0
+class X5LoadingWebView : WebView {
+    private lateinit var loadingWebChromeClient: X5LoadingWebChromeClient
+    private var loadingPaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.DITHER_FLAG)
+    private var loadingProgress: Int = 0
+    private var loadingHeight: Int = 0
 
 
     private val defaultLoadingColor: Int
@@ -53,23 +52,24 @@ class LoadingWebView : WebView {
     }
 
     private fun init(context: Context, attrs: AttributeSet?) {
-        val a = context.obtainStyledAttributes(attrs, R.styleable.LoadingWebView)
-        val color = a.getColor(R.styleable.LoadingWebView_strokeColor, defaultLoadingColor)
-        mLoadingHeight = a.getColor(R.styleable.LoadingWebView_strokeHeight, defaultLoadingHeight)
+        val a = context.obtainStyledAttributes(attrs, R.styleable.X5LoadingWebView)
+        val color = a.getColor(R.styleable.X5LoadingWebView_strokeColor, defaultLoadingColor)
+        loadingHeight = a.getColor(R.styleable.X5LoadingWebView_strokeHeight, defaultLoadingHeight)
         a.recycle()
 
-        mLoadingWebChromeClient = LoadingWebChromeClient(this)
-        super.setWebChromeClient(mLoadingWebChromeClient)
+        loadingWebChromeClient = X5LoadingWebChromeClient(this)
+        super.setWebChromeClient(loadingWebChromeClient)
 
-        mLoadingPaint.color = color
+        loadingPaint.color = color
     }
 
     override fun setWebChromeClient(client: WebChromeClient) {
-        mLoadingWebChromeClient.setRealWebChromeClient(client)
+        loadingWebChromeClient.setRealWebChromeClient(client)
     }
 
-    override fun onDraw(canvas: Canvas) {
-        super.onDraw(canvas)
+
+    override fun dispatchDraw(canvas: Canvas) {
+        super.dispatchDraw(canvas)
         drawLoading(canvas)
     }
 
@@ -77,9 +77,9 @@ class LoadingWebView : WebView {
      * 根据进度来画一个进度条
      */
     private fun drawLoading(canvas: Canvas) {
-        if (mProgress < 100) {
-            val right = mProgress * width / 100
-            canvas.drawRect(0f, scrollY.toFloat(), right.toFloat(), (scrollY + mLoadingHeight).toFloat(), mLoadingPaint)
+        if (loadingProgress < 100) {
+            val right = loadingProgress * width / 100
+            canvas.drawRect(0F, 0F, right.toFloat(), loadingHeight.toFloat(), loadingPaint)
         }
     }
 
@@ -88,7 +88,7 @@ class LoadingWebView : WebView {
      * [android.webkit.WebChromeClient.onProgressChanged]
      */
     fun updateLoading(progress: Int) {
-        mProgress = progress
-        postInvalidate(0, scrollY, width, mLoadingHeight + scrollY)
+        loadingProgress = progress
+        postInvalidate()
     }
 }

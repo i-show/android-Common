@@ -18,11 +18,16 @@ package com.ishow.noah.modules.sample.detail.views.loading
 
 import android.os.Bundle
 import android.view.View
+import com.ishow.common.app.activity.X5WebActivity
 import com.ishow.common.utils.WebViewUtils
+import com.ishow.common.utils.router.AppRouter
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSampleLoadingWebviewBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
+import com.tencent.smtt.export.external.interfaces.WebResourceRequest
+import com.tencent.smtt.sdk.WebView
+import com.tencent.smtt.sdk.WebViewClient
 import kotlinx.android.synthetic.main.fragment_sample_loading_webview.*
 
 /**
@@ -37,7 +42,25 @@ class SampleLoadingWebViewFragment : AppBindFragment<FragmentSampleLoadingWebvie
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        testX5.setOnClickListener {
+            AppRouter.with(context)
+                .target(X5WebActivity::class.java)
+                .addParam(X5WebActivity.KEY_TITLE, "Baidu")
+                .addParam(X5WebActivity.KEY_CONTENT, "https://www.baidu.com/")
+                .start()
+        }
+
         WebViewUtils.init(webView)
         webView.loadUrl("https://www.baidu.com/")
+        webView?.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(p0: WebView?, p1: String?): Boolean {
+                return super.shouldOverrideUrlLoading(p0, p1)
+            }
+
+            override fun shouldOverrideUrlLoading(p0: WebView?, p1: WebResourceRequest?): Boolean {
+                return super.shouldOverrideUrlLoading(p0, p1)
+            }
+        }
     }
 }

@@ -61,6 +61,8 @@
             android:name=".utils.permission.RequestPermissionActivity"
             android:theme="@style/Theme.NoActionBar.Transparent" />
 
+        <activity android:name=".app.activity.X5WebActivity" />
+
     </application>
 
 </manifest>

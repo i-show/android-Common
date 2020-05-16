@@ -23,10 +23,20 @@
             type="String" />
     </data>
 
-
-    <com.ishow.common.widget.webview.loading.LoadingWebView
-        android:id="@+id/webView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/testX5"
+            style="@style/AppTextView.Sample" />
+
+        <com.tencent.smtt.sdk.WebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
 
 </layout>
