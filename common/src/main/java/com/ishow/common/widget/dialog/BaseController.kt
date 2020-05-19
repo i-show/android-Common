@@ -19,8 +19,10 @@ package com.ishow.common.widget.dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Handler
 import android.os.Message
+import android.text.method.LinkMovementMethod
 import android.view.*
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.Button
@@ -166,7 +168,10 @@ class BaseController(
             mMessageView?.gravity = mMessageGravity
             mMessageView?.maxLines = mMessageMaxLines
             mMessageView?.minHeight = mMessageMinHeight
-            
+
+            mMessageView?.highlightColor = Color.TRANSPARENT
+            mMessageView?.movementMethod = LinkMovementMethod.getInstance()
+
             if (!hasTitle) {
                 val paddingTop = (max(mMessageView!!.paddingStart, mMessageView!!.paddingEnd) * 0.8f).toInt()
                 mMessageView?.setPadding(

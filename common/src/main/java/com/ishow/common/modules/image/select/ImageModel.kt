@@ -20,7 +20,7 @@ class ImageModel(private val context: Context) {
     private val folderList = ArrayList<Folder>()
 
     @SuppressLint("CheckResult")
-    fun getPhotos(listener: ((MutableList<Folder>, MutableList<Image>) -> Unit)?) = GlobalScope.launch (Dispatchers.IO){
+    fun getPhotos(listener: ((MutableList<Folder>, MutableList<Image>) -> Unit)?) = GlobalScope.launch(Dispatchers.IO) {
 
         val cursor = context.contentResolver.query(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
@@ -41,7 +41,7 @@ class ImageModel(private val context: Context) {
                 val size = cursor.getLong(INDEX_SIZE)
                 val modifyDate = cursor.getLong(INDEX_MODIFY_DATE)
 
-                if (size < MIN_PHOTO_SIZE) {
+                if (size < MIN_PHOTO_SIZE || name.isNullOrEmpty() || folderName.isNullOrEmpty()) {
                     continue
                 }
                 val photo = Image(id, uri, name, modifyDate, folderName, position)
@@ -94,6 +94,7 @@ class ImageModel(private val context: Context) {
          * 小于15K的照片不进行显示
          */
         private const val MIN_PHOTO_SIZE = 15 * 1024L
+
         /**
          * 搜索的列
          */
@@ -115,18 +116,22 @@ class ImageModel(private val context: Context) {
          * 名称的index
          */
         private const val INDEX_NAME = 1
+
         /**
          * 图片大小
          */
         private const val INDEX_SIZE = 2
+
         /**
          * 时间的index
          */
         private const val INDEX_MODIFY_DATE = 3
+
         /**
          * 文件夹 ID
          */
         private const val INDEX_FOLDER_ID = 4
+
         /**
          * 文件夹 名称
          */

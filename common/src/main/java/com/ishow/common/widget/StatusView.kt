@@ -287,10 +287,10 @@ class StatusView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         reloadButton.visibility = View.GONE
     }
 
-    fun dismiss(loadingTag: String? = null) {
+    fun dismiss(loadingTag: String? = null, checkError: Boolean = false) {
         loadingTagList?.remove(loadingTag)
         if (loadingTag == null || loadingTagList.isNullOrEmpty()) {
-            if (hasError) {
+            if (hasError && checkError) {
                 showError()
             } else {
                 visibility = View.GONE
@@ -371,7 +371,6 @@ class StatusView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         this.bottomWeight = bottomWeight
         updateWeight(bottomWeightView, this.bottomWeight)
     }
-
 
     interface OnStatusViewListener {
         /**

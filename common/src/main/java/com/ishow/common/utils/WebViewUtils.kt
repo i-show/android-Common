@@ -60,7 +60,8 @@ object WebViewUtils {
         // settings.builtInZoomControls = fitWindow
         // 为图片添加放大缩小功能
         // settings.useWideViewPort = fitWindow
-
+        settings.setAppCacheEnabled(false)
+        settings.cacheMode = WebSettings.LOAD_NO_CACHE
         settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
     }
 
