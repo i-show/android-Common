@@ -31,7 +31,7 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
         PrintView.init(printView)
         PrintView.reset()
 
-        phone.addTextChangedListener(PhoneNumberTextWatcher("-"))
+        phone.addTextChangedListener(PhoneNumberTextWatcher())
         //phone.addTextChangedListener(PhoneNumberFormattingTextWatcher())
     }
 
