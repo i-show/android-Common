@@ -27,24 +27,29 @@ open class BindAdapter<T> : RecyclerView.Adapter<BindAdapter.BindHolder>() {
      * item的layout记录
      */
     private val layoutList = SparseIntArray()
+
     /**
      * data模型数据dataBinding的BR的值
      */
     private val dataVariableList = SparseIntArray()
+
     /**
      * 成员数据的dataBinding值
      */
     private var memberVariableList: SparseArray<MutableList<Variable>>? = null
+
     /**
      * Item的点击事件
      */
     private var itemClickListener: OnItemClickListener? = null
 
     private var childItemClickListener = SparseArray<OnItemChildClickListener>()
+
     /**
      * 设置itemType的Block
      */
     private var itemTypeBlock: ((Int) -> Int)? = null
+
     /**
      * 终止掉本身的ClickListener
      */
@@ -58,6 +63,7 @@ open class BindAdapter<T> : RecyclerView.Adapter<BindAdapter.BindHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindHolder {
         val item = parent.inflate(layoutList[viewType])
+        onViewCreated(item, viewType)
         setItemListener(item)
         setItemChildListener(item)
         return BindHolder(item, viewType, memberVariableList)
@@ -168,6 +174,11 @@ open class BindAdapter<T> : RecyclerView.Adapter<BindAdapter.BindHolder>() {
 
     fun setOnItemChildClickListener(viewId: Int, listener: OnItemChildClickListener? = null) {
         childItemClickListener.put(viewId, listener)
+    }
+
+
+    protected open fun onViewCreated(item: View, viewType: Int) {
+
     }
 
     protected open fun setItemListener(item: View) {

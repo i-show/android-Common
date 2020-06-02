@@ -42,7 +42,6 @@ internal class X5LoadingWebChromeClient(private val mLoadingWebView: X5LoadingWe
 
     override fun onProgressChanged(view: WebView, newProgress: Int) {
         super.onProgressChanged(view, newProgress)
-        Log.i("yhy", "onProgressChanged newProgress = $newProgress")
         mLoadingWebView.updateLoading(newProgress)
         mRealWebChromeClient?.onProgressChanged(view, newProgress)
     }

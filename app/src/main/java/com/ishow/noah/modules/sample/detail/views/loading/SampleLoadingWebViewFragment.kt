@@ -18,6 +18,8 @@ package com.ishow.noah.modules.sample.detail.views.loading
 
 import android.os.Bundle
 import android.view.View
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import com.ishow.common.app.activity.X5WebActivity
 import com.ishow.common.utils.WebViewUtils
 import com.ishow.common.utils.router.AppRouter
@@ -26,8 +28,6 @@ import com.ishow.noah.databinding.FragmentSampleLoadingWebviewBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
 import com.tencent.smtt.export.external.interfaces.WebResourceRequest
-import com.tencent.smtt.sdk.WebView
-import com.tencent.smtt.sdk.WebViewClient
 import kotlinx.android.synthetic.main.fragment_sample_loading_webview.*
 
 /**
@@ -46,21 +46,18 @@ class SampleLoadingWebViewFragment : AppBindFragment<FragmentSampleLoadingWebvie
         testX5.setOnClickListener {
             AppRouter.with(context)
                 .target(X5WebActivity::class.java)
-                .addParam(X5WebActivity.KEY_TITLE, "Baidu")
-                .addParam(X5WebActivity.KEY_CONTENT, "https://www.baidu.com/")
+                .addParam(X5WebActivity.KEY_TITLE, "Test")
+                .addParam(X5WebActivity.KEY_CONTENT, "http://sdk.moguxingqiu.cn/moku-planet-sdk-h5/index.html")
                 .start()
         }
 
         WebViewUtils.init(webView)
-        webView.loadUrl("https://www.baidu.com/")
+        webView.loadUrl("http://sdk.moguxingqiu.cn/moku-planet-sdk-h5/index.html")
         webView?.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(p0: WebView?, p1: String?): Boolean {
                 return super.shouldOverrideUrlLoading(p0, p1)
             }
 
-            override fun shouldOverrideUrlLoading(p0: WebView?, p1: WebResourceRequest?): Boolean {
-                return super.shouldOverrideUrlLoading(p0, p1)
-            }
         }
     }
 }

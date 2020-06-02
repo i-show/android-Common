@@ -1,6 +1,7 @@
 package com.ishow.common.extensions
 
 import android.annotation.SuppressLint
+import android.graphics.drawable.AnimationDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.widget.ImageView
@@ -146,4 +147,21 @@ fun ImageView.loadUrl(
         .apply(finalOptions)
         .listener(listener)
         .into(this)
+}
+
+fun ImageView.startAnimation() {
+    val drawable = drawable
+    if (drawable !is AnimationDrawable) {
+        return
+    }
+    drawable.start()
+}
+
+fun ImageView.stopAnimation() {
+    val drawable = drawable
+    if (drawable !is AnimationDrawable) {
+        return
+    }
+    drawable.stop()
+    clearAnimation()
 }

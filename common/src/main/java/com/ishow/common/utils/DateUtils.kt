@@ -100,7 +100,7 @@ object DateUtils {
      * @param locale      区域
      */
     @JvmOverloads
-    fun now( model: String = FORMAT_YMDHMS, locale: Locale = Locale.getDefault()): String {
+    fun now(model: String = FORMAT_YMDHMS, locale: Locale = Locale.getDefault()): String {
         return format(System.currentTimeMillis(), model, locale)
     }
 

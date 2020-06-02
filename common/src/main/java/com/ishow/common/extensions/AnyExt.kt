@@ -37,3 +37,12 @@ fun delayInThread(long: Long, block: () -> Unit) = GlobalScope.launch {
     delay(long)
     block()
 }
+
+fun timing(times: Int, block: (time: Int) -> Unit) = GlobalScope.launch {
+    var currentTime = times
+    repeat(times) {
+        block(currentTime)
+        currentTime -= 1
+        delay(1000)
+    }
+}

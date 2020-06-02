@@ -47,7 +47,7 @@ android {
         resConfig "zh"
         // NDK 加载lib的文件夹
         ndk {
-            abiFilters "armeabi-v7a"
+            abiFilters "armeabi-v7a", "x86"
         }
     }
 

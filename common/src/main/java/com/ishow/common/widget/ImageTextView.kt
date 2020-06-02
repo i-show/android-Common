@@ -18,7 +18,10 @@ package com.ishow.common.widget
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.StateListDrawable
 import android.text.Layout
@@ -91,21 +94,23 @@ class ImageTextView(context: Context, attrs: AttributeSet) : View(context, attrs
              * Pictures in the text to the left
              */
             const val LEFT = 0
+
             /**
              * Pictures in the text to the right
              */
             const val RIGHT = 4
+
             /**
              * Pictures in the text to the top
              */
             const val TOP = 8
+
             /**
              * Pictures in the text to the bottom
              */
             const val BOTTOM = 16
         }
     }
-
 
 
     init {
@@ -115,33 +120,20 @@ class ImageTextView(context: Context, attrs: AttributeSet) : View(context, attrs
         mImageHeight = a.getDimensionPixelSize(R.styleable.ImageTextView_imageHeight, 0)
         mImageOrientation = a.getInt(R.styleable.ImageTextView_position, Orientation.TOP)
         mText = a.getString(R.styleable.ImageTextView_text)!!
-        mTextSize =
-            a.getDimensionPixelSize(R.styleable.ImageTextView_textSize, defaultTextSize).toFloat()
+        mTextSize = a.getDimensionPixelSize(R.styleable.ImageTextView_textSize, defaultTextSize).toFloat()
         mTextStateColor = a.getColorStateList(R.styleable.ImageTextView_textColor)
         mTintColor = a.getColorStateList(R.styleable.ImageTextView_tint)
         mPadding = a.getDimensionPixelSize(R.styleable.ImageTextView_padding, DEFAULT_PADDING)
         helper.mode = a.getInt(R.styleable.ImageTextView_promptMode, IPrompt.PromptMode.NONE)
         helper.text = a.getString(R.styleable.ImageTextView_promptText)
         helper.textColor = a.getColor(R.styleable.ImageTextView_promptTextColor, Color.WHITE)
-        helper.textSize = a.getDimensionPixelSize(
-            R.styleable.ImageTextView_promptTextSize,
-            PromptHelper.getDefaultTextSize(context)
-        )
-        helper.padding = a.getDimensionPixelSize(
-            R.styleable.ImageTextView_promptPadding,
-            PromptHelper.getDefaultPadding(context)
-        )
-        helper.radius = a.getDimensionPixelSize(
-            R.styleable.ImageTextView_promptRadius,
-            PromptHelper.getDefaultRadius(context)
-        )
-        helper.position =
-            a.getInt(R.styleable.ImageTextView_promptPosition, IPrompt.PromptPosition.LEFT)
+        helper.textSize = a.getDimensionPixelSize(R.styleable.ImageTextView_promptTextSize, PromptHelper.getDefaultTextSize(context))
+        helper.padding = a.getDimensionPixelSize(R.styleable.ImageTextView_promptPadding, PromptHelper.getDefaultPadding(context))
+        helper.radius = a.getDimensionPixelSize(R.styleable.ImageTextView_promptRadius, PromptHelper.getDefaultRadius(context))
+        helper.position = a.getInt(R.styleable.ImageTextView_promptPosition, IPrompt.PromptPosition.LEFT)
         helper.backgroundColor = a.getColor(R.styleable.ImageTextView_promptBackground, Color.RED)
-        helper.paddingWidth =
-            a.getFloat(R.styleable.ImageTextView_widthPaddingScale, IPrompt.DEFAULT_PADDING_SCALE)
-        helper.paddingHeight =
-            a.getFloat(R.styleable.ImageTextView_heightPaddingScale, IPrompt.DEFAULT_PADDING_SCALE)
+        helper.paddingWidth = a.getFloat(R.styleable.ImageTextView_widthPaddingScale, IPrompt.DEFAULT_PADDING_SCALE)
+        helper.paddingHeight = a.getFloat(R.styleable.ImageTextView_heightPaddingScale, IPrompt.DEFAULT_PADDING_SCALE)
         a.recycle()
         mTextColor = if (mTextStateColor == null) {
             ContextCompat.getColor(context, R.color.text_grey)
@@ -223,23 +215,13 @@ class ImageTextView(context: Context, attrs: AttributeSet) : View(context, attrs
         var width = 0
         val imageWidth = getImageWidth()
         @Suppress("DEPRECATION")
-        mLayout = StaticLayout(
-            mText,
-            mTextPaint,
-            mTextDesireWidth,
-            Layout.Alignment.ALIGN_CENTER,
-            1.0f,
-            0.0f,
-            true
-        )
+        mLayout = StaticLayout(mText, mTextPaint, mTextDesireWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true)
         when (mImageOrientation) {
-            Orientation.TOP, Orientation.BOTTOM -> {
-                width = paddingStart + max(mLayout!!.width, imageWidth) + paddingEnd
-            }
+            Orientation.TOP,
+            Orientation.BOTTOM -> width = paddingStart + max(mLayout!!.width, imageWidth) + paddingEnd
 
-            Orientation.LEFT, Orientation.RIGHT -> {
-                width = paddingStart + mLayout!!.width + mPadding + imageWidth + paddingEnd
-            }
+            Orientation.LEFT,
+            Orientation.RIGHT -> width = paddingStart + mLayout!!.width + mPadding + imageWidth + paddingEnd
         }
         return width
     }
@@ -251,28 +233,12 @@ class ImageTextView(context: Context, attrs: AttributeSet) : View(context, attrs
             Orientation.TOP, Orientation.BOTTOM -> {
                 maxSize = size - paddingStart - paddingEnd
                 @Suppress("DEPRECATION")
-                mLayout = StaticLayout(
-                    mText,
-                    mTextPaint,
-                    maxSize,
-                    Layout.Alignment.ALIGN_CENTER,
-                    1.0f,
-                    0.0f,
-                    true
-                )
+                mLayout = StaticLayout(mText, mTextPaint, maxSize, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true)
             }
 
             Orientation.LEFT, Orientation.RIGHT -> {
                 @Suppress("DEPRECATION")
-                mLayout = StaticLayout(
-                    mText,
-                    mTextPaint,
-                    mTextDesireWidth,
-                    Layout.Alignment.ALIGN_CENTER,
-                    1.0f,
-                    0.0f,
-                    true
-                )
+                mLayout = StaticLayout(mText, mTextPaint, mTextDesireWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true)
             }
         }
         return size
@@ -286,28 +252,12 @@ class ImageTextView(context: Context, attrs: AttributeSet) : View(context, attrs
             Orientation.TOP, Orientation.BOTTOM -> {
                 if (mDesireWidth < size) {
                     @Suppress("DEPRECATION")
-                    mLayout = StaticLayout(
-                        mText,
-                        mTextPaint,
-                        mTextDesireWidth,
-                        Layout.Alignment.ALIGN_CENTER,
-                        1.0f,
-                        0.0f,
-                        true
-                    )
+                    mLayout = StaticLayout(mText, mTextPaint, mTextDesireWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true)
                     width = paddingStart + max(mLayout!!.width, imageWidth) + paddingEnd
                 } else {
                     maxSize = size - paddingStart - paddingEnd
                     @Suppress("DEPRECATION")
-                    mLayout = StaticLayout(
-                        mText,
-                        mTextPaint,
-                        maxSize,
-                        Layout.Alignment.ALIGN_CENTER,
-                        1.0f,
-                        0.0f,
-                        true
-                    )
+                    mLayout = StaticLayout(mText, mTextPaint, maxSize, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true)
                     width = size
                 }
             }
@@ -315,28 +265,12 @@ class ImageTextView(context: Context, attrs: AttributeSet) : View(context, attrs
             Orientation.LEFT, Orientation.RIGHT -> {
                 if (mDesireWidth < size) {
                     @Suppress("DEPRECATION")
-                    mLayout = StaticLayout(
-                        mText,
-                        mTextPaint,
-                        mTextDesireWidth,
-                        Layout.Alignment.ALIGN_CENTER,
-                        1.0f,
-                        0.0f,
-                        true
-                    )
+                    mLayout = StaticLayout(mText, mTextPaint, mTextDesireWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true)
                     width = paddingStart + mLayout!!.width + mPadding + imageWidth + paddingEnd
                 } else {
                     maxSize = size - imageWidth - paddingStart - paddingEnd - mPadding
                     @Suppress("DEPRECATION")
-                    mLayout = StaticLayout(
-                        mText,
-                        mTextPaint,
-                        maxSize,
-                        Layout.Alignment.ALIGN_CENTER,
-                        1.0f,
-                        0.0f,
-                        true
-                    )
+                    mLayout = StaticLayout(mText, mTextPaint, maxSize, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true)
                     width = size
                 }
             }
@@ -377,13 +311,11 @@ class ImageTextView(context: Context, attrs: AttributeSet) : View(context, attrs
         var desireHeight = size
         val imageHeight = getImageHeight()
         when (mImageOrientation) {
-            Orientation.TOP, Orientation.BOTTOM -> {
-                desireHeight = paddingTop + mLayout!!.height + mPadding + imageHeight + paddingBottom
-            }
+            Orientation.TOP,
+            Orientation.BOTTOM -> desireHeight = paddingTop + mLayout!!.height + mPadding + imageHeight + paddingBottom
 
-            Orientation.LEFT, Orientation.RIGHT -> {
-                desireHeight = paddingTop + max(mLayout!!.height, imageHeight) + paddingBottom
-            }
+            Orientation.LEFT,
+            Orientation.RIGHT -> desireHeight = paddingTop + max(mLayout!!.height, imageHeight) + paddingBottom
         }
         return min(size, desireHeight)
     }
@@ -599,7 +531,12 @@ class ImageTextView(context: Context, attrs: AttributeSet) : View(context, attrs
         return helper.setPromptPosition(position)
     }
 
-    override fun setPromptWidthPaddingScale(@FloatRange(from = 0.0, to = 1.0) scale: Float): IPrompt {
+    override fun setPromptWidthPaddingScale(
+        @FloatRange(
+            from = 0.0,
+            to = 1.0
+        ) scale: Float
+    ): IPrompt {
         return helper.setPromptWidthPaddingScale(scale)
     }
 
@@ -615,15 +552,17 @@ class ImageTextView(context: Context, attrs: AttributeSet) : View(context, attrs
     }
 
     private fun getImageWidth(): Int {
-        return if (mImageWidth > 0) {
+        val drawableWidth = mImageDrawable.intrinsicWidth
+        return if (mImageWidth in 1 until drawableWidth) {
             mImageWidth
         } else {
-            mImageDrawable.intrinsicWidth
+            drawableWidth
         }
     }
 
     private fun getImageHeight(): Int {
-        return if (mImageHeight > 0) {
+        val drawableWidth = mImageDrawable.intrinsicWidth
+        return if (mImageWidth in 1 until drawableWidth) {
             mImageHeight
         } else {
             mImageDrawable.intrinsicHeight
