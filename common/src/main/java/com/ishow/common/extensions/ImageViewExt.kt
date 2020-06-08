@@ -154,7 +154,7 @@ fun ImageView.startAnimation() {
     if (drawable !is AnimationDrawable) {
         return
     }
-    drawable.start()
+    if (!drawable.isRunning) drawable.start()
 }
 
 fun ImageView.stopAnimation() {

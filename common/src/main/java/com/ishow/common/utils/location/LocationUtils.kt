@@ -88,9 +88,9 @@ object LocationUtils {
         // 电量要求：低
         criteria.powerRequirement = Criteria.POWER_MEDIUM
         val manager = context.locationManager
-        val bestProvider = manager.getBestProvider(criteria, true)
-
-        val location = manager.getLastKnownLocation(bestProvider!!)
+        val bestProvider = manager.getBestProvider(criteria, true) ?: return
+        
+        val location = manager.getLastKnownLocation(bestProvider)
         if (location == null) {
             listener?.onStatusChanged(1, null)
             return

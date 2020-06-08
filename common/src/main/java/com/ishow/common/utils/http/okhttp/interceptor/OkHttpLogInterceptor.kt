@@ -116,18 +116,20 @@ class OkHttpLogInterceptor @JvmOverloads constructor(var level: Level = Level.Bo
             return
         }
 
-        val logHeaders: Boolean = level >= Level.Detail
+        val logDetail: Boolean = level >= Level.Detail
         val logBody: Boolean = level >= Level.Body
 
         val headers = response.headers()
-        val message = response.message()
-        val contentLength = responseBody.contentLength()
-        val logMessage = if (message.isNullOrBlank()) "" else ", message: $message"
-        val logBodySize = if (contentLength != -1L) ", size: $contentLength byte" else ""
-        val logResponseInfo = "$requestId INFO: code: ${response.code()}$logMessage, time: ${tookMs}ms$logBodySize"
-        LogUtils.i(logTag, logResponseInfo)
 
-        if (logHeaders) {
+        val contentLength = responseBody.contentLength()
+
+        if (logDetail) {
+            val message = response.message()
+            val logMessage = if (message.isNullOrBlank()) "" else ", message: $message"
+            val logBodySize = if (contentLength != -1L) ", size: $contentLength byte" else ""
+            val logResponseInfo = "$requestId INFO: code: ${response.code()}$logMessage, time: ${tookMs}ms$logBodySize"
+            LogUtils.i(logTag, logResponseInfo)
+
             logResponseHeader(requestId, headers)
         }
 

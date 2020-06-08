@@ -22,6 +22,7 @@ import android.animation.ValueAnimator
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.CycleInterpolator
+import android.view.animation.LinearInterpolator
 
 object AnimatorUtils {
     /**
@@ -59,6 +60,22 @@ object AnimatorUtils {
     @JvmOverloads
     fun translationY(v: View, from: Float, to: Float, duration: Long, listener: Animator.AnimatorListener? = null) {
         val animator = ObjectAnimator.ofFloat(v, View.TRANSLATION_Y, from, to)
+        animator.duration = duration
+        listener?.let {
+            animator.addListener(listener)
+        }
+        animator.start()
+    }
+
+    /**
+     * rotation
+     */
+    @JvmStatic
+    @JvmOverloads
+    fun rotation(v: View, from: Float, to: Float, duration: Long, listener: Animator.AnimatorListener? = null) {
+        val animator = ObjectAnimator.ofFloat(v, View.ROTATION, from, to)
+        animator.interpolator = LinearInterpolator()
+        animator.repeatCount = ValueAnimator.INFINITE
         animator.duration = duration
         listener?.let {
             animator.addListener(listener)
