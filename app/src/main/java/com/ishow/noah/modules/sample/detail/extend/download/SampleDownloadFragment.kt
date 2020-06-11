@@ -17,7 +17,6 @@ import com.ishow.noah.R
 import com.ishow.noah.databinding.FSampleDownloadBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 import kotlinx.android.synthetic.main.f_sample_download.*
-import java.io.File
 
 
 /**
@@ -38,8 +37,8 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
         download4.setOnClickListener { download4() }
         downloadOthers.setOnClickListener { downloadOthers() }
 
-        // 进行注册
-        Aria.download(this).register()
+//        // 进行注册
+//        Aria.download(this).register()
     }
 
     private fun download1() {
@@ -141,13 +140,14 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
     private fun downloadOthers() {
         downloadOthersStart = System.currentTimeMillis()
 
-        val path = requireContext().getExternalFilesDir("apk")!!
-        val file = File(path, "wx_others_${System.currentTimeMillis()}.apk")
-
-        Aria.download(this)
-            .load(url) //读取下载地址
-            .setFilePath(file.absolutePath)
-            .create()
+//        val path = requireContext().getExternalFilesDir("apk")!!
+//        val file = File(path, "wx_others_${System.currentTimeMillis()}.apk")
+//
+//        Aria.download(this)
+//            .load(url) //读取下载地址
+//            .setFilePath(file.absolutePath)
+//            .create()
+        Test().start()
     }
 
     @Download.onTaskRunning

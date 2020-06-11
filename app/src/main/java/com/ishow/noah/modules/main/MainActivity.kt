@@ -21,10 +21,12 @@ package com.ishow.noah.modules.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Xml
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.arialyy.aria.core.Aria
 import com.ishow.common.utils.ToastUtils
 import com.ishow.common.widget.BottomBar
 import com.ishow.noah.R
@@ -47,6 +49,7 @@ class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        Aria.download(this).register()
     }
 
     override fun initNecessaryData() {

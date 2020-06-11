@@ -20,8 +20,11 @@
 package com.ishow.noah.modules.sample.main
 
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.ishow.common.extensions.showFragment
+import com.ishow.common.extensions.toast
 import com.ishow.noah.R
 import com.ishow.noah.databinding.ActivitySampleMainBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindActivity
@@ -59,5 +62,10 @@ class SampleMainActivity : AppBindActivity<ActivitySampleMainBinding, SampleMain
         viewModel.updateTitle(sample.name)
         lastFragment = fragment
         showFragment(fragment, listFragment)
+    }
+
+    override fun onTitleClick(v: View) {
+        super.onTitleClick(v)
+        toast("title click")
     }
 }

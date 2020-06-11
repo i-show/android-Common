@@ -16,7 +16,7 @@ class App : Application() {
 
     companion object {
         private lateinit var sInstance: App
-        val instance
+        val app
             get() = sInstance
     }
 }

@@ -17,10 +17,14 @@
 package com.ishow.common.utils
 
 import android.content.Context
+import android.util.LruCache
 import com.ishow.common.R
-import java.io.File
+import com.ishow.common.extensions.date.toEpochMilli
+import com.ishow.common.extensions.date.toLocalDateTime
+import com.ishow.common.extensions.toLocalDateTime
 import java.text.ParseException
-import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 /**
@@ -92,37 +96,36 @@ object DateUtils {
      */
     const val FORMAT_YMDHMS = "yyyy-MM-dd HH:mm:ss"
 
+    /**
+     * Formatter的缓存
+     */
+    private val formatterMap = LruCache<String, DateTimeFormatter>(10)
 
     /**
      * format 时间字符串
      *
      * @param model    当前时间模型 例如: MM-dd
-     * @param locale      区域
      */
     @JvmOverloads
-    fun now(model: String = FORMAT_YMDHMS, locale: Locale = Locale.getDefault()): String {
-        return format(System.currentTimeMillis(), model, locale)
+    fun now(model: String = FORMAT_YMDHMS): String {
+        return format(LocalDateTime.now(), model)
     }
 
     /**
      * format 时间字符串
      *
      * @param time        当前时间的字符串
-     * @param targetModel 目标时间模型 例如 yyyy-MM-dd
      * @param nowModel    当前时间模型 例如: MM-dd
-     * @param locale      区域
+     * @param targetModel 目标时间模型 例如 yyyy-MM-dd
      */
     @JvmOverloads
-    fun format(time: String, targetModel: String, nowModel: String, locale: Locale = Locale.getDefault()): String {
+    fun format(time: String, nowModel: String, targetModel: String = FORMAT_YMD): String {
         try {
-            val nowFormatter = SimpleDateFormat(nowModel, locale)
-            val targetFormatter = SimpleDateFormat(targetModel, locale)
-            val data = nowFormatter.parse(time)!!
-            return targetFormatter.format(data)
+            val localDateTime = LocalDateTime.parse(time, DateTimeFormatter.ofPattern(nowModel))
+            return format(localDateTime, targetModel)
         } catch (e: ParseException) {
             e.printStackTrace()
         }
-
         return time
     }
 
@@ -134,26 +137,15 @@ object DateUtils {
      * @param locale   区域
      */
     @JvmOverloads
-    fun formatToLong(time: String, nowModel: String, locale: Locale = Locale.getDefault()): Long {
+    fun formatToLong(time: String, nowModel: String = FORMAT_YMDHMS): Long {
         try {
-            return formatToDate(time, nowModel, locale)?.time ?: 0L
+            return LocalDateTime.parse(time, DateTimeFormatter.ofPattern(nowModel)).toEpochMilli()
         } catch (e: ParseException) {
             e.printStackTrace()
         }
         return 0L
     }
 
-    /**
-     * 把字符串转成long
-     *
-     * @param time     输入的时间
-     * @param nowModel 时间模型 例如 yyyy-MM-dd
-     * @param locale   区域
-     */
-    @JvmOverloads
-    fun formatToDate(time: String, nowModel: String, locale: Locale = Locale.getDefault()): Date? {
-        return SimpleDateFormat(nowModel, locale).parse(time)
-    }
 
     /**
      * format时间
@@ -164,8 +156,8 @@ object DateUtils {
      * @return format后的字符串
      */
     @JvmOverloads
-    fun format(time: Long, targetModel: String, locale: Locale = Locale.getDefault()): String {
-        return format(Date(time), targetModel, locale)
+    fun format(time: Long, targetModel: String = FORMAT_YMDHMS): String {
+        return format(time.toLocalDateTime(), targetModel)
     }
 
     /**
@@ -173,13 +165,25 @@ object DateUtils {
      *
      * @param date     时间
      * @param targetModel 时间模型 例如 yyyy-MM-dd
-     * @param locale   地区
      * @return format后的字符串
      */
     @JvmOverloads
-    fun format(date: Date, targetModel: String, locale: Locale = Locale.getDefault()): String {
-        return SimpleDateFormat(targetModel, locale).format(date)
+    fun format(date: Date, targetModel: String = FORMAT_YMDHMS): String {
+        return format(date.toLocalDateTime(), targetModel)
     }
+
+    /**
+     * format时间
+     *
+     * @param dateTime     时间
+     * @param targetModel 时间模型 例如 yyyy-MM-dd
+     * @return format后的字符串
+     */
+    @JvmOverloads
+    fun format(dateTime: LocalDateTime, targetModel: String = FORMAT_YMDHMS): String {
+        return dateTime.format(DateTimeFormatter.ofPattern(targetModel))
+    }
+
 
     /**
      * 获取一个long型的时间
@@ -247,18 +251,6 @@ object DateUtils {
         } else {
             format(time, targetModel)
         }
-    }
-
-    /**
-     * 获取文件最后修改时间
-     */
-    fun getLastModifiedTime(filePath: String): String {
-        val file = File(filePath)
-        if (file.exists()) {
-            val time = file.lastModified()
-            return format(time, FORMAT_YMD)
-        }
-        return "1970-01-01"
     }
 }
 

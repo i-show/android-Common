@@ -7,6 +7,7 @@ import android.database.Cursor
 import android.net.Uri
 import android.util.Log
 import com.facebook.drawee.backends.pipeline.Fresco
+import com.ishow.common.manager.AppStatusManager
 import com.ishow.common.manager.LogManager
 import com.tencent.smtt.sdk.QbSdk
 
@@ -20,7 +21,8 @@ class InitCommonProvider : ContentProvider() {
         val context = context
 
         if (context is Application) {
-            _app = context
+            app = context
+            AppStatusManager.instance.registerListener(app)
             Fresco.initialize(context)
             LogManager.init(context)
             QbSdk.initX5Environment(context, null)
@@ -60,9 +62,9 @@ class InitCommonProvider : ContentProvider() {
     companion object {
         private const val TAG = "InitCommonProvider"
 
-        private lateinit var _app: Application
-        val app: Application
-            get() = _app
+        lateinit var app: Application
+            private set
+
     }
 
 }

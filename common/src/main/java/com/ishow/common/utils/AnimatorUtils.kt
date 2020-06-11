@@ -116,9 +116,10 @@ object AnimatorUtils {
      */
     @JvmStatic
     @JvmOverloads
-    fun scaleX(v: View, from: Float, to: Float, duration: Int, listener: Animator.AnimatorListener? = null) {
+    fun scaleX(v: View, from: Float, to: Float, duration: Long = 600, repeatCount: Int = 1, listener: Animator.AnimatorListener? = null) {
         val animator = ObjectAnimator.ofFloat(v, View.SCALE_X, from, to)
-        animator.duration = duration.toLong()
+        animator.repeatCount = repeatCount
+        animator.duration = duration
         listener?.let {
             animator.addListener(listener)
         }
@@ -130,9 +131,10 @@ object AnimatorUtils {
      */
     @JvmStatic
     @JvmOverloads
-    fun scaleY(v: View, from: Float, to: Float, duration: Int, listener: Animator.AnimatorListener? = null) {
+    fun scaleY(v: View, from: Float, to: Float, duration: Long = 600, repeatCount: Int = 1, listener: Animator.AnimatorListener? = null) {
         val animator = ObjectAnimator.ofFloat(v, View.SCALE_Y, from, to)
-        animator.duration = duration.toLong()
+        animator.repeatCount = repeatCount
+        animator.duration = duration
         listener?.let {
             animator.addListener(listener)
         }

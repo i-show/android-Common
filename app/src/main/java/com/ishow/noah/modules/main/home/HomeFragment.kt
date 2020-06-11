@@ -4,6 +4,7 @@ import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import com.ishow.common.utils.DateUtils
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.utils.textwatcher.PhoneNumberTextWatcher
 import com.ishow.common.widget.PrintView
@@ -15,6 +16,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
+
 
 /**
  * Created by yuhaiyang on 2020-05-11.
@@ -40,16 +43,18 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
         ani.repeatCount = ValueAnimator.INFINITE
         phone.addTextChangedListener(PhoneNumberTextWatcher())
         test2.setOnClickListener {
-            ani.start()
+            Test().test(it.context)
         }
 
 
-
+        val time = DateUtils.format(LocalDateTime.now(), "yyyy-MM-dd")
+        test1.text = time
 
         test3.setOnClickListener {
-            job?.cancel()
+            val time = LocalDateTime.now()
         }
     }
+
 
     override fun initViewModel(vm: HomeViewModel) {
         super.initViewModel(vm)

@@ -53,6 +53,9 @@ android {
     }
 
     compileOptions {
+        // Flag to enable support for the new language APIs
+        coreLibraryDesugaringEnabled true
+
         sourceCompatibility 1.8
         targetCompatibility 1.8
     }
@@ -111,4 +114,6 @@ dependencies {
     api "com.google.code.gson:gson:$versions.gson"
 
     api 'com.tencent.tbs.tbssdk:sdk:43903'
+
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.5'
 }

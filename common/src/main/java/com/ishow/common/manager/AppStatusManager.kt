@@ -3,7 +3,6 @@ package com.ishow.common.manager
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
-import com.ishow.common.utils.StorageUtils
 import com.ishow.common.utils.log.LogUtils
 
 /**
@@ -15,6 +14,7 @@ class AppStatusManager private constructor() : Application.ActivityLifecycleCall
     private var createdCount: Int = 0
     private var startedCount: Int = 0
     private var isRegister = false
+
     fun registerListener(app: Application) {
         LogUtils.i(TAG, "registerListener: ")
         if (!isRegister) {
@@ -61,14 +61,11 @@ class AppStatusManager private constructor() : Application.ActivityLifecycleCall
 
     companion object {
         private const val TAG = "AppStatusManager"
-        @Volatile
-        @JvmStatic
-        private var sInstance: AppStatusManager? = null
 
-        val instance: AppStatusManager
-            get() = sInstance ?: synchronized(AppStatusManager::class.java) {
-                sInstance ?: AppStatusManager().also { sInstance = it }
-            }
+        val instance by lazy(LazyThreadSafetyMode.SYNCHRONIZED) { AppStatusManager() }
+
+        val isComeBack
+            get() = instance.startedCount <= 1
     }
 
 }
