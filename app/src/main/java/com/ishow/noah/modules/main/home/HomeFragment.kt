@@ -2,8 +2,10 @@ package com.ishow.noah.modules.main.home
 
 import android.animation.ValueAnimator
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
+import com.ishow.common.extensions.dialog
 import com.ishow.common.utils.DateUtils
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.utils.textwatcher.PhoneNumberTextWatcher
@@ -16,6 +18,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import java.time.LocalDateTime
 
 
@@ -51,15 +55,29 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
         test1.text = time
 
         test3.setOnClickListener {
-            val time = LocalDateTime.now()
+            requestBaidu()
         }
     }
 
+
+    private fun requestBaidu() = GlobalScope.launch {
+        Log.i("yhy", "requestBaidu")
+        val okHttp = OkHttpClient.Builder()
+            .build()
+
+        val request = Request.Builder()
+            .url("https://www.baidu.com/")
+            .build()
+
+        val response = okHttp.newCall(request).execute()
+        Log.i("yhy", "request code = " + response.code())
+    }
 
     override fun initViewModel(vm: HomeViewModel) {
         super.initViewModel(vm)
         vm.test2.observe(this, Observer { PrintView.print(it.toString()) })
     }
+
 
     override fun onRightClick(v: View) {
         super.onRightClick(v)
