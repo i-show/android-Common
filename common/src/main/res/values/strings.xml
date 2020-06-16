@@ -72,4 +72,5 @@
     <string name="pull2refresh_footer_success">载入成功</string>
     <string name="pull2refresh_footer_fail">加载失败，请重试</string>
     <string name="pull2refresh_footer_end">已经全部加载完毕</string>
+    <string name="pull2refresh_footer_empty">已经全部加载完毕</string>
 </resources>

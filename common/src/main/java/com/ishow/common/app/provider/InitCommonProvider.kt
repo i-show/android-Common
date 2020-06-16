@@ -62,6 +62,7 @@ class InitCommonProvider : ContentProvider() {
     companion object {
         private const val TAG = "InitCommonProvider"
 
+        @JvmStatic
         lateinit var app: Application
             private set
 

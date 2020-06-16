@@ -24,6 +24,7 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
      * 注意这里用的是ApplicationContext
      */
     protected val context: Context = application.applicationContext
+
     /**
      * Loading的状态
      */
@@ -143,12 +144,12 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
     /**
      * 展示成功的信息
      */
-    fun showSuccess(message: String? = StringUtils.EMPTY) {
-        showSuccess(Success.new(message))
+    fun showSuccess(code: Int = 0, message: String? = StringUtils.EMPTY) {
+        showSuccess(Success.new(code, message))
     }
 
     fun showSuccess(@StringRes messageRes: Int) {
-        showSuccess(Success.new(messageRes))
+        showSuccess(Success.new(messageRes = messageRes))
     }
 
     fun showSuccess(success: Success) {
@@ -192,7 +193,6 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
     fun toast(@StringRes message: Int) {
         toast(context.getString(message))
     }
-
 
 
 }

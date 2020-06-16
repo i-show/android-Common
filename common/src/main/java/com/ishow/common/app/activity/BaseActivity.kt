@@ -49,17 +49,20 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
      */
     @Suppress("MemberVisibilityCanBePrivate")
     protected var loadingDialog: LoadingDialog? = null
+
     /**
      * 状态的View
      */
     @Suppress("MemberVisibilityCanBePrivate")
     protected var rootStatusView: StatusView? = null
+
     /**
      * 用来回收的Handler
      */
     protected var handler: Handler? = null
 
     protected var isActivityPaused: Boolean = false
+
     /**
      * Activity
      * isResumed 已经被占用..
@@ -150,6 +153,8 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
         if (statusView is StatusView) {
             this.rootStatusView = statusView
             this.rootStatusView?.setOnStatusViewListener(this)
+            this.rootStatusView?.dismiss()
+            initStatusView()
         }
     }
 
@@ -179,9 +184,6 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
      */
     protected open fun resetStatusBar() {}
 
-    override fun showLoading() {
-        showLoading(Loading.dialog())
-    }
 
     override fun showLoading(loading: Loading) {
         runOnUiThread {
@@ -196,9 +198,6 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
         }
     }
 
-    override fun dismissLoading() {
-        dismissLoading(Loading.dialog())
-    }
 
     override fun dismissLoading(loading: Loading) {
         runOnUiThread {
@@ -237,14 +236,7 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
         }
     }
 
-    override fun showSuccess() {
-    }
-
     override fun showSuccess(success: Success) {
-    }
-
-    override fun showEmpty() {
-        showEmpty(Empty.new())
     }
 
     override fun showEmpty(empty: Empty) {
@@ -254,6 +246,8 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
     override fun onStatusClick(v: View, which: StatusView.Which) {
 
     }
+
+    protected open fun initStatusView() {}
 
     open fun attachStatusView() {
         if (!hasStatusView()) {
@@ -274,18 +268,6 @@ abstract class BaseActivity : AppCompatActivity(), StatusView.OnStatusViewListen
      */
     open fun hasStatusView(): Boolean {
         return false
-    }
-
-    /**
-     * 判断是否在主线程
-     */
-    fun isMainThread(): Boolean = Looper.myLooper() == Looper.getMainLooper()
-
-    /**
-     * 通过协程  在主线程上运行
-     */
-    fun mainThread(block: () -> Unit) = GlobalScope.launch(Dispatchers.Main) {
-        block()
     }
 
     companion object {

@@ -1,5 +1,7 @@
 package com.ishow.common.widget.pulltorefresh.recycleview;
 
+import android.content.res.Resources;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.ishow.common.R;
+import com.ishow.common.app.provider.InitCommonProvider;
+import com.ishow.common.utils.log.LogUtils;
 import com.ishow.common.widget.pulltorefresh.footer.IPullToRefreshFooter;
 
 
 public class LoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements IPullToRefreshFooter {
+    private static final String TAG = "LoadMoreAdapter";
     /**
      * 是否是加载更多的Item
      */
@@ -46,6 +51,12 @@ public class LoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
      */
     private int loadingStatus;
 
+    public String normalTips;
+    public String loadingTips;
+    public String errorTips;
+    public String endTips;
+    public String emptyTips;
+
     public LoadMoreAdapter(@NonNull RecyclerView.Adapter adapter) {
         innerAdapter = adapter;
         innerAdapter.registerAdapterDataObserver(dataObserver);
@@ -54,6 +65,13 @@ public class LoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         rotateAnimation.setDuration(ROTATE_ANIM_DURATION * 2);
         rotateAnimation.setRepeatCount(Animation.INFINITE);
         rotateAnimation.setFillAfter(false);
+
+        final Resources res = InitCommonProvider.getApp().getResources();
+        normalTips = res.getString(R.string.pull2refresh_footer_normal);
+        loadingTips = res.getString(R.string.pull2refresh_footer_loading);
+        errorTips = res.getString(R.string.pull2refresh_footer_fail);
+        endTips = res.getString(R.string.pull2refresh_footer_end);
+        emptyTips = res.getString(R.string.pull2refresh_footer_empty);
     }
 
 
@@ -134,7 +152,11 @@ public class LoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
-        innerAdapter.unregisterAdapterDataObserver(dataObserver);
+        try {
+            innerAdapter.unregisterAdapterDataObserver(dataObserver);
+        } catch (Exception e) {
+            LogUtils.e(TAG, e);
+        }
     }
 
     @Override
@@ -179,23 +201,27 @@ public class LoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case STATUS_NORMAL:
                 loadMoreLoadingView.clearAnimation();
                 loadMoreLoadingView.setVisibility(View.GONE);
-                loadMoreTextView.setText(R.string.pull2refresh_footer_normal);
+                loadMoreTextView.setText(normalTips);
                 break;
             case STATUS_LOADING:
                 loadMoreLoadingView.clearAnimation();
                 loadMoreLoadingView.startAnimation(rotateAnimation);
                 loadMoreLoadingView.setVisibility(View.VISIBLE);
-                loadMoreTextView.setText(R.string.pull2refresh_footer_loading);
+                loadMoreTextView.setText(loadingTips);
                 break;
             case STATUS_FAILED:
                 loadMoreLoadingView.clearAnimation();
                 loadMoreLoadingView.setVisibility(View.GONE);
-                loadMoreTextView.setText(R.string.pull2refresh_footer_fail);
+                loadMoreTextView.setText(errorTips);
                 break;
             case STATUS_END:
                 loadMoreLoadingView.clearAnimation();
                 loadMoreLoadingView.setVisibility(View.GONE);
-                loadMoreTextView.setText(R.string.pull2refresh_footer_end);
+                if (innerAdapter.getItemCount() == 0) {
+                    loadMoreTextView.setText(emptyTips);
+                } else {
+                    loadMoreTextView.setText(endTips);
+                }
                 break;
         }
     }
@@ -210,6 +236,7 @@ public class LoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public RecyclerView.Adapter getInnerAdapter() {
         return innerAdapter;
     }
+
 
     /**
      * 注册监听

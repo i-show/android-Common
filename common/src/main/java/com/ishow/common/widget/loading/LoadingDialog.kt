@@ -22,15 +22,17 @@ import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.KeyEvent
+import android.view.Window
 import com.ishow.common.R
 import com.ishow.common.utils.DeviceUtils
+import com.ishow.common.widget.dialog.BaseDialog
 
 
 class LoadingDialog private constructor(
     context: Context,
-    themeResId: Int = R.style.Theme_Dialog_Semipermeable
+    themeResId: Int = R.style.Theme_Dialog_Transparent
 ) :
-    Dialog(context, themeResId) {
+    BaseDialog(context, themeResId) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +42,7 @@ class LoadingDialog private constructor(
         } else {
             setContentView(R.layout.dialog_loading)
         }
+        window?.let { loadingBlock?.invoke(it) }
     }
 
     override fun show() {
@@ -68,6 +71,8 @@ class LoadingDialog private constructor(
         private var lastContext: String? = null
 
         var customLayout: Int? = null
+
+        var loadingBlock: ((window: Window) -> Unit)? = null
 
         private fun create(context: Context?, loadingTag: String?): LoadingDialog? {
             if (context !is Activity) {

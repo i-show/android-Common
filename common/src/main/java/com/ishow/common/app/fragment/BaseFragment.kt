@@ -117,10 +117,6 @@ abstract class BaseFragment : Fragment(), StatusView.OnStatusViewListener, IView
     override fun onStatusClick(v: View, which: StatusView.Which) {
     }
 
-    override fun showLoading() {
-        showLoading(Loading.dialog())
-    }
-
     override fun showLoading(loading: Loading) {
         activity?.runOnUiThread {
             when (loading.type) {
@@ -132,10 +128,6 @@ abstract class BaseFragment : Fragment(), StatusView.OnStatusViewListener, IView
                 }
             }
         }
-    }
-
-    override fun dismissLoading() {
-        dismissLoading(Loading.dialog())
     }
 
     override fun dismissLoading(loading: Loading) {
@@ -168,16 +160,8 @@ abstract class BaseFragment : Fragment(), StatusView.OnStatusViewListener, IView
         }
     }
 
-    override fun showSuccess() {
-    }
-
     override fun showSuccess(success: Success) {
     }
-
-    override fun showEmpty() {
-        showEmpty(Empty.new())
-    }
-
     override fun showEmpty(empty: Empty) {
         activity?.runOnUiThread { rootStatusView?.showEmpty() }
     }

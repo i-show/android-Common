@@ -30,15 +30,11 @@ interface IViewStatus {
     /**
      * 显示加载动画
      */
-    fun showLoading()
-
     fun showLoading(loading: Loading)
 
     /**
      * 隐藏加载动画
      */
-    fun dismissLoading()
-
     fun dismissLoading(loading: Loading)
 
     /**
@@ -49,14 +45,10 @@ interface IViewStatus {
     /**
      * 加载成功
      */
-    fun showSuccess()
-
     fun showSuccess(success: Success)
 
     /**
      * 展示空数据
      */
-    fun showEmpty()
-
     fun showEmpty(empty: Empty)
 }

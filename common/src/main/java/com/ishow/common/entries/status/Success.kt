@@ -5,14 +5,17 @@ import androidx.annotation.StringRes
 class Success {
     var message: String? = null
     var messageRes: Int = 0
+    var code: Int = 0
+    var value: Any = 0
 
     companion object {
 
         /**
          * New
          */
-        fun new(message: String?): Success {
+        fun new(code: Int = 0, message: String? = ""): Success {
             val success = Success()
+            success.code = code
             success.message = message
             return success
         }
@@ -20,8 +23,9 @@ class Success {
         /**
          * New
          */
-        fun new(@StringRes messageRes: Int): Success {
+        fun new(code: Int = 0, @StringRes messageRes: Int): Success {
             val success = Success()
+            success.code = code
             success.messageRes = messageRes
             return success
         }

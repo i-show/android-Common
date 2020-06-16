@@ -5,7 +5,7 @@ import com.ishow.common.utils.StringUtils
 
 class Error {
     var showType: Int = 0
-    var errorType: Int = 0
+    var errorCode: Int = 0
     var message: String? = null
     var messageRes: Int = 0
 
@@ -13,10 +13,10 @@ class Error {
         /**
          * Dialog展示
          */
-        fun dialog(message: String?, errorType: Int = 0): Error {
+        fun dialog(message: String?, errorCode: Int = 0): Error {
             val error = Error()
             error.showType = Type.Dialog
-            error.errorType = errorType
+            error.errorCode = errorCode
             error.message = message
             return error
         }
@@ -24,10 +24,10 @@ class Error {
         /**
          * Dialog展示
          */
-        fun dialog(@StringRes messageRes: Int, errorType: Int = 0): Error {
+        fun dialog(@StringRes messageRes: Int, errorCode: Int = 0): Error {
             val error = Error()
             error.showType = Type.Dialog
-            error.errorType = errorType
+            error.errorCode = errorCode
             error.messageRes = messageRes
             return error
         }
@@ -35,10 +35,10 @@ class Error {
         /**
          * Toast展示
          */
-        fun toast(message: String? = StringUtils.EMPTY, errorType: Int = 0): Error {
+        fun toast(message: String? = StringUtils.EMPTY, errorCode: Int = 0): Error {
             val error = Error()
             error.showType = Type.Toast
-            error.errorType = errorType
+            error.errorCode = errorCode
             error.message = message
             return error
         }
@@ -46,10 +46,10 @@ class Error {
         /**
          * Toast展示
          */
-        fun toast(@StringRes messageRes: Int, errorType: Int = 0): Error {
+        fun toast(@StringRes messageRes: Int, errorCode: Int = 0): Error {
             val error = Error()
             error.showType = Type.Toast
-            error.errorType = errorType
+            error.errorCode = errorCode
             error.messageRes = messageRes
             return error
         }
@@ -57,10 +57,10 @@ class Error {
         /**
          * View展示
          */
-        fun view(message: String? = StringUtils.EMPTY, errorType: Int = 0): Error {
+        fun view(message: String? = StringUtils.EMPTY, errorCode: Int = 0): Error {
             val error = Error()
             error.showType = Type.View
-            error.errorType = errorType
+            error.errorCode = errorCode
             error.message = message
             return error
         }
@@ -71,7 +71,7 @@ class Error {
         fun view(@StringRes messageRes: Int, errorType: Int = 0): Error {
             val error = Error()
             error.showType = Type.View
-            error.errorType = errorType
+            error.errorCode = errorType
             error.messageRes = messageRes
             return error
         }
@@ -82,7 +82,7 @@ class Error {
         fun new(showType: Int = Type.View, message: String?, errorType: Int = 0): Error {
             val error = Error()
             error.showType = showType
-            error.errorType = errorType
+            error.errorCode = errorType
             error.message = message
             return error
         }
@@ -93,7 +93,7 @@ class Error {
         fun new(showType: Int = Type.View, messageRes: Int, errorType: Int = 0): Error {
             val error = Error()
             error.showType = showType
-            error.errorType = errorType
+            error.errorCode = errorType
             error.messageRes = messageRes
             return error
         }

@@ -834,7 +834,7 @@ class EditTextPro @JvmOverloads constructor(context: Context, attrs: AttributeSe
         setInputText(text)
     }
 
-    fun setInputText(text: CharSequence) {
+    fun setInputText(text: CharSequence?) {
         mInputView.setText(text)
     }
 

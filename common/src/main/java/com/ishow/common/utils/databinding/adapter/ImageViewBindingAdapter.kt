@@ -85,4 +85,12 @@ object ImageViewBindingAdapter {
     fun loadImage(view: SimpleDraweeView, imageUrl: Uri) {
         view.setImageURI(imageUrl.toString())
     }
+
+
+    @JvmStatic
+    @BindingAdapter("bingRes")
+    fun bingRes(view: ImageView, res: Int) {
+        view.setImageResource(res)
+    }
+
 }
