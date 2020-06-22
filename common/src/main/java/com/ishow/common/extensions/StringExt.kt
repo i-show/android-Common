@@ -30,6 +30,9 @@ fun String.format2Money(scale: Int = -1, force: Boolean = false): String {
     }
 }
 
+fun String.rounding(scale: Int = -1, force: Boolean = false): String {
+    return MathUtils.rounding(this, scale, force)
+}
 
 /**
  * 通过Span来 修改字体大小

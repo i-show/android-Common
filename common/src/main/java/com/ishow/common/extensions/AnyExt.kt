@@ -8,6 +8,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
+/**
+ * 任意对象转成Json字符串
+ */
 fun Any.toJSON(): String? = JsonUtils.gson.toJson(this)
 
 /**
@@ -23,7 +26,7 @@ fun mainThread(block: () -> Unit) = GlobalScope.launch(Dispatchers.Main) {
 }
 
 /**
- * Delay
+ * Delay多少毫秒后执行
  */
 fun delay(long: Long, block: () -> Unit) = GlobalScope.launch(Dispatchers.Main) {
     delay(long)
@@ -38,6 +41,9 @@ fun delayInThread(long: Long, block: () -> Unit) = GlobalScope.launch {
     block()
 }
 
+/**
+ * 计时工具
+ */
 fun timing(times: Int, delayTimes: Long = 1000, block: (time: Int) -> Unit) = GlobalScope.launch(Dispatchers.Main) {
     var currentTime = times
     repeat(times) {

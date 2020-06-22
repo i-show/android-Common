@@ -37,31 +37,16 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
         PrintView.init(printView)
         PrintView.reset()
 
-        val ani = ValueAnimator.ofFloat(1F, 1.5F)
-        ani.duration = 800
-        ani.addUpdateListener {
-            val value = it.animatedValue as Float
-            test2.scaleX = value
-            test2.scaleY = value
-        }
-        ani.repeatCount = ValueAnimator.INFINITE
-        phone.addTextChangedListener(PhoneNumberTextWatcher())
-        test2.setOnClickListener {
-            Test().test(it.context)
-        }
-
-
-        val time = DateUtils.format(LocalDateTime.now(), "yyyy-MM-dd")
-        test1.text = time
-
         test3.setOnClickListener {
+            PrintView.reset()
             requestBaidu()
         }
     }
 
 
     private fun requestBaidu() = GlobalScope.launch {
-        Log.i("yhy", "requestBaidu")
+
+        PrintView.print("yhy", "requestBaidu")
         val okHttp = OkHttpClient.Builder()
             .build()
 
@@ -70,7 +55,7 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
             .build()
 
         val response = okHttp.newCall(request).execute()
-        Log.i("yhy", "request code = " + response.code())
+        PrintView.print("yhy", "request code = " + response.code())
     }
 
     override fun initViewModel(vm: HomeViewModel) {

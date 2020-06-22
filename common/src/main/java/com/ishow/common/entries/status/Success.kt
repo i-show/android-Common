@@ -6,7 +6,8 @@ class Success {
     var message: String? = null
     var messageRes: Int = 0
     var code: Int = 0
-    var value: Any = 0
+    var obj: Any? = null
+    var obj2: Any? = null
 
     companion object {
 

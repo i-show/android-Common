@@ -160,6 +160,7 @@ inline val Context.alarmManager: AlarmManager
 
 inline val Context.clipboardManager: ClipboardManager
     get() = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+
 inline val Context.locationManager: LocationManager
     get() = getSystemService(LOCATION_SERVICE) as LocationManager
 

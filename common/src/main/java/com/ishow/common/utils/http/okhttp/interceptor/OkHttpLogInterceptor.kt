@@ -201,7 +201,7 @@ class OkHttpLogInterceptor @JvmOverloads constructor(var level: Level = Level.Bo
      * 生成请求的Id
      */
     private fun genRequestId(): String {
-        return System.nanoTime().toString().substring(10)
+        return System.nanoTime().toString().substring(9)
     }
 
     private fun checkHeaderName(name: String): Boolean {

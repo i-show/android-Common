@@ -7,6 +7,7 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
+import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -20,7 +21,6 @@ import com.ishow.common.R
 fun Activity.inflate(layoutRes: Int): View {
     return LayoutInflater.from(this).inflate(layoutRes, null)
 }
-
 
 /**
  * 显示Fragment
@@ -77,7 +77,7 @@ fun AppCompatActivity.showFragment(
 }
 
 /**
- * 隐藏
+ * 隐藏一个Fragment
  */
 fun AppCompatActivity.hideFragment(fragment: Fragment) {
     val transaction = supportFragmentManager.beginTransaction()
@@ -85,20 +85,23 @@ fun AppCompatActivity.hideFragment(fragment: Fragment) {
     transaction.commit()
 }
 
+/**
+ * 设置状态栏的颜色通过Resource 来进行设置
+ */
 fun AppCompatActivity.setStatusBarColorRes(@ColorRes color: Int) {
     setStatusBarColor(findColor(color))
 }
 
 /**
- *
+ * 设置状态栏的颜色
  */
-fun AppCompatActivity.setStatusBarColor(color: Int) {
+fun AppCompatActivity.setStatusBarColor(@ColorInt color: Int) {
     val window = window
     window.statusBarColor = color
 }
 
 /**
- * 全屏模式
+ * 全屏模式 设置一个Activity 为一个全屏模式
  */
 fun AppCompatActivity.fullWindow(light: Boolean = false) {
     setStatusBarColor(Color.TRANSPARENT)
@@ -112,12 +115,18 @@ fun AppCompatActivity.fullWindow(light: Boolean = false) {
     setSystemUiVisibility(visibility)
 }
 
+/**
+ * 设置一个 Activity为普通模式
+ */
 fun AppCompatActivity.normalWindow(color: Int? = null) {
     val statusColor = color ?: findColor(R.color.color_accent)
     setStatusBarColor(statusColor)
     setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE)
 }
 
+/**
+ * 设置状态栏是否显示
+ */
 fun AppCompatActivity.setSystemUiVisibility(visibility: Int) {
     window.decorView.systemUiVisibility = visibility
 }
