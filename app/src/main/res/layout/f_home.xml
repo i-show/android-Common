@@ -39,5 +39,11 @@
             app:maxHeight="@dimen/dp_300" />
 
 
+        <com.github.lzyzsd.jsbridge.BridgeWebView
+            android:id="@+id/bridgeWeb"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
     </LinearLayout>
 </layout>

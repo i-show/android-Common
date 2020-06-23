@@ -16,6 +16,8 @@ import com.ishow.common.utils.StringUtils
 
 /**
  * 解析成人民币
+ * @param scale 小数点的位数
+ * @param force 是否是强制设置多少位小数，如果是强制结果是后面补0
  */
 fun String.format2Money(scale: Int = -1, force: Boolean = false): String {
     if (this.isEmpty()) {
@@ -30,12 +32,21 @@ fun String.format2Money(scale: Int = -1, force: Boolean = false): String {
     }
 }
 
+/**
+ * 字符串进行Format小数点几位数
+ * @param scale 小数点的位数
+ * @param force 是否是强制设置多少位小数，如果是强制结果是后面补0
+ */
 fun String.rounding(scale: Int = -1, force: Boolean = false): String {
     return MathUtils.rounding(this, scale, force)
 }
 
 /**
- * 通过Span来 修改字体大小
+ * 通过Span来 修改字体绝对大小值
+ * @param size 修改后的字体大小
+ * @param start 开始位置
+ * @param end 结束位置
+ * @param dip 修改文字的大小是否是Dip
  */
 fun String.spanSize(size: Int, start: Int, end: Int, dip: Boolean = false): SpannableString {
     val span = SpannableString(this)
@@ -45,6 +56,9 @@ fun String.spanSize(size: Int, start: Int, end: Int, dip: Boolean = false): Span
 
 /**
  * 通过Span来 修改字体 相对大小
+ * @param size 修改后的字体大小
+ * @param start 开始位置
+ * @param end 结束位置
  */
 fun String.spanSize(size: Float, start: Int, end: Int): SpannableString {
     val span = SpannableString(this)
@@ -54,7 +68,9 @@ fun String.spanSize(size: Float, start: Int, end: Int): SpannableString {
 
 /**
  * 通过Span来 设置字体类型
- * 字体类型：字体样式 Typeface.NORMAL正常 Typeface.BOLD粗体 Typeface.ITALIC斜体  Typeface.BOLD_ITALIC粗斜体
+ * @param style 字体类型：[android.graphics.Typeface]
+ * @param start 开始位置
+ * @param end 结束位置
  */
 fun String.spanStyle(style: Int, start: Int, end: Int): SpannableString {
     val span = SpannableString(this)
@@ -63,7 +79,9 @@ fun String.spanStyle(style: Int, start: Int, end: Int): SpannableString {
 }
 
 /**
- * 获取Span内容   下划线
+ * 设置下划线内容
+ * @param start 开始位置
+ * @param end 结束位置
  */
 fun String.spanUnderLine(start: Int, end: Int): SpannableString {
     val span = SpannableString(this)
@@ -72,13 +90,17 @@ fun String.spanUnderLine(start: Int, end: Int): SpannableString {
 }
 
 /**
- * 是否是手机号
+ * 判断当前字符串是否是手机号
  */
 fun String.isPhone(): Boolean {
     val p = "^((1[3-9][0-9])\\d{8})\$".toRegex()
     return matches(p)
 }
 
+/**
+ * 给当前手机号进行脱敏处理
+ * 例如：18812348888 -> 188****8888
+ */
 fun String.phoneDesensitization(): String {
     return if (TextUtils.isEmpty(this) || this.length != 11) {
         this
@@ -87,6 +109,10 @@ fun String.phoneDesensitization(): String {
     }
 }
 
+/**
+ * 给当前手机号进行Format处理，增加空格
+ * 例如：18812348888 -> 188 1234 8888
+ */
 fun String.phoneFormat(): String {
     return if (TextUtils.isEmpty(this) || this.length != 11) {
         this
@@ -96,7 +122,7 @@ fun String.phoneFormat(): String {
 }
 
 /**
- * 是否是邮箱
+ * 判断当前字符串是否是邮箱
  */
 fun String.isEmail(): Boolean {
     if (!contains("@")) {
@@ -110,6 +136,6 @@ fun String.isEmail(): Boolean {
 }
 
 /**
- * 解析JSON转换成对象
+ * 把当前字符串转换成具体的对象
  */
 inline fun <reified T> String.parseJSON(): T = JsonUtils.gson.parseJSON(this)
