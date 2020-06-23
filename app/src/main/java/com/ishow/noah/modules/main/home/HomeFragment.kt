@@ -41,8 +41,6 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
             PrintView.reset()
             requestBaidu()
         }
-
-        bridgeWeb.registerHandler("")
     }
 
 
