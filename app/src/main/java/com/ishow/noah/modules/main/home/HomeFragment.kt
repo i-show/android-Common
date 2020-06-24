@@ -14,10 +14,7 @@ import com.ishow.noah.R
 import com.ishow.noah.databinding.FHomeBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 import kotlinx.android.synthetic.main.f_home.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.time.LocalDateTime
@@ -40,9 +37,18 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
         test3.setOnClickListener {
             PrintView.reset()
             requestBaidu()
+            GlobalScope.launch(Dispatchers.Main) {
+                val test = test()
+                test3.setText(test.toString())
+            }
+
         }
     }
 
+
+    private suspend fun test(): Int = withContext(Dispatchers.IO) {
+        return@withContext 20
+    }
 
     private fun requestBaidu() = GlobalScope.launch {
 

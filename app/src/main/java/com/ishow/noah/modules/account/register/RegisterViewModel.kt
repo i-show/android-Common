@@ -10,7 +10,7 @@ import com.ishow.noah.entries.UserContainer
 import com.ishow.noah.entries.http.AppHttpResponse
 import com.ishow.noah.entries.params.request.RegisterParams
 import com.ishow.noah.manager.UserManager
-import com.ishow.noah.modules.account.common.AccountModel
+import com.ishow.noah.modules.account.common.AppModel
 import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -43,7 +43,7 @@ class RegisterViewModel(application: Application) : AppBaseViewModel(application
         params.password = password
 
         GlobalScope.launch {
-            val accountModel = AccountModel()
+            val accountModel = AppModel.instance
             val result: AppHttpResponse<UserContainer> = requestResponse { accountModel.register(params) }
             if (result.isSuccess) {
                 UserManager.instance.setUserContainer(result.data)

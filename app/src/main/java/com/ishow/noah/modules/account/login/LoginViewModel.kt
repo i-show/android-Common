@@ -10,11 +10,13 @@ import com.ishow.noah.R
 import com.ishow.noah.entries.UserContainer
 import com.ishow.noah.entries.http.AppHttpResponse
 import com.ishow.noah.manager.UserManager
-import com.ishow.noah.modules.account.common.AccountModel
+import com.ishow.noah.modules.account.common.AppModel
 import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
 import com.ishow.noah.utils.http.okhttp.interceptor.AppHttpInterceptor
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class LoginViewModel(application: Application) : AppBaseViewModel(application) {
@@ -26,10 +28,10 @@ class LoginViewModel(application: Application) : AppBaseViewModel(application) {
     val passwordHint: LiveData<String>
         get() = _passwordHint
 
-    private lateinit var accountModel: AccountModel
+    private lateinit var accountModel: AppModel
 
     override fun init() {
-        accountModel = AccountModel()
+        accountModel = AppModel.instance
         val account = StorageUtils.get(UserContainer.Key.ACCOUNT, StringUtils.EMPTY)
         _phoneNumber.value = account
 
@@ -43,7 +45,9 @@ class LoginViewModel(application: Application) : AppBaseViewModel(application) {
     /**
      * 登录
      */
-    fun login(phone: String, password: String) = GlobalScope.launch {
+    fun login(phone: String, password: String) = GlobalScope.launch(Dispatchers.Main) {
+        accountModel.login(phone, password)
+
         val result: AppHttpResponse<UserContainer> = requestResponse { accountModel.login(phone, password) }
         if (result.isSuccess) {
             saveUserInfo(phone)

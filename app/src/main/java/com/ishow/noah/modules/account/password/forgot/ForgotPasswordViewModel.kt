@@ -11,7 +11,7 @@ import com.ishow.noah.R
 import com.ishow.noah.entries.UserContainer
 import com.ishow.noah.entries.http.AppHttpResponse
 import com.ishow.noah.entries.params.request.ForgotPasswordParams
-import com.ishow.noah.modules.account.common.AccountModel
+import com.ishow.noah.modules.account.common.AppModel
 import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -48,7 +48,7 @@ class ForgotPasswordViewModel(application: Application) : AppBaseViewModel(appli
         params.password = password
 
         GlobalScope.launch {
-            val accountModel = AccountModel()
+            val accountModel = AppModel.instance
             val result: AppHttpResponse<Any> = requestResponse { accountModel.forgotPassword(params) }
             if (result.isSuccess) {
                 mainThread { _resetState.value = Event(true) }
