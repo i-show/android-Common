@@ -15,6 +15,6 @@ class SampleCoordinatorLayoutFragment : AppBindFragment<FSampleCoordinatorLayout
     override fun getLayout(): Int = R.layout.f_sample_coordinator_layout
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        appBar.addOnOffsetChangedListener(TopEffectListener())
+        appBar.addOnOffsetChangedListener(TopEffectListener(R.id.toolbar))
     }
 }

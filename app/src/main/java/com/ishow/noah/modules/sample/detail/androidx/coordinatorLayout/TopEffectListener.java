@@ -2,8 +2,8 @@ package com.ishow.noah.modules.sample.detail.androidx.coordinatorLayout;
 
 import android.graphics.Color;
 import android.view.View;
+import android.widget.Toolbar;
 
-import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.ishow.noah.R;
@@ -12,10 +12,18 @@ import com.ishow.noah.R;
  * Created by yuhaiyang on 2020/6/29.
  */
 public class TopEffectListener implements AppBarLayout.OnOffsetChangedListener {
+
     /**
      * ToolsBar 标题的颜色
      */
-    private static final int originalColor = Color.GRAY;
+    private static final int TITLE_COLOR = Color.GRAY;
+
+    private int mToolBarId;
+
+    public TopEffectListener(int toolBarId) {
+        mToolBarId = toolBarId;
+    }
+
 
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -23,9 +31,10 @@ public class TopEffectListener implements AppBarLayout.OnOffsetChangedListener {
         final View view = appBarLayout.findViewById(R.id.large_title);
         view.setAlpha(1 - alpha);
 
-
-        final int nowColor = Color.argb((int) (alpha * 255), Color.red(originalColor), Color.green(originalColor), Color.blue(originalColor));
-        final Toolbar toolbar = appBarLayout.findViewById(R.id.toolbar);
-        toolbar.setTitleTextColor(nowColor);
+        final int nowColor = Color.argb((int) (alpha * 255), Color.red(TITLE_COLOR), Color.green(TITLE_COLOR), Color.blue(TITLE_COLOR));
+        final Toolbar toolbar = appBarLayout.findViewById(mToolBarId);
+        if (toolbar != null) {
+            toolbar.setTitleTextColor(nowColor);
+        }
     }
 }
