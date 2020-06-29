@@ -1,5 +1,6 @@
 package com.ishow.noah.modules.sample
 
+import com.ishow.noah.modules.sample.detail.androidx.coordinatorLayout.SampleCoordinatorLayoutFragment
 import com.ishow.noah.modules.sample.detail.dashline.SampleDashLineFragment
 import com.ishow.noah.modules.sample.detail.dialog.loading.SampleLoadingDialogFragment
 import com.ishow.noah.modules.sample.detail.dialog.normal.SampleBaseDialogFragment
@@ -59,6 +60,7 @@ object SampleManager {
             list.add(Sample.instance("下载", SampleDownloadFragment::class.java))
             list.add(Sample.instance("Room", SampleRoomFragment::class.java))
             list.add(Sample.instance("OkHttpCache", OkHttpCacheFragment::class.java))
+            list.add(Sample.instance("CoordinatorLayout", SampleCoordinatorLayoutFragment::class.java))
             return list
         }
 }
