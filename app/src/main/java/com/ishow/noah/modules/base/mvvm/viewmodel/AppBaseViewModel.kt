@@ -1,6 +1,7 @@
 package com.ishow.noah.modules.base.mvvm.viewmodel
 
 import android.app.Application
+import androidx.lifecycle.viewModelScope
 import com.ishow.common.app.mvvm.viewmodel.BaseViewModel
 import com.ishow.common.entries.status.Error
 import com.ishow.common.entries.status.Loading
@@ -35,11 +36,27 @@ abstract class AppBaseViewModel(application: Application) : BaseViewModel(applic
 
         if (!result.isSuccess) {
             error?.let {
+                it.errorCode = result.code
                 it.message = result.message
                 showError(it)
             }
         }
         return result
+    }
+
+    suspend fun withLoading(
+        loading: Loading? = Loading.dialog(),
+        loadingTag: Boolean = false,
+        autoDismiss: Boolean = true,
+        block: suspend () -> Unit
+    ) {
+        loading?.let {
+            randomTag(it, loadingTag)
+            showLoading(it)
+        }
+
+        block()
+        if (autoDismiss) loading?.let { dismissLoading(it) }
     }
 
     /**
@@ -48,19 +65,28 @@ abstract class AppBaseViewModel(application: Application) : BaseViewModel(applic
      */
     suspend fun <T> request(
         loading: Loading? = Loading.dialog(),
+        loadingTag: Boolean = false,
         autoDismiss: Boolean = true,
-        toastError: Boolean = true,
+        error: Error? = Error.toast(),
         block: suspend () -> AppHttpResponse<T>
     ): T? {
-        loading?.let { showLoading(it) }
+        loading?.let {
+            randomTag(it, loadingTag)
+            showLoading(it)
+        }
 
         val result: AppHttpResponse<T> = block()
-        if (autoDismiss) dismissLoading()
+
+        if (autoDismiss) loading?.let { dismissLoading(it) }
 
         return if (result.isSuccess) {
             result.data
         } else {
-            if (toastError) toast(result.message)
+            error?.let {
+                it.errorCode = result.code
+                it.message = result.message
+                showError(it)
+            }
             null
         }
     }

@@ -35,13 +35,39 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
         PrintView.reset()
 
         test3.setOnClickListener {
-            PrintView.reset()
-            requestBaidu()
-            GlobalScope.launch(Dispatchers.Main) {
-                val test = test()
-                test3.setText(test.toString())
-            }
+            var time = formatTime(60)
+            PrintView.print(time)
 
+            time = formatTime(360)
+            PrintView.print(time)
+
+            time = formatTime(3960)
+            PrintView.print(time)
+        }
+    }
+
+
+    private fun formatTime(time: Long): String {
+        if (time < 60) {
+            return "00:${formatNumber(time)}"
+        }
+        val hour = time / 3600
+        val min = time % 3600 / 60
+        val sec = time % 60
+
+        if (hour > 0) {
+            return "${hour}:${formatNumber(min)}:${formatNumber(sec)}"
+        } else {
+            return "${formatNumber(min)}:${formatNumber(sec)}"
+        }
+
+    }
+
+    private fun formatNumber(number: Long): String {
+        return if (number < 10) {
+            "0$number"
+        } else {
+            number.toString()
         }
     }
 

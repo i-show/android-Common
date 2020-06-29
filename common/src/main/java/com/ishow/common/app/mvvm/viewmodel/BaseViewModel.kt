@@ -16,6 +16,7 @@ import com.ishow.common.utils.databinding.bus.Event
 import com.ishow.common.utils.StringUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 abstract class BaseViewModel(application: Application) : AndroidViewModel(application), LifecycleObserver {
@@ -84,6 +85,7 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     protected open fun onDestroy() {
+        viewModelScope.cancel()
     }
 
     /**

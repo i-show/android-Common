@@ -3,6 +3,7 @@ package com.ishow.noah.modules.account.login
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.ishow.common.extensions.getInteger
 import com.ishow.common.utils.StorageUtils
 import com.ishow.common.utils.StringUtils
@@ -45,10 +46,10 @@ class LoginViewModel(application: Application) : AppBaseViewModel(application) {
     /**
      * 登录
      */
-    fun login(phone: String, password: String) = GlobalScope.launch(Dispatchers.Main) {
+    fun login(phone: String, password: String) = viewModelScope.launch {
         accountModel.login(phone, password)
 
-        val result: AppHttpResponse<UserContainer> = requestResponse { accountModel.login(phone, password) }
+        val result = requestResponse { accountModel.login(phone, password) }
         if (result.isSuccess) {
             saveUserInfo(phone)
             UserManager.instance.setUserContainer(result.data)
