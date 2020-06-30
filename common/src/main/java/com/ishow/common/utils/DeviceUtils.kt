@@ -11,6 +11,8 @@ import android.provider.Settings
 import android.telephony.TelephonyManager
 import android.text.TextUtils
 import android.util.Log
+import com.ishow.common.app.provider.InitCommonProvider
+import com.ishow.common.extensions.telephonyManager
 
 /**
  * Created by yuhaiyang on 2017/5/10.
@@ -32,14 +34,23 @@ object DeviceUtils {
      * 平台信息
      */
     const val platform: String = "Android"
+
     /**
      * 获取手机型号
      */
     val model: String = android.os.Build.MODEL
+
     /**
      * 获取手机的Android版本
      */
     val version: String = android.os.Build.VERSION.RELEASE
+
+    val hasSim: Boolean
+        get() = when (InitCommonProvider.app.telephonyManager.simState) {
+            TelephonyManager.SIM_STATE_ABSENT,
+            TelephonyManager.SIM_STATE_UNKNOWN -> false
+            else -> true
+        }
 
     /**
      * 获取手机的deviceId

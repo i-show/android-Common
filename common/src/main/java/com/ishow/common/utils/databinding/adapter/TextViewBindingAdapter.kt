@@ -18,4 +18,15 @@ object TextViewBindingAdapter {
     fun fakeBoldText(view: TextView, isBold: Boolean) {
         view.paint.isFakeBoldText = isBold
     }
+
+
+    /**
+     * 粗体效果
+     * 备注：这个粗体效果比 bold 细一点，看起来好一些
+     */
+    @JvmStatic
+    @BindingAdapter("bindTextColor")
+    fun bindTextColor(view: TextView, color: Int) {
+        view.setTextColor(color)
+    }
 }

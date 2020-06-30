@@ -209,7 +209,7 @@ class LoopingViewPager @JvmOverloads constructor(context: Context, attrs: Attrib
     /**
      * 设置标记
      */
-    fun setIndicator(indicator: ILoopingIndicator) {
+    fun setIndicator(indicator: ILoopingIndicator?) {
         mLoopingIndicator = indicator
         notifyLoopingIndicatorViewSizeChanged()
         notifyLoopingIndicatorDataChanged()

@@ -2,13 +2,13 @@
 
 package com.ishow.common.extensions
 
+import android.content.ClipData
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
-import android.text.style.AbsoluteSizeSpan
-import android.text.style.RelativeSizeSpan
-import android.text.style.StyleSpan
-import android.text.style.UnderlineSpan
+import android.text.style.*
+import androidx.annotation.ColorRes
+import com.ishow.common.app.provider.InitCommonProvider
 import com.ishow.common.utils.JsonUtils
 import com.ishow.common.utils.MathUtils
 import com.ishow.common.utils.StringUtils
@@ -55,6 +55,23 @@ fun String.spanSize(size: Int, start: Int, end: Int, dip: Boolean = false): Span
 }
 
 /**
+ * 通过Span来 修改字体大小
+ */
+fun String.spanColorRes(child: String, @ColorRes color: Int): SpannableString {
+    return spanColor(child, InitCommonProvider.app.findColor(color))
+}
+
+/**
+ * 通过Span来 修改字体大小
+ */
+fun String.spanColor(child: String, color: Int): SpannableString {
+    val start = indexOf(child)
+    val span = SpannableString(this)
+    span.setSpan(ForegroundColorSpan(color), start, start + child.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+    return span
+}
+
+/**
  * 通过Span来 修改字体 相对大小
  * @param size 修改后的字体大小
  * @param start 开始位置
@@ -83,7 +100,7 @@ fun String.spanStyle(style: Int, start: Int, end: Int): SpannableString {
  * @param start 开始位置
  * @param end 结束位置
  */
-fun String.spanUnderLine(start: Int, end: Int): SpannableString {
+fun String.spanUnderLine(start: Int = 0, end: Int = this.length): SpannableString {
     val span = SpannableString(this)
     span.setSpan(UnderlineSpan(), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
     return span
@@ -133,6 +150,13 @@ fun String.isEmail(): Boolean {
     }
     val p = "^(\\w)+(\\.\\w+)*@(\\w)+((\\.\\w+)+)\$".toRegex()
     return matches(p)
+}
+
+
+fun String.copy2Clipboard(label: String = "label") {
+    val manager = InitCommonProvider.app.clipboardManager
+    val data = ClipData.newPlainText(label, this)
+    manager.setPrimaryClip(data)
 }
 
 /**

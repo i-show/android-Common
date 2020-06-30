@@ -77,6 +77,8 @@ dependencies {
     api "androidx.lifecycle:lifecycle-extensions:$versions.androidx.lifecycle"
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.androidx.lifecycle"
     api "androidx.lifecycle:lifecycle-livedata-ktx:$versions.androidx.lifecycle"
+    api "androidx.lifecycle:lifecycle-runtime-ktx:$versions.androidx.lifecycle"
+    api "androidx.lifecycle:lifecycle-livedata-ktx:$versions.androidx.lifecycle"
     api "androidx.room:room-runtime:$versions.androidx.room"
     api "androidx.room:room-ktx:$versions.androidx.room"
     kapt "androidx.room:room-compiler:$versions.androidx.room"

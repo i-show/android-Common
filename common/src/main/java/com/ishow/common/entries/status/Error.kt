@@ -57,7 +57,7 @@ class Error {
         /**
          * View展示
          */
-        fun view(message: String? = StringUtils.EMPTY, errorCode: Int = 0): Error {
+        fun view(errorCode: Int = 0, message: String? = StringUtils.EMPTY): Error {
             val error = Error()
             error.showType = Type.View
             error.errorCode = errorCode
@@ -104,10 +104,12 @@ class Error {
          * 通过Dialog样式来展示
          */
         const val Dialog = 1
+
         /**
          * 通过View样式来展示
          */
         const val View = 2
+
         /**
          * 通过Toast样式来展示
          */
