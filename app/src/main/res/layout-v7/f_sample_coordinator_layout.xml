@@ -44,13 +44,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <Toolbar
+                <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:title="标题"
-                    android:titleTextColor="#333333" />
+                    app:title="标题"
+                    app:titleTextColor="#333333" />
             </FrameLayout>
         </com.google.android.material.appbar.AppBarLayout>
 

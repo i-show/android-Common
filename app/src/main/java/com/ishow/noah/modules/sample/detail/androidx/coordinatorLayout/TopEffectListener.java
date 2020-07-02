@@ -2,8 +2,9 @@ package com.ishow.noah.modules.sample.detail.androidx.coordinatorLayout;
 
 import android.graphics.Color;
 import android.view.View;
-import android.widget.Toolbar;
 
+
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.ishow.noah.R;
@@ -16,7 +17,7 @@ public class TopEffectListener implements AppBarLayout.OnOffsetChangedListener {
     /**
      * ToolsBar 标题的颜色
      */
-    private static final int TITLE_COLOR = Color.GRAY;
+    private static final int TITLE_COLOR = Color.DKGRAY;
 
     private int mToolBarId;
 
