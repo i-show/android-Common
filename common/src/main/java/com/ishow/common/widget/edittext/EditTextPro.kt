@@ -560,6 +560,7 @@ class EditTextPro @JvmOverloads constructor(context: Context, attrs: AttributeSe
             val tmpTop = (measuredHeight - height) / 2
             left += mRightImageMarginStart
             mRightImageView!!.layout(left, tmpTop, left + width, tmpTop + height)
+            left += width + mRightImageMarginEnd
         }
         index = -1
         layoutCustomize(left, index)

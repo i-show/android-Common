@@ -1,23 +1,27 @@
 package com.ishow.noah.modules.main.home
 
-import android.animation.ValueAnimator
+import android.graphics.Bitmap
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
-import com.ishow.common.extensions.dialog
-import com.ishow.common.utils.DateUtils
+import androidx.lifecycle.lifecycleScope
+import com.ishow.common.extensions.findDrawable
 import com.ishow.common.utils.router.AppRouter
-import com.ishow.common.utils.textwatcher.PhoneNumberTextWatcher
 import com.ishow.common.widget.PrintView
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FHomeBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
+import com.ishow.noah.ui.widget.FixedScaleDrawable
 import kotlinx.android.synthetic.main.f_home.*
 import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import java.time.LocalDateTime
+import java.net.URL
+import java.net.URLConnection
+import java.util.*
 
 
 /**
@@ -28,24 +32,21 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
 
     override fun getLayout(): Int = R.layout.f_home
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         PrintView.init(printView)
         PrintView.reset()
 
-        test3.setOnClickListener {
-            var time = formatTime(60)
-            PrintView.print(time)
+        val drawable = requireContext().findDrawable(R.drawable.test)!!
+        image1.setImageDrawable(drawable)
 
-            time = formatTime(360)
-            PrintView.print(time)
+        image2.setImageBitmap(FixedScaleDrawable.drawableToBitmap(drawable, 1F))
+        image3.setImageBitmap(FixedScaleDrawable.drawableToBitmap(drawable, 1.5F))
 
-            time = formatTime(3960)
-            PrintView.print(time)
-        }
+
     }
-
 
     private fun formatTime(time: Long): String {
         if (time < 60) {
