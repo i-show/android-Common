@@ -56,7 +56,7 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
         test1.text = text
         test1.enableClickableSpan()
 
-
+        root.fitKeyBoard(neeShow)
     }
 
     private fun formatTime(time: Long): String {
