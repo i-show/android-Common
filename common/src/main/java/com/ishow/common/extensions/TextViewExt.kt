@@ -1,6 +1,7 @@
 package com.ishow.common.extensions
 
 import android.graphics.drawable.Drawable
+import android.text.method.LinkMovementMethod
 import android.widget.TextView
 
 /**
@@ -50,4 +51,11 @@ fun TextView.setDrawableTop(drawable: Drawable) {
  */
 fun TextView.fakeBoldText() {
     this.paint.isFakeBoldText = true
+}
+
+/**
+ * 启动可以使用SpanClick
+ */
+fun TextView.enableClickableSpan() {
+    movementMethod = LinkMovementMethod.getInstance()
 }

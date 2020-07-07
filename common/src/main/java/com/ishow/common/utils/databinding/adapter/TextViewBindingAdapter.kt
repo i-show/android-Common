@@ -1,5 +1,6 @@
 package com.ishow.common.utils.databinding.adapter
 
+import android.graphics.Paint
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 
@@ -28,5 +29,15 @@ object TextViewBindingAdapter {
     @BindingAdapter("bindTextColor")
     fun bindTextColor(view: TextView, color: Int) {
         view.setTextColor(color)
+    }
+
+    /**
+     * 设置下划线效果
+     */
+    @JvmStatic
+    @BindingAdapter("bindUnderLine")
+    fun bindUnderLine(view: TextView, status: Boolean) {
+        view.paint.flags = Paint.UNDERLINE_TEXT_FLAG
+        view.paint.isAntiAlias = true
     }
 }

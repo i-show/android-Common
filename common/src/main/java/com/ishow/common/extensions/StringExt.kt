@@ -42,6 +42,13 @@ fun String.rounding(scale: Int = -1, force: Boolean = false): String {
 }
 
 /**
+ * 转换为SpannableString
+ */
+fun String.asSpan(): SpannableString {
+    return SpannableString(this)
+}
+
+/**
  * 通过Span来 修改字体绝对大小值
  * @param size 修改后的字体大小
  * @param start 开始位置
