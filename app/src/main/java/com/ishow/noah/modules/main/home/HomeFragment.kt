@@ -1,15 +1,11 @@
 package com.ishow.noah.modules.main.home
 
-import android.graphics.Bitmap
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import com.ishow.common.extensions.*
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.widget.PrintView
@@ -21,9 +17,6 @@ import kotlinx.android.synthetic.main.f_home.*
 import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import java.net.URL
-import java.net.URLConnection
-import java.util.*
 
 
 /**
@@ -44,17 +37,8 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
         val drawable = requireContext().findDrawable(R.drawable.test)!!
         image1.setImageDrawable(drawable)
 
-        image2.setImageBitmap(FixedScaleDrawable.drawableToBitmap(drawable, 1F))
         image3.setImageBitmap(FixedScaleDrawable.drawableToBitmap(drawable, 1.5F))
-
-
-        val text = "发电量近卡拉卡攻击力".asSpan()
-            .spanClick("卡拉卡", underline = true) { toast("点击了 卡拉卡") }
-            .spanColor("卡拉卡", Color.RED)
-            .spanSize("卡拉卡", 1.2F)
-
-        test1.text = text
-        test1.enableClickableSpan()
+        image3.setOnClickListener {}
 
         root.fitKeyBoard(neeShow)
     }
