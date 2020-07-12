@@ -639,7 +639,7 @@ class TextViewPro @JvmOverloads constructor(context: Context, attrs: AttributeSe
         setText(text)
     }
 
-    fun setText(text: CharSequence) {
+    fun setText(text: CharSequence?) {
         mTextView.text = text
         requestLayout()
     }
