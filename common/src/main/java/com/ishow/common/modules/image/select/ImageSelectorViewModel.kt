@@ -5,12 +5,14 @@ import android.view.View
 import android.widget.CheckBox
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.ishow.common.R
 import com.ishow.common.app.mvvm.viewmodel.BaseViewModel
 import com.ishow.common.entries.Folder
 import com.ishow.common.entries.Image
 import com.ishow.common.utils.ToastUtils
 import com.ishow.common.utils.databinding.bus.Event
+import kotlinx.coroutines.launch
 
 class ImageSelectorViewModel(application: Application) : BaseViewModel(application) {
     /**
@@ -111,11 +113,13 @@ class ImageSelectorViewModel(application: Application) : BaseViewModel(applicati
         _topRightText.value = context.getString(R.string.complete)
         _previewText.value = context.getString(R.string.preview_image)
 
-        val photoModel = ImageModel(context)
-        photoModel.getPhotos { folders, photos ->
-            _currentFolder.value = if (folders.isNotEmpty()) folders[0] else null
-            _folderList.value = folders
-            _imageList.value = photos
+        viewModelScope.launch {
+            val photoModel = ImageModel(context)
+            photoModel.getPhotos { folders, photos ->
+                _currentFolder.value = if (folders.isNotEmpty()) folders[0] else null
+                _folderList.value = folders
+                _imageList.value = photos
+            }
         }
     }
 

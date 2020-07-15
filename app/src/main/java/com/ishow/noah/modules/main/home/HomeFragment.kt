@@ -1,5 +1,6 @@
 package com.ishow.noah.modules.main.home
 
+import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -35,10 +36,23 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
         PrintView.reset()
 
         val drawable = requireContext().findDrawable(R.drawable.test)!!
-        image1.setImageDrawable(drawable)
+        image1.setImageResource(R.drawable.test_banner)
+        image1.setOnClickListener {
+            val bitmap = BitmapFactory.decodeResource(resources, R.drawable.test_banner)
+            image1.setImageBitmap(bitmap.brightness(0F))
+        }
 
-        image3.setImageBitmap(FixedScaleDrawable.drawableToBitmap(drawable, 1.5F))
-        image3.setOnClickListener {}
+        image2.setImageResource(R.drawable.test_banner)
+        image2.setOnClickListener {
+            val bitmap = BitmapFactory.decodeResource(resources, R.drawable.test_banner)
+            image2.setImageBitmap(bitmap.brightness(50F))
+        }
+
+        image3.setImageResource(R.drawable.test_banner)
+        image3.setOnClickListener {
+            val bitmap = BitmapFactory.decodeResource(resources, R.drawable.test_banner)
+            image3.setImageBitmap(bitmap.brightness(-100F))
+        }
 
         root.fitKeyBoard(neeShow)
     }

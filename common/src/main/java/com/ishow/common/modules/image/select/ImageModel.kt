@@ -12,6 +12,7 @@ import com.ishow.common.extensions.mainThread
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 
 class ImageModel(private val context: Context) {
@@ -20,12 +21,12 @@ class ImageModel(private val context: Context) {
     private val folderList = ArrayList<Folder>()
 
     @SuppressLint("CheckResult")
-    fun getPhotos(listener: ((MutableList<Folder>, MutableList<Image>) -> Unit)?) = GlobalScope.launch(Dispatchers.IO) {
+    suspend fun getPhotos(listener: ((MutableList<Folder>, MutableList<Image>) -> Unit)?) = withContext(Dispatchers.IO) {
 
         val cursor = context.contentResolver.query(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
             IMAGE_PROJECTION, null, null,
-            IMAGE_PROJECTION[INDEX_MODIFY_DATE] + " DESC"
+            MediaStore.Images.Media.DATE_MODIFIED + " DESC"
         )
 
         cursor?.let {

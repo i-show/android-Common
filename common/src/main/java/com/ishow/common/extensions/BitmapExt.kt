@@ -94,6 +94,23 @@ fun Bitmap.compress(format: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG, 
 }
 
 /**
+ * 调节Bitmap的亮度
+ * @param brightness 亮度的值 1-255 为增亮 ； -254 - 0 为加黑
+ */
+fun Bitmap.brightness(brightness: Float): Bitmap {
+    val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+    val cMatrix = ColorMatrix()
+    cMatrix.set(floatArrayOf(1f, 0f, 0f, 0f, brightness, 0f, 1f, 0f, 0f, brightness, 0f, 0f, 1f, 0f, brightness, 0f, 0f, 0f, 1f, 0f))
+
+    val paint = Paint()
+    paint.colorFilter = ColorMatrixColorFilter(cMatrix)
+
+    val canvas = Canvas(bitmap)
+    canvas.drawBitmap(this, 0f, 0f, paint)
+    return bitmap
+}
+
+/**
  * 保存
  */
 fun Bitmap.save(
