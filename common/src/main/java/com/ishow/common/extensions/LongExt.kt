@@ -2,14 +2,16 @@ package com.ishow.common.extensions
 
 import java.time.*
 
-
+/**
+ * Long 转 ZonedDateTime
+ */
 fun Long.toZonedDateTime(zoneId: ZoneId = ZoneId.systemDefault()): ZonedDateTime {
     return Instant.ofEpochMilli(this)
         .atZone(zoneId)
 }
 
 /**
- * Date 转LocalDateTime
+ * Long 转 LocalDateTime
  */
 @JvmOverloads
 fun Long.toLocalDateTime(zoneId: ZoneId = ZoneId.systemDefault()): LocalDateTime {
@@ -17,9 +19,8 @@ fun Long.toLocalDateTime(zoneId: ZoneId = ZoneId.systemDefault()): LocalDateTime
         .toLocalDateTime()
 }
 
-
 /**
- * Date 转LocalDate
+ * Long 转 LocalDate
  */
 @JvmOverloads
 fun Long.toLocalDate(zoneId: ZoneId = ZoneId.systemDefault()): LocalDate {
@@ -27,9 +28,8 @@ fun Long.toLocalDate(zoneId: ZoneId = ZoneId.systemDefault()): LocalDate {
         .toLocalDate()
 }
 
-
 /**
- * Date 转LocalTime
+ * Long 转 LocalTime
  */
 @JvmOverloads
 fun Long.toLocalTime(zoneId: ZoneId = ZoneId.systemDefault()): LocalTime {

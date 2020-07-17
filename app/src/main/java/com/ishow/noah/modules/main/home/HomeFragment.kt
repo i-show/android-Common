@@ -1,19 +1,24 @@
 package com.ishow.noah.modules.main.home
 
+import android.content.ContentUris
+import android.content.Context
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
 import com.ishow.common.extensions.*
+import com.ishow.common.modules.image.select.ImageModel
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.widget.PrintView
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FHomeBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 import com.ishow.noah.ui.widget.FixedScaleDrawable
+import com.ishow.noah.utils.QRCodeUtils
 import kotlinx.android.synthetic.main.f_home.*
 import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
@@ -50,11 +55,48 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
 
         image3.setImageResource(R.drawable.test_banner)
         image3.setOnClickListener {
-            val bitmap = BitmapFactory.decodeResource(resources, R.drawable.test_banner)
-            image3.setImageBitmap(bitmap.brightness(-100F))
+            PrintView.print("dp2px = ${305F.dp2px()}")
+            PrintView.print("dp22px = ${dip2px(requireContext(), 305F)}")
         }
 
         root.fitKeyBoard(neeShow)
+    }
+
+    fun dip2px(context: Context, dipValue: Float): Int {
+        val scale = context.resources.displayMetrics.density
+        return (dipValue * scale + 0.5f).toInt()
+    }
+
+    private fun getLastImage() {
+        val context = requireContext()
+
+        /**
+         * 搜索的列
+         */
+        val IMAGE_PROJECTION = arrayOf(
+            MediaStore.Images.Media._ID,
+            MediaStore.Images.Media.DISPLAY_NAME,
+            MediaStore.Images.Media.SIZE,
+            MediaStore.Images.Media.DATE_MODIFIED,
+            MediaStore.Images.Media.BUCKET_ID,
+            MediaStore.Images.Media.BUCKET_DISPLAY_NAME
+        )
+
+        val cursor = context.contentResolver.query(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            IMAGE_PROJECTION, null, null,
+            MediaStore.Images.Media.DATE_MODIFIED + " DESC"
+        )
+
+        cursor?.moveToFirst()
+        cursor?.use {
+            val id = it.getLong(0)
+            val uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
+            val name = it.getString(1)
+            val bitmap = BitmapFactory.decodeStream(requireContext().contentResolver.openInputStream(uri))
+            val result = QRCodeUtils.decode(bitmap)
+            Log.i("yhy", "name = $name ,result = $result")
+        }
     }
 
     private fun formatTime(time: Long): String {

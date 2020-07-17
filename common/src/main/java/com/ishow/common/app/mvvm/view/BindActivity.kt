@@ -1,6 +1,7 @@
 package com.ishow.common.app.mvvm.view
 
 import android.view.View
+import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer

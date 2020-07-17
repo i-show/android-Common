@@ -46,6 +46,18 @@ fun View.setPaddingVertical(value: Int) {
 }
 
 /**
+ * 单独设置 MarginStart
+ * @param value 设定具体的值
+ */
+fun View.setMarginStart(value: Int) {
+    val layoutParams = layoutParams
+    if (layoutParams is ViewGroup.MarginLayoutParams) {
+        layoutParams.marginStart = value
+        this.layoutParams = layoutParams
+    }
+}
+
+/**
  * 单独设置 MarginTop
  * @param value 设定具体的值
  */
@@ -53,6 +65,30 @@ fun View.setMarginTop(value: Int) {
     val layoutParams = layoutParams
     if (layoutParams is ViewGroup.MarginLayoutParams) {
         layoutParams.topMargin = value
+        this.layoutParams = layoutParams
+    }
+}
+
+/**
+ * 单独设置 MarginEnd
+ * @param value 设定具体的值
+ */
+fun View.setMarginEnd(value: Int) {
+    val layoutParams = layoutParams
+    if (layoutParams is ViewGroup.MarginLayoutParams) {
+        layoutParams.marginEnd = value
+        this.layoutParams = layoutParams
+    }
+}
+
+/**
+ * 单独设置 MarginBottom
+ * @param value 设定具体的值
+ */
+fun View.setMarginBottom(value: Int) {
+    val layoutParams = layoutParams
+    if (layoutParams is ViewGroup.MarginLayoutParams) {
+        layoutParams.bottomMargin = value
         this.layoutParams = layoutParams
     }
 }
@@ -105,6 +141,7 @@ fun View.fitStatusBarByMargin() {
 
 /**
  * 自适应软键盘遮挡底部布局问题
+ * @param showChild 界面中必须要展示的View
  */
 fun View.fitKeyBoard(showChild: View) {
     val activity = context as Activity
@@ -116,7 +153,7 @@ fun View.fitKeyBoard(showChild: View) {
         val screenHeight: Int = window.decorView.height
         val softHeight: Int = screenHeight - rect.bottom
 
-         val scrollDistance: Int = softHeight - (screenHeight - showChild.bottom)
+        val scrollDistance: Int = softHeight - (screenHeight - showChild.bottom)
         if (scrollDistance > 0) {
             scrollTo(0, scrollDistance + 60)
         } else {

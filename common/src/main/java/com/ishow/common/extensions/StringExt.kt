@@ -125,9 +125,11 @@ fun String.isPhone(): Boolean {
  * 给当前手机号进行脱敏处理
  * 例如：18812348888 -> 188****8888
  */
-fun String.phoneDesensitization(): String {
+fun String.phoneDesensitization(hasGap: Boolean = true): String {
     return if (TextUtils.isEmpty(this) || this.length != 11) {
         this
+    } else if (hasGap) {
+        this.replace("(\\d{3})\\d{4}(\\d{4})".toRegex(), "$1 **** $2")
     } else {
         this.replace("(\\d{3})\\d{4}(\\d{4})".toRegex(), "$1****$2")
     }
@@ -159,7 +161,9 @@ fun String.isEmail(): Boolean {
     return matches(p)
 }
 
-
+/**
+ * 把字符Copy到剪切板上
+ */
 fun String.copy2Clipboard(label: String = "label") {
     val manager = InitCommonProvider.app.clipboardManager
     val data = ClipData.newPlainText(label, this)

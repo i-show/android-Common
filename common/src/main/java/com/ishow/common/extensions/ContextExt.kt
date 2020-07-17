@@ -5,6 +5,7 @@ package com.ishow.common.extensions
 import android.app.Activity
 import android.app.AlarmManager
 import android.app.KeyguardManager
+import android.app.NotificationManager
 import android.app.admin.DevicePolicyManager
 import android.content.ActivityNotFoundException
 import android.content.ClipboardManager
@@ -135,6 +136,9 @@ fun Context.getBoolean(@BoolRes id: Int) = resources.getBoolean(id)
  */
 fun Context.getInteger(@IntegerRes id: Int) = resources.getInteger(id)
 
+/**
+ * 获取PixelSiz
+ */
 fun Context.getDimensionPixelSize(@DimenRes id: Int) = resources.getDimensionPixelSize(id)
 
 /**
@@ -164,6 +168,8 @@ inline val Context.clipboardManager: ClipboardManager
 inline val Context.locationManager: LocationManager
     get() = getSystemService(LOCATION_SERVICE) as LocationManager
 
+inline val Context.notificationManager: NotificationManager
+    get() = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 /**
  * 跳转浏览器
  */
@@ -251,22 +257,23 @@ fun Context.open(cls: Class<*>, finishSelf: Boolean = false) {
 }
 
 /**
- * 获取APP的名称
+ * 根据Context 获取APP的名称
  */
-fun Context.appName(): String? {
-    return try {
+val Context.appName: String
+    get() = try {
         val packageInfo = packageManager.getPackageInfo(packageName, 0)
         getString(packageInfo.applicationInfo.labelRes)
     } catch (e: PackageManager.NameNotFoundException) {
-        null
+        StringUtils.EMPTY
     }
-}
 
-fun Context.versionName(): String {
-    return try {
+/**
+ * 根据Context 获取当前的VersionName
+ */
+val Context.versionName: String
+    get() = try {
         packageManager.getPackageInfo(packageName, PackageManager.GET_META_DATA).versionName
     } catch (e: Exception) {
         e.printStackTrace()
         StringUtils.EMPTY
     }
-}
