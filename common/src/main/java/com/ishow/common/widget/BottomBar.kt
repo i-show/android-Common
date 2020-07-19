@@ -39,14 +39,17 @@ class BottomBar @JvmOverloads constructor(
      * 选中切换的监听
      */
     private var mBottomBarListener: OnBottomBarListener? = null
-    private var mBottomBarBlock: ((ViewGroup, Int, Int) -> Unit)? = null
+    private var mBottomBarBlock: ((parent: ViewGroup, selectId: Int, index: Int) -> Unit)? = null
+    private var mInterceptorBlock: ((parent: ViewGroup, selectId: Int, index: Int) -> Boolean)? = null
 
     private var mBottomBarClickListener: OnBottomBarClickListener? = null
-    private var mBottomBarClickBolck: ((View, Boolean) -> Unit)? = null
+    private var mBottomBarClickBlock: ((View, Boolean) -> Unit)? = null
+
     /**
      * 选中的ID
      */
     private var mSelectedId: Int = 0
+
     /**
      * 不能进行点选的ID 一般只有一个
      */
@@ -99,6 +102,11 @@ class BottomBar @JvmOverloads constructor(
             return
         }
 
+        if (mInterceptorBlock?.invoke(this, id, findSelectedChildIndex(id)) == true) {
+            Log.i(TAG, "already block")
+            return
+        }
+
         // 1. 把 将要选中的View的状态修改为true
         if (id != -1) {
             setSelectedStateForView(id, true)
@@ -114,10 +122,10 @@ class BottomBar @JvmOverloads constructor(
     /**
      * 查询当前选中view的index
      */
-    private fun findSelectedChildIndex(): Int {
+    private fun findSelectedChildIndex(id: Int = mSelectedId): Int {
         for (i in 0 until childCount) {
             val view = getChildAt(i)
-            if (mSelectedId == view.id) {
+            if (id == view.id) {
                 return i
             }
         }
@@ -140,8 +148,12 @@ class BottomBar @JvmOverloads constructor(
     override fun onClick(v: View) {
         val id = v.id
         mBottomBarClickListener?.onClickChild(v, id == mSelectedId)
-        mBottomBarClickBolck?.let { it(v, id == mSelectedId) }
+        mBottomBarClickBlock?.let { it(v, id == mSelectedId) }
         selectedId = id
+    }
+
+    fun setInterceptorListener(block: ((parent: ViewGroup, selectId: Int, index: Int) -> Boolean)? = null) {
+        mInterceptorBlock = block
     }
 
     /**
@@ -171,7 +183,7 @@ class BottomBar @JvmOverloads constructor(
      *  设置Child的点击事件
      */
     fun setOnChildClickListener(listener: (View, Boolean) -> Unit) {
-        mBottomBarClickBolck = listener
+        mBottomBarClickBlock = listener
     }
 
     /**

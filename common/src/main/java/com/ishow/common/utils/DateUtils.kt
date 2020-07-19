@@ -21,8 +21,10 @@ import android.util.LruCache
 import com.ishow.common.R
 import com.ishow.common.extensions.date.toEpochMilli
 import com.ishow.common.extensions.date.toLocalDateTime
+import com.ishow.common.extensions.toLocalDate
 import com.ishow.common.extensions.toLocalDateTime
 import java.text.ParseException
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -218,38 +220,22 @@ object DateUtils {
     /**
      * 判断是不是同一天
      */
-    fun isSameDay(time1: Long, time2: Long): Boolean {
+    fun isSameDay(time1: Long, time2: Long = System.currentTimeMillis()): Boolean {
         return removeHourMinSec(time1) == removeHourMinSec(time2)
     }
 
+
     /**
-     * 更友好的显示
+     * 将时间戳转换成描述性时间（昨天、今天、明天）
+     *
+     * @param timestamp 时间戳
+     * @return 描述性日期
      */
-    @JvmStatic
-    @JvmOverloads
-    fun formatFriendly(context: Context?, time: Long, targetModel: String = FORMAT_YMD): String {
-        if (context == null) return StringUtils.EMPTY
-        val now = System.currentTimeMillis()
-        val today = removeHourMinSec(now)
-        val yesterday = removeHourMinSec(now - DAY_1)
-        val current = removeHourMinSec(time)
-
-        // 0.先把Date类型的对象转换Calendar类型的对象
-        val todayCalendar = Calendar.getInstance()
-        val targetCalendar = Calendar.getInstance()
-
-        todayCalendar.timeInMillis = now
-        targetCalendar.timeInMillis = time
-
-        @Suppress("CascadeIf")
-        return if (current == today) {
-            context.getString(R.string.today)
-        } else if (current == yesterday) {
-            context.getString(R.string.yesterday)
-        } else if (todayCalendar.get(Calendar.WEEK_OF_YEAR) == targetCalendar.get(Calendar.WEEK_OF_YEAR)) {
-            context.getString(R.string.this_week)
-        } else {
-            format(time, targetModel)
+    fun formatFriendly(timestamp: Long): String {
+        return when (LocalDate.now().toEpochDay() - timestamp.toLocalDate().toEpochDay()) {
+            0L -> "今天"
+            in 1L..7L -> "一周内"
+            else -> format(timestamp)
         }
     }
 }

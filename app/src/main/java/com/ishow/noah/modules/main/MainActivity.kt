@@ -61,10 +61,14 @@ class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
         super.onNewIntent(intent)
         val type = intent.getIntExtra(KEY_TYPE, TAB_FIRST)
         bottomBar.setSelectedId(type, true)
+
     }
 
     override fun initViews() {
         super.initViews()
+        bottomBar.setInterceptorListener { parent, selectId, index ->
+            return@setInterceptorListener index == 2
+        }
 
         tab1Fragment = HomeFragment.newInstance()
         fragmentList.add(tab1Fragment!!)
@@ -106,7 +110,6 @@ class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
     override fun onSelectedChanged(parent: ViewGroup, @IdRes selectId: Int, index: Int) {
         viewPager.setCurrentItem(index, false)
     }
-
 
 
     companion object {

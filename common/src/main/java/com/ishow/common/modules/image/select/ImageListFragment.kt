@@ -171,7 +171,7 @@ class ImageListFragment : BindFragment<FragmentImageListCommonBinding, BaseViewM
             val layoutManager: GridLayoutManager = recyclerView.layoutManager as GridLayoutManager
             if (timeLine.alpha >= 0.15f) {
                 val image = adapter.getItem(layoutManager.findFirstVisibleItemPosition())
-                timeLine.text = DateUtils.formatFriendly(context, image.modifyDate * 1000)
+                timeLine.text = DateUtils.formatFriendly(image.modifyDate * 1000)
             }
         }
     }

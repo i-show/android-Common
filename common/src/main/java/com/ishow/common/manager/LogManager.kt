@@ -34,7 +34,7 @@ class LogManager private constructor() {
             InitLogWorker().work(context)
         }
 
-        fun initKey(context: Context) = "log_" + context.versionName().replace(".", "_")
+        fun initKey(context: Context) = "log_" + context.versionName.replace(".", "_")
 
 
         private fun isDebug(context: Context): Boolean {

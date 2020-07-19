@@ -23,6 +23,7 @@ import kotlinx.android.synthetic.main.f_home.*
 import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import java.time.LocalDate
 
 
 /**
@@ -55,16 +56,24 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
 
         image3.setImageResource(R.drawable.test_banner)
         image3.setOnClickListener {
-            PrintView.print("dp2px = ${305F.dp2px()}")
-            PrintView.print("dp22px = ${dip2px(requireContext(), 305F)}")
+            Log.i("yhy", "1 = " + test(0L))
+            Log.i("yhy", "1 = " + test(1L))
+            Log.i("yhy", "1 = " + test(7L))
+            Log.i("yhy", "1 = " + test(8L))
+            Log.i("yhy", "1 = " + test(3L))
+
+
         }
 
         root.fitKeyBoard(neeShow)
     }
 
-    fun dip2px(context: Context, dipValue: Float): Int {
-        val scale = context.resources.displayMetrics.density
-        return (dipValue * scale + 0.5f).toInt()
+    fun test(test: Long): String {
+        return when (test) {
+            0L -> "今天"
+            in 1L..7L -> "一周内"
+            else -> "eselse"
+        }
     }
 
     private fun getLastImage() {

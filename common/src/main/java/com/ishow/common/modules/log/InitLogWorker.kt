@@ -43,8 +43,8 @@ class InitLogWorker {
         val screenSize = DeviceUtils.screenSize
         val app = HashMap<String, Any?>()
         app["appId"] = context.packageName
-        app["appName"] = context.appName()
-        app["appVersion"] = context.versionName()
+        app["appName"] = context.appName
+        app["appVersion"] = context.versionName
         app["commonVersion"] = BuildConfig.VERSION
         app["commonArtifact"] = BuildConfig.ARTIFACT_ID
 

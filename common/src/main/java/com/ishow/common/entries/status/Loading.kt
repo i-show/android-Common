@@ -10,7 +10,6 @@ class Loading {
     var status: Int = Status.Show
     var tag: String? = null
 
-
     companion object {
         /**
          * Dialog展示
