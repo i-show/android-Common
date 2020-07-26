@@ -146,16 +146,16 @@ class BLEManager private constructor() {
     fun startScan(callback: ScanCallback, filter: List<ScanFilter>, settings: ScanSettings? = null) {
         val adapter = BluetoothAdapter.getDefaultAdapter()
         if (settings == null) {
-            adapter.bluetoothLeScanner.startScan(filter, ScanSettings.Builder().build(), callback)
+            adapter.bluetoothLeScanner?.startScan(filter, ScanSettings.Builder().build(), callback)
         } else {
-            adapter.bluetoothLeScanner.startScan(filter, settings, callback)
+            adapter.bluetoothLeScanner?.startScan(filter, settings, callback)
         }
     }
 
     @SuppressLint("MissingPermission")
     fun stopScan(callback: ScanCallback) {
         val adapter = BluetoothAdapter.getDefaultAdapter()
-        adapter.bluetoothLeScanner.stopScan(callback)
+        adapter.bluetoothLeScanner?.stopScan(callback)
     }
 
     fun connectGatt(context: Context, address: String?, callback: BluetoothGattCallback? = null) {

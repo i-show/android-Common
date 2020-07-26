@@ -1,0 +1,30 @@
+commit 67c47e8e900038f4d1557327cd0a18524af831f5
+Author: yuhaiyang <yuhaiyang@cityshield.net>
+Date:   Sun Jul 26 21:32:36 2020 +0800
+
+    修复BleManager 闪退问题
+
+diff --git a/common/src/main/java/com/ishow/common/utils/ble/BLEManager.kt b/common/src/main/java/com/ishow/common/utils/ble/BLEManager.kt
+index dccc8b1c..089e4c49 100644
+--- a/common/src/main/java/com/ishow/common/utils/ble/BLEManager.kt
++++ b/common/src/main/java/com/ishow/common/utils/ble/BLEManager.kt
+@@ -146,16 +146,16 @@ class BLEManager private constructor() {
+     fun startScan(callback: ScanCallback, filter: List<ScanFilter>, settings: ScanSettings? = null) {
+         val adapter = BluetoothAdapter.getDefaultAdapter()
+         if (settings == null) {
+-            adapter.bluetoothLeScanner.startScan(filter, ScanSettings.Builder().build(), callback)
++            adapter.bluetoothLeScanner?.startScan(filter, ScanSettings.Builder().build(), callback)
+         } else {
+-            adapter.bluetoothLeScanner.startScan(filter, settings, callback)
++            adapter.bluetoothLeScanner?.startScan(filter, settings, callback)
+         }
+     }
+ 
+     @SuppressLint("MissingPermission")
+     fun stopScan(callback: ScanCallback) {
+         val adapter = BluetoothAdapter.getDefaultAdapter()
+-        adapter.bluetoothLeScanner.stopScan(callback)
++        adapter.bluetoothLeScanner?.stopScan(callback)
+     }
+ 
+     fun connectGatt(context: Context, address: String?, callback: BluetoothGattCallback? = null) {
