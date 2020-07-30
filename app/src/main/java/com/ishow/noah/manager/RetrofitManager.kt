@@ -1,7 +1,9 @@
 package com.ishow.noah.manager
 
 import com.ishow.common.utils.http.okhttp.interceptor.OkHttpLogInterceptor
+import com.ishow.noah.BuildConfig
 import com.ishow.noah.data.retrofit.AppRestService
+import com.ishow.noah.data.retrofit.LogRestService
 import com.ishow.noah.utils.http.okhttp.interceptor.AppHttpInterceptor
 import com.ishow.noah.utils.http.retrofit.adapter.AppCallAdapterFactory
 import com.ishow.noah.utils.http.retrofit.convert.AppConverterFactory
@@ -18,7 +20,7 @@ class RetrofitManager private constructor() {
             .addInterceptor(OkHttpLogInterceptor())
 
         val retrofit = Retrofit.Builder()
-            .baseUrl(AppRestService.BASE_URL)
+            .baseUrl("https://www.baidu.com/")
             .client(okBuilder.build())
             .addConverterFactory(AppConverterFactory.create())
             .addCallAdapterFactory(AppCallAdapterFactory())
@@ -27,6 +29,22 @@ class RetrofitManager private constructor() {
         retrofit.create(AppRestService::class.java)
     }
 
+    @Suppress("ConstantConditionIf")
+    val logService: LogRestService by lazy {
+        val okBuilder = OkHttpClient.Builder()
+            .retryOnConnectionFailure(true)
+            .addInterceptor(AppHttpInterceptor())
+            .addInterceptor(OkHttpLogInterceptor())
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://www.baidu.com/")
+            .client(okBuilder.build())
+            .addConverterFactory(AppConverterFactory.create())
+            .addCallAdapterFactory(AppCallAdapterFactory())
+            .build()
+
+        retrofit.create(LogRestService::class.java)
+    }
 
     companion object {
 

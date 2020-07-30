@@ -21,7 +21,7 @@ object StorageUtils {
     /**
      * 时间超时保存的db
      */
-    private const val EXPIRE_SUFFIX = "_enter_port_expire_ee"
+    private const val EXPIRE_SUFFIX = "_expire_ee"
 
     private val app by lazy { InitCommonProvider.app }
 
@@ -222,8 +222,10 @@ object StorageUtils {
          * @param time 多久过期
          * @param unit 时间单位
          */
-        fun expire(@IntRange(from = 1) time: Int, unit: TimeUnit): SaveExecutor {
-            expireTime = TimeUnit.MILLISECONDS.convert(time.toLong(), unit)
+        fun expire(@IntRange(from = 0) time: Int, unit: TimeUnit): SaveExecutor {
+            if(time > 0) {
+                expireTime = TimeUnit.MILLISECONDS.convert(time.toLong(), unit)
+            }
             return this
         }
 
