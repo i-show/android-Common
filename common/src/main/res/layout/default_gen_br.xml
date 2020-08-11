@@ -6,6 +6,9 @@
         <variable
             name="position"
             type="Integer" />
+        <variable
+            name="item"
+            type="Integer" />
     </data>
 
     <FrameLayout

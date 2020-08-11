@@ -43,6 +43,11 @@
             android:layout_width="160dp"
             android:layout_height="160dp"
             android:background="@color/blue_300" />
+
+        <TextView
+            android:id="@+id/dateTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <Button

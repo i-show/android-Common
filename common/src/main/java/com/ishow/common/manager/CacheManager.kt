@@ -1,5 +1,7 @@
 package com.ishow.common.manager
 
+import android.os.SystemClock
+import androidx.collection.LruCache
 import com.ishow.common.extensions.parseJSON
 import com.ishow.common.extensions.toJSON
 import com.ishow.common.utils.StorageUtils
@@ -14,15 +16,18 @@ class CacheManager private constructor() {
 
 
     companion object {
+        private val ramCache: LruCache<String, String> = LruCache(20)
+        private val ramCacheExpire: LruCache<String, Long> = LruCache(20)
+
         /**
-         * 缓存对应Url 的请求信息
+         * 缓存对应key 的请求信息
          */
-        fun cache(url: String, value: Any?, expire: Int = 0) {
+        fun cache(key: String, value: Any?, expire: Int = 0) {
             if (value == null) return
 
             StorageUtils.save()
                 .group("cache")
-                .addParam(url, value.toJSON())
+                .addParam(key, value.toJSON())
                 .expire(expire, TimeUnit.SECONDS)
                 .apply()
         }
@@ -30,8 +35,8 @@ class CacheManager private constructor() {
         /**
          * 获取缓存对应Url的值
          */
-        inline fun <reified T> get(url: String): T? {
-            val cacheStr = getCacheString(url)
+        inline fun <reified T> get(key: String): T? {
+            val cacheStr = getCacheString(key)
             if (cacheStr.isNullOrEmpty()) return null
 
             return cacheStr.parseJSON()
@@ -40,21 +45,47 @@ class CacheManager private constructor() {
         /**
          * 移除对应Url的缓存
          */
-        fun remove(url: String) {
+        fun remove(key: String) {
             StorageUtils.remove()
                 .group("cache")
-                .key(url)
+                .key(key)
                 .apply()
         }
 
         /**
          * 获取缓存Str
          */
-        fun getCacheString(url: String): String? {
+        fun getCacheString(key: String): String? {
+            val cacheStr = ramCache.get(key)
+            if (!cacheStr.isNullOrEmpty()) {
+                return getCacheStringFromRam(key, cacheStr)
+            }
+
             return StorageUtils.get()
                 .group("cache")
-                .key(url)
+                .key(key)
                 .apply()
+        }
+
+        /**
+         * 从内存中获取缓存数据
+         */
+        @Suppress("LiftReturnOrAssignment", "CascadeIf")
+        private fun getCacheStringFromRam(key: String, value: String): String? {
+            val expire = ramCacheExpire.get(key)
+            if (expire == null) {
+                return value
+            } else if (expire < SystemClock.elapsedRealtime()) {
+                ramCache.remove(key)
+                ramCacheExpire.remove(key)
+                StorageUtils.remove()
+                    .group("cache")
+                    .key(key)
+                    .apply()
+                return null
+            } else {
+                return value
+            }
         }
     }
 }

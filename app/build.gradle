@@ -217,7 +217,7 @@ dependencies {
     implementation 'com.baidu.mobstat:mtj-sdk:4.0.0.7'
     kapt "com.android.databinding:compiler:3.1.4"
 
-    def camerax_version = "1.0.0-beta06"
+    def camerax_version = "1.0.0-beta07"
     implementation "androidx.camera:camera-core:${camerax_version}"
     // If you want to use Camera2 extensions.
     implementation "androidx.camera:camera-camera2:${camerax_version}"
@@ -227,5 +227,7 @@ dependencies {
     kapt 'com.arialyy.aria:compiler:3.8.6'
 
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$versions.desugar"
+
+    implementation 'com.orhanobut:logger:2.2.0'
 }
 

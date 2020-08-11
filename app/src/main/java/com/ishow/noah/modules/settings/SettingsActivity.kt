@@ -19,8 +19,10 @@ package com.ishow.noah.modules.settings
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.Observer
 import com.ishow.common.extensions.loadUrl
 import com.ishow.common.utils.AppUtils
+import com.ishow.noah.App
 import com.ishow.noah.R
 import com.ishow.noah.modules.base.AppBaseActivity
 import kotlinx.android.synthetic.main.activity_settings.*
@@ -49,6 +51,8 @@ class SettingsActivity : AppBaseActivity(), View.OnClickListener {
         version.setText(AppUtils.getVersionName(this))
 
         image.loadUrl("https://img.yuhaiyang.net/common/avatar/default_avatar.jpg")
+
+        App.app.test.observe(this, Observer { dateTime.text = it })
     }
 
     override fun onClick(v: View) {
@@ -58,7 +62,7 @@ class SettingsActivity : AppBaseActivity(), View.OnClickListener {
     }
 
     private fun logout() {
-        val client =  OkHttpClient.Builder()
+        val client = OkHttpClient.Builder()
             .connectTimeout(4000, TimeUnit.MILLISECONDS)
             .readTimeout(4000, TimeUnit.MILLISECONDS)
             .writeTimeout(4000, TimeUnit.MILLISECONDS)

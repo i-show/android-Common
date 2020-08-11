@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+
+    <external-cache-path
+        name="cache_photo_into_app_cache"
+        path="./"/>
+
+    <external-path
+        name="cache_photo_into_sdcard"
+        path="./"/>
+
+</paths>

@@ -20,8 +20,8 @@
         android:icon="${APP_ICON}"
         android:label="${APP_NAME}"
         android:networkSecurityConfig="@xml/network_security_config"
-        android:theme="@style/AppTheme"
         android:requestLegacyExternalStorage="true"
+        android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning,LockedOrientationActivity"
         tools:targetApi="n">
 
@@ -76,8 +76,22 @@
             android:name=".modules.base.ExitAppActivity"
             android:launchMode="singleTask" />
 
-        <activity android:name="com.ishow.common.app.activity.OnlyWebActivity"
+        <activity
+            android:name="com.ishow.common.app.activity.OnlyWebActivity"
             android:screenOrientation="portrait" />
+
+
+        <!-- Android 7.0 Uri的共享机制-->
+        <provider
+            android:name=".modules.base.ShareFileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider_configure" />
+        </provider>
+
         <!--++++++++++++++++++++控件或者工具的Demo区域（init）++++++++++++++++++++++++++-->
         <!--Demo的主类-->
         <activity
