@@ -216,6 +216,7 @@ dependencies {
     //  百度统计
     implementation 'com.baidu.mobstat:mtj-sdk:4.0.0.7'
     kapt "com.android.databinding:compiler:3.1.4"
+    kapt "androidx.room:room-compiler:$versions.androidx.room"
 
     def camerax_version = "1.0.0-beta07"
     implementation "androidx.camera:camera-core:${camerax_version}"
@@ -229,5 +230,7 @@ dependencies {
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$versions.desugar"
 
     implementation 'com.orhanobut:logger:2.2.0'
+
+    implementation 'com.google.firebase:firebase-ml-vision:24.0.3'
 }
 

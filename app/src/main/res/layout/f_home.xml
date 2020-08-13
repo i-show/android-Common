@@ -25,60 +25,12 @@
         <TextView
             android:id="@+id/test1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <ImageView
-            android:id="@+id/image1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <ImageView
-            android:id="@+id/image2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <ImageView
-            android:id="@+id/image3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-
-        <com.ishow.common.widget.edittext.EditTextPro
-            android:id="@+id/password"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cancelEnable="false"
-            app:customizeViewId="@id/forgotPassword"
-            app:leftImageVisibility="gone"
-            app:leftText="密码："
-            app:rightImage="@drawable/ic_password_visibility"
-            app:rightImageVisibility="visible">
+            android:textSize="30sp"
+            android:textColor="@color/blue_900"
+            android:text="@string/test_test"/>
 
-            <TextView
-                android:id="@+id/forgotPassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="忘记密码"
-                android:textColor="@color/text_grey_light"
-                android:textSize="14sp" />
-        </com.ishow.common.widget.edittext.EditTextPro>
 
-        <com.ishow.common.widget.edittext.EditTextPro
-            android:id="@+id/verifyCode"
-            style="@style/AppEditTextPro.Account.ForgotPassword"
-            app:cancelEnable="false"
-            app:customizeViewId="@id/sendVerifyCode"
-            app:inputHint="@string/register_hint_verify_code"
-            app:leftText="@string/register_tip_verify_code"
-            app:rightImage="@drawable/ic_password_visibility"
-            app:rightImageVisibility="visible">
-
-            <com.ishow.common.widget.VerifyCodeButton
-                android:id="@+id/sendVerifyCode"
-                style="@style/VerifyCodeButton"
-                android:onClick="onViewClick" />
-
-        </com.ishow.common.widget.edittext.EditTextPro>
 
         <com.ishow.common.widget.PrintView
             android:id="@+id/printView"
@@ -89,15 +41,6 @@
             android:minHeight="200dp"
             app:maxHeight="@dimen/dp_300" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/neeShow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:text="Hello" />
     </LinearLayout>
 </layout>

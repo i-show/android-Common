@@ -1,5 +1,6 @@
 package com.ishow.common.extensions
 
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.text.method.LinkMovementMethod
 import android.widget.TextView
@@ -58,4 +59,13 @@ fun TextView.fakeBoldText() {
  */
 fun TextView.enableClickableSpan() {
     movementMethod = LinkMovementMethod.getInstance()
+}
+
+
+/**
+ * 设置字体的
+ */
+fun TextView.setFont(fontPath: String) {
+    val font = Typeface.createFromAsset(context.assets, fontPath)
+    typeface = font
 }
