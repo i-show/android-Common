@@ -26,11 +26,8 @@
             android:id="@+id/test1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:textColor="@color/blue_900"
-            android:text="@string/test_test"/>
-
-
+            android:textSize="130sp"
+            android:textColor="@color/blue_900" />
 
         <com.ishow.common.widget.PrintView
             android:id="@+id/printView"

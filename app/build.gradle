@@ -209,6 +209,7 @@ android {
 }
 
 dependencies {
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$versions.desugar"
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     // 基础库
     implementation project(':common')
@@ -227,10 +228,12 @@ dependencies {
     implementation 'com.arialyy.aria:core:3.8.6'
     kapt 'com.arialyy.aria:compiler:3.8.6'
 
-    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$versions.desugar"
+
 
     implementation 'com.orhanobut:logger:2.2.0'
-
-    implementation 'com.google.firebase:firebase-ml-vision:24.0.3'
+    def paging_version = "3.0.0-alpha04"
+    implementation "androidx.paging:paging-runtime:$paging_version"
+    // alternatively - without Android dependencies for tests
+    testImplementation "androidx.paging:paging-common:$paging_version"
 }
 

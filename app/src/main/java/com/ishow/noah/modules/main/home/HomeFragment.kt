@@ -41,6 +41,7 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
         super.onViewCreated(view, savedInstanceState)
 
         test1.setFont("iconfont.ttf")
+        test1.text = "\ue7a3"
     }
 
 
