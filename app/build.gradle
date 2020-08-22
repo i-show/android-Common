@@ -235,5 +235,7 @@ dependencies {
     implementation "androidx.paging:paging-runtime:$paging_version"
     // alternatively - without Android dependencies for tests
     testImplementation "androidx.paging:paging-common:$paging_version"
+
+    implementation 'cn.hutool:hutool-crypto:5.3.10'
 }
 

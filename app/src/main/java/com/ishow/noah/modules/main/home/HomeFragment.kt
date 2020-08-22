@@ -12,6 +12,7 @@ import androidx.core.content.FileProvider
 import androidx.lifecycle.Observer
 import com.ishow.common.extensions.fitKeyBoard
 import com.ishow.common.extensions.setFont
+import com.ishow.common.extensions.timing
 import com.ishow.common.extensions.toJSON
 import com.ishow.common.manager.CacheManager
 import com.ishow.common.utils.DateUtils
@@ -26,6 +27,8 @@ import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.f_home.*
 import kotlinx.coroutines.Job
+import okhttp3.OkHttpClient
+import okhttp3.Request
 
 
 /**
@@ -42,6 +45,12 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
 
         test1.setFont("iconfont.ttf")
         test1.text = "\ue7a3"
+        test1.setOnClickListener {
+            timing(100, 300) {
+                Log.i("yhy", "progress = " + (100 - it))
+                loading.setProgress(100 - it)
+            }
+        }
     }
 
 
