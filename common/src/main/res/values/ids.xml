@@ -27,6 +27,7 @@
     <item name="tag_looping_viewpager_holder" type="id" />
     <item name="tag_pull2refresh_moving_y" type="id" />
     <item name="tag_pull2refresh_animation" type="id" />
+    <item name="tag_click" type="id" />
     <!-- widget -->
     <item name="widget" type="id" />
     <!-- 左中右 -->

@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
+import android.widget.Checkable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
+import com.ishow.common.R
 import com.ishow.common.utils.DeviceUtils
 
 /**
@@ -173,3 +175,31 @@ fun View.fitKeyBoard(showChild: View) {
         })
     }
 }
+
+inline fun <T : View> T.afterMeasured(crossinline block: T.() -> Unit) {
+    viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+        override fun onGlobalLayout() {
+            if (measuredWidth > 0 && measuredHeight > 0) {
+                viewTreeObserver.removeOnGlobalLayoutListener(this)
+                block()
+            }
+        }
+    })
+}
+
+/**
+ * 防多次点击
+ */
+inline fun <T : View> T.onClick(time: Long = 800, crossinline block: (T) -> Unit) {
+    setOnClickListener {
+        val currentTimeMillis = System.currentTimeMillis()
+        if (currentTimeMillis - lastClickTime > time || this is Checkable) {
+            lastClickTime = currentTimeMillis
+            block(this)
+        }
+    }
+}
+
+var <T : View> T.lastClickTime: Long
+    set(value) = setTag(R.id.tag_click, value)
+    get() = getTag(R.id.tag_click) as? Long ?: 0
