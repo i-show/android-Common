@@ -9,7 +9,7 @@
             type="com.ishow.noah.modules.main.home.HomeViewModel" />
     </data>
 
-    <com.ishow.noah.ui.widget.TestLinearLayout
+    <LinearLayout
         android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -58,5 +58,5 @@
             app:maxHeight="@dimen/dp_300" />
 
 
-    </com.ishow.noah.ui.widget.TestLinearLayout>
+    </LinearLayout>
 </layout>

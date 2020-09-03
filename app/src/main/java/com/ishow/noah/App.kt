@@ -21,10 +21,6 @@ class App : Application() {
         super.onCreate()
         sInstance = this
         AppRouter.setConfigure(AppRouterConfigure())
-
-        timing(Int.MAX_VALUE) {
-            _test.value = DateUtils.now()
-        }
     }
 
     companion object {
