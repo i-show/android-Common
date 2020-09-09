@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/blue_900"
-            android:textSize="130sp" />
+            android:textSize="20sp" />
 
         <com.ishow.noah.ui.widget.FollowSeekBarView
             android:id="@+id/position"
