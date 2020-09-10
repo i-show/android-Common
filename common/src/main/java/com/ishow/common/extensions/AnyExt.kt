@@ -2,10 +2,7 @@ package com.ishow.common.extensions
 
 import android.os.Looper
 import com.ishow.common.utils.JsonUtils
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 
 /**
@@ -21,14 +18,18 @@ fun isMainThread(): Boolean = Looper.myLooper() == Looper.getMainLooper()
 /**
  * 通过协程  在主线程上运行
  */
-fun mainThread(block: () -> Unit) = GlobalScope.launch(Dispatchers.Main) {
-    block()
+fun mainThread(scope: CoroutineScope = GlobalScope, block: () -> Unit) {
+    if (isMainThread()) {
+        block()
+    } else {
+        scope.launch(Dispatchers.Main) { block() }
+    }
 }
 
 /**
  * Delay多少毫秒后执行
  */
-fun delay(long: Long, block: () -> Unit) = GlobalScope.launch(Dispatchers.Main) {
+fun delay(long: Long, scope: CoroutineScope = GlobalScope, block: () -> Unit) = scope.launch(Dispatchers.Main) {
     delay(long)
     block()
 }
@@ -36,7 +37,7 @@ fun delay(long: Long, block: () -> Unit) = GlobalScope.launch(Dispatchers.Main) 
 /**
  * Delay
  */
-fun delayInThread(long: Long, block: () -> Unit) = GlobalScope.launch {
+fun delayInThread(long: Long, scope: CoroutineScope = GlobalScope, block: () -> Unit) = scope.launch {
     delay(long)
     block()
 }
@@ -44,7 +45,7 @@ fun delayInThread(long: Long, block: () -> Unit) = GlobalScope.launch {
 /**
  * 计时工具
  */
-fun timing(times: Int, delayTimes: Long = 1000, block: (time: Int) -> Unit) = GlobalScope.launch(Dispatchers.Main) {
+fun timing(times: Int, delayTimes: Long = 1000, scope: CoroutineScope = GlobalScope, block: (time: Int) -> Unit) = scope.launch(Dispatchers.Main) {
     var currentTime = times
     repeat(times) {
         delay(delayTimes)
