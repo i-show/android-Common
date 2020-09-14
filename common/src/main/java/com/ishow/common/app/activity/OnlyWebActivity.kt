@@ -58,7 +58,7 @@ open class OnlyWebActivity : BaseActivity() {
         topBar.setText(title)
         webView = findViewById(R.id.webView)
         initWebView()
-        webView?.webViewClient = WebClient()
+        webView?.webViewClient = getWebViewClient()
         webView?.loadUrl(url)
         webView?.setDownloadListener { url, _, _, _, _ ->
             val intent = Intent(Intent.ACTION_VIEW)
@@ -72,6 +72,13 @@ open class OnlyWebActivity : BaseActivity() {
      * 获取当前的Layout
      */
     open fun getLayout() = R.layout.activity_base_only_web
+
+    /**
+     *
+     */
+    open fun getWebViewClient(): WebViewClient {
+        return WebClient()
+    }
 
     /**
      * 初始化
@@ -119,7 +126,11 @@ open class OnlyWebActivity : BaseActivity() {
 
     private inner class WebClient : WebViewClient() {
         @RequiresApi(Build.VERSION_CODES.M)
-        override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
+        override fun onReceivedError(
+            view: WebView?,
+            request: WebResourceRequest?,
+            error: WebResourceError?
+        ) {
             super.onReceivedError(view, request, error)
             if (request == null || !request.isForMainFrame) {
                 return
@@ -129,7 +140,11 @@ open class OnlyWebActivity : BaseActivity() {
         }
 
         @RequiresApi(Build.VERSION_CODES.M)
-        override fun onReceivedHttpError(view: WebView?, request: WebResourceRequest?, errorResponse: WebResourceResponse?) {
+        override fun onReceivedHttpError(
+            view: WebView?,
+            request: WebResourceRequest?,
+            errorResponse: WebResourceResponse?
+        ) {
             super.onReceivedHttpError(view, request, errorResponse)
             if (request == null || !request.isForMainFrame) {
                 return
@@ -138,7 +153,11 @@ open class OnlyWebActivity : BaseActivity() {
             showError()
         }
 
-        override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
+        override fun onReceivedSslError(
+            view: WebView?,
+            handler: SslErrorHandler?,
+            error: SslError?
+        ) {
             super.onReceivedSslError(view, handler, error)
             handler?.proceed()
         }
