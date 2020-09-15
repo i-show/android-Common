@@ -62,7 +62,7 @@ class SampleDataPickerDialogFragment : AppBindFragment<FragmentSampleDataPickerB
     }
 
     private fun testSelect() {
-        val context = context!!
+        val context = requireContext()
         val itemDecoration = ColorDecoration(context)
         itemDecoration.setPadding(20, 20)
 
@@ -78,7 +78,7 @@ class SampleDataPickerDialogFragment : AppBindFragment<FragmentSampleDataPickerB
     }
 
     private fun testPicker() {
-        val context = context!!
+        val context = requireContext()
         val dialog = PickerDialog<DemoEntry>(context)
         dialog.setData(dataList)
         dialog.setOnSelectedListener {

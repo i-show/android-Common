@@ -48,7 +48,6 @@
         <com.ishow.common.widget.edittext.EditTextPro
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:inputEnable="false"
             app:inputType="textPassword"
             app:leftImage="@drawable/svg_develop"
             app:leftText="@string/forgot_password_tip_password"

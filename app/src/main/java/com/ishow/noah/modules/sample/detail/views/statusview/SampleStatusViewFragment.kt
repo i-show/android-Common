@@ -24,6 +24,7 @@ class SampleStatusViewFragment : AppBindFragment<FragmentSampleStatusViewBinding
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         statusView.setOnStatusViewListener(this)
+        requestLoading()
     }
 
     fun onViewClick(v: View) {

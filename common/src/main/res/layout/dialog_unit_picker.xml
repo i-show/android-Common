@@ -27,6 +27,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:actionBarSize="@dimen/dialog_top_bar_height"
+        android:fitsSystemWindows="false"
+        app:consumeSystemWindowInsets="false"
         app:leftImageVisibility="gone"
         app:leftText="@string/cancel"
         app:leftTextMinWidth="@dimen/dp_80"

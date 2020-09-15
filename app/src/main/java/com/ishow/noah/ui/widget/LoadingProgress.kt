@@ -38,7 +38,7 @@ class LoadingProgress : View {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
-    private var progress: Int = 0
+    private var progress: Int = 50
 
     init {
         wavePaint.isAntiAlias = true
