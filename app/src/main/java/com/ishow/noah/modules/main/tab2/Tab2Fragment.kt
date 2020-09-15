@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import cn.hutool.crypto.SecureUtil
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FTab2Binding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment

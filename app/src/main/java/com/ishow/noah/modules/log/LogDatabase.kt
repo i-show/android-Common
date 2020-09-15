@@ -10,7 +10,7 @@ import com.ishow.noah.App
  * 埋点的数据库
  */
 
-@Database(entities = [Log::class], version = 1)
+@Database(entities = [Log::class], version = 1, exportSchema = false)
 abstract class LogDatabase : RoomDatabase() {
 
     abstract fun logDao(): LogDao
