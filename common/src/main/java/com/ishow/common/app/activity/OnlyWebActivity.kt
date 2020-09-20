@@ -125,6 +125,10 @@ open class OnlyWebActivity : BaseActivity() {
 
 
     private inner class WebClient : WebViewClient() {
+        override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+            return super.shouldOverrideUrlLoading(view, request)
+        }
+
         @RequiresApi(Build.VERSION_CODES.M)
         override fun onReceivedError(
             view: WebView?,

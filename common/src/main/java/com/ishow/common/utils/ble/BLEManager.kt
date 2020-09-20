@@ -6,6 +6,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.bluetooth.*
+import android.bluetooth.BluetoothDevice.TRANSPORT_LE
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanFilter
 import android.bluetooth.le.ScanSettings
@@ -168,7 +169,14 @@ class BLEManager private constructor() {
         }
         callback?.let { addGattCallBack(it) }
 
-        mainThread { device.connectGatt(context.applicationContext, false, innerGattCallback) }
+        mainThread {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                device.connectGatt(context.applicationContext, false, innerGattCallback, TRANSPORT_LE)
+            } else {
+                device.connectGatt(context.applicationContext, false, innerGattCallback)
+            }
+        }
     }
 
     fun addGattCallBack(callback: BluetoothGattCallback) {
