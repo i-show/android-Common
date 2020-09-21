@@ -3,23 +3,25 @@ package com.ishow.noah.modules.main.home
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.SeekBar
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
 import com.ishow.common.extensions.*
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.widget.PrintView
 import com.ishow.common.widget.dialog.BaseDialog
+import com.ishow.common.widget.load.LoadSir
+import com.ishow.common.widget.load.Loader
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FHomeBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
-import com.kingja.loadsir.core.LoadSir
+import com.ishow.noah.ui.widget.load.AppEmptyLoad
 import kotlinx.android.synthetic.main.f_home.*
-import kotlinx.coroutines.Job
-import java.io.File
 
 
 /**
@@ -32,11 +34,20 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         position.withSeekBar(seekBar)
+
+        val loader = LoadSir.new(test1)
+            .empty(AppEmptyLoad())
+            .build()
+            .show(Loader.Type.Empty)
+
+        //loader.show(Loader.Type.Empty)
+
         position.onClick {
             val privacy = "《隐私协议》"
-            val container = "请您务必审慎阅读、充分阅读与理解隐私协议与政策各条款，为了向您提供服务，我们需要收集您的设备信息、操作日志等个人信息。您可以在设置中查看、变更、删除个人信息并管理您的授权。\n您可查看${privacy}了解详细信息，如您同意，请点击同意接受我们的服务"
+            val container =
+                "请您务必审慎阅读、充分阅读与理解隐私协议与政策各条款，为了向您提供服务，我们需要收集您的设备信息、操作日志等个人信息。您可以在设置中查看、变更、删除个人信息并管理您的授权。\n您可查看${privacy}了解详细信息，如您同意，请点击同意接受我们的服务"
             val result = container.asSpan()
-                .spanClick(privacy, true) { toast("点击了内容")}
+                .spanClick(privacy, true) { toast("点击了内容") }
                 .spanColor(privacy, Color.RED)
 
             val dialog = BaseDialog.Builder(context)
@@ -58,7 +69,17 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
             }
         })
+    }
 
+    override fun onResume() {
+        super.onResume()
+        Thread {
+            Looper.prepare()
+
+            Log.i("yhy", "is MathThread = " + isMainThread())
+            Toast.makeText(requireContext(), "AAAAAA", Toast.LENGTH_SHORT).show()
+            Looper.loop()
+        }.start()
     }
 
     override fun initViewModel(vm: HomeViewModel) {
