@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -9,45 +10,274 @@
             type="com.ishow.noah.modules.main.tab2.Tab2ViewModel" />
     </data>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="60dp"
-            android:layout_margin="25dp"
-            android:background="@color/blue_900"
-            android:elevation="5dp"
-            android:text="300" />
-
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="60dp"
-            android:layout_margin="25dp"
-            android:background="@color/blue_900"
-            android:elevation="10dp"
-            android:text="300" />
+        tools:ignore="HardcodedText">
 
 
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="60dp"
-            android:layout_margin="25dp"
-            android:background="@color/blue_900"
-            android:elevation="15dp"
-            android:text="300" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="30dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="sans-serif" />
+
+            <TextView
+                android:id="@+id/text_1_1"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:text="字体AAAA123" />
+
+            <TextView
+                android:id="@+id/text_1_2"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:text="字体AAAA123"
+                android:textStyle="bold" />
+
+            <!--巴拉巴拉-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-black"
+                android:text="sans-serif-black" />
+
+            <TextView
+                android:id="@+id/text_2_1"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:text="字体AAAA123" />
+
+            <TextView
+                android:id="@+id/text_2_2"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:text="字体AAAA123"
+                android:textStyle="bold" />
+
+            <!--巴拉巴拉-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-condensed"
+                android:text="sans-serif-condensed" />
+
+            <TextView
+                android:id="@+id/text_3_1"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="center"
+                android:text="字体AAAA123" />
+
+            <TextView
+                android:id="@+id/text_3_2"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="center"
+                android:text="字体AAAA123"
+                android:textStyle="bold" />
 
 
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="60dp"
-            android:layout_margin="25dp"
-            android:background="@color/blue_900"
-            android:elevation="20dp"
-            android:text="300" />
+            <!--巴拉巴拉-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-condensed-light"
+                android:text="sans-serif-condensed-light" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/text_4_1"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:fontFamily="sans-serif-condensed-light"
+                android:gravity="center"
+                android:text="字体AAAA123" />
+
+            <TextView
+                android:id="@+id/text_4_2"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:fontFamily="sans-serif-condensed-light"
+                android:gravity="center"
+                android:text="字体AAAA123"
+                android:textStyle="bold" />
+
+            <!--巴拉巴拉-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:text="sans-serif-condensed-medium" />
+
+            <TextView
+                android:id="@+id/text_5_1"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:gravity="center"
+                android:text="字体AAAA123" />
+
+            <TextView
+                android:id="@+id/text_5_2"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:gravity="center"
+                android:text="字体AAAA123"
+                android:textStyle="bold" />
+
+
+            <!--巴拉巴拉-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-smallcaps"
+                android:text="sans-serif-smallcaps" />
+
+            <TextView
+                android:id="@+id/text_6_1"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:fontFamily="sans-serif-smallcaps"
+                android:gravity="center"
+                android:text="字体AAAA123" />
+
+            <TextView
+                android:id="@+id/text_6_2"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:fontFamily="sans-serif-smallcaps"
+                android:gravity="center"
+                android:text="字体AAAA123"
+                android:textStyle="bold" />
+
+
+
+
+            <!--巴拉巴拉-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="sans-serif-medium" />
+
+            <TextView
+                android:id="@+id/text_7_1"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:text="字体AAAA123" />
+
+            <TextView
+                android:id="@+id/text_7_2"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:text="字体AAAA123"
+                android:textStyle="bold" />
+
+            <!--巴拉巴拉-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-black"
+                android:text="sans-serif-black" />
+
+            <TextView
+                android:id="@+id/text_8_1"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:text="字体AAAA123" />
+
+            <TextView
+                android:id="@+id/text_8_2"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:text="字体AAAA123"
+                android:textStyle="bold" />
+
+
+
+            <!--巴拉巴拉-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-thin"
+                android:text="sans-serif-thin" />
+
+            <TextView
+                android:id="@+id/text_9_1"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:fontFamily="sans-serif-thin"
+                android:gravity="center"
+                android:text="字体AAAA123" />
+
+            <TextView
+                android:id="@+id/text_9_2"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:fontFamily="sans-serif-thin"
+                android:gravity="center"
+                android:text="字体AAAA123"
+                android:textStyle="bold" />
+
+
+            <!--巴拉巴拉-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-light"
+                android:text="sans-serif-light" />
+
+            <TextView
+                android:id="@+id/text_10_1"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:text="字体AAAA123" />
+
+            <TextView
+                android:id="@+id/text_10_2"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:text="字体AAAA123"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </ScrollView>
 </layout>

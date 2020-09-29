@@ -14,6 +14,7 @@ import com.ishow.noah.modules.sample.detail.photo.select.SampleSelectPhotoFragme
 import com.ishow.noah.modules.sample.detail.pickview.SamplePickerFragment
 import com.ishow.noah.modules.sample.detail.recycle.adapter.SampleBindAdapterFragment
 import com.ishow.noah.modules.sample.detail.utils.db.room.SampleRoomFragment
+import com.ishow.noah.modules.sample.detail.utils.file.save.SampleFileSaveFragment
 import com.ishow.noah.modules.sample.detail.utils.info.BaseInfoFragment
 import com.ishow.noah.modules.sample.detail.utils.json.SampleJsonFragment
 import com.ishow.noah.modules.sample.detail.utils.okhttp.cache.OkHttpCacheFragment
@@ -61,6 +62,7 @@ object SampleManager {
             list.add(Sample.instance("Room", SampleRoomFragment::class.java))
             list.add(Sample.instance("OkHttpCache", OkHttpCacheFragment::class.java))
             list.add(Sample.instance("CoordinatorLayout", SampleCoordinatorLayoutFragment::class.java))
+            list.add(Sample.instance("FileSave", SampleFileSaveFragment::class.java))
             return list
         }
 }

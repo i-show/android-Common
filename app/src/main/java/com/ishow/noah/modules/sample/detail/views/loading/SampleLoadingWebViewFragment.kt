@@ -20,14 +20,11 @@ import android.os.Bundle
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import com.ishow.common.app.activity.X5WebActivity
 import com.ishow.common.utils.WebViewUtils
-import com.ishow.common.utils.router.AppRouter
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSampleLoadingWebviewBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
-import com.tencent.smtt.export.external.interfaces.WebResourceRequest
 import kotlinx.android.synthetic.main.fragment_sample_loading_webview.*
 
 /**
@@ -42,14 +39,6 @@ class SampleLoadingWebViewFragment : AppBindFragment<FragmentSampleLoadingWebvie
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        testX5.setOnClickListener {
-            AppRouter.with(context)
-                .target(X5WebActivity::class.java)
-                .addParam(X5WebActivity.KEY_TITLE, "Test")
-                .addParam(X5WebActivity.KEY_CONTENT, "http://sdk.moguxingqiu.cn/moku-planet-sdk-h5/index.html")
-                .start()
-        }
 
         WebViewUtils.init(webView)
         webView.loadUrl("http://sdk.moguxingqiu.cn/moku-planet-sdk-h5/index.html")

@@ -20,6 +20,8 @@ import com.ishow.common.widget.load.Loader
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FHomeBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
+import com.ishow.noah.modules.sample.SampleLockScreenActivity
+import com.ishow.noah.modules.sample.entries.Sample
 import com.ishow.noah.ui.widget.load.AppEmptyLoad
 import kotlinx.android.synthetic.main.f_home.*
 
@@ -42,22 +44,6 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
 
         //loader.show(Loader.Type.Empty)
 
-        position.onClick {
-            val privacy = "《隐私协议》"
-            val container =
-                "请您务必审慎阅读、充分阅读与理解隐私协议与政策各条款，为了向您提供服务，我们需要收集您的设备信息、操作日志等个人信息。您可以在设置中查看、变更、删除个人信息并管理您的授权。\n您可查看${privacy}了解详细信息，如您同意，请点击同意接受我们的服务"
-            val result = container.asSpan()
-                .spanClick(privacy, true) { toast("点击了内容") }
-                .spanColor(privacy, Color.RED)
-
-            val dialog = BaseDialog.Builder(context)
-                .setMessageGravity(Gravity.START)
-                .setMessage(result)
-                .setPositiveButton("")
-                .create()
-                .show()
-        }
-
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 position.onProgressChanged(progress)
@@ -69,13 +55,19 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
             }
         })
+
+        loading.setOnClickListener { onViewClick() }
+    }
+
+    override fun onViewClick() {
+        super.onViewClick()
+        Log.i("yhy", "onViewClick -------" + System.currentTimeMillis())
     }
 
     override fun onResume() {
         super.onResume()
         Thread {
             Looper.prepare()
-
             Log.i("yhy", "is MathThread = " + isMainThread())
             Toast.makeText(requireContext(), "AAAAAA", Toast.LENGTH_SHORT).show()
             Looper.loop()
@@ -84,13 +76,13 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
 
     override fun initViewModel(vm: HomeViewModel) {
         super.initViewModel(vm)
-        vm.test2.observe(this, Observer { PrintView.print(it.toString()) })
+        vm.test2.observe(this, { PrintView.print(it.toString()) })
     }
 
     override fun onRightClick(v: View) {
         super.onRightClick(v)
         AppRouter.with(context)
-            .action("com.yuhaiyang.androidcommon.Test")
+            .target(SampleLockScreenActivity::class.java)
             .start()
     }
 

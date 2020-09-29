@@ -20,7 +20,6 @@
         android:icon="${APP_ICON}"
         android:label="${APP_NAME}"
         android:networkSecurityConfig="@xml/network_security_config"
-        android:requestLegacyExternalStorage="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning,LockedOrientationActivity"
         tools:targetApi="n">
@@ -80,6 +79,8 @@
             android:name="com.ishow.common.app.activity.OnlyWebActivity"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".modules.sample.SampleLockScreenActivity"
+            android:theme="@style/FullScreenTheme"/>
 
         <!-- Android 7.0 Uri的共享机制-->
         <provider

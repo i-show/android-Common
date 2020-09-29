@@ -43,9 +43,15 @@
         <item name="android:windowBackground">@android:color/white</item>
     </style>
 
-
     <style name="AppTheme.Guide" parent="Theme.NoActionBar.Fullscreen" />
 
+    <style name="FullScreenTheme" parent="Theme.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:statusBarColor">@color/transparent</item>
+    </style>
 
     <style name="AppTheme.Widget" />
 
