@@ -21,6 +21,7 @@ package com.ishow.noah.modules.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.util.Xml
 import android.view.ViewGroup
 import androidx.annotation.IdRes
@@ -55,8 +56,11 @@ class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
 
     override fun initNecessaryData() {
         super.initNecessaryData()
+        MMKV.initialize(this)
         val  kv = MMKV.defaultMMKV()
-        kv.decodeInt("111")
+        val result = kv.decodeInt("111")
+        Log.i("yhy", "result = $result")
+        kv.encode("111", 11)
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -68,13 +72,8 @@ class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
 
     override fun initViews() {
         super.initViews()
-        bottomBar.setInterceptorListener { parent, selectId, index ->
-            return@setInterceptorListener index == 2
-        }
-
         tab1Fragment = HomeFragment.newInstance()
         fragmentList.add(tab1Fragment!!)
-
         tab2Fragment = Tab2Fragment.newInstance()
         fragmentList.add(tab2Fragment!!)
         tab3Fragment = Tab3Fragment.newInstance()
@@ -90,11 +89,9 @@ class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
             override fun createFragment(position: Int): Fragment {
                 return fragmentList[position]
             }
-
         }
 
         bottomBar.setOnSelectedChangedListener(this)
-
     }
 
 
@@ -108,17 +105,13 @@ class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
         }
     }
 
-
     override fun onSelectedChanged(parent: ViewGroup, @IdRes selectId: Int, index: Int) {
         viewPager.setCurrentItem(index, false)
     }
 
-
     companion object {
         const val TAB_FIRST = R.id.tab_1
     }
-
-
 }
 
 

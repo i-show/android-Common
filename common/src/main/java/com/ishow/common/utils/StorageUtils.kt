@@ -17,7 +17,8 @@ object StorageUtils {
     /**
      * 保存在手机里面的文件名
      */
-    private const val GROUP_MAIN = "share_main_date"
+    private const val GROUP_MAIN = "share_main_data"
+
     /**
      * 时间超时保存的db
      */
@@ -223,7 +224,7 @@ object StorageUtils {
          * @param unit 时间单位
          */
         fun expire(@IntRange(from = 0) time: Int, unit: TimeUnit): SaveExecutor {
-            if(time > 0) {
+            if (time > 0) {
                 expireTime = TimeUnit.MILLISECONDS.convert(time.toLong(), unit)
             }
             return this
@@ -267,6 +268,7 @@ object StorageUtils {
          * 过期时间
          */
         protected var expireTime: Long = 0
+
         /**
          * Key值
          */
@@ -280,11 +282,7 @@ object StorageUtils {
             return this
         }
 
-
-        protected fun <T> notNull(
-            _list: MutableList<T>?,
-            block: ((list: MutableList<T>) -> Unit)? = null
-        ): MutableList<T> {
+        protected fun <T> notNull(_list: MutableList<T>?, block: ((list: MutableList<T>) -> Unit)? = null): MutableList<T> {
             val list = _list ?: mutableListOf()
             block?.let { it(list) }
             return list
@@ -294,7 +292,6 @@ object StorageUtils {
             val key = if (expire) group + EXPIRE_SUFFIX else group
             return context.getSharedPreferences(key, Context.MODE_PRIVATE)
         }
-
 
         protected fun checkExpire(key: String?): Boolean {
             val expireSp = sharedPreferences(true)
