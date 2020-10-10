@@ -35,6 +35,7 @@ import com.ishow.noah.modules.main.home.HomeFragment
 import com.ishow.noah.modules.main.mine.MineFragment
 import com.ishow.noah.modules.main.tab2.Tab2Fragment
 import com.ishow.noah.modules.main.tab3.Tab3Fragment
+import com.tencent.mmkv.MMKV
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
@@ -54,7 +55,8 @@ class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
 
     override fun initNecessaryData() {
         super.initNecessaryData()
-
+        val  kv = MMKV.defaultMMKV()
+        kv.decodeInt("111")
     }
 
     override fun onNewIntent(intent: Intent) {
