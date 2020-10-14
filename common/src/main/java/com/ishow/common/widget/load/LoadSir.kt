@@ -8,15 +8,19 @@ import com.ishow.common.widget.load.target.ViewTarget
  * Created by yuhaiyang on 2020/9/15.
  */
 class LoadSir private constructor() {
-    lateinit var defaultLoader: Loader
+    private lateinit var defaultLoader: Loader
 
 
     companion object {
         val instance by lazy(LazyThreadSafetyMode.SYNCHRONIZED) { LoadSir() }
 
+        /**
+         * 初始化一个Loader
+         * 剩余其他地方都为copy数据
+         */
         @JvmStatic
-        fun init(): Loader {
-            return instance.defaultLoader
+        fun init(loader: Loader) {
+            instance.defaultLoader = loader
         }
 
         @JvmStatic
@@ -26,12 +30,10 @@ class LoadSir private constructor() {
 
         @JvmStatic
         fun width(view: View): Loader {
-            return instance.defaultLoader
-        }
-
-        @JvmStatic
-        fun new(view: View): Loader.NewBuilder {
-            return Loader.newBuilder(ViewTarget(view))
+            val viewTarget = ViewTarget(view)
+            val loader = instance.defaultLoader.copy()
+            loader.setTarget(viewTarget)
+            return loader
         }
     }
 }

@@ -29,23 +29,20 @@
             android:textColor="@color/blue_900"
             android:textSize="20sp" />
 
-        <com.ishow.noah.ui.widget.FollowSeekBarView
-            android:id="@+id/position"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
-        <androidx.appcompat.widget.AppCompatSeekBar
-            android:id="@+id/seekBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp" />
 
         <com.ishow.noah.ui.widget.LoadingProgress
             android:id="@+id/loading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="50dp"
+            android:background="@color/grey_deep_2" />
+
+
+        <com.ishow.noah.ui.widget.LoadingProgress
+            android:id="@+id/loading2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="@color/grey_deep_2" />
 
         <com.ishow.common.widget.PrintView

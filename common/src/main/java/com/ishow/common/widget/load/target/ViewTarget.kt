@@ -24,7 +24,7 @@ class ViewTarget(private val view: View) : ITarget {
         }
         contentParent.removeView(oldContent)
         val oldLayoutParams = oldContent.layoutParams
-        val loadLayout = LoadLayout(oldContent.context, loader)
+        val loadLayout = LoadLayout(oldContent.context)
         contentParent.addView(loadLayout, childIndex, oldLayoutParams)
         return loadLayout
     }

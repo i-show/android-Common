@@ -4,9 +4,6 @@ import com.ishow.common.widget.load.Loader
 
 /**
  * Created by yuhaiyang on 2020/9/15.
- *
+ * 成功的加载状态
  */
-
-open abstract class EmptyLoadStatus : ALoadStatus(Loader.Type.Empty) {
-
-}
+abstract class ASuccessStatus : ALoadStatus(Loader.Type.Success)

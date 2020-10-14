@@ -17,12 +17,16 @@ import com.ishow.common.widget.PrintView
 import com.ishow.common.widget.dialog.BaseDialog
 import com.ishow.common.widget.load.LoadSir
 import com.ishow.common.widget.load.Loader
+import com.ishow.common.widget.load.ext.sirEmpty
+import com.ishow.common.widget.load.ext.sirLoading
+import com.ishow.common.widget.load.ext.withLoadSir
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FHomeBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 import com.ishow.noah.modules.sample.SampleLockScreenActivity
 import com.ishow.noah.modules.sample.entries.Sample
 import com.ishow.noah.ui.widget.load.AppEmptyLoad
+import com.ishow.noah.ui.widget.load.AppLoadingStatus
 import kotlinx.android.synthetic.main.f_home.*
 
 
@@ -35,33 +39,17 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        position.withSeekBar(seekBar)
-
-        val loader = LoadSir.new(test1)
+        val loader = Loader.new()
             .empty(AppEmptyLoad())
+            .loading(AppLoadingStatus())
             .build()
-            .show(Loader.Type.Empty)
+        LoadSir.init(loader = loader)
 
-        //loader.show(Loader.Type.Empty)
+        test1.withLoadSir()
+            .emptyText(R.id.empty, "Hello Empty")
 
-        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                position.onProgressChanged(progress)
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-            }
-        })
-
-        loading.setOnClickListener { onViewClick() }
-    }
-
-    override fun onViewClick() {
-        super.onViewClick()
-        Log.i("yhy", "onViewClick -------" + System.currentTimeMillis())
+        loading.setOnClickListener { test1.sirEmpty() }
+        loading2.setOnClickListener { test1.sirLoading() }
     }
 
     override fun onResume() {
@@ -82,7 +70,7 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
     override fun onRightClick(v: View) {
         super.onRightClick(v)
         AppRouter.with(context)
-            .target(SampleLockScreenActivity::class.java)
+            .action("com.yuhaiyang.androidcommon.Test")
             .start()
     }
 

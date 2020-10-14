@@ -1,5 +1,6 @@
 package com.ishow.common.widget.load
 
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -7,17 +8,25 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import com.ishow.common.app.provider.InitCommonProvider
-import com.ishow.common.widget.load.status.ALoadStatus
-import com.ishow.common.widget.load.status.EmptyLoadStatus
+import com.ishow.common.widget.load.status.*
 import com.ishow.common.widget.load.target.ITarget
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
+import java.io.ObjectInputStream
+import java.io.ObjectOutputStream
+import java.io.Serializable
 
 /**
  * Created by yuhaiyang on 2020/9/15.
  * 加载的工具
  */
 
-class Loader internal constructor() {
+class Loader internal constructor() : Serializable {
     private lateinit var loadLayout: LoadLayout
+    private lateinit var target: ITarget
+
+    private var typeMap = hashMapOf<Type, ALoadStatus>()
+
     private var emptyText: HashMap<Int, String> = hashMapOf()
     private var emptyIcon: HashMap<Int, Int> = hashMapOf()
 
@@ -29,35 +38,140 @@ class Loader internal constructor() {
 
     private var successText: HashMap<Int, String> = hashMapOf()
     private var successIcon: HashMap<Int, Int> = hashMapOf()
-    private var typeMap = hashMapOf<Type, ALoadStatus>()
 
     /**
      * 展示状态
      */
-    fun show(type: Type) {
-        loadLayout.showStatus(typeMap[type]) { view ->
-            when (type) {
-                Type.Empty -> {
-                    emptyText.forEach { (key, value) -> setText(view, key, value) }
-                    emptyIcon.forEach { (key, value) -> setImage(view, key, value) }
-                }
-                Type.Loading -> {
-                    loadingText.forEach { (key, value) -> setText(view, key, value) }
-                    loadingIcon.forEach { (key, value) -> setImage(view, key, value) }
-                }
-                Type.Error -> {
-                    errorText.forEach { (key, value) -> setText(view, key, value) }
-                    errorIcon.forEach { (key, value) -> setImage(view, key, value) }
-                }
-                Type.Success -> {
-                    successText.forEach { (key, value) -> setText(view, key, value) }
-                    successIcon.forEach { (key, value) -> setImage(view, key, value) }
-                }
-                Type.Custom -> {
-                }
-            }
-
+    fun show(type: Type) = when (type) {
+        Type.Empty -> showEmpty()
+        Type.Loading -> showLoading()
+        Type.Error -> showError()
+        Type.Success -> showSuccess()
+        Type.Custom -> {
         }
+    }
+
+    fun showEmpty() {
+        loadLayout.showStatus(typeMap[Type.Empty]) { view ->
+            emptyText.forEach { (key, value) -> setText(view, key, value) }
+            emptyIcon.forEach { (key, value) -> setImage(view, key, value) }
+        }
+    }
+
+    fun showLoading() {
+        loadLayout.showStatus(typeMap[Type.Loading]) { view ->
+            loadingText.forEach { (key, value) -> setText(view, key, value) }
+            loadingIcon.forEach { (key, value) -> setImage(view, key, value) }
+        }
+    }
+
+    fun showError() {
+        loadLayout.showStatus(typeMap[Type.Error]) { view ->
+            errorText.forEach { (key, value) -> setText(view, key, value) }
+            errorIcon.forEach { (key, value) -> setImage(view, key, value) }
+        }
+    }
+
+    fun showSuccess() {
+        loadLayout.showStatus(typeMap[Type.Success]) { view ->
+            successText.forEach { (key, value) -> setText(view, key, value) }
+            successIcon.forEach { (key, value) -> setImage(view, key, value) }
+        }
+    }
+
+    /**
+     * 隐藏
+     */
+    fun dismiss() {
+
+    }
+
+    internal fun setTarget(target: ITarget) {
+        this.target = target
+        loadLayout = target.replace(this)
+    }
+
+    fun emptyText(@IdRes viewId: Int, @StringRes resId: Int): Loader {
+        val context = InitCommonProvider.app
+        emptyText[viewId] = context.getString(resId)
+        return this
+    }
+
+    fun emptyText(@IdRes viewId: Int, text: String): Loader {
+        emptyText[viewId] = text
+        return this
+    }
+
+    fun emptyImage(@IdRes viewId: Int, @DrawableRes resId: Int): Loader {
+        emptyIcon[viewId] = resId
+        return this
+    }
+
+    fun errorText(@IdRes viewId: Int, @StringRes resId: Int): Loader {
+        val context = InitCommonProvider.app
+        errorText[viewId] = context.getString(resId)
+        return this
+    }
+
+    fun errorText(@IdRes viewId: Int, text: String): Loader {
+        errorText[viewId] = text
+        return this
+    }
+
+    fun errorImage(@IdRes viewId: Int, @DrawableRes resId: Int): Loader {
+        errorIcon[viewId] = resId
+        return this
+    }
+
+    fun successText(@IdRes viewId: Int, @StringRes resId: Int): Loader {
+        val context = InitCommonProvider.app
+        successText[viewId] = context.getString(resId)
+        return this
+    }
+
+    fun successText(@IdRes viewId: Int, text: String): Loader {
+        successText[viewId] = text
+        return this
+    }
+
+    fun successImage(@IdRes viewId: Int, @DrawableRes resId: Int): Loader {
+        successIcon[viewId] = resId
+        return this
+    }
+
+    fun loadingText(@IdRes viewId: Int, @StringRes resId: Int): Loader {
+        val context = InitCommonProvider.app
+        loadingText[viewId] = context.getString(resId)
+        return this
+    }
+
+    fun loadingText(@IdRes viewId: Int, text: String): Loader {
+        loadingText[viewId] = text
+        return this
+    }
+
+    fun loadingImage(@IdRes viewId: Int, @DrawableRes resId: Int): Loader {
+        loadingIcon[viewId] = resId
+        return this
+    }
+
+    fun copy(): Loader {
+        val bao = ByteArrayOutputStream()
+        val oos: ObjectOutputStream
+        var obj: Any? = null
+        try {
+            oos = ObjectOutputStream(bao)
+            oos.writeObject(this)
+            oos.close()
+            val bis = ByteArrayInputStream(bao.toByteArray())
+            val ois = ObjectInputStream(bis)
+            obj = ois.readObject()
+            ois.close()
+        } catch (e: Exception) {
+            Log.i("yhy", "e = $e")
+            e.printStackTrace()
+        }
+        return obj as Loader
     }
 
     private fun setText(container: View, viewId: Int, text: String) {
@@ -70,141 +184,46 @@ class Loader internal constructor() {
         if (imageView is ImageView) imageView.setImageResource(imageRes)
     }
 
-    /**
-     * 隐藏
-     */
-    fun dismiss() {
 
-    }
+    open class Builder internal constructor() {
+        private var typeMap = hashMapOf<Type, ALoadStatus>()
 
-    fun copyBuilder(target: ITarget): Builder {
-        val builder = Builder(target)
-        builder.statusMap = typeMap
-        return builder
-    }
-
-
-    open class Builder internal constructor(protected var target: ITarget) {
-        private val context = InitCommonProvider.app
-
-        internal var statusMap = hashMapOf<Type, ALoadStatus>()
-        internal val emptyText: HashMap<Int, String> = hashMapOf()
-        internal var emptyIcon: HashMap<Int, Int> = hashMapOf()
-
-        internal var errorText: HashMap<Int, String> = hashMapOf()
-        internal var errorIcon: HashMap<Int, Int> = hashMapOf()
-
-        internal var loadingText: HashMap<Int, String> = hashMapOf()
-        internal var loadingIcon: HashMap<Int, Int> = hashMapOf()
-
-        internal var successText: HashMap<Int, String> = hashMapOf()
-        internal var successIcon: HashMap<Int, Int> = hashMapOf()
-
-        fun emptyText(@IdRes viewId: Int, @StringRes resId: Int): Builder {
-            emptyText[viewId] = context.getString(resId)
+        fun empty(loaderStatus: AEmptyStatus): Builder {
+            typeMap[loaderStatus.type] = loaderStatus
             return this@Builder
         }
 
-        fun emptyText(@IdRes viewId: Int, text: String): Builder {
-            emptyText[viewId] = text
+        fun error(loaderStatus: AErrorStatus): Builder {
+            typeMap[loaderStatus.type] = loaderStatus
             return this@Builder
         }
 
-        fun emptyImage(@IdRes viewId: Int, @DrawableRes resId: Int): Builder {
-            emptyIcon[viewId] = resId
+        fun loading(loaderStatus: ALoadingStatus): Builder {
+            typeMap[loaderStatus.type] = loaderStatus
             return this@Builder
         }
 
-        fun errorText(@IdRes viewId: Int, @StringRes resId: Int): Builder {
-            errorText[viewId] = context.getString(resId)
-            return this@Builder
-        }
-
-        fun errorText(@IdRes viewId: Int, text: String): Builder {
-            errorText[viewId] = text
-            return this@Builder
-        }
-
-        fun errorImage(@IdRes viewId: Int, @DrawableRes resId: Int): Builder {
-            errorIcon[viewId] = resId
-            return this@Builder
-        }
-
-        fun successText(@IdRes viewId: Int, @StringRes resId: Int): Builder {
-            successText[viewId] = context.getString(resId)
-            return this@Builder
-        }
-
-        fun successText(@IdRes viewId: Int, text: String): Builder {
-            successText[viewId] = text
-            return this@Builder
-        }
-
-        fun successImage(@IdRes viewId: Int, @DrawableRes resId: Int): Builder {
-            successIcon[viewId] = resId
-            return this@Builder
-        }
-
-        fun loadingText(@IdRes viewId: Int, @StringRes resId: Int): Builder {
-            loadingText[viewId] = context.getString(resId)
-            return this@Builder
-        }
-
-        fun loadingText(@IdRes viewId: Int, text: String): Builder {
-            loadingText[viewId] = text
-            return this@Builder
-        }
-
-        fun loadingImage(@IdRes viewId: Int, @DrawableRes resId: Int): Builder {
-            loadingIcon[viewId] = resId
+        fun success(loaderStatus: ASuccessStatus): Builder {
+            typeMap[loaderStatus.type] = loaderStatus
             return this@Builder
         }
 
         fun build(): Loader {
             val loader = Loader()
-            loader.typeMap = statusMap
-            loader.emptyText = emptyText
-            loader.emptyIcon = emptyIcon
-            loader.errorText = errorText
-            loader.errorIcon = errorIcon
-            loader.loadingText = loadingText
-            loader.loadingIcon = loadingIcon
-            loader.successText = successText
-            loader.successIcon = successIcon
-
-            loader.loadLayout = target.replace(loader)
+            loader.typeMap = typeMap
             return loader
         }
+
+
     }
 
-    class NewBuilder internal constructor(target: ITarget) : Builder(target) {
-
-        fun empty(loaderStatus: EmptyLoadStatus): NewBuilder {
-            statusMap[loaderStatus.type] = loaderStatus
-            return this@NewBuilder
-        }
-
-        fun error(loaderStatus: EmptyLoadStatus): NewBuilder {
-            statusMap[loaderStatus.type] = loaderStatus
-            return this@NewBuilder
-        }
-
-        fun loading(loaderStatus: EmptyLoadStatus): NewBuilder {
-            statusMap[loaderStatus.type] = loaderStatus
-            return this@NewBuilder
-        }
-
-        fun success(loaderStatus: EmptyLoadStatus): NewBuilder {
-            statusMap[loaderStatus.type] = loaderStatus
-            return this@NewBuilder
-        }
-    }
 
     companion object {
-        fun newBuilder(target: ITarget): NewBuilder {
-            return NewBuilder(target)
+        fun new(): Builder {
+            return Builder()
         }
     }
+
 
     /**
      * Loader的状态

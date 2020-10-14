@@ -2,6 +2,7 @@ package com.ishow.common.widget.load
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import com.ishow.common.widget.load.status.ALoadStatus
@@ -10,9 +11,8 @@ import com.ishow.common.widget.load.status.ALoadStatus
  * Created by yuhaiyang on 2020/9/15.
  * Load的layout
  */
-
 @SuppressLint("ViewConstructor")
-class LoadLayout(context: Context, private val loader: Loader) : FrameLayout(context) {
+class LoadLayout(context: Context) : FrameLayout(context) {
 
     private var loadStatus: ALoadStatus? = null
 
@@ -28,18 +28,22 @@ class LoadLayout(context: Context, private val loader: Loader) : FrameLayout(con
             return
         }
 
+        Log.i("yhy", "=========================")
+        Log.i("yhy", "childCount1 = $childCount")
         // remove last info
-        if (childCount > 1) removeViewAt(1)
-
+        if (childCount > 1) removeViewAt(2)
+        loadStatus?.onDetach()
+        Log.i("yhy", "childCount2 = $childCount")
         loadStatus = status
         val view = status.buildView(context)
         block.invoke(view)
         addView(view, defaultLayoutParams)
         status.onAttach()
+        Log.i("yhy", "childCount3 = $childCount")
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        // TODO 移除Empty 等扩展属性
+        loadStatus?.onDetach()
     }
 }

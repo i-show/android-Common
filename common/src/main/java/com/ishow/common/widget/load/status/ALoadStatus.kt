@@ -3,12 +3,13 @@ package com.ishow.common.widget.load.status
 import android.content.Context
 import android.view.View
 import com.ishow.common.widget.load.Loader
+import java.io.Serializable
 
 /**
  * Created by yuhaiyang on 2020/9/15.
  * 加载StatusView
  */
-abstract class ALoadStatus(val type: Loader.Type) {
+abstract class ALoadStatus(val type: Loader.Type) : Serializable {
     private var rootView: View? = null
 
     /**
@@ -29,6 +30,7 @@ abstract class ALoadStatus(val type: Loader.Type) {
         }
 
         view = View.inflate(context, getLayout(), null)
+        onViewCreate(context, view)
         rootView = view
         return view
     }
