@@ -9,15 +9,11 @@ import com.ishow.common.utils.StorageUtils
 import com.ishow.common.utils.StringUtils
 import com.ishow.noah.R
 import com.ishow.noah.entries.UserContainer
-import com.ishow.noah.entries.http.AppHttpResponse
 import com.ishow.noah.manager.UserManager
 import com.ishow.noah.modules.account.common.AppModel
 import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
 import com.ishow.noah.utils.http.okhttp.interceptor.AppHttpInterceptor
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class LoginViewModel(application: Application) : AppBaseViewModel(application) {

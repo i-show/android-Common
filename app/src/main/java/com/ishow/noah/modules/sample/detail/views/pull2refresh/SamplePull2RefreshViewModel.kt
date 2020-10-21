@@ -1,10 +1,10 @@
 package com.ishow.noah.modules.sample.detail.views.pull2refresh
 
 import android.app.Application
+import androidx.lifecycle.viewModelScope
 import com.ishow.noah.modules.base.mvvm.viewmodel.Pull2RefreshViewModel
 import com.ishow.noah.modules.sample.entries.SampleTestPage
 import com.ishow.noah.modules.sample.main.SampleModel
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 /**
@@ -18,7 +18,7 @@ class SamplePull2RefreshViewModel(app: Application) : Pull2RefreshViewModel<Samp
         getData(loading = true)
     }
 
-    fun getData(page: Int = 1, loading: Boolean = false) = GlobalScope.launch {
+    fun getData(page: Int = 1, loading: Boolean = false) = viewModelScope.launch {
         pull2refresh(page, loading) { sampleModel.testPage(page) }
     }
 

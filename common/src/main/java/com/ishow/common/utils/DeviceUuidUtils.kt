@@ -3,7 +3,7 @@ package com.ishow.common.utils
 import android.Manifest
 import android.annotation.SuppressLint
 import android.os.Environment
-import com.ishow.common.app.provider.InitCommonProvider
+import com.ishow.common.app.provider.InitProvider
 import com.ishow.common.utils.permission.PermissionManager
 import java.io.File
 import java.util.*
@@ -18,7 +18,7 @@ class DeviceUuidUtils @SuppressLint("HardwareIds") private constructor() {
     companion object {
 
         private val UUID_FILE_NAME: String by lazy {
-            val fileName = EncryptUtils.md5(InitCommonProvider.app.packageName, false)
+            val fileName = EncryptUtils.md5(InitProvider.app.packageName, false)
             ".${fileName}.conf"
         }
 
@@ -50,12 +50,12 @@ class DeviceUuidUtils @SuppressLint("HardwareIds") private constructor() {
 
 
         private fun hasReadStoragePermission(): Boolean {
-            val app = InitCommonProvider.app
+            val app = InitProvider.app
             return PermissionManager.hasPermission(app, Manifest.permission.READ_EXTERNAL_STORAGE)
         }
 
         private fun hasWriteStoragePermission(): Boolean {
-            val app = InitCommonProvider.app
+            val app = InitProvider.app
             return PermissionManager.hasPermission(app, Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }
 
@@ -80,7 +80,7 @@ class DeviceUuidUtils @SuppressLint("HardwareIds") private constructor() {
                 }
 
                 if (savedUUID.isNullOrEmpty()) {
-                    val androidId = DeviceUtils.deviceId(InitCommonProvider.app)
+                    val androidId = DeviceUtils.deviceId(InitProvider.app)
                     val newUUID = if (androidId.isNotEmpty() && "9774d56d682e549c" != androidId) {
                         UUID.nameUUIDFromBytes(androidId.toByteArray())
                     } else {

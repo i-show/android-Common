@@ -8,7 +8,7 @@ import android.text.Spanned
 import android.text.TextUtils
 import android.text.style.*
 import androidx.annotation.ColorRes
-import com.ishow.common.app.provider.InitCommonProvider
+import com.ishow.common.app.provider.InitProvider
 import com.ishow.common.utils.JsonUtils
 import com.ishow.common.utils.MathUtils
 import com.ishow.common.utils.StringUtils
@@ -65,7 +65,7 @@ fun String.spanSize(size: Int, start: Int, end: Int, dip: Boolean = false): Span
  * 通过Span来 修改字体大小
  */
 fun String.spanColorRes(child: String, @ColorRes color: Int): SpannableString {
-    return spanColor(child, InitCommonProvider.app.findColor(color))
+    return spanColor(child, InitProvider.app.findColor(color))
 }
 
 /**
@@ -165,7 +165,7 @@ fun String.isEmail(): Boolean {
  * 把字符Copy到剪切板上
  */
 fun String.copy2Clipboard(label: String = "label") {
-    val manager = InitCommonProvider.app.clipboardManager
+    val manager = InitProvider.app.clipboardManager
     val data = ClipData.newPlainText(label, this)
     manager.setPrimaryClip(data)
 }

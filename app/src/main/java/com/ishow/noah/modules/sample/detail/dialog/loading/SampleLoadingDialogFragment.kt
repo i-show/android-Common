@@ -21,14 +21,15 @@ package com.ishow.noah.modules.sample.detail.dialog.loading
 
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import com.ishow.common.extensions.delay
 import com.ishow.common.widget.loading.LoadingDialog
+import com.ishow.noah.App
 
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FSampleLoadingDialogBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -69,7 +70,7 @@ class SampleLoadingDialogFragment : AppBindFragment<FSampleLoadingDialogBinding,
 
     private fun requestLoading1() {
         loadingDialog = LoadingDialog.show(context, loadingDialog, "tag1")
-        GlobalScope.launch {
+        lifecycleScope.launch {
             delay(5000)
             Log.i(TAG, "requestLoading1: dismiss1")
             mainThread { LoadingDialog.dismiss(loadingDialog, "tag1") }
@@ -78,7 +79,7 @@ class SampleLoadingDialogFragment : AppBindFragment<FSampleLoadingDialogBinding,
 
     private fun requestLoading2() {
         loadingDialog = LoadingDialog.show(context, loadingDialog, "tag2")
-        GlobalScope.launch {
+        lifecycleScope.launch {
             delay(10000)
             Log.i(TAG, "requestLoading1: dismiss2")
             mainThread { LoadingDialog.dismiss(loadingDialog, "tag2") }
@@ -87,7 +88,7 @@ class SampleLoadingDialogFragment : AppBindFragment<FSampleLoadingDialogBinding,
 
     private fun requestLoading3() {
         loadingDialog = LoadingDialog.show(context, loadingDialog, "tag3")
-        GlobalScope.launch {
+        lifecycleScope.launch {
             delay(15000)
             Log.i(TAG, "requestLoading1: dismiss3")
             mainThread { LoadingDialog.dismiss(loadingDialog, "tag3") }

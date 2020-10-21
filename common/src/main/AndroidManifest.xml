@@ -39,7 +39,7 @@
         </provider>
 
         <provider
-            android:name=".app.provider.InitCommonProvider"
+            android:name=".app.provider.InitProvider"
             android:authorities="${applicationId}.ishow.initprovider"
             android:exported="false"
             android:initOrder="800" />

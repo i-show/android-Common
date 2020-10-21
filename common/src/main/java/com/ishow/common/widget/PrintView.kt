@@ -7,12 +7,12 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
 import com.ishow.common.R
-import com.ishow.common.extensions.dp2px
-import com.ishow.common.extensions.findColor
-import com.ishow.common.extensions.mainThread
-import com.ishow.common.extensions.sp2px
+import com.ishow.common.extensions.*
 import com.ishow.common.utils.log.LogUtils
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 /**
  * Created by yuhaiyang on 2019-11-05.
@@ -107,8 +107,7 @@ class PrintView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 
         textView.setText(text, 0, len)
         post { fullScroll(View.FOCUS_DOWN) }
-
-        showJob = GlobalScope.launch(Dispatchers.Main) {
+        showJob = initScope.launch(Dispatchers.Main) {
             delay(30)
             print(text, len + 1, size)
         }

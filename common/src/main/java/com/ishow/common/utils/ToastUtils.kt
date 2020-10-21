@@ -22,8 +22,9 @@ import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.StringRes
+import com.ishow.common.app.provider.InitProvider
+import com.ishow.common.extensions.initScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 
@@ -78,7 +79,7 @@ object ToastUtils {
     /**
      * 通过协程  在主线程上运行
      */
-    private fun mainThread(block: () -> Unit) = GlobalScope.launch(Dispatchers.Main) {
+    private fun mainThread(block: () -> Unit) = initScope.launch(Dispatchers.Main) {
         block()
     }
 }

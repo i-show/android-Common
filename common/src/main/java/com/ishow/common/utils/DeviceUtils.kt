@@ -1,17 +1,14 @@
 package com.ishow.common.utils
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.content.res.Resources
-import android.graphics.Rect
 import android.provider.Settings
 import android.telephony.TelephonyManager
-import android.text.TextUtils
 import android.util.Log
-import com.ishow.common.app.provider.InitCommonProvider
+import com.ishow.common.app.provider.InitProvider
 import com.ishow.common.extensions.telephonyManager
 
 /**
@@ -46,7 +43,7 @@ object DeviceUtils {
     val version: String = android.os.Build.VERSION.RELEASE
 
     val hasSim: Boolean
-        get() = when (InitCommonProvider.app.telephonyManager.simState) {
+        get() = when (InitProvider.app.telephonyManager.simState) {
             TelephonyManager.SIM_STATE_ABSENT,
             TelephonyManager.SIM_STATE_UNKNOWN -> false
             else -> true

@@ -1,6 +1,6 @@
 package com.ishow.noah.modules.init.splash.task
 
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 
 class TaskManager private constructor() {
@@ -12,12 +12,12 @@ class TaskManager private constructor() {
         return this
     }
 
-    internal fun startAsync() = GlobalScope.async {
+    internal fun startAsync(scope: CoroutineScope) = scope.async {
         if (taskList.isNullOrEmpty()) {
             return@async true
         }
 
-        taskList.map { it.startAsync() }.forEach { it.await() }
+        taskList.map { it.startAsync(scope) }.forEach { it.await() }
         return@async true
     }
 
@@ -27,18 +27,6 @@ class TaskManager private constructor() {
     }
 
     companion object {
-        @Volatile
-        private var manager: TaskManager? = null
-        val instance: TaskManager
-            get() {
-                if (manager == null) {
-                    synchronized(TaskManager::class.java) {
-                        if (manager == null) {
-                            manager = TaskManager()
-                        }
-                    }
-                }
-                return manager!!
-            }
+        val instance by lazy(LazyThreadSafetyMode.SYNCHRONIZED) { TaskManager() }
     }
 }

@@ -3,6 +3,7 @@ package com.ishow.common.modules.log
 import android.content.Context
 import android.os.Build
 import com.ishow.common.BuildConfig
+import com.ishow.common.app.provider.InitProvider
 import com.ishow.common.extensions.appName
 import com.ishow.common.extensions.toJSON
 import com.ishow.common.extensions.versionName
@@ -11,7 +12,6 @@ import com.ishow.common.utils.DeviceUtils
 import com.ishow.common.utils.StorageUtils
 import com.ishow.common.utils.http.okhttp.interceptor.OkHttpLogInterceptor
 import com.ishow.common.utils.http.retrofit.adapter.CallAdapterFactory
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -39,7 +39,7 @@ class InitLogWorker {
         re.create(LogManager.S::class.java)
     }
 
-    fun work(context: Context) = GlobalScope.launch {
+    fun work(context: Context) = InitProvider.scope.launch {
         val screenSize = DeviceUtils.screenSize
         val app = HashMap<String, Any?>()
         app["appId"] = context.packageName

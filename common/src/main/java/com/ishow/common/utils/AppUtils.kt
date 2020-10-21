@@ -23,8 +23,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.os.Build
 import android.text.TextUtils
-import androidx.annotation.RequiresApi
-import com.ishow.common.app.provider.InitCommonProvider
+import com.ishow.common.app.provider.InitProvider
 
 import java.util.HashMap
 
@@ -168,7 +167,7 @@ object AppUtils {
         }
 
         return try {
-            InitCommonProvider.app.packageManager.getPackageInfo(pkgName, 0)
+            InitProvider.app.packageManager.getPackageInfo(pkgName, 0)
             true
         } catch (e: PackageManager.NameNotFoundException) {
             false

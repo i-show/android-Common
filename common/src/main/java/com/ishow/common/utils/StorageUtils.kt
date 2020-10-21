@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import android.content.SharedPreferences.Editor
 import android.system.Os.remove
 import androidx.annotation.IntRange
-import com.ishow.common.app.provider.InitCommonProvider
+import com.ishow.common.app.provider.InitProvider
 import java.util.concurrent.TimeUnit
 
 /**
@@ -24,7 +24,7 @@ object StorageUtils {
      */
     private const val EXPIRE_SUFFIX = "_expire_ee"
 
-    private val app by lazy { InitCommonProvider.app }
+    private val app by lazy { InitProvider.app }
 
     @JvmStatic
     fun save() = SaveExecutor(app.applicationContext)

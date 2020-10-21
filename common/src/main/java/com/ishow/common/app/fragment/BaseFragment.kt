@@ -23,6 +23,7 @@ import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.ishow.common.R
 import com.ishow.common.app.mvp.IViewStatus
 import com.ishow.common.entries.status.Empty
@@ -34,7 +35,6 @@ import com.ishow.common.widget.StatusView
 import com.ishow.common.widget.TopBar
 import com.ishow.common.widget.loading.LoadingDialog
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 abstract class BaseFragment : Fragment(), StatusView.OnStatusViewListener, IViewStatus, TopBar.OnTopBarListener {
@@ -212,7 +212,7 @@ abstract class BaseFragment : Fragment(), StatusView.OnStatusViewListener, IView
     /**
      * 通过协程  在主线程上运行
      */
-    fun mainThread(block: () -> Unit) = GlobalScope.launch(Dispatchers.Main) {
+    fun mainThread(block: () -> Unit) = lifecycleScope.launch(Dispatchers.Main) {
         block()
     }
 }

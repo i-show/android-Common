@@ -17,20 +17,14 @@
 package com.ishow.noah.modules.settings
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import androidx.lifecycle.Observer
 import com.ishow.common.extensions.loadUrl
 import com.ishow.common.utils.AppUtils
-import com.ishow.noah.App
 import com.ishow.noah.R
 import com.ishow.noah.modules.base.AppBaseActivity
 import kotlinx.android.synthetic.main.activity_settings.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.Response
 import java.util.concurrent.TimeUnit
 
 
@@ -52,7 +46,6 @@ class SettingsActivity : AppBaseActivity(), View.OnClickListener {
 
         image.loadUrl("https://img.yuhaiyang.net/common/avatar/default_avatar.jpg")
 
-        App.app.test.observe(this, Observer { dateTime.text = it })
     }
 
     override fun onClick(v: View) {
@@ -70,12 +63,5 @@ class SettingsActivity : AppBaseActivity(), View.OnClickListener {
         val request: Request = Request.Builder()
             .url("https://www.baidu.com/?tn=simple")
             .build()
-
-        GlobalScope.launch {
-            val response: Response = client.newCall(request).execute()
-            Log.i("yhy", "!!! re = " + response.code())
-        }
-
-
     }
 }

@@ -2,8 +2,6 @@ package com.ishow.common.app.mvvm.viewmodel
 
 import android.app.Application
 import android.content.Context
-import android.os.Looper
-import android.util.Log
 import androidx.annotation.StringRes
 import androidx.lifecycle.*
 import com.ishow.common.entries.status.Empty
@@ -12,12 +10,9 @@ import com.ishow.common.entries.status.Loading
 import com.ishow.common.entries.status.Success
 import com.ishow.common.extensions.isMainThread
 import com.ishow.common.extensions.mainThread
-import com.ishow.common.utils.databinding.bus.Event
 import com.ishow.common.utils.StringUtils
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import com.ishow.common.utils.databinding.bus.Event
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
 
 abstract class BaseViewModel(application: Application) : AndroidViewModel(application), LifecycleObserver {
 

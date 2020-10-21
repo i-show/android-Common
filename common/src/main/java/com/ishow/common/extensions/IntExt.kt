@@ -1,7 +1,7 @@
 package com.ishow.common.extensions
 
 import android.content.res.Resources
-import com.ishow.common.app.provider.InitCommonProvider
+import com.ishow.common.app.provider.InitProvider
 
 /**
  * Created by yuhaiyang on 2019-08-16.
@@ -20,7 +20,7 @@ fun Int.dp2px(): Int {
  * dp转px
  */
 fun Int.dp22px(): Int {
-    val scale = InitCommonProvider.app.resources.displayMetrics.density
+    val scale = InitProvider.app.resources.displayMetrics.density
     return (this * scale + 0.5f).toInt()
 }
 

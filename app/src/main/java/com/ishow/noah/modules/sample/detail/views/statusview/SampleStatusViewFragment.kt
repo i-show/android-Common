@@ -2,6 +2,7 @@ package com.ishow.noah.modules.sample.detail.views.statusview
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import com.ishow.common.utils.ToastUtils
 import com.ishow.common.widget.StatusView
 import com.ishow.noah.R
@@ -9,7 +10,6 @@ import com.ishow.noah.databinding.FragmentSampleStatusViewBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
 import kotlinx.android.synthetic.main.fragment_sample_status_view.*
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -43,7 +43,7 @@ class SampleStatusViewFragment : AppBindFragment<FragmentSampleStatusViewBinding
 
     private fun requestLoading1() {
         statusView.showLoading("tag1")
-        GlobalScope.launch {
+        lifecycleScope.launch {
             delay(3000)
             mainThread {
                 statusView.dismiss("tag1")
@@ -54,7 +54,7 @@ class SampleStatusViewFragment : AppBindFragment<FragmentSampleStatusViewBinding
 
     private fun requestLoading2() {
         statusView.showLoading("tag2")
-        GlobalScope.launch {
+        lifecycleScope.launch {
             delay(7000)
             mainThread { statusView.dismiss("tag2") }
         }
@@ -62,7 +62,7 @@ class SampleStatusViewFragment : AppBindFragment<FragmentSampleStatusViewBinding
 
     private fun requestLoading3() {
         statusView.showLoading("tag3")
-        GlobalScope.launch {
+        lifecycleScope.launch {
             delay(10000)
             mainThread { statusView.dismiss("tag3") }
         }

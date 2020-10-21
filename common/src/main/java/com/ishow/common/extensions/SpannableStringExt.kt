@@ -8,7 +8,7 @@ import android.text.TextPaint
 import android.text.style.*
 import android.view.View
 import androidx.annotation.ColorRes
-import com.ishow.common.app.provider.InitCommonProvider
+import com.ishow.common.app.provider.InitProvider
 
 /**
  * Created by yuhaiyang on 2020/7/7.
@@ -70,7 +70,7 @@ fun SpannableString.spanSize(size: Float, start: Int, end: Int): SpannableString
  * @param color 设置文字的颜色
  */
 fun SpannableString.spanColorRes(child: String, @ColorRes color: Int): SpannableString {
-    return spanColor(child, InitCommonProvider.app.findColor(color))
+    return spanColor(child, InitProvider.app.findColor(color))
 }
 
 /**
@@ -80,7 +80,7 @@ fun SpannableString.spanColorRes(child: String, @ColorRes color: Int): Spannable
  * @param color 设置文字的颜色
  */
 fun SpannableString.spanColorRes(start: Int, end: Int, @ColorRes color: Int): SpannableString {
-    return spanColor(start, end, InitCommonProvider.app.findColor(color))
+    return spanColor(start, end, InitProvider.app.findColor(color))
 }
 
 /**

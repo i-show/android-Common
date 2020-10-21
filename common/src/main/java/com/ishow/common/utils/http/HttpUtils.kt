@@ -18,7 +18,7 @@ package com.ishow.common.utils.http
 
 import android.net.ConnectivityManager
 import android.telephony.TelephonyManager
-import com.ishow.common.app.provider.InitCommonProvider
+import com.ishow.common.app.provider.InitProvider
 import com.ishow.common.extensions.connectivityManager
 
 /**
@@ -29,13 +29,13 @@ object HttpUtils {
 
     val isConnected: Boolean
         get() {
-            val connectivityManager = InitCommonProvider.app.connectivityManager
+            val connectivityManager = InitProvider.app.connectivityManager
             val networkInfo = connectivityManager.activeNetworkInfo
             return networkInfo?.isConnected ?: false
         }
 
     fun getNetType(): String {
-        val app = InitCommonProvider.app
+        val app = InitProvider.app
 
         val connectivityManager = app.connectivityManager
         val networkInfo = connectivityManager.activeNetworkInfo

@@ -4,11 +4,11 @@ import android.text.TextUtils
 import com.ishow.noah.manager.UserManager
 import com.ishow.noah.modules.account.common.AppModel
 import com.ishow.noah.utils.http.okhttp.interceptor.AppHttpInterceptor
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 
 class UserTask : ITask {
-    override fun startAsync() = GlobalScope.async {
+    override fun startAsync(scope: CoroutineScope) = scope.async {
         val accessToken = UserManager.instance.getAccessToken()
         if (TextUtils.isEmpty(accessToken)) {
             status = Status.None

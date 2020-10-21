@@ -3,11 +3,11 @@ package com.ishow.common.utils.download
 import android.content.Context
 import androidx.annotation.IntRange
 import com.ishow.common.extensions.delay
+import com.ishow.common.extensions.initScope
 import com.ishow.common.extensions.mainThread
 import com.ishow.common.utils.download.db.DownloadDB
 import com.ishow.common.utils.download.db.DownloadData
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -93,7 +93,7 @@ class DownloadTask(context: Context, private var httpClient: OkHttpClient) : Dow
     }
 
 
-    private fun resumeDownload(url: String) = GlobalScope.launch(Dispatchers.IO) {
+    private fun resumeDownload(url: String) = initScope.launch(Dispatchers.IO) {
         val file = prepareDownload(url, true) ?: return@launch
         if (file.length() <= 0) {
             download(url)
@@ -120,7 +120,7 @@ class DownloadTask(context: Context, private var httpClient: OkHttpClient) : Dow
         }
     }
 
-    private fun download(url: String) = GlobalScope.launch(Dispatchers.IO) {
+    private fun download(url: String) = initScope.launch(Dispatchers.IO) {
         val file = prepareDownload(url) ?: return@launch
 
         if (totalLength > 0) {

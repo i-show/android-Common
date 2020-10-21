@@ -1,9 +1,13 @@
 package com.ishow.common.extensions
 
 import android.os.Looper
+import com.ishow.common.app.provider.InitProvider
 import com.ishow.common.utils.JsonUtils
 import kotlinx.coroutines.*
 
+
+inline val Any.initScope: CoroutineScope
+    get() = InitProvider.scope
 
 /**
  * 任意对象转成Json字符串
@@ -18,7 +22,7 @@ fun isMainThread(): Boolean = Looper.myLooper() == Looper.getMainLooper()
 /**
  * 通过协程  在主线程上运行
  */
-fun mainThread(scope: CoroutineScope = GlobalScope, block: () -> Unit) {
+fun mainThread(scope: CoroutineScope = InitProvider.scope, block: () -> Unit) {
     if (isMainThread()) {
         block()
     } else {
@@ -29,7 +33,7 @@ fun mainThread(scope: CoroutineScope = GlobalScope, block: () -> Unit) {
 /**
  * Delay多少毫秒后执行
  */
-fun delay(long: Long, scope: CoroutineScope = GlobalScope, block: () -> Unit) = scope.launch(Dispatchers.Main) {
+fun delay(long: Long, scope: CoroutineScope = InitProvider.scope, block: () -> Unit) = scope.launch(Dispatchers.Main) {
     delay(long)
     block()
 }
@@ -37,7 +41,7 @@ fun delay(long: Long, scope: CoroutineScope = GlobalScope, block: () -> Unit) = 
 /**
  * Delay
  */
-fun delayInThread(long: Long, scope: CoroutineScope = GlobalScope, block: () -> Unit) = scope.launch {
+fun delayInThread(long: Long, scope: CoroutineScope = InitProvider.scope, block: () -> Unit) = scope.launch {
     delay(long)
     block()
 }
@@ -45,7 +49,7 @@ fun delayInThread(long: Long, scope: CoroutineScope = GlobalScope, block: () -> 
 /**
  * 计时工具
  */
-fun timing(times: Int, delayTimes: Long = 1000, scope: CoroutineScope = GlobalScope, block: (time: Int) -> Unit) = scope.launch(Dispatchers.Main) {
+fun timing(times: Int, delayTimes: Long = 1000, scope: CoroutineScope = InitProvider.scope, block: (time: Int) -> Unit) = scope.launch(Dispatchers.Main) {
     var currentTime = times
     repeat(times) {
         delay(delayTimes)

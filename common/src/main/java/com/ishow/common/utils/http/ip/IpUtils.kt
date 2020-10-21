@@ -1,13 +1,13 @@
 package com.ishow.common.utils.http.ip
 
 import android.content.Context
+import com.ishow.common.app.provider.InitProvider
 import com.ishow.common.extensions.parseJSON
 import com.ishow.common.extensions.toJSON
 import com.ishow.common.utils.http.ip.entries.IpSource
 import com.ishow.common.utils.http.ip.executor.FSExecutor
 import com.ishow.common.utils.http.ip.executor.IFYExecutor
 import com.ishow.common.utils.http.ip.executor.SohuExecutor
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 
@@ -67,7 +67,7 @@ class IpUtils private constructor() {
             if (instance.ipInfo == null) {
                 instance.getCache(context)
             }
-            GlobalScope.launch { instance.start(context, callBack) }
+            InitProvider.scope.launch { instance.start(context, callBack) }
             return instance.ipInfo
         }
     }

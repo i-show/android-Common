@@ -1,16 +1,11 @@
 package com.ishow.noah.modules.base.mvvm.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.viewModelScope
 import com.ishow.common.app.mvvm.viewmodel.BaseViewModel
 import com.ishow.common.entries.status.Error
 import com.ishow.common.entries.status.Loading
 import com.ishow.common.entries.status.Loading.Companion.randomTag
 import com.ishow.noah.entries.http.AppHttpResponse
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 abstract class AppBaseViewModel(application: Application) : BaseViewModel(application) {

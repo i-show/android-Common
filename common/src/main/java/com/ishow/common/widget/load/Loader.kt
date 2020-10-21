@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
-import com.ishow.common.app.provider.InitCommonProvider
+import com.ishow.common.app.provider.InitProvider
 import com.ishow.common.widget.load.status.*
 import com.ishow.common.widget.load.target.ITarget
 import java.io.ByteArrayInputStream
@@ -92,7 +92,7 @@ class Loader internal constructor() : Serializable {
     }
 
     fun emptyText(@IdRes viewId: Int, @StringRes resId: Int): Loader {
-        val context = InitCommonProvider.app
+        val context = InitProvider.app
         emptyText[viewId] = context.getString(resId)
         return this
     }
@@ -108,7 +108,7 @@ class Loader internal constructor() : Serializable {
     }
 
     fun errorText(@IdRes viewId: Int, @StringRes resId: Int): Loader {
-        val context = InitCommonProvider.app
+        val context = InitProvider.app
         errorText[viewId] = context.getString(resId)
         return this
     }
@@ -124,7 +124,7 @@ class Loader internal constructor() : Serializable {
     }
 
     fun successText(@IdRes viewId: Int, @StringRes resId: Int): Loader {
-        val context = InitCommonProvider.app
+        val context = InitProvider.app
         successText[viewId] = context.getString(resId)
         return this
     }
@@ -140,7 +140,7 @@ class Loader internal constructor() : Serializable {
     }
 
     fun loadingText(@IdRes viewId: Int, @StringRes resId: Int): Loader {
-        val context = InitCommonProvider.app
+        val context = InitProvider.app
         loadingText[viewId] = context.getString(resId)
         return this
     }

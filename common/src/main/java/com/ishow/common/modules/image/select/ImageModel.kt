@@ -10,8 +10,6 @@ import com.ishow.common.entries.Folder
 import com.ishow.common.entries.Image
 import com.ishow.common.extensions.mainThread
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
 

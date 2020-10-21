@@ -1,7 +1,6 @@
 package com.ishow.common.widget.pulltorefresh.recycleview;
 
 import android.content.res.Resources;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.ishow.common.R;
-import com.ishow.common.app.provider.InitCommonProvider;
+import com.ishow.common.app.provider.InitProvider;
 import com.ishow.common.utils.log.LogUtils;
 import com.ishow.common.widget.pulltorefresh.footer.IPullToRefreshFooter;
 
@@ -66,7 +65,7 @@ public class LoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         rotateAnimation.setRepeatCount(Animation.INFINITE);
         rotateAnimation.setFillAfter(false);
 
-        final Resources res = InitCommonProvider.getApp().getResources();
+        final Resources res = InitProvider.getApp().getResources();
         normalTips = res.getString(R.string.pull2refresh_footer_normal);
         loadingTips = res.getString(R.string.pull2refresh_footer_loading);
         errorTips = res.getString(R.string.pull2refresh_footer_fail);

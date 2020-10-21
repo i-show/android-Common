@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.baidu.mobstat.StatService
 import com.ishow.common.utils.permission.PermissionInfo
 import com.ishow.common.utils.permission.PermissionManager
@@ -13,7 +14,6 @@ import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
 import com.ishow.noah.modules.init.splash.task.MinTimeTask
 import com.ishow.noah.modules.init.splash.task.TaskManager
 import com.ishow.noah.modules.init.splash.task.UserTask
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 
@@ -43,8 +43,8 @@ class SplashViewModel(app: Application) : AppBaseViewModel(app) {
             .addTask(MinTimeTask())
             .addTask(UserTask())
 
-        GlobalScope.launch {
-            taskManager.startAsync().await()
+        viewModelScope.launch {
+            taskManager.startAsync(viewModelScope).await()
             showSuccess()
         }
     }
