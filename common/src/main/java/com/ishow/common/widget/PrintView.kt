@@ -107,7 +107,7 @@ class PrintView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 
         textView.setText(text, 0, len)
         post { fullScroll(View.FOCUS_DOWN) }
-        showJob = initScope.launch(Dispatchers.Main) {
+        showJob = appScope.launch(Dispatchers.Main) {
             delay(30)
             print(text, len + 1, size)
         }

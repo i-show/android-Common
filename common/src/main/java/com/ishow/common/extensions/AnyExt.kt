@@ -6,7 +6,7 @@ import com.ishow.common.utils.JsonUtils
 import kotlinx.coroutines.*
 
 
-inline val Any.initScope: CoroutineScope
+inline val Any.appScope: CoroutineScope
     get() = InitProvider.scope
 
 /**

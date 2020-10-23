@@ -26,7 +26,7 @@ ext.build_versions = build_versions
 
 def kotlin_version = [:]
 kotlin_version.sdk = '1.4.10'
-kotlin_version.coroutines = '1.3.7'
+kotlin_version.coroutines = '1.3.9'
 
 def androidx_version = [:]
 androidx_version.appcompat = "1.2.0"
@@ -53,5 +53,6 @@ versions.retrofit = "2.9.0"
 versions.gson = "2.8.6"
 versions.photo_view = "2.3.0"
 versions.desugar = '1.0.9'
+versions.mmkv = '1.2.4'
 ext.versions = versions
 

@@ -10,6 +10,7 @@ import com.facebook.drawee.backends.pipeline.Fresco
 import com.ishow.common.manager.AppStatusManager
 import com.ishow.common.manager.LogManager
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 
 /**
@@ -65,7 +66,7 @@ class InitProvider : ContentProvider() {
     companion object {
         private const val TAG = "InitCommonProvider"
 
-        val scope by lazy(LazyThreadSafetyMode.SYNCHRONIZED) { CoroutineScope(SupervisorJob()) }
+        val scope by lazy(LazyThreadSafetyMode.SYNCHRONIZED) { CoroutineScope(SupervisorJob() +  Dispatchers.Main) }
 
         @JvmStatic
         lateinit var app: Application

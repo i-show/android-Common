@@ -219,7 +219,7 @@ dependencies {
     kapt "com.android.databinding:compiler:3.1.4"
     kapt "androidx.room:room-compiler:$versions.androidx.room"
 
-    def camerax_version = "1.0.0-beta10"
+    def camerax_version = "1.0.0-beta11"
     implementation "androidx.camera:camera-core:${camerax_version}"
     // If you want to use Camera2 extensions.
     implementation "androidx.camera:camera-camera2:${camerax_version}"
@@ -228,9 +228,7 @@ dependencies {
     implementation 'com.arialyy.aria:core:3.8.12'
     kapt 'com.arialyy.aria:compiler:3.8.12'
 
-    implementation "androidx.datastore:datastore-preferences:1.0.0-alpha01"
+    implementation "androidx.datastore:datastore-preferences:1.0.0-alpha02"
     implementation 'com.kingja.loadsir:loadsir:1.3.8'
-
-    implementation 'com.tencent:mmkv-static:1.2.2'
 }
 
