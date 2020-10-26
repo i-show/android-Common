@@ -37,6 +37,6 @@ class SamplePull2RefreshFragment : Pull2RefreshFragment<FSamplePull2refreshBindi
     }
 
     override fun hasStatusView(): Boolean {
-        return true
+        return false
     }
 }

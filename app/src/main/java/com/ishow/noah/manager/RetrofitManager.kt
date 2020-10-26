@@ -20,7 +20,7 @@ class RetrofitManager private constructor() {
             .addInterceptor(OkHttpLogInterceptor())
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://www.baidu.com/")
+            .baseUrl(AppRestService.BASE_URL)
             .client(okBuilder.build())
             .addConverterFactory(AppConverterFactory.create())
             .addCallAdapterFactory(AppCallAdapterFactory())

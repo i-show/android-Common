@@ -22,24 +22,19 @@ class LoadLayout(context: Context) : FrameLayout(context) {
     @Synchronized
     internal fun showStatus(status: ALoadStatus?, block: ((view: View) -> Unit)) {
         if (status == null) return
-
         // 如果状态相同则不进行展示
         if (loadStatus?.type == status.type) {
             return
         }
 
-        Log.i("yhy", "=========================")
-        Log.i("yhy", "childCount1 = $childCount")
         // remove last info
-        if (childCount > 1) removeViewAt(2)
+        if (childCount > 1) removeViewAt(0)
         loadStatus?.onDetach()
-        Log.i("yhy", "childCount2 = $childCount")
         loadStatus = status
         val view = status.buildView(context)
         block.invoke(view)
         addView(view, defaultLayoutParams)
         status.onAttach()
-        Log.i("yhy", "childCount3 = $childCount")
     }
 
     override fun onDetachedFromWindow() {

@@ -20,7 +20,7 @@ import com.ishow.common.utils.log.LogUtils;
 import com.ishow.common.widget.pulltorefresh.footer.IPullToRefreshFooter;
 
 
-public class LoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements IPullToRefreshFooter {
+public class LoadMoreAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements IPullToRefreshFooter {
     private static final String TAG = "LoadMoreAdapter";
     /**
      * 是否是加载更多的Item
@@ -34,7 +34,7 @@ public class LoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     /**
      * 包裹的Adapter
      */
-    private RecyclerView.Adapter innerAdapter;
+    private final RecyclerView.Adapter<VH> innerAdapter;
     /**
      * LoadMore de Views
      */
@@ -44,7 +44,7 @@ public class LoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     /**
      * 旋转动画
      */
-    private RotateAnimation rotateAnimation;
+    private final RotateAnimation rotateAnimation;
     /**
      * 当前的Load More状态
      */
@@ -56,7 +56,7 @@ public class LoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public String endTips;
     public String emptyTips;
 
-    public LoadMoreAdapter(@NonNull RecyclerView.Adapter adapter) {
+    public LoadMoreAdapter(@NonNull RecyclerView.Adapter<VH> adapter) {
         innerAdapter = adapter;
         innerAdapter.registerAdapterDataObserver(dataObserver);
 
@@ -112,13 +112,12 @@ public class LoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         int itemType = getItemViewType(position);
         if (itemType == TYPE_LOAD_MORE) {
             setFooterStatus(loadingStatus);
         } else {
-            innerAdapter.onBindViewHolder(holder, position);
+            innerAdapter.onBindViewHolder((VH) holder, position);
         }
     }
 
@@ -159,9 +158,8 @@ public class LoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void onViewAttachedToWindow(@NonNull RecyclerView.ViewHolder holder) {
-        innerAdapter.onViewAttachedToWindow(holder);
+        innerAdapter.onViewAttachedToWindow((VH)holder);
         if (isLoadMoreItem(holder.getLayoutPosition())) {
             setFullSpan(holder);
             setFooterStatus(loadingStatus);
@@ -225,13 +223,12 @@ public class LoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    private class ViewHolder extends RecyclerView.ViewHolder {
+    private static class ViewHolder extends RecyclerView.ViewHolder {
         ViewHolder(View itemView) {
             super(itemView);
         }
     }
 
-    @SuppressWarnings("unused")
     public RecyclerView.Adapter getInnerAdapter() {
         return innerAdapter;
     }
@@ -240,7 +237,7 @@ public class LoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     /**
      * 注册监听
      */
-    private RecyclerView.AdapterDataObserver dataObserver = new RecyclerView.AdapterDataObserver() {
+    final private RecyclerView.AdapterDataObserver dataObserver = new RecyclerView.AdapterDataObserver() {
         @Override
         public void onChanged() {
             super.onChanged();

@@ -33,7 +33,7 @@ open class Pull2RefreshViewModel<T>(app: Application) : AppBaseViewModel(app) {
 
     }
 
-    fun pull2refresh(page: Int = DEFAULT_START_PAGE, loading: Boolean = true, block: () -> AppPageResponse<T>) {
+    suspend fun pull2refresh(page: Int = DEFAULT_START_PAGE, loading: Boolean = true, block: suspend () -> AppPageResponse<T>) {
         val showLoading = loading && page == DEFAULT_START_PAGE
         if (showLoading) showPull2RefreshLoading()
         val result: AppPageResponse<T> = block()

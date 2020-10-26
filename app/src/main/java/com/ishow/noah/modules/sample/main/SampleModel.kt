@@ -4,6 +4,8 @@ import com.ishow.noah.entries.http.AppPageResponse
 import com.ishow.noah.manager.RetrofitManager
 import com.ishow.noah.modules.base.mvvm.model.AppBaseModel
 import com.ishow.noah.modules.sample.entries.SampleTestPage
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 
 class SampleModel : AppBaseModel() {
@@ -12,8 +14,8 @@ class SampleModel : AppBaseModel() {
     /**
      * testPage
      */
-    fun testPage(page: Int): AppPageResponse<SampleTestPage> {
-        return httpService.testPage(page, 20)
+    suspend fun testPage(page: Int): AppPageResponse<SampleTestPage> = withContext(Dispatchers.IO) {
+        return@withContext httpService.testPage(page, 20)
     }
 
 }

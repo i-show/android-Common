@@ -19,7 +19,7 @@ object RecyclerViewBindingAdapter {
         if (adapter is BindAdapter<*>) {
             val bindingAdapter = adapter as BindAdapter<T>
             bindingAdapter.data = items
-        } else if (adapter is LoadMoreAdapter) {
+        } else if (adapter is LoadMoreAdapter<*>) {
             val bindingAdapter = adapter.innerAdapter as BindAdapter<T>
             bindingAdapter.data = items
         }
@@ -44,7 +44,7 @@ object RecyclerViewBindingAdapter {
         if (adapter is BindAdapter<*>) {
             val bindAdapter = adapter as BindAdapter<T>
             bindAdapter.data = items
-        } else if (adapter is LoadMoreAdapter) {
+        } else if (adapter is LoadMoreAdapter<*>) {
             val bindingAdapter = adapter.innerAdapter as BindAdapter<T>
             bindingAdapter.data = items
         }
