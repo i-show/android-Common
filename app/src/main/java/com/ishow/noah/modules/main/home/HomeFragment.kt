@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.ishow.common.extensions.appScope
 import com.ishow.common.utils.router.AppRouter
@@ -41,22 +42,17 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
         LoadSir.init(loader = loader)
 
         test1.withLoadSir()
-            .emptyText(R.id.empty, "Hello Empty")
+            .emptyText(R.id.empty, "Hello Empty2222")
 
         loading.setOnClickListener { test1.sirEmpty() }
         loading2.setOnClickListener { test1.sirLoading() }
-        measureNanoTime {
-
-        }
     }
 
     override fun onResume() {
         super.onResume()
         Thread {
-            Looper.prepare()
             Log.i("yhy", "is MathThread = " + isMainThread())
             Toast.makeText(requireContext(), "AAAAAA", Toast.LENGTH_SHORT).show()
-            Looper.loop()
         }.start()
     }
 
