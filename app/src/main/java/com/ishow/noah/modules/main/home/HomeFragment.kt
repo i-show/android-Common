@@ -10,10 +10,12 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.ishow.common.extensions.appScope
+import com.ishow.common.extensions.dp2px
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.widget.PrintView
 import com.ishow.common.widget.load.LoadSir
 import com.ishow.common.widget.load.Loader
+import com.ishow.common.widget.load.ext.sirDismiss
 import com.ishow.common.widget.load.ext.sirEmpty
 import com.ishow.common.widget.load.ext.sirLoading
 import com.ishow.common.widget.load.ext.withLoadSir
@@ -43,18 +45,13 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
 
         test1.withLoadSir()
             .emptyText(R.id.empty, "Hello Empty2222")
+            .marginTop(40.dp2px())
 
-        loading.setOnClickListener { test1.sirEmpty() }
-        loading2.setOnClickListener { test1.sirLoading() }
+        loading.setOnClickListener { test1.sirLoading() }
+        loading2.setOnClickListener { test1.sirEmpty() }
+        dis.setOnClickListener { test1.sirDismiss() }
     }
 
-    override fun onResume() {
-        super.onResume()
-        Thread {
-            Log.i("yhy", "is MathThread = " + isMainThread())
-            Toast.makeText(requireContext(), "AAAAAA", Toast.LENGTH_SHORT).show()
-        }.start()
-    }
 
     override fun initViewModel(vm: HomeViewModel) {
         super.initViewModel(vm)

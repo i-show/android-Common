@@ -26,22 +26,25 @@
             android:id="@+id/test1"
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:gravity="center"
+            android:text="我是内容"
             android:textColor="@color/blue_900"
             android:textSize="20sp" />
 
-        <com.ishow.noah.ui.widget.LoadingProgress
+        <TextView
             android:id="@+id/loading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="50dp"
-            android:background="@color/grey_deep_2" />
+            style="@style/AppButton.Submit"
+            android:text="Loading" />
 
-
-        <com.ishow.noah.ui.widget.LoadingProgress
+        <TextView
             android:id="@+id/loading2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/grey_deep_2" />
+            style="@style/AppButton.Submit"
+            android:text="Empty"/>
+
+        <TextView
+            android:id="@+id/dis"
+            style="@style/AppButton.Submit"
+            android:text="Dismiss"/>
 
         <com.ishow.common.widget.PrintView
             android:id="@+id/printView"

@@ -2,6 +2,7 @@ package com.ishow.common.widget.load
 
 import android.app.Activity
 import android.view.View
+import com.ishow.common.widget.load.target.ActivityTarget
 import com.ishow.common.widget.load.target.ViewTarget
 
 /**
@@ -25,7 +26,10 @@ class LoadSir private constructor() {
 
         @JvmStatic
         fun width(activity: Activity): Loader {
-            return instance.defaultLoader
+            val viewTarget = ActivityTarget(activity)
+            val loader = instance.defaultLoader.copy()
+            loader.setTarget(viewTarget)
+            return loader
         }
 
         @JvmStatic

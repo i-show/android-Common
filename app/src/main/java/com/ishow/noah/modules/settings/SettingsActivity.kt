@@ -20,6 +20,9 @@ import android.os.Bundle
 import android.view.View
 import com.ishow.common.extensions.loadUrl
 import com.ishow.common.utils.AppUtils
+import com.ishow.common.widget.load.ext.loadSir
+import com.ishow.common.widget.load.ext.sirEmpty
+import com.ishow.common.widget.load.ext.withLoadSir
 import com.ishow.noah.R
 import com.ishow.noah.modules.base.AppBaseActivity
 import kotlinx.android.synthetic.main.activity_settings.*
@@ -37,6 +40,7 @@ class SettingsActivity : AppBaseActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
+        withLoadSir()
     }
 
     override fun initViews() {
@@ -45,7 +49,6 @@ class SettingsActivity : AppBaseActivity(), View.OnClickListener {
         version.setText(AppUtils.getVersionName(this))
 
         image.loadUrl("https://img.yuhaiyang.net/common/avatar/default_avatar.jpg")
-
     }
 
     override fun onClick(v: View) {
@@ -55,13 +58,6 @@ class SettingsActivity : AppBaseActivity(), View.OnClickListener {
     }
 
     private fun logout() {
-        val client = OkHttpClient.Builder()
-            .connectTimeout(4000, TimeUnit.MILLISECONDS)
-            .readTimeout(4000, TimeUnit.MILLISECONDS)
-            .writeTimeout(4000, TimeUnit.MILLISECONDS)
-            .build()
-        val request: Request = Request.Builder()
-            .url("https://www.baidu.com/?tn=simple")
-            .build()
+        sirEmpty()
     }
 }

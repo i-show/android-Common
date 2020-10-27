@@ -12,19 +12,20 @@ import com.ishow.common.widget.load.Loader
 
 class ViewTarget(private val view: View) : ITarget {
     override fun replace(loader: Loader): LoadLayout {
-        val oldContent = view
-        val contentParent = oldContent.parent as ViewGroup
+        val contentParent = view.parent as ViewGroup
         var childIndex = 0
         val childCount = contentParent.childCount
         for (i in 0 until childCount) {
-            if (contentParent.getChildAt(i) === oldContent) {
+            if (contentParent.getChildAt(i) === view) {
                 childIndex = i
                 break
             }
         }
-        contentParent.removeView(oldContent)
-        val oldLayoutParams = oldContent.layoutParams
-        val loadLayout = LoadLayout(oldContent.context)
+        contentParent.removeView(view)
+        val oldLayoutParams = view.layoutParams
+        val loadLayout = LoadLayout(view.context)
+        loadLayout.addView(view)
+
         contentParent.addView(loadLayout, childIndex, oldLayoutParams)
         return loadLayout
     }

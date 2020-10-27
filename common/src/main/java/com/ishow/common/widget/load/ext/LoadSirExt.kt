@@ -42,6 +42,10 @@ fun View.sirSuccess() {
     loadSir?.showSuccess()
 }
 
+fun View.sirDismiss() {
+    loadSir?.dismiss()
+}
+
 fun Activity.withLoadSir(): Loader {
     val loader = LoadSir.width(this)
     val rootContainer: View = findViewById(android.R.id.content)
@@ -49,7 +53,7 @@ fun Activity.withLoadSir(): Loader {
     return loader
 }
 
-private val Activity.loadSir: Loader?
+val Activity.loadSir: Loader?
     get() {
         val rootContainer: View = findViewById(android.R.id.content)
         val loader = rootContainer.getTag(R.id.tag_load_sir)

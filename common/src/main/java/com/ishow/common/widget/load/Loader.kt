@@ -39,6 +39,8 @@ class Loader internal constructor() : Serializable {
     private var successText: HashMap<Int, String> = hashMapOf()
     private var successIcon: HashMap<Int, Int> = hashMapOf()
 
+    private var margin: IntArray = intArrayOf(0, 0, 0, 0)
+
     /**
      * 展示状态
      */
@@ -52,28 +54,28 @@ class Loader internal constructor() : Serializable {
     }
 
     fun showEmpty() {
-        loadLayout.showStatus(typeMap[Type.Empty]) { view ->
+        loadLayout.showStatus(typeMap[Type.Empty], margin) { view ->
             emptyText.forEach { (key, value) -> setText(view, key, value) }
             emptyIcon.forEach { (key, value) -> setImage(view, key, value) }
         }
     }
 
     fun showLoading() {
-        loadLayout.showStatus(typeMap[Type.Loading]) { view ->
+        loadLayout.showStatus(typeMap[Type.Loading], margin) { view ->
             loadingText.forEach { (key, value) -> setText(view, key, value) }
             loadingIcon.forEach { (key, value) -> setImage(view, key, value) }
         }
     }
 
     fun showError() {
-        loadLayout.showStatus(typeMap[Type.Error]) { view ->
+        loadLayout.showStatus(typeMap[Type.Error], margin) { view ->
             errorText.forEach { (key, value) -> setText(view, key, value) }
             errorIcon.forEach { (key, value) -> setImage(view, key, value) }
         }
     }
 
     fun showSuccess() {
-        loadLayout.showStatus(typeMap[Type.Success]) { view ->
+        loadLayout.showStatus(typeMap[Type.Success], margin) { view ->
             successText.forEach { (key, value) -> setText(view, key, value) }
             successIcon.forEach { (key, value) -> setImage(view, key, value) }
         }
@@ -83,8 +85,9 @@ class Loader internal constructor() : Serializable {
      * 隐藏
      */
     fun dismiss() {
-
+        loadLayout.dismiss()
     }
+
 
     internal fun setTarget(target: ITarget) {
         this.target = target
@@ -153,6 +156,26 @@ class Loader internal constructor() : Serializable {
     fun loadingImage(@IdRes viewId: Int, @DrawableRes resId: Int): Loader {
         loadingIcon[viewId] = resId
         return this
+    }
+
+    fun marginStart(size: Int) {
+        margin[0] = size
+    }
+
+    fun marginTop(size: Int) {
+        margin[1] = size
+    }
+
+    fun marginEnd(size: Int) {
+        margin[2] = size
+    }
+
+    fun marginBottom(size: Int) {
+        margin[3] = size
+    }
+
+    fun margin(left: Int, top: Int, right: Int, bottom: Int) {
+        margin(left, top, right, bottom)
     }
 
     fun copy(): Loader {
