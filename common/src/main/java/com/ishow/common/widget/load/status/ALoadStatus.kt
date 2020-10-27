@@ -3,6 +3,7 @@ package com.ishow.common.widget.load.status
 import android.content.Context
 import android.view.View
 import com.ishow.common.widget.load.Loader
+import com.ishow.common.widget.load.OnLoaderClickBlock
 import java.io.Serializable
 
 /**
@@ -11,6 +12,8 @@ import java.io.Serializable
  */
 abstract class ALoadStatus(val type: Loader.Type) : Serializable {
     private var rootView: View? = null
+
+    var block: OnLoaderClickBlock? = null
 
     /**
      * 获取当前的Layout
@@ -33,6 +36,10 @@ abstract class ALoadStatus(val type: Loader.Type) : Serializable {
         onViewCreate(context, view)
         rootView = view
         return view
+    }
+
+    protected fun notifyClick(view: View) {
+        block?.invoke(type, view)
     }
 
     /**

@@ -33,17 +33,12 @@ class LoadLayout(context: Context) : FrameLayout(context) {
             val child = getChildAt(1)
             removeView(child)
         }
-
         loadStatus?.onDetach()
         loadStatus = status
         val view = status.buildView(context)
         block.invoke(view)
-        val lp = defaultLayoutParams
-        lp.marginStart = margin[0]
-        lp.topMargin = margin[1]
-        lp.marginEnd = margin[2]
-        lp.bottomMargin = margin[3]
-        addView(view, lp)
+
+        addView(view, getSirLayoutParams(margin))
         status.onAttach()
         statusView = view
     }
@@ -56,5 +51,14 @@ class LoadLayout(context: Context) : FrameLayout(context) {
     fun dismiss() {
         loadStatus = null
         statusView?.let { removeView(it) }
+    }
+
+    private fun getSirLayoutParams(margin: IntArray): LayoutParams {
+        val lp = defaultLayoutParams
+        lp.marginStart = margin[0]
+        lp.topMargin = margin[1]
+        lp.marginEnd = margin[2]
+        lp.bottomMargin = margin[3]
+        return lp
     }
 }

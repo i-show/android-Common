@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.ishow.common.extensions.appScope
 import com.ishow.common.extensions.dp2px
+import com.ishow.common.extensions.toast
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.widget.PrintView
 import com.ishow.common.widget.load.LoadSir
@@ -46,6 +47,7 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
         test1.withLoadSir()
             .emptyText(R.id.empty, "Hello Empty2222")
             .marginTop(40.dp2px())
+            .setOnLoaderClickListener { type, view -> toast("点击了Empty") }
 
         loading.setOnClickListener { test1.sirLoading() }
         loading2.setOnClickListener { test1.sirEmpty() }

@@ -20,7 +20,6 @@ import java.io.Serializable
  * Created by yuhaiyang on 2020/9/15.
  * 加载的工具
  */
-
 class Loader internal constructor() : Serializable {
     private lateinit var loadLayout: LoadLayout
     private lateinit var target: ITarget
@@ -41,6 +40,8 @@ class Loader internal constructor() : Serializable {
 
     private var margin: IntArray = intArrayOf(0, 0, 0, 0)
 
+    private var block: OnLoaderClickBlock? = null
+
     /**
      * 展示状态
      */
@@ -54,6 +55,9 @@ class Loader internal constructor() : Serializable {
     }
 
     fun showEmpty() {
+        val status = typeMap[Type.Empty]
+        status?.block = block
+
         loadLayout.showStatus(typeMap[Type.Empty], margin) { view ->
             emptyText.forEach { (key, value) -> setText(view, key, value) }
             emptyIcon.forEach { (key, value) -> setImage(view, key, value) }
@@ -158,24 +162,35 @@ class Loader internal constructor() : Serializable {
         return this
     }
 
-    fun marginStart(size: Int) {
+    fun marginStart(size: Int): Loader {
         margin[0] = size
+        return this
     }
 
-    fun marginTop(size: Int) {
+    fun marginTop(size: Int): Loader {
         margin[1] = size
+        return this
     }
 
-    fun marginEnd(size: Int) {
+    fun marginEnd(size: Int): Loader {
         margin[2] = size
+        return this
     }
 
-    fun marginBottom(size: Int) {
+    fun marginBottom(size: Int): Loader {
         margin[3] = size
+        return this
     }
 
-    fun margin(left: Int, top: Int, right: Int, bottom: Int) {
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun margin(left: Int, top: Int, right: Int, bottom: Int): Loader {
         margin(left, top, right, bottom)
+        return this
+    }
+
+    fun setOnLoaderClickListener(block: OnLoaderClickBlock): Loader {
+        this.block = block
+        return this
     }
 
     fun copy(): Loader {
@@ -236,8 +251,6 @@ class Loader internal constructor() : Serializable {
             loader.typeMap = typeMap
             return loader
         }
-
-
     }
 
 
