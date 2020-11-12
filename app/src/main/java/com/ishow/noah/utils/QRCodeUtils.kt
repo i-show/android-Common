@@ -57,7 +57,7 @@ object QRCodeUtils {
      */
     fun decode(bitmap: Bitmap?): String? {
         if(bitmap == null) return null
-        var result: Result? = null
+        var result: Result?
         var source: RGBLuminanceSource? = null
         return try {
             val width: Int = bitmap.width
