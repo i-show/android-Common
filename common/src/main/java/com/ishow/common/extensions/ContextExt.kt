@@ -114,6 +114,7 @@ fun Context.dialog(
  * 获取颜色
  */
 fun Context.findColor(@ColorRes color: Int) = ContextCompat.getColor(this, color)
+fun Context.findColorStateList(@ColorRes color: Int) = ContextCompat.getColorStateList(this, color)
 
 /**
  * 获取Drawable
