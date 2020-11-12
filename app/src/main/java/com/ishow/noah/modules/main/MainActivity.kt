@@ -51,19 +51,12 @@ class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val testView: View? = findViewById(android.R.id.content)
-        Log.i("yhy", "testView = $testView")
         setContentView(R.layout.activity_main)
         Aria.download(this).register()
     }
 
     override fun initNecessaryData() {
         super.initNecessaryData()
-        MMKV.initialize(this)
-        val  kv = MMKV.defaultMMKV()
-        val result = kv.decodeInt("111")
-        Log.i("yhy", "result = $result")
-        kv.encode("111", 11)
     }
 
     override fun onNewIntent(intent: Intent) {

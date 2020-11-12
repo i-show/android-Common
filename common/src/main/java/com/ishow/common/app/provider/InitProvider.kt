@@ -19,7 +19,6 @@ import kotlinx.coroutines.SupervisorJob
  */
 class InitProvider : ContentProvider() {
 
-
     /**
      * AppScope
      */
