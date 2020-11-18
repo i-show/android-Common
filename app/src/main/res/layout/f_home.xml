@@ -22,29 +22,12 @@
             android:fitsSystemWindows="true"
             app:rightImage="@drawable/svg_test" />
 
-        <TextView
-            android:id="@+id/test1"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:gravity="center"
-            android:text="我是内容"
-            android:textColor="@color/blue_900"
-            android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/loading"
-            style="@style/AppButton.Submit"
-            android:text="Loading" />
-
-        <TextView
-            android:id="@+id/loading2"
-            style="@style/AppButton.Submit"
-            android:text="Empty"/>
-
-        <TextView
-            android:id="@+id/dis"
-            style="@style/AppButton.Submit"
-            android:text="Dismiss"/>
+        <Button
+            android:id="@+id/bu1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel" />
 
         <com.ishow.common.widget.PrintView
             android:id="@+id/printView"

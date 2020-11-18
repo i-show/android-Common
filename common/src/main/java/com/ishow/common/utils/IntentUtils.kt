@@ -24,12 +24,15 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.provider.ContactsContract
 import android.provider.Settings
 import android.text.TextUtils
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.core.content.FileProvider
 import com.ishow.common.R
+import java.io.File
 
 /**
  * Intent 跳转工具类
@@ -176,7 +179,22 @@ object IntentUtils {
         } catch (e: Exception) {
             ToastUtils.show(context, R.string.exception_intent_open, Toast.LENGTH_SHORT)
         }
+    }
 
+    /**
+     * 安装APK文件
+     */
+    fun installApk(context: Context, file: File) {
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            val contentUri = FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
+            intent.setDataAndType(contentUri, "application/vnd.android.package-archive")
+        } else {
+            intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive")
+        }
+        context.startActivity(intent)
     }
 }
 

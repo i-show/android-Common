@@ -33,7 +33,9 @@ abstract class BindFragment<T : ViewDataBinding, VM : BaseViewModel> : BaseFragm
     abstract fun getLayout(): Int
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return bindContentView(container, getLayout())
+        val view = bindContentView(container, getLayout())
+        initViews(view)
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,6 +48,10 @@ abstract class BindFragment<T : ViewDataBinding, VM : BaseViewModel> : BaseFragm
         dataBinding = DataBindingUtil.inflate(layoutInflater, layoutId, container, false)
         dataBinding.lifecycleOwner = viewLifecycleOwner
         return dataBinding.root
+    }
+
+    protected open fun initViews(view: View) {
+
     }
 
     @Suppress("MemberVisibilityCanBePrivate")

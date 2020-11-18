@@ -19,7 +19,7 @@ class FollowSeekBarView : FrameLayout {
     private var totalX = 0
     private var startX = 0
 
-    private var seekBar: SeekBar? = null
+    private var seekBar: ProgressBar? = null
     private lateinit var timeTv: TextView
     private lateinit var arrowView: ImageView
 
@@ -38,7 +38,7 @@ class FollowSeekBarView : FrameLayout {
         computePosition(progress)
     }
 
-    fun withSeekBar(seekBar: SeekBar) {
+    fun withSeekBar(seekBar: ProgressBar) {
         this.seekBar = seekBar
 
         if (seekBar.width <= 0) {
