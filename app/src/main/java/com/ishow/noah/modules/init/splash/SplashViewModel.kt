@@ -5,7 +5,6 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.baidu.mobstat.StatService
 import com.ishow.common.utils.permission.PermissionInfo
 import com.ishow.common.utils.permission.PermissionManager
 import com.ishow.noah.manager.ConfigureManager
@@ -27,7 +26,6 @@ class SplashViewModel(app: Application) : AppBaseViewModel(app) {
     private var initFinished: Boolean = false
 
     fun preInit(activity: SplashActivity) {
-        StatService.start(activity)
         initTime = System.currentTimeMillis()
         initFinished = false
         checkPermission(activity)

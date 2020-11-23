@@ -214,12 +214,10 @@ dependencies {
     // 基础库
     implementation project(':common')
 
-    //  百度统计
-    implementation 'com.baidu.mobstat:mtj-sdk:4.0.0.7'
     kapt "com.android.databinding:compiler:3.1.4"
     kapt "androidx.room:room-compiler:$versions.androidx.room"
 
-    def camerax_version = "1.0.0-beta11"
+    def camerax_version = "1.0.0-beta12"
     implementation "androidx.camera:camera-core:${camerax_version}"
     // If you want to use Camera2 extensions.
     implementation "androidx.camera:camera-camera2:${camerax_version}"
@@ -229,12 +227,12 @@ dependencies {
     implementation 'com.arialyy.aria:m3u8Component:3.8.14'
     kapt 'com.arialyy.aria:compiler:3.8.14'
 
-    def paging_version = "3.0.0-alpha08"
+    def paging_version = "3.0.0-alpha09"
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
     // alternatively - without Android dependencies for tests
     testImplementation "androidx.paging:paging-common-ktx:$paging_version"
 
-    implementation "androidx.datastore:datastore-preferences:1.0.0-alpha02"
+    implementation "androidx.datastore:datastore-preferences:1.0.0-alpha04"
     implementation 'com.kingja.loadsir:loadsir:1.3.8'
 }
 

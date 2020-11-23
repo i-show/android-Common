@@ -29,6 +29,7 @@ import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.arialyy.aria.core.Aria
+import com.ishow.common.extensions.toJSON
 import com.ishow.common.utils.ToastUtils
 import com.ishow.common.widget.BottomBar
 import com.ishow.noah.R
@@ -53,6 +54,10 @@ class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Aria.download(this).register()
+
+        val str = "10元大洋"
+        val list = str.split("元")
+        Log.i("yhy", "list = " + list.toJSON())
     }
 
     override fun initNecessaryData() {

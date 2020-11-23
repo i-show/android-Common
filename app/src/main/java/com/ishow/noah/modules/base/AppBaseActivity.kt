@@ -1,7 +1,6 @@
 package com.ishow.noah.modules.base
 
 import android.app.Dialog
-import com.baidu.mobstat.StatService
 import com.ishow.common.app.activity.BaseActivity
 import com.ishow.common.extensions.fullWindow
 import com.ishow.common.widget.watermark.WaterMarkView
@@ -35,8 +34,6 @@ abstract class AppBaseActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        // 百度统计
-        StatService.onResume(this)
 
         if (needShowUpdateVersionDialog() && VersionManager.instance.hasNewVersion()) {
             showVersionDialog()
@@ -45,8 +42,6 @@ abstract class AppBaseActivity : BaseActivity() {
 
     override fun onPause() {
         super.onPause()
-        // 百度统计
-        StatService.onPause(this)
     }
 
 

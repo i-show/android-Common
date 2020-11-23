@@ -3,7 +3,6 @@ package com.ishow.noah.modules.base.mvvm.view
 import android.app.Dialog
 import android.view.View
 import androidx.databinding.ViewDataBinding
-import com.baidu.mobstat.StatService
 import com.ishow.common.app.mvvm.view.BindActivity
 import com.ishow.common.extensions.fullWindow
 import com.ishow.common.widget.watermark.WaterMarkView
@@ -39,8 +38,6 @@ abstract class AppBindActivity<T : ViewDataBinding, VM : AppBaseViewModel> : Bin
 
     override fun onResume() {
         super.onResume()
-        // 百度统计
-        StatService.onResume(this)
 
         if (needShowUpdateVersionDialog() && VersionManager.instance.hasNewVersion()) {
             showVersionDialog()
@@ -49,8 +46,6 @@ abstract class AppBindActivity<T : ViewDataBinding, VM : AppBaseViewModel> : Bin
 
     override fun onPause() {
         super.onPause()
-        // 百度统计
-        StatService.onPause(this)
     }
 
 
