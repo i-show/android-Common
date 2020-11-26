@@ -79,10 +79,6 @@ android {
                     APP_NAME                : DEV_APP_NAME,
                     // App的ICON
                     APP_ICON                : DEV_APP_ICON,
-                    // 百度统计的ID
-                    BAIDU_STATISTICS_ID     : DEV_BAIDU_STATISTICS_ID,
-                    // 百度统计的渠道描述
-                    BAIDU_STATISTICS_CHANNEL: DEV_BAIDU_STATISTICS_CHANNEL
             ]
 
             // 设置那个版本
@@ -102,10 +98,6 @@ android {
                     APP_NAME                : SIT_APP_NAME,
                     // App的ICON
                     APP_ICON                : SIT_APP_ICON,
-                    // 百度统计的ID
-                    BAIDU_STATISTICS_ID     : SIT_BAIDU_STATISTICS_ID,
-                    // 百度统计的渠道描述
-                    BAIDU_STATISTICS_CHANNEL: SIT_BAIDU_STATISTICS_CHANNEL
             ]
 
             // 设置那个版本
@@ -128,10 +120,6 @@ android {
                     APP_NAME                : UAT_APP_NAME,
                     // App的ICON
                     APP_ICON                : UAT_APP_ICON,
-                    // 百度统计的ID
-                    BAIDU_STATISTICS_ID     : UAT_BAIDU_STATISTICS_ID,
-                    // 百度统计的渠道描述
-                    BAIDU_STATISTICS_CHANNEL: UAT_BAIDU_STATISTICS_CHANNEL
             ]
 
             // 设置那个版本
@@ -155,10 +143,6 @@ android {
                     APP_NAME                : PROD_APP_NAME,
                     // App的ICON
                     APP_ICON                : PROD_APP_ICON,
-                    // 百度统计的ID
-                    BAIDU_STATISTICS_ID     : PROD_BAIDU_STATISTICS_ID,
-                    // 百度统计的渠道描述
-                    BAIDU_STATISTICS_CHANNEL: PROD_BAIDU_STATISTICS_CHANNEL
             ]
 
             // 设置那个版本

@@ -105,21 +105,6 @@
             </intent-filter>
         </activity>
         <!--++++++++++++++++++++控件或者工具的测试区域（end）++++++++++++++++++++++++++-->
-
-
-        <!-- ++++++++++++++++++++配置区域+++++++++++++++++-->
-        <!--百度统计的id-->
-        <meta-data
-            android:name="BaiduMobAd_STAT_ID"
-            android:value="${BAIDU_STATISTICS_ID}" />
-        <!-- 百度统计的id 渠道商编号 -->
-        <meta-data
-            android:name="BaiduMobAd_CHANNEL"
-            android:value="${BAIDU_STATISTICS_CHANNEL}" />
-        <!-- 百度统计 是否开启错误日志统计，默认为false -->
-        <meta-data
-            android:name="BaiduMobAd_EXCEPTION_LOG"
-            android:value="true" />
     </application>
 
 </manifest>
