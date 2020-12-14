@@ -452,6 +452,8 @@
     <attr name="promptBackgroundBorderColor" format="color" />
     <attr name="promptBackgroundBorderSize" format="dimension" />
     <attr name="promptPadding" format="dimension" />
+    <attr name="promptPaddingHorizontal" format="dimension" />
+    <attr name="promptPaddingVertical" format="dimension" />
     <attr name="promptRadius" format="dimension|reference" />
     <attr name="promptPosition">
         <enum name="left" value="0" />
@@ -743,6 +745,8 @@
         <attr name="promptTextSize" />
 
         <attr name="promptPadding" />
+        <attr name="promptPaddingHorizontal" />
+        <attr name="promptPaddingVertical" />
         <attr name="promptRadius" />
 
         <attr name="widthPaddingScale" />
@@ -966,6 +970,8 @@
         <attr name="promptTextSize" />
 
         <attr name="promptPadding" />
+        <attr name="promptPaddingHorizontal" />
+        <attr name="promptPaddingVertical" />
         <attr name="promptRadius" />
 
         <attr name="widthPaddingScale" />
@@ -988,6 +994,8 @@
         <attr name="promptTextSize" />
 
         <attr name="promptPadding" />
+        <attr name="promptPaddingHorizontal" />
+        <attr name="promptPaddingVertical" />
         <attr name="promptRadius" />
 
         <attr name="widthPaddingScale" />

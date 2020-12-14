@@ -35,7 +35,14 @@
             style="@style/ImageTextView.BottomBar"
             app:image="@drawable/footer_tab_2"
             app:text="@string/tab_2"
-            app:tint="@color/bottom_bar_tint" />
+            app:promptText="+1"
+            app:textSize="8sp"
+            app:promptPosition="right"
+            app:promptMode="text"
+            app:promptPaddingHorizontal="8dp"
+            app:promptPaddingVertical="4dp"
+            app:tint="@color/bottom_bar_tint"
+            tools:ignore="SmallSp" />
 
         <com.ishow.common.widget.ImageTextView
             android:id="@+id/tab_3"

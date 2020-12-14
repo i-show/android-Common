@@ -12,11 +12,12 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.core.content.ContextCompat
 import com.ishow.common.R
+import com.ishow.common.extensions.baseLine
 import com.ishow.common.extensions.dp2px
 import kotlin.math.max
 import kotlin.math.min
 
-class PromptHelper {
+class PromptHelper : IPrompt {
     var mode: Int = 0
 
     var text: String? = null
@@ -28,6 +29,8 @@ class PromptHelper {
     var backgroundPaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.DITHER_FLAG)
 
     var padding: Int = 0
+    var paddingHorizontal: Int = 0
+    var paddingVertical: Int = 0
     var paddingWidth: Float = 0F
     var paddingHeight: Float = 0F
 
@@ -49,6 +52,9 @@ class PromptHelper {
 
         textPaint.textSize = textSize.toFloat()
         textPaint.color = textColor
+
+        if(paddingHorizontal <= 0) paddingHorizontal = padding
+        if(paddingVertical <= 0) paddingVertical = padding
 
         backgroundPaint.color = backgroundColor
         commit()
@@ -89,21 +95,18 @@ class PromptHelper {
 
         canvas.drawRoundRect(usedRectF, 999f, 999f, backgroundPaint)
         if (mode == IPrompt.PromptMode.TEXT && !TextUtils.isEmpty(text)) {
-            val fontMetrics = textPaint.fontMetricsInt
-
-            val distance = (fontMetrics.bottom - fontMetrics.top) / 2 - fontMetrics.bottom
-            val baseline = usedRectF.centerY() + distance
+            val baseline = usedRectF.centerY() + textPaint.baseLine
             textPaint.textAlign = Paint.Align.CENTER
             canvas.drawText(text!!, usedRectF.centerX(), baseline, textPaint)
         }
     }
 
-    fun setPromptMode(mode: Int): IPrompt {
+    override fun setPromptMode(mode: Int): IPrompt {
         this.mode = mode
         return prompt
     }
 
-    fun setPromptText(text: Int): IPrompt {
+    override fun setPromptText(text: Int): IPrompt {
         if (text > 99) {
             this.text = "99+"
         } else {
@@ -112,89 +115,114 @@ class PromptHelper {
         return prompt
     }
 
-    fun setPromptText(text: String): IPrompt {
+    override fun setPromptText(text: String): IPrompt {
         this.text = text
         return prompt
     }
 
-    fun setPromptTextColor(@ColorInt color: Int): IPrompt {
+    override fun setPromptTextColor(@ColorInt color: Int): IPrompt {
         this.textColor = color
         textPaint.color = color
         return prompt
     }
 
-    fun setPromptTextColorResource(@ColorRes colorRes: Int): IPrompt {
+    override fun setPromptTextColorResource(@ColorRes colorRes: Int): IPrompt {
         val color = ContextCompat.getColor(context, colorRes)
         this.textColor = color
         textPaint.color = color
         return prompt
     }
 
-    fun setPromptTextSize(size: Int): IPrompt {
+    override fun setPromptTextSize(size: Int): IPrompt {
         textSize = size.dp2px()
         textPaint.textSize = textSize.toFloat()
         return prompt
     }
 
-    fun setPromptTextSizeResource(@DimenRes sizeRes: Int): IPrompt {
+    override fun setPromptTextSizeResource(@DimenRes sizeRes: Int): IPrompt {
         val size = context.resources.getDimensionPixelSize(sizeRes)
         textSize = size
         textPaint.textSize = textSize.toFloat()
         return prompt
     }
 
-    fun setPromptBackgroundColor(@ColorInt color: Int): IPrompt {
+    override fun setPromptBackgroundColor(@ColorInt color: Int): IPrompt {
         this.backgroundColor = color
         backgroundPaint.color = color
         return prompt
     }
 
-    fun setPromptBackgroundColorResource(@ColorRes colorRes: Int): IPrompt {
+    override fun setPromptBackgroundColorResource(@ColorRes colorRes: Int): IPrompt {
         val color = ContextCompat.getColor(context, colorRes)
         this.backgroundColor = color
         backgroundPaint.color = color
         return prompt
     }
 
-    fun setPromptRadius(_radius: Int): IPrompt {
-        val radius = _radius.dp2px()
-        this.radius = radius
+    override fun setPromptRadius(radius: Int): IPrompt {
+        this.radius = radius.dp2px()
         return prompt
     }
 
-    fun setPromptRadiusResource(@DimenRes radiusRes: Int): IPrompt {
+    override fun setPromptRadiusResource(@DimenRes radiusRes: Int): IPrompt {
         val radius = context.resources.getDimensionPixelSize(radiusRes)
         this.radius = radius
         return prompt
     }
 
-    fun setPromptPadding(padding: Int): IPrompt {
+    override fun setPromptPadding(padding: Int): IPrompt {
         this.padding = padding.dp2px()
+        this.paddingHorizontal = padding
+        this.paddingVertical = padding
         return prompt
     }
 
-    fun setPromptPaddingResource(@DimenRes paddingRes: Int): IPrompt {
+    override fun setPromptPaddingResource(@DimenRes paddingRes: Int): IPrompt {
         val padding = context.resources.getDimensionPixelSize(paddingRes)
         this.padding = padding
+        this.paddingHorizontal = padding
+        this.paddingVertical = padding
         return prompt
     }
 
-    fun setPromptPosition(position: Int): IPrompt {
+    override fun setPromptPaddingHorizontal(padding: Int): IPrompt {
+        this.paddingHorizontal = padding
+        return prompt
+    }
+
+    override fun setPromptPaddingHorizontalResource(@DimenRes paddingRes: Int): IPrompt {
+        val padding = context.resources.getDimensionPixelSize(paddingRes)
+        this.paddingHorizontal = padding
+        return prompt
+    }
+
+    override fun setPromptPaddingVertical(padding: Int): IPrompt {
+        this.paddingVertical = padding
+        return prompt
+    }
+
+    override fun setPromptPaddingVerticalResource(@DimenRes paddingRes: Int): IPrompt {
+        val padding = context.resources.getDimensionPixelSize(paddingRes)
+        this.paddingVertical = padding
+        return prompt
+    }
+
+    override fun setPromptPosition(position: Int): IPrompt {
         this.position = position
         return prompt
     }
 
-    fun setPromptWidthPaddingScale(scale: Float): IPrompt {
+    override fun setPromptWidthPaddingScale(scale: Float): IPrompt {
         this.paddingWidth = scale
         return prompt
     }
 
-    fun setPromptHeightPaddingScale(scale: Float): IPrompt {
+    override fun setPromptHeightPaddingScale(scale: Float): IPrompt {
         this.paddingHeight = scale
         return prompt
     }
 
-    fun commit(): IPrompt {
+    override fun commit(): IPrompt {
         when (mode) {
             IPrompt.PromptMode.TEXT -> if (TextUtils.isEmpty(text)) {
                 textRect.set(0, 0, radius, radius)
@@ -207,12 +235,13 @@ class PromptHelper {
                 }
                 recordRectF.set(textRect)
                 recordRectF.set(
-                    recordRectF.left - padding,
-                    recordRectF.top - padding,
-                    recordRectF.right + padding,
-                    recordRectF.bottom + padding
+                    recordRectF.left - paddingHorizontal,
+                    recordRectF.top - paddingVertical,
+                    recordRectF.right + paddingHorizontal,
+                    recordRectF.bottom + paddingVertical
                 )
-                recordRectF.offset(padding.toFloat(), (textRect.height() + padding).toFloat())
+
+                recordRectF.offset(paddingHorizontal.toFloat(), (textRect.height() + paddingVertical).toFloat())
             }
             IPrompt.PromptMode.GRAPH -> recordRectF.set(0f, 0f, radius.toFloat(), radius.toFloat())
         }

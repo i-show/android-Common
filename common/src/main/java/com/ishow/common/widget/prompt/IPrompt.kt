@@ -33,6 +33,7 @@ interface IPrompt {
              * Pictures in the text to the left
              */
             const val LEFT = 0
+
             /**
              * Pictures in the text to the right
              */
@@ -48,6 +49,7 @@ interface IPrompt {
              * 不显示模式
              */
             const val NONE = 0
+
             /**
              * 是文字模式
              */
@@ -70,19 +72,25 @@ interface IPrompt {
     fun setPromptText(text: Int): IPrompt
 
     fun setPromptTextColor(@ColorInt color: Int): IPrompt
-    fun setPromptTextColorResource(@ColorRes color: Int): IPrompt
+    fun setPromptTextColorResource(@ColorRes colorRes: Int): IPrompt
 
     fun setPromptTextSize(size: Int): IPrompt
-    fun setPromptTextSizeResource(@DimenRes size: Int): IPrompt
+    fun setPromptTextSizeResource(@DimenRes sizeRes: Int): IPrompt
 
     fun setPromptBackgroundColor(@ColorInt color: Int): IPrompt
-    fun setPromptBackgroundColorResource(@ColorRes color: Int): IPrompt
+    fun setPromptBackgroundColorResource(@ColorRes colorRes: Int): IPrompt
 
     fun setPromptRadius(radius: Int): IPrompt
-    fun setPromptRadiusResource(@DimenRes radius: Int): IPrompt
+    fun setPromptRadiusResource(@DimenRes radiusRes: Int): IPrompt
 
     fun setPromptPadding(padding: Int): IPrompt
-    fun setPromptPaddingResource(@DimenRes padding: Int): IPrompt
+    fun setPromptPaddingResource(@DimenRes paddingRes: Int): IPrompt
+
+    fun setPromptPaddingHorizontal(padding: Int): IPrompt
+    fun setPromptPaddingHorizontalResource(@DimenRes paddingRes: Int): IPrompt
+
+    fun setPromptPaddingVertical(padding: Int): IPrompt
+    fun setPromptPaddingVerticalResource(@DimenRes paddingRes: Int): IPrompt
 
     fun setPromptPosition(@PromptPosition position: Int): IPrompt
 
