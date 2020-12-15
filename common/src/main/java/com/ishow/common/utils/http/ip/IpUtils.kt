@@ -8,6 +8,7 @@ import com.ishow.common.utils.http.ip.entries.IpSource
 import com.ishow.common.utils.http.ip.executor.FSExecutor
 import com.ishow.common.utils.http.ip.executor.IFYExecutor
 import com.ishow.common.utils.http.ip.executor.SohuExecutor
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 
@@ -67,7 +68,7 @@ class IpUtils private constructor() {
             if (instance.ipInfo == null) {
                 instance.getCache(context)
             }
-            InitProvider.scope.launch { instance.start(context, callBack) }
+            InitProvider.scope.launch(Dispatchers.IO) { instance.start(context, callBack) }
             return instance.ipInfo
         }
     }
