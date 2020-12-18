@@ -4,6 +4,7 @@ import android.content.Context
 import com.ishow.common.app.provider.InitProvider
 import com.ishow.common.extensions.parseJSON
 import com.ishow.common.extensions.toJSON
+import com.ishow.common.utils.StorageUtils
 import com.ishow.common.utils.http.ip.entries.IpSource
 import com.ishow.common.utils.http.ip.executor.FSExecutor
 import com.ishow.common.utils.http.ip.executor.IFYExecutor
@@ -22,11 +23,10 @@ class IpUtils private constructor() {
             .build()
     }
 
-    private fun save(context: Context?, info: IpInfo) {
-        if (context == null) return
-        val sp = context.getSharedPreferences("ip", Context.MODE_PRIVATE)
-        sp.edit()
-            .putString(KEY_CACHE, info.toJSON())
+    private fun save(info: IpInfo) {
+        StorageUtils.save()
+            .group("ip")
+            .addParam(KEY_CACHE, info.toJSON())
             .apply()
     }
 
@@ -39,7 +39,7 @@ class IpUtils private constructor() {
         return ipInfo
     }
 
-    private fun start(context: Context?, callBack: IpCallBack? = null): IpInfo? {
+    private suspend fun start(callBack: IpCallBack? = null): IpInfo? {
         var info = FSExecutor(okHttpClient).execute()
 
         if (info == null) {
@@ -53,7 +53,7 @@ class IpUtils private constructor() {
         callBack?.invoke(info)
         info?.let {
             ipInfo = it
-            save(context, it)
+            save(it)
         }
         return info
     }
@@ -63,12 +63,12 @@ class IpUtils private constructor() {
 
         val instance by lazy(LazyThreadSafetyMode.SYNCHRONIZED) { IpUtils() }
 
-        fun getIp(context: Context?, callBack: IpCallBack? = null): IpInfo? {
+        fun getIp(callBack: IpCallBack? = null): IpInfo? {
             val instance = instance
             if (instance.ipInfo == null) {
-                instance.getCache(context)
+                instance.getCache(InitProvider.app)
             }
-            InitProvider.scope.launch(Dispatchers.IO) { instance.start(context, callBack) }
+            InitProvider.scope.launch(Dispatchers.IO) { instance.start(callBack) }
             return instance.ipInfo
         }
     }

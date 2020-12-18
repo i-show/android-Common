@@ -15,6 +15,7 @@ import com.arialyy.aria.core.task.DownloadTask
 import com.ishow.common.extensions.dp2px
 import com.ishow.common.extensions.toJSON
 import com.ishow.common.utils.DeviceUtils
+import com.ishow.common.utils.http.ip.IpUtils
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.widget.PrintView
 import com.ishow.common.widget.load.LoadSir
@@ -45,8 +46,8 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
             .build()
         LoadSir.init(loader = loader)
 
-        bu1.setOnClickListener {
-            vm?.userId
+        IpUtils.getIp {
+            Log.i("yhy", "info = ${it?.toJSON()}")
         }
     }
 

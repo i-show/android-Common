@@ -1,5 +1,8 @@
 package com.ishow.noah.modules.main.mine
 
+import android.media.AudioAttributes
+import android.media.AudioManager
+import android.media.SoundPool
 import android.os.Bundle
 import android.view.View
 import com.ishow.common.extensions.open
