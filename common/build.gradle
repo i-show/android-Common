@@ -66,8 +66,6 @@ tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }
 
-
-
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$versions.desugar"

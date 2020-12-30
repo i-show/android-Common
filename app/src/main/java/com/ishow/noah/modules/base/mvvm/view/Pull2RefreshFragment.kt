@@ -16,7 +16,7 @@ import com.ishow.noah.modules.base.mvvm.viewmodel.Pull2RefreshViewModel.Pull2Ref
  * Created by yuhaiyang on 2019-09-15.
  * 上拉加载更多下拉刷新的View
  */
-abstract class Pull2RefreshFragment<T : ViewDataBinding, VM : Pull2RefreshViewModel<*>> : AppBindFragment<T, VM>(),
+abstract class Pull2RefreshFragment<T : ViewDataBinding, VM : Pull2RefreshViewModel> : AppBindFragment<T, VM>(),
     OnPullToRefreshListener {
 
     private var pull2refresh: PullToRefreshView? = null
@@ -31,7 +31,7 @@ abstract class Pull2RefreshFragment<T : ViewDataBinding, VM : Pull2RefreshViewMo
 
     override fun initViewModel(vm: VM) {
         super.initViewModel(vm)
-        vm.pull2refreshStatus.observe(this, Observer { onPull2RefreshStatusChanged(it) })
+        vm.pull2refreshStatus.observe(this, { onPull2RefreshStatusChanged(it) })
     }
 
     override fun onRefresh(view: PullToRefreshView) {

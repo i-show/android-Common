@@ -7,8 +7,8 @@ class AppPageResponse<T> : AppHttpResponse<Page<T>>() {
     val listData: MutableList<T>?
         get() = data?.list
 
-    val isLastPage: Boolean?
-        get() = data?.lastPage
+    val isLastPage: Boolean
+        get() = data?.lastPage ?: true
 }
 
 class Page<T> {

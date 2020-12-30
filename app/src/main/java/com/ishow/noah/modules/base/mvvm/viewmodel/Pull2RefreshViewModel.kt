@@ -4,17 +4,19 @@ import android.app.Application
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.ishow.common.entries.status.Error
 import com.ishow.common.entries.status.Loading
 import com.ishow.common.extensions.mainThread
 import com.ishow.common.utils.databinding.bus.Event
 import com.ishow.noah.entries.http.AppPageResponse
+import kotlinx.coroutines.launch
 
 /**
  * Created by yuhaiyang on 2019-09-15.
  * Pull2Refresh的ViewModel
  */
-open class Pull2RefreshViewModel<T>(app: Application) : AppBaseViewModel(app) {
+open class Pull2RefreshViewModel(app: Application) : AppBaseViewModel(app) {
     /**
      * Loading的状态
      */
@@ -22,41 +24,56 @@ open class Pull2RefreshViewModel<T>(app: Application) : AppBaseViewModel(app) {
     val pull2refreshStatus: LiveData<Event<Pull2RefreshStatus>>
         get() = _pull2refreshStatus
 
-    /**
-     * 分页数据
-     */
-    private val _pull2refreshData = MutableLiveData<MutableList<T>>()
-    val pull2refreshData: LiveData<MutableList<T>>
-        get() = _pull2refreshData
 
     open fun onLoadData(v: View, pager: Int, refresh: Boolean) {
 
     }
 
-    suspend fun pull2refresh(page: Int = DEFAULT_START_PAGE, loading: Boolean = true, block: suspend () -> AppPageResponse<T>) {
+    fun <T> pull2refresh(
+        page: Int = DEFAULT_START_PAGE,
+        liveData: MutableLiveData<MutableList<T>>,
+        loading: Boolean = true,
+        block: suspend () -> AppPageResponse<T>
+    ) {
         val showLoading = loading && page == DEFAULT_START_PAGE
         if (showLoading) showPull2RefreshLoading()
-        val result: AppPageResponse<T> = block()
 
-        mainThread { parseResult(result, page, showLoading) }
+        viewModelScope.launch {
+            val result: AppPageResponse<T> = block()
+            parseResult(result, page, showLoading, liveData)
+
+            if (!result.isSuccess) {
+                if (showLoading) showError(Error.view(result.code, result.message))
+            }
+        }
     }
 
 
-    private fun parseResult(result: AppPageResponse<T>, page: Int, showLoading: Boolean = false) {
+    private fun <T> parseResult(
+        result: AppPageResponse<T>,
+        page: Int,
+        showLoading: Boolean = false,
+        liveData: MutableLiveData<MutableList<T>>
+    ) {
         if (result.isSuccess) {
-            parseSuccessResult(result, page, showLoading)
+            parseSuccessResult(result, page, showLoading, liveData)
         } else {
             parseFailedResult(result, page, showLoading)
         }
     }
 
-    private fun parseSuccessResult(result: AppPageResponse<T>, page: Int, showLoading: Boolean = false) {
+    private fun <T> parseSuccessResult(
+        result: AppPageResponse<T>,
+        page: Int,
+        showLoading: Boolean = false,
+        liveData: MutableLiveData<MutableList<T>>? = null
+    ) {
         val isRefresh = page == DEFAULT_START_PAGE
         if (isRefresh) {
             _pull2refreshStatus.value = Event(Pull2RefreshStatus.RefreshSuccess)
-            _pull2refreshData.value = result.listData
+            liveData?.value = result.listData
 
-            if (result.isLastPage == true) {
+            if (result.isLastPage) {
                 _pull2refreshStatus.value = Event(Pull2RefreshStatus.LoadMoreEnd)
             } else {
                 _pull2refreshStatus.value = Event(Pull2RefreshStatus.LoadMoreNormal)
@@ -69,19 +86,40 @@ open class Pull2RefreshViewModel<T>(app: Application) : AppBaseViewModel(app) {
             }
 
         } else {
-            if (result.isLastPage == true) {
+            if (result.isLastPage) {
                 _pull2refreshStatus.value = Event(Pull2RefreshStatus.LoadMoreEnd)
             } else {
                 _pull2refreshStatus.value = Event(Pull2RefreshStatus.LoadMoreSuccess)
             }
-            val data = _pull2refreshData.value
-            result.listData?.let { data?.addAll(it) }
-            _pull2refreshData.value = data
+            val data = liveData?.value ?: mutableListOf()
+            result.listData?.let { data.addAll(it) }
+            liveData?.value = data
         }
 
     }
 
-    private fun parseFailedResult(result: AppPageResponse<T>, page: Int, showLoading: Boolean = false) {
+
+    internal fun notifyRefreshSuccess() = mainThread {
+        _pull2refreshStatus.value = Event(Pull2RefreshStatus.RefreshSuccess)
+    }
+
+    internal fun notifyRefreshFailed() = mainThread {
+        _pull2refreshStatus.value = Event(Pull2RefreshStatus.RefreshFailed)
+    }
+
+    internal fun notifyLoadEnd() = mainThread {
+        _pull2refreshStatus.value = Event(Pull2RefreshStatus.LoadMoreEnd)
+    }
+
+    internal fun notifyLoadSuccess() = mainThread {
+        _pull2refreshStatus.value = Event(Pull2RefreshStatus.LoadMoreSuccess)
+    }
+
+    internal fun notifyLoadFailed() = mainThread {
+        _pull2refreshStatus.value = Event(Pull2RefreshStatus.LoadMoreFailed)
+    }
+
+    private fun <T> parseFailedResult(result: AppPageResponse<T>, page: Int, showLoading: Boolean = false) {
         if (page == DEFAULT_START_PAGE) {
             _pull2refreshStatus.value = Event(Pull2RefreshStatus.RefreshFailed)
             if (showLoading) showError(Error.view())
@@ -114,6 +152,6 @@ open class Pull2RefreshViewModel<T>(app: Application) : AppBaseViewModel(app) {
     }
 
     companion object {
-        private const val DEFAULT_START_PAGE = 1
+        const val DEFAULT_START_PAGE = 1
     }
 }

@@ -31,6 +31,8 @@ import com.ishow.noah.ui.widget.load.AppLoadingStatus
 import kotlinx.android.synthetic.main.f_home.*
 
 
+
+
 /**
  * Created by yuhaiyang on 2020-05-11.
  */
@@ -46,9 +48,9 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
             .build()
         LoadSir.init(loader = loader)
 
-        IpUtils.getIp {
-            Log.i("yhy", "info = ${it?.toJSON()}")
-        }
+
+
+
     }
 
     override fun initViews(view: View) {

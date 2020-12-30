@@ -15,7 +15,7 @@ import com.ishow.noah.modules.base.mvvm.viewmodel.Pull2RefreshViewModel.Pull2Ref
  * Created by yuhaiyang on 2019-09-15.
  * 上拉加载更多下拉刷新的View
  */
-abstract class Pull2RefreshActivity<T : ViewDataBinding, VM : Pull2RefreshViewModel<*>> : AppBindActivity<T, VM>(), OnPullToRefreshListener {
+abstract class Pull2RefreshActivity<T : ViewDataBinding, VM : Pull2RefreshViewModel> : AppBindActivity<T, VM>(), OnPullToRefreshListener {
 
     private var pull2refresh: PullToRefreshView? = null
     private var pager: Int = 1

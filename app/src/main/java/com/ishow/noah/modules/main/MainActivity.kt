@@ -53,11 +53,6 @@ class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Aria.download(this).register()
-
-        val str = "10元大洋"
-        val list = str.split("元")
-        Log.i("yhy", "list = " + list.toJSON())
     }
 
     override fun initNecessaryData() {

@@ -19,17 +19,25 @@ import kotlinx.android.synthetic.main.f_sample_pull2refresh.*
 class SamplePull2RefreshFragment : Pull2RefreshFragment<FSamplePull2refreshBinding, SamplePull2RefreshViewModel>() {
 
     override fun getLayout(): Int = R.layout.f_sample_pull2refresh
+    val adapter = BindAdapter<SampleTestPage>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val context = view.context
-        val adapter = BindAdapter<SampleTestPage>()
+
         adapter.addLayout(BR.item, R.layout.i_sample_pull2refresh)
         val footer = LoadMoreAdapter(adapter)
         list.adapter = footer
 
         pull2refresh.setHeader(GoogleStyleHeader(context))
         pull2refresh.setFooter(footer)
+    }
+
+    override fun initViewModel(vm: SamplePull2RefreshViewModel) {
+        super.initViewModel(vm)
+        vm.data.observe(this, {
+            adapter.data = it
+        })
     }
 
     override fun onLoadData(v: View, pager: Int, refresh: Boolean) {
