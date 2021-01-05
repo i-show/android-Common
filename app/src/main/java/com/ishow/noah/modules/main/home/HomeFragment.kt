@@ -17,6 +17,7 @@ import com.ishow.common.utils.DeviceUtils
 import com.ishow.common.utils.http.ip.IpUtils
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.widget.PrintView
+import com.ishow.common.widget.announcement.IAnnouncementData
 import com.ishow.common.widget.load.LoadSir
 import com.ishow.common.widget.load.Loader
 import com.ishow.common.widget.load.ext.sirEmpty
@@ -30,6 +31,9 @@ import com.ishow.noah.ui.widget.load.AppLoadingStatus
 import kotlinx.android.synthetic.main.f_home.*
 
 
+class Test(override val title: String) : IAnnouncementData {
+
+}
 
 
 /**
@@ -54,7 +58,14 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
             .setDuration(2000L)
             .start()
 
+        ann.data = makeData("AAAA")
+    }
 
+    private fun makeData(string: String): MutableList<IAnnouncementData> {
+        val list = mutableListOf<IAnnouncementData>()
+        list.add(Test(string))
+        list.add(Test(string))
+        return list
     }
 
     override fun initViews(view: View) {

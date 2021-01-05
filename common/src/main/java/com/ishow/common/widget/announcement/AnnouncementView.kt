@@ -8,6 +8,7 @@ import android.os.Message
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.Animation
@@ -35,6 +36,7 @@ class AnnouncementView : FrameLayout, ViewSwitcher.ViewFactory, View.OnClickList
     private var mTextSpacingMultiplier: Float = 0F
     private var isMarqueeEnable: Boolean = false
     private var mOnAnnouncementChangedListener: OnAnnouncementChangedListener? = null
+    private var textGravity: Int = Gravity.CENTER_VERTICAL
 
     @SuppressLint("HandlerLeak")
     private val mHandler = object : Handler() {
@@ -66,7 +68,7 @@ class AnnouncementView : FrameLayout, ViewSwitcher.ViewFactory, View.OnClickList
 
             mHandler.removeCallbacksAndMessages(null)
             if (mData.size > 1) {
-                mHandler.sendEmptyMessageDelayed(0, mDelayTime)
+                mHandler.sendEmptyMessageDelayed(0, 1000)
             }
         }
 
@@ -95,6 +97,7 @@ class AnnouncementView : FrameLayout, ViewSwitcher.ViewFactory, View.OnClickList
         mTextSpacingMultiplier = a.getFloat(R.styleable.AnnouncementView_textLineSpacingMultiplier, 1.0f)
         isMarqueeEnable = a.getBoolean(R.styleable.AnnouncementView_marqueeEnable, false)
         mDelayTime = a.getInt(R.styleable.AnnouncementView_delayTime, DELAY_TIME).toLong()
+        textGravity = a.getInt(R.styleable.AnnouncementView_textGravity, Gravity.CENTER_VERTICAL)
         val cancelEnable = a.getBoolean(R.styleable.AnnouncementView_cancelEnable, false)
         a.recycle()
 
@@ -105,6 +108,7 @@ class AnnouncementView : FrameLayout, ViewSwitcher.ViewFactory, View.OnClickList
         mTextSwitcher.setFactory(this)
         mTextSwitcher.inAnimation = inAnimation()
         mTextSwitcher.outAnimation = outAnimation()
+        mTextSwitcher.foregroundGravity = Gravity.CENTER
 
         val exit = findViewById<View>(R.id.exit)
         exit.visibility = if (cancelEnable) View.VISIBLE else View.GONE
@@ -133,6 +137,7 @@ class AnnouncementView : FrameLayout, ViewSwitcher.ViewFactory, View.OnClickList
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSize)
         textView.setTextColor(mTextColor)
         textView.setLineSpacing(mTextSpacingAdd, mTextSpacingMultiplier)
+        textView.gravity = textGravity
         if (mTextLines > 0) textView.setLines(mTextLines)
         return textView
     }
@@ -161,10 +166,11 @@ class AnnouncementView : FrameLayout, ViewSwitcher.ViewFactory, View.OnClickList
      */
     private fun inAnimation(): Animation {
         val animation = TranslateAnimation(
-                Animation.RELATIVE_TO_PARENT, 0.0f,
-                Animation.RELATIVE_TO_PARENT, 0.0f,
-                Animation.RELATIVE_TO_PARENT, 1.0f,
-                Animation.RELATIVE_TO_PARENT, 0.0f)
+            Animation.RELATIVE_TO_PARENT, 0.0f,
+            Animation.RELATIVE_TO_PARENT, 0.0f,
+            Animation.RELATIVE_TO_PARENT, 1.0f,
+            Animation.RELATIVE_TO_PARENT, 0.0f
+        )
         animation.duration = 500
         animation.interpolator = AccelerateInterpolator()
         return animation
@@ -175,10 +181,11 @@ class AnnouncementView : FrameLayout, ViewSwitcher.ViewFactory, View.OnClickList
      */
     private fun outAnimation(): Animation {
         val animation = TranslateAnimation(
-                Animation.RELATIVE_TO_PARENT, 0.0f,
-                Animation.RELATIVE_TO_PARENT, 0.0f,
-                Animation.RELATIVE_TO_PARENT, 0.0f,
-                Animation.RELATIVE_TO_PARENT, -1.0f)
+            Animation.RELATIVE_TO_PARENT, 0.0f,
+            Animation.RELATIVE_TO_PARENT, 0.0f,
+            Animation.RELATIVE_TO_PARENT, 0.0f,
+            Animation.RELATIVE_TO_PARENT, -1.0f
+        )
         animation.duration = 500
         animation.interpolator = AccelerateInterpolator()
         return animation

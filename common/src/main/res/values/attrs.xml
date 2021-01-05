@@ -1339,6 +1339,7 @@
         <attr name="textEllipsize" />
         <attr name="cancelEnable" />
         <attr name="marqueeEnable" />
+        <attr name="textGravity" />
         <attr name="delayTime" />
     </declare-styleable>
 
