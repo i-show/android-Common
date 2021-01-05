@@ -1,5 +1,6 @@
 package com.ishow.common.extensions
 
+import android.animation.ObjectAnimator
 import android.app.Activity
 import android.content.Context
 import android.graphics.Rect
@@ -206,3 +207,12 @@ inline fun <T : View> T.onClick(time: Long = 800, crossinline block: (T) -> Unit
 var <T : View> T.lastClickTime: Long
     set(value) = setTag(R.id.tag_click, value)
     get() = getTag(R.id.tag_click) as? Long ?: 0
+
+/**
+ * 绑定一个 ObjectAnimator
+ */
+fun View.withAnimator(): ObjectAnimator {
+    val animator = ObjectAnimator()
+    animator.target = this
+    return animator
+}

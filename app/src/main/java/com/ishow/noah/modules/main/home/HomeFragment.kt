@@ -12,8 +12,7 @@ import com.arialyy.aria.core.Aria
 import com.arialyy.aria.core.common.HttpOption
 import com.arialyy.aria.core.download.m3u8.M3U8VodOption
 import com.arialyy.aria.core.task.DownloadTask
-import com.ishow.common.extensions.dp2px
-import com.ishow.common.extensions.toJSON
+import com.ishow.common.extensions.*
 import com.ishow.common.utils.DeviceUtils
 import com.ishow.common.utils.http.ip.IpUtils
 import com.ishow.common.utils.router.AppRouter
@@ -49,6 +48,11 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
         LoadSir.init(loader = loader)
 
 
+        bu1.withAnimator()
+            .shakeY()
+            .repeatForever()
+            .setDuration(2000L)
+            .start()
 
 
     }
