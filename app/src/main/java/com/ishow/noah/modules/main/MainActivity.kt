@@ -21,15 +21,10 @@ package com.ishow.noah.modules.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.util.Xml
-import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.arialyy.aria.core.Aria
-import com.ishow.common.extensions.toJSON
 import com.ishow.common.utils.ToastUtils
 import com.ishow.common.widget.BottomBar
 import com.ishow.noah.R
@@ -38,7 +33,6 @@ import com.ishow.noah.modules.main.home.HomeFragment
 import com.ishow.noah.modules.main.mine.MineFragment
 import com.ishow.noah.modules.main.tab2.Tab2Fragment
 import com.ishow.noah.modules.main.tab3.Tab3Fragment
-import com.tencent.mmkv.MMKV
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppBaseActivity(), BottomBar.OnBottomBarListener {

@@ -1,6 +1,7 @@
 package com.ishow.noah.modules.main.home
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -51,21 +52,11 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
             .build()
         LoadSir.init(loader = loader)
 
+        bu1.setOnClickListener {
+            val intent =  Intent(requireContext(), TestService::class.java)
+            requireActivity().startService(intent)
+        }
 
-        bu1.withAnimator()
-            .shakeY()
-            .repeatForever()
-            .setDuration(2000L)
-            .start()
-
-        ann.data = makeData("AAAA")
-    }
-
-    private fun makeData(string: String): MutableList<IAnnouncementData> {
-        val list = mutableListOf<IAnnouncementData>()
-        list.add(Test(string))
-        list.add(Test(string))
-        return list
     }
 
     override fun initViews(view: View) {

@@ -50,96 +50,15 @@
 
 #忽略警告
 #未混淆的类和成员
--printseeds seeds.txt
+-printseeds ../out/confuse/seeds.txt
 #列出从 apk 中删除的代码
--printusage unused.txt
+-printusage ../out/confuse/unused.txt
 #混淆前后的映射
--printmapping mapping.txt
-
-#支付宝支付
--keep class com.alipay.**{*;}
-
-# 极光推送
--dontwarn cn.jpush.**
--keep class cn.jpush.** { *; }
-
-# Glide
--keep public class * implements com.bumptech.glide.module.GlideModule
--keep public class * extends com.bumptech.glide.AppGlideModule
--keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
-  **[] $VALUES;
-  public *;
-}
-
-#FastJson
--dontwarn com.alibaba.fastjson.**
--keep class com.alibaba.fastjson.** { *; }
-
-# Gson
--dontwarn sun.misc.**
--keep class * implements com.google.gson.TypeAdapterFactory
--keep class * implements com.google.gson.JsonSerializer
--keep class * implements com.google.gson.JsonDeserializer
--keepclassmembers,allowobfuscation class * {
-  @com.google.gson.annotations.SerializedName <fields>;
-}
-
-# 百度统计
--keep class com.baidu.kirin.** { *; }
--keep class com.baidu.mobstat.** { *; }
--keep class com.baidu.bottom.** { *; }
-
-# OKHttp
--keep class okhttp3.**{*;}
--keep interface okhttp3.**{*;}
--dontwarn okhttp3.**
-
--keep class okio.**{*;}
--keep interface okio.**{*;}
--dontwarn okio.**
-
--dontwarn javax.annotation.Nullable
--dontwarn javax.annotation.ParametersAreNonnullByDefault
--dontwarn javax.annotation.**
-
--keepnames class okhttp3.internal.publicsuffix.PublicSuffixDatabase
--dontwarn org.codehaus.mojo.animal_sniffer.*
--dontwarn okhttp3.internal.platform.ConscryptPlatform
-
-# Retrofit2
--keepattributes RuntimeVisibleAnnotations, RuntimeVisibleParameterAnnotations
--keepclassmembers,allowshrinking,allowobfuscation interface * {
-    @retrofit2.http.* <methods>;
-}
-
--dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
--dontwarn kotlin.Unit
--dontwarn retrofit2.KotlinExtensions
--dontwarn retrofit2.KotlinExtensions$*
--if interface * { @retrofit2.http.* <methods>; }
--keep,allowobfuscation interface <1>
-
-# ShareSDK
--keep class cn.sharesdk.**{*;}
--keep class com.sina.**{*;}
--keep class **.R$* {*;}
--keep class **.R{*;}
-
--keep class com.mob.**{*;}
--dontwarn com.mob.**
--dontwarn cn.sharesdk.**
--dontwarn **.R$*
+-printmapping ../out/confuse/mapping.txt
 
 # ishow common
--keep class com.ishow.noahark.entries.**{*;}
--keep class com.ishow.common.entries.**{*;}
+-keep class com.ishow.noah.entries.**{*;}
 
--keepclassmembers class ** {
-    @com.ishow.common.utils.permission.PermissionGranted <methods>;
-}
--keepclassmembers class ** {
-    @com.ishow.common.utils.permission.PermissionDenied <methods>;
-}
 # 生成的Binding文件不需要混淆
 -keep class **.*Binding {*;}
 -keep class **.*BindingImpl {*;}
