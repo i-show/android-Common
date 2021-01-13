@@ -1,8 +1,10 @@
 package com.ishow.noah.modules.sample.detail.views.pull2refresh
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import com.ishow.common.adapter.BindAdapter
+import com.ishow.common.extensions.toJSON
 import com.ishow.common.widget.pulltorefresh.headers.google.GoogleStyleHeader
 import com.ishow.common.widget.pulltorefresh.recycleview.LoadMoreAdapter
 import com.ishow.noah.BR
@@ -36,6 +38,7 @@ class SamplePull2RefreshFragment : Pull2RefreshFragment<FSamplePull2refreshBindi
     override fun initViewModel(vm: SamplePull2RefreshViewModel) {
         super.initViewModel(vm)
         vm.data.observe(this, {
+            Log.i("yhy", "list = " + it?.toJSON())
             adapter.data = it
         })
     }

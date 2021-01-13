@@ -58,6 +58,7 @@
 
 # ishow common
 -keep class com.ishow.noah.entries.**{*;}
+-keep class com.ishow.noah.modules.sample.entries.**{*;}
 
 # 生成的Binding文件不需要混淆
 -keep class **.*Binding {*;}

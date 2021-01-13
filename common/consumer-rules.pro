@@ -1,10 +1,10 @@
 # Common库的混淆配置
 -keep class com.ishow.common.entries.**{*;}
-
 # 生成的Binding文件不需要混淆
 -keep class **.*Binding {*;}
 -keep class **.*BindingImpl {*;}
 
+-keepattributes Signature, InnerClasses, EnclosingMethod
 # Gson
 -dontwarn sun.misc.**
 -keep class * implements com.google.gson.TypeAdapterFactory
@@ -14,30 +14,16 @@
   @com.google.gson.annotations.SerializedName <fields>;
 }
 
-# OKHttp
--keep class okhttp3.**{*;}
--keep interface okhttp3.**{*;}
--dontwarn okhttp3.**
-
--keep class okio.**{*;}
--keep interface okio.**{*;}
--dontwarn okio.**
-
--dontwarn javax.annotation.Nullable
--dontwarn javax.annotation.ParametersAreNonnullByDefault
--dontwarn javax.annotation.**
-
--keepnames class okhttp3.internal.publicsuffix.PublicSuffixDatabase
+# okio
 -dontwarn org.codehaus.mojo.animal_sniffer.*
--dontwarn okhttp3.internal.platform.ConscryptPlatform
 
 # Retrofit2
 -keepattributes RuntimeVisibleAnnotations, RuntimeVisibleParameterAnnotations
 -keepclassmembers,allowshrinking,allowobfuscation interface * {
     @retrofit2.http.* <methods>;
 }
-
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+-dontwarn javax.annotation.**
 -dontwarn kotlin.Unit
 -dontwarn retrofit2.KotlinExtensions
 -dontwarn retrofit2.KotlinExtensions$*
@@ -46,7 +32,13 @@
 
 # Glide
 -keep public class * implements com.bumptech.glide.module.GlideModule
--keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+-keep class * extends com.bumptech.glide.module.AppGlideModule {
+ <init>(...);
+}
+-keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
   **[] $VALUES;
   public *;
+}
+-keep class com.bumptech.glide.load.data.ParcelFileDescriptorRewinder$InternalRewinder {
+  *** rewind();
 }
