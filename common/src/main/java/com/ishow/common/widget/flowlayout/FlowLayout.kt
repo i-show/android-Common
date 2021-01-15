@@ -20,6 +20,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.ViewGroup
 import com.ishow.common.R
+import com.ishow.common.extensions.dp2px
 import kotlin.math.max
 
 class FlowLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) :
@@ -27,7 +28,7 @@ class FlowLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet
     private var mGap: Int = 0
 
     private val defaultGap: Int
-        get() = context.resources.getDimensionPixelSize(R.dimen.gap_grade_2)
+        get() = 8.dp2px()
 
     init {
         mGap = defaultGap

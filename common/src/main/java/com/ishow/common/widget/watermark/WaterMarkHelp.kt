@@ -8,6 +8,7 @@ import android.text.TextUtils
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.ishow.common.R
+import com.ishow.common.extensions.dp2px
 import kotlin.math.max
 import kotlin.math.min
 
@@ -112,7 +113,7 @@ class WaterMarkHelp {
         }
 
         fun getDefaultPadding(context: Context): Int {
-            return context.resources.getDimensionPixelSize(R.dimen.dp_20)
+            return 20.dp2px()
         }
 
         val defaultAlpha: Float

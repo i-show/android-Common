@@ -264,7 +264,7 @@ class PromptHelper : IPrompt {
          */
         @JvmStatic
         fun getDefaultPadding(context: Context): Int {
-            return context.resources.getDimensionPixelOffset(R.dimen.dp_5)
+            return 5.dp2px()
         }
 
         /**
@@ -272,7 +272,7 @@ class PromptHelper : IPrompt {
          */
         @JvmStatic
         fun getDefaultRadius(context: Context): Int {
-            return context.resources.getDimensionPixelOffset(R.dimen.dp_5)
+            return 5.dp2px()
         }
     }
 }

@@ -28,16 +28,16 @@
 
 
     <LinearLayout
-        android:layout_width="@dimen/dp_100"
-        android:layout_height="@dimen/dp_100"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:background="@drawable/corner_5dp_normal"
         android:gravity="center">
 
         <com.ishow.common.widget.spinkit.SpinKitView
             android:id="@+id/photo"
             style="@style/SpinKitView.Wave"
-            android:layout_width="@dimen/dp_48"
-            android:layout_height="@dimen/dp_48"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:contentDescription="@null"
             app:spinKitColor="@color/color_accent" />
     </LinearLayout>

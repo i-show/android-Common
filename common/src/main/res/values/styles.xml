@@ -78,17 +78,17 @@
         <item name="android:scrollHorizontally">true</item>
         <item name="android:gravity">center</item>
         <item name="android:maxLines">1</item>
-        <item name="android:minHeight">@dimen/dp_48</item>
+        <item name="android:minHeight">48dp</item>
         <item name="android:textSize">@dimen/H_title</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/text_grey</item>
     </style>
 
     <style name="BaseDialogMessage">
-        <item name="android:paddingLeft">@dimen/dp_20</item>
-        <item name="android:paddingRight">@dimen/dp_20</item>
-        <item name="android:paddingBottom">@dimen/dp_20</item>
-        <item name="android:minHeight">@dimen/dp_70</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingBottom">20dp</item>
+        <item name="android:minHeight">70dp</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/H_title</item>
         <item name="android:textColor">@color/text_grey</item>
@@ -126,8 +126,8 @@
     <style name="Line.Horizontal.Padding">
         <item name="android:background">@color/windows_background_light</item>
         <item name="android:src">@color/line</item>
-        <item name="android:paddingLeft">@dimen/gap_grade_3</item>
-        <item name="android:paddingRight">@dimen/gap_grade_3</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
         <item name="android:contentDescription">@null</item>
     </style>
     <!--竖线-->
@@ -141,8 +141,8 @@
         <item name="android:background">@color/windows_background_light</item>
         <item name="android:src">@color/line</item>
         <item name="android:scaleType">fitXY</item>
-        <item name="android:paddingTop">@dimen/gap_grade_3</item>
-        <item name="android:paddingBottom">@dimen/gap_grade_3</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
         <item name="android:contentDescription">@null</item>
     </style>
 
@@ -183,10 +183,10 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:alpha">0</item>
         <item name="android:background">@color/grey_alpha_0_7</item>
-        <item name="android:paddingTop">@dimen/dp_4</item>
-        <item name="android:paddingLeft">@dimen/gap_grade_3</item>
-        <item name="android:paddingRight">@dimen/gap_grade_3</item>
-        <item name="android:paddingBottom">@dimen/dp_4</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingBottom">4dp</item>
         <item name="android:textColor">#DDFFFFFF</item>
         <item name="android:textSize">@dimen/J_title</item>
     </style>

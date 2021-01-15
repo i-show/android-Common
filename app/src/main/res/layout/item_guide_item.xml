@@ -17,8 +17,8 @@
         android:layout_gravity="center_horizontal"
         android:background="@drawable/round_normal_stroke_pressed_solid_bg"
         android:gravity="center"
-        android:minWidth="@dimen/dp_150"
-        android:padding="@dimen/gap_grade_3"
+        android:minWidth="150dp"
+        android:padding="10dp"
         android:text="@string/guide_coming"
         android:textColor="@color/normal_coloraccent_pressed_white"
         android:textSize="@dimen/H_title" />

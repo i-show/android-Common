@@ -203,20 +203,14 @@ dependencies {
 
     def camerax_version = "1.0.0-beta12"
     implementation "androidx.camera:camera-core:${camerax_version}"
-    // If you want to use Camera2 extensions.
     implementation "androidx.camera:camera-camera2:${camerax_version}"
-    implementation 'com.google.zxing:core:3.4.0'
 
     implementation 'com.arialyy.aria:core:3.8.15'
-    implementation 'com.arialyy.aria:m3u8Component:3.8.15'
     kapt 'com.arialyy.aria:compiler:3.8.15'
 
     def paging_version = "3.0.0-alpha09"
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
-    // alternatively - without Android dependencies for tests
     testImplementation "androidx.paging:paging-common-ktx:$paging_version"
-
-    implementation 'com.kingja.loadsir:loadsir:1.3.8'
 
     implementation "androidx.datastore:datastore:1.0.0-alpha05"
     implementation "androidx.datastore:datastore-preferences:1.0.0-alpha05"

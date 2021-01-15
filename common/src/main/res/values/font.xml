@@ -15,20 +15,19 @@
   -->
 
 <resources>
-    <dimen name="AA_title">@dimen/dp_30</dimen>
-    <dimen name="A_title">@dimen/dp_27</dimen>
-    <dimen name="B_title">@dimen/dp_25</dimen>
-    <dimen name="C_title">@dimen/dp_23</dimen>
-    <dimen name="D_title">@dimen/dp_21</dimen>
-    <dimen name="E_title">@dimen/dp_19</dimen>
-    <dimen name="F_title">@dimen/dp_18</dimen>
-    <dimen name="G_title">@dimen/dp_17</dimen>
-    <dimen name="H_title">@dimen/dp_16</dimen>
-    <dimen name="I_title">@dimen/dp_15</dimen>
-    <dimen name="J_title">@dimen/dp_14</dimen>
-    <dimen name="K_title">@dimen/dp_13</dimen>
-    <dimen name="L_title">@dimen/dp_12</dimen>
-    <dimen name="M_title">@dimen/dp_11</dimen>
-    <dimen name="N_title">@dimen/dp_10</dimen>
-    <dimen name="O_title">@dimen/dp_9</dimen>
+    <dimen name="AA_title">32sp</dimen>
+    <dimen name="A_title">30sp</dimen>
+    <dimen name="B_title">28sp</dimen>
+    <dimen name="C_title">26sp</dimen>
+    <dimen name="D_title">24sp</dimen>
+    <dimen name="E_title">22sp</dimen>
+    <dimen name="F_title">20sp</dimen>
+    <dimen name="G_title">18sp</dimen>
+    <dimen name="H_title">16sp</dimen>
+    <dimen name="I_title">14sp</dimen>
+    <dimen name="J_title">12sp</dimen>
+    <dimen name="K_title">10sp</dimen>
+    <dimen name="L_title">8sp</dimen>
+    <dimen name="M_title">6sp</dimen>
+    <dimen name="N_title">5sp</dimen>
 </resources>

@@ -1,6 +1,7 @@
 package com.ishow.noah.modules.main.home
 
 import android.annotation.SuppressLint
+import android.app.IntentService
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -53,8 +54,8 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
         LoadSir.init(loader = loader)
 
         bu1.setOnClickListener {
-            val intent =  Intent(requireContext(), TestService::class.java)
-            requireActivity().startService(intent)
+           val result =  TestAAA.missingNumber(intArrayOf(9,6,4,2,3,5,7,0,1))
+            Log.i("yhy" ,"result = $result")
         }
 
     }
@@ -69,7 +70,6 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
     @SuppressLint("SetTextI18n")
     override fun initViewModel(vm: HomeViewModel) {
         super.initViewModel(vm)
-        // vm.user.observe(this, { Log.i("yhy", "user = " + it.toJSON()) })
         vm.userName.observe(this, { Log.i("yhy", "userName = $it") })
     }
 

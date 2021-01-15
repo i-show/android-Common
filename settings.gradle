@@ -1,2 +1,4 @@
+rootProject.name='android-Common'
+
 include ':app'
 include ':common'

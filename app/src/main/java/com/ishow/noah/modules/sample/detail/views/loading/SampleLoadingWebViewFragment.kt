@@ -42,11 +42,5 @@ class SampleLoadingWebViewFragment : AppBindFragment<FragmentSampleLoadingWebvie
 
         WebViewUtils.init(webView)
         webView.loadUrl("http://sdk.moguxingqiu.cn/moku-planet-sdk-h5/index.html")
-        webView?.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(p0: WebView?, p1: String?): Boolean {
-                return super.shouldOverrideUrlLoading(p0, p1)
-            }
-
-        }
     }
 }

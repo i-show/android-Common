@@ -19,21 +19,21 @@
         <TextView
             android:id="@+id/normal"
             style="@style/AppTextView.Sample"
-            android:layout_marginTop="@dimen/gap_grade_3"
+            android:layout_marginTop="10dp"
             android:onClick="@{()->fragment.onViewClick(normal)}"
             android:text="Normal" />
 
         <TextView
             android:id="@+id/noTitleDialog"
             style="@style/AppTextView.Sample"
-            android:layout_marginTop="@dimen/gap_grade_3"
+            android:layout_marginTop="10dp"
             android:onClick="@{()->fragment.onViewClick(noTitleDialog)}"
             android:text="没有Title的" />
 
         <TextView
             android:id="@+id/listDialog"
             style="@style/AppTextView.Sample"
-            android:layout_marginTop="@dimen/gap_grade_3"
+            android:layout_marginTop="10dp"
             android:onClick="@{()->fragment.onViewClick(listDialog)}"
             android:text="listDialog" />
 
@@ -41,14 +41,14 @@
         <TextView
             android:id="@+id/bottomDialog"
             style="@style/AppTextView.Sample"
-            android:layout_marginTop="@dimen/gap_grade_3"
+            android:layout_marginTop="10dp"
             android:onClick="@{()->fragment.onViewClick(bottomDialog)}"
             android:text="底部弹出" />
 
         <TextView
             android:id="@+id/bottomDialogNoTitle"
             style="@style/AppTextView.Sample"
-            android:layout_marginTop="@dimen/gap_grade_3"
+            android:layout_marginTop="10dp"
             android:onClick="@{()->fragment.onViewClick(bottomDialogNoTitle)}"
             android:text="底部弹出没有标题" />
 

@@ -35,15 +35,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!-- 引导页-->
-        <activity
-            android:name=".modules.init.guide.GuideActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Guide" />
+
         <!--主界面-->
         <activity
-            android:name=".modules.main.MainActivity"
+            android:name=".modules.main.index.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <!--登录界面-->
@@ -66,11 +61,6 @@
             android:name=".modules.account.modify.ModifyUserActivity"
             android:screenOrientation="portrait" />
 
-        <!--设置界面-->
-        <activity
-            android:name=".modules.settings.SettingsActivity"
-            android:screenOrientation="portrait" />
-
         <activity
             android:name=".modules.base.ExitAppActivity"
             android:launchMode="singleTask" />
@@ -84,7 +74,7 @@
 
         <!-- Android 7.0 Uri的共享机制-->
         <provider
-            android:name=".modules.base.ShareFileProvider"
+            android:name=".modules.base.provider.ShareFileProvider"
             android:authorities="${applicationId}.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">

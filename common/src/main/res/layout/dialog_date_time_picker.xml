@@ -25,13 +25,13 @@
         android:id="@+id/topBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:actionBarSize="@dimen/dp_45"
+        android:actionBarSize="45dp"
         android:background="@drawable/shape_data_pick_dialog_top_bg"
         app:leftImageVisibility="gone"
         app:leftText="@string/cancel"
-        app:leftTextMinWidth="@dimen/dp_80"
+        app:leftTextMinWidth="80dp"
         app:rightText="@string/yes"
-        app:rightTextMinWidth="@dimen/dp_80" />
+        app:rightTextMinWidth="80dp" />
 
     <View style="@style/Line.Horizontal" />
 
@@ -39,6 +39,6 @@
         android:id="@+id/picker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/gap_grade_3"
-        android:layout_marginBottom="@dimen/gap_grade_3" />
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp" />
 </LinearLayout>

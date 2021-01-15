@@ -31,6 +31,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.google.gson.Gson
 import com.ishow.common.R
+import com.ishow.common.extensions.dp2px
 import com.ishow.common.utils.StorageUtils
 import com.ishow.common.utils.StringUtils
 
@@ -98,7 +99,7 @@ class VerifyCodeButton @JvmOverloads constructor(context: Context, attrs: Attrib
      * 默认padding
      */
     private val defaultPadding: Int
-        get() = context.resources.getDimensionPixelSize(R.dimen.dp_3)
+        get() = 3.dp2px()
 
     /**
      * 默认边距

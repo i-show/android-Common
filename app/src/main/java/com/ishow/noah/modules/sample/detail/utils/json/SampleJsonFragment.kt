@@ -24,8 +24,6 @@ class SampleJsonFragment : AppBindFragment<FSampleJsonBinding, SampleJsonViewMod
 
         val test = TestJSON("张三", 10)
 
-        val testList = mutableListOf(test)
-
         val testMap = HashMap<String, TestJSON>()
         testMap["aaa"] = test
 

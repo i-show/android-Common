@@ -15,30 +15,12 @@
   -->
 
 <resources>
-    <dimen name="border_width">@dimen/dp_2</dimen>
-
-    <!-- 间距等级 -->
-    <dimen name="gap_grade_0">@dimen/dp_2</dimen>
-    <dimen name="gap_grade_1">@dimen/dp_5</dimen>
-    <dimen name="gap_grade_2">@dimen/dp_8</dimen>
-    <dimen name="gap_grade_3">@dimen/dp_10</dimen>
-    <dimen name="gap_grade_4">@dimen/dp_12</dimen>
-    <dimen name="gap_grade_5">@dimen/dp_15</dimen>
-    <dimen name="gap_grade_6">@dimen/dp_20</dimen>
-    <dimen name="gap_grade_7">@dimen/dp_25</dimen>
-    <dimen name="gap_grade_8">@dimen/dp_30</dimen>
-
-    <!--头像大小-->
-    <dimen name="small_header">@dimen/dp_40</dimen>
-    <dimen name="middle_header">@dimen/dp_55</dimen>
-    <dimen name="large_header">80dp</dimen>
-
     <!--图片多选-->
-    <dimen name="image_size">@dimen/dp_80</dimen>
-    <dimen name="photo_selector_item_gap">@dimen/dp_2</dimen>
-    <dimen name="folder_cover_size">@dimen/dp_68</dimen>
+    <dimen name="image_size">80dp</dimen>
+    <dimen name="photo_selector_item_gap">2dp</dimen>
+    <dimen name="folder_cover_size">68dp</dimen>
 
-    <dimen name="date_time_picker_padding">@dimen/dp_10</dimen>
+    <dimen name="date_time_picker_padding">10dp</dimen>
     <dimen name="pull2refresh_classic_header_min_h">60dp</dimen>
     <dimen name="pull2refresh_classic_header_image_size">18dp</dimen>
 </resources>

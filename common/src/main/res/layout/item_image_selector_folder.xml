@@ -32,7 +32,7 @@
         android:descendantFocusability="blocksDescendants"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="@dimen/dp_10">
+        android:padding="10dp">
 
         <ImageView
             android:id="@+id/cover"
@@ -50,7 +50,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:padding="@dimen/gap_grade_2">
+            android:padding="8dp">
 
             <TextView
                 android:id="@+id/name"
@@ -65,7 +65,7 @@
                 android:id="@+id/size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/gap_grade_2"
+                android:layout_marginTop="8dp"
                 android:ellipsize="end"
                 android:lines="1"
                 android:text="@{@string/link_sheet(folder.photoList.size())}"
@@ -77,8 +77,8 @@
 
         <RadioButton
             android:id="@+id/state"
-            android:layout_width="@dimen/dp_30"
-            android:layout_height="@dimen/dp_30"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:checked="@{folder.isSelected}"
             android:clickable="false"
             android:scaleX="0.8"

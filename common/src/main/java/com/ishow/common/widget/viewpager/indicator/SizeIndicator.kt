@@ -26,6 +26,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.viewpager.widget.ViewPager
 import com.ishow.common.R
+import com.ishow.common.extensions.dp2px
 import com.ishow.common.utils.UnitUtils
 import kotlin.math.min
 
@@ -44,16 +45,16 @@ class SizeIndicator @JvmOverloads constructor(context: Context, attrs: Attribute
     private val mPaint: Paint = Paint()
 
     private val defaultPaddingStart: Int
-        get() = context.resources.getDimensionPixelSize(R.dimen.gap_grade_6)
+        get() = 20.dp2px()
 
     private val defaultPaddingEnd: Int
-        get() = context.resources.getDimensionPixelSize(R.dimen.gap_grade_6)
+        get() = 20.dp2px()
 
     private val defaultPaddingTop: Int
-        get() = context.resources.getDimensionPixelSize(R.dimen.gap_grade_2)
+        get() = 8.dp2px()
 
     private val defaultPaddingBottom: Int
-        get() = context.resources.getDimensionPixelSize(R.dimen.gap_grade_2)
+        get() = 8.dp2px()
 
     init {
         mPaint.color = Color.WHITE

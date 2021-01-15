@@ -22,15 +22,6 @@
             android:fitsSystemWindows="true"
             app:rightImage="@drawable/svg_test" />
 
-        <com.ishow.common.widget.announcement.AnnouncementView
-            android:id="@+id/ann"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:background="@drawable/submit_full_bg"
-            app:textGravity="center"
-            app:textSize="12sp" />
-
         <Button
             android:id="@+id/bu1"
             android:layout_width="wrap_content"
@@ -44,7 +35,7 @@
             android:layout_margin="10dp"
             android:background="@drawable/base_dialog_bg"
             android:minHeight="200dp"
-            app:maxHeight="@dimen/dp_300" />
+            app:maxHeight="300dp" />
 
 
     </LinearLayout>

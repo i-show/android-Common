@@ -8,7 +8,7 @@ import com.ishow.common.utils.router.AppRouter
 import com.ishow.noah.R
 import com.ishow.noah.databinding.ActivitySpalshBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindActivity
-import com.ishow.noah.modules.main.MainActivity
+import com.ishow.noah.modules.main.index.MainActivity
 
 /**
  * Created by yuhaiyang on 2018/3/27.

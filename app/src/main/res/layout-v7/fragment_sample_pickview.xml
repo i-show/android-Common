@@ -24,8 +24,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/corner_5dp_normal"
-                android:paddingStart="@dimen/gap_grade_5"
-                android:paddingEnd="@dimen/gap_grade_5"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
                 app:textSize="16sp"
                 app:unselectedTextSize="14sp" />
 
@@ -34,26 +34,26 @@
                 android:id="@+id/datePicker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/gap_grade_3" />
+                android:layout_marginTop="10dp" />
 
             <!--Prompt 提示-->
             <TextView
                 android:id="@+id/getTime"
                 style="@style/AppTextView.Sample"
-                android:layout_marginTop="@dimen/gap_grade_3"
+                android:layout_marginTop="10dp"
                 android:onClick="@{()->fragment.onViewClick(getTime)}"
                 android:text="@string/sample_get_time" />
 
             <com.ishow.common.widget.pickview.DateTimePicker
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/gap_grade_3"
+                android:layout_marginTop="10dp"
                 app:datePickerStyle="date" />
 
             <com.ishow.common.widget.pickview.DateTimePicker
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/gap_grade_3"
+                android:layout_marginTop="10dp"
                 app:datePickerStyle="time" />
 
 
@@ -61,7 +61,7 @@
             <TextView
                 android:id="@+id/dialogSample"
                 style="@style/AppTextView.Sample"
-                android:layout_margin="@dimen/gap_grade_3"
+                android:layout_margin="10dp"
                 android:onClick="@{()->fragment.onViewClick(dialogSample)}"
                 android:text="Dialog" />
 

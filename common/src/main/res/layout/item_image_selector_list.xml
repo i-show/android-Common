@@ -66,8 +66,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top|end"
-            android:minWidth="@dimen/dp_40"
-            android:minHeight="@dimen/dp_40"
+            android:minWidth="40dp"
+            android:minHeight="40dp"
             android:onClick="@{()->vm.selectImage(photo,status, mask)}">
 
             <CheckBox

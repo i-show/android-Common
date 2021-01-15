@@ -61,7 +61,7 @@
             style="@style/AppButton.Login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginTop="20dp"
             android:onClick="onViewClick"
             android:text="@string/login" />
 
@@ -76,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_marginStart="@dimen/dp_20"
+                android:layout_marginStart="20dp"
                 android:onClick="onViewClick"
                 android:text="@string/register_account" />
 
@@ -91,7 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_marginEnd="@dimen/dp_30"
+                android:layout_marginEnd="30dp"
                 android:onClick="onViewClick"
                 android:text="@string/login_forget_password" />
 

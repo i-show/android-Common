@@ -8,10 +8,10 @@
         <item name="android:textSize">@dimen/I_title</item>
         <item name="android:background">@drawable/corner_max_grey_line_white_bg</item>
         <item name="android:layout_marginTop">10dp</item>
-        <item name="android:paddingTop">@dimen/gap_grade_2</item>
-        <item name="android:paddingBottom">@dimen/gap_grade_2</item>
-        <item name="android:paddingLeft">@dimen/gap_grade_5</item>
-        <item name="android:paddingRight">@dimen/gap_grade_5</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
     </style>
 
 </resources>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.ishow.noah.modules.main.index.MainViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        tools:context=".modules.main.MainActivity">
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/bottom_bar_height" />
+
+        <com.ishow.common.widget.BottomBar
+            android:id="@+id/bottomBar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bottom_bar_height"
+            android:layout_gravity="bottom"
+            android:background="@drawable/top_line_white_normal_bg"
+            android:paddingTop="1dp"
+            app:canAnimation="true">
+
+            <com.ishow.common.widget.ImageTextView
+                android:id="@+id/tab_1"
+                style="@style/ImageTextView.BottomBar"
+                app:image="@drawable/footer_tab_home"
+                app:text="@string/tab_1"
+                app:tint="@color/bottom_bar_tint" />
+
+            <com.ishow.common.widget.ImageTextView
+                android:id="@+id/tab_2"
+                style="@style/ImageTextView.BottomBar"
+                app:image="@drawable/footer_tab_2"
+                app:promptPaddingVertical="4dp"
+                app:promptPosition="right"
+                app:text="@string/tab_2"
+                app:tint="@color/bottom_bar_tint"
+                tools:ignore="SmallSp" />
+
+            <com.ishow.common.widget.ImageTextView
+                android:id="@+id/tab_3"
+                style="@style/ImageTextView.BottomBar"
+                app:image="@drawable/footer_tab_3"
+                app:text="@string/tab_3"
+                app:tint="@color/bottom_bar_tint" />
+
+            <com.ishow.common.widget.ImageTextView
+                android:id="@+id/tab_4"
+                style="@style/ImageTextView.BottomBar"
+                app:image="@drawable/footer_tab_mine"
+                app:text="@string/tab_4"
+                app:tint="@color/bottom_bar_tint" />
+
+        </com.ishow.common.widget.BottomBar>
+    </FrameLayout>
+
+</layout>

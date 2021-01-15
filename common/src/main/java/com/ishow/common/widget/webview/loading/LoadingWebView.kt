@@ -25,6 +25,7 @@ import android.webkit.WebView
 import androidx.core.content.ContextCompat
 
 import com.ishow.common.R
+import com.ishow.common.extensions.dp2px
 
 
 class LoadingWebView : WebView {
@@ -38,7 +39,7 @@ class LoadingWebView : WebView {
         get() = ContextCompat.getColor(context, R.color.color_primary)
 
     private val defaultLoadingHeight: Int
-        get() = context.resources.getDimensionPixelOffset(R.dimen.dp_3)
+        get() = 3.dp2px()
 
     constructor(context: Context) : super(context) {
         init(context, null)

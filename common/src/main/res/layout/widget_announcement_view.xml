@@ -17,6 +17,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@null"
-        android:padding="@dimen/dp_6"
+        android:padding="6dp"
         android:src="@drawable/ic_cancel" />
 </LinearLayout>

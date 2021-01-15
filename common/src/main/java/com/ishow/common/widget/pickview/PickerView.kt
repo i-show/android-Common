@@ -34,6 +34,7 @@ import android.view.ViewConfiguration
 import android.widget.Scroller
 import androidx.core.content.ContextCompat
 import com.ishow.common.R
+import com.ishow.common.extensions.dp2px
 import com.ishow.common.utils.StringUtils
 import com.ishow.common.widget.pickview.adapter.PickerAdapter
 import com.ishow.common.widget.pickview.constant.Direction
@@ -214,7 +215,7 @@ class PickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         mItemHeight = max(mItemMinHeight, mItemHeight)
 
         if (!TextUtils.isEmpty(mUnit)) {
-            val gap = context.resources.getDimensionPixelSize(R.dimen.dp_10)
+            val gap = 10.dp2px()
             mUnitWidth = Layout.getDesiredWidth(mUnit, mUnitPaint).toInt() + gap
         }
     }

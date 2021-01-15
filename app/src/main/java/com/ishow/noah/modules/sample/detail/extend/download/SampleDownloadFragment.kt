@@ -156,12 +156,6 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
         updateOthers(task.percent)
     }
 
-    @Download.onTaskComplete
-    fun complete(task: com.arialyy.aria.core.task.DownloadTask) {
-        Log.i(TAG, "comlete: ------")
-        updateOthers(100)
-    }
-
     private fun updateOthers(current: Int) = mainThread {
         val time = (System.currentTimeMillis() - downloadOthersStart) / 1000
         val text = "下载进度：${current}, 耗时：$time"

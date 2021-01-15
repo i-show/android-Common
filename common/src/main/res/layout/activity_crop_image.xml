@@ -44,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        app:actionMinWidth="@dimen/dp_110"
+        app:actionMinWidth="110dp"
         app:leftBackground="?android:selectableItemBackground"
         app:leftText="@android:string/cancel"
         app:rightBackground="?android:selectableItemBackground"

@@ -6,14 +6,14 @@
 
     <style name="AppEditText.Login">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/dp_50</item>
+        <item name="android:layout_height">50dp</item>
         <item name="android:textColor">@color/text_grey</item>
         <item name="android:textSize">@dimen/H_title</item>
         <item name="android:textColorHint">@color/text_grey_hint</item>
         <item name="android:maxLines">1</item>
-        <item name="android:drawablePadding">@dimen/gap_grade_3</item>
-        <item name="android:layout_marginStart">@dimen/dp_30</item>
-        <item name="android:layout_marginEnd">@dimen/dp_30</item>
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:layout_marginStart">30dp</item>
+        <item name="android:layout_marginEnd">30dp</item>
         <item name="android:background">@drawable/bottom_line_normal_bg</item>
     </style>
 
@@ -24,21 +24,21 @@
         <item name="android:textColor">@color/text_white_normal</item>
         <item name="android:textSize">@dimen/H_title</item>
         <item name="android:gravity">center</item>
-        <item name="android:layout_marginStart">@dimen/dp_30</item>
-        <item name="android:layout_marginEnd">@dimen/dp_30</item>
+        <item name="android:layout_marginStart">30dp</item>
+        <item name="android:layout_marginEnd">30dp</item>
         <item name="android:background">@drawable/submit_full_bg</item>
     </style>
 
 
     <style name="AppButton.Submit">
-        <item name="android:layout_width">@dimen/dp_300</item>
+        <item name="android:layout_width">300dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:layout_marginTop">@dimen/dp_40</item>
+        <item name="android:layout_marginTop">40dp</item>
         <item name="android:background">@drawable/submit_full_bg</item>
         <item name="android:textColor">@color/text_white_normal</item>
         <item name="android:textSize">@dimen/H_title</item>
-        <item name="android:minHeight">@dimen/dp_45</item>
+        <item name="android:minHeight">45dp</item>
     </style>
 
     <style name="AppTextView" parent="CommonTextView" />
@@ -68,8 +68,8 @@
         <item name="android:background">?selectableItemBackground</item>
         <item name="android:clickable">true</item>
         <item name="android:gravity">center</item>
-        <item name="android:drawablePadding">@dimen/gap_grade_0</item>
-        <item name="android:minHeight">@dimen/dp_40</item>
+        <item name="android:drawablePadding">2dp</item>
+        <item name="android:minHeight">40dp</item>
     </style>
 
     <style name="AppTextViewPro" />
@@ -91,8 +91,8 @@
     <style name="AppTextViewPro.Mine">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingStart">@dimen/dp_10</item>
-        <item name="android:paddingEnd">@dimen/dp_10</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
         <item name="leftTextColor">@color/text_grey</item>
         <item name="leftTextSize">@dimen/I_title</item>
         <item name="leftImageVisibility">visible</item>
@@ -133,8 +133,8 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/default_item_height</item>
         <item name="android:background">@drawable/bottom_line_bg</item>
-        <item name="android:paddingStart">@dimen/gap_grade_2</item>
-        <item name="android:paddingEnd">@dimen/gap_grade_2</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
         <item name="android:gravity">center</item>
         <item name="leftImageVisibility">gone</item>
         <item name="rightImageVisibility">gone</item>
@@ -157,7 +157,7 @@
     <style name="VerifyCodeButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:minWidth">@dimen/dp_90</item>
+        <item name="android:minWidth">90dp</item>
         <item name="textColor">@color/verify_code_color</item>
         <item name="textSize">@dimen/I_title</item>
     </style>

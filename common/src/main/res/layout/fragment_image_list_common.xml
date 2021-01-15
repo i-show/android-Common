@@ -40,7 +40,7 @@
             android:layout_marginTop="?android:actionBarSize"
             android:layout_marginBottom="?android:actionBarSize"
             android:overScrollMode="never"
-            android:padding="@dimen/dp_1"
+            android:padding="1dp"
             app:items="@{vm.imageList}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:notifyDataSetChanged="@{vm.imageListDataChanged}"
@@ -76,10 +76,10 @@
                 android:layout_height="match_parent"
                 android:background="?android:selectableItemBackground"
                 android:onClick="@{()->fragment.onViewClick(folderView)}"
-                android:paddingStart="@dimen/gap_grade_3"
-                android:paddingEnd="@dimen/gap_grade_3"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 app:image="@drawable/ic_photo_selector_folder"
-                app:padding="@dimen/gap_grade_1"
+                app:padding="5dp"
                 app:position="left"
                 app:text="@string/all_photos"
                 app:textColor="@color/color_accent"
@@ -89,8 +89,8 @@
             <View
                 android:id="@+id/bottomLine"
                 style="@style/Line.Vertical"
-                android:layout_marginTop="@dimen/gap_grade_4"
-                android:layout_marginBottom="@dimen/gap_grade_4" />
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp" />
 
             <View
                 android:layout_width="0dp"

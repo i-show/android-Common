@@ -40,10 +40,7 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import com.ishow.common.R
-import com.ishow.common.extensions.setDrawableLeft
-import com.ishow.common.extensions.setPadding
-import com.ishow.common.extensions.setPaddingHorizontal
-import com.ishow.common.extensions.setPaddingVertical
+import com.ishow.common.extensions.*
 import com.ishow.common.utils.AppUtils
 import com.ishow.common.utils.DeviceUtils
 import com.ishow.common.widget.imageview.PromptImageView
@@ -408,8 +405,8 @@ class TopBar(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs),
         mLeftImageWidthSpec = MeasureSpec.makeMeasureSpec(max(mLeftImageMinWidth, mUnitWidth), MeasureSpec.EXACTLY)
         mRightImageWidthSpec = MeasureSpec.makeMeasureSpec(max(mRightImageMinWidth, mUnitWidth), MeasureSpec.EXACTLY)
         mAtMostHeightSpec = MeasureSpec.makeMeasureSpec(mHeight, MeasureSpec.AT_MOST)
-        mGapSize = resources.getDimensionPixelSize(R.dimen.gap_grade_1)
-        mSmallGapSize = resources.getDimensionPixelSize(R.dimen.gap_grade_0)
+        mGapSize = 5.dp2px()
+        mSmallGapSize = 2.dp2px()
     }
 
     private fun initView() {

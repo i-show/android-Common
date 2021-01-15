@@ -40,7 +40,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:drawableStart="@drawable/svg_top_back"
-                android:drawablePadding="@dimen/gap_grade_2"
+                android:drawablePadding="8dp"
                 android:gravity="center_vertical"
                 android:onClick="@{()->fragment.onBack()}"
                 android:paddingStart="8dp"

@@ -27,7 +27,7 @@ import com.ishow.noah.databinding.ActivityLoginBinding
 import com.ishow.noah.modules.account.password.forgot.ForgotPasswordActivity
 import com.ishow.noah.modules.account.register.RegisterActivity
 import com.ishow.noah.modules.base.mvvm.view.AppBindActivity
-import com.ishow.noah.modules.main.MainActivity
+import com.ishow.noah.modules.main.index.MainActivity
 import com.ishow.noah.utils.checker.PasswordChecker
 import kotlinx.android.synthetic.main.activity_login.*
 

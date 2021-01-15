@@ -17,13 +17,13 @@
 package com.ishow.noah.modules.base
 
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 
 /**
  * Created by yuhaiyang on 2017/7/3.
  * finish
  */
-
-class ExitAppActivity : AppBaseActivity() {
+class ExitAppActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         finish()

@@ -16,6 +16,7 @@ import androidx.annotation.DimenRes
 import androidx.annotation.IntDef
 import androidx.core.content.ContextCompat
 import com.ishow.common.R
+import com.ishow.common.extensions.dp2px
 import kotlin.math.sin
 
 class LabelViewHelper(
@@ -135,10 +136,10 @@ class LabelViewHelper(
         get() = context.resources.getDimensionPixelOffset(R.dimen.J_title)
 
     private val defaultHeight: Int
-        get() = context.resources.getDimensionPixelOffset(R.dimen.dp_30)
+        get() = 30.dp2px()
 
     private val defaultDistance: Int
-        get() = context.resources.getDimensionPixelOffset(R.dimen.dp_25)
+        get() = 25.dp2px()
 
     private val defaultBackgroundColor: Int
         get() = ContextCompat.getColor(context, R.color.color_primary)

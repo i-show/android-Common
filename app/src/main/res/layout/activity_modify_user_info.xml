@@ -26,7 +26,7 @@
         <com.ishow.common.widget.textview.TextViewPro
             android:id="@+id/header"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_80"
+            android:layout_height="80dp"
             android:background="@drawable/bottom_line_normal_bg"
             android:onClick="onViewClick"
             app:image2Options="@{RequestOptions.circleCropTransform()}"
@@ -35,9 +35,9 @@
             app:leftImageVisibility="gone"
             app:leftText="@string/modify_user_info_header"
             app:leftTextSize="@dimen/G_title"
-            app:rightImage2Height="@dimen/dp_56"
+            app:rightImage2Height="56dp"
             app:rightImage2Visibility="visible"
-            app:rightImage2Width="@dimen/dp_56" />
+            app:rightImage2Width="56dp" />
 
     </LinearLayout>
 </layout>
