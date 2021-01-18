@@ -27,6 +27,7 @@
         android:layout_height="wrap_content"
         android:actionBarSize="45dp"
         android:background="@drawable/shape_data_pick_dialog_top_bg"
+        android:fitsSystemWindows="false"
         app:leftImageVisibility="gone"
         app:leftText="@string/cancel"
         app:leftTextMinWidth="80dp"

@@ -41,8 +41,8 @@ class DateTimePickerDialog @JvmOverloads constructor(context: Context, private v
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // setContentView(R.layout.dialog_date_time_picker)
-        // topBar.setOnTopBarListener(this)
-        // topBar.setText(mTopBarString)
+        binding.topBar.setOnTopBarListener(this)
+        binding.topBar.setText(mTopBarString)
 
         binding.picker.setStyle(mStyle)
         if (mTime != 0L) {

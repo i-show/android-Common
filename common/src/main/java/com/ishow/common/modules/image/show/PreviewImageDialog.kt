@@ -40,7 +40,7 @@ class PreviewImageDialog<T> : DialogFragment() {
         setStyle(STYLE_NORMAL, R.style.Theme_Dialog_Black)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         DialogPreviewImageBinding.inflate(inflater, container, false)
         return binding.root
     }
