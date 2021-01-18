@@ -15,17 +15,16 @@ import com.ishow.noah.modules.main.home.HomeFragment
 import com.ishow.noah.modules.main.mine.MineFragment
 import com.ishow.noah.modules.main.tab2.Tab2Fragment
 import com.ishow.noah.modules.main.tab3.Tab3Fragment
-import kotlinx.android.synthetic.main.a_main.*
 
 /**
  * Created by yuhaiyang on 2021-01-15.
  */
 class MainActivity : AppBindActivity<AMainBinding, MainViewModel>(), BottomBar.OnBottomBarListener  {
 
-    private var tab1Fragment: HomeFragment? = null
-    private var tab2Fragment: Tab2Fragment? = null
-    private var tab3Fragment: Tab3Fragment? = null
-    private var tab4Fragment: MineFragment? = null
+    private lateinit var tab1Fragment: HomeFragment
+    private lateinit var tab2Fragment: Tab2Fragment
+    private lateinit var tab3Fragment: Tab3Fragment
+    private lateinit var tab4Fragment: MineFragment
     private val fragmentList = mutableListOf<Fragment>()
     private var lastTime: Long = 0
 
@@ -36,24 +35,24 @@ class MainActivity : AppBindActivity<AMainBinding, MainViewModel>(), BottomBar.O
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        val type = intent.getIntExtra(KEY_TYPE, MainActivity.TAB_FIRST)
-        bottomBar.setSelectedId(type, true)
+        val type = intent.getIntExtra(KEY_TYPE, TAB_FIRST)
+        binding.bottomBar.setSelectedId(type, true)
     }
 
     override fun initViews() {
         super.initViews()
         tab1Fragment = HomeFragment.newInstance()
-        fragmentList.add(tab1Fragment!!)
+        fragmentList.add(tab1Fragment)
         tab2Fragment = Tab2Fragment.newInstance()
-        fragmentList.add(tab2Fragment!!)
+        fragmentList.add(tab2Fragment)
         tab3Fragment = Tab3Fragment.newInstance()
-        fragmentList.add(tab3Fragment!!)
+        fragmentList.add(tab3Fragment)
         tab4Fragment = MineFragment.newInstance()
-        fragmentList.add(tab4Fragment!!)
+        fragmentList.add(tab4Fragment)
 
-        viewPager.isUserInputEnabled = false
-        viewPager.offscreenPageLimit = 3
-        viewPager.adapter = object : FragmentStateAdapter(this) {
+        binding.viewPager.isUserInputEnabled = false
+        binding.viewPager.offscreenPageLimit = 3
+        binding.viewPager.adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount(): Int = fragmentList.size
 
             override fun createFragment(position: Int): Fragment {
@@ -61,7 +60,7 @@ class MainActivity : AppBindActivity<AMainBinding, MainViewModel>(), BottomBar.O
             }
         }
 
-        bottomBar.setOnSelectedChangedListener(this)
+        binding.bottomBar.setOnSelectedChangedListener(this)
     }
 
     override fun onBackPressed() {
@@ -75,7 +74,7 @@ class MainActivity : AppBindActivity<AMainBinding, MainViewModel>(), BottomBar.O
     }
 
     override fun onSelectedChanged(parent: ViewGroup, @IdRes selectId: Int, index: Int) {
-        viewPager.setCurrentItem(index, false)
+        binding.viewPager.setCurrentItem(index, false)
     }
 
     companion object {

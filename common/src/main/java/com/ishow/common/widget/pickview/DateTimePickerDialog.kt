@@ -22,29 +22,31 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
 import com.ishow.common.R
+import com.ishow.common.databinding.DialogDateTimePickerBinding
+import com.ishow.common.extensions.binding
 import com.ishow.common.widget.TopBar
 import com.ishow.common.widget.dialog.BaseDialog
-import kotlinx.android.synthetic.main.dialog_date_time_picker.*
 
 /**
  * 日期选择对话框
  */
 class DateTimePickerDialog @JvmOverloads constructor(context: Context, private val mStyle: Int = DateTimePicker.Style.DATE_TIME) :
-        BaseDialog(context, R.style.Theme_Dialog_DateTimePicker), TopBar.OnTopBarListener {
+    BaseDialog(context, R.style.Theme_Dialog_DateTimePicker), TopBar.OnTopBarListener {
 
     private var mListener: OnSelectDateListener? = null
     private var mTime: Long = 0
     private var mTopBarString: String? = null
+    private val binding: DialogDateTimePickerBinding by binding()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.dialog_date_time_picker)
+        // setContentView(R.layout.dialog_date_time_picker)
         // topBar.setOnTopBarListener(this)
         // topBar.setText(mTopBarString)
 
-        picker.setStyle(mStyle)
+        binding.picker.setStyle(mStyle)
         if (mTime != 0L) {
-            picker.setCurrentDate(mTime)
+            binding.picker.setCurrentDate(mTime)
         }
     }
 
@@ -64,7 +66,7 @@ class DateTimePickerDialog @JvmOverloads constructor(context: Context, private v
     }
 
     override fun onRightClick(v: View) {
-        mListener?.onSelected(picker.currentTimeInMillis)
+        mListener?.onSelected(binding.picker.currentTimeInMillis)
         dismiss()
     }
 

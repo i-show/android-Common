@@ -1,10 +1,9 @@
 package com.ishow.common.app.mvvm.view
 
+import android.view.LayoutInflater
 import android.view.View
-import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.ishow.common.app.activity.BaseActivity
 import com.ishow.common.app.mvvm.viewmodel.BaseViewModel
@@ -12,16 +11,22 @@ import com.ishow.common.entries.status.Empty
 import com.ishow.common.entries.status.Error
 import com.ishow.common.entries.status.Loading
 import com.ishow.common.entries.status.Success
-import com.ishow.common.extensions.inflate
 import com.ishow.common.extensions.toast
 import com.ishow.common.utils.ReflectionUtils
 import com.ishow.common.utils.databinding.bus.Event
 import com.ishow.common.widget.StatusView
 import java.lang.reflect.ParameterizedType
 
-abstract class BindActivity<T : ViewDataBinding, VM : BaseViewModel> : BaseActivity() {
+abstract class BindActivity<BINDING : ViewDataBinding, VM : BaseViewModel> : BaseActivity() {
 
-    protected lateinit var dataBinding: T
+    /**
+     * ViewDataBinding 的实现类
+     */
+    protected lateinit var binding: BINDING
+
+    /**
+     * ViewModel的实现类
+     */
     protected var vm: VM? = null
 
     @Suppress("UNCHECKED_CAST")
@@ -30,14 +35,15 @@ abstract class BindActivity<T : ViewDataBinding, VM : BaseViewModel> : BaseActiv
         type as Class<VM>
     }
 
-    protected open fun bindContentView(layoutId: Int): T {
-        val view = inflate(layoutId)
-        setContentView(view)
-        dataBinding = DataBindingUtil.bind(view)!!
-        dataBinding.lifecycleOwner = this
+    protected open fun bindContentView(layoutId: Int): BINDING {
+        val inflate = LayoutInflater.from(this)
+        binding = DataBindingUtil.inflate(inflate, layoutId, null , false)
+        binding.lifecycleOwner = this
+        setContentView(binding.root)
+
         bindDataBindingValues()
         bindViewModel()
-        return dataBinding
+        return binding
     }
 
     /**
@@ -72,14 +78,14 @@ abstract class BindActivity<T : ViewDataBinding, VM : BaseViewModel> : BaseActiv
     protected open fun initViewModel(vm: VM) {
         val activity = this@BindActivity
         // dataBinding 设置vm参数
-        ReflectionUtils.invokeMethod(dataBinding, "setVm", vm, viewModelClass)
+        ReflectionUtils.invokeMethod(binding, "setVm", vm, viewModelClass, false)
 
         lifecycle.addObserver(vm)
-        vm.loadingStatus.observe(activity, Observer { changeLoadingStatus(it) })
-        vm.errorStatus.observe(activity, Observer { changeErrorStatus(it) })
-        vm.successStatus.observe(activity, Observer { changeSuccessStatus(it) })
-        vm.emptyStatus.observe(activity, Observer { changeEmptyStatus(it) })
-        vm.toastMessage.observe(activity, Observer { showToast(it) })
+        vm.loadingStatus.observe(activity, { changeLoadingStatus(it) })
+        vm.errorStatus.observe(activity, { changeErrorStatus(it) })
+        vm.successStatus.observe(activity, { changeSuccessStatus(it) })
+        vm.emptyStatus.observe(activity, { changeEmptyStatus(it) })
+        vm.toastMessage.observe(activity, { showToast(it) })
     }
 
     override fun onDestroy() {

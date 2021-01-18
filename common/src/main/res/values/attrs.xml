@@ -500,9 +500,9 @@
     <attr name="stripColor" format="color" />
     <attr name="stripPaddingRatio" format="float" />
 
-    <attr name="strokeWidth" format="dimension" tools:ignore="PrivateResource" />
+    <attr name="strokeWidth" format="dimension" />
     <attr name="strokeHeight" format="dimension" />
-    <attr name="strokeColor" format="color" tools:ignore="PrivateResource" />
+    <attr name="strokeColor" format="color" />
 
     <attr name="lineColor" format="color" />
     <attr name="lineHeight" format="dimension" />

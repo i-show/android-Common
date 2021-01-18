@@ -13,8 +13,6 @@ import com.ishow.common.app.mvvm.viewmodel.BaseViewModel
 import com.ishow.common.databinding.FragmentImagePreviewCommonBinding
 import com.ishow.common.entries.Image
 import com.ishow.common.widget.recyclerview.itemdecoration.SpacingDecoration
-import kotlinx.android.synthetic.main.fragment_image_preview_common.*
-
 
 /**
  * Created by yuhaiyang on 2019-09-04.
@@ -45,24 +43,23 @@ class ImagePreviewFragment : BindFragment<FragmentImagePreviewCommonBinding, Bas
         val activity = activity as ImageSelectorActivity
         adapter = BindAdapter()
         adapter.addLayout(BR.item, R.layout.item_image_preview_big)
-        list.adapter = adapter
+        binding.list.adapter = adapter
 
         previewAdapter = BindAdapter()
         previewAdapter.addLayout(BR.item, R.layout.item_image_preview_small)
         previewAdapter.addVariable(BR.vm, activity.viewModel)
         previewAdapter.addVariable(BR.fragment, this@ImagePreviewFragment)
         val itemDecoration = SpacingDecoration(10)
-        previewList.addItemDecoration(itemDecoration)
-        previewList.adapter = previewAdapter
+        binding.previewList.addItemDecoration(itemDecoration)
+        binding.previewList.adapter = previewAdapter
 
-        dataBinding.vm = activity.viewModel
-        dataBinding.vm?.previewGlobal?.observe(activity, Observer { onPreviewGlobalStatusChanged() })
-        dataBinding.fragment = this
+        binding.vm = activity.viewModel
+        binding.vm?.previewGlobal?.observe(activity, Observer { onPreviewGlobalStatusChanged() })
+        binding.fragment = this
 
         initPreviewData()
         setCurrentItem(previewPosition, false)
-        list.registerOnPageChangeCallback(pagerCallBack)
-
+        binding.list.registerOnPageChangeCallback(pagerCallBack)
     }
 
 
@@ -78,8 +75,8 @@ class ImagePreviewFragment : BindFragment<FragmentImagePreviewCommonBinding, Bas
         }
 
         adapter.data?.let {
-            list.setCurrentItem(position, false)
-            dataBinding.vm?.setPreviewImage(it[position], position)
+            binding.list.setCurrentItem(position, false)
+            binding.vm?.setPreviewImage(it[position], position)
             if (notify) previewAdapter.notifyDataSetChanged()
         }
     }
@@ -88,7 +85,7 @@ class ImagePreviewFragment : BindFragment<FragmentImagePreviewCommonBinding, Bas
      * fragment_image_preview_common 中调用
      */
     fun changSelectStatus(image: Image, view: CheckBox? = null) {
-        dataBinding.vm?.let {
+        binding.vm?.let {
             if (it.previewGlobal.value == true) {
                 it.selectImage(image, view)
             } else {
@@ -103,7 +100,7 @@ class ImagePreviewFragment : BindFragment<FragmentImagePreviewCommonBinding, Bas
 
     override fun onDestroyView() {
         super.onDestroyView()
-        list.unregisterOnPageChangeCallback(pagerCallBack)
+        binding.list.unregisterOnPageChangeCallback(pagerCallBack)
     }
 
     private val pagerCallBack = object : ViewPager2.OnPageChangeCallback() {
@@ -113,14 +110,14 @@ class ImagePreviewFragment : BindFragment<FragmentImagePreviewCommonBinding, Bas
                 return
             }
             val current = adapter.getItem(position)
-            dataBinding.vm?.setPreviewImage(current, position)
+            binding.vm?.setPreviewImage(current, position)
             previewAdapter.notifyDataSetChanged()
-            previewList.scrollToPosition(position)
+            binding.previewList.scrollToPosition(position)
         }
     }
 
     private fun initPreviewData() {
-        dataBinding.vm?.let {
+        binding.vm?.let {
             if (it.previewGlobal.value == true) {
                 adapter.data = it.imageList.value
             } else {

@@ -16,23 +16,16 @@
 
 package com.ishow.common.widget.dialog.picker
 
-import android.app.Dialog
+
 import android.content.Context
 import android.os.Bundle
-import android.view.Gravity
 import android.view.View
-import android.view.Window
-import android.view.WindowManager
-
-
 import com.ishow.common.R
+import com.ishow.common.databinding.DialogUnitPickerBinding
 import com.ishow.common.entries.utils.IUnitPicker
-import com.ishow.common.utils.DeviceUtils
+import com.ishow.common.extensions.binding
 import com.ishow.common.widget.TopBar
 import com.ishow.common.widget.dialog.BaseDialog
-import com.ishow.common.widget.loading.LoadingDialog.Companion.dismiss
-import com.ishow.common.widget.pickview.PickerView
-import kotlinx.android.synthetic.main.dialog_unit_picker.*
 
 /**
  * Created by yuhaiyang on 2016/10/31.
@@ -40,10 +33,11 @@ import kotlinx.android.synthetic.main.dialog_unit_picker.*
  */
 
 class PickerDialog<T : IUnitPicker>(context: Context) : BaseDialog(context, R.style.Theme_Dialog_Bottom_Transparent),
-        TopBar.OnTopBarListener {
+    TopBar.OnTopBarListener {
     private val mAdapter: PickerDialogAdapter<T> = PickerDialogAdapter(getContext())
     private var mPickedListener: ((T) -> Unit?)? = null
     private var mCurrentPosition: Int = 0
+    private val binding: DialogUnitPickerBinding by binding()
 
     init {
         setCancelable(true)
@@ -51,11 +45,10 @@ class PickerDialog<T : IUnitPicker>(context: Context) : BaseDialog(context, R.st
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.dialog_unit_picker)
         fromBottom(true)
-        topBar.setOnTopBarListener(this)
-        picker.setAdapter(mAdapter)
-        picker.currentPosition = mCurrentPosition
+        binding.topBar.setOnTopBarListener(this)
+        binding.picker.setAdapter(mAdapter)
+        binding.picker.currentPosition = mCurrentPosition
     }
 
     fun setData(data: MutableList<T>) {
@@ -64,7 +57,7 @@ class PickerDialog<T : IUnitPicker>(context: Context) : BaseDialog(context, R.st
 
     fun setCurrentPosition(position: Int) {
         mCurrentPosition = position
-        picker.currentPosition = mCurrentPosition
+        binding.picker.currentPosition = mCurrentPosition
     }
 
     fun setOnSelectedListener(listener: (T) -> Unit) {
@@ -80,7 +73,7 @@ class PickerDialog<T : IUnitPicker>(context: Context) : BaseDialog(context, R.st
     }
 
     override fun onRightClick(v: View) {
-        val position = picker.currentPosition
+        val position = binding.picker.currentPosition
         val item = mAdapter.getItem(position)
         mPickedListener?.let { it(item) }
         dismiss()

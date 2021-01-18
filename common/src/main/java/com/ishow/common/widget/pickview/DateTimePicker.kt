@@ -20,19 +20,16 @@ import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
 import android.view.Gravity
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
-
 import androidx.annotation.IntDef
 import androidx.annotation.IntRange
 import com.ishow.common.R
+import com.ishow.common.databinding.WidgetDateTimePickerBinding
+import com.ishow.common.extensions.binding
 import com.ishow.common.widget.pickview.adapter.DateTimeAdapter
 import com.ishow.common.widget.pickview.listener.OnItemSelectedListener
-import kotlinx.android.synthetic.main.widget_date_time_picker.view.*
-
-import java.util.Calendar
-import java.util.Date
+import java.util.*
 
 /**
  * Created by yuhaiyang on 2017/4/25.
@@ -40,7 +37,7 @@ import java.util.Date
  */
 
 class DateTimePicker @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) :
-        LinearLayout(context, attrs, defStyle) {
+    LinearLayout(context, attrs, defStyle) {
 
     private lateinit var mYearAdapter: DateTimeAdapter
     private lateinit var mMonthAdapter: DateTimeAdapter
@@ -52,6 +49,8 @@ class DateTimePicker @JvmOverloads constructor(context: Context, attrs: Attribut
     private lateinit var mEndDate: Calendar
 
     private var mStyle: Int = 0
+
+    private val binding: WidgetDateTimePickerBinding by binding()
 
     val currentTime: Date
         get() {
@@ -83,34 +82,34 @@ class DateTimePicker @JvmOverloads constructor(context: Context, attrs: Attribut
      * 获取当前是那一年
      */
     val currentYear: Int
-        get() = mYearAdapter.start + yearPicker.currentPosition
+        get() = mYearAdapter.start + binding.yearPicker.currentPosition
 
     /**
      * 获取当前是那一月
      */
     val currentMonth: Int
-        get() = mMonthAdapter.start + monthPicker.currentPosition
+        get() = mMonthAdapter.start + binding.monthPicker.currentPosition
 
     /**
      * 获取当前是那一天
      */
     @Suppress("MemberVisibilityCanBePrivate")
     val currentDay: Int
-        get() = mDayAdapter.start + dayPicker.currentPosition
+        get() = mDayAdapter.start + binding.dayPicker.currentPosition
 
     /**
      * 获取当前小时
      */
     @Suppress("MemberVisibilityCanBePrivate")
     val currentHour: Int
-        get() = mHourAdapter.start + hourPicker.currentPosition
+        get() = mHourAdapter.start + binding.hourPicker.currentPosition
 
     /**
      * 获取当前分钟
      */
     @Suppress("MemberVisibilityCanBePrivate")
     val currentMin: Int
-        get() = mMinAdapter.start + minPicker.currentPosition
+        get() = mMinAdapter.start + binding.minPicker.currentPosition
 
     @IntDef(Style.DATE_TIME, Style.DATE, Style.TIME)
     @Retention(AnnotationRetention.SOURCE)
@@ -120,10 +119,12 @@ class DateTimePicker @JvmOverloads constructor(context: Context, attrs: Attribut
              * 日期+时间
              */
             const val DATE_TIME = 1
+
             /**
              * 仅日期
              */
             const val DATE = 2
+
             /**
              * 仅时间
              */
@@ -146,28 +147,26 @@ class DateTimePicker @JvmOverloads constructor(context: Context, attrs: Attribut
 
 
     private fun initViews() {
-        val inflater = LayoutInflater.from(context)
-        inflater.inflate(R.layout.widget_date_time_picker, this, true)
 
         mYearAdapter = DateTimeAdapter()
-        yearPicker.setAdapter(mYearAdapter)
-        yearPicker.setOnItemSelectedListener(ItemSelectedListener(Calendar.YEAR))
+        binding.yearPicker.setAdapter(mYearAdapter)
+        binding.yearPicker.setOnItemSelectedListener(ItemSelectedListener(Calendar.YEAR))
 
         mMonthAdapter = DateTimeAdapter()
-        monthPicker.setAdapter(mMonthAdapter)
-        monthPicker.setOnItemSelectedListener(ItemSelectedListener(Calendar.MONTH))
+        binding.monthPicker.setAdapter(mMonthAdapter)
+        binding.monthPicker.setOnItemSelectedListener(ItemSelectedListener(Calendar.MONTH))
 
         mDayAdapter = DateTimeAdapter()
-        dayPicker.setAdapter(mDayAdapter)
-        dayPicker.setOnItemSelectedListener(ItemSelectedListener(Calendar.DAY_OF_MONTH))
+        binding.dayPicker.setAdapter(mDayAdapter)
+        binding.dayPicker.setOnItemSelectedListener(ItemSelectedListener(Calendar.DAY_OF_MONTH))
 
         mHourAdapter = DateTimeAdapter()
-        hourPicker.setAdapter(mHourAdapter)
-        hourPicker.setOnItemSelectedListener(ItemSelectedListener(Calendar.HOUR_OF_DAY))
+        binding.hourPicker.setAdapter(mHourAdapter)
+        binding.hourPicker.setOnItemSelectedListener(ItemSelectedListener(Calendar.HOUR_OF_DAY))
 
         mMinAdapter = DateTimeAdapter()
-        minPicker.setAdapter(mMinAdapter)
-        minPicker.setOnItemSelectedListener(ItemSelectedListener(Calendar.MINUTE))
+        binding.minPicker.setAdapter(mMinAdapter)
+        binding.minPicker.setOnItemSelectedListener(ItemSelectedListener(Calendar.MINUTE))
     }
 
     private fun initData() {
@@ -195,27 +194,27 @@ class DateTimePicker @JvmOverloads constructor(context: Context, attrs: Attribut
         var now = nowYear
         mYearAdapter.start = DEFAULT_START_YEAR
         mYearAdapter.end = DEFAULT_END_YEAR
-        yearPicker.currentPosition = now - DEFAULT_START_YEAR
+        binding.yearPicker.currentPosition = now - DEFAULT_START_YEAR
 
         now = nowMonth
         mMonthAdapter.start = 1
         mMonthAdapter.end = 12
-        monthPicker.currentPosition = now - 1
+        binding.monthPicker.currentPosition = now - 1
 
         now = calendar.get(Calendar.DAY_OF_MONTH)
         mDayAdapter.start = 1
         mDayAdapter.end = getDay(nowYear, nowMonth)
-        dayPicker.currentPosition = now - 1
+        binding.dayPicker.currentPosition = now - 1
 
         now = calendar.get(Calendar.HOUR_OF_DAY)
         mHourAdapter.start = 1
         mHourAdapter.end = 24
-        hourPicker.currentPosition = now - 1
+        binding.hourPicker.currentPosition = now - 1
 
         now = calendar.get(Calendar.MINUTE)
         mMinAdapter.start = 1
         mMinAdapter.end = 60
-        minPicker.currentPosition = now - 1
+        binding.minPicker.currentPosition = now - 1
     }
 
 
@@ -230,25 +229,25 @@ class DateTimePicker @JvmOverloads constructor(context: Context, attrs: Attribut
         mStyle = style
         when (mStyle) {
             Style.DATE_TIME -> {
-                yearPicker.visibility = View.VISIBLE
-                monthPicker.visibility = View.VISIBLE
-                dayPicker.visibility = View.VISIBLE
-                hourPicker.visibility = View.VISIBLE
-                minPicker.visibility = View.VISIBLE
+                binding.yearPicker.visibility = View.VISIBLE
+                binding.monthPicker.visibility = View.VISIBLE
+                binding.dayPicker.visibility = View.VISIBLE
+                binding.hourPicker.visibility = View.VISIBLE
+                binding.minPicker.visibility = View.VISIBLE
             }
             Style.DATE -> {
-                yearPicker.visibility = View.VISIBLE
-                monthPicker.visibility = View.VISIBLE
-                dayPicker.visibility = View.VISIBLE
-                hourPicker.visibility = View.GONE
-                minPicker.visibility = View.GONE
+                binding.yearPicker.visibility = View.VISIBLE
+                binding.monthPicker.visibility = View.VISIBLE
+                binding.dayPicker.visibility = View.VISIBLE
+                binding.hourPicker.visibility = View.GONE
+                binding.minPicker.visibility = View.GONE
             }
             Style.TIME -> {
-                yearPicker.visibility = View.GONE
-                monthPicker.visibility = View.GONE
-                dayPicker.visibility = View.GONE
-                hourPicker.visibility = View.VISIBLE
-                minPicker.visibility = View.VISIBLE
+                binding.yearPicker.visibility = View.GONE
+                binding.monthPicker.visibility = View.GONE
+                binding.dayPicker.visibility = View.GONE
+                binding.hourPicker.visibility = View.VISIBLE
+                binding.minPicker.visibility = View.VISIBLE
             }
         }
     }
@@ -257,19 +256,19 @@ class DateTimePicker @JvmOverloads constructor(context: Context, attrs: Attribut
         val calendar = Calendar.getInstance()
         calendar.time = date
         var now = calendar.get(Calendar.YEAR)
-        yearPicker.currentPosition = now - DEFAULT_START_YEAR
+        binding.yearPicker.currentPosition = now - DEFAULT_START_YEAR
 
         now = calendar.get(Calendar.MONTH) + 1
-        monthPicker.currentPosition = now - 1
+        binding.monthPicker.currentPosition = now - 1
 
         now = calendar.get(Calendar.DAY_OF_MONTH)
-        dayPicker.currentPosition = now - 1
+        binding.dayPicker.currentPosition = now - 1
 
         now = calendar.get(Calendar.HOUR_OF_DAY)
-        hourPicker.currentPosition = now - 1
+        binding.hourPicker.currentPosition = now - 1
 
         now = calendar.get(Calendar.MINUTE)
-        minPicker.currentPosition = now - 1
+        binding.minPicker.currentPosition = now - 1
     }
 
     fun setCurrentDate(year: Int, month: Int, day: Int, hour: Int, min: Int) {
@@ -282,38 +281,38 @@ class DateTimePicker @JvmOverloads constructor(context: Context, attrs: Attribut
         calendar.set(Calendar.SECOND, 0)
         calendar.set(Calendar.MILLISECOND, 0)
         var now = calendar.get(Calendar.YEAR)
-        yearPicker.currentPosition = now - DEFAULT_START_YEAR
+        binding.yearPicker.currentPosition = now - DEFAULT_START_YEAR
 
         now = calendar.get(Calendar.MONTH) + 1
-        monthPicker.currentPosition = now - 1
+        binding.monthPicker.currentPosition = now - 1
 
         now = calendar.get(Calendar.DAY_OF_MONTH)
-        dayPicker.currentPosition = now - 1
+        binding.dayPicker.currentPosition = now - 1
 
         now = calendar.get(Calendar.HOUR_OF_DAY)
-        hourPicker.currentPosition = now - 1
+        binding.hourPicker.currentPosition = now - 1
 
         now = calendar.get(Calendar.MINUTE)
-        minPicker.currentPosition = now - 1
+        binding.minPicker.currentPosition = now - 1
     }
 
     fun setCurrentDate(time: Long) {
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = time
         var now = calendar.get(Calendar.YEAR)
-        yearPicker.currentPosition = now - DEFAULT_START_YEAR
+        binding.yearPicker.currentPosition = now - DEFAULT_START_YEAR
 
         now = calendar.get(Calendar.MONTH) + 1
-        monthPicker.currentPosition = now - 1
+        binding.monthPicker.currentPosition = now - 1
 
         now = calendar.get(Calendar.DAY_OF_MONTH)
-        dayPicker.currentPosition = now - 1
+        binding.dayPicker.currentPosition = now - 1
 
         now = calendar.get(Calendar.HOUR_OF_DAY)
-        hourPicker.currentPosition = now - 1
+        binding.hourPicker.currentPosition = now - 1
 
         now = calendar.get(Calendar.MINUTE)
-        minPicker.currentPosition = now - 1
+        binding.minPicker.currentPosition = now - 1
     }
 
     /**
@@ -364,10 +363,12 @@ class DateTimePicker @JvmOverloads constructor(context: Context, attrs: Attribut
 
     companion object {
         private const val TAG = "DateTimePicker"
+
         /**
          * 默认的开始的年
          */
         private const val DEFAULT_START_YEAR = 1900
+
         /**
          * 默认的结束年份
          */

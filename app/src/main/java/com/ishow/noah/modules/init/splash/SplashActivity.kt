@@ -32,7 +32,7 @@ class SplashActivity : AppBindActivity<ActivitySpalshBinding, SplashViewModel>()
 
 
     private fun onPermission() {
-        dataBinding.vm?.start()
+        binding.vm?.start()
     }
 
     override fun showSuccess(success: Success) {

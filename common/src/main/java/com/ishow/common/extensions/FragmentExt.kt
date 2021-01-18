@@ -4,8 +4,12 @@ import android.app.Activity
 import android.content.Context
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.viewbinding.ViewBinding
 import com.ishow.common.R
+import com.ishow.common.extensions.binding.ActivityBinding
+import com.ishow.common.extensions.binding.FragmentBinding
 import com.ishow.common.utils.StringUtils
 import com.ishow.common.utils.ToastUtils
 import com.ishow.common.utils.router.AppRouter
@@ -29,6 +33,22 @@ fun Fragment.toast(@StringRes message: Int, duration: Int = Toast.LENGTH_SHORT) 
     ToastUtils.show(context, message, duration)
 }
 
+
+/**
+ * Toast提示
+ * @param message 内容
+ */
+fun Fragment.toastLong(message: String) {
+    ToastUtils.show(context, message, Toast.LENGTH_LONG)
+}
+
+/**
+ * Toast提示
+ * @param message 内容
+ */
+fun Fragment.toastLong(@StringRes message: Int) {
+    ToastUtils.show(context, message, Toast.LENGTH_LONG)
+}
 
 /**
  * Dialog提示
@@ -87,3 +107,9 @@ fun Fragment.open(cls: Class<*>, finishSelf: Boolean = false) {
     }
     router.start()
 }
+
+
+/**
+ * 方便获取ViewBinding
+ */
+inline fun <reified T : ViewBinding> Fragment.binding() = FragmentBinding(T::class.java, this)

@@ -287,7 +287,7 @@ object ReflectionUtils {
      * @param argClasses 方法的参数的 class type
      * @return 方法的返回值
      */
-    fun invokeMethod(owner: Any, methodName: String, args: Any, argClasses: Class<*>): Any? {
+    fun invokeMethod(owner: Any, methodName: String, args: Any, argClasses: Class<*>, showLog: Boolean = true): Any? {
         var result: Any? = null
         try {
             val classObj = owner.javaClass
@@ -295,11 +295,11 @@ object ReflectionUtils {
             method.isAccessible = true
             result = method.invoke(owner, args)
         } catch (e: NoSuchMethodException) {
-            e.printStackTrace()
+            if (showLog) e.printStackTrace()
         } catch (e: InvocationTargetException) {
-            e.printStackTrace()
+            if (showLog) e.printStackTrace()
         } catch (e: IllegalAccessException) {
-            e.printStackTrace()
+            if (showLog) e.printStackTrace()
         }
 
         return result

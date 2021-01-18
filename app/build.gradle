@@ -182,6 +182,7 @@ android {
 
     buildFeatures {
         dataBinding = true
+        viewBinding = true
     }
 
     // 包名重命名，加上版本及日期

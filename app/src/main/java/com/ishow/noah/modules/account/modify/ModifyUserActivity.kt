@@ -47,7 +47,7 @@ class ModifyUserActivity : AppBindActivity<ActivityModifyUserInfoBinding, Modify
 
     override fun onSelectedPhoto(imageList: MutableList<File?>, image: File?) {
         image?.let {
-            dataBinding.vm?.uploadAvatar(it.absolutePath)
+            binding.vm?.uploadAvatar(it.absolutePath)
         }
 
     }

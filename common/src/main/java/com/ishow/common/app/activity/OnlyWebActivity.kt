@@ -21,13 +21,15 @@ import android.net.Uri
 import android.net.http.SslError
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.webkit.*
 import androidx.annotation.RequiresApi
 import com.ishow.common.R
+import com.ishow.common.databinding.ActivityBaseOnlyWebBinding
+import com.ishow.common.databinding.ActivityPhotoSelectorBinding
 import com.ishow.common.extensions.fullWindow
 import com.ishow.common.utils.WebViewUtils
-import com.ishow.common.widget.webview.WebViewClientWrapper
-import kotlinx.android.synthetic.main.activity_base_only_web.*
+import com.ishow.common.widget.TopBar
 
 
 /**
@@ -40,6 +42,8 @@ open class OnlyWebActivity : BaseActivity() {
     private var isError: Boolean = false
 
     private var webView: WebView? = null
+    private var topBar: TopBar? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(getLayout())
@@ -54,8 +58,10 @@ open class OnlyWebActivity : BaseActivity() {
 
     override fun initViews() {
         super.initViews()
-        topBar.setOnTopBarListener(this)
-        topBar.setText(title)
+        topBar = findTopBar()
+        topBar?.setOnTopBarListener(this)
+        topBar?.setText(title)
+
         webView = findViewById(R.id.webView)
         initWebView()
         webView?.webViewClient = getWebViewClient()
@@ -66,6 +72,22 @@ open class OnlyWebActivity : BaseActivity() {
             intent.data = Uri.parse(url)
             startActivity(intent)
         }
+    }
+
+    /**
+     * 获取TopBar
+     */
+    protected fun findTopBar(): TopBar? {
+        var view: View? = findViewById(R.id.topBar)
+        if (view is TopBar) {
+            return view
+        }
+
+        view = findViewById(R.id.top_bar)
+        if (view is TopBar) {
+            return view
+        }
+        return null
     }
 
     /**

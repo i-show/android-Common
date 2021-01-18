@@ -25,7 +25,6 @@ import android.graphics.drawable.Drawable
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.util.TypedValue
-import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
@@ -35,9 +34,10 @@ import android.widget.TextView
 import androidx.annotation.FloatRange
 import androidx.core.content.ContextCompat
 import com.ishow.common.R
+import com.ishow.common.databinding.WidgetStatusViewBinding
+import com.ishow.common.extensions.binding
 import com.ishow.common.extensions.setMarginTop
 import com.ishow.common.utils.log.LogUtils
-import kotlinx.android.synthetic.main.widget_status_view.view.*
 
 /**
  * 一个状态显示的View
@@ -134,6 +134,8 @@ class StatusView @JvmOverloads constructor(context: Context, attrs: AttributeSet
 
     private val defaultReloadTextMarginTop = 0
 
+    private val binding :WidgetStatusViewBinding by binding()
+
     enum class Which {
         Title, SubTitle, Reload
     }
@@ -194,11 +196,9 @@ class StatusView @JvmOverloads constructor(context: Context, attrs: AttributeSet
 
 
     private fun initView() {
-        val inflater = LayoutInflater.from(context)
-        inflater.inflate(R.layout.widget_status_view, this, true)
         setTitleClickable(isTitleClickable)
         setSubTitleClickable(isSubTitleClickable)
-        reloadButton.setOnClickListener(this)
+        binding.reloadButton.setOnClickListener(this)
         setWeight(topWeight, bottomWeight)
     }
 
@@ -222,28 +222,28 @@ class StatusView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         }
 
         visibility = View.VISIBLE
-        imageView.setImageResource(errorDrawableId)
-        imageView.visibility = View.VISIBLE
-        loadingView.visibility = View.GONE
-        loadingView.visibility = View.GONE
+        binding.imageView.setImageResource(errorDrawableId)
+        binding.imageView.visibility = View.VISIBLE
+        binding.loadingView.visibility = View.GONE
+        binding.loadingView.visibility = View.GONE
 
-        titleView.setTextColor(errorTextColor)
-        titleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, errorTextSize.toFloat())
-        titleView.setMarginTop(errorTextMarginTop)
-        setText(titleView, errorText)
+        binding.titleView.setTextColor(errorTextColor)
+        binding.titleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, errorTextSize.toFloat())
+        binding.titleView.setMarginTop(errorTextMarginTop)
+        setText(binding.titleView, errorText)
 
-        subTitleView.setTextColor(errorSubTextColor)
-        subTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, errorSubTextSize.toFloat())
-        subTitleView.setMarginTop(errorSubTextMarginTop)
-        setText(subTitleView, errorSubText)
-        subTitleView.visibility = errorSubTextVisibility
+        binding.subTitleView.setTextColor(errorSubTextColor)
+        binding.subTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, errorSubTextSize.toFloat())
+        binding.subTitleView.setMarginTop(errorSubTextMarginTop)
+        setText(binding.subTitleView, errorSubText)
+        binding.subTitleView.visibility = errorSubTextVisibility
 
-        reloadButton.setTextColor(reloadTextColor)
-        reloadButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, reloadTextSize.toFloat())
-        reloadButton.background = reloadTextBackground
-        reloadButton.setMarginTop(reloadTextMarginTop)
+        binding.reloadButton.setTextColor(reloadTextColor)
+        binding.reloadButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, reloadTextSize.toFloat())
+        binding.reloadButton.background = reloadTextBackground
+        binding.reloadButton.setMarginTop(reloadTextMarginTop)
 
-        setText(reloadButton, reloadText)
+        setText(binding.reloadButton, reloadText)
     }
 
     fun showLoading(loadingTag: String? = null) {
@@ -256,35 +256,35 @@ class StatusView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         }
 
         visibility = View.VISIBLE
-        imageView.visibility = View.GONE
-        loadingView.visibility = View.VISIBLE
+        binding.imageView.visibility = View.GONE
+        binding.loadingView.visibility = View.VISIBLE
 
-        titleView.setTextColor(loadingTextColor)
-        titleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, loadingTextSize.toFloat())
-        titleView.setMarginTop(loadingTextMarginTop)
-        setText(titleView, loadingText)
+        binding.titleView.setTextColor(loadingTextColor)
+        binding.titleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, loadingTextSize.toFloat())
+        binding.titleView.setMarginTop(loadingTextMarginTop)
+        setText(binding.titleView, loadingText)
 
-        subTitleView.visibility = View.GONE
-        reloadButton.visibility = View.GONE
+        binding.subTitleView.visibility = View.GONE
+        binding.reloadButton.visibility = View.GONE
     }
 
     fun showEmpty() {
         visibility = View.VISIBLE
-        imageView.setImageResource(emptyDrawableId)
-        imageView.visibility = View.VISIBLE
-        loadingView.visibility = View.GONE
+        binding.imageView.setImageResource(emptyDrawableId)
+        binding.imageView.visibility = View.VISIBLE
+        binding.loadingView.visibility = View.GONE
 
-        titleView.setTextColor(emptyTextColor)
-        titleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, emptyTextSize.toFloat())
-        titleView.setMarginTop(emptyTextMarginTop)
-        setText(titleView, emptyText)
+        binding.titleView.setTextColor(emptyTextColor)
+        binding.titleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, emptyTextSize.toFloat())
+        binding.titleView.setMarginTop(emptyTextMarginTop)
+        setText(binding.titleView, emptyText)
 
-        subTitleView.setTextColor(emptySubTextColor)
-        subTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, emptySubTextSize.toFloat())
-        subTitleView.setMarginTop(emptySubTextMarginTop)
-        setText(subTitleView, emptySubText)
+        binding.subTitleView.setTextColor(emptySubTextColor)
+        binding.subTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, emptySubTextSize.toFloat())
+        binding.subTitleView.setMarginTop(emptySubTextMarginTop)
+        setText(binding.subTitleView, emptySubText)
 
-        reloadButton.visibility = View.GONE
+        binding.reloadButton.visibility = View.GONE
     }
 
     fun dismiss(loadingTag: String? = null, checkError: Boolean = false) {
@@ -349,11 +349,11 @@ class StatusView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     }
 
     fun setTitleClickable(clickable: Boolean) {
-        titleView.setOnClickListener(if (clickable) this else null)
+        binding.titleView.setOnClickListener(if (clickable) this else null)
     }
 
     fun setSubTitleClickable(clickable: Boolean) {
-        subTitleView.setOnClickListener(if (clickable) this else null)
+        binding.subTitleView.setOnClickListener(if (clickable) this else null)
     }
 
     private fun updateWeight(view: View?, weight: Float) {
@@ -367,9 +367,9 @@ class StatusView @JvmOverloads constructor(context: Context, attrs: AttributeSet
 
     fun setWeight(@FloatRange(from = 0.0) topWeight: Float, @FloatRange(from = 0.0) bottomWeight: Float) {
         this.topWeight = topWeight
-        updateWeight(topWeightView, this.topWeight)
+        updateWeight(binding.topWeightView, this.topWeight)
         this.bottomWeight = bottomWeight
-        updateWeight(bottomWeightView, this.bottomWeight)
+        updateWeight(binding.bottomWeightView, this.bottomWeight)
     }
 
     interface OnStatusViewListener {

@@ -19,7 +19,6 @@ import com.ishow.common.utils.AnimatorUtils
 import com.ishow.common.utils.DateUtils
 import com.ishow.common.widget.dialog.BaseDialog
 import com.ishow.common.widget.recyclerview.itemdecoration.SpacingDecoration
-import kotlinx.android.synthetic.main.fragment_image_list_common.*
 import java.util.*
 
 /**
@@ -35,23 +34,23 @@ class ImageListFragment : BindFragment<FragmentImageListCommonBinding, BaseViewM
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val activity = activity as ImageSelectorActivity
-        dataBinding.vm = activity.viewModel
-        dataBinding.fragment = this
+        binding.vm = activity.viewModel
+        binding.fragment = this
 
-        topBar.setOnTopBarListener(this)
+        binding.topBar.setOnTopBarListener(this)
         adapter = BindAdapter()
         adapter.addLayout(BR.photo, R.layout.item_image_selector_list)
         adapter.addVariable(BR.vm, activity.viewModel)
         adapter.addVariable(BR.fragment, this)
 
-        list.addItemDecoration(SpacingDecoration(activity, R.dimen.photo_selector_item_gap))
-        list.adapter = adapter
-        list.addOnScrollListener(scrollListener)
+        binding.list.addItemDecoration(SpacingDecoration(activity, R.dimen.photo_selector_item_gap))
+        binding.list.adapter = adapter
+        binding.list.addOnScrollListener(scrollListener)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        list.removeOnScrollListener(scrollListener)
+        binding.list.removeOnScrollListener(scrollListener)
     }
 
     override fun onLeftClick(v: View) {
@@ -65,13 +64,13 @@ class ImageListFragment : BindFragment<FragmentImageListCommonBinding, BaseViewM
     }
 
     private fun setResult() {
-        val photoList = dataBinding.vm?.selectedImages?.value
+        val photoList = binding.vm?.selectedImages?.value
         if (photoList.isNullOrEmpty()) {
             toast(R.string.please_select_image)
             return
         }
 
-        when (dataBinding.vm?.mode) {
+        when (binding.vm?.mode) {
             Image.Key.MODE_SINGLE -> setSingleResult(photoList)
             Image.Key.MODE_MULTI -> setMultiResult(photoList)
         }
@@ -111,7 +110,7 @@ class ImageListFragment : BindFragment<FragmentImageListCommonBinding, BaseViewM
     private fun selectPhotoFolder() {
         val adapter = BindAdapter<Folder>()
         adapter.addLayout(BR.folder, R.layout.item_image_selector_folder)
-        adapter.data = dataBinding.vm?.folderList?.value
+        adapter.data = binding.vm?.folderList?.value
 
         BaseDialog.Builder(context, R.style.Theme_Dialog_Bottom2)
             .fromBottom(true)
@@ -125,7 +124,7 @@ class ImageListFragment : BindFragment<FragmentImageListCommonBinding, BaseViewM
      * 预览选中图片
      */
     private fun previewSelected() {
-        dataBinding.vm?.changePreviewGlobalStatus(false)
+        binding.vm?.changePreviewGlobalStatus(false)
         val activity = activity as ImageSelectorActivity
         activity.previewSelected()
     }
@@ -135,43 +134,43 @@ class ImageListFragment : BindFragment<FragmentImageListCommonBinding, BaseViewM
      * 点击单个图片
      */
     fun previewPhoto(position: Int) {
-        dataBinding.vm?.changePreviewGlobalStatus(true)
+        binding.vm?.changePreviewGlobalStatus(true)
         val activity = activity as ImageSelectorActivity
         activity.preview(position)
     }
 
     private fun updatePhotos(folder: Folder) {
-        val currentFolder = dataBinding.vm?.currentFolder?.value
+        val currentFolder = binding.vm?.currentFolder?.value
         if (folder == currentFolder) {
             return
         }
 
         folder.isSelected = true
         currentFolder?.isSelected = false
-        dataBinding.vm?.updateCurrentFolder(folder)
+        binding.vm?.updateCurrentFolder(folder)
 
-        folderView.setText(folder.name)
-        list.scrollToPosition(0)
+        binding.folderView.setText(folder.name)
+        binding.list.scrollToPosition(0)
     }
 
     private val scrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)
             if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                timeLine.clearAnimation()
-                AnimatorUtils.alpha(timeLine, timeLine.alpha, 0f, 800)
+                binding.timeLine.clearAnimation()
+                AnimatorUtils.alpha(binding.timeLine, binding.timeLine.alpha, 0f, 800)
             } else {
-                timeLine.clearAnimation()
-                AnimatorUtils.alpha(timeLine, timeLine.alpha, 1.0f, 800)
+                binding.timeLine.clearAnimation()
+                AnimatorUtils.alpha(binding.timeLine, binding.timeLine.alpha, 1.0f, 800)
             }
         }
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
             val layoutManager: GridLayoutManager = recyclerView.layoutManager as GridLayoutManager
-            if (timeLine.alpha >= 0.15f) {
+            if (binding.timeLine.alpha >= 0.15f) {
                 val image = adapter.getItem(layoutManager.findFirstVisibleItemPosition())
-                timeLine.text = DateUtils.formatFriendly(image.modifyDate * 1000)
+                binding.timeLine.text = DateUtils.formatFriendly(image.modifyDate * 1000)
             }
         }
     }

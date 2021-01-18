@@ -10,9 +10,12 @@ import android.view.WindowManager
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.viewbinding.ViewBinding
 import com.ishow.common.R
+import com.ishow.common.extensions.binding.ActivityBinding
 
 /**
  * inflate 方便实现
@@ -130,3 +133,8 @@ fun AppCompatActivity.normalWindow(color: Int? = null) {
 fun AppCompatActivity.setSystemUiVisibility(visibility: Int) {
     window.decorView.systemUiVisibility = visibility
 }
+
+/**
+ * 方便获取ViewDataBinding
+ */
+inline fun <reified T : ViewBinding> AppCompatActivity.binding() = ActivityBinding(T::class.java, this)

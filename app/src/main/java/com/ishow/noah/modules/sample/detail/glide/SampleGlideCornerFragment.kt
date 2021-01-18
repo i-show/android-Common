@@ -17,6 +17,6 @@ class SampleGlideCornerFragment : AppBindFragment<FragmentSampleGlideCornerBindi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dataBinding.imgUrl = "https://img.i-show.club/d.jpg"
+        binding.imgUrl = "https://img.i-show.club/d.jpg"
     }
 }

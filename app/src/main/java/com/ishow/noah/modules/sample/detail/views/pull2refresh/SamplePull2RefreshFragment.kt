@@ -44,7 +44,7 @@ class SamplePull2RefreshFragment : Pull2RefreshFragment<FSamplePull2refreshBindi
     }
 
     override fun onLoadData(v: View, pager: Int, refresh: Boolean) {
-        dataBinding.vm?.getData(pager)
+        binding.vm?.getData(pager)
     }
 
     override fun hasStatusView(): Boolean {

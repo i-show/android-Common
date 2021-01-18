@@ -22,9 +22,10 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import com.ishow.common.R
+import com.ishow.common.databinding.WidgetShowPhotoBinding
+import com.ishow.common.extensions.binding
 import com.ishow.common.utils.DeviceUtils
 import com.ishow.common.widget.dialog.BaseDialog
-import kotlinx.android.synthetic.main.widget_show_photo.*
 
 /**
  * 查看大图的Dialog
@@ -34,12 +35,14 @@ class ShowPhotoDialog(context: Context) : BaseDialog(context, R.style.Theme_Dial
      * String格式的Url
      */
     private var urlList: MutableList<String> = mutableListOf()
+
     /**
      * Android 10以后的Uri
      */
     private var uriList: MutableList<Uri> = mutableListOf()
     private var mCurrentPosition: Int = 0
     private var isShowThumb = true
+    private val binding: WidgetShowPhotoBinding by binding()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,13 +54,13 @@ class ShowPhotoDialog(context: Context) : BaseDialog(context, R.style.Theme_Dial
         adapter.setDialog(this)
         adapter.setShowThumb(isShowThumb)
 
-        pager.adapter = adapter
-        pager.currentItem = mCurrentPosition
+        binding.pager.adapter = adapter
+        binding.pager.currentItem = mCurrentPosition
 
-        indicator.setViewPager(pager)
+        binding.indicator.setViewPager(binding.pager)
         // 只有一张图片的时候不需要显示指示器
         if (urlList.size == 1) {
-            indicator.visibility = View.GONE
+            binding.indicator.visibility = View.GONE
         }
     }
 

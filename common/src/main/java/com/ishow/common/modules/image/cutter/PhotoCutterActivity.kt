@@ -20,14 +20,14 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
-import com.ishow.common.R
 import com.ishow.common.app.activity.BaseActivity
-import com.ishow.common.extensions.compress
+import com.ishow.common.databinding.ActivityCropImageBinding
+import com.ishow.common.extensions.binding
 import com.ishow.common.extensions.loadUrl
+import com.ishow.common.extensions.compress
 import com.ishow.common.extensions.save
 import com.ishow.common.utils.image.select.SelectImageUtils
 import com.ishow.common.widget.loading.LoadingDialog
-import kotlinx.android.synthetic.main.activity_crop_image.*
 
 /**
  * 图片剪切界面
@@ -37,15 +37,16 @@ class PhotoCutterActivity : BaseActivity() {
 
     private lateinit var compressFormat: Bitmap.CompressFormat
 
+    private val binding: ActivityCropImageBinding by binding()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_crop_image)
         val intent = intent
         val path = intent.getStringExtra(KEY_PATH)
         val x = intent.getIntExtra(KEY_RATIO_X, 1)
         val y = intent.getIntExtra(KEY_RATIO_Y, 1)
-        cropView.setCustomRatio(x, y)
-        cropView.loadUrl(path)
+        binding.cropView.setCustomRatio(x, y)
+        binding.cropView.loadUrl(path)
     }
 
 
@@ -62,7 +63,7 @@ class PhotoCutterActivity : BaseActivity() {
     override fun onRightClick(v: View) {
         super.onRightClick(v)
         val dialog = LoadingDialog.show(this, null)
-        val cachePath = cropView.croppedBitmap.compress(compressFormat).save(context, compressFormat)
+        val cachePath = binding.cropView.croppedBitmap.compress(compressFormat).save(context, compressFormat)
         val intent = Intent()
         intent.putExtra(KEY_RESULT_PATH, cachePath)
         setResult(SelectImageUtils.Request.REQUEST_CROP_IMAGE, intent)
@@ -75,18 +76,22 @@ class PhotoCutterActivity : BaseActivity() {
          * 图片路径
          */
         const val KEY_PATH = "crop_image_path"
+
         /**
          * 生成图片的路径
          */
         const val KEY_RESULT_PATH = "result_cutting_image_path"
+
         /**
          * x 轴比例
          */
         const val KEY_RATIO_X = "result_cutting_image_ratio_x"
+
         /**
          * y 轴比例
          */
         const val KEY_RATIO_Y = "result_cutting_image_ratio_y"
+
         /**
          * format
          */

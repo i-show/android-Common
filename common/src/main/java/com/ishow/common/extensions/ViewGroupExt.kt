@@ -1,9 +1,14 @@
 package com.ishow.common.extensions
 
 import android.animation.LayoutTransition
+import android.app.Dialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.ViewDataBinding
+import androidx.viewbinding.ViewBinding
+import com.ishow.common.extensions.binding.DialogBinding
+import com.ishow.common.extensions.binding.ViewGroupBinding
 
 /**
  * inflate 方便实现
@@ -21,3 +26,8 @@ fun ViewGroup.animationChild() {
     this.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 }
 
+
+/**
+ * 方便获取ViewDataBinding
+ */
+inline fun <reified T : ViewBinding> ViewGroup.binding() = ViewGroupBinding(T::class.java, context.inflater)

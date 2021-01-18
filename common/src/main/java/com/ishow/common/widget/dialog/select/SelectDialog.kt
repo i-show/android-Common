@@ -19,15 +19,16 @@ package com.ishow.common.widget.dialog.select
 
 import android.content.Context
 import android.os.Bundle
+import android.view.LayoutInflater
 import androidx.recyclerview.widget.RecyclerView
 import com.ishow.common.BR
 import com.ishow.common.R
 import com.ishow.common.adapter.BindAdapter
-import com.ishow.common.entries.utils.IUnitSelect
+import com.ishow.common.databinding.DialogUnitSelectBinding
+import com.ishow.common.extensions.binding
 import com.ishow.common.extensions.dp2px
 import com.ishow.common.widget.dialog.BaseDialog
 import com.ishow.common.widget.recyclerview.itemdecoration.ColorDecoration
-import kotlinx.android.synthetic.main.dialog_unit_select.*
 
 /**
  * Created by yuhaiyang on 2016/10/31.
@@ -44,8 +45,11 @@ class SelectDialog<T>(context: Context) : BaseDialog(context, R.style.Theme_Dial
             adapter.data = data
         }
     var maxHeight = 300.dp2px()
+
     @Suppress("MemberVisibilityCanBePrivate")
     var itemDecoration: RecyclerView.ItemDecoration = ColorDecoration(context)
+
+    private val binding: DialogUnitSelectBinding by binding()
 
     init {
         adapter.addLayout(BR.itemUnitSelect, R.layout.item_dialog_selet)
@@ -59,11 +63,10 @@ class SelectDialog<T>(context: Context) : BaseDialog(context, R.style.Theme_Dial
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.dialog_unit_select)
-
-        list.maxHeight = maxHeight
-        list.addItemDecoration(itemDecoration)
-        list.adapter = adapter
+        DialogUnitSelectBinding.inflate(LayoutInflater.from(context))
+        binding.list.maxHeight = maxHeight
+        binding.list.addItemDecoration(itemDecoration)
+        binding.list.adapter = adapter
     }
 
     fun addLayout(variableId: Int, layoutRes: Int, viewType: Int = 0) {

@@ -27,6 +27,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.*
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.ishow.common.R
 import com.ishow.common.utils.StringUtils
 import com.ishow.common.utils.ToastUtils
@@ -41,6 +42,12 @@ import com.ishow.common.widget.dialog.BaseDialog
 fun Context.inflate(layoutRes: Int): View {
     return LayoutInflater.from(this).inflate(layoutRes, null)
 }
+
+/**
+ * 获取LayoutInflater
+ */
+inline val Context.inflater: LayoutInflater
+    get() = LayoutInflater.from(this)
 
 /**
  * Toast提示
@@ -58,6 +65,22 @@ fun Context.toast(message: String?, duration: Int = Toast.LENGTH_SHORT) {
  */
 fun Context.toast(@StringRes message: Int, duration: Int = Toast.LENGTH_SHORT) {
     ToastUtils.show(this, message, duration)
+}
+
+/**
+ * Toast提示
+ * @param message 内容
+ */
+fun Context.toastLong(message: String) {
+    ToastUtils.show(this, message, Toast.LENGTH_LONG)
+}
+
+/**
+ * Toast提示
+ * @param message 内容
+ */
+fun Context.toastLong(@StringRes message: Int) {
+    ToastUtils.show(this, message, Toast.LENGTH_LONG)
 }
 
 /**
@@ -148,29 +171,54 @@ fun Context.getDimensionPixelSize(@DimenRes id: Int) = resources.getDimensionPix
 inline val Context.inputManager: InputMethodManager
     get() = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
 
+/**
+ * 锁屏管理
+ */
 inline val Context.keyguardManager: KeyguardManager
     get() = getSystemService(KEYGUARD_SERVICE) as KeyguardManager
 
+/**
+ * TelephonyManager 获取
+ */
 inline val Context.telephonyManager: TelephonyManager
     get() = getSystemService(TELEPHONY_SERVICE) as TelephonyManager
 
+/**
+ * DevicePolicyManager 获取
+ */
 inline val Context.devicePolicyManager: DevicePolicyManager
     get() = getSystemService(DEVICE_POLICY_SERVICE) as DevicePolicyManager
 
+/**
+ * ConnectivityManager 获取
+ */
 inline val Context.connectivityManager: ConnectivityManager
     get() = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
 
+/**
+ * AlarmManager 获取
+ */
 inline val Context.alarmManager: AlarmManager
     get() = getSystemService(ALARM_SERVICE) as AlarmManager
 
+/**
+ * ClipboardManager 获取
+ */
 inline val Context.clipboardManager: ClipboardManager
     get() = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
 
+/**
+ * LocationManager 获取
+ */
 inline val Context.locationManager: LocationManager
     get() = getSystemService(LOCATION_SERVICE) as LocationManager
 
+/**
+ * NotificationManager 获取
+ */
 inline val Context.notificationManager: NotificationManager
-    get() = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    get() = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+
 /**
  * 跳转浏览器
  */

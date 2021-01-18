@@ -20,8 +20,15 @@ import com.ishow.common.utils.databinding.bus.Event
 import com.ishow.common.widget.StatusView
 import java.lang.reflect.ParameterizedType
 
-abstract class BindFragment<T : ViewDataBinding, VM : BaseViewModel> : BaseFragment() {
-    protected lateinit var dataBinding: T
+abstract class BindFragment<BINDING : ViewDataBinding, VM : BaseViewModel> : BaseFragment() {
+    /**
+     * Binding的实现类
+     */
+    protected lateinit var binding: BINDING
+
+    /**
+     * VM的实现类
+     */
     protected var vm: VM? = null
 
     @Suppress("UNCHECKED_CAST")
@@ -33,21 +40,20 @@ abstract class BindFragment<T : ViewDataBinding, VM : BaseViewModel> : BaseFragm
     abstract fun getLayout(): Int
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = bindContentView(container, getLayout())
-        initViews(view)
-        return view
+        return bindContentView(container, getLayout())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initViews(view)
         bindDataBindingValues()
         bindViewModel()
     }
 
     protected open fun bindContentView(container: ViewGroup?, layoutId: Int): View {
-        dataBinding = DataBindingUtil.inflate(layoutInflater, layoutId, container, false)
-        dataBinding.lifecycleOwner = viewLifecycleOwner
-        return dataBinding.root
+        binding = DataBindingUtil.inflate(layoutInflater, layoutId, container, false)
+        binding.lifecycleOwner = viewLifecycleOwner
+        return binding.root
     }
 
     protected open fun initViews(view: View) {
@@ -56,7 +62,7 @@ abstract class BindFragment<T : ViewDataBinding, VM : BaseViewModel> : BaseFragm
 
     @Suppress("MemberVisibilityCanBePrivate")
     protected fun bindDataBindingValues() {
-        ReflectionUtils.invokeMethod(dataBinding, "setFragment", this, javaClass)
+        ReflectionUtils.invokeMethod(binding, "setFragment", this, javaClass, false)
     }
 
     /**
@@ -84,14 +90,14 @@ abstract class BindFragment<T : ViewDataBinding, VM : BaseViewModel> : BaseFragm
     protected open fun initViewModel(vm: VM) {
         val fragment = viewLifecycleOwner
         // dataBinding 设置vm参数
-        ReflectionUtils.invokeMethod(dataBinding, "setVm", vm, viewModelClass)
+        ReflectionUtils.invokeMethod(binding, "setVm", vm, viewModelClass, false)
         lifecycle.addObserver(vm)
 
-        vm.loadingStatus.observe(fragment, Observer { changeLoadingStatus(it) })
-        vm.errorStatus.observe(fragment, Observer { changeErrorStatus(it) })
-        vm.successStatus.observe(fragment, Observer { changeSuccessStatus(it) })
-        vm.emptyStatus.observe(fragment, Observer { changeEmptyStatus(it) })
-        vm.toastMessage.observe(fragment, Observer { showToast(it) })
+        vm.loadingStatus.observe(fragment, { changeLoadingStatus(it) })
+        vm.errorStatus.observe(fragment, { changeErrorStatus(it) })
+        vm.successStatus.observe(fragment, { changeSuccessStatus(it) })
+        vm.emptyStatus.observe(fragment, { changeEmptyStatus(it) })
+        vm.toastMessage.observe(fragment, { showToast(it) })
     }
 
     override fun onDestroy() {
