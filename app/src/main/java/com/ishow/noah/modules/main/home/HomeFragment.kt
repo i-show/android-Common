@@ -1,36 +1,21 @@
 package com.ishow.noah.modules.main.home
 
 import android.annotation.SuppressLint
-import android.app.IntentService
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.annotation.Keep
 import androidx.annotation.RequiresApi
-import com.arialyy.annotations.Download
-import com.arialyy.aria.core.Aria
-import com.arialyy.aria.core.common.HttpOption
-import com.arialyy.aria.core.download.m3u8.M3U8VodOption
-import com.arialyy.aria.core.task.DownloadTask
-import com.ishow.common.extensions.*
-import com.ishow.common.utils.DeviceUtils
-import com.ishow.common.utils.http.ip.IpUtils
 import com.ishow.common.utils.router.AppRouter
 import com.ishow.common.widget.PrintView
 import com.ishow.common.widget.announcement.IAnnouncementData
 import com.ishow.common.widget.load.LoadSir
 import com.ishow.common.widget.load.Loader
-import com.ishow.common.widget.load.ext.sirEmpty
-import com.ishow.common.widget.load.ext.sirLoading
-import com.ishow.common.widget.load.ext.withLoadSir
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FHomeBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 import com.ishow.noah.ui.widget.load.AppEmptyLoad
 import com.ishow.noah.ui.widget.load.AppLoadingStatus
-import kotlinx.android.synthetic.main.f_home.*
 
 
 class Test(override val title: String) : IAnnouncementData {
@@ -53,7 +38,7 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
             .build()
         LoadSir.init(loader = loader)
 
-        bu1.setOnClickListener {
+        binding.bu1.setOnClickListener {
            val result =  TestAAA.missingNumber(intArrayOf(9,6,4,2,3,5,7,0,1))
             Log.i("yhy" ,"result = $result")
         }
@@ -62,7 +47,7 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
 
     override fun initViews(view: View) {
         super.initViews(view)
-        PrintView.init(printView)
+        PrintView.init(binding.printView)
         PrintView.reset()
     }
 

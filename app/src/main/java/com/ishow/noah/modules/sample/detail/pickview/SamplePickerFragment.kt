@@ -9,7 +9,6 @@ import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSamplePickviewBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
-import kotlinx.android.synthetic.main.fragment_sample_pickview.*
 
 /**
  * 选择View的Sample
@@ -19,13 +18,13 @@ class SamplePickerFragment : AppBindFragment<FragmentSamplePickviewBinding, AppB
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        pickerView.setAdapter(SamplePickerAdapter())
+        binding.pickerView.setAdapter(SamplePickerAdapter())
     }
 
     fun onViewClick(v: View?) {
         when (v?.id) {
             R.id.getTime -> {
-                val time = DateUtils.format(datePicker.currentTime, DateUtils.FORMAT_YMDHMS)
+                val time = DateUtils.format(binding.datePicker.currentTime, DateUtils.FORMAT_YMDHMS)
                 dialog(time)
             }
 

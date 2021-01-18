@@ -25,15 +25,16 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.core.content.FileProvider
+import com.ishow.common.extensions.binding
 import com.ishow.common.extensions.toJSON
 import com.ishow.common.utils.DeviceUtils
 import com.ishow.common.utils.IntentUtils
 import com.ishow.common.utils.StorageUtils
 import com.ishow.common.utils.log.LogUtils
 import com.ishow.noah.R
+import com.ishow.noah.databinding.DialogVersionBinding
 import com.ishow.noah.entries.Version
 import com.ishow.noah.manager.VersionManager
-import kotlinx.android.synthetic.main.dialog_version.*
 import java.io.File
 
 /**
@@ -43,16 +44,15 @@ import java.io.File
 
 class VersionDialog(context: Context) : Dialog(context, R.style.Theme_Dialog_Transparent), View.OnClickListener {
 
-
+    private val binding :DialogVersionBinding by binding()
     init {
         setCancelable(false)
     }
 
     override fun onCreate(savedInstanceState: Bundle) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.dialog_version)
-        cancel.setOnClickListener(this)
-        submit.setOnClickListener(this)
+        binding.cancel.setOnClickListener(this)
+        binding.submit.setOnClickListener(this)
         init()
     }
 
@@ -65,17 +65,17 @@ class VersionDialog(context: Context) : Dialog(context, R.style.Theme_Dialog_Tra
         }
 
 
-        message.text = version.getDescription(context)
+        binding.message.text = version.getDescription(context)
 
         if (version.isForceUpdate) {
-            cancel.visibility = View.GONE
-            ignore.visibility = View.GONE
-            submit.setBackgroundResource(R.drawable.base_dialog_button_whole)
+            binding.cancel.visibility = View.GONE
+            binding.ignore.visibility = View.GONE
+            binding.submit.setBackgroundResource(R.drawable.base_dialog_button_whole)
         } else {
-            ignore.visibility = View.VISIBLE
-            cancel.visibility = View.VISIBLE
-            cancel.setBackgroundResource(R.drawable.base_dialog_button_left)
-            submit.setBackgroundResource(R.drawable.base_dialog_button_right)
+            binding.ignore.visibility = View.VISIBLE
+            binding.cancel.visibility = View.VISIBLE
+            binding.cancel.setBackgroundResource(R.drawable.base_dialog_button_left)
+            binding.submit.setBackgroundResource(R.drawable.base_dialog_button_right)
         }
     }
 
@@ -112,7 +112,7 @@ class VersionDialog(context: Context) : Dialog(context, R.style.Theme_Dialog_Tra
     private fun ignoreVersion() {
         StorageUtils.save(Version.Key.IGNORE_NOW, true)
 
-        if (ignore.isChecked) {
+        if (binding.ignore.isChecked) {
             return
         }
 

@@ -9,7 +9,6 @@ import com.ishow.common.widget.PrintView
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FOkHttpCacheBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
-import kotlinx.android.synthetic.main.f_ok_http_cache.*
 import okhttp3.*
 import java.io.IOException
 import java.util.concurrent.TimeUnit
@@ -27,10 +26,10 @@ class OkHttpCacheFragment : AppBindFragment<FOkHttpCacheBinding, OkHttpCacheView
         super.onViewCreated(view, savedInstanceState)
         initOkHttp()
 
-        PrintView.init(printView)
+        PrintView.init(binding.printView)
 
 
-        get.setOnClickListener {
+        binding.get.setOnClickListener {
             PrintView.reset()
             PrintView.print("=======start request =======")
             val request = Request.Builder()

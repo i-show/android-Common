@@ -11,7 +11,6 @@ import android.view.View
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FFileSaveBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
-import kotlinx.android.synthetic.main.f_file_save.*
 
 
 /**
@@ -24,7 +23,7 @@ class SampleFileSaveFragment : AppBindFragment<FFileSaveBinding, SampleFileSaveV
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        save.setOnClickListener { saveFile()}
+        binding.save.setOnClickListener { saveFile()}
     }
 
 

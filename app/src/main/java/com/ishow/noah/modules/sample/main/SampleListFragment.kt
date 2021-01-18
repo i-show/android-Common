@@ -10,7 +10,6 @@ import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
 import com.ishow.noah.modules.sample.SampleManager
 import com.ishow.noah.modules.sample.entries.Sample
-import kotlinx.android.synthetic.main.fragment_sample_list.*
 
 /**
  * Created by yuhaiyang on 2019-08-20.
@@ -30,7 +29,7 @@ class SampleListFragment : AppBindFragment<FragmentSampleListBinding, AppBaseVie
         adapter.setOnItemClickListener { gotoDetail(adapter.getItem(it)) }
         adapter.addLayout(BR.item, R.layout.item_sample_main)
         adapter.data = SampleManager.samples
-        list.adapter = adapter
+        binding.list.adapter = adapter
     }
 
     private fun gotoDetail(entry: Sample) {

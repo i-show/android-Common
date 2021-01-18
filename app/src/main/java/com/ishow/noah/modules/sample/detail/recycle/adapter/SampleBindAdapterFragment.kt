@@ -9,7 +9,6 @@ import com.ishow.noah.R
 import com.ishow.noah.databinding.FSampleBindAdapterBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 import com.ishow.noah.modules.sample.entries.Sample
-import kotlinx.android.synthetic.main.f_sample_bind_adapter.*
 
 /**
  * Created by yuhaiyang on 2020-02-14.
@@ -32,7 +31,7 @@ class SampleBindAdapterFragment : AppBindFragment<FSampleBindAdapterBinding, Sam
         adapter.setOnItemChildClickListener(R.id.button) { position, viewId ->
             toast("点击了 $position, id为：$viewId")
         }
-        list.adapter = adapter
+        binding.list.adapter = adapter
 
         adapter.plusData(Sample("11", SampleBindAdapterFragment::class.java))
         adapter.plusData(Sample("11", SampleBindAdapterFragment::class.java))

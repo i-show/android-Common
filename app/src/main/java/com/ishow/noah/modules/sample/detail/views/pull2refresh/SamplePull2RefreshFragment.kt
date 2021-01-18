@@ -12,7 +12,6 @@ import com.ishow.noah.R
 import com.ishow.noah.databinding.FSamplePull2refreshBinding
 import com.ishow.noah.modules.base.mvvm.view.Pull2RefreshFragment
 import com.ishow.noah.modules.sample.entries.SampleTestPage
-import kotlinx.android.synthetic.main.f_sample_pull2refresh.*
 
 /**
  * Created by yuhaiyang on 2019-09-19.
@@ -29,10 +28,10 @@ class SamplePull2RefreshFragment : Pull2RefreshFragment<FSamplePull2refreshBindi
 
         adapter.addLayout(BR.item, R.layout.i_sample_pull2refresh)
         val footer = LoadMoreAdapter(adapter)
-        list.adapter = footer
+        binding.list.adapter = footer
 
-        pull2refresh.setHeader(GoogleStyleHeader(context))
-        pull2refresh.setFooter(footer)
+        binding.pull2refresh.setHeader(GoogleStyleHeader(context))
+        binding.pull2refresh.setFooter(footer)
     }
 
     override fun initViewModel(vm: SamplePull2RefreshViewModel) {

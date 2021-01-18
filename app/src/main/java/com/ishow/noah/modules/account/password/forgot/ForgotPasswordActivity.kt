@@ -34,7 +34,6 @@ import com.ishow.noah.databinding.ActivityPasswordBinding
 import com.ishow.noah.modules.account.login.LoginActivity
 import com.ishow.noah.modules.base.mvvm.view.AppBindActivity
 import com.ishow.noah.utils.checker.PasswordChecker
-import kotlinx.android.synthetic.main.activity_password.*
 
 /**
  * Created by yuhaiyang on 2018/8/8.
@@ -61,29 +60,29 @@ class ForgotPasswordActivity : AppBindActivity<ActivityPasswordBinding, ForgotPa
     override fun initViews() {
         super.initViews()
         mVerifyCodeWatcher = VerifyCodeTextWatcher()
-            .setEnableView(sendVerifyCode)
-            .addChecker(phone, PhoneNumberChecker())
+            .setEnableView(binding.sendVerifyCode)
+            .addChecker(binding.phone, PhoneNumberChecker())
 
         mSubmitWatcher = EnableTextWatcher()
-            .setEnableView(submit)
-            .addChecker(phone, PhoneNumberChecker())
-            .addChecker(verifyCode)
-            .addChecker(password, PasswordChecker(context))
-            .addChecker(ensurePassword, PasswordChecker(context))
+            .setEnableView(binding.submit)
+            .addChecker(binding.phone, PhoneNumberChecker())
+            .addChecker(binding.verifyCode)
+            .addChecker(binding.password, PasswordChecker(context))
+            .addChecker(binding.ensurePassword, PasswordChecker(context))
     }
 
     fun onViewClick(v: View) {
         when (v.id) {
             R.id.sendVerifyCode -> {
-                sendVerifyCode.showLoading()
-                mViewModel.sendVerifyCode(phone.inputText)
+                binding.sendVerifyCode.showLoading()
+                mViewModel.sendVerifyCode(binding.phone.inputText)
             }
             R.id.submit -> {
                 mViewModel.resetPassword(
-                    phone.inputText,
-                    verifyCode.inputText,
-                    password.inputText,
-                    ensurePassword.inputText
+                    binding.phone.inputText,
+                    binding.verifyCode.inputText,
+                    binding.password.inputText,
+                    binding.ensurePassword.inputText
                 )
             }
         }
@@ -97,9 +96,9 @@ class ForgotPasswordActivity : AppBindActivity<ActivityPasswordBinding, ForgotPa
     private fun onVerifyCodeStatusChanged(status: Event<Boolean>) {
         status.getContent()?.let { success ->
             if (success) {
-                sendVerifyCode.startTiming()
+                binding.sendVerifyCode.startTiming()
             } else {
-                sendVerifyCode.reset()
+                binding.sendVerifyCode.reset()
             }
         }
     }

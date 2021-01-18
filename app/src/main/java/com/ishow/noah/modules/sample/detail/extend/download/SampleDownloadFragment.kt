@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.View
 import androidx.core.content.FileProvider
 import com.arialyy.annotations.Download
-import com.arialyy.aria.core.Aria
 import com.ishow.common.extensions.toast
 import com.ishow.common.utils.download.DownloadManager
 import com.ishow.common.utils.download.DownloadStatusInfo
@@ -16,7 +15,6 @@ import com.ishow.common.utils.download.DownloadTask
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FSampleDownloadBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
-import kotlinx.android.synthetic.main.f_sample_download.*
 
 
 /**
@@ -31,11 +29,11 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        download1.setOnClickListener { download1() }
-        download2.setOnClickListener { download2() }
-        download3.setOnClickListener { download3() }
-        download4.setOnClickListener { download4() }
-        downloadOthers.setOnClickListener { downloadOthers() }
+        binding.download1.setOnClickListener { download1() }
+        binding.download2.setOnClickListener { download2() }
+        binding.download3.setOnClickListener { download3() }
+        binding.download4.setOnClickListener { download4() }
+        binding.downloadOthers.setOnClickListener { downloadOthers() }
 
 //        // 进行注册
 //        Aria.download(this).register()
@@ -64,7 +62,7 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
     private fun update1(current: Long, total: Long, startTime: Long) {
         val time = (System.currentTimeMillis() - startTime) / 1000
         val text = "下载进度：$current / $total, 耗时：$time"
-        mainThread { status1.text = text }
+        mainThread { binding.status1.text = text }
     }
 
 
@@ -90,7 +88,7 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
     private fun update2(current: Long, total: Long, startTime: Long) {
         val time = (System.currentTimeMillis() - startTime) / 1000
         val text = "下载进度：${current / total.toFloat()}, 耗时：$time"
-        mainThread { status2.text = text }
+        mainThread { binding.status2.text = text }
     }
 
     private var task3: DownloadTask? = null
@@ -113,7 +111,7 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
     private fun update3(current: Long, total: Long, startTime: Long) {
         val time = (System.currentTimeMillis() - startTime) / 1000
         val text = "下载进度：${current / total.toFloat()}, 耗时：$time"
-        mainThread { status3.text = text }
+        mainThread { binding.status3.text = text }
     }
 
 
@@ -132,7 +130,7 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
     private fun update4(current: Long, total: Long, startTime: Long) = mainThread {
         val time = (System.currentTimeMillis() - startTime) / 1000
         val text = "下载进度：${current / total.toFloat()}, 耗时：$time"
-        mainThread { status4.text = text }
+        mainThread { binding.status4.text = text }
     }
 
 
@@ -159,7 +157,7 @@ class SampleDownloadFragment : AppBindFragment<FSampleDownloadBinding, SampleDow
     private fun updateOthers(current: Int) = mainThread {
         val time = (System.currentTimeMillis() - downloadOthersStart) / 1000
         val text = "下载进度：${current}, 耗时：$time"
-        mainThread { statusOthers.text = text }
+        mainThread { binding.statusOthers.text = text }
     }
 
 

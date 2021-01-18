@@ -9,7 +9,6 @@ import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSampleStatusViewBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
-import kotlinx.android.synthetic.main.fragment_sample_status_view.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -23,15 +22,15 @@ class SampleStatusViewFragment : AppBindFragment<FragmentSampleStatusViewBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        statusView.setOnStatusViewListener(this)
+        binding.statusView.setOnStatusViewListener(this)
         requestLoading()
     }
 
     fun onViewClick(v: View) {
         when (v.id) {
             R.id.loading -> requestLoading()
-            R.id.empty -> statusView.showEmpty()
-            R.id.error -> statusView.showError()
+            R.id.empty -> binding.statusView.showEmpty()
+            R.id.error -> binding.statusView.showError()
         }
     }
 
@@ -42,29 +41,29 @@ class SampleStatusViewFragment : AppBindFragment<FragmentSampleStatusViewBinding
     }
 
     private fun requestLoading1() {
-        statusView.showLoading("tag1")
+        binding.statusView.showLoading("tag1")
         lifecycleScope.launch {
             delay(3000)
             mainThread {
-                statusView.dismiss("tag1")
-                statusView.showError()
+                binding.statusView.dismiss("tag1")
+                binding.statusView.showError()
             }
         }
     }
 
     private fun requestLoading2() {
-        statusView.showLoading("tag2")
+        binding.statusView.showLoading("tag2")
         lifecycleScope.launch {
             delay(7000)
-            mainThread { statusView.dismiss("tag2") }
+            mainThread { binding.statusView.dismiss("tag2") }
         }
     }
 
     private fun requestLoading3() {
-        statusView.showLoading("tag3")
+        binding.statusView.showLoading("tag3")
         lifecycleScope.launch {
             delay(10000)
-            mainThread { statusView.dismiss("tag3") }
+            mainThread { binding.statusView.dismiss("tag3") }
         }
     }
 

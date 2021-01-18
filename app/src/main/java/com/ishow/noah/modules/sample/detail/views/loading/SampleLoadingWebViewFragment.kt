@@ -18,14 +18,11 @@ package com.ishow.noah.modules.sample.detail.views.loading
 
 import android.os.Bundle
 import android.view.View
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import com.ishow.common.utils.WebViewUtils
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSampleLoadingWebviewBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
-import kotlinx.android.synthetic.main.fragment_sample_loading_webview.*
 
 /**
  * Created by yuhaiyang on 2017/6/26.
@@ -40,7 +37,7 @@ class SampleLoadingWebViewFragment : AppBindFragment<FragmentSampleLoadingWebvie
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        WebViewUtils.init(webView)
-        webView.loadUrl("http://sdk.moguxingqiu.cn/moku-planet-sdk-h5/index.html")
+        WebViewUtils.init(binding.webView)
+        binding.webView.loadUrl("https://juejin.cn/")
     }
 }

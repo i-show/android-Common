@@ -29,7 +29,6 @@ import com.ishow.noah.modules.account.register.RegisterActivity
 import com.ishow.noah.modules.base.mvvm.view.AppBindActivity
 import com.ishow.noah.modules.main.index.MainActivity
 import com.ishow.noah.utils.checker.PasswordChecker
-import kotlinx.android.synthetic.main.activity_login.*
 
 
 /**
@@ -48,9 +47,9 @@ class LoginActivity : AppBindActivity<ActivityLoginBinding, LoginViewModel>() {
 
     override fun initViews() {
         super.initViews()
-        enableWatcher.setEnableView(login)
-            .addChecker(account, PhoneNumberChecker())
-            .addChecker(password, PasswordChecker(context))
+        enableWatcher.setEnableView(binding.login)
+            .addChecker(binding.account, PhoneNumberChecker())
+            .addChecker(binding.password, PasswordChecker(context))
     }
 
     override fun initNecessaryData() {
@@ -62,7 +61,7 @@ class LoginActivity : AppBindActivity<ActivityLoginBinding, LoginViewModel>() {
         when (v.id) {
 
             R.id.login -> {
-                binding.vm?.login(account.inputText, password.inputText)
+                binding.vm?.login(binding.account.inputText, binding.password.inputText)
             }
 
             R.id.register -> {

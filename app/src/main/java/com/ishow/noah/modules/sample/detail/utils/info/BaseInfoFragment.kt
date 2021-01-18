@@ -11,7 +11,6 @@ import com.ishow.common.extensions.toast
 import com.ishow.noah.R
 import com.ishow.noah.databinding.FBaseInfoBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
-import kotlinx.android.synthetic.main.f_base_info.*
 
 /**
  * Created by yuhaiyang on 2020-03-18.
@@ -23,17 +22,17 @@ class BaseInfoFragment : AppBindFragment<FBaseInfoBinding, BaseInfoViewModel>() 
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        model.text = "model：${Build.MODEL}"
-        model.setOnLongClickListener { copy(Build.MODEL) }
+        binding.model.text = "model：${Build.MODEL}"
+        binding. model.setOnLongClickListener { copy(Build.MODEL) }
 
-        manufacturer.text = "manufacturer：${Build.MANUFACTURER}"
-        manufacturer.setOnLongClickListener { copy(Build.MANUFACTURER) }
+        binding.manufacturer.text = "manufacturer：${Build.MANUFACTURER}"
+        binding.manufacturer.setOnLongClickListener { copy(Build.MANUFACTURER) }
 
-        version.text = "version：${Build.VERSION.RELEASE}"
-        version.setOnLongClickListener { copy(Build.VERSION.RELEASE) }
+        binding.version.text = "version：${Build.VERSION.RELEASE}"
+        binding.version.setOnLongClickListener { copy(Build.VERSION.RELEASE) }
 
-        display.text = "display：${Build.DISPLAY}"
-        display.setOnLongClickListener { copy(Build.DISPLAY) }
+        binding.display.text = "display：${Build.DISPLAY}"
+        binding.display.setOnLongClickListener { copy(Build.DISPLAY) }
     }
 
     private fun copy(str: String) :Boolean{

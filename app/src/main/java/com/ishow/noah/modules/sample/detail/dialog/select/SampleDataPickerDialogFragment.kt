@@ -31,7 +31,6 @@ import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSampleDataPickerBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
-import kotlinx.android.synthetic.main.fragment_sample_data_picker.*
 import java.util.*
 
 /**
@@ -72,7 +71,7 @@ class SampleDataPickerDialogFragment : AppBindFragment<FragmentSampleDataPickerB
         dialog.adapter.addLayout(BR.item, R.layout.item_sample_dialog_selet)
         dialog.data = dataList
         dialog.setOnSelectedListener {
-            select.text = it.getTitle(context)
+            binding.select.text = it.getTitle(context)
         }
         dialog.show()
     }
@@ -82,7 +81,7 @@ class SampleDataPickerDialogFragment : AppBindFragment<FragmentSampleDataPickerB
         val dialog = PickerDialog<DemoEntry>(context)
         dialog.setData(dataList)
         dialog.setOnSelectedListener {
-            picker.text = it.getTitle(context)
+            binding.picker.text = it.getTitle(context)
         }
 
         dialog.show()

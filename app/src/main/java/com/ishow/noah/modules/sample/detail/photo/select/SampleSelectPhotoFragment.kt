@@ -32,7 +32,6 @@ import com.ishow.noah.R
 import com.ishow.noah.databinding.FragmentSampleSelectPhotoBinding
 import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 import com.ishow.noah.modules.base.mvvm.viewmodel.AppBaseViewModel
-import kotlinx.android.synthetic.main.fragment_sample_select_photo.*
 import java.io.File
 
 /**
@@ -60,8 +59,8 @@ class SampleSelectPhotoFragment : AppBindFragment<FragmentSampleSelectPhotoBindi
         mAdapter.setOnItemClickListener { showPhoto(it) }
         mAdapter.addLayout(BR.imgUrl, R.layout.item_sample_select_photo)
 
-        list.addItemDecoration(SpacingDecoration(context, R.dimen.photo_selector_item_gap))
-        list.adapter = mAdapter
+        binding.list.addItemDecoration(SpacingDecoration(context, R.dimen.photo_selector_item_gap))
+        binding.list.adapter = mAdapter
     }
 
 
