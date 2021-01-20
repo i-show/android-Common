@@ -17,12 +17,6 @@ import com.ishow.noah.modules.base.mvvm.view.AppBindFragment
 import com.ishow.noah.ui.widget.load.AppEmptyLoad
 import com.ishow.noah.ui.widget.load.AppLoadingStatus
 
-
-class Test(override val title: String) : IAnnouncementData {
-
-}
-
-
 /**
  * Created by yuhaiyang on 2020-05-11.
  */
@@ -39,10 +33,7 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
         LoadSir.init(loader = loader)
 
         binding.bu1.setOnClickListener {
-           val result =  TestAAA.missingNumber(intArrayOf(9,6,4,2,3,5,7,0,1))
-            Log.i("yhy" ,"result = $result")
         }
-
     }
 
     override fun initViews(view: View) {

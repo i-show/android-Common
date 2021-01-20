@@ -10,6 +10,7 @@ import com.ishow.noah.modules.base.mvvm.model.AppBaseModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
 
@@ -48,7 +49,9 @@ class AppModel private constructor() : AppBaseModel() {
      * 上传头像
      */
     suspend fun uploadAvatar(path: String): AppHttpResponse<String> = withContext(Dispatchers.IO) {
-        val body = RequestBody.create(MediaType.parse("image/jpg"), File(path))
+        val file =  File(path)
+        val requestFile = RequestBody.create(MediaType.parse("image/jpg"), file)
+        val body = MultipartBody.Part.createFormData("image", file.name, requestFile);
         return@withContext httpService.uploadAvatar(body)
     }
 

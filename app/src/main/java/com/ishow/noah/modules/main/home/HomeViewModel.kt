@@ -1,6 +1,5 @@
 package com.ishow.noah.modules.main.home
 
-import android.animation.ValueAnimator
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData

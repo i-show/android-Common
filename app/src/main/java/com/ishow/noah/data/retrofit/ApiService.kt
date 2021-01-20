@@ -8,10 +8,11 @@ import com.ishow.noah.entries.params.request.ForgotPasswordParams
 import com.ishow.noah.entries.params.request.LoginParams
 import com.ishow.noah.entries.params.request.RegisterParams
 import com.ishow.noah.modules.sample.entries.SampleTestPage
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
 
-interface AppRestService {
+interface ApiService {
     companion object {
         val BASE_URL: String
             get() =
@@ -48,9 +49,13 @@ interface AppRestService {
     @POST("account/forgotPassword")
     fun forgotPassword(@Body params: ForgotPasswordParams): AppHttpResponse<Any>
 
+    /**
+     *
+     */
     @Multipart
     @POST("account/uploadAvatar")
-    fun uploadAvatar(@Part("file\"; filename=\"image.jpg") file: RequestBody): AppHttpResponse<String>
+    // fun uploadAvatar(@Part("file\"; filename=\"image.jpg") file: RequestBody): AppHttpResponse<String>
+    fun uploadAvatar(@Part file:  MultipartBody.Part): AppHttpResponse<String>
 
     /**
      * TestPage

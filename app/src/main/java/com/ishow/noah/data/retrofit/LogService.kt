@@ -9,7 +9,7 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 import retrofit2.http.QueryMap
 
-interface LogRestService {
+interface LogService {
 
     @GET("a/log.gif")
     suspend fun log(@QueryMap params: HashMap<String, String>): AppHttpResponse<Any>

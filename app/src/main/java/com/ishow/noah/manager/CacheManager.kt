@@ -1,9 +1,5 @@
 package com.ishow.noah.manager
 
-import android.content.Context
-
-import java.lang.ref.WeakReference
-
 /**
  * Created by yuhaiyang on 2018/8/8.
  * 缓存管理
