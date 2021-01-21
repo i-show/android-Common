@@ -57,6 +57,5 @@ class ForgotPasswordViewModel(application: Application) : AppBaseViewModel(appli
                 toast(result.message)
             }
         }
-
     }
 }

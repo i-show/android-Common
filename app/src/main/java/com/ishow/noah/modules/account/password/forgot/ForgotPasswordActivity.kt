@@ -22,7 +22,6 @@ package com.ishow.noah.modules.account.password.forgot
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import com.ishow.common.extensions.toast
 import com.ishow.common.utils.databinding.bus.Event
 import com.ishow.common.utils.router.AppRouter
@@ -89,8 +88,8 @@ class ForgotPasswordActivity : AppBindActivity<ActivityPasswordBinding, ForgotPa
     }
 
     private fun observeLiveData(vm: ForgotPasswordViewModel) = vm.run {
-        verifyCodeStatus.observe(activity, Observer { onVerifyCodeStatusChanged(it) })
-        resetState.observe(activity, Observer { resetSuccess() })
+        verifyCodeStatus.observe(activity, { onVerifyCodeStatusChanged(it) })
+        resetState.observe(activity, { resetSuccess() })
     }
 
     private fun onVerifyCodeStatusChanged(status: Event<Boolean>) {

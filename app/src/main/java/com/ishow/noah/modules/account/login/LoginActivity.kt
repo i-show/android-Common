@@ -61,7 +61,7 @@ class LoginActivity : AppBindActivity<ActivityLoginBinding, LoginViewModel>() {
         when (v.id) {
 
             R.id.login -> {
-                binding.vm?.login(binding.account.inputText, binding.password.inputText)
+                vm?.login(binding.account.inputText, binding.password.inputText)
             }
 
             R.id.register -> {

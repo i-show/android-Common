@@ -19,7 +19,6 @@ package com.ishow.noah.modules.account.register
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import com.ishow.common.entries.status.Success
 import com.ishow.common.extensions.openBrowser
 import com.ishow.common.extensions.toast
