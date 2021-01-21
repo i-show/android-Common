@@ -34,6 +34,7 @@ class PromptHelper : IPrompt {
     var paddingWidth: Float = 0F
     var paddingHeight: Float = 0F
 
+    var textBaseLine = 0F
     var backgroundColor: Int = 0
     var position = 0
     var radius = 0
@@ -82,6 +83,8 @@ class PromptHelper : IPrompt {
                 )
             }
         }
+
+        textBaseLine = usedRectF.centerY() + textPaint.baseLine
     }
 
     fun onDraw(canvas: Canvas) {
@@ -95,9 +98,8 @@ class PromptHelper : IPrompt {
 
         canvas.drawRoundRect(usedRectF, 999f, 999f, backgroundPaint)
         if (mode == IPrompt.PromptMode.TEXT && !TextUtils.isEmpty(text)) {
-            val baseline = usedRectF.centerY() + textPaint.baseLine
             textPaint.textAlign = Paint.Align.CENTER
-            canvas.drawText(text!!, usedRectF.centerX(), baseline, textPaint)
+            canvas.drawText(text!!, usedRectF.centerX(), textBaseLine, textPaint)
         }
     }
 
