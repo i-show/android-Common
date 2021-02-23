@@ -108,4 +108,5 @@ dependencies {
     api "com.squareup.retrofit2:converter-gson:$versions.retrofit"
 
     api "com.google.code.gson:gson:$versions.gson"
+    api "com.tencent:mmkv-static:$versions.mmkv"
 }

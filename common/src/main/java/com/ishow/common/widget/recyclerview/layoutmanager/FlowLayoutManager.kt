@@ -31,14 +31,17 @@ class FlowLayoutManager : RecyclerView.LayoutManager() {
      * 总共位移的距离
      */
     private var mTotalOffset: Int = 0
+
     /**
      * 第一个可见的item pos
      */
     private var mFirstVisiblePosition: Int = 0
+
     /**
      * 最后一个可见的item 的position
      */
     private var mLastVisiblePosition: Int = 0
+
     /**
      * 所有Item的位置信息（下滑时候使用）
      */
@@ -56,15 +59,16 @@ class FlowLayoutManager : RecyclerView.LayoutManager() {
         return RecyclerView.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 
-    override fun onLayoutChildren(recycler: RecyclerView.Recycler?, state: RecyclerView.State?) {
+    override fun onLayoutChildren(recycler: RecyclerView.Recycler, state: RecyclerView.State) {
         if (itemCount == 0) {
-            detachAndScrapAttachedViews(recycler!!)
+            detachAndScrapAttachedViews(recycler)
             return
         }
-        if (childCount == 0 && state!!.isPreLayout) {
+        if (childCount == 0 && state.isPreLayout) {
             return
         }
-        detachAndScrapAttachedViews(recycler!!)
+
+        detachAndScrapAttachedViews(recycler)
 
         //初始化区域
         mTotalOffset = 0

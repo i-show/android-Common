@@ -53,6 +53,6 @@ versions.retrofit = "2.9.0"
 versions.gson = "2.8.6"
 versions.photo_view = "2.3.0"
 versions.desugar = '1.0.9'
-versions.mmkv = '1.2.4'
+versions.mmkv = '1.2.7'
 ext.versions = versions
 

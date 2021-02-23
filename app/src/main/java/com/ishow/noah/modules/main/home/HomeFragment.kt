@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
+import androidx.recyclerview.widget.RecyclerView
 import com.ishow.common.utils.router.AppRouter
+import com.ishow.common.utils.saver.Saver
 import com.ishow.common.widget.PrintView
 import com.ishow.common.widget.announcement.IAnnouncementData
 import com.ishow.common.widget.load.LoadSir
@@ -32,8 +34,11 @@ class HomeFragment : AppBindFragment<FHomeBinding, HomeViewModel>() {
             .build()
         LoadSir.init(loader = loader)
 
+        Saver.save("Hello", "World")
         binding.bu1.setOnClickListener {
+            Log.i("yhy", "save = " + Saver.get("Hello"))
         }
+
     }
 
     override fun initViews(view: View) {
